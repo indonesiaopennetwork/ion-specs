@@ -129,7 +129,6 @@ x-ion-profile:
       parcel: 1.0.0
       freight: 1.0.0
       roro: 1.0.0
-      cross-border: 1.0.0
       warehouse: 1.0.0
     upgradeNoticePeriodDays: 90
   x-ion-sectors:
