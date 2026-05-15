@@ -3,13 +3,38 @@
   "version": "1.0.0",
   "domain": "trade",
   "name": "ION Trade Provider Extension (v1)",
-  "description": "Trade sector seller operational attributes \u2014 status, hours, category, invoicing model.",
-  "packSchema": "./attributes.yaml",
+  "description": "Trade sector seller operational attributes — status, hours, category, invoicing model.",
+  "packSchema": "./schema.json",
   "jsonldContext": "./context.jsonld",
   "attachmentPoints": {
     "providerAttributes": [
       "TradeProviderAttributes"
     ]
   },
-  "extends": "beckn:Provider"
+  "extends": "beckn:Provider",
+  "type": "AttributePack",
+  "indexing": {
+    "indexable": [
+      {
+        "path": "$.invoicingModel"
+      },
+      {
+        "path": "$.storeStatus"
+      }
+    ],
+    "filterable": [
+      {
+        "path": "$.invoicingModel"
+      },
+      {
+        "path": "$.storeStatus"
+      }
+    ],
+    "sortable": []
+  },
+  "minimalForDiscovery": [
+    "invoicingModel",
+    "storeStatus",
+    "nibRegistered"
+  ]
 }

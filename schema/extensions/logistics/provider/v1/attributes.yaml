@@ -6,6 +6,12 @@ info:
 
     '
   version: 1.0.0
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    name: ION Network
+    url: https://schema.ion.id
 components:
   schemas:
     LogisticsProviderAttributes:
@@ -91,17 +97,17 @@ components:
         aggregatorModel:
           type: boolean
           description: True if this BPP aggregates capacity from multiple LSPs
-        spinesSupported:
+        patternsSupported:
           type: array
           items:
             type: string
             enum:
-            - LOG-HYPERLOCAL
-            - LOG-PARCEL
-            - LOG-FREIGHT
-            - LOG-RORO
-            - LOG-XB
-            - LOG-WAREHOUSE
+            - hyperlocal
+            - parcel
+            - freight
+            - roro
+            - cross-border
+            - warehouse
         modesSupported:
           type: array
           items:
@@ -164,7 +170,7 @@ components:
           description: Capable of handling high-declared-value shipments with enhanced security
         beaCukaiLicenceNumber:
           type: string
-          description: PPJK (customs broker) licence for LOG-XB providers
+          description: PPJK (customs broker) licence for cross-border providers
         operatingHours:
           type: array
           items:
@@ -220,7 +226,7 @@ components:
           description: Maximum service radius for hyperlocal providers
         warehouseLocations:
           type: array
-          description: For LOG-WAREHOUSE providers
+          description: For warehouse providers
           items:
             type: object
             properties:
@@ -250,10 +256,10 @@ components:
       - catalogValidFrom
       - nibRegistered
       - providerCategory
-      - spinesSupported
+      - patternsSupported
       - modesSupported
       - coverage
       - operatingHours
       x-ion-closed-extensions: false
       allOf:
-      - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/schema/core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+      - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes

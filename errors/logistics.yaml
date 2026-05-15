@@ -1,6 +1,6 @@
 # ION Logistics Error Registry v1
 # errors/logistics.yaml
-# Machine-readable error codes for all logistics spines and branches.
+# Machine-readable error codes for all logistics patterns and variants.
 # Structure mirrors Trade errors. Each code carries type, sender, description, and recovery path.
 
 version: "1.0.0"
@@ -50,14 +50,14 @@ errors:
     message: Declared weight exceeds provider maximum for this service
     sender: BPP
     usedIn: on_select
-    recovery: Use LOG-FREIGHT spine or find alternative LSP
+    recovery: Use freight pattern or find alternative LSP
 
   ION-LOG-6007:
     type: DIMENSIONS_EXCEEDS_MAX
     message: Declared dimensions exceed provider maximum for this service
     sender: BPP
     usedIn: on_select
-    recovery: Use LOG-FREIGHT spine or find alternative LSP
+    recovery: Use freight pattern or find alternative LSP
 
   ION-LOG-6008:
     type: HAZMAT_NOT_SUPPORTED
@@ -202,9 +202,9 @@ errors:
     message: Cold chain integrity could not be verified at delivery
     sender: BPP
     usedIn: on_status[DELIVERED]
-    recovery: Damage claim branch automatically eligible
+    recovery: Damage claim variant automatically eligible
 
-  # ─── CUSTOMS (LOG-XB) ─────────────────────────────────────────
+  # ─── CUSTOMS (cross-border) ─────────────────────────────────────────
   ION-LOG-6401:
     type: EXPORT_CUSTOMS_HELD
     message: Shipment held by export customs — documentation required
@@ -217,7 +217,7 @@ errors:
     message: Shipment held by Bea Cukai — documentation or inspection required
     sender: BPP
     usedIn: on_status
-    recovery: BAP resolves via customs-hold branch (/update with resolution path)
+    recovery: BAP resolves via customs-clearance variant (/update with resolution path)
 
   ION-LOG-6403:
     type: IMPORT_CUSTOMS_REJECTED
@@ -304,7 +304,7 @@ errors:
     message: Transaction parameters are outside the scope of the referenced FWA
     sender: BPP
     usedIn: on_select, on_init
-    recovery: Check FWA scope (spine, corridor, mode); amend or use public terms
+    recovery: Check FWA scope (pattern, corridor, mode); amend or use public terms
 
   ION-LOG-6703:
     type: FWA_VOLUME_COMMITMENT_BREACH
@@ -319,7 +319,7 @@ errors:
     message: Request does not comply with ION Logistics API contract
     sender: BPP
     usedIn: NACK on any endpoint
-    recovery: Check required fields per spine definition
+    recovery: Check required fields per pattern definition
 
   ION-LOG-9002:
     type: INVALID_SIGNATURE
@@ -401,7 +401,7 @@ errors:
     message: HS code correction required after shipment in transit; re-declaration needed
     sender: BPP
     usedIn: on_update
-    recovery: Submit corrected declaration via customs-hold branch
+    recovery: Submit corrected declaration via customs-clearance variant
 
   ION-LOG-6407:
     type: FUMIGATION_CERTIFICATE_REQUIRED
@@ -466,7 +466,7 @@ errors:
     message: Inbound discrepancy from prior receipt is unresolved
     sender: BPP
     usedIn: on_status
-    recovery: Resolve discrepancy via exception branch before new operations
+    recovery: Resolve discrepancy via exception variant before new operations
 
   # INCIDENT (7xxx domain — NEW)
   ION-LOG-7001:
@@ -474,7 +474,7 @@ errors:
     message: Incident in transit; resolution pending
     sender: BPP
     usedIn: on_update
-    recovery: See incident branch for resolution options
+    recovery: See incident variant for resolution options
 
   ION-LOG-7002:
     type: DRIVER_SAFETY_STATUS_OVERDUE
@@ -500,10 +500,10 @@ errors:
   # PARTICIPANT AND ROLE (6800 domain — NEW)
   ION-LOG-6801:
     type: REQUIRED_ROLE_MISSING
-    message: Spine requires a participant role that was not provided
+    message: Pattern requires a participant role that was not provided
     sender: BPP
     usedIn: on_init, on_confirm
-    recovery: Add required participant with appropriate role per spine spec
+    recovery: Add required participant with appropriate role per pattern spec
 
   ION-LOG-6802:
     type: ROLE_SUBSCRIBER_MISMATCH
@@ -514,7 +514,7 @@ errors:
 
   ION-LOG-6803:
     type: CUSTOMS_BROKER_REQUIRED
-    message: LOG-XB requires CUSTOMS_BROKER participant
+    message: cross-border requires CUSTOMS_BROKER participant
     sender: BPP
     usedIn: on_init
     recovery: Add PPJK-licensed customs broker to participants
@@ -528,7 +528,7 @@ errors:
 
   ION-LOG-6805:
     type: DRIVER_DETAILS_REQUIRED
-    message: LOG-RORO requires DRIVER participant with SIM details
+    message: roro requires DRIVER participant with SIM details
     sender: BPP
     usedIn: on_init
     recovery: Add driver details including SIM number and category

@@ -4,19 +4,19 @@ Attaches to `beckn:Resource.resourceAttributes`.
 
 ## What it covers
 
-The thing being moved or stored. In logistics, this is the shipment object — its physical characteristics, regulatory declarations, special handling requirements, and spine-specific extensions for vehicles (Ro-Ro) and inventory (Warehouse).
+The thing being moved or stored. In logistics, this is the shipment object — its physical characteristics, regulatory declarations, special handling requirements, and pattern-specific extensions for vehicles (Ro-Ro) and inventory (Warehouse).
 
 ## Service types
 
 The `serviceType` field (always mandatory) determines which other fields apply:
 
-| Value | Spine | What it is |
+| Value | Pattern | What it is |
 |---|---|---|
-| `PARCEL` | LOG-PARCEL, LOG-HYPERLOCAL | Standard packaged shipment |
-| `DOCUMENT` | LOG-PARCEL | Documents only — lighter regulatory requirements |
-| `FREIGHT` | LOG-FREIGHT, LOG-XB | Bulk cargo requiring capacity booking |
-| `VEHICLE` | LOG-RORO | Self-driven vehicle on ferry — vehicle IS the cargo |
-| `INVENTORY` | LOG-WAREHOUSE | SKU inventory for storage and fulfilment |
+| `PARCEL` | parcel, hyperlocal | Standard packaged shipment |
+| `DOCUMENT` | parcel | Documents only — lighter regulatory requirements |
+| `FREIGHT` | freight, cross-border | Bulk cargo requiring capacity booking |
+| `VEHICLE` | roro | Self-driven vehicle on ferry — vehicle IS the cargo |
+| `INVENTORY` | warehouse | SKU inventory for storage and fulfilment |
 
 ## Physical characteristics (PARCEL and FREIGHT)
 
@@ -36,7 +36,7 @@ declaredValue:
   currency: IDR          # For insurance and liability cap purposes
 ```
 
-`weight` and `dimensions` are mandatory for LOG-PARCEL and LOG-FREIGHT. The BPP may reweigh at pickup or hub — if actual weight differs beyond the policy tolerance, the `weight-dispute` branch activates.
+`weight` and `dimensions` are mandatory for parcel and freight. The BPP may reweigh at pickup or hub — if actual weight differs beyond the policy tolerance, the `weight-dispute` variant activates.
 
 ## Handling requirements
 
@@ -46,14 +46,14 @@ declaredValue:
 | `stackable` | boolean | Stacking allowed (default) |
 | `hazmatClass` | string | IATA/IMO dangerous goods class (e.g. "Class 3") |
 | `hazmatUnNumber` | string | UN number for DG identification |
-| `temperatureRequirement.controlled` | boolean | Triggers cold-chain-proof branch when true |
+| `temperatureRequirement.controlled` | boolean | Triggers cold-chain variant when true |
 | `temperatureRequirement.minTempC` | number | Minimum temperature (e.g. 2) |
 | `temperatureRequirement.maxTempC` | number | Maximum temperature (e.g. 8) |
 | `temperatureRequirement.category` | enum | FROZEN \| CHILLED \| AMBIENT \| CONTROLLED_ROOM |
 
-When `temperatureRequirement.controlled = true`, the `cold-chain-proof` branch fires automatically at PICKED_UP and DELIVERED state events.
+When `temperatureRequirement.controlled = true`, the `cold-chain` variant fires automatically at PICKED_UP and DELIVERED state events.
 
-## Cross-border documents (LOG-XB — mandatory)
+## Cross-border documents (cross-border — mandatory)
 
 ```yaml
 hsCodes: ["8517.12.00", "8517.69.90"]   # HS codes per line item
@@ -69,9 +69,9 @@ packingList:
   documentUrl: "https://..."
 ```
 
-All four are mandatory for LOG-XB. Import/export licences are conditional based on product category (pharma, electronics with import restrictions, CITES-listed species).
+All four are mandatory for cross-border. Import/export licences are conditional based on product category (pharma, electronics with import restrictions, CITES-listed species).
 
-## Vehicle details (LOG-RORO only)
+## Vehicle details (roro only)
 
 ```yaml
 vehicleDetails:
@@ -85,9 +85,9 @@ vehicleDetails:
 vehicleRegistration: "B 1234 ABC"
 ```
 
-The vehicle itself is the resource. Dimensions determine which vessel slot type is allocated. `vehicleRegistration` is mandatory for LOG-RORO.
+The vehicle itself is the resource. Dimensions determine which vessel slot type is allocated. `vehicleRegistration` is mandatory for roro.
 
-## Inventory details (LOG-WAREHOUSE)
+## Inventory details (warehouse)
 
 ```yaml
 skuCount: 3
@@ -103,9 +103,9 @@ skuManifest:
     quantity: 250
 ```
 
-`skuManifest` is mandatory at `/init` for LOG-WAREHOUSE. It governs what the warehouse operator receives, counts, and stores. Discrepancies between the manifest and actual received quantities trigger the `inbound-discrepancy` state.
+`skuManifest` is mandatory at `/init` for warehouse. It governs what the warehouse operator receives, counts, and stores. Discrepancies between the manifest and actual received quantities trigger the `inbound-discrepancy` state.
 
-## Cargo manifest (LOG-FREIGHT)
+## Cargo manifest (freight)
 
 ```yaml
 cargoManifest:
@@ -118,7 +118,7 @@ cargoDescription: "500 units consumer electronics, fragile"
 packagingType: CARTON    # CARTON | PALLET | CRATE | DRUM | BULK | ROLL
 ```
 
-Required for all LOG-FREIGHT transactions. HS codes per line are mandatory for LOG-XB.
+Required for all freight transactions. HS codes per line are mandatory for cross-border.
 
 ## Product category enum
 

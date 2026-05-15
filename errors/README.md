@@ -35,7 +35,7 @@ Each entry in a category YAML file:
   affected_apis:
     - select
   schema_ref: schema/extensions/trade/resource/v1
-  flow_ref: flows/trade/spines/B2C-SF/v1
+  flow_ref: flows/trade/patterns/storefront/v1
   resolution:
     en: "What the implementer should do to fix this."
 ```

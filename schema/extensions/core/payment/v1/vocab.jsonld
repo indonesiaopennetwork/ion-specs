@@ -136,7 +136,7 @@
       "@id": "ion:expiresAt",
       "@type": "rdf:Property",
       "rdfs:label": "expiresAt",
-      "rdfs:comment": "VA expiry timestamp in UTC"
+      "rdfs:comment": "Expiry for DYNAMIC QRIS. UTC (ISO 8601)."
     },
     {
       "@id": "ion:EWallet",
@@ -159,7 +159,8 @@
     {
       "@id": "ion:amount",
       "@type": "rdf:Property",
-      "rdfs:label": "amount"
+      "rdfs:label": "amount",
+      "rdfs:comment": "Payment amount in IDR"
     },
     {
       "@id": "ion:currency",
@@ -169,7 +170,8 @@
     {
       "@id": "ion:expiresAt",
       "@type": "rdf:Property",
-      "rdfs:label": "expiresAt"
+      "rdfs:label": "expiresAt",
+      "rdfs:comment": "Expiry for DYNAMIC QRIS. UTC (ISO 8601)."
     },
     {
       "@id": "ion:deepLink",
@@ -181,13 +183,13 @@
       "@id": "ion:CashOnDelivery",
       "@type": "rdfs:Class",
       "rdfs:label": "CashOnDelivery",
-      "rdfs:comment": "CashOnDelivery"
+      "rdfs:comment": "Runtime COD collection state. Offer-level COD policy fields (OTP required, denominations accepted, buyer daily limit, hold period, reconciliation variance) are declared per-offer in schema/extensions/logistics/offer/v1 — they govern how COD is accepted, not the per-transaction collection record."
     },
     {
       "@id": "ion:collectionAmount",
       "@type": "rdf:Property",
       "rdfs:label": "collectionAmount",
-      "rdfs:comment": "Exact cash amount to collect from consumer"
+      "rdfs:comment": "Expected cash amount to collect from consumer"
     },
     {
       "@id": "ion:currency",
@@ -216,7 +218,7 @@
       "@id": "ion:bankCode",
       "@type": "rdf:Property",
       "rdfs:label": "bankCode",
-      "rdfs:comment": "Recipient bank code"
+      "rdfs:comment": "Bank issuing the virtual account"
     },
     {
       "@id": "ion:accountNumber",
@@ -290,7 +292,7 @@
       "@id": "ion:provider",
       "@type": "rdf:Property",
       "rdfs:label": "provider",
-      "rdfs:comment": "BNPL provider name"
+      "rdfs:comment": "E-wallet provider identifier"
     },
     {
       "@id": "ion:tenure",
@@ -358,7 +360,7 @@
       "@id": "ion:gatewayRef",
       "@type": "rdf:Property",
       "rdfs:label": "gatewayRef",
-      "rdfs:comment": "Payment gateway transaction reference"
+      "rdfs:comment": "Payment gateway transaction reference ID"
     }
   ]
 }

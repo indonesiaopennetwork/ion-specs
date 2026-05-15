@@ -125,7 +125,7 @@
       "message": "Declared weight exceeds provider maximum for this service",
       "sender": "BPP",
       "usedIn": "on_select",
-      "recovery": "Use LOG-FREIGHT spine or find alternative LSP"
+      "recovery": "Use freight pattern or find alternative LSP"
     },
     {
       "code": "ION-LOG-6007",
@@ -133,7 +133,7 @@
       "message": "Declared dimensions exceed provider maximum for this service",
       "sender": "BPP",
       "usedIn": "on_select",
-      "recovery": "Use LOG-FREIGHT spine or find alternative LSP"
+      "recovery": "Use freight pattern or find alternative LSP"
     },
     {
       "code": "ION-LOG-6008",
@@ -333,7 +333,7 @@
       "message": "Cold chain integrity could not be verified at delivery",
       "sender": "BPP",
       "usedIn": "on_status[DELIVERED]",
-      "recovery": "Damage claim branch automatically eligible"
+      "recovery": "Damage claim variant automatically eligible"
     },
     {
       "code": "ION-LOG-6401",
@@ -349,7 +349,7 @@
       "message": "Shipment held by Bea Cukai — documentation or inspection required",
       "sender": "BPP",
       "usedIn": "on_status",
-      "recovery": "BAP resolves via customs-hold branch (/update with resolution path)"
+      "recovery": "BAP resolves via customs-clearance variant (/update with resolution path)"
     },
     {
       "code": "ION-LOG-6403",
@@ -381,7 +381,7 @@
       "message": "HS code correction required after shipment in transit; re-declaration needed",
       "sender": "BPP",
       "usedIn": "on_update",
-      "recovery": "Submit corrected declaration via customs-hold branch"
+      "recovery": "Submit corrected declaration via customs-clearance variant"
     },
     {
       "code": "ION-LOG-6407",
@@ -509,7 +509,7 @@
       "message": "Inbound discrepancy from prior receipt is unresolved",
       "sender": "BPP",
       "usedIn": "on_status",
-      "recovery": "Resolve discrepancy via exception branch before new operations"
+      "recovery": "Resolve discrepancy via exception variant before new operations"
     },
     {
       "code": "ION-LOG-6701",
@@ -525,7 +525,7 @@
       "message": "Transaction parameters are outside the scope of the referenced FWA",
       "sender": "BPP",
       "usedIn": "on_select, on_init",
-      "recovery": "Check FWA scope (spine, corridor, mode); amend or use public terms"
+      "recovery": "Check FWA scope (pattern, corridor, mode); amend or use public terms"
     },
     {
       "code": "ION-LOG-6703",
@@ -538,10 +538,10 @@
     {
       "code": "ION-LOG-6801",
       "type": "REQUIRED_ROLE_MISSING",
-      "message": "Spine requires a participant role that was not provided",
+      "message": "Pattern requires a participant role that was not provided",
       "sender": "BPP",
       "usedIn": "on_init, on_confirm",
-      "recovery": "Add required participant with appropriate role per spine spec"
+      "recovery": "Add required participant with appropriate role per pattern spec"
     },
     {
       "code": "ION-LOG-6802",
@@ -554,7 +554,7 @@
     {
       "code": "ION-LOG-6803",
       "type": "CUSTOMS_BROKER_REQUIRED",
-      "message": "LOG-XB requires CUSTOMS_BROKER participant",
+      "message": "cross-border requires CUSTOMS_BROKER participant",
       "sender": "BPP",
       "usedIn": "on_init",
       "recovery": "Add PPJK-licensed customs broker to participants"
@@ -570,7 +570,7 @@
     {
       "code": "ION-LOG-6805",
       "type": "DRIVER_DETAILS_REQUIRED",
-      "message": "LOG-RORO requires DRIVER participant with SIM details",
+      "message": "roro requires DRIVER participant with SIM details",
       "sender": "BPP",
       "usedIn": "on_init",
       "recovery": "Add driver details including SIM number and category"
@@ -637,7 +637,7 @@
       "message": "Incident in transit; resolution pending",
       "sender": "BPP",
       "usedIn": "on_update",
-      "recovery": "See incident branch for resolution options"
+      "recovery": "See incident variant for resolution options"
     },
     {
       "code": "ION-LOG-7002",
@@ -677,7 +677,7 @@
       "message": "Request does not comply with ION Logistics API contract",
       "sender": "BPP",
       "usedIn": "NACK on any endpoint",
-      "recovery": "Check required fields per spine definition"
+      "recovery": "Check required fields per pattern definition"
     },
     {
       "code": "ION-LOG-9002",

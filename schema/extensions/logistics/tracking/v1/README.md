@@ -10,8 +10,8 @@ Tracking-specific extension fields that ride on Beckn 2.0's native `Tracking` sc
 
 | trackingType | When to use |
 |---|---|
-| `LIVE_GPS` | LOG-HYPERLOCAL real-time rider position |
-| `AWB_URL` | LOG-PARCEL AWB tracking on carrier's own website |
+| `LIVE_GPS` | hyperlocal real-time rider position |
+| `AWB_URL` | parcel AWB tracking on carrier's own website |
 | `WEBHOOK` | Event-driven push to BAP's registered webhook URL |
 | `WEBSOCKET` | Bidirectional streaming for high-throughput integrations |
 | `POLLING_API` | Request/response queries (legacy integrations) |

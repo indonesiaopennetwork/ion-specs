@@ -4,6 +4,31 @@
   "status": "ready",
   "sectorCode": "B",
   "attaches-to": "beckn:provider Attributes",
-  "maintainer": "ION Council — Sector B Lead",
-  "specVersion": "0.5.1-draft"
+  "maintainer": "ION Council \u2014 Sector B Lead",
+  "specVersion": "0.5.1-draft",
+  "type": "AttributePack",
+  "indexing": {
+    "indexable": [
+      {
+        "path": "$.nibRegistered"
+      },
+      {
+        "path": "$.providerCategory"
+      }
+    ],
+    "filterable": [
+      {
+        "path": "$.nibRegistered"
+      },
+      {
+        "path": "$.providerCategory"
+      }
+    ],
+    "sortable": []
+  },
+  "minimalForDiscovery": [
+    "nibRegistered",
+    "providerCategory"
+  ],
+  "packSchema": "./schema.json"
 }

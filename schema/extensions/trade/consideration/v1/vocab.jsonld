@@ -15,13 +15,13 @@
       "@id": "ion:ppnRate",
       "@type": "rdf:Property",
       "rdfs:label": "ppnRate",
-      "rdfs:comment": "PPN (Pajak Pertambahan Nilai) rate actually charged on this consideration line. Applicable rate MUST be sourced from current DJP/PMK regulation (current standard is 0.11 per PMK 131/2024); some categories (basic foods, books, health services) have reduced or zero rates.\n"
+      "rdfs:comment": "PPN (Pajak Pertambahan Nilai) rate applied to this consideration line. The applicable rate MUST be sourced from current Indonesian tax regulation (DJP / PMK), not hardcoded. Current PPN standard is 0.11 (11%) per PMK 131/2024 under UU 7/2021 HPP; some categories (basic foods, books, health services) have reduced or zero rates."
     },
     {
       "@id": "ion:ppnbmRate",
       "@type": "rdf:Property",
       "rdfs:label": "ppnbmRate",
-      "rdfs:comment": "PPnBM (Pajak Penjualan atas Barang Mewah) rate for luxury goods. Applied in addition to PPN. Rates vary by luxury category. Common rates: 0.10, 0.20, 0.30, 0.40, 0.50, 0.75, 1.25.\n"
+      "rdfs:comment": "PPnBM (Pajak Penjualan atas Barang Mewah) rate for luxury goods. Applied in addition to PPN. Applicable rate MUST be sourced from current regulation (rates vary by luxury category — check DJP for the applicable schedule under PMK 141/2021 and later)."
     },
     {
       "@id": "ion:discountType",
@@ -39,7 +39,7 @@
       "@id": "ion:breakupLineType",
       "@type": "rdf:Property",
       "rdfs:label": "breakupLineType",
-      "rdfs:comment": "Canonical type for this consideration breakup line. ITEM: per-item price line. DELIVERY: shipping/delivery charge. TAX: PPN tax line. TAX_PPNBM: luxury goods tax line. HANDLING: special handling surcharge (cold chain, oversized). PACKAGING: gift or special packaging charge. INSURANCE: shipping insur"
+      "rdfs:comment": "Canonical type for this consideration breakup line. ITEM: per-item price line. DELIVERY: shipping/delivery charge. TAX: PPN tax line. TAX_PPNBM: luxury goods tax line. HANDLING: special handling surcharge (cold chain, oversized). PACKAGING: gift or special packaging charge. INSURANCE: shipping insurance. PROVIDER_BENEFIT: seller-funded discount. BUYER_BENEFIT: BAP-funded discount or cashback. COD_FEE: cash on delivery handling fee. TRADE_IN: trade-in deduction value. LOYALTY_REDEEM: loyalty points redemption. FINANCE_CHARGE: BNPL or credit interest charge. GIFT_WRAP: gift wrapping fee. PLATFORM_FEE: ION network participant fee."
     },
     {
       "@id": "ion:totalAmount",

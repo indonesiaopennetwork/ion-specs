@@ -2599,9 +2599,9 @@
       "status": "ratified",
       "versionEffectiveFrom": null,
       "displayText": {
-        "en": "Weight discrepancies within 10% of declared weight (or 0.5kg minimum) are absorbed by the LSP. Above this threshold, LSP may raise a weight-dispute branch."
+        "en": "Weight discrepancies within 10% of declared weight (or 0.5kg minimum) are absorbed by the LSP. Above this threshold, LSP may raise a weight-dispute variant."
       },
-      "shortDesc": "Weight discrepancies within 10% of declared weight (or 0.5kg minimum) are absorbed by the LSP. Above this threshold, LSP may raise a weight-dispute branch.",
+      "shortDesc": "Weight discrepancies within 10% of declared weight (or 0.5kg minimum) are absorbed by the LSP. Above this threshold, LSP may raise a weight-dispute variant.",
       "applicableCategories": [],
       "applicableResourceTypes": [],
       "regulatoryBasis": [],

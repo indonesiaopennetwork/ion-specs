@@ -27,7 +27,7 @@
       "@id": "ion:taxRate",
       "@type": "rdf:Property",
       "rdfs:label": "taxRate",
-      "rdfs:comment": "Tax rate as decimal fraction actually charged on this transaction. Source the applicable rate from current DJP/PMK regulation. Reference: PPN standard is 0.11 per PMK 131/2024; PPnBM varies by category.\n"
+      "rdfs:comment": "Tax rate as decimal fraction. The applicable rate MUST be sourced from current Indonesian tax regulation (DJP / PMK), not hardcoded. For reference, PPN standard is currently 0.11 (11%) per PMK 131/2024; PPnBM rates vary by category (typical range 0.10 to 0.75). This field documents the rate actually charged on this transaction."
     },
     {
       "@id": "ion:taxAmount",

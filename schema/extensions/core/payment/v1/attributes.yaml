@@ -11,6 +11,12 @@ info:
     \ the separate reconcile/v1 pack — that attaches alongside PaymentDeclaration on the same settlementAttributes\
     \ bag, using @type: ion:ReconcileAttributes.\n"
   version: 1.0.0
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    name: ION Network
+    url: https://schema.ion.id
 components:
   schemas:
     PaymentDeclaration:
@@ -160,7 +166,7 @@ components:
       - status
       - currency
       allOf:
-      - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/schema/core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+      - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:
           properties:
             method:
@@ -480,7 +486,7 @@ components:
     CreditTerms:
       type: object
       title: Credit Terms
-      description: 'Credit-based payment terms (B2B-CR spine, FWA-governed logistics, any deferred-payment scenario).
+      description: 'Credit-based payment terms (business-procurement pattern, FWA-governed logistics, any deferred-payment scenario).
         Populated on PaymentDeclaration when method=CREDIT_FACILITY or when an active FWA grants credit terms to
         this transaction. ION Central validates credit availability at /init.
 

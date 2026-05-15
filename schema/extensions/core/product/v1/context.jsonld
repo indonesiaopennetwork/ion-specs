@@ -12,6 +12,9 @@
     "spPIRTNumber": "ion:spPIRTNumber",
     "ageRestricted": "ion:ageRestricted",
     "minAge": "ion:minAge",
-    "IONProductCertifications": "ion:IONProductCertifications"
+    "IONProductCertifications": "ion:IONProductCertifications",
+    "@protected": true,
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
   }
 }

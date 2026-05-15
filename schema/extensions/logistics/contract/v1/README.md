@@ -9,7 +9,7 @@ The confirmed terms of a logistics transaction. Everything that survives the lif
 ## FWA and parent contract references
 
 ```yaml
-fwaReference: "ion://policy/logistics-fwa/tokopedia-jne-2026q2"
+fwaReference: "ion://policy/logistics-fwa.tokopedia-jne.2026q2"
 parentContractReference: "tc-wh-20260422-001"
 ```
 
@@ -99,7 +99,7 @@ excursionResolution:
   decision: HOLD_FOR_INSPECTION   # CONTINUE_AT_BUYER_RISK | HOLD_FOR_INSPECTION | CANCEL_AND_RETURN
 ```
 
-Populated by the cold-chain branch when an in-transit excursion is detected.
+Populated by the cold-chain variant when an in-transit excursion is detected.
 
 ## Reverse logistics fields
 
@@ -113,7 +113,7 @@ returnItems:
 reverseContractReference: "jne-reverse-20260430-001"
 ```
 
-Populated by the reverse branches. `reverseContractReference` links to the new reverse shipment contract.
+Populated by the reverse variants. `reverseContractReference` links to the new reverse shipment contract.
 
 ## Cross-border fields
 
@@ -122,4 +122,4 @@ incoterms: DDP                    # EXW | FCA | FOB | CIF | DAP | DDP
 xbReturnDecision: RETURN_TO_ORIGIN  # RETURN_TO_ORIGIN | DESTROY_IN_PLACE | RE_EXPORT
 ```
 
-Incoterms determine duty payment responsibility. XB return decision is made after customs rejection.
+Incoterms determine duty payment responsibility. cross-border return decision is made after customs rejection.

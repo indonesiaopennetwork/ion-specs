@@ -6,6 +6,12 @@ info:
 
     '
   version: 1.0.0
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    name: ION Network
+    url: https://schema.ion.id
 components:
   schemas:
     LogisticsOfferAttributes:
@@ -46,7 +52,7 @@ components:
           - P2P
           - P2H2P
           - P2H2H2P
-          description: Hub routing topology for LOG-PARCEL
+          description: Hub routing topology for parcel
           x-ion-conditional: true
         rateLogic:
           type: string
@@ -402,7 +408,7 @@ components:
           x-ion-conditional: true
         awbAllocationModel:
           type: string
-          description: 'How AWB numbers are allocated. LOG-PARCEL spine. BPP_ASSIGNED (default), BAP_PRE_ALLOCATED
+          description: 'How AWB numbers are allocated. parcel pattern. BPP_ASSIGNED (default), BAP_PRE_ALLOCATED
             (enterprise block), HYBRID.
 
             '
@@ -458,7 +464,7 @@ components:
             properties:
               state:
                 type: string
-                description: 'State name from the spine''s state machine (e.g. "PICKED_UP", "IN_TRANSIT", "AT_ORIGIN_HUB",
+                description: 'State name from the pattern''s state machine (e.g. "PICKED_UP", "IN_TRANSIT", "AT_ORIGIN_HUB",
                   "SORTED_AT_DESTINATION").
 
                   '
@@ -508,7 +514,7 @@ components:
         overallTatCommitment:
           type: object
           description: 'End-to-end time commitment from PICKED_UP to DELIVERED (or equivalent terminal state per
-            spine). This is the contract-level SLA; stateTimingCommitments are the per-state breakdowns.
+            pattern). This is the contract-level SLA; stateTimingCommitments are the per-state breakdowns.
 
             '
           properties:
@@ -802,7 +808,7 @@ components:
       - evidencePolicy
       - disputePolicy
       allOf:
-      - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/schema/core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+      - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:
           properties:
             availableOnCod:

@@ -7,6 +7,12 @@ info:
 
     '
   version: 1.0.0
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    name: ION Network
+    url: https://schema.ion.id
 components:
   schemas:
     TradeCommitmentAttributes:
@@ -75,7 +81,7 @@ components:
           type: object
           additionalProperties: false
           description: 'Locked price for this commitment line as agreed at select. Price is fixed at on_select and
-            does not change unless a price adjustment branch is triggered.
+            does not change unless a mid-transaction-changes variant is triggered.
 
             '
           properties:
@@ -142,4 +148,4 @@ components:
       - quantity
       x-ion-closed-extensions: false
       allOf:
-      - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/schema/core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+      - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes

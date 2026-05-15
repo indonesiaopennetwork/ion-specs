@@ -14,7 +14,7 @@ deductible: 0
 
 claimProcess:
   initiationBy: BAP
-  via: damage-claim branch (/update)
+  via: damage-claim variant (/update)
   responseWithin: PT72H
   paymentWithin: P14D_after_approval
 
@@ -41,6 +41,6 @@ deductible: 0
 
 claimProcess:
   initiationBy: BAP
-  via: damage-claim branch (/update)
+  via: damage-claim variant (/update)
   responseWithin: PT48H
   paymentWithin: P7D_after_approval

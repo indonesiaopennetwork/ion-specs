@@ -4,7 +4,7 @@
   "domain": "ion-core",
   "name": "ION Raise Extension (v1)",
   "description": "NP-to-NP and NP-to-ION issue ticketing system. Disputes, violations, technical failures.",
-  "packSchema": "./attributes.yaml",
+  "packSchema": "./schema.json",
   "jsonldContext": "./context.jsonld",
   "attachmentPoints": {
     "raiseAttributes": [
@@ -18,5 +18,32 @@
     "on_raise_status",
     "raise_details",
     "on_raise_details"
+  ],
+  "type": "AttributePack",
+  "indexing": {
+    "indexable": [
+      {
+        "path": "$.title"
+      },
+      {
+        "path": "$.type"
+      },
+      {
+        "path": "$.status"
+      }
+    ],
+    "filterable": [
+      {
+        "path": "$.title"
+      },
+      {
+        "path": "$.type"
+      }
+    ],
+    "sortable": []
+  },
+  "minimalForDiscovery": [
+    "title",
+    "type"
   ]
 }

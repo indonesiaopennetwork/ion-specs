@@ -17,6 +17,9 @@
     "passportNumber": "ion:passportNumber",
     "pkpStatus": "ion:pkpStatus",
     "role": "ion:role",
-    "subscriberId": "ion:subscriberId"
+    "subscriberId": "ion:subscriberId",
+    "@protected": true,
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
   }
 }

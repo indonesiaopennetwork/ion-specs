@@ -57,7 +57,7 @@
       "@id": "ion:ratingSubCategory",
       "@type": "rdf:Property",
       "rdfs:label": "ratingSubCategory",
-      "rdfs:comment": "Category-specific rating dimension. Enables granular seller insights and more informative reviews. Examples by category:\n  Food: freshness, taste, packaging, temperature_on_arrival\n  Fashion: fit, fabric_quality, size_accuracy, color_accuracy\n  Electronics: battery_life, performance, build_quality, "
+      "rdfs:comment": "Category-specific rating dimension. Enables granular seller insights and more informative reviews. Examples by category:   Food: freshness, taste, packaging, temperature_on_arrival   Fashion: fit, fabric_quality, size_accuracy, color_accuracy   Electronics: battery_life, performance, build_quality, authenticity   Grocery: freshness, expiry_date, cold_chain, substitution   Beauty: effectiveness, skin_reaction, scent, texture"
     },
     {
       "@id": "ion:ratingImages",

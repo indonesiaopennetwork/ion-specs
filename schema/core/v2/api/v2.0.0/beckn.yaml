@@ -1,3 +1,26 @@
+# =============================================================================
+# VENDORED DEPENDENCY — DO NOT EDIT
+# =============================================================================
+# Source:    https://github.com/beckn/protocol-specifications-v2
+# Tag:       core-v2.0.0-rc1
+# Last sync: 2026-04-27
+#
+# This file is a locked, vendored copy of the upstream Beckn Protocol v2.0.0
+# specification. It is kept here so that ION tooling, validators, and CI work
+# offline and deterministically without depending on external network access.
+#
+# This is NOT a fork. ION does not modify Beckn — all ION extensions live
+# exclusively in ion.yaml using $ref: beckn.yaml#/... to reference types here.
+#
+# TO UPGRADE:
+#   1. Download the new tagged beckn.yaml from the source URL above
+#   2. Replace this file with the new version
+#   3. Update the Tag and Last sync fields in this header
+#   4. Run: python3 tools/validate.py
+#   5. Fix any compatibility issues in ion.yaml if Beckn made breaking changes
+#   6. Commit both files together with a message like:
+#      "chore: upgrade beckn.yaml to core-v2.1.0"
+# =============================================================================
 openapi: 3.1.1
 info:
   title: Beckn Protocol API

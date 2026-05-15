@@ -22,11 +22,11 @@ Every charge in a logistics transaction must be expressed as a breakup line with
 | `REMOTE_AREA_SURCHARGE` | Outer island delivery | Remote pincode surcharge |
 | `OVERSIZE_SURCHARGE` | Oversized cargo | Beyond standard max dimensions |
 | `OVERWEIGHT_SURCHARGE` | Overweight cargo | Beyond standard max weight |
-| `CUSTOMS_DUTY` | LOG-XB | Actual Bea Cukai duty assessed |
-| `CUSTOMS_HANDLING_FEE` | LOG-XB | PPJK broker fee |
-| `VALUE_ADDED_SERVICE_FEE` | LOG-WAREHOUSE | Aggregated VAS charges |
-| `PICK_PACK_FEE` | LOG-WAREHOUSE | Per-unit pick and pack |
-| `STORAGE_FEE` | LOG-WAREHOUSE | Periodic storage charge |
+| `CUSTOMS_DUTY` | cross-border | Actual Bea Cukai duty assessed |
+| `CUSTOMS_HANDLING_FEE` | cross-border | PPJK broker fee |
+| `VALUE_ADDED_SERVICE_FEE` | warehouse | Aggregated VAS charges |
+| `PICK_PACK_FEE` | warehouse | Per-unit pick and pack |
+| `STORAGE_FEE` | warehouse | Periodic storage charge |
 | `RE_ATTEMPT_FEE` | After first attempt | Per `offer.reAttemptPolicy` |
 | `FAILED_PICKUP_FEE` | Consignor not ready | Per pickup-failed policy |
 | `WEIGHT_DIFF_ADJUSTMENT` | Weight dispute resolved | Positive or negative delta |

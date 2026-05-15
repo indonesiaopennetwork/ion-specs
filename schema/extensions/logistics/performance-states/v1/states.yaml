@@ -1,6 +1,6 @@
 # ION Logistics Performance States v1
-# Canonical state machine definitions for all logistics spines.
-# Referenced by spine definitions via: stateMachine: schema/extensions/logistics/performance-states/v1/states.yaml#{name}
+# Canonical state machine definitions for all logistics patterns.
+# Referenced by pattern definitions via: stateMachine: schema/extensions/logistics/performance-states/v1/states.yaml#{name}
 
 states:
 
@@ -22,7 +22,7 @@ states:
         next: [PICKED_UP, PICKUP_FAILED]
       PICKUP_FAILED:
         next: [BOOKING_CONFIRMED, CANCELLED]
-        triggers: [pickup-failed branch]
+        triggers: [pickup-failed variant]
       PICKED_UP:
         next: [IN_TRANSIT]
         requiredFields: [pickupTimestamp, proofOfPickup]
@@ -32,7 +32,7 @@ states:
         next: [DELIVERED, DELIVERY_ATTEMPT_FAILED]
       DELIVERY_ATTEMPT_FAILED:
         next: [IN_TRANSIT, RTO_INITIATED]
-        triggers: [attempts branch]
+        triggers: [delivery-attempts variant]
       DELIVERED:
         terminal: true
         requiredFields: [deliveryTimestamp, proofOfDelivery]
@@ -68,7 +68,7 @@ states:
         next: [DELIVERED, DELIVERY_ATTEMPT_FAILED]
       DELIVERY_ATTEMPT_FAILED:
         next: [IN_TRANSIT, RTO_INITIATED]
-        triggers: [attempts branch]
+        triggers: [delivery-attempts variant]
       DELIVERED:
         terminal: true
         requiredFields: [deliveryTimestamp, proofOfDelivery]
@@ -92,16 +92,16 @@ states:
         next: [PICKED_UP, PICKUP_FAILED]
       PICKUP_FAILED:
         next: [READY_FOR_PICKUP, CANCELLED]
-        triggers: [pickup-failed branch]
+        triggers: [pickup-failed variant]
       PICKED_UP:
         next: [OUT_FOR_DELIVERY]
         requiredFields: [pickupTimestamp, proofOfPickup]
-        triggers: [cold-chain-proof branch if cold chain, weight-dispute branch if reweighed]
+        triggers: [cold-chain variant if cold chain, weight-dispute variant if reweighed]
       OUT_FOR_DELIVERY:
         next: [DELIVERED, DELIVERY_ATTEMPT_FAILED]
       DELIVERY_ATTEMPT_FAILED:
         next: [OUT_FOR_DELIVERY, RTO_INITIATED]
-        triggers: [attempts branch]
+        triggers: [delivery-attempts variant]
       DELIVERED:
         terminal: true
         requiredFields: [deliveryTimestamp, proofOfDelivery]
@@ -129,7 +129,7 @@ states:
         next: [PICKED_UP, PICKUP_FAILED]
       PICKUP_FAILED:
         next: [READY_FOR_PICKUP, CANCELLED]
-        triggers: [pickup-failed branch]
+        triggers: [pickup-failed variant]
       PICKED_UP:
         next: [AT_ORIGIN_HUB]
         requiredFields: [pickupTimestamp, proofOfPickup]
@@ -145,7 +145,7 @@ states:
         next: [DELIVERED, DELIVERY_ATTEMPT_FAILED]
       DELIVERY_ATTEMPT_FAILED:
         next: [OUT_FOR_DELIVERY, RTO_INITIATED]
-        triggers: [attempts branch]
+        triggers: [delivery-attempts variant]
       DELIVERED:
         terminal: true
         requiredFields: [deliveryTimestamp, proofOfDelivery]
@@ -190,7 +190,7 @@ states:
         next: [DELIVERED, DELIVERY_ATTEMPT_FAILED]
       DELIVERY_ATTEMPT_FAILED:
         next: [OUT_FOR_DELIVERY, RTO_INITIATED]
-        triggers: [attempts branch]
+        triggers: [delivery-attempts variant]
       DELIVERED:
         terminal: true
         requiredFields: [deliveryTimestamp, proofOfDelivery]
@@ -275,7 +275,7 @@ states:
         terminal: true
       FREIGHT_RETURN_INITIATED:
         terminal: false
-        triggers: [reverse-freight branch]
+        triggers: [reverse variant — freight sub-variant]
 
   # ─────────────────────────────────────────────────────────────
   # RO-RO
@@ -300,12 +300,12 @@ states:
         terminal: true
       MISSED_SAILING:
         terminal: false
-        triggers: [missed-sailing branch]
+        triggers: [rts-handoff variant]
       CANCELLED:
         terminal: true
 
   # ─────────────────────────────────────────────────────────────
-  # CROSS-BORDER (XB)
+  # CROSS-BORDER
   # ─────────────────────────────────────────────────────────────
   xb:
     description: Cross-border with customs at both ends.
@@ -319,7 +319,7 @@ states:
         next: [EXPORT_CUSTOMS_CLEARED, EXPORT_CUSTOMS_HELD]
       EXPORT_CUSTOMS_HELD:
         next: [EXPORT_CUSTOMS_CLEARED, CANCELLED]
-        triggers: [customs-hold branch]
+        triggers: [customs-clearance variant]
       EXPORT_CUSTOMS_CLEARED:
         next: [DEPARTED_ORIGIN]
       DEPARTED_ORIGIN:
@@ -332,10 +332,10 @@ states:
         next: [IMPORT_CUSTOMS_CLEARED, IMPORT_CUSTOMS_HELD, IMPORT_CUSTOMS_REJECTED]
       IMPORT_CUSTOMS_HELD:
         next: [IMPORT_CUSTOMS_CLEARED, IMPORT_CUSTOMS_REJECTED]
-        triggers: [customs-hold branch]
+        triggers: [customs-clearance variant]
       IMPORT_CUSTOMS_REJECTED:
         terminal: true
-        triggers: [reverse-xb branch or DESTROY_IN_PLACE decision]
+        triggers: [reverse variant — cross-border sub-variant, or DESTROY_IN_PLACE decision]
       IMPORT_CUSTOMS_CLEARED:
         next: [RELEASED_FOR_DOMESTIC_DELIVERY]
       RELEASED_FOR_DOMESTIC_DELIVERY:
@@ -344,7 +344,7 @@ states:
         next: [DELIVERED, DELIVERY_ATTEMPT_FAILED]
       DELIVERY_ATTEMPT_FAILED:
         next: [OUT_FOR_DELIVERY, RTO_INITIATED]
-        triggers: [attempts branch]
+        triggers: [delivery-attempts variant]
       DELIVERED:
         terminal: true
         requiredFields: [proofOfDelivery]
@@ -365,7 +365,7 @@ states:
       INBOUND_RECEIVED:
         next: [QC_IN_PROGRESS, STORED]
         requiredFields: [inboundReceiptTimestamp, receivedQuantities]
-        triggers: [vas-qc branch if selected]
+        triggers: [value-added-services variant — vas-qc]
       QC_IN_PROGRESS:
         next: [STORED, INBOUND_REJECTED]
       INBOUND_REJECTED:
@@ -378,7 +378,7 @@ states:
         triggers: [storage billing commences]
       FULFILMENT_REQUEST_RECEIVED:
         next: [PICKING]
-        triggers: [vas-kitting, vas-labelling branches if selected]
+        triggers: [value-added-services variant — vas-kitting, vas-labelling]
       INVENTORY_HOLD:
         next: [STORED, MARKED_FOR_RELEASE]
       PICKING:
@@ -386,7 +386,7 @@ states:
         requiredFields: [pickedSkus]
       PACKED:
         next: [DISPATCHED]
-        triggers: [vas-packaging branch if selected]
+        triggers: [value-added-services variant — vas-packaging]
       DISPATCHED:
         next: [STORED]
         description: >
@@ -395,7 +395,7 @@ states:
         requiredFields: [transportContractReference]
       MARKED_FOR_RELEASE:
         next: [INVENTORY_RELEASED]
-        triggers: [inventory-release branch]
+        triggers: [reverse variant — inventory-release sub-variant]
       INVENTORY_RELEASED:
         terminal: true
       STORAGE_CONTRACT_EXPIRED:

@@ -3,7 +3,7 @@ info:
   title: ION Localization Extension (v1)
   description: "Bilingual and multilingual text fields for ION catalog content. Defines the language object pattern\
     \ used across all sectors. \"id\" (Bahasa Indonesia) is always mandatory. \"en\" (English) is mandatory for\
-    \ export commerce patterns (XB spine).\nRELATIONSHIP TO BECKN DESCRIPTOR — Beckn's `Descriptor.name`, `Descriptor.shortDesc`,\
+    \ export commerce patterns (cross-border pattern).\nRELATIONSHIP TO BECKN DESCRIPTOR — Beckn's `Descriptor.name`, `Descriptor.shortDesc`,\
     \ `Descriptor.longDesc` are flat strings. ION does NOT override these. Implementations populate Beckn's flat\
     \ fields with the default-locale value (Bahasa Indonesia, `id`), and carry the full multilingual map inside\
     \ `resourceAttributes.localization` and `providerAttributes.localization`. Consumers that only read Beckn-native\
@@ -11,13 +11,19 @@ info:
     \ POINTS — Resource.resourceAttributes.localization,\n                Provider.providerAttributes.localization,\n\
     \                Offer.offerAttributes.localization (where applicable).\n"
   version: 1.0.0
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    name: ION Network
+    url: https://schema.ion.id
 components:
   schemas:
     LocalisedText:
       type: object
       title: Localised Text Object
       description: 'Language-keyed text object. Keys are ISO 639-1 language codes. "id" is always mandatory per
-        ION network policy. "en" is mandatory for export commerce (XB pattern). Additional languages optional: ms
+        ION network policy. "en" is mandatory for export commerce (cross-border pattern). Additional languages optional: ms
         (Malay), zh (Chinese), ar (Arabic), ta (Tamil), ko (Korean), ja (Japanese).
 
         '
@@ -30,7 +36,7 @@ components:
           description: Bahasa Indonesia — always required
         en:
           type: string
-          description: English — required for XB pattern
+          description: English — required for cross-border pattern
         ms:
           type: string
           description: Bahasa Melayu
@@ -84,7 +90,7 @@ components:
         longDesc:
           $ref: '#/components/schemas/LocalisedText'
           description: 'Full product description for product detail page. Supplements Beckn `Descriptor.longDesc`.
-            "id" mandatory. "en" mandatory for XB pattern.
+            "id" mandatory. "en" mandatory for cross-border pattern.
 
             '
           x-ion-regulatory: ION Network Policy — Bahasa Indonesia localisation requirement

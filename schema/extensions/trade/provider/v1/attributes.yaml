@@ -6,6 +6,12 @@ info:
 
     '
   version: 1.0.0
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    name: ION Network
+    url: https://schema.ion.id
 components:
   schemas:
     TradeProviderAttributes:
@@ -214,7 +220,7 @@ components:
         liveCommerceEnabled:
           type: boolean
           description: 'Whether this provider supports live commerce (Shopee Live, Tokopedia Play, TikTok Shop-style
-            sessions). Providers with this enabled may use the B2C-LIVE spine.
+            sessions). Providers with this enabled may use the live-commerce pattern.
 
             '
           default: false
@@ -330,7 +336,7 @@ components:
           x-ion-conditional: true
           x-ion-condition: Required for regulated categories (pharmacy, alcohol, tobacco, meat)
       allOf:
-      - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/schema/core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+      - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:
           properties:
             storeStatus:

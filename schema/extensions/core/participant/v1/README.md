@@ -14,7 +14,7 @@ Cross-sector participant role taxonomy and identity fields.
 - **Address hierarchy** — provinsi → kabupaten → kecamatan → kelurahan → RT/RW, with patokan landmarks, areaType, 3T remote classification, and accessibility metadata (motorcycle/truck/boat reachability, road condition)
 
 ## Why this lives in core, not a sector pack
-Every ION sector has participants with roles, tax IDs, and physical addresses. Trade (B2C, B2B, XB, B2G), logistics, future mobility and finance all need the same taxonomy. Keeping it cross-sector prevents each sector from re-defining the same fields with slightly different shapes.
+Every ION sector has participants with roles, tax IDs, and physical addresses. Trade (B2C, B2B, cross-border, government), logistics, future mobility and finance all need the same taxonomy. Keeping it cross-sector prevents each sector from re-defining the same fields with slightly different shapes.
 
 ## Sector-specific addenda
 Logistics has its own thin addendum for licence fields that only apply to logistics roles (PPJK customs broker licence, driver SIM category): `schema/extensions/logistics/participant-logistics/v1/`.

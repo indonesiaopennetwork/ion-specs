@@ -7,11 +7,17 @@ info:
 
     '
   version: 1.0.0
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    name: ION Network
+    url: https://schema.ion.id
 components:
   schemas:
     LocalisedText:
       type: object
-      description: Language-keyed text. "id" always required. "en" required for XB pattern.
+      description: Language-keyed text. "id" always required. "en" required for cross-border pattern.
       minProperties: 1
       additionalProperties:
         type: string
@@ -1124,7 +1130,7 @@ components:
             '
           example: ION-CAN-ABC123XYZ
           x-ion-conditional: true
-          x-ion-condition: Required for marketplace-eligible products (MP-IH, MP-IL)
+          x-ion-condition: Required for marketplace-eligible products (marketplace-inhouse, marketplace-listed)
         featuredOfferEligible:
           type: boolean
           description: 'Whether this offer is eligible for "featured offer" / Buy Box selection. BPP declares eligibility;
@@ -1426,7 +1432,7 @@ components:
           x-ion-conditional: true
           x-ion-condition: Required for pharmacy, health-data, financial-services categories
       allOf:
-      - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/schema/core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+      - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:
           properties:
             resourceStructure:

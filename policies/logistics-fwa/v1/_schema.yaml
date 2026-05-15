@@ -46,11 +46,11 @@ LogisticsFWAPolicy:
       type: integer
 
   scope:
-    spines:
+    patterns:
       type: array
       items:
         type: string
-        enum: [LOG-HYPERLOCAL, LOG-PARCEL, LOG-FREIGHT, LOG-RORO, LOG-XB, LOG-WAREHOUSE]
+        enum: [hyperlocal, parcel, freight, roro, cross-border, warehouse]
     transportModes:
       type: array
     corridors:

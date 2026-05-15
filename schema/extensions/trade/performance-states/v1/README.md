@@ -2,7 +2,7 @@
 
 Canonical performance state codes for all Trade sector fulfilment flows.
 
-This is not a schema pack — it has no `attributes.yaml` or `profile.json`. It is a vocabulary definition file that spine and branch files reference for state codes.
+This is not a schema pack — it has no `attributes.yaml` or `profile.json`. It is a vocabulary definition file referenced by pattern and variant files for state codes.
 
 ## File
 
@@ -12,12 +12,12 @@ This is not a schema pack — it has no `attributes.yaml` or `profile.json`. It 
 
 | Machine | Used in |
 |---|---|
-| `standard` | B2C-SF, B2B-PP, B2B-CR, MP-IH, AUC-F, XB — standard packaged goods delivery |
-| `mto` | B2C-MTO — make-to-order (food QSR, custom bakery, tailoring) |
-| `self_pickup` | When performanceMode=SELF_PICKUP on any spine |
-| `return` | Returns branch |
-| `replacement` | Returns branch — replacement sub-flow |
-| `rto` | RTO branch |
+| `standard` | storefront, business-procurement, marketplace-inhouse, forward-auction, cross-border — standard packaged goods delivery |
+| `mto` | made-to-order — make-to-order (food QSR, custom bakery, tailoring) |
+| `self_pickup` | When performanceMode=SELF_PICKUP on any pattern |
+| `return` | Returns variant |
+| `replacement` | Returns variant — replacement sub-flow |
+| `rto` | RTO variant |
 
 ## How BPPs use these
 

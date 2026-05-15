@@ -6,6 +6,12 @@ info:
 
     '
   version: 1.0.0
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    name: ION Network
+    url: https://schema.ion.id
 components:
   schemas:
     LogisticsContractAttributes:
@@ -173,7 +179,7 @@ components:
         cargoInsurance:
           type: object
           description: 'Cargo insurance coverage details. Distinct from driver/vehicle insurance (covered under
-            incident branch).
+            incident variant).
 
             '
           properties:
@@ -191,7 +197,7 @@ components:
               - NAMED_PERILS
               - LIABILITY_ONLY
               - DECLARED_VALUE_CAP
-              description: 'Institute Cargo Clauses scope for ocean/air freight. Required for LOG-FREIGHT and LOG-XB.
+              description: 'Institute Cargo Clauses scope for ocean/air freight. Required for freight and cross-border.
 
                 '
             underwriterSubscriberId:
@@ -619,4 +625,4 @@ components:
           type: string
       x-ion-closed-extensions: false
       allOf:
-      - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/schema/core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+      - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes

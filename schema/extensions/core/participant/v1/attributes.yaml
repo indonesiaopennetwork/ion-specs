@@ -13,6 +13,12 @@ info:
 
     '
   version: 1.0.0
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    name: ION Network
+    url: https://schema.ion.id
 components:
   schemas:
     IONParticipantAttributes:
@@ -119,8 +125,8 @@ components:
         addressDetail:
           type: object
           description: 'Full Indonesian administrative hierarchy plus landmark and accessibility metadata. Applies
-            to participants with a physical location: CONSIGNOR, CONSIGNEE, SHIPPER, NOTIFY_PARTY, MERCHANT, BANK
-            branch, CUSTOMS_BROKER office, buyer/seller for trade, etc.
+            to participants with a physical location: CONSIGNOR, CONSIGNEE, SHIPPER, NOTIFY_PARTY, MERCHANT, BANK_OFFICE,
+            CUSTOMS_BROKER office, buyer/seller for trade, etc.
 
             '
           properties:
@@ -256,7 +262,7 @@ components:
       required:
       - role
       allOf:
-      - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/schema/core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+      - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:
           properties:
             role:

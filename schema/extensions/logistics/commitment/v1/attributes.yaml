@@ -6,6 +6,12 @@ info:
 
     '
   version: 1.0.0
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    name: ION Network
+    url: https://schema.ion.id
 components:
   schemas:
     LogisticsCommitmentAttributes:
@@ -92,10 +98,10 @@ components:
           description: For freight — requested departure date for this commitment line
         vehicleRegistration:
           type: string
-          description: Vehicle registration for LOG-RORO commitment lines
+          description: Vehicle registration for roro commitment lines
         parentCommitmentId:
           type: string
           description: Parent commitment reference for child transactions under a parent contract
       x-ion-closed-extensions: false
       allOf:
-      - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/schema/core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+      - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes

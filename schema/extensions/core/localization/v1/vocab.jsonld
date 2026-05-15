@@ -69,19 +69,19 @@
       "@id": "ion:name",
       "@type": "rdf:Property",
       "rdfs:label": "name",
-      "rdfs:comment": "Product or service name as a language object. \"id\" always mandatory. Replaces/extends beckn descriptor.name.\n"
+      "rdfs:comment": "Product or service name as a language object. Supplements Beckn `Descriptor.name` (which carries the default-locale text, normally `id`). Consumers that read only Beckn-native fields see Indonesian; ION-aware consumers read the multilingual map here. \"id\" always mandatory."
     },
     {
       "@id": "ion:shortDesc",
       "@type": "rdf:Property",
       "rdfs:label": "shortDesc",
-      "rdfs:comment": "Short description for catalog listings and search results. Max 150 characters per language. \"id\" mandatory.\n"
+      "rdfs:comment": "Short description for catalog listings and search results. Max 150 characters per language. Supplements Beckn `Descriptor.shortDesc`. \"id\" mandatory."
     },
     {
       "@id": "ion:longDesc",
       "@type": "rdf:Property",
       "rdfs:label": "longDesc",
-      "rdfs:comment": "Full product description for product detail page. \"id\" mandatory. \"en\" mandatory for XB pattern.\n"
+      "rdfs:comment": "Full product description for product detail page. Supplements Beckn `Descriptor.longDesc`. \"id\" mandatory. \"en\" mandatory for XB pattern."
     }
   ]
 }

@@ -6,7 +6,7 @@ Logistics sector (Layer 5) attribute packs. These attach to Beckn-native `*Attri
 
 | Pack | Attaches to | What it covers |
 |---|---|---|
-| `provider/v1` | `beckn:Provider.providerAttributes` | LSP identity, licences (ALFI), coverage, modes supported, spines supported, fleet attributes, cold-chain certification, operating hours, aggregator-vs-direct |
+| `provider/v1` | `beckn:Provider.providerAttributes` | LSP identity, licences (ALFI), coverage, modes supported, patterns supported, fleet attributes, cold-chain certification, operating hours, aggregator-vs-direct |
 | `resource/v1` | `beckn:Resource.resourceAttributes` | Shipment object — weight, dimensions, declared value, fragile/hazmat flags, temperature requirements, product category, packaging, vehicle-as-resource (Ro-Ro) |
 | `offer/v1` | `beckn:Offer.offerAttributes` | Service level, transport mode, routing topology, rate logic, selectRequired flag, COD availability, COD fraud-control policy (OTP required, denominations, daily limits, hold periods), agent assignment model, slot availability, value-added services, MOQ |
 | `consideration/v1` | `beckn:Consideration.considerationAttributes` | Freight charge, fuel surcharge, COD charge, insurance premium, handling fees, customs duties, PPN tax, breakup line types |
@@ -53,9 +53,9 @@ availability:
 
 For capacity-constrained offerings (air cargo, inter-island ferry, ocean freight), firm capacity confirmation happens at `/select` — the catalog declares availability intent; `/select` confirms for the specific shipment.
 
-## Spine-specific attributes
+## Pattern-specific attributes
 
-Spine-specific attributes (cold-chain handling, customs documentation, vehicle-as-resource for Ro-Ro, inventory lifecycle for warehouse) are conditional fields within the relevant pack. They are not separate category packs. Each pack's README documents which fields apply to which spines.
+Pattern-specific attributes (cold-chain handling, customs documentation, vehicle-as-resource for Ro-Ro, inventory lifecycle for warehouse) are conditional fields within the relevant pack. They are not separate category packs. Each pack's README documents which fields apply to which patterns.
 
 ## Rate logic in catalog vs firm quote in `/select`
 

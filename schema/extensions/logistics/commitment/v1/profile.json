@@ -4,6 +4,30 @@
   "status": "ready",
   "sectorCode": "B",
   "attaches-to": "beckn:commitment Attributes",
-  "maintainer": "ION Council — Sector B Lead",
-  "specVersion": "0.5.1-draft"
+  "maintainer": "ION Council \u2014 Sector B Lead",
+  "specVersion": "0.5.1-draft",
+  "type": "AttributePack",
+  "indexing": {
+    "indexable": [
+      {
+        "path": "$.lineId"
+      },
+      {
+        "path": "$.resourceId"
+      }
+    ],
+    "filterable": [
+      {
+        "path": "$.lineId"
+      },
+      {
+        "path": "$.resourceId"
+      }
+    ],
+    "sortable": []
+  },
+  "minimalForDiscovery": [
+    "lineId"
+  ],
+  "packSchema": "./schema.json"
 }

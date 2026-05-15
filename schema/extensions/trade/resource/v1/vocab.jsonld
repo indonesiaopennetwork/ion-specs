@@ -14,7 +14,8 @@
     {
       "@id": "ion:id",
       "@type": "rdf:Property",
-      "rdfs:label": "id"
+      "rdfs:label": "id",
+      "rdfs:comment": "Axis identifier (size, color, storage, model, etc.)"
     },
     {
       "@id": "ion:en",
@@ -60,7 +61,7 @@
       "@id": "ion:variantMatrix",
       "@type": "rdf:Property",
       "rdfs:label": "variantMatrix",
-      "rdfs:comment": "Multi-axis variant declaration. Use instead of explicit VARIANT resources when combinations are derivable. BPP MUST resolve the specific variant at on_select and compute final price via priceDeltaByCombination or per-axis priceDelta. Only valid on parent resources with resourceStructure=PLAIN; child"
+      "rdfs:comment": "Multi-axis variant declaration. Use instead of explicit VARIANT resources when combinations are derivable. BPP MUST resolve the specific variant at on_select and compute final price via priceDeltaByCombination or per-axis priceDelta. Only valid on parent resources with resourceStructure=PLAIN; child VARIANT resources are not needed when this is declared."
     },
     {
       "@id": "ion:customisationGroups",
@@ -257,7 +258,7 @@
       "@id": "ion:dataResidency",
       "@type": "rdf:Property",
       "rdfs:label": "dataResidency",
-      "rdfs:comment": "Data residency requirement for this resource. DOMESTIC_ONLY means all PII and transaction data must be processed and stored within Indonesia; BAPs with foreign data processing must skip or refuse transactions for this resource. Required for pharmacy, health data, financial services, and regulated bi"
+      "rdfs:comment": "Data residency requirement for this resource. DOMESTIC_ONLY means all PII and transaction data must be processed and stored within Indonesia; BAPs with foreign data processing must skip or refuse transactions for this resource. Required for pharmacy, health data, financial services, and regulated biometric categories."
     }
   ]
 }

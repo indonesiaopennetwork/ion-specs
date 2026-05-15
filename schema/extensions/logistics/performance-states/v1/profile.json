@@ -4,6 +4,13 @@
   "status": "ready",
   "sectorCode": "B",
   "attaches-to": "beckn:performance-states Attributes",
-  "maintainer": "ION Council — Sector B Lead",
-  "specVersion": "0.5.1-draft"
+  "maintainer": "ION Council \u2014 Sector B Lead",
+  "specVersion": "0.5.1-draft",
+  "type": "StateMachine",
+  "indexing": {
+    "indexable": [],
+    "filterable": [],
+    "sortable": []
+  },
+  "minimalForDiscovery": []
 }

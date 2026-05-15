@@ -1,38 +1,15 @@
 {
   "@context": "https://schema.ion.id/trade/resource/v1/context.jsonld",
   "@type": "ion:TradeResourceAttributes",
+  "_comment": "Example: Pepperoni Pizza — COMPOSED resource (TRC-food-bev, food-qsr)",
+  "quantity": {
+    "value": 1,
+    "unit": "piece"
+  },
   "resourceStructure": "COMPOSED",
   "resourceTangibility": "PHYSICAL",
-  "_comment": "Example: Pepperoni Pizza — COMPOSED resource (F&B food-qsr category)",
-  "parentResourceId": null,
-  "brand": "Domino's",
-  "name": {
-    "id": "Pizza Pepperoni",
-    "en": "Pepperoni Pizza"
-  },
-  "shortDesc": {
-    "id": "Pizza dengan topping pepperoni premium dan keju mozzarella",
-    "en": "Pizza with premium pepperoni and mozzarella cheese"
-  },
-  "longDesc": {
-    "id": "Pizza oven-baked dengan saus tomat segar, topping pepperoni premium, dan keju mozzarella berlimpah. Tersedia dalam berbagai ukuran dan pilihan pinggiran.",
-    "en": "Oven-baked pizza with fresh tomato sauce, premium pepperoni topping, and generous mozzarella cheese."
-  },
-  "halalStatus": "HALAL",
-  "halalCertNumber": "ID37110000105790921",
-  "dietaryClassification": "NON_VEG",
-  "allergens": [
-    "GLUTEN",
-    "DAIRY",
-    "EGGS"
-  ],
-  "cuisineType": "Italian",
-  "spiceLevel": "NONE",
-  "preparation": {
-    "instructions": "Dipanggang dalam oven konveksi 250°C selama 8-10 menit",
-    "storage": "Konsumsi segera setelah pengiriman",
-    "shelfLife": "PT2H"
-  },
+  "logisticsServiceType": "HYPERLOCAL",
+  "ageRestricted": false,
   "countryOfOrigin": "IDN",
   "images": [
     "https://cdn.dominos.co.id/products/pepperoni-primary.jpg",
@@ -42,8 +19,55 @@
     "status": "IN_STOCK",
     "maxOrderQty": 10,
     "backorderAllowed": false,
-    "preorderAllowed": false,
     "substitutionAllowed": false
+  },
+  "identity": {
+    "brand": "Domino's",
+    "sku": "DOM-PEP-REG"
+  },
+  "food": {
+    "classification": "HALAL",
+    "allergens": [
+      "GLUTEN",
+      "DAIRY",
+      "EGGS"
+    ],
+    "cuisineType": "Italian",
+    "spiceLevel": "NONE"
+  },
+  "regulatory": {
+    "registrations": [
+      {
+        "scheme": "BPOM_MD",
+        "id": "MD265230999001",
+        "role": "MANUFACTURER",
+        "validUntil": "2028-01-01"
+      }
+    ],
+    "additives": [
+      {
+        "type": "CONTAINS",
+        "value": "Gluten"
+      },
+      {
+        "type": "CONTAINS",
+        "value": "Dairy"
+      }
+    ]
+  },
+  "preparation": {
+    "instructions": "Dipanggang dalam oven konveksi 250°C selama 8-10 menit",
+    "storage": "Konsumsi segera setelah pengiriman",
+    "shelfLife": "PT2H"
+  },
+  "preparationTime": "PT15M",
+  "menuCategory": {
+    "id": "CAT-PIZZA",
+    "name": {
+      "id": "Pizza",
+      "en": "Pizza"
+    },
+    "sequence": 1
   },
   "customisationGroups": [
     {
@@ -57,7 +81,7 @@
       "options": [
         {
           "id": "OPT-REGULAR",
-          "name": {
+          "label": {
             "id": "Regular (25cm)",
             "en": "Regular (25cm)"
           },
@@ -69,7 +93,7 @@
         },
         {
           "id": "OPT-LARGE",
-          "name": {
+          "label": {
             "id": "Large (30cm)",
             "en": "Large (30cm)"
           },
@@ -81,7 +105,7 @@
         },
         {
           "id": "OPT-JUMBO",
-          "name": {
+          "label": {
             "id": "Jumbo (35cm)",
             "en": "Jumbo (35cm)"
           },
@@ -104,7 +128,7 @@
       "options": [
         {
           "id": "OPT-CLASSIC",
-          "name": {
+          "label": {
             "id": "Classic Hand Tossed",
             "en": "Classic Hand Tossed"
           },
@@ -116,7 +140,7 @@
         },
         {
           "id": "OPT-THIN",
-          "name": {
+          "label": {
             "id": "Thin Crust",
             "en": "Thin Crust"
           },
@@ -128,7 +152,7 @@
         },
         {
           "id": "OPT-CHEESE-BURST",
-          "name": {
+          "label": {
             "id": "Cheese Burst",
             "en": "Cheese Burst"
           },
@@ -152,7 +176,7 @@
       "options": [
         {
           "id": "OPT-EXTRA-CHEESE",
-          "name": {
+          "label": {
             "id": "Extra Keju",
             "en": "Extra Cheese"
           },
@@ -164,7 +188,7 @@
         },
         {
           "id": "OPT-JALAPENO",
-          "name": {
+          "label": {
             "id": "Jalapeno",
             "en": "Jalapeño"
           },
@@ -176,7 +200,7 @@
         },
         {
           "id": "OPT-MUSHROOM",
-          "name": {
+          "label": {
             "id": "Jamur",
             "en": "Mushroom"
           },
@@ -189,15 +213,5 @@
       ]
     }
   ],
-  "itemRating": 4.6,
-  "isAvailable": true,
-  "menuCategory": {
-    "id": "CAT-PIZZA",
-    "name": {
-      "id": "Pizza",
-      "en": "Pizza"
-    },
-    "sequence": 1
-  },
-  "preparationTime": "PT15M"
+  "itemRating": 4.6
 }

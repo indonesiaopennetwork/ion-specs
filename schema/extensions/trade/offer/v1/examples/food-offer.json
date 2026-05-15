@@ -1,22 +1,26 @@
 {
   "@context": "https://schema.ion.id/trade/offer/v1/context.jsonld",
   "@type": "ion:TradeOfferAttributes",
-  "_comment": "Example: F&B offer — non-returnable, cancellable before preparation",
-  "cancellable": true,
+  "_comment": "Example: F&B offer (food-qsr/delivery) — non-returnable, free cancellation before preparation",
+  "cancellationPolicy": "ion://policy/cancel.mto.nofee-before-prepare",
+  "cancellationAllowedReasons": [
+    "CHANGE_OF_MIND",
+    "WRONG_ITEM_ORDERED"
+  ],
   "returnable": false,
+  "returnPolicy": "ion://policy/return.standard.none",
+  "warrantyPolicy": "ion://policy/warranty.standard.none",
+  "disputePolicy": "ion://policy/dispute.consumer.bpsk",
+  "grievanceSlaPolicy": "ion://policy/grievance-sla.consumer.standard",
+  "paymentTermsPolicy": "ion://policy/payment-terms.upfront.full",
   "timeToShip": "PT30M",
   "availableOnCod": true,
-  "contactDetailsConsumerCare": "Customer Service Domino's,cs@dominos.co.id,021-500300",
-  "returnPolicy": "ion://policy/return/standard/none",
-  "returnAllowedReasons": [],
-  "cancellationPolicy": "ion://policy/cancel/prepacked/free",
-  "cancellationAllowedReasons": ["CHANGE_OF_MIND", "WRONG_ITEM_ORDERED"],
-  "cancellationWindowMinutes": 5,
-  "warrantyPolicy": "ion://policy/warranty/standard/none",
-  "disputePolicy": "ion://policy/dispute/consumer/bpsk",
-  "displayLanguage": ["id", "en"],
-  "invoiceType": "RECEIPT",
   "selfPickupOtp": true,
   "selfPickupInstructions": "Tunjukkan kode pickup di kasir",
-  "supportedPerformanceModes": ["DELIVERY", "SELF_PICKUP", "DINE_IN"]
+  "proofOfDeliveryType": "PHOTO",
+  "contactDetailsConsumerCare": "Customer Service Domino's,cs@dominos.co.id,021-500300",
+  "displayLanguage": [
+    "id",
+    "en"
+  ]
 }

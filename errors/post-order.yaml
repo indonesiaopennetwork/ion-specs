@@ -12,7 +12,7 @@
   affected_field: offerAttributes.cancellationPolicy
   affected_apis: [cancel, on_cancel]
   schema_ref: schema/extensions/trade/offer/v1
-  flow_ref: flows/trade/branches/cancellation/v1
+  flow_ref: flows/trade/variants/cancellation/v1
   resolution:
     en: Enforce cancellation window in BAP UI. Check cancellationFeeApplicableStates — if current state is in this list, fee applies.
 
@@ -27,7 +27,7 @@
   affected_field: offerAttributes.cancellationAllowedReasons
   affected_apis: [cancel]
   schema_ref: schema/extensions/trade/offer/v1
-  flow_ref: flows/trade/branches/cancellation/v1
+  flow_ref: flows/trade/variants/cancellation/v1
   resolution:
     en: Only send cancellation reasons that are in the offer's cancellationAllowedReasons. Display these reasons to consumer in the cancellation flow.
 
@@ -42,7 +42,7 @@
   affected_field: offerAttributes.returnable
   affected_apis: [update]
   schema_ref: schema/extensions/trade/offer/v1
-  flow_ref: flows/trade/branches/returns/v1
+  flow_ref: flows/trade/variants/returns/v1
   resolution:
     en: Check returnable flag before showing return option in BAP UI. Do not present return option if returnable=false.
 
@@ -54,12 +54,12 @@
     en: Return window has expired
   description:
     en: The return initiation request was made after the returnWindow duration has elapsed from the DELIVERED timestamp.
-  affected_field: offerAttributes.returnWindow
+  affected_field: offerAttributes.returnPolicy
   affected_apis: [update]
   schema_ref: schema/extensions/trade/offer/v1
-  flow_ref: flows/trade/branches/returns/v1
+  flow_ref: flows/trade/variants/returns/v1
   resolution:
-    en: Calculate return deadline as deliveredAt + returnWindow ISO 8601 duration. Only show return option within this window.
+    en: The returnPolicy IRI defines the returnWindowDays. Calculate return deadline as deliveredAt + returnWindowDays. Only show return option within this window.
 
 - code: ION-5005
   http_status: 400
@@ -74,7 +74,7 @@
   affected_field: message.contract.performance[].performanceAttributes.tags.return_evidence
   affected_apis: [update]
   schema_ref: schema/extensions/trade/offer/v1
-  flow_ref: flows/trade/branches/returns/v1
+  flow_ref: flows/trade/variants/returns/v1
   resolution:
     en: Request additional evidence from consumer per returnEvidenceRequirement.
 
@@ -91,7 +91,7 @@
   affected_field: message.contract.performance[].performanceAttributes.qcResult
   affected_apis: [on_status]
   schema_ref: schema/extensions/trade/performance/v1
-  flow_ref: flows/trade/branches/returns/v1
+  flow_ref: flows/trade/variants/returns/v1
   resolution:
     en: Consumer may escalate via support/raise if they dispute QC finding.
 
@@ -121,7 +121,7 @@
     en: >
       Request attempted an action outside the bounds of the declared policy IRI.
       Examples: cancelling past cancellationWindowCloses state, returning
-      outside returnWindow, requesting refund when refundAfterQC=false before QC.
+      outside returnWindowDays (from returnPolicy IRI), requesting refund when refundAfterQC=false before QC.
       ION resolves the policy IRI and applies the terms document as enforcement.
   affected_field: offerAttributes.{policy}
   affected_apis: [cancel, update]
@@ -163,7 +163,7 @@
   affected_field: message.contract.performance[].performanceAttributes.ageVerificationFailedReason
   affected_apis: [on_status]
   schema_ref: schema/extensions/trade/performance/v1
-  flow_ref: flows/trade/branches/RTO/v1
+  flow_ref: flows/trade/variants/rto/v1
   resolution:
     en: Initiate RTO flow. Buyer may be restricted from future purchases of this category per platform policy.
 

@@ -4,7 +4,7 @@
   "domain": "ion-core",
   "name": "ION Support Extension (v1)",
   "description": "Consumer complaint ticket. Buyer raises order issues to seller. IGM-derived.",
-  "packSchema": "./attributes.yaml",
+  "packSchema": "./schema.json",
   "jsonldContext": "./context.jsonld",
   "attachmentPoints": {
     "supportAttributes": [
@@ -14,5 +14,31 @@
   "apis": [
     "support",
     "on_support"
+  ],
+  "type": "AttributePack",
+  "indexing": {
+    "indexable": [
+      {
+        "path": "$.id"
+      },
+      {
+        "path": "$.category"
+      },
+      {
+        "path": "$.status"
+      }
+    ],
+    "filterable": [
+      {
+        "path": "$.id"
+      },
+      {
+        "path": "$.category"
+      }
+    ],
+    "sortable": []
+  },
+  "minimalForDiscovery": [
+    "category"
   ]
 }

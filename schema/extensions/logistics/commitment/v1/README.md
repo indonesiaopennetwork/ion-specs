@@ -6,9 +6,9 @@ Attaches to `beckn:Commitment.commitmentAttributes`.
 
 Line-level details within a logistics transaction. Each commitment line represents one discrete unit being committed — a package, a cargo line, a container, a SKU stock unit, or a vehicle slot. The commitment is the "what" of the contract; performance is the "how it went."
 
-## Spine-specific usage
+## Pattern-specific usage
 
-### LOG-PARCEL and LOG-HYPERLOCAL (package-level)
+### parcel and hyperlocal (package-level)
 
 ```yaml
 commitmentAttributes:
@@ -24,7 +24,7 @@ commitmentAttributes:
 
 Most parcel transactions have a single commitment line. Multi-box orders have multiple lines with separate package counts.
 
-### LOG-FREIGHT (cargo manifest level)
+### freight (cargo manifest level)
 
 ```yaml
 commitmentAttributes:
@@ -46,7 +46,7 @@ commitmentAttributes:
 
 Freight commitments carry cargo-level manifest detail. For FCL, the container reference is the booking unit. For LTL, multiple commitment lines share the same carrier's space.
 
-### LOG-RORO (vehicle slot)
+### roro (vehicle slot)
 
 ```yaml
 commitmentAttributes:
@@ -61,7 +61,7 @@ commitmentAttributes:
 
 One vehicle = one commitment line. Vehicle registration cross-references the `resource.vehicleRegistration` field.
 
-### LOG-WAREHOUSE (SKU level)
+### warehouse (SKU level)
 
 ```yaml
 commitmentAttributes:
@@ -82,7 +82,7 @@ commitmentAttributes:
   parentCommitmentId: "wh-cmt-001"    # Reference to warehouse contract commitment
 ```
 
-When LOG-WAREHOUSE spawns a LOG-PARCEL dispatch, the transport commitment references the parent warehouse commitment via `parentCommitmentId`.
+When warehouse spawns a parcel dispatch, the transport commitment references the parent warehouse commitment via `parentCommitmentId`.
 
 ## specialInstructions
 

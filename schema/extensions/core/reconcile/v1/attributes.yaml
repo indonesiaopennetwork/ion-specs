@@ -9,6 +9,12 @@ info:
     https://ion.id/vocab/reconcile/v1/context.jsonld\",\n    \"@type\": \"ion:ReconcileAttributes\",\n    reconId:\
     \ ...,\n    amounts: { baseContractAmount, ... },\n    ...\n  }\n"
   version: 1.0.0
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    name: ION Network
+    url: https://schema.ion.id
 components:
   schemas:
     IONReconcileAttributes:
@@ -250,7 +256,7 @@ components:
         streamerCommissionAmount:
           type: number
           minimum: 0
-          description: 'Amount to settle to streamer/creator for B2C-LIVE orders. Deducted from BPP or BAP per commercial
+          description: 'Amount to settle to streamer/creator for live-commerce orders. Deducted from BPP or BAP per commercial
             agreement.
 
             '
@@ -481,7 +487,7 @@ components:
       - counterparty
       - reconStatus
       allOf:
-      - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/schema/core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+      - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:
           properties:
             adjustmentType:

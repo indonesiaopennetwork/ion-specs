@@ -9,12 +9,12 @@ Sellers do not author policy prose. They declare policy IRIs on their offers; IO
 ```
 Seller's catalog entry:
   offerAttributes:
-    returnPolicy:       ion://policy/return/standard/7d-sellerpays
-    cancellationPolicy: ion://policy/cancel/prepacked/free
-    warrantyPolicy:     ion://policy/warranty/standard/none
-    disputePolicy:      ion://policy/dispute/consumer/bpsk
-    grievanceSlaPolicy: ion://policy/grievance-sla/consumer/standard
-    paymentTermsPolicy: ion://policy/payment-terms/upfront/full
+    returnPolicy:       ion://policy/return.standard.7d-sellerpays
+    cancellationPolicy: ion://policy/cancel.prepacked.free
+    warrantyPolicy:     ion://policy/warranty.standard.none
+    disputePolicy:      ion://policy/dispute.consumer.bpsk
+    grievanceSlaPolicy: ion://policy/grievance-sla.consumer.standard
+    paymentTermsPolicy: ion://policy/payment-terms.upfront.full
 ```
 
 Each IRI resolves to a terms document in this directory. BAP renders display text to the consumer; ION Central enforces the structured terms at each API boundary; reconcile applies penalty deductions per the linked penalty policy.

@@ -80,7 +80,7 @@
       Provider attempting catalog publish or transaction has kycStatus of
       EXPIRED, SUSPENDED, or REJECTED. Catalog publish and new transactions
       blocked until KYC is renewed/restored.
-  affected_field: message.catalog.providers[].providerAttributes.kycStatus
+  affected_field: message.catalog.provider.providerAttributes.kycStatus
   affected_apis: [publish_catalog, select, init, confirm]
   schema_ref: schema/extensions/trade/provider/v1
   resolution:
@@ -113,7 +113,7 @@
       Provider operating in regulated category (pharmacy, alcohol, tobacco,
       meat) does not have valid categoryLicenses entry for the required
       license type.
-  affected_field: message.catalog.providers[].providerAttributes.categoryLicenses
+  affected_field: message.catalog.provider.providerAttributes.categoryLicenses
   affected_apis: [publish_catalog]
   schema_ref: schema/extensions/trade/provider/v1
   resolution:

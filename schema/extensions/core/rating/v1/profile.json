@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "domain": "ion-core",
   "name": "ION Rating Extension (v1)",
-  "description": "Post-transaction rating \u2014 provider, item, fulfilment, agent. Scale 1-5.",
-  "packSchema": "./attributes.yaml",
+  "description": "Post-transaction rating — provider, item, fulfilment, agent. Scale 1-5.",
+  "packSchema": "./schema.json",
   "jsonldContext": "./context.jsonld",
   "attachmentPoints": {
     "ratingAttributes": [
@@ -14,5 +14,29 @@
   "apis": [
     "rate",
     "on_rate"
+  ],
+  "type": "AttributePack",
+  "indexing": {
+    "indexable": [
+      {
+        "path": "$.ratingCategory"
+      },
+      {
+        "path": "$.ratingValue"
+      }
+    ],
+    "filterable": [
+      {
+        "path": "$.ratingCategory"
+      },
+      {
+        "path": "$.ratingValue"
+      }
+    ],
+    "sortable": []
+  },
+  "minimalForDiscovery": [
+    "ratingCategory",
+    "ratingValue"
   ]
 }

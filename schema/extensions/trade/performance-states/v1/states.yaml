@@ -27,7 +27,7 @@
 #   Settlement.status                    — enum: DRAFT | COMMITTED | COMPLETE
 #     Lifecycle of the payment/settlement obligation.
 #
-# Implementation note: when a spine document says "on_status (DELIVERED)",
+# Implementation note: when a pattern document says "on_status (DELIVERED)",
 # this means Performance.status.descriptor.code = DELIVERED. It does NOT
 # change Contract.status or Commitment.status — those transitions have
 # their own triggers (see above).
@@ -149,7 +149,7 @@ stateMachines:
   exchange_variant:
     description: |
       Single-leg exchange — agent swaps old variant for new at door.
-      Used by Op-22 exchange-variant-doorstep sub-branch.
+      Used by Op-22 exchange-variant-doorstep sub-variant.
     states:
       - code: EXCHANGE_VARIANT_REQUESTED
         description: Buyer raised variant-swap request

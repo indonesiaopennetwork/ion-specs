@@ -20,13 +20,13 @@
       "@id": "ion:subscriberId",
       "@type": "rdfs:Property",
       "rdfs:label": "subscriberId",
-      "rdfs:comment": "ION-registered subscriber ID when the participant is itself a subscriber."
+      "rdfs:comment": "ION-registered subscriber ID when the participant is itself a subscriber. Not applicable for individuals (end-consumer CONSIGNEE in B2C)."
     },
     {
       "@id": "ion:npwp",
       "@type": "rdfs:Property",
       "rdfs:label": "npwp",
-      "rdfs:comment": "Indonesian tax ID (Nomor Pokok Wajib Pajak). 16 digits post-2024 (PMK 112/2022); legacy 15-digit punctuated form also accepted."
+      "rdfs:comment": "NPWP (Nomor Pokok Wajib Pajak) tax ID. 16 digits post-2024 (Indonesia migrated from 15-digit to 16-digit format per PMK 112/2022). Some implementations still accept legacy 15-digit format via the punctuated pattern below."
     },
     {
       "@id": "ion:nib",
@@ -50,7 +50,7 @@
       "@id": "ion:addressDetail",
       "@type": "rdfs:Property",
       "rdfs:label": "addressDetail",
-      "rdfs:comment": "Indonesian administrative hierarchy and accessibility metadata. Attaches here (not to beckn:Address) because beckn:Address is closed."
+      "rdfs:comment": "Full Indonesian administrative hierarchy plus landmark and accessibility metadata. Applies to participants with a physical location: CONSIGNOR, CONSIGNEE, SHIPPER, NOTIFY_PARTY, MERCHANT, BANK branch, CUSTOMS_BROKER office, buyer/seller for trade, etc."
     }
   ]
 }

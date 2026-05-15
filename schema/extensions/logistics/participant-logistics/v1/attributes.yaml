@@ -11,6 +11,12 @@ info:
     \   ...core participant fields...,\n    ...logistics addendum fields...\n  }\n\nNew in v0.5.2. Supersedes the\
     \ previous logistics/participant/v1 pack whose cross-sector fields were promoted to core.\n"
   version: 1.0.0
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    name: ION Network
+    url: https://schema.ion.id
 components:
   schemas:
     LogisticsParticipantAddendum:
@@ -36,7 +42,7 @@ components:
           type: string
           description: SIM (Surat Izin Mengemudi) — Indonesian driving licence number
           x-ion-conditional-cross-schema: true
-          x-ion-condition: Required when role=DRIVER (LOG-RORO, LOG-FREIGHT, LOG-HYPERLOCAL)
+          x-ion-condition: Required when role=DRIVER (roro, freight, hyperlocal)
         driverLicenceCategory:
           type: string
           enum:
@@ -55,4 +61,4 @@ components:
           x-ion-condition: Required when role=DRIVER
       x-ion-closed-extensions: false
       allOf:
-      - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/schema/core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+      - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes

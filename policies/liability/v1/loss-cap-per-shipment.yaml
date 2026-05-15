@@ -17,7 +17,7 @@ liabilityBasis: LESSER_OF_DECLARED_VALUE_OR_MAXIMUM
 
 claimProcess:
   initiatedBy: BAP (after threshold elapsed)
-  via: loss-claim branch (/update with disputeReason.policyIri)
+  via: loss-claim variant (/update with disputeReason.policyIri)
   bppResponseWithin: PT72H
   settlementWithin: P14D_after_approval
 

@@ -123,7 +123,7 @@
       "@id": "ion:kycLevel",
       "@type": "rdf:Property",
       "rdfs:label": "kycLevel",
-      "rdfs:comment": "KYC depth. Determines maximum transaction value, allowed payment methods, eligibility for Mall/Premium tiers. BASIC: NIB + NPWP only. Max per-order IDR 5M. STANDARD: BASIC + bank account verification + phone. Max per-order IDR 50M. ENHANCED: STANDARD + beneficial ownership + director ID verified. Ma"
+      "rdfs:comment": "KYC depth. Determines maximum transaction value, allowed payment methods, eligibility for Mall/Premium tiers. BASIC: NIB + NPWP only. Max per-order IDR 5M. STANDARD: BASIC + bank account verification + phone. Max per-order IDR 50M. ENHANCED: STANDARD + beneficial ownership + director ID verified. Max per-order IDR 500M. ENTERPRISE: ENHANCED + AML screen + compliance officer named. No cap."
     },
     {
       "@id": "ion:kycValidUntil",

@@ -27,7 +27,7 @@
       "@id": "ion:category",
       "@type": "rdf:Property",
       "rdfs:label": "category",
-      "rdfs:comment": "ITEM: wrong item, damaged, not as described. FULFILLMENT: delivery delay, non-delivery, wrong address. PAYMENT: overcharge, payment not processed, duplicate charge. SELLER_CONDUCT: rude behaviour, misleading listing. RETURN: return not accepted, pickup not arranged. REFUND: refund not processed, par"
+      "rdfs:comment": "ITEM: wrong item, damaged, not as described. FULFILLMENT: delivery delay, non-delivery, wrong address. PAYMENT: overcharge, payment not processed, duplicate charge. SELLER_CONDUCT: rude behaviour, misleading listing. RETURN: return not accepted, pickup not arranged. REFUND: refund not processed, partial refund disputed."
     },
     {
       "@id": "ion:subCategory",
@@ -103,7 +103,7 @@
       "@id": "ion:escalationLevel",
       "@type": "rdf:Property",
       "rdfs:label": "escalationLevel",
-      "rdfs:comment": "Current escalation level of the dispute. Progression: 1. SELLER — buyer contacts seller (default support flow, 1-2 days). 2. MARKETPLACE_MEDIATION — marketplace intervenes (3-5 days). 3. BPSK — Badan Penyelesaian Sengketa Konsumen (government, 6-14 days). 4. KOMINFO — Kominfo consumer protection por"
+      "rdfs:comment": "Current escalation level of the dispute. Progression: 1. SELLER — buyer contacts seller (default support flow, 1-2 days). 2. MARKETPLACE_MEDIATION — marketplace intervenes (3-5 days). 3. BPSK — Badan Penyelesaian Sengketa Konsumen (government, 6-14 days). 4. KOMINFO — Kominfo consumer protection portal. 5. ION_NETWORK — escalated to ION via raise channel. Each level has its own SLA declared in support/on_support."
     },
     {
       "@id": "ion:escalationTimestamp",

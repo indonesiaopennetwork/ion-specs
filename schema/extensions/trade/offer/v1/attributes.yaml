@@ -6,6 +6,12 @@ info:
 
     '
   version: 1.0.0
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    name: ION Network
+    url: https://schema.ion.id
 components:
   schemas:
     TradeOfferAttributes:
@@ -187,7 +193,7 @@ components:
             - ko
             - ja
           description: 'Languages in which this offer''s catalog content is available. "id" always present. "en"
-            required for XB commerce pattern.
+            required for cross-border commerce pattern.
 
             '
           example:
@@ -625,7 +631,7 @@ components:
           example: Garansi seumur hidup untuk mekanisme jam tangan mewah (terms & conditions apply - see seller
             page).
       allOf:
-      - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/schema/core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+      - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:
           properties:
             returnable:

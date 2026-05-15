@@ -7,6 +7,12 @@ info:
 
     '
   version: 1.0.0
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    name: ION Network
+    url: https://schema.ion.id
 components:
   schemas:
     LogisticsPerformanceAttributes:
@@ -253,7 +259,7 @@ components:
           format: uri
         liveGps:
           type: object
-          description: Real-time GPS for LOG-HYPERLOCAL
+          description: Real-time GPS for hyperlocal
           properties:
             lat:
               type: number
@@ -292,7 +298,7 @@ components:
         legs:
           type: array
           description: 'Per-leg detail for multi-modal freight journeys. Each leg has its own carrier attribution,
-            booking reference, and status. Required for LOG-FREIGHT and LOG-XB when journey involves multiple carriers
+            booking reference, and status. Required for freight and cross-border when journey involves multiple carriers
             (e.g. ocean + inland drayage, air + trucking).
 
             '
@@ -428,7 +434,7 @@ components:
           description: True if temperature was within range throughout the journey
         actualWeight:
           type: object
-          description: Weight measured by LSP at pickup or hub (may trigger weight-dispute branch)
+          description: Weight measured by LSP at pickup or hub (may trigger weight-dispute variant)
           properties:
             value:
               type: number
@@ -567,8 +573,8 @@ components:
           type: string
         transportContractReference:
           type: string
-          description: 'Reference to the transport contract created when warehouse dispatches inventory on LOG-PARCEL,
-            LOG-HYPERLOCAL, or LOG-FREIGHT
+          description: 'Reference to the transport contract created when warehouse dispatches inventory on parcel,
+            hyperlocal, or freight
 
             '
         readyToShip:
@@ -599,7 +605,7 @@ components:
           x-ion-conditional: true
         parentWarehouseContractRef:
           type: string
-          description: 'For transport contracts spawned from a LOG-WAREHOUSE dispatch, reference to the parent warehouse
+          description: 'For transport contracts spawned from a warehouse dispatch, reference to the parent warehouse
             contract. Used to trace the dispatch origin and reconcile warehouse-held inventory.
 
             '
@@ -619,7 +625,7 @@ components:
           x-ion-conditional: true
         spawnedTransportContractRefs:
           type: array
-          description: 'For LOG-WAREHOUSE contracts, list of child transport contract IDs spawned from this storage
+          description: 'For warehouse contracts, list of child transport contract IDs spawned from this storage
             contract. Populated as each dispatch creates a child contract.
 
             '
@@ -826,4 +832,4 @@ components:
             - PPE_WORN
       x-ion-closed-extensions: false
       allOf:
-      - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/schema/core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+      - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes

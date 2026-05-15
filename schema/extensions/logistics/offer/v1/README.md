@@ -56,16 +56,16 @@ selectRequired: true   →  Must get firm quote per shipment
 | `PER_VESSEL_SLOT` | Per slot on a sailing | Ro-Ro, ferry |
 | `SURGE_DYNAMIC` | Real-time surge computed at /select | Hyperlocal, on-demand |
 
-## Spine-specific mandatory fields
+## Pattern-specific mandatory fields
 
-| Spine | Additional mandatory offer fields |
+| Pattern | Additional mandatory offer fields |
 |---|---|
-| LOG-HYPERLOCAL | `agentAssignmentModel`, `maxDeliveryRadiusKm`, `liveTrackingEnabled` |
-| LOG-PARCEL | `routingTopology` |
-| LOG-FREIGHT | `capacityModel`, `consolidationType`, `scheduleType` |
-| LOG-RORO | `vehicleCategoriesAccepted[]`, `sailingSchedule[]`, `crossingDuration` |
-| LOG-XB | `incotermsSupported[]`, `dutyAndTaxModel` |
-| LOG-WAREHOUSE | `storageBillingUnit`, `minimumStorageTerm`, `valueAddedServices[]` |
+| hyperlocal | `agentAssignmentModel`, `maxDeliveryRadiusKm`, `liveTrackingEnabled` |
+| parcel | `routingTopology` |
+| freight | `capacityModel`, `consolidationType`, `scheduleType` |
+| roro | `vehicleCategoriesAccepted[]`, `sailingSchedule[]`, `crossingDuration` |
+| cross-border | `incotermsSupported[]`, `dutyAndTaxModel` |
+| warehouse | `storageBillingUnit`, `minimumStorageTerm`, `valueAddedServices[]` |
 
 ## Policy IRI naming convention
 

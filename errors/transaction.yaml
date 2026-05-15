@@ -12,7 +12,7 @@
   affected_field: message.contract.commitments[].id
   affected_apis: [select]
   schema_ref: schema/extensions/trade/resource/v1
-  flow_ref: flows/trade/spines/B2C-SF/v1
+  flow_ref: flows/trade/patterns/storefront/v1
   resolution:
     en: Refresh catalog from /on_discover before sending /select. Do not cache resource IDs beyond catalog TTL.
 
@@ -27,7 +27,7 @@
   affected_field: message.contract.commitments[].commitmentAttributes.customisationSelections
   affected_apis: [select]
   schema_ref: schema/extensions/trade/resource/v1
-  flow_ref: flows/trade/spines/B2C-SF/v1
+  flow_ref: flows/trade/patterns/storefront/v1
   resolution:
     en: Ensure your UI enforces SINGLE_REQUIRED groups before allowing /select. Check all customisationGroups where selectionType=SINGLE_REQUIRED and add the missing groupId and optionId.
 
@@ -42,7 +42,7 @@
   affected_field: message.contract.commitments[].commitmentAttributes.customisationSelections[].option_id
   affected_apis: [select]
   schema_ref: schema/extensions/trade/resource/v1
-  flow_ref: flows/trade/spines/B2C-SF/v1
+  flow_ref: flows/trade/patterns/storefront/v1
   resolution:
     en: Only send optionIds returned in the customisationGroups of the on_discover catalog. Do not fabricate or guess option IDs.
 
@@ -57,7 +57,7 @@
   affected_field: resourceAttributes.availability.status
   affected_apis: [select, on_select]
   schema_ref: schema/extensions/trade/resource/v1
-  flow_ref: flows/trade/spines/B2C-SF/v1
+  flow_ref: flows/trade/patterns/storefront/v1
   resolution:
     en: Refresh catalog and display current availability status to consumer. Do not allow select on OUT_OF_STOCK or DISCONTINUED items.
 
@@ -72,7 +72,7 @@
   affected_field: message.contract.commitments[].resources[].quantity.count
   affected_apis: [select]
   schema_ref: schema/extensions/trade/resource/v1
-  flow_ref: flows/trade/spines/B2C-SF/v1
+  flow_ref: flows/trade/patterns/storefront/v1
   resolution:
     en: Respect maxOrderQty from the availability signal. Display this limit to the consumer before checkout.
 
@@ -87,7 +87,7 @@
   affected_field: offerAttributes.availableOnCod
   affected_apis: [init, on_init]
   schema_ref: schema/extensions/trade/offer/v1
-  flow_ref: flows/trade/spines/B2C-SF/v1
+  flow_ref: flows/trade/patterns/storefront/v1
   resolution:
     en: Check availableOnCod and paymentMethodEligibility from the offer before presenting payment options to consumer.
 
@@ -105,7 +105,7 @@
   affected_apis:
     - confirm
   schema_ref: schema/extensions/trade/offer/v1
-  flow_ref: flows/trade/spines/B2C-SF/v1
+  flow_ref: flows/trade/patterns/storefront/v1
   resolution:
     en: Restart transaction from /select. Stock and pricing must be re-quoted.
 
@@ -123,7 +123,7 @@
   affected_apis:
     - confirm
   schema_ref: schema/extensions/trade/resource/v1
-  flow_ref: flows/trade/spines/B2C-SF/v1
+  flow_ref: flows/trade/patterns/storefront/v1
   resolution:
     en: Display out-of-stock message to consumer. Offer alternative products.
 
@@ -137,11 +137,11 @@
     en: >
       Flash sale or capped offer has been fully claimed. offer.totalStockCap
       is reached; offer is no longer available.
-  affected_field: message.catalog.providers[].offers[].offerAttributes.totalStockCap
+  affected_field: message.catalog.offers[].offerAttributes.totalStockCap
   affected_apis:
     - select
   schema_ref: schema/extensions/trade/offer/v1
-  flow_ref: flows/trade/spines/B2C-LIVE/v1
+  flow_ref: flows/trade/patterns/live-commerce/v1
   resolution:
     en: Inform consumer offer is sold out. Surface standard (non-flash) offer if available.
 
@@ -161,7 +161,7 @@
     - on_select
     - init
   schema_ref: schema/extensions/trade/offer/v1
-  flow_ref: flows/trade/spines/B2C-SF/v1
+  flow_ref: flows/trade/patterns/storefront/v1
   resolution:
     en: Prompt consumer to select prepaid payment method. Display codEligibilityReason.
 
@@ -174,14 +174,14 @@
   description:
     en: >
       Offer is bound to a live session that has ended. Current time is
-      past offer.endAt. Applies to B2C-LIVE spine.
-  affected_field: message.catalog.providers[].offers[].offerAttributes.endAt
+      past offer.endAt. Applies to live-commerce pattern.
+  affected_field: message.catalog.offers[].offerAttributes.endAt
   affected_apis:
     - select
     - init
     - confirm
   schema_ref: schema/extensions/trade/offer/v1
-  flow_ref: flows/trade/spines/B2C-LIVE/v1
+  flow_ref: flows/trade/patterns/live-commerce/v1
   resolution:
     en: Inform consumer the live offer has ended. Redirect to standard catalog.
 
@@ -199,7 +199,7 @@
   affected_apis:
     - select
   schema_ref: schema/extensions/trade/resource/v1
-  flow_ref: flows/trade/spines/B2C-DIG/v1
+  flow_ref: flows/trade/patterns/digital-goods/v1
   resolution:
     en: Prompt consumer to verify target identifier. Return actionable error message.
 
@@ -218,7 +218,7 @@
     - select
     - init
   schema_ref: schema/extensions/trade/offer/v1
-  flow_ref: flows/trade/spines/B2C-SF/v1
+  flow_ref: flows/trade/patterns/storefront/v1
   resolution:
     en: Display stacking rule violation to consumer. Offer choice of which voucher to keep.
 
@@ -236,7 +236,7 @@
   affected_field: message.contract.commitments[].commitmentAttributes.customisationSelections
   affected_apis: [select]
   schema_ref: schema/extensions/trade/resource/v1
-  flow_ref: flows/trade/spines/B2C-SF/v1
+  flow_ref: flows/trade/patterns/storefront/v1
   resolution:
     en: Present only valid axis value combinations. Surface available=false values as disabled options.
 
@@ -254,6 +254,6 @@
   affected_field: message.contract.contractAttributes.paymentSchedule[].status
   affected_apis: [confirm, on_status]
   schema_ref: schema/extensions/trade/contract/v1
-  flow_ref: flows/trade/spines/B2C-SF/v1
+  flow_ref: flows/trade/patterns/storefront/v1
   resolution:
     en: Retry collection via /init with fresh payment method, or cancel with appropriate reason.

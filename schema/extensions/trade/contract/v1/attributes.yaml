@@ -7,6 +7,12 @@ info:
 
     '
   version: 1.0.0
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    name: ION Network
+    url: https://schema.ion.id
 components:
   schemas:
     TradeContractAttributes:
@@ -136,7 +142,7 @@ components:
           x-ion-condition: Required when contract status is CANCELLED
         quoteTrail:
           type: array
-          description: 'Trail of quote changes for price adjustment branch. Each entry records a delta to the original
+          description: 'Trail of quote changes for mid-transaction-changes variant. Each entry records a delta to the original
             confirmed quote.
 
             '
@@ -199,7 +205,7 @@ components:
             '
           example: 30
           x-ion-conditional: true
-          x-ion-condition: Required for B2B-CR commerce pattern
+          x-ion-condition: Required for business-procurement (business-credit variant) commerce pattern
         paymentDueDate:
           type: string
           format: date-time
@@ -221,7 +227,7 @@ components:
           description: Billing cycle for subscription commerce pattern.
           example: MONTHLY
           x-ion-conditional: true
-          x-ion-condition: Required for B2C-SUB commerce pattern
+          x-ion-condition: Required for subscription commerce pattern
         subscriptionNextBillingDate:
           type: string
           format: date-time
@@ -230,7 +236,7 @@ components:
             '
           example: 2026-05-19 00:00:00+07:00
           x-ion-conditional: true
-          x-ion-condition: Required for B2C-SUB commerce pattern
+          x-ion-condition: Required for subscription commerce pattern
         linkedContractId:
           type: string
           description: 'Reference to the Trade Contract this Logistics Contract serves. Enables ION Central to trace
@@ -263,7 +269,7 @@ components:
           type: object
           additionalProperties: false
           description: 'Context for orders placed via live commerce or social commerce (TikTok Shop, Shopee Live,
-            Tokopedia Play, OTT-embedded commerce). Required for B2C-LIVE spine. Enables revenue attribution to
+            Tokopedia Play, OTT-embedded commerce). Required for live-commerce pattern. Enables revenue attribution to
             streamer/affiliate and platform-specific settlement.
 
             '
@@ -339,7 +345,7 @@ components:
               type: boolean
               description: Whether group-buy discount has been unlocked
           x-ion-conditional: true
-          x-ion-condition: Required for B2C-LIVE spine; optional otherwise
+          x-ion-condition: Required for live-commerce pattern; optional otherwise
         refundDestination:
           type: object
           additionalProperties: false
@@ -386,7 +392,7 @@ components:
           - ACTIVE
           - PAUSED_UNTIL_DATE
           - PAUSED_INDEFINITE
-          description: Current pause state for B2C-SUB orders
+          description: Current pause state for subscription orders
         subscriptionPauseUntil:
           type: string
           format: date-time
@@ -480,7 +486,7 @@ components:
           x-ion-conditional: true
           x-ion-condition: Required when paymentTermsPolicy is schedule-based
       allOf:
-      - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/schema/core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+      - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:
           properties:
             subscriptionPauseType:

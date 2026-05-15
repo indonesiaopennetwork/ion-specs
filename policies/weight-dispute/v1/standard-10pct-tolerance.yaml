@@ -10,7 +10,7 @@ toleranceMinKg: 0.5
 description: >
   Weight discrepancies within 10% of declared weight (or 0.5kg minimum)
   are absorbed by the LSP. Above this threshold, LSP may raise a
-  weight-dispute branch.
+  weight-dispute variant.
 
 measurementAuthority: LSP_HUB_SCALE
 buyerResponseWindowHours: 24

@@ -22,6 +22,9 @@
     "createdAt": "ion:createdAt",
     "updatedAt": "ion:updatedAt",
     "resolvedAt": "ion:resolvedAt",
-    "IONTicket": "ion:IONTicket"
+    "IONTicket": "ion:IONTicket",
+    "@protected": true,
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
   }
 }

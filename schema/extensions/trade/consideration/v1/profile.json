@@ -4,12 +4,37 @@
   "domain": "trade",
   "name": "ION Trade Consideration Extension (v1)",
   "description": "Price breakup line types, PPN/PPnBM tax rates, discount mechanics.",
-  "packSchema": "./attributes.yaml",
+  "packSchema": "./schema.json",
   "jsonldContext": "./context.jsonld",
   "attachmentPoints": {
     "considerationAttributes": [
       "TradeConsiderationAttributes"
     ]
   },
-  "extends": "beckn:Consideration"
+  "extends": "beckn:Consideration",
+  "type": "AttributePack",
+  "indexing": {
+    "indexable": [
+      {
+        "path": "$.breakupLineType"
+      },
+      {
+        "path": "$.totalAmount"
+      }
+    ],
+    "filterable": [
+      {
+        "path": "$.breakupLineType"
+      },
+      {
+        "path": "$.totalAmount"
+      }
+    ],
+    "sortable": []
+  },
+  "minimalForDiscovery": [
+    "breakupLineType",
+    "totalAmount",
+    "currency"
+  ]
 }

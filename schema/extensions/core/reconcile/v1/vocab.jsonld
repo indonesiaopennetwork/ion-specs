@@ -159,7 +159,7 @@
       "@id": "ion:adjustmentType",
       "@type": "rdf:Property",
       "rdfs:label": "adjustmentType",
-      "rdfs:comment": "Type of adjustment being made against a prior reconcile. CLAWBACK: recover funds previously settled incorrectly. ADDITIONAL_PAYMENT: additional settlement owed. CORRECTION: neutral correction with details in adjustmentReason. LATE_FEE_CHARGE: overdue payment charge. GOODWILL_CREDIT: platform-funded "
+      "rdfs:comment": "Type of adjustment being made against a prior reconcile. CLAWBACK: recover funds previously settled incorrectly. ADDITIONAL_PAYMENT: additional settlement owed. CORRECTION: neutral correction with details in adjustmentReason. LATE_FEE_CHARGE: overdue payment charge. GOODWILL_CREDIT: platform-funded consumer compensation."
     },
     {
       "@id": "ion:adjustmentReason",

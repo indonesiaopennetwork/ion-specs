@@ -29,4 +29,4 @@
   schema_ref: null
   flow_ref: null
   resolution:
-    en: "For /on_confirm timeout: initiate force-cancel flow as per flows/trade/branches/during-transaction/v1. Log incident and consider raising an ION-7xxx ticket if BPP is persistently unresponsive."
+    en: "For /on_confirm timeout: initiate force-cancel flow as per flows/trade/variants/during-transaction/v1. Log incident and consider raising an ION-7xxx ticket if BPP is persistently unresponsive."

@@ -29,4 +29,4 @@
   schema_ref: schema/core/v2/api/v2.0.0/ion.yaml
   flow_ref: null
   resolution:
-    en: Set all price.currency and consideration.currency fields to IDR. Cross-border (XB pattern) has a separate currency handling specification.
+    en: Set all price.currency and consideration.currency fields to IDR. Cross-border (cross-border pattern) has a separate currency handling specification.

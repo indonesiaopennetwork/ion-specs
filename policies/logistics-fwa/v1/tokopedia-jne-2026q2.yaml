@@ -22,7 +22,7 @@ validity:
   noticePeriodDays: 60
 
 scope:
-  spines: [LOG-PARCEL, LOG-FREIGHT]
+  patterns: [parcel, freight]
   transportModes: [road, air]
   nationalCoverage: true
 

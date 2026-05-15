@@ -39,7 +39,7 @@
       "@id": "ion:type",
       "@type": "rdf:Property",
       "rdfs:label": "type",
-      "rdfs:comment": "NP_DISPUTE: BAP/BPP disagreement on transaction terms. POLICY_VIOLATION: participant violating ION network policy. SETTLEMENT_DISPUTE: financial settlement disagreement (escalated from recon). TECHNICAL_FAILURE: system or API failures affecting transactions. FRAUD: suspected fraudulent activity. NET"
+      "rdfs:comment": "NP_DISPUTE: BAP/BPP disagreement on transaction terms. POLICY_VIOLATION: participant violating ION network policy. SETTLEMENT_DISPUTE: financial settlement disagreement (escalated from recon). TECHNICAL_FAILURE: system or API failures affecting transactions. FRAUD: suspected fraudulent activity. NETWORK_ISSUE: ION infrastructure or registry issue. RECON_DISPUTE: reconciliation status mismatch. SLA_BREACH: participant failing to meet mandated SLAs. COUNTERFEIT_FLAG: authenticity challenge against a product listing.   Raised by brand owner, consumer, or marketplace. Triggers   auto-delist pending investigation; ION Central arbitrates."
     },
     {
       "@id": "ion:priority",
@@ -75,7 +75,7 @@
       "@id": "ion:status",
       "@type": "rdf:Property",
       "rdfs:label": "status",
-      "rdfs:comment": "OPEN: ticket created, not yet acknowledged. ACKNOWLEDGED: assigned party has received and acknowledged. IN_PROGRESS: actively being worked on. PENDING_INFO: waiting for additional information from raiser. RESOLVED: issue resolved, awaiting raiser confirmation. CLOSED: fully resolved and closed. ESCA"
+      "rdfs:comment": "OPEN: ticket created, not yet acknowledged. ACKNOWLEDGED: assigned party has received and acknowledged. IN_PROGRESS: actively being worked on. PENDING_INFO: waiting for additional information from raiser. RESOLVED: issue resolved, awaiting raiser confirmation. CLOSED: fully resolved and closed. ESCALATED: escalated to ION governance or external authority."
     },
     {
       "@id": "ion:thread",

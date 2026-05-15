@@ -285,7 +285,7 @@
       "@id": "ion:grievanceSlaPolicy",
       "@type": "rdf:Property",
       "rdfs:label": "grievanceSlaPolicy",
-      "rdfs:comment": "ION Grievance SLA policy IRI. Declares response time, resolution time, escalation path, and penalty consequences when SLA is breached. Subject to marketplace minimum (grievance.sla.standard) for B2C; marketplace-operated BAPs may enforce stricter policies on their sellers. ION timer auto-escalates w"
+      "rdfs:comment": "ION Grievance SLA policy IRI. Declares response time, resolution time, escalation path, and penalty consequences when SLA is breached. Subject to marketplace minimum (grievance.sla.standard) for B2C; marketplace-operated BAPs may enforce stricter policies on their sellers. ION timer auto-escalates when SLAs are breached — no manual action needed."
     },
     {
       "@id": "ion:paymentTermsPolicy",

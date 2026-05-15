@@ -8,13 +8,13 @@
     id: Bidang wajib tidak ada
     en: Required field missing
   description:
-    en: A field declared as mandatory (x-ion-mandatory:always) in the schema is absent from the payload.
+    en: A required field declared in the schema's required[] array is absent from the payload.
   affected_field: varies
   affected_apis: [all]
   schema_ref: null
   flow_ref: null
   resolution:
-    en: Check the attributes.yaml for the relevant schema pack. Fields marked x-ion-mandatory:always must always be present. Fields marked conditional require presence when their x-ion-condition is met.
+    en: Check the attributes.yaml for the relevant schema pack. Fields listed in required[] must always be present. Conditional requirements are enforced via JSON Schema if/then/else blocks.
 
 - code: ION-8002
   http_status: 400
@@ -44,7 +44,7 @@
   schema_ref: schema/extensions/core/localization/v1
   flow_ref: null
   resolution:
-    en: Always include 'id' key in all LocalisedText objects with Bahasa Indonesia content. English 'en' is also required for XB (cross-border) pattern.
+    en: Always include 'id' key in all LocalisedText objects with Bahasa Indonesia content. English 'en' is also required for cross-border pattern.
 
 - code: ION-8004
   http_status: 400
