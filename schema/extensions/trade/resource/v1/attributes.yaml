@@ -1057,8 +1057,6 @@ components:
             notes:
               type: string
               example: Memerlukan instalasi profesional. Membutuhkan arus 220V khusus.
-            required:
-            - type
           x-ion-condition: Required for appliances and furniture needing installation
         usage:
           type: object
@@ -1417,7 +1415,6 @@ components:
           x-ion-regulatory: UU 27/2022 tentang Pelindungan Data Pribadi (PDP Law)
           x-ion-condition: Required for pharmacy, health-data, financial-services categories
       allOf:
-      - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:
           properties:
             resourceStructure:
