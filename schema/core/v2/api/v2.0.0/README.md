@@ -29,8 +29,6 @@ spectral lint ion.yaml --ruleset beckn-ruleset.yaml
 
 If your toolchain requires a single merged file:
 ```
-python3 tools/build_ion_full.py
-# → dist/ion-full.yaml  (not committed to repo)
 ```
 
 ## Upstream tracking

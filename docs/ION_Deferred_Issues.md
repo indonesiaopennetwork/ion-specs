@@ -195,7 +195,7 @@ food:
 # In Descriptor.longDesc: "Tingkat kepedasan: sedang. Mengandung cabai rawit."
 ```
 
-**2. `hospitality/fnb-delivery/v1` — customisation group options (max depth: 13)**
+**2. `hospitality/delivery/v1` — customisation group options (max depth: 13)**
 
 The customisation groups for food ordering (size, toppings, spice level choices) reach depth 13 when a `customisationGroup` contains `options[]` which contain `priceDelta` which contains `value`. This depth is structurally necessary — the customisation model is a working interactive feature for restaurant ordering, not descriptive text. This is the least clear-cut case for flattening.
 

@@ -25,7 +25,7 @@ applicableCategories:
   - fmcg
   - home-kitchen
   - agritech
-  - food-qsr
+  # - food-qsr  # restaurant meals → Hospitality sector
 
 extendsFrom: flows/trade/spines/storefront/v1/spine.yaml
 

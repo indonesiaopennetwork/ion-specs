@@ -119,28 +119,28 @@ deny[msg] {
 
 ## Hospitality sector policies
 
-### `hospitality/fnb-delivery/v1`
+### `hospitality/delivery/v1`
 
 ```rego
-package ion.onix.conditional.hospitality.fnb_delivery
+package ion.onix.conditional.hospitality.restaurant_ordering
 
 # Halal certificate required when classification is HALAL
 # x-ion-condition: Required when classification=HALAL
 # Regulatory basis: UU 33/2014 tentang Jaminan Produk Halal; PP 39/2021
 deny[msg] {
   r := input.resourceAttributes
-  r.fnb.classification == "HALAL"
-  not r.fnb.halalCertNumber
-  msg := "resourceAttributes.fnb.halalCertNumber is required when fnb.classification is HALAL (UU 33/2014 JPH)"
+  r.classification == "HALAL"
+  not r.halalCertNumber
+  msg := "resourceAttributes.halalCertNumber is required when classification is HALAL (UU 33/2014 JPH)"
 }
 
 # isAlcoholic flag required when item contains alcohol
 # x-ion-condition: Required when item contains alcohol
 deny[msg] {
   r := input.resourceAttributes
-  r.fnb.isAlcoholic == true
+  r.isAlcoholic == true
   not r.ageRestricted
-  msg := "resourceAttributes.ageRestricted must be true when fnb.isAlcoholic is true"
+  msg := "resourceAttributes.ageRestricted must be true when isAlcoholic is true"
 }
 
 # customisationGroups required for COMPOSED structure

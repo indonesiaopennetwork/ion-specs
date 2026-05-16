@@ -9,7 +9,9 @@ sector: ion:trade
 status: ready
 description: >
   Consumer discovers, selects, and purchases a physical product.
-  Covers: Food, Grocery, Fashion, Electronics, Beauty, FMCG, Home & Kitchen.
+  Covers: Packaged Food (FMCG, grocery), Fashion, Electronics, Beauty, Home & Kitchen.
+  NOTE: Restaurant and cloud kitchen food ordering → Hospitality sector.
+  This pattern covers packaged food products sold from warehouse/store stock.
 
 participants:
   BAP: Buyer App Platform
@@ -59,9 +61,9 @@ phases:
           - message.catalog.offers[].offerAttributes.displayLanguage[]
         conditionalFields:
           - field: message.catalog.provider.providerAttributes.averagePreparationTime
-            condition: required for food-qsr and quick-commerce providers
+            condition: required for food/grocery and quick-commerce providers (packaged food only)
           - field: message.catalog.resources[].resourceAttributes.food
-            condition: required for food and beverage items
+            condition: required for packaged food and beverage items (FMCG/grocery — not restaurant meals)
           - field: message.catalog.resources[].resourceAttributes.packaged
             condition: required for packaged goods
           - field: message.catalog.resources[].resourceAttributes.customisationGroups[]

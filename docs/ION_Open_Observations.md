@@ -19,7 +19,7 @@ TradeResource
 TradeOffer
 LogisticsOffer
 LogisticsShipment
-FnbMenuItem
+RestaurantMenuItem
 IONParticipant
 ... (19 classes total)
 ```
@@ -60,7 +60,7 @@ The guide gives a concrete rename table. For ION, the equivalent would be:
 | `IONParticipant` | `Participant` | It describes a network participant |
 | `IONRating` | `Rating` | It describes a rating submission |
 | `IONReconciliation` | `Reconciliation` | It describes a reconciliation record |
-| `FnbMenuItem` | `FnbMenuItem` | It describes a food delivery menu item |
+| `RestaurantMenuItem` | `RestaurantMenuItem` | It describes a food delivery menu item |
 
 ### Where this matters in practice
 
@@ -174,7 +174,7 @@ To find the protein amount, a machine (or a human) has to navigate: `food → nu
 
 The guide says: a multi-paragraph `longDesc` field reading "Each serving contains 25g protein, 18g fat, 45g carbohydrate, 450 calories" gives an AI agent more usable information than this entire nested structure — and is readable by a human in a fraction of a second.
 
-**hospitality/fnb-delivery — customisation groups:**
+**hospitality/delivery — customisation groups:**
 
 The food delivery pack lets restaurants define customisation options (size, spice level, toppings). The menu option labels go 13 levels deep:
 
@@ -270,7 +270,7 @@ For example, the `halalStatus` field in `core/product` is annotated like this:
 ```yaml
 halalStatus:
   type: string
-  description: Dietary classification. MANDATORY for all F&B resources.
+  description: Dietary classification. MANDATORY for all restaurant ordering resources.
   x-ion-regulatory: UU 33/2014 tentang Jaminan Produk Halal
 ```
 

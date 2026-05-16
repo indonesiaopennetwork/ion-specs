@@ -2,7 +2,7 @@
   "@context": {
     "@version": 1.1,
     "ion": "https://schema.ion.id/logistics/v1/",
-    "beckn": "https://schema.beckn.io/v2/",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "cargoDescription": "ion:cargoDescription",
     "cargoManifest": "ion:cargoManifest",
@@ -37,7 +37,7 @@
     "packagingType": "ion:packagingType",
     "packingList": "ion:packingList",
     "productCategory": "ion:productCategory",
-    "quantity": "ion:quantity",
+    "quantity": "beckn:quantity",
     "serviceType": "ion:serviceType",
     "skuCount": "ion:skuCount",
     "skuManifest": "ion:skuManifest",

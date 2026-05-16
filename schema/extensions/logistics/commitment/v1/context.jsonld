@@ -2,7 +2,7 @@
   "@context": {
     "@version": 1.1,
     "ion": "https://schema.ion.id/logistics/v1/",
-    "beckn": "https://schema.beckn.io/v2/",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "capacityUnitType": "ion:capacityUnitType",
     "capacityUnits": "ion:capacityUnits",
@@ -13,7 +13,7 @@
     "offerId": "ion:offerId",
     "packageCount": "ion:packageCount",
     "parentCommitmentId": "ion:parentCommitmentId",
-    "quantity": "ion:quantity",
+    "quantity": "beckn:quantity",
     "requestedDepartureDate": "ion:requestedDepartureDate",
     "resourceId": "ion:resourceId",
     "sealNumber": "ion:sealNumber",

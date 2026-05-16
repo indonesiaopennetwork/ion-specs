@@ -155,7 +155,7 @@ components:
             - CHILLED
             - AMBIENT
             - CONTROLLED_ROOM
-          x-ion-condition: See property description: Cold chain handling capability
+          x-ion-condition: 'See property description: Cold chain handling capability'
         hazmatCertified:
           type: boolean
           description: Dangerous goods handling certification

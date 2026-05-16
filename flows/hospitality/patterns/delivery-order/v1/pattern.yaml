@@ -2,13 +2,13 @@
 # NOT OAS. ION pattern specification document.
 # Food and beverage ordered for delivery or self-pickup.
 # Resource is a prepared food item — made after order placement.
-# CRC: HSC-fnb-delivery  Sector: ion:hospitality
+# CRC: HSC-delivery  Sector: ion:hospitality
 
 id: ion-hospitality-pattern-delivery-order-v1
 version: "1.0.0"
 patternName: delivery-order
 sector: ion:hospitality
-crc: HSC-fnb-delivery
+crc: HSC-delivery
 status: ready
 description: >
   Buyer browses a restaurant or food platform catalogue, selects prepared food
@@ -45,8 +45,8 @@ phases:
           - message.catalog.resources[].resourceAttributes.images[]
           - message.catalog.resources[].resourceAttributes.availability.status
           - message.catalog.resources[].resourceAttributes.preparationTime
-          - message.catalog.resources[].resourceAttributes.fnb.classification
-          - message.catalog.resources[].resourceAttributes.fnb.allergens[]
+          - message.catalog.resources[].resourceAttributes.classification
+          - message.catalog.resources[].resourceAttributes.allergens[]
           - message.catalog.resources[].resourceAttributes.countryOfOrigin
           - message.catalog.resources[].resourceAttributes.ageRestricted
           - message.catalog.offers[].price
@@ -59,8 +59,8 @@ phases:
           - message.catalog.offers[].offerAttributes.grievanceSlaPolicy
           - message.catalog.offers[].offerAttributes.paymentTermsPolicy
         conditionalFields:
-          - field: message.catalog.resources[].resourceAttributes.fnb.halalCertNumber
-            condition: required when fnb.classification = HALAL
+          - field: message.catalog.resources[].resourceAttributes.halalCertNumber
+            condition: required when classification = HALAL
           - field: message.catalog.resources[].resourceAttributes.customisationGroups[]
             condition: required when resourceStructure IN [COMPOSED, WITH_EXTRAS]
           - field: message.catalog.resources[].resourceAttributes.menuCategory
@@ -68,7 +68,7 @@ phases:
           - field: message.catalog.offers[].offerAttributes.selfPickupOtp
             condition: required when self-pickup available
         businessRules:
-          - fnb.classification and fnb.allergens are mandatory on every resource
+          - classification and allergens are mandatory on every resource
           - No pharmacy sub-object. No regulatory.registrations required for restaurant food
           - averagePreparationTime drives ETA shown to buyer
 
@@ -232,9 +232,12 @@ stateSequence:
     - PICKED_UP
 
 applicableVariants:
-  - cross-cutting    # track, support, rating, reconcile, raise — always available
-  - cancellation     # cancellation before preparation window closes
-  - cash-on-delivery # when offer.availableOnCod=true
+  - cross-cutting      # track, support, rating, reconcile, raise — always available
+  - cancellation       # cancellation before kitchen-accepts or preparation window
+  - cash-on-delivery   # when RestaurantOffer.availableOnCod=true
+  - pre-order          # scheduled advance delivery slots
+  - group-order        # multi-participant shared cart (RestaurantProvider.groupOrderEnabled=true)
+  - age-verification   # alcohol orders — doorstep age check (auto-activates on ageRestricted items)
 
 notes:
   - No returns for prepared food — returnable: false on all offers

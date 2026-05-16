@@ -102,7 +102,6 @@ ion-specs/
 │   ├── ION_Entity_Hierarchy_Model.md  ← Onboarding classification model (sectors, categories, CRCs, patterns)
 │   ├── ION_Resource_Categories.md     ← Complete CRC reference table (all 46 categories across 6 sectors)
 │   └── ION_Schema_Style_Guide.md      ← Authoritative guide for schema pack authors
-└── tools/                      ← Validation and registry generation scripts
 ```
 
 **How the parts connect.** A flow spec in `flows/` references field paths like `message.catalog.resources[].resourceAttributes.food.classification`. That field is defined in `schema/extensions/trade/resource/v1/attributes.yaml`. Its commercial terms (what happens if it is wrong) are in `policies/`. The error code if ION rejects it is in `errors/`.
@@ -228,11 +227,11 @@ See `flows/trade/patterns/storefront/v1/pattern.yaml` for the full field-by-fiel
 |---|---|---|---|
 | **Trade** | B2C, B2B, marketplace, subscription, auction, cross-border, government procurement | `schema/extensions/trade/` | `flows/trade/` |
 | **Logistics** | Hyperlocal, parcel, freight, Ro-Ro, cross-border, warehousing | `schema/extensions/logistics/` | `flows/logistics/` |
-| **Hospitality** | Food delivery and online ordering (`HSC-fnb-delivery`) — partial activation | `schema/extensions/hospitality/` | `flows/hospitality/` |
+| **Hospitality** | Food delivery and online ordering (`HSC-delivery`) — partial activation | `schema/extensions/hospitality/` | `flows/hospitality/` |
 
 Mobility, finance, tourism, and healthcare are reserved. Other Hospitality CRCs (accommodation, restaurant table, events, wellness) are reserved until their working groups ratify.
 
-**Food classification rule:** Restaurant meals and food delivery apps (GoFood, GrabFood, any prepared-to-order food) → **Hospitality** (`HSC-fnb-delivery`, `delivery-order` pattern). Packaged food products sold on e-commerce (Indomie, bottled water, protein powder) → **Trade** (`TRC-food-bev`, `storefront` pattern). The test: is the item made fresh after the order? If yes → Hospitality. Their folder stubs exist; content will be added when their working groups ratify.
+**Food classification rule:** Restaurant meals and food delivery apps (GoFood, GrabFood, any prepared-to-order food) → **Hospitality** (`HSC-delivery`, `delivery-order` pattern). Packaged food products sold on e-commerce (Indomie, bottled water, protein powder) → **Trade** (`TRC-food-bev`, `storefront` pattern). The test: is the item made fresh after the order? If yes → Hospitality. Their folder stubs exist; content will be added when their working groups ratify.
 
 ---
 

@@ -105,11 +105,8 @@ components:
                 default: IDR
               ppnRate:
                 type: number
-                description: 'PPN rate actually charged on this line (decimal fraction). Source applicable rate
-                  as declared by applicable PMK — see x-ion-regulatory annotation.
-
-                  '
-                                x-ion-condition: Required when taxRegime is not EXEMPT on this consideration line
+                x-ion-condition: Required when taxRegime is not EXEMPT on this consideration line
+                description: 'PPN rate actually charged on this line (decimal fraction). Source applicable rate as declared by applicable PMK.'
         totalAmount:
           type: number
         currency:
@@ -206,7 +203,7 @@ components:
         ppnAmount:
           type: number
           description: Computed PPN amount
-                    x-ion-condition: Required when taxRegime is not EXEMPT on this consideration line
+          x-ion-condition: Required when taxRegime is not EXEMPT on this consideration line
       required:
       - breakup
       - totalAmount

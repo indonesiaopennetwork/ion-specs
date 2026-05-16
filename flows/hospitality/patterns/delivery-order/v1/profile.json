@@ -4,7 +4,7 @@
   "type": "Pattern",
   "patternName": "delivery-order",
   "sector": "ion:hospitality",
-  "crc": "HSC-fnb-delivery",
+  "crc": "HSC-delivery",
   "name": "ION Hospitality Food Delivery Pattern",
   "status": "ready"
 }

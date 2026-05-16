@@ -9,9 +9,11 @@ patternName: made-to-order
 sector: ion:trade
 status: ready
 description: >
-  Consumer orders a product that is prepared after order confirm.
-  Primarily: food QSR (restaurants, cloud kitchens), custom bakery,
-  tailoring, custom-built furniture.
+  Consumer orders a product that is prepared or assembled after order confirm.
+  Covers: custom bakery (packaged cakes/cookies to spec), meal kits (cold/frozen),
+  tailoring, custom-built furniture, bespoke gifts.
+  NOTE: Restaurant meals and cloud kitchen orders are Hospitality sector.
+  See flows/hospitality/patterns/delivery-order/v1 for restaurant food ordering.
   Key differences from storefront:
   (1) MTO performance state machine — PREPARING not PLANNED.
   (2) Cancellation window closes when PREPARING state fires.
@@ -20,14 +22,15 @@ description: >
   (5) cancellationPolicy must be cancel.mto.nofee.before_prepare.
 
 applicableCategories:
-  - food-qsr
-  - cloud-kitchen
-  - bakery
+  - custom-bakery        # packaged cakes, cookies ordered to spec — NOT restaurant meals
+  - meal-kits            # packaged meal kit delivered cold/frozen — NOT restaurant delivery
   - tailoring
   - custom-furniture
-  - meal-kits
+  - made-to-order-fmcg
+  # NOTE: food-qsr (restaurants, cloud kitchens) → Hospitality sector
+  # See: flows/hospitality/patterns/delivery-order/v1
 
-performanceStateMachine: schema/extensions/trade/performance-states/v1/states.yaml#mto
+# Performance state machine: PLACED → ACCEPTED → PREPARING → READY → DISPATCHED → DELIVERED
 
 phases:
   phase1:
@@ -63,7 +66,7 @@ phases:
           - message.catalog.resources[].resourceAttributes.ageRestricted
           - message.catalog.resources[].resourceAttributes.logisticsServiceType
           - message.catalog.resources[].resourceAttributes.preparationTime
-          - message.catalog.resources[].resourceAttributes.food.classification
+          - message.catalog.resources[].resourceAttributes.food.classification  # packaged food classification — NOT restaurant fnb
           - message.catalog.offers[].id
           - message.catalog.offers[].price
           - message.catalog.offers[].offerAttributes.cancellationPolicy
@@ -78,8 +81,8 @@ phases:
           - message.catalog.offers[].offerAttributes.displayLanguage[]
         conditionalFields:
           - field: message.catalog.resources[].resourceAttributes.customisationGroups[]
-          - field: message.catalog.resources[].resourceAttributes.food.allergens[]
-          - field: message.catalog.resources[].resourceAttributes.food.spiceLevel
+          - field: message.catalog.resources[].resourceAttributes.food.allergens[]  # packaged food allergens
+          - field: message.catalog.resources[].resourceAttributes.food.spiceLevel   # packaged food spice level
         schemaPacks:
           core: [localization/v1, identity/v1, address/v1, product/v1]
           trade: [provider/v1, resource/v1, offer/v1]

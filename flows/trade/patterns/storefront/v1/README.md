@@ -3,7 +3,7 @@
 The reference commerce pattern on ION. Consumer buys a physical product; delivery or self-pickup follows. Every other spine is defined as a delta from this one.
 
 ## Applicable categories
-Food & Beverage, Grocery, Fashion, Electronics, Beauty, FMCG, Home & Kitchen, Agritech (consumer-facing)
+Packaged Food (FMCG), Grocery, Fashion, Electronics, Beauty, FMCG, Home & Kitchen, Agritech (consumer-facing)
 
 ## API sequence
 ```

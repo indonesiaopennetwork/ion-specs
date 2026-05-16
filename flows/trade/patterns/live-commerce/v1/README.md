@@ -3,7 +3,7 @@
 Commerce pattern for orders placed from live streams, short video, OTT shoppable content, affiliate links, and group buys.
 
 ## Applicable categories
-Fashion, Beauty, Electronics, FMCG, Home & Kitchen, Agritech, Food QSR.
+Fashion, Beauty, Electronics, FMCG, Home & Kitchen, Agritech. (Restaurant food ordering → Hospitality sector)
 
 ## Source channels covered
 - **LIVE_STREAM** — Shopee Live, Tokopedia Play, TikTok Shop-style live sessions

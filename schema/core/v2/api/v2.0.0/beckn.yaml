@@ -16,7 +16,6 @@
 #   1. Download the new tagged beckn.yaml from the source URL above
 #   2. Replace this file with the new version
 #   3. Update the Tag and Last sync fields in this header
-#   4. Run: python3 tools/validate.py
 #   5. Fix any compatibility issues in ion.yaml if Beckn made breaking changes
 #   6. Commit both files together with a message like:
 #      "chore: upgrade beckn.yaml to core-v2.1.0"

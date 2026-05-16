@@ -91,7 +91,7 @@ components:
           properties:
             name:
               type: string
-              description: Issue title
+              description: Short human-readable title of the support issue, used as the subject line in ticketing systems.
               example: Pesanan tidak sampai setelah 3 hari
             shortDesc:
               type: string
@@ -99,7 +99,7 @@ components:
               example: Paket masih dalam status DISPATCHED sudah 3 hari, belum ada update.
             longDesc:
               type: string
-              description: Full detailed description
+              description: Full detailed description of the support issue, written in natural language for agent and human readability.
             images:
               type: array
               items:
@@ -240,7 +240,7 @@ components:
               description: Brief summary of resolution
             longDesc:
               type: string
-              description: Full resolution details
+              description: Full resolution details and outcome of the support session, recorded after the issue is closed.
             actionTriggered:
               type: string
               enum:

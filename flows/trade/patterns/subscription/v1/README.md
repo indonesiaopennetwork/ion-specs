@@ -3,7 +3,7 @@
 Recurring purchases on a defined billing cycle. Mandate setup at first confirm; subsequent cycles auto-trigger.
 
 ## Applicable categories
-Grocery subscriptions, meal kit delivery, supplements, dairy, water delivery, pet food, FMCG auto-reorder
+Grocery subscriptions, packaged meal kit delivery, supplements, dairy, water delivery, pet food, FMCGorder
 
 ## Key additions to B2C-SF
 - `subscriptionBillingCycle`: WEEKLY / FORTNIGHTLY / MONTHLY / QUARTERLY / ANNUAL

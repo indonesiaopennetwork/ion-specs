@@ -129,7 +129,7 @@ components:
                 type: string
               from:
                 type: string
-                description: Subscriber ID or "ION"
+                description: Subscriber ID of the platform that raised this ticket, or "ION" when raised directly by the network.
               message:
                 type: string
               attachments:
@@ -137,7 +137,7 @@ components:
                 items:
                   type: string
                   format: uri
-                description: Evidence URLs
+                description: Array of evidence URLs supporting the raise — photos, screenshots, or document links.
               timestamp:
                 type: string
                 format: date-time

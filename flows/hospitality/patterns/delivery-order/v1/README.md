@@ -3,7 +3,7 @@
 Food and beverage ordered for delivery or self-pickup. Item is **prepared fresh after order confirmation**.
 
 **Sector:** `ion:hospitality`  
-**CRC:** `HSC-fnb-delivery`  
+**CRC:** `HSC-delivery`  
 **Pattern:** `delivery-order`
 
 ## State sequence
@@ -22,7 +22,7 @@ ACCEPTED → PREPARING → READY_FOR_PICKUP → OUT_FOR_DELIVERY → DELIVERED
 ## Path notation example
 
 ```
-hospitality / HSP-05 / HSC-fnb-delivery / delivery-order / cash-on-delivery
+hospitality / HSP-05 / HSC-delivery / delivery-order / cash-on-delivery
 ```
 
 ## Key differences from trade/storefront

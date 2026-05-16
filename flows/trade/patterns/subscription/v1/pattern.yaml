@@ -19,7 +19,7 @@ applicableCategories:
   - fmcg
   - pharmacy
   - agritech
-  - food-qsr (meal kits)
+  - meal-kits  # packaged meal kits — NOT restaurant delivery (→ Hospitality sector)
   - pet-supplies
 
 deltaFrom_B2C_SF:

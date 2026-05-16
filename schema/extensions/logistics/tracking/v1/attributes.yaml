@@ -43,7 +43,7 @@ components:
             hyperlocal, 60+ for parcel.
 
             '
-          x-ion-condition: See property description: Recommended polling interval for LIVE_GPS and POLLING_API modes. Typical: 5-15 s
+          x-ion-condition: 'See property description: Recommended polling interval for LIVE_GPS and POLLING_API modes. Typical: 5-15 s'
         credentials:
           type: object
           description: Authentication for WEBSOCKET or authenticated webhook
@@ -59,7 +59,7 @@ components:
             validUntil:
               type: string
               format: date-time
-          x-ion-condition: See property description: Authentication for WEBSOCKET or authenticated webhook
+          x-ion-condition: 'See property description: Authentication for WEBSOCKET or authenticated webhook'
         webhookEvents:
           type: array
           description: Events the BPP will push to webhook (if trackingType=WEBHOOK)
@@ -71,7 +71,7 @@ components:
             - SLA_BREACH_IMMINENT
             - EXCEPTION
             - DELIVERY_COMPLETE
-          x-ion-condition: See property description: Events the BPP will push to webhook (if trackingType=WEBHOOK)
+          x-ion-condition: 'See property description: Events the BPP will push to webhook (if trackingType=WEBHOOK)'
         currentLocation:
           type: object
           description: 'Last known location snapshot at time of /on_track response. Primarily for LIVE_GPS.
@@ -92,11 +92,11 @@ components:
               description: Degrees from true north
             speedKmh:
               type: number
-          x-ion-condition: See property description: Degrees from true north
+          x-ion-condition: 'See property description: Degrees from true north'
         etaMinutes:
           type: integer
           description: Current ETA to next waypoint or destination
-          x-ion-condition: See property description: Current ETA to next waypoint or destination
+          x-ion-condition: 'See property description: Current ETA to next waypoint or destination'
         routePolyline:
           type: string
           description: Encoded polyline of planned route (Google-style encoding)
@@ -122,7 +122,7 @@ components:
               type: array
               items:
                 type: string
-          x-ion-condition: See property description: Masked proxy phone, never real number
+          x-ion-condition: 'See property description: Masked proxy phone, never real number'
         trackingHandoffToCarrier:
           type: boolean
           description: 'True if tracking URL redirects to carrier''s own tracking page (common for parcel where

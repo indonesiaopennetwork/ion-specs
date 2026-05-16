@@ -334,14 +334,14 @@
         }
       },
       "x-ion-conditional": true,
-      "x-ion-condition": "Required for F&B providers"
+      "x-ion-condition": "Required for food and beverage providers"
     },
     "preparationTime": {
       "type": "string",
       "description": "ISO 8601 duration. Time from order confirm to item ready.",
       "example": "PT20M",
       "x-ion-conditional": true,
-      "x-ion-condition": "Required for F&B and made-to-order items"
+      "x-ion-condition": "Required for food, beverage and made-to-order items"
     },
     "productCode": {
       "type": "object",
@@ -862,7 +862,7 @@
         }
       },
       "x-ion-conditional": true,
-      "x-ion-condition": "Required for F&B and perishable products"
+      "x-ion-condition": "Required for food, beverage and perishable products"
     },
     "fashion": {
       "type": "object",

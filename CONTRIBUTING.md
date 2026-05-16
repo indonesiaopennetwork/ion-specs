@@ -14,7 +14,6 @@ Thank you for contributing. Please follow these steps.
 1. Open an issue describing the proposed change (for non-trivial changes)
 2. Fork the repo and create a feature branch: `git checkout -b feat/my-change`
 3. Make your changes following the conventions below
-4. Run the validators: `python3 tools/validate.py`
 5. Submit a pull request with a clear description and link to the issue
 
 ## Conventions
@@ -78,9 +77,6 @@ When a conditional requirement cannot be expressed with JSON Schema `if/then/els
 ## Validation
 
 ```bash
-python3 tools/validate.py                  # Full conformance check
-python3 tools/verify_ion_yaml.py           # OAS structural check on ion.yaml
-python3 tools/verify_ion_yaml_completeness.py  # Completeness check
 ```
 
 All checks must pass before a pull request will be merged.

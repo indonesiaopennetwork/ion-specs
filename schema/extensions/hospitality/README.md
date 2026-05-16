@@ -8,7 +8,7 @@ Hospitality sector (Layer 5) attribute packs. Covers time-bounded reservations a
 
 | Pack | CRC | Attaches to | Status |
 |---|---|---|---|
-| `fnb-delivery/v1` | `HSC-fnb-delivery` | `Resource.resourceAttributes` | **ACTIVE** — food delivery and online ordering |
+| `delivery/v1` | `HSC-restaurant-ordering` | `Resource.resourceAttributes` | **ACTIVE** — food delivery and online ordering |
 
 ## Reserved packs (working groups pending)
 
@@ -21,12 +21,12 @@ Hospitality sector (Layer 5) attribute packs. Covers time-bounded reservations a
 
 ## Hospitality vs Trade — food classification
 
-Hospitality (`HSC-fnb-delivery`) covers prepared food made to order. Trade (`TRC-food-bev`) covers packaged physical food products.
+Hospitality (`HSC-restaurant-ordering`) covers prepared food made to order. Trade (`TRC-food-bev`) covers packaged physical food products.
 
 | Item | Sector | CRC |
 |---|---|---|
-| Nasi goreng from GoFood/GrabFood | Hospitality | `HSC-fnb-delivery` |
-| Restaurant meal for delivery | Hospitality | `HSC-fnb-delivery` |
+| Nasi goreng from GoFood/GrabFood | Hospitality | `HSC-restaurant-ordering` |
+| Restaurant meal for delivery | Hospitality | `HSC-restaurant-ordering` |
 | Packaged Indomie from Tokopedia | Trade | `TRC-food-bev` |
 | AQUA 600ml from apotek | Trade | `TRC-food-bev` |
 | Protein powder supplement | Trade | `TRC-food-bev` |

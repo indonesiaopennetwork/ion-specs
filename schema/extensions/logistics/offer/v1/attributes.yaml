@@ -53,7 +53,7 @@ components:
           - P2H2P
           - P2H2H2P
           description: Hub routing topology for parcel
-          x-ion-condition: See property description: Hub routing topology for parcel
+        x-ion-condition: 'Required when routing topology is defined (P2P, P2H2P, or P2H2H2P)'
         rateLogic:
           type: string
           enum:
@@ -116,14 +116,14 @@ components:
             chargeable = max(actual, volumetric).
 
             '
-          x-ion-condition: See property description: How chargeable weight is computed. MAX_ACTUAL_OR_VOLUMETRIC (default for air and
+          x-ion-condition: 'Required when applicable — How chargeable weight is computed. MAX_ACTUAL_OR_VOLUMETRIC '
         minimumChargeableAmount:
           type: number
           description: 'Minimum freight charge regardless of weight. Air freight always has this (MAWB minimum).
             Some LTL carriers as well.
 
             '
-          x-ion-condition: See property description: Minimum freight charge regardless of weight. Air freight always has this (MAWB m
+        x-ion-condition: 'Required when applicable — Minimum freight charge regardless of weight. Air freight alw'
         fuelSurchargeFormula:
           type: string
           description: Formula for fuel surcharge computation (e.g. "base * 0.08")
@@ -204,7 +204,7 @@ components:
                 type: number
               maximumAmount:
                 type: number
-                    x-ion-condition: Required when surcharges are time-bounded (e.g. Peak Season Surcharge)
+                x-ion-condition: Required when surcharges are time-bounded (e.g. Peak Season Surcharge)
         selectRequired:
           type: boolean
           description: 'True if /select is required before /init for a firm quote. False if catalog rate is binding
@@ -228,25 +228,25 @@ components:
             - BULK_BATCH
             - DROP_OFF_AT_COUNTER
             - SELF_LODGEMENT
-          x-ion-condition: See property description: Pickup scheduling models supported by this offer
+          x-ion-condition: 'Required when applicable — Pickup scheduling models supported by this offer'
         pickupWindowGranularityMinutes:
           type: integer
           description: Smallest pickup time window offered
-          x-ion-condition: See property description: Smallest pickup time window offered
+        x-ion-condition: 'Required when applicable — Smallest pickup time window offered'
         bulkPickupMaxShipments:
           type: integer
           description: Maximum shipments per bulk pickup batch
-          x-ion-condition: Required when bulk manifest mode is supported
+        x-ion-condition: Required when bulk manifest mode is supported
         sameDayPickupCutoffTime:
           type: string
           format: time
           description: Latest on-demand pickup booking time for same-day dispatch
-                    x-ion-condition: Required when pickupModel includes ON_DEMAND same-day dispatch
+        x-ion-condition: Required when pickupModel includes ON_DEMAND same-day dispatch
         dropOffLocationsUrl:
           type: string
           format: uri
           description: URL to LSP agent-point directory for DROP_OFF_AT_COUNTER
-          x-ion-condition: Required when pickupModel includes DROP_OFF_AT_COUNTER
+        x-ion-condition: Required when pickupModel includes DROP_OFF_AT_COUNTER
         cutoffs:
           type: array
           description: 'Operational cut-off schedule. Each entry declares one cut-off. Multiple cut-offs per offer
@@ -405,7 +405,7 @@ components:
             required:
             - cutoffType
             - cutoffBasis
-                    x-ion-condition: Required when service level includes daily or scheduled pickup cutoff windows
+            x-ion-condition: Required when service level includes daily or scheduled pickup cutoff windows
         awbAllocationModel:
           type: string
           description: 'How AWB numbers are allocated. parcel pattern. BPP_ASSIGNED (default), BAP_PRE_ALLOCATED
@@ -416,7 +416,7 @@ components:
           - BPP_ASSIGNED
           - BAP_PRE_ALLOCATED
           - HYBRID
-          x-ion-condition: See property description: How AWB numbers are allocated. parcel pattern. BPP_ASSIGNED (default), BAP_PRE_A
+          x-ion-condition: 'Required when applicable — How AWB numbers are allocated. parcel pattern. BPP_ASSIGNED '
         awbBlockAllocationSupported:
           type: boolean
         labelFormatsSupported:
@@ -438,7 +438,7 @@ components:
           description: True if BPP accepts batched /confirm calls
         maxBulkBatchSize:
           type: integer
-          x-ion-condition: Required when bulk manifest mode is supported
+        x-ion-condition: Required when bulk manifest mode is supported
         apiRateLimitPerSecond:
           type: integer
         apiSlaCommitment:
@@ -510,7 +510,7 @@ components:
             required:
             - state
             - maxDwellDuration
-                    x-ion-condition: Required when the offer declares machine-readable SLA state timing commitments
+            x-ion-condition: Required when the offer declares machine-readable SLA state timing commitments
         overallTatCommitment:
           type: object
           description: 'End-to-end time commitment from PICKED_UP to DELIVERED (or equivalent terminal state per
@@ -538,7 +538,7 @@ components:
             onTimeDefinition:
               type: string
               description: How on-time is computed (e.g. "actualDelivery <= pickupTime + pickupToDelivery")
-                    x-ion-condition: Required when stateTimingCommitments is present and overallTAT SLA is declared
+            x-ion-condition: Required when stateTimingCommitments is present and overallTAT SLA is declared
         capacityModel:
           type: string
           enum:
@@ -548,7 +548,7 @@ components:
           - PER_KG
           - PER_TRUCK
           - PER_VESSEL_SLOT
-          x-ion-condition: See property description: How on-time is computed (e.g. "actualDelivery <= pickupTime + pickupToDelivery")
+          x-ion-condition: 'Required when applicable — How on-time is computed (e.g. "actualDelivery <= pickupTime '
         consolidationType:
           type: string
           enum:
@@ -585,7 +585,7 @@ components:
           - DOUBLE_STACK_RAIL
           - CONTAINER_CHASSIS_20FT
           - CONTAINER_CHASSIS_40FT
-          x-ion-condition: See property description: Specialised equipment when consolidationType requires it. Drayage often requires
+          x-ion-condition: 'Required when applicable — Specialised equipment when consolidationType requires it. Dr'
         scheduleType:
           type: string
           enum:
@@ -593,7 +593,7 @@ components:
           - REGULAR_FLIGHT
           - AD_HOC
           - ON_DEMAND
-          x-ion-condition: Required when capacityModel declares slot-based availability
+        x-ion-condition: Required when capacityModel declares slot-based availability
         agentAssignmentModel:
           type: string
           enum:
@@ -601,19 +601,19 @@ components:
           - POOL_ASSIGNED
           - FIFO_AT_PICKUP
           - DEDICATED_FLEET
-          x-ion-condition: Required when capacityModel is DAILY_SLOTS or ROUTE_SLOTS
+        x-ion-condition: Required when capacityModel is DAILY_SLOTS or ROUTE_SLOTS
         maxDeliveryRadiusKm:
           type: number
-          x-ion-condition: Required when capacityModel is DAILY_SLOTS or ROUTE_SLOTS
+        x-ion-condition: Required when capacityModel is DAILY_SLOTS or ROUTE_SLOTS
         liveTrackingEnabled:
           type: boolean
-          x-ion-condition: Required when capacityModel is DAILY_SLOTS or ROUTE_SLOTS
+        x-ion-condition: Required when capacityModel is DAILY_SLOTS or ROUTE_SLOTS
         slotsAvailable:
           type: boolean
         slotGranularityMinutes:
           type: integer
           description: Slot duration in minutes (e.g. 60, 120)
-          x-ion-condition: See property description: Slot duration in minutes (e.g. 60, 120)
+        x-ion-condition: 'Required when applicable — Slot duration in minutes (e.g. 60, 120)'
         slotWindowsOffered:
           type: array
           items:
@@ -627,16 +627,16 @@ components:
                 format: time
               availableCapacity:
                 type: integer
-          x-ion-condition: See property description: Slot duration in minutes (e.g. 60, 120)
+          x-ion-condition: 'Required when applicable — Slot duration in minutes (e.g. 60, 120)'
         availableOnCod:
           type: boolean
         maxCodAmount:
           type: number
-          x-ion-condition: Required when availableOnCod is true
+        x-ion-condition: Required when availableOnCod is true
         codPolicy:
           type: string
           format: iri
-                    x-ion-condition: Required when availableOnCod is true
+        x-ion-condition: Required when availableOnCod is true
         codVerifiedReceiptOtpRequired:
           type: boolean
           description: 'When true, an anti-fraud OTP is sent to the buyer separately and must be entered by the
@@ -660,32 +660,32 @@ components:
             present close-to-exact amounts.
 
             '
-          x-ion-condition: See property description: Currency denominations the rider can accept under this offer. Used when consigne
+          x-ion-condition: 'Required when applicable — Currency denominations the rider can accept under this offer'
         codBuyerDailyLimit:
           type: number
           description: 'Maximum total COD amount accepted from a single consignee per day across all shipments on
             this offer. Anti-fraud control. Validated at /init.
 
             '
-                    x-ion-condition: Required when availableOnCod is true
+          x-ion-condition: Required when availableOnCod is true
         codShipmentLimit:
           type: number
           description: Maximum COD amount per single shipment on this offer.
-                    x-ion-condition: Required when availableOnCod is true
+        x-ion-condition: Required when availableOnCod is true
         codHoldPeriodDays:
           type: integer
           description: 'Days the LSP holds collected cash before remittance to the BAP. Provides refund buffer for
             early returns. Typical: 3-5 days.
 
             '
-                    x-ion-condition: Required when availableOnCod is true
+          x-ion-condition: Required when availableOnCod is true
         codReconciliationVariance:
           type: number
           description: 'Acceptable variance (fraction) between sum of collected and remitted amounts at batch level
             — below this, reconciliation passes automatically. Typical: 0.001 (0.1%).
 
             '
-                    x-ion-condition: Required when availableOnCod is true
+          x-ion-condition: Required when availableOnCod is true
         maxDeclaredValue:
           type: number
           description: Maximum declared value the BPP accepts
@@ -710,11 +710,11 @@ components:
           - PER_SKU_PER_DAY
           - PER_CBM_PER_MONTH
           - PER_PALLET_PER_MONTH
-          x-ion-condition: See property description: ION policy IRI for insurance coverage terms
+        x-ion-condition: 'Required when applicable — ION policy IRI for insurance coverage terms'
         minimumStorageTerm:
           type: string
           format: duration
-          x-ion-condition: Required for Ro-Ro patterns where ferry schedule is published
+        x-ion-condition: Required for Ro-Ro patterns where ferry schedule is published
         vehicleCategoriesAccepted:
           type: array
           items:
@@ -749,7 +749,7 @@ components:
         crossingDuration:
           type: string
           format: duration
-                    x-ion-condition: Required for Ro-Ro patterns where vessel crossing duration is published
+        x-ion-condition: Required for Ro-Ro patterns where vessel crossing duration is published
         incotermsSupported:
           type: array
           items:
@@ -773,7 +773,7 @@ components:
           - DDP_INCLUSIVE
           - DAP_BUYER_PAYS
           - DDU_ON_DELIVERY
-          x-ion-condition: Required when shipment value exceeds LSP declared value cap
+        x-ion-condition: Required when shipment value exceeds LSP declared value cap
         cancellationPolicy:
           type: string
           format: iri

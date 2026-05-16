@@ -233,7 +233,7 @@ Selecting a CRC determines which ION schema extension packs apply to the resourc
 | `TRC-food-bev` | Trade | `schema/extensions/trade/resource/v1` → `food` sub-object | `food.classification` (halal status), `allergens`, BPOM food registration. **Packaged products only — not food delivery** |
 | `TRC-fashion` | Trade | `schema/extensions/trade/resource/v1` → `fashion` sub-object | `gender`, `size`, `fabricComposition` |
 | `TRC-electronics` | Trade | `schema/extensions/trade/resource/v1` → `electronics` sub-object | `osType`, `connectivity`, `wattage`, `energyRating` |
-| `HSC-fnb-delivery` | **Hospitality** | `schema/extensions/hospitality/fnb-delivery/v1` | `fnb.classification` (halal status), `fnb.allergens`, `preparationTime`. **Food delivery and online food ordering — GoFood, GrabFood, restaurant apps** |
+| `HSC-restaurant-ordering` | **Hospitality** | `schema/extensions/hospitality/delivery/v1` | `classification` (halal status), `allergens`, `preparationTime`. **Food delivery and online food ordering — GoFood, GrabFood, restaurant apps** |
 | `LGC-lastmile` | Logistics | `schema/extensions/logistics/resource/v1` | `serviceType`, `quantity`, `weight`, `dimensions` |
 
 All Trade CRCs use `schema/extensions/trade/resource/v1` — the CRC determines which *conditional sub-object* within that pack is required. Logistics CRCs use `schema/extensions/logistics/resource/v1`. The full attribute pack documentation lives in `schema/extensions/`.
@@ -446,9 +446,9 @@ This table shows which CRCs typically appear under each Segment and which patter
 | HSP-02 Short-Stay & Alternative Accommodation | `HSC-accommodation` | `reservation`, `marketplace-listed` |
 | HSP-03 Travel Platforms & OTAs | `HSC-accommodation` | `reservation`, `marketplace-listed` |
 | HSP-03 Travel Platforms & OTAs | `HSC-events` | `experience-booking`, `marketplace-listed` |
-| HSP-04 F&B — Restaurants & Dining | `HSC-restaurant` | `reservation`, `dine-in-order` |
-| HSP-04 F&B — Restaurants & Dining | `HSC-fnb-delivery` | `delivery-order` |
-| HSP-05 Food Delivery & Online Ordering | `HSC-fnb-delivery` | `delivery-order`, `marketplace-listed` |
+| HSP-04 Restaurants & Dining | `HSC-restaurant` | `reservation`, `dine-in-order` |
+| HSP-04 Restaurants & Dining | `HSC-restaurant-ordering` | `delivery-order` |
+| HSP-05 Restaurant & Online Ordering | `HSC-restaurant-ordering` | `delivery-order`, `marketplace-listed` |
 | HSP-06 Events, Catering & MICE | `HSC-events` | `event-commission`, `experience-booking` |
 | HSP-07 Recreation, Attractions & Wellness | `HSC-wellness` | `experience-booking`, `pass` |
 
@@ -584,8 +584,8 @@ This table shows which CRCs typically appear under each Segment and which patter
 | `HSP-01` | Hotels & Accommodation | `reservation` | `early-checkin`, `late-checkout`, `mid-transaction-changes` |
 | `HSP-02` | Short-Stay & Alternative Accommodation | `reservation`, `marketplace-listed` | `early-checkin`, `late-checkout`, `mid-transaction-changes` |
 | `HSP-03` | Travel Platforms & OTAs | `reservation`, `experience-booking`, `marketplace-listed` | `mid-transaction-changes` |
-| `HSP-04` | F&B — Restaurants & Dining | `reservation`, `dine-in-order` | `mid-transaction-changes` |
-| `HSP-05` | Food Delivery & Online Ordering | `delivery-order`, `marketplace-listed` | `cash-on-delivery`, `self-pickup`, `mid-transaction-changes` |
+| `HSP-04` | Restaurants & Dining | `reservation`, `dine-in-order` | `mid-transaction-changes` |
+| `HSP-05` | Restaurant & Online Ordering | `delivery-order`, `marketplace-listed` | `cash-on-delivery`, `self-pickup`, `mid-transaction-changes` |
 | `HSP-06` | Events, Catering & MICE | `event-commission`, `experience-booking` | `scope-change`, `mid-transaction-changes` |
 | `HSP-07` | Recreation, Attractions & Wellness | `experience-booking`, `pass` | `mid-transaction-changes` |
 
@@ -676,8 +676,8 @@ Examples: `SA / trade` · `BA / mobility` · `TSP / logistics` · `seller / hosp
 | `HSP-01` | Hotels & Accommodation |
 | `HSP-02` | Short-Stay & Alternative Accommodation |
 | `HSP-03` | Travel Platforms & OTAs |
-| `HSP-04` | F&B — Restaurants & Dining |
-| `HSP-05` | Food Delivery & Online Ordering |
+| `HSP-04` | Restaurants & Dining |
+| `HSP-05` | Restaurant & Online Ordering |
 | `HSP-06` | Events, Catering & MICE |
 | `HSP-07` | Recreation, Attractions & Wellness |
 
@@ -757,7 +757,7 @@ CRCs are ION-owned item classifications. GPC L0 mapping is a crosswalk for selle
 |---|---|---|
 | `HSC-accommodation` | Accommodation | — | ACTIVE |
 | `HSC-restaurant` | Restaurant & Dining | — | ACTIVE |
-| `HSC-fnb-delivery` | Food & Beverage Delivery | — | ACTIVE |
+| `HSC-restaurant-ordering` | Restaurant & Food Ordering | — | ACTIVE |
 | `HSC-events` | Events & Experiences | — | ACTIVE |
 | `HSC-wellness` | Recreation & Wellness | — | ACTIVE |
 
@@ -885,8 +885,8 @@ CRCs are ION-owned item classifications. GPC L0 mapping is a crosswalk for selle
 | HSP-01 | Hotels & Accommodation | `HSC-accommodation` |
 | HSP-02 | Short-Stay & Alternative Accommodation | `HSC-accommodation` |
 | HSP-03 | Travel Platforms & OTAs | `HSC-accommodation` · `HSC-events` |
-| HSP-04 | F&B — Restaurants & Dining | `HSC-restaurant` · `HSC-fnb-delivery` |
-| HSP-05 | Food Delivery & Online Ordering | `HSC-fnb-delivery` |
+| HSP-04 | Restaurants & Dining | `HSC-restaurant` · `HSC-restaurant-ordering` |
+| HSP-05 | Restaurant & Online Ordering | `HSC-restaurant-ordering` |
 | HSP-06 | Events, Catering & MICE | `HSC-events` |
 | HSP-07 | Recreation, Attractions & Wellness | `HSC-wellness` · `HSC-events` |
 

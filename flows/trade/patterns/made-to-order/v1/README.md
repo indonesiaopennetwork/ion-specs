@@ -3,7 +3,7 @@
 Extends B2C-SF for products prepared after confirm. Once preparation starts, cancellation closes.
 
 ## Applicable categories
-Food QSR (restaurants, cloud kitchens), custom bakery, tailoring, custom furniture
+Custom bakery (packaged), meal kits, tailoring, custom furniture — NOT restaurant/cloud kitchen food ordering (→ Hospitality sector)
 
 ## Key differences from B2C-SF
 - State machine: **mto** — PREPARING → READY → DISPATCHED → OUT_FOR_DELIVERY → DELIVERED

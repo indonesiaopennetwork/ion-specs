@@ -182,7 +182,7 @@ enum: [MOTORCYCLE, BICYCLE, CAR, VAN, TRUCK, RAIL, SEA, AIR, RIVER, FERRY]
 
 ### M4 — Excessive nesting depth ✅ FIXED
 
-**Observation:** Multiple packs reached depth 13 (variantMatrix in `trade/resource`, customisationGroups in `hospitality/fnb-delivery`). Deeply-nested trees fragment semantic meaning that agents would better understand as prose (CON-012-28).
+**Observation:** Multiple packs reached depth 13 (variantMatrix in `trade/resource`, customisationGroups in `hospitality/delivery`). Deeply-nested trees fragment semantic meaning that agents would better understand as prose (CON-012-28).
 
 **Fix applied using the guide's regulatory test** (*"would a regulator, auditor, or the settlement layer object if this fact were missing as structured data?"*):
 

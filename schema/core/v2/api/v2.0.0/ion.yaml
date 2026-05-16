@@ -16,8 +16,7 @@ info:
     \ whose trigger field lives in a different schema bag than the\nrequired field are declared in x-ion-conditional-rules\
     \ below. Standard\nJSON Schema if/then/else cannot express cross-bag conditions. ONIX\n(the ION validator) enforces these\
     \ at network boundaries.\n\nVALIDATOR USAGE:\nRun beckn.yaml + ion.yaml together through any OpenAPI 3.1.1 validator.\n\
-    Do not merge them — they are designed to be used as two separate files.\nIf your toolchain requires a single merged file,\
-    \ run:\n  python3 tools/build_ion_full.py  →  dist/ion-full.yaml  (not committed)\n"
+    Do not merge them — they are designed to be used as two separate files."
   version: 0.6.0-draft
   contact:
     name: ION Network
@@ -69,7 +68,7 @@ x-ion-profile:
       logistics/provider: v1
       logistics/resource: v1
       logistics/tracking: v1
-      hospitality/fnb-delivery: v1
+      hospitality/delivery: v1
     policies:
       return: v1
       cancellation: v1
@@ -120,7 +119,7 @@ x-ion-profile:
     - finance
     - tourism
     - healthcare
-    note: hospitality is partially active — HSC-fnb-delivery (food delivery) only. Other hospitality CRCs reserved.
+    note: 'hospitality sector active — HSC-restaurant-ordering (restaurant ordering) with full 7-pack coverage: delivery, offer, provider, commitment, consideration, contract, performance.'
   x-ion-context-extensions:
     status: EXPERIMENTAL
     mandatoryFrom: 0.6.0 (tentative — pending Council ratification)
@@ -198,7 +197,6 @@ x-ion-profile:
       application/json: context.jsonld
       application/yaml: attributes.yaml
       text/turtle: vocab.ttl (v0.6+)
-      text/html: index.html (human-readable rendering)
       default: text/html
     allowedContexts:
     - prefix: ion
@@ -310,7 +308,7 @@ x-ion-profile:
       - resource/v1
       - tracking/v1
       hospitality:
-      - fnb-delivery/v1
+      - delivery/v1
   x-ion-policy-registry:
     description: 'ION Policy Terms Registry. Policy IRIs are the authoritative source of policy semantics across the network.
       Each offer declares IRIs; ION Central resolves to the terms document and enforces at every API boundary.
@@ -6023,13 +6021,13 @@ components:
               type: string
               format: uri
           x-ion-conditional: true
-          x-ion-condition: Required for F&B providers
+          x-ion-condition: Required for food and beverage providers
         preparationTime:
           type: string
           description: ISO 8601 duration. Time from order confirm to item ready.
           example: PT20M
           x-ion-conditional: true
-          x-ion-condition: Required for F&B and made-to-order items
+          x-ion-condition: Required for food, beverage and made-to-order items
         productCode:
           type: object
           additionalProperties: false
@@ -6426,7 +6424,7 @@ components:
               description: ISO 8601 duration
               example: PT2H
           x-ion-conditional: true
-          x-ion-condition: Required for F&B and perishable products
+          x-ion-condition: Required for food, beverage and perishable products
         fashion:
           type: object
           additionalProperties: false
