@@ -6,10 +6,13 @@
   },
   "@graph": [
     {
-      "@id": "ion:TradeProviderAttributes",
+      "@id": "ion:TradeProvider",
       "@type": "rdfs:Class",
-      "rdfs:label": "TradeProviderAttributes",
-      "rdfs:comment": "TradeProviderAttributes"
+      "rdfs:label": "TradeProvider",
+      "rdfs:comment": "TradeProvider",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Provider"
+      }
     },
     {
       "@id": "ion:invoicingModel",

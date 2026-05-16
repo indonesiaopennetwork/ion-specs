@@ -165,8 +165,8 @@ Required fields:
 | Thing | Convention | Example |
 |---|---|---|
 | Concept folder name | `kebab-case` | `participant-logistics` |
-| Schema object name | `PascalCase` with domain prefix | `TradeResourceAttributes` |
-| JSON-LD term IRI | `ion:PascalCase` or `ion:camelCase` | `ion:TradeResourceAttributes` |
+| Schema object name | `PascalCase` with domain prefix | `TradeResource` |
+| JSON-LD term IRI | `ion:PascalCase` or `ion:camelCase` | `ion:TradeResource` |
 | Field names | `camelCase` | `resourceStructure` |
 | Policy IRIs | `ion://policy/{cat}.{sub}.{spec}` | `ion://policy/cancel.standard.until-dispatched` |
 

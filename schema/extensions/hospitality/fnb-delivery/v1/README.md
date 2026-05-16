@@ -3,6 +3,7 @@
 ION Hospitality sector extension pack for prepared food and beverage delivery.
 
 **CRC:** `HSC-fnb-delivery`  
+**Covers:** Food delivery apps (GoFood, GrabFood, Tokopedia Food), restaurant online ordering, cloud kitchen delivery  
 **Beckn attachment:** `Resource.resourceAttributes`  
 **Sector:** `ion:hospitality`  
 **Pattern:** `delivery-order`, `dine-in-order`
@@ -48,7 +49,7 @@ Restaurant meals and beverages ordered for delivery or self-pickup. The resource
 ```json
 {
   "@context": "https://schema.ion.id/hospitality/fnb-delivery/v1/context.jsonld",
-  "@type": "ion:HospitalityFnbDeliveryAttributes",
+  "@type": "ion:FnbMenuItem",
   "quantity": { "value": 1, "unit": "portion" },
   "resourceStructure": "PLAIN",
   "resourceTangibility": "PHYSICAL",

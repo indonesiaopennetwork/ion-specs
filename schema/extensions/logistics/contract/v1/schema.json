@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://schema.ion.id/logistics/contract/v1",
-  "title": "LogisticsContractAttributes",
+  "title": "LogisticsContract",
   "type": "object",
   "properties": {
     "fwaReference": {

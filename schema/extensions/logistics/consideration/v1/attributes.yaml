@@ -14,13 +14,13 @@ info:
     url: https://schema.ion.id
 components:
   schemas:
-    LogisticsConsiderationAttributes:
+    LogisticsConsideration:
       type: object
-      title: Logistics Consideration Attributes
+      title: LogisticsConsideration
       additionalProperties: true
       x-jsonld:
-        '@context': ./context.jsonld
-        '@type': ion:LogisticsConsiderationAttributes
+        '@context': 'https://schema.ion.id/logistics/consideration/v1/context.jsonld'
+        '@type': ion:LogisticsConsideration
       x-beckn-attaches-to: Consideration.considerationAttributes
       properties:
         breakup:
@@ -106,10 +106,10 @@ components:
               ppnRate:
                 type: number
                 description: 'PPN rate actually charged on this line (decimal fraction). Source applicable rate
-                  from current DJP/PMK regulation — current standard is 0.11 per PMK 131/2024.
+                  as declared by applicable PMK — see x-ion-regulatory annotation.
 
                   '
-                x-ion-conditional: true
+                                x-ion-condition: Required when taxRegime is not EXEMPT on this consideration line
         totalAmount:
           type: number
         currency:
@@ -200,13 +200,13 @@ components:
         ppnRate:
           type: number
           description: 'PPN (Pajak Pertambahan Nilai) rate applied to applicable charges. Source applicable rate
-            from current DJP/PMK regulation — current standard is 0.11 (11%) per PMK 131/2024.
+            as declared by applicable PMK — see x-ion-regulatory annotation.
 
             '
         ppnAmount:
           type: number
           description: Computed PPN amount
-          x-ion-conditional: true
+                    x-ion-condition: Required when taxRegime is not EXEMPT on this consideration line
       required:
       - breakup
       - totalAmount

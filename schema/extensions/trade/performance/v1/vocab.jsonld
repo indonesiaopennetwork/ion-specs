@@ -6,10 +6,13 @@
   },
   "@graph": [
     {
-      "@id": "ion:TradePerformanceAttributes",
+      "@id": "ion:TradePerformance",
       "@type": "rdfs:Class",
-      "rdfs:label": "TradePerformanceAttributes",
-      "rdfs:comment": "TradePerformanceAttributes"
+      "rdfs:label": "TradePerformance",
+      "rdfs:comment": "TradePerformance",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Performance"
+      }
     },
     {
       "@id": "ion:performanceMode",

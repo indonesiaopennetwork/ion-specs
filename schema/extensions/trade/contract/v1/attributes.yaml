@@ -15,13 +15,13 @@ info:
     url: https://schema.ion.id
 components:
   schemas:
-    TradeContractAttributes:
+    TradeContract:
       type: object
-      title: Trade Contract Attributes
+      title: TradeContract
       additionalProperties: true
       x-jsonld:
-        '@context': ./context.jsonld
-        '@type': ion:TradeContractAttributes
+        '@context': 'https://schema.ion.id/trade/contract/v1/context.jsonld'
+        '@type': ion:TradeContract
       x-beckn-attaches-to: Contract.contractAttributes
       properties:
         fulfillingLocationId:
@@ -31,7 +31,6 @@ components:
 
             '
           example: FC-SBY-01
-          x-ion-conditional: true
           x-ion-condition: Present when provider has multiple fulfilment centres
         buyerInstructions:
           type: string
@@ -112,7 +111,7 @@ components:
             '
           example: 010.000-26.00000001
           x-ion-regulatory: PMK 168/PMK.010/2023 tentang Faktur Pajak
-          x-ion-conditional-cross-schema: true
+          x-ion-cross-schema-condition: true
           x-ion-condition: Required for PKP sellers (identity.pkpStatus=PKP) when invoiceType=TAX_INVOICE
         purchaseOrderReference:
           type: string
@@ -121,7 +120,6 @@ components:
 
             '
           example: PO-2026-00456
-          x-ion-conditional: true
           x-ion-condition: Required for B2B wholesale commerce patterns
         cancellationReasonCode:
           type: string
@@ -138,7 +136,6 @@ components:
           - REGULATORY_HOLD
           - LOGISTICS_FAILURE
           - FORCE_CANCEL_TAT_BREACH
-          x-ion-conditional: true
           x-ion-condition: Required when contract status is CANCELLED
         quoteTrail:
           type: array
@@ -204,7 +201,6 @@ components:
 
             '
           example: 30
-          x-ion-conditional: true
           x-ion-condition: Required for business-procurement (business-credit variant) commerce pattern
         paymentDueDate:
           type: string
@@ -214,7 +210,6 @@ components:
 
             '
           example: 2026-05-19 23:59:59+07:00
-          x-ion-conditional: true
           x-ion-condition: Required when creditTermsDays > 0
         subscriptionBillingCycle:
           type: string
@@ -226,7 +221,6 @@ components:
           - ANNUAL
           description: Billing cycle for subscription commerce pattern.
           example: MONTHLY
-          x-ion-conditional: true
           x-ion-condition: Required for subscription commerce pattern
         subscriptionNextBillingDate:
           type: string
@@ -235,7 +229,6 @@ components:
 
             '
           example: 2026-05-19 00:00:00+07:00
-          x-ion-conditional: true
           x-ion-condition: Required for subscription commerce pattern
         linkedContractId:
           type: string
@@ -244,7 +237,6 @@ components:
 
             '
           example: TRD-2026-00012345
-          x-ion-conditional: true
           x-ion-condition: Required on all Logistics Contracts linked to a Trade fulfilment
         codAmount:
           type: string
@@ -253,7 +245,7 @@ components:
 
             '
           example: '150000'
-          x-ion-conditional-cross-schema: true
+          x-ion-cross-schema-condition: true
           x-ion-condition: Required when paymentRail=COD
         beaCukaiReference:
           type: string
@@ -263,7 +255,6 @@ components:
             '
           example: BC-2026-001234567
           x-ion-regulatory: UU 17/2006 tentang Kepabeanan; PMK 199/PMK.010/2019
-          x-ion-conditional: true
           x-ion-condition: Required for INTERNATIONAL_AIR and INTERNATIONAL_OCEAN logistics
         liveCommerceContext:
           type: object
@@ -344,7 +335,6 @@ components:
             groupBuyActivated:
               type: boolean
               description: Whether group-buy discount has been unlocked
-          x-ion-conditional: true
           x-ion-condition: Required for live-commerce pattern; optional otherwise
         refundDestination:
           type: object
@@ -483,7 +473,6 @@ components:
             - amount
             - dueAt
             - status
-          x-ion-conditional: true
           x-ion-condition: Required when paymentTermsPolicy is schedule-based
       allOf:
       - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes

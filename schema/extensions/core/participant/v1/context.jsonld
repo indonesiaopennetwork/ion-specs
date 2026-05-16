@@ -5,7 +5,6 @@
     "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
     "schema": "https://schema.org/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
-    "IONParticipantAttributes": "ion:ParticipantAttributes",
     "addressDetail": "ion:addressDetail",
     "authorisedSignatory": "ion:authorisedSignatory",
     "bankCode": "ion:bankCode",
@@ -20,6 +19,9 @@
     "subscriberId": "ion:subscriberId",
     "@protected": true,
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "IONParticipant": "ion:IONParticipant"
   }
 }

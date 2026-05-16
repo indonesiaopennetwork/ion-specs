@@ -24,7 +24,7 @@
           },
           "participantAttributes": {
             "@context": "https://schema.ion.id/logistics/v1/participant/context.jsonld",
-            "@type": "ion:LogisticsParticipantAttributes",
+            "@type": "ion:LogisticsParticipantAddendum",
             "role": "PROVIDER"
           }
         },
@@ -36,7 +36,7 @@
           },
           "participantAttributes": {
             "@context": "https://schema.ion.id/logistics/v1/participant/context.jsonld",
-            "@type": "ion:LogisticsParticipantAttributes",
+            "@type": "ion:LogisticsParticipantAddendum",
             "role": "CONSIGNOR"
           },
           "descriptor": {
@@ -47,7 +47,7 @@
           "id": "buyer-id-001",
           "participantAttributes": {
             "@context": "https://schema.ion.id/logistics/v1/participant/context.jsonld",
-            "@type": "ion:LogisticsParticipantAttributes",
+            "@type": "ion:LogisticsParticipantAddendum",
             "role": "CONSIGNEE"
           },
           "descriptor": {
@@ -64,7 +64,7 @@
           },
           "participantAttributes": {
             "@context": "https://schema.ion.id/logistics/v1/participant/context.jsonld",
-            "@type": "ion:LogisticsParticipantAttributes",
+            "@type": "ion:LogisticsParticipantAddendum",
             "role": "CUSTOMS_BROKER"
           }
         }
@@ -98,7 +98,7 @@
               }
             ],
             "@context": "https://schema.ion.id/logistics/v1/commitment/context.jsonld",
-            "@type": "ion:LogisticsCommitmentAttributes"
+            "@type": "ion:LogisticsCommitment"
           },
           "status": {
             "descriptor": {
@@ -131,7 +131,7 @@
             "estimatedClearanceDuration": "PT48H",
             "capacityConfirmed": true,
             "@context": "https://schema.ion.id/logistics/v1/performance/context.jsonld",
-            "@type": "ion:LogisticsPerformanceAttributes",
+            "@type": "ion:LogisticsPerformance",
             "stops": [
               {
                 "type": "START",
@@ -197,7 +197,7 @@
             "dutyEstimate": 127500,
             "taxEstimate": 118580,
             "@context": "https://schema.ion.id/logistics/v1/consideration/context.jsonld",
-            "@type": "ion:LogisticsConsiderationAttributes"
+            "@type": "ion:LogisticsConsideration"
           },
           "id": "cons-001",
           "status": {
@@ -227,7 +227,7 @@
           "invoicingModel": "INDIVIDUAL_PER_SHIPMENT"
         },
         "@context": "https://schema.ion.id/logistics/v1/contract/context.jsonld",
-        "@type": "ion:LogisticsContractAttributes"
+        "@type": "ion:LogisticsContract"
       }
     }
   }

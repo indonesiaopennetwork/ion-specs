@@ -29,14 +29,14 @@ BAPs SHOULD use structured intent whenever they have the data to populate it. BP
       "provider": {
         "providerAttributes": {
           "@context": "https://schema.ion.id/logistics/v1/provider/context.jsonld",
-          "@type": "ion:LogisticsProviderAttributes",
+          "@type": "ion:LogisticsProvider",
           "spinesSupported": ["LOG-PARCEL"]
         }
       },
       "offer": {
         "offerAttributes": {
           "@context": "https://schema.ion.id/logistics/v1/offer/context.jsonld",
-          "@type": "ion:LogisticsOfferAttributes",
+          "@type": "ion:LogisticsOffer",
           "serviceLevel": "NEXT_DAY",
           "availableOnCod": false
         }
@@ -66,7 +66,7 @@ BAPs SHOULD use structured intent whenever they have the data to populate it. BP
       "item": {
         "resourceAttributes": {
           "@context": "https://schema.ion.id/logistics/v1/resource/context.jsonld",
-          "@type": "ion:LogisticsResourceAttributes",
+          "@type": "ion:LogisticsShipment",
           "serviceType": "PARCEL",
           "weight": { "value": 2.5, "unit": "kilogram" },
           "dimensions": { "length": 30, "width": 20, "height": 15, "unit": "centimeter" }
@@ -86,14 +86,14 @@ BAPs SHOULD use structured intent whenever they have the data to populate it. BP
       "provider": {
         "providerAttributes": {
           "@context": "https://schema.ion.id/logistics/v1/provider/context.jsonld",
-          "@type": "ion:LogisticsProviderAttributes",
+          "@type": "ion:LogisticsProvider",
           "spinesSupported": ["LOG-HYPERLOCAL"]
         }
       },
       "offer": {
         "offerAttributes": {
           "@context": "https://schema.ion.id/logistics/v1/offer/context.jsonld",
-          "@type": "ion:LogisticsOfferAttributes",
+          "@type": "ion:LogisticsOffer",
           "serviceLevel": "INSTANT",
           "transportMode": "motorcycle"
         }
@@ -130,7 +130,7 @@ BAPs SHOULD use structured intent whenever they have the data to populate it. BP
       "offer": {
         "offerAttributes": {
           "@context": "https://schema.ion.id/logistics/v1/offer/context.jsonld",
-          "@type": "ion:LogisticsOfferAttributes",
+          "@type": "ion:LogisticsOffer",
           "transportMode": "sea",
           "consolidationType": "FCL"
         }
@@ -150,7 +150,7 @@ BAPs SHOULD use structured intent whenever they have the data to populate it. BP
       "item": {
         "resourceAttributes": {
           "@context": "https://schema.ion.id/logistics/v1/resource/context.jsonld",
-          "@type": "ion:LogisticsResourceAttributes",
+          "@type": "ion:LogisticsShipment",
           "serviceType": "FREIGHT",
           "cargoManifest": [
             {
@@ -176,7 +176,7 @@ BAPs SHOULD use structured intent whenever they have the data to populate it. BP
       "offer": {
         "offerAttributes": {
           "@context": "https://schema.ion.id/logistics/v1/offer/context.jsonld",
-          "@type": "ion:LogisticsOfferAttributes",
+          "@type": "ion:LogisticsOffer",
           "serviceLevel": "STANDARD_2_3D",
           "transportMode": "air",
           "incotermsSupported": ["DDP", "DAP"]
@@ -197,7 +197,7 @@ BAPs SHOULD use structured intent whenever they have the data to populate it. BP
       "item": {
         "resourceAttributes": {
           "@context": "https://schema.ion.id/logistics/v1/resource/context.jsonld",
-          "@type": "ion:LogisticsResourceAttributes",
+          "@type": "ion:LogisticsShipment",
           "serviceType": "PARCEL",
           "productCategory": "PHARMA",
           "temperatureRequirement": {

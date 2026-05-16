@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://schema.ion.id/trade/contract/v1",
-  "title": "TradeContractAttributes",
+  "title": "TradeContract",
   "type": "object",
   "properties": {
     "fulfillingLocationId": {

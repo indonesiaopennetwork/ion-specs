@@ -3,10 +3,10 @@ info:
   title: ION Reconcile Extension (v1)
   description: "Inter-NP financial reconciliation. BAP and BPP reconcile the financial status of a contract — agreed\
     \ amounts, adjustments, withholding, net settlement, SLA penalties, tax withholdings.\nIn Beckn v2.0 this extension\
-    \ attaches to `Contract.settlements[].settlementAttributes` with @type: ion:ReconcileAttributes. Multiple extension\
-    \ types may coexist on the same settlementAttributes bag (PaymentDeclaration, ReconcileAttributes) distinguished\
+    \ attaches to `Contract.settlements[].settlementAttributes` with @type: ion:IONReconciliation. Multiple extension\
+    \ types may coexist on the same settlementAttributes bag (PaymentDeclaration, IONReconciliation) distinguished\
     \ by @type.\nWire placement:\n  message.contract.settlements[].settlementAttributes: {\n    \"@context\": \"\
-    https://ion.id/vocab/reconcile/v1/context.jsonld\",\n    \"@type\": \"ion:ReconcileAttributes\",\n    reconId:\
+    https://ion.id/vocab/reconcile/v1/context.jsonld\",\n    \"@type\": \"ion:IONReconciliation\",\n    reconId:\
     \ ...,\n    amounts: { baseContractAmount, ... },\n    ...\n  }\n"
   version: 1.0.0
   license:
@@ -17,13 +17,13 @@ info:
     url: https://schema.ion.id
 components:
   schemas:
-    IONReconcileAttributes:
+    IONReconciliation:
       type: object
-      title: ION Reconcile Attributes
+      title: IONReconciliation
       additionalProperties: true
       x-jsonld:
-        '@context': ./context.jsonld
-        '@type': ion:ReconcileAttributes
+        '@context': 'https://schema.ion.id/core/reconcile/v1/context.jsonld'
+        '@type': ion:IONReconciliation
       x-beckn-attaches-to: Settlement.settlementAttributes
       properties:
         reconId:
@@ -214,7 +214,7 @@ components:
             raise/on_raise.
 
             '
-        recon_status:
+        reconStatus:
           type: string
           enum:
           - '01'
@@ -224,7 +224,6 @@ components:
             paid more than expected, 03=less than expected.
 
             '
-          x-ion-conditional: true
           x-ion-condition: Set by on_reconcile from BPP/receiver
         slaPenaltyDeduction:
           type: number
@@ -260,13 +259,11 @@ components:
             agreement.
 
             '
-          x-ion-conditional: true
           x-ion-condition: Required when contract was placed via live/social commerce
         affiliateCommissionAmount:
           type: number
           minimum: 0
           description: Amount to settle to affiliate for affiliate-sourced orders.
-          x-ion-conditional: true
           x-ion-condition: Required when contract.liveCommerceContext.sourceChannel=AFFILIATE_LINK
         isBatch:
           type: boolean
@@ -334,7 +331,6 @@ components:
             additional payments, post-reconcile corrections discovered later.
 
             '
-          x-ion-conditional: true
           x-ion-condition: Required when adjustmentType is present
         adjustmentType:
           type: string
@@ -350,12 +346,10 @@ components:
             consumer compensation.
 
             '
-          x-ion-conditional: true
           x-ion-condition: Required when parentReconId is present
         adjustmentReason:
           type: string
           description: Plain-language reason for the adjustment
-          x-ion-conditional: true
           x-ion-condition: Required when adjustmentType is present
         adjustmentEvidence:
           type: array
@@ -365,9 +359,11 @@ components:
           description: Evidence URLs supporting the adjustment (audit logs, screenshots, communications)
         taxWithholdings:
           type: array
-          description: 'Indonesian tax withholdings applied to this settlement. Marketplaces in Indonesia withhold
-            PPh 22 on certain transactions per PMK 41/2022 (marketplace tax collector appointment). PPh 23 applies
-            on service fees. PPN remittance for PMSE. Required for Mall-tier and above sellers.
+          x-ion-regulatory: PMK 41/PMK.03/2022 (PPh 22 withholding); PMK 48/PMK.03/2020 (PPN PMSE); PMK 168/2023
+          description: 'Indonesian tax withholdings applied to this settlement. Marketplaces
+            withhold PPh 22 on certain transactions (marketplace tax collector appointment).
+            PPh 23 applies on service fees. PPN remittance for PMSE. Required for
+            Mall-tier and above sellers.
 
             '
           items:
@@ -419,9 +415,6 @@ components:
             - rate
             - amount
             - remittedTo
-          x-ion-regulatory: PMK 41/PMK.03/2022 tentang Penunjukan Pemungut PPh 22; PMK 48/PMK.03/2020 (PPN PMSE);
-            PMK 168/2023
-          x-ion-conditional: true
           x-ion-condition: Required when seller is Mall-tier or above, or when PPN PMSE applies
         codRemittance:
           type: object
@@ -475,7 +468,6 @@ components:
                   description: Per-FWA or network-default tolerance (e.g. 0.001 = 0.1%)
                 withinTolerance:
                   type: boolean
-          x-ion-conditional: true
           x-ion-condition: Required when one or more settlements in this reconcile carry method=COD
       required:
       - reconId
@@ -500,7 +492,7 @@ components:
       - if:
           properties:
             isBatch:
-              const: 'true'
+              const: true
           required:
           - isBatch
         then:

@@ -7,11 +7,14 @@
   },
   "@graph": [
     {
-      "@id": "ion:LogisticsConsiderationAttributes",
+      "@id": "ion:LogisticsConsideration",
       "@type": "rdfs:Class",
       "rdfs:comment": "ION Logistics consideration extension attributes. Attaches to beckn:Consideration.ConsiderationAttributes.",
-      "rdfs:label": "Logistics Consideration Attributes",
-      "rdfs:isDefinedBy": "https://schema.ion.id/logistics/v1/"
+      "rdfs:label": "LogisticsConsideration",
+      "rdfs:isDefinedBy": "https://schema.ion.id/logistics/v1/",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Consideration"
+      }
     }
   ]
 }

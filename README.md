@@ -1,14 +1,14 @@
 # ION — Indonesia Open Network
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE.md)
-[![Spec Version](https://img.shields.io/badge/Spec-v0.5.2--draft-orange.svg)](CHANGELOG.md)
+[![Spec Version](https://img.shields.io/badge/Spec-v0.6.0--draft-orange.svg)](CHANGELOG.md)
 [![Beckn](https://img.shields.io/badge/Built%20on-Beckn%20v2.0.0-green.svg)](https://beckn.io)
 
 ION is Indonesia's open digital commerce network. Any buyer app and any seller app on ION can transact with each other — without bilateral integration agreements.
 
 A seller who registers on ION is reachable by every buyer app on the network, across food, grocery, fashion, electronics, beauty, agritech, and the logistics network that moves goods between them.
 
-> **Status.** v0.5.2-draft. Not yet in production. Production launch schedule is set by ION Council.
+> **Status.** v0.6.0-draft. Not yet in production. Production launch schedule is set by ION Council.
 
 ---
 
@@ -50,7 +50,7 @@ The extension mechanism is simple: every ION schema pack declares which Beckn ob
 
 ```yaml
 # In schema/extensions/trade/resource/v1/attributes.yaml
-TradeResourceAttributes:
+TradeResource:
   x-beckn-attaches-to: Resource.resourceAttributes
   # ...fields for product type, availability, category-specific attributes
 ```
@@ -128,7 +128,7 @@ Beckn Resource (L1)
   └── resourceAttributes:
        ├── IONCatalogLocalization  (L4 core/localization)  — name.id: "Nasi Goreng Spesial"
        ├── IONProductCertifications (L4 core/product)     — halalStatus: HALAL
-       └── TradeResourceAttributes  (L5 trade/resource)   — food.classification: HALAL
+       └── TradeResource  (L5 trade/resource)   — food.classification: HALAL
                                                            — food.spiceLevel: HIGH
                                                            — preparationTime: PT15M
                                                            — availability.status: IN_STOCK
@@ -228,9 +228,11 @@ See `flows/trade/patterns/storefront/v1/pattern.yaml` for the full field-by-fiel
 |---|---|---|---|
 | **Trade** | B2C, B2B, marketplace, subscription, auction, cross-border, government procurement | `schema/extensions/trade/` | `flows/trade/` |
 | **Logistics** | Hyperlocal, parcel, freight, Ro-Ro, cross-border, warehousing | `schema/extensions/logistics/` | `flows/logistics/` |
-| **Hospitality** | Food delivery and online ordering (`HSC-fnb-delivery`) — partial activation | `schema/extensions/hospitality/` | *(flows coming)* |
+| **Hospitality** | Food delivery and online ordering (`HSC-fnb-delivery`) — partial activation | `schema/extensions/hospitality/` | `flows/hospitality/` |
 
-Mobility, finance, tourism, and healthcare are reserved. Other Hospitality CRCs (accommodation, restaurant table, events, wellness) are reserved until their working groups ratify. Their folder stubs exist; content will be added when their working groups ratify.
+Mobility, finance, tourism, and healthcare are reserved. Other Hospitality CRCs (accommodation, restaurant table, events, wellness) are reserved until their working groups ratify.
+
+**Food classification rule:** Restaurant meals and food delivery apps (GoFood, GrabFood, any prepared-to-order food) → **Hospitality** (`HSC-fnb-delivery`, `delivery-order` pattern). Packaged food products sold on e-commerce (Indomie, bottled water, protein powder) → **Trade** (`TRC-food-bev`, `storefront` pattern). The test: is the item made fresh after the order? If yes → Hospitality. Their folder stubs exist; content will be added when their working groups ratify.
 
 ---
 
@@ -257,7 +259,7 @@ Each IRI resolves to a YAML document in `policies/` that defines the window, fee
 
 ION versions follow `MAJOR.MINOR.PATCH-STAGE`. Implementations receive **90 days' notice** before any mandatory upgrade. See `GOVERNANCE.md`.
 
-Current: **v0.5.2** — targeting Beckn `core-v2.0.0-rc1`. See [CHANGELOG.md](CHANGELOG.md) for what is in this release.
+Current: **v0.6.0** — targeting Beckn `core-v2.0.0-rc1`. See [CHANGELOG.md](CHANGELOG.md) for what is in this release.
 
 ---
 

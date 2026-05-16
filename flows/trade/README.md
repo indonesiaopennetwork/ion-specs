@@ -57,3 +57,5 @@ Path: trade / TRD-04 / TRC-health-beauty / subscription / delivery-time-kyc
 ```
 
 The `delivery-time-kyc` behaviour (OTP at door for prescription medicines) is derived automatically from `prescriptionRequired=true` on the resource — it is not a separately declared Variant in this sector. It is a field-driven behaviour documented in the pattern.
+
+> **Note:** Food delivery and online food ordering (GoFood, GrabFood, restaurant apps) are **Hospitality** sector — see `flows/hospitality/`. Trade covers packaged food products (FMCG, groceries, packaged beverages) sold through e-commerce.

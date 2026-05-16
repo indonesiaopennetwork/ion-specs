@@ -41,7 +41,7 @@ message:
     url: "wss://track.gosend.com/ws/gosend-20260422-0abc"
     trackingAttributes:
       "@context": "https://schema.ion.id/logistics/v1/tracking/context.jsonld"
-      "@type": "ion:LogisticsTrackingAttributes"
+      "@type": "ion:LogisticsTracking"
       trackingType: WEBSOCKET
       refreshIntervalSeconds: 5
       credentials:
@@ -74,7 +74,7 @@ message:
     url: "https://jne.co.id/tracking?awb=CGK12345678"
     trackingAttributes:
       "@context": "https://schema.ion.id/logistics/v1/tracking/context.jsonld"
-      "@type": "ion:LogisticsTrackingAttributes"
+      "@type": "ion:LogisticsTracking"
       trackingType: AWB_URL
       trackingHandoffToCarrier: true
       carrierTrackingUrlPattern: "https://jne.co.id/tracking?awb={awbNumber}"

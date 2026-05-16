@@ -1,6 +1,6 @@
 {
   "@context": "https://schema.ion.id/trade/resource/v1/context.jsonld",
-  "@type": "ion:TradeResourceAttributes",
+  "@type": "ion:TradeResource",
   "_comment": "Example: Samsung Galaxy S25 — VARIANT resource (TRC-electronics)",
   "quantity": {
     "value": 1,

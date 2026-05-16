@@ -9,12 +9,16 @@
       "@id": "ion:PaymentDeclaration",
       "@type": "rdfs:Class",
       "rdfs:label": "PaymentDeclaration",
-      "rdfs:comment": "Contents of a Beckn Settlement's settlementAttributes bag for a buyer-facing payment event. Binds a payment method to a transaction and carries method-specific instrument details in methodDetail.\n"
+      "rdfs:comment": "Contents of a Beckn Settlement's settlementAttributes bag for a buyer-facing payment event. Binds a payment method to a transaction and carries method-specific instrument details in methodDetail.\n",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Settlement"
+      }
     },
     {
       "@id": "ion:method",
       "@type": "rdf:Property",
-      "rdfs:label": "method"
+      "rdfs:label": "method",
+      "rdfs:comment": "Which network participant collects payment from consumer."
     },
     {
       "@id": "ion:collectedBy",
@@ -31,7 +35,8 @@
     {
       "@id": "ion:status",
       "@type": "rdf:Property",
-      "rdfs:label": "status"
+      "rdfs:label": "status",
+      "rdfs:comment": "Payment amount in IDR"
     },
     {
       "@id": "ion:amount",
@@ -42,7 +47,8 @@
     {
       "@id": "ion:currency",
       "@type": "rdf:Property",
-      "rdfs:label": "currency"
+      "rdfs:label": "currency",
+      "rdfs:comment": "Timestamp of successful payment confirmation"
     },
     {
       "@id": "ion:paidAt",
@@ -59,13 +65,17 @@
     {
       "@id": "ion:methodDetail",
       "@type": "rdf:Property",
-      "rdfs:label": "methodDetail"
+      "rdfs:label": "methodDetail",
+      "rdfs:comment": "Specific rail used for this payment. Enables downstream routing and reconciliation regardless"
     },
     {
       "@id": "ion:QRIS",
       "@type": "rdfs:Class",
       "rdfs:label": "QRIS",
-      "rdfs:comment": "Quick Response Code Indonesian Standard payment"
+      "rdfs:comment": "Quick Response Code Indonesian Standard payment",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Settlement"
+      }
     },
     {
       "@id": "ion:qrisType",
@@ -107,7 +117,10 @@
       "@id": "ion:VirtualAccount",
       "@type": "rdfs:Class",
       "rdfs:label": "VirtualAccount",
-      "rdfs:comment": "VirtualAccount"
+      "rdfs:comment": "VirtualAccount",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Settlement"
+      }
     },
     {
       "@id": "ion:bankCode",
@@ -130,7 +143,8 @@
     {
       "@id": "ion:currency",
       "@type": "rdf:Property",
-      "rdfs:label": "currency"
+      "rdfs:label": "currency",
+      "rdfs:comment": "Timestamp of successful payment confirmation"
     },
     {
       "@id": "ion:expiresAt",
@@ -142,7 +156,10 @@
       "@id": "ion:EWallet",
       "@type": "rdfs:Class",
       "rdfs:label": "EWallet",
-      "rdfs:comment": "EWallet"
+      "rdfs:comment": "EWallet",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Settlement"
+      }
     },
     {
       "@id": "ion:provider",
@@ -165,7 +182,8 @@
     {
       "@id": "ion:currency",
       "@type": "rdf:Property",
-      "rdfs:label": "currency"
+      "rdfs:label": "currency",
+      "rdfs:comment": "Timestamp of successful payment confirmation"
     },
     {
       "@id": "ion:expiresAt",
@@ -183,7 +201,10 @@
       "@id": "ion:CashOnDelivery",
       "@type": "rdfs:Class",
       "rdfs:label": "CashOnDelivery",
-      "rdfs:comment": "Runtime COD collection state. Offer-level COD policy fields (OTP required, denominations accepted, buyer daily limit, hold period, reconciliation variance) are declared per-offer in schema/extensions/logistics/offer/v1 — they govern how COD is accepted, not the per-transaction collection record."
+      "rdfs:comment": "Runtime COD collection state. Offer-level COD policy fields (OTP required, denominations accepted, buyer daily limit, hold period, reconciliation variance) are declared per-offer in schema/extensions/logistics/offer/v1 — they govern how COD is accepted, not the per-transaction collection record.",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Settlement"
+      }
     },
     {
       "@id": "ion:collectionAmount",
@@ -194,7 +215,8 @@
     {
       "@id": "ion:currency",
       "@type": "rdf:Property",
-      "rdfs:label": "currency"
+      "rdfs:label": "currency",
+      "rdfs:comment": "Timestamp of successful payment confirmation"
     },
     {
       "@id": "ion:changeIssuedBy",
@@ -212,7 +234,10 @@
       "@id": "ion:BankTransfer",
       "@type": "rdfs:Class",
       "rdfs:label": "BankTransfer",
-      "rdfs:comment": "BankTransfer"
+      "rdfs:comment": "BankTransfer",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Settlement"
+      }
     },
     {
       "@id": "ion:bankCode",
@@ -235,13 +260,17 @@
     {
       "@id": "ion:transferType",
       "@type": "rdf:Property",
-      "rdfs:label": "transferType"
+      "rdfs:label": "transferType",
+      "rdfs:comment": "BI-FAST, RTGS, or SKN bank settlement"
     },
     {
       "@id": "ion:BISettlement",
       "@type": "rdfs:Class",
       "rdfs:label": "BISettlement",
-      "rdfs:comment": "BI-FAST, RTGS, or SKN bank settlement"
+      "rdfs:comment": "BI-FAST, RTGS, or SKN bank settlement",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Settlement"
+      }
     },
     {
       "@id": "ion:settlementType",
@@ -264,17 +293,20 @@
     {
       "@id": "ion:beneficiaryName",
       "@type": "rdf:Property",
-      "rdfs:label": "beneficiaryName"
+      "rdfs:label": "beneficiaryName",
+      "rdfs:comment": "Indonesian equivalent — bank routing code"
     },
     {
       "@id": "ion:beneficiaryBank",
       "@type": "rdf:Property",
-      "rdfs:label": "beneficiaryBank"
+      "rdfs:label": "beneficiaryBank",
+      "rdfs:comment": "Indonesian equivalent — bank routing code"
     },
     {
       "@id": "ion:beneficiaryAccount",
       "@type": "rdf:Property",
-      "rdfs:label": "beneficiaryAccount"
+      "rdfs:label": "beneficiaryAccount",
+      "rdfs:comment": "BNPL provider name"
     },
     {
       "@id": "ion:ifscEquivalent",
@@ -286,7 +318,10 @@
       "@id": "ion:BNPL",
       "@type": "rdfs:Class",
       "rdfs:label": "BNPL",
-      "rdfs:comment": "BNPL"
+      "rdfs:comment": "BNPL",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Settlement"
+      }
     },
     {
       "@id": "ion:provider",
@@ -321,28 +356,35 @@
     {
       "@id": "ion:currency",
       "@type": "rdf:Property",
-      "rdfs:label": "currency"
+      "rdfs:label": "currency",
+      "rdfs:comment": "Timestamp of successful payment confirmation"
     },
     {
       "@id": "ion:firstPaymentDate",
       "@type": "rdf:Property",
-      "rdfs:label": "firstPaymentDate"
+      "rdfs:label": "firstPaymentDate",
+      "rdfs:comment": "Last 4 digits of card for display"
     },
     {
       "@id": "ion:CardPayment",
       "@type": "rdfs:Class",
       "rdfs:label": "CardPayment",
-      "rdfs:comment": "CardPayment"
+      "rdfs:comment": "CardPayment",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Settlement"
+      }
     },
     {
       "@id": "ion:cardType",
       "@type": "rdf:Property",
-      "rdfs:label": "cardType"
+      "rdfs:label": "cardType",
+      "rdfs:comment": "Last 4 digits of card for display"
     },
     {
       "@id": "ion:scheme",
       "@type": "rdf:Property",
-      "rdfs:label": "scheme"
+      "rdfs:label": "scheme",
+      "rdfs:comment": "Last 4 digits of card for display"
     },
     {
       "@id": "ion:maskedPan",

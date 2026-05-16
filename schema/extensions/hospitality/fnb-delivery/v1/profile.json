@@ -9,7 +9,7 @@
   "extends": "beckn:Resource",
   "attachmentPoints": {
     "resourceAttributes": [
-      "HospitalityFnbDeliveryAttributes"
+      "FnbMenuItem"
     ]
   },
   "ionResourceCategory": "HSC-fnb-delivery",

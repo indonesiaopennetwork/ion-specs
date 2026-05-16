@@ -8,7 +8,7 @@
   "jsonldContext": "./context.jsonld",
   "attachmentPoints": {
     "ratingAttributes": [
-      "IONRatingAttributes"
+      "IONRating"
     ]
   },
   "apis": [

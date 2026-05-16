@@ -9,7 +9,10 @@
       "@id": "ion:LocalisedText",
       "@type": "rdfs:Class",
       "rdfs:label": "LocalisedText",
-      "rdfs:comment": "Language-keyed text. \"id\" always required. \"en\" required for XB pattern."
+      "rdfs:comment": "Language-keyed text. \"id\" always required. \"en\" required for XB pattern.",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Resource"
+      }
     },
     {
       "@id": "ion:id",
@@ -20,13 +23,17 @@
     {
       "@id": "ion:en",
       "@type": "rdf:Property",
-      "rdfs:label": "en"
+      "rdfs:label": "en",
+      "rdfs:comment": "Numeric quantity — may be fractional for weight-based goods"
     },
     {
-      "@id": "ion:TradeResourceAttributes",
+      "@id": "ion:TradeResource",
       "@type": "rdfs:Class",
-      "rdfs:label": "TradeResourceAttributes",
-      "rdfs:comment": "TradeResourceAttributes"
+      "rdfs:label": "TradeResource",
+      "rdfs:comment": "TradeResource",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Resource"
+      }
     },
     {
       "@id": "ion:resourceStructure",
@@ -55,7 +62,8 @@
     {
       "@id": "ion:variantGroup",
       "@type": "rdf:Property",
-      "rdfs:label": "variantGroup"
+      "rdfs:label": "variantGroup",
+      "rdfs:comment": "The attribute that varies. e.g. size, colour, storage"
     },
     {
       "@id": "ion:variantMatrix",
@@ -66,12 +74,14 @@
     {
       "@id": "ion:customisationGroups",
       "@type": "rdf:Property",
-      "rdfs:label": "customisationGroups"
+      "rdfs:label": "customisationGroups",
+      "rdfs:comment": "ISO 8601 duration. Time from order confirm to item ready."
     },
     {
       "@id": "ion:menuCategory",
       "@type": "rdf:Property",
-      "rdfs:label": "menuCategory"
+      "rdfs:label": "menuCategory",
+      "rdfs:comment": "ISO 8601 duration. Time from order confirm to item ready."
     },
     {
       "@id": "ion:preparationTime",
@@ -82,7 +92,8 @@
     {
       "@id": "ion:productCode",
       "@type": "rdf:Property",
-      "rdfs:label": "productCode"
+      "rdfs:label": "productCode",
+      "rdfs:comment": "First image is primary thumbnail. Additional images for gallery."
     },
     {
       "@id": "ion:images",
@@ -105,77 +116,92 @@
     {
       "@id": "ion:availability",
       "@type": "rdf:Property",
-      "rdfs:label": "availability"
+      "rdfs:label": "availability",
+      "rdfs:comment": "IN_STOCK: adequate quantity available. LOW_STOCK: limited — BAP may show urgency signal."
     },
     {
       "@id": "ion:identity",
       "@type": "rdf:Property",
-      "rdfs:label": "identity"
+      "rdfs:label": "identity",
+      "rdfs:comment": "Seller internal SKU"
     },
     {
       "@id": "ion:physical",
       "@type": "rdf:Property",
-      "rdfs:label": "physical"
+      "rdfs:label": "physical",
+      "rdfs:comment": "Required when colour is specified"
     },
     {
       "@id": "ion:packaged",
       "@type": "rdf:Property",
-      "rdfs:label": "packaged"
+      "rdfs:label": "packaged",
+      "rdfs:comment": "Required for food, beverage, pharma, cosmetics"
     },
     {
       "@id": "ion:regulatory",
       "@type": "rdf:Property",
-      "rdfs:label": "regulatory"
+      "rdfs:label": "regulatory",
+      "rdfs:comment": "Back-of-pack statutory requirements image"
     },
     {
       "@id": "ion:food",
       "@type": "rdf:Property",
-      "rdfs:label": "food"
+      "rdfs:label": "food",
+      "rdfs:comment": "ISO 8601 duration"
     },
     {
       "@id": "ion:preparation",
       "@type": "rdf:Property",
-      "rdfs:label": "preparation"
+      "rdfs:label": "preparation",
+      "rdfs:comment": "ISO 8601 duration"
     },
     {
       "@id": "ion:fashion",
       "@type": "rdf:Property",
-      "rdfs:label": "fashion"
+      "rdfs:label": "fashion",
+      "rdfs:comment": "Appliance capacity. Fridge=litres, Washer=kg load"
     },
     {
       "@id": "ion:electronics",
       "@type": "rdf:Property",
-      "rdfs:label": "electronics"
+      "rdfs:label": "electronics",
+      "rdfs:comment": "Appliance capacity. Fridge=litres, Washer=kg load"
     },
     {
       "@id": "ion:beauty",
       "@type": "rdf:Property",
-      "rdfs:label": "beauty"
+      "rdfs:label": "beauty",
+      "rdfs:comment": "Government mandi reference price IDR/kg"
     },
     {
       "@id": "ion:agritech",
       "@type": "rdf:Property",
-      "rdfs:label": "agritech"
+      "rdfs:label": "agritech",
+      "rdfs:comment": "Government mandi reference price IDR/kg"
     },
     {
       "@id": "ion:pharmacy",
       "@type": "rdf:Property",
-      "rdfs:label": "pharmacy"
+      "rdfs:label": "pharmacy",
+      "rdfs:comment": "ISO 8601 duration. Minimum P1Y for electronics."
     },
     {
       "@id": "ion:installation",
       "@type": "rdf:Property",
-      "rdfs:label": "installation"
+      "rdfs:label": "installation",
+      "rdfs:comment": "ISO 8601 duration. Minimum P1Y for electronics."
     },
     {
       "@id": "ion:usage",
       "@type": "rdf:Property",
-      "rdfs:label": "usage"
+      "rdfs:label": "usage",
+      "rdfs:comment": "ISO 8601 duration. Minimum P1Y for electronics."
     },
     {
       "@id": "ion:warranty",
       "@type": "rdf:Property",
-      "rdfs:label": "warranty"
+      "rdfs:label": "warranty",
+      "rdfs:comment": "ISO 8601 duration. Minimum P1Y for electronics."
     },
     {
       "@id": "ion:ageRestricted",
@@ -222,7 +248,8 @@
     {
       "@id": "ion:videos",
       "@type": "rdf:Property",
-      "rdfs:label": "videos"
+      "rdfs:label": "videos",
+      "rdfs:comment": "Components of a bundle SKU. Required for bundle offers where individual components carry"
     },
     {
       "@id": "ion:bundleComposition",

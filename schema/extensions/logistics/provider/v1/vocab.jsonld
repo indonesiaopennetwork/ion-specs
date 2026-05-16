@@ -7,16 +7,19 @@
   },
   "@graph": [
     {
-      "@id": "ion:LogisticsProviderAttributes",
+      "@id": "ion:LogisticsProvider",
       "@type": "rdfs:Class",
       "rdfs:comment": "ION Logistics provider attributes. Attaches to beckn:Provider.providerAttributes.",
-      "rdfs:label": "Logistics Provider Attributes"
+      "rdfs:label": "LogisticsProvider",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Provider"
+      }
     },
     {
       "@id": "ion:nibRegistered",
       "@type": "rdfs:Property",
       "rdfs:domain": {
-        "@id": "ion:LogisticsProviderAttributes"
+        "@id": "ion:LogisticsProvider"
       },
       "rdfs:range": {
         "@id": "xsd:boolean"
@@ -27,7 +30,7 @@
       "@id": "ion:providerCategory",
       "@type": "rdfs:Property",
       "rdfs:domain": {
-        "@id": "ion:LogisticsProviderAttributes"
+        "@id": "ion:LogisticsProvider"
       },
       "rdfs:range": {
         "@id": "xsd:string"
@@ -38,7 +41,7 @@
       "@id": "ion:spinesSupported",
       "@type": "rdfs:Property",
       "rdfs:domain": {
-        "@id": "ion:LogisticsProviderAttributes"
+        "@id": "ion:LogisticsProvider"
       },
       "rdfs:comment": "ION logistics spines this provider supports. LOG-PARCEL|LOG-HYPERLOCAL|LOG-FREIGHT|LOG-RORO|LOG-XB|LOG-WAREHOUSE."
     },
@@ -46,7 +49,7 @@
       "@id": "ion:modesSupported",
       "@type": "rdfs:Property",
       "rdfs:domain": {
-        "@id": "ion:LogisticsProviderAttributes"
+        "@id": "ion:LogisticsProvider"
       },
       "rdfs:comment": "Transport modes. motorcycle|car|van|truck|rail|sea|air|river|ferry."
     },
@@ -54,7 +57,7 @@
       "@id": "ion:selectRequired",
       "@type": "rdfs:Property",
       "rdfs:domain": {
-        "@id": "ion:LogisticsProviderAttributes"
+        "@id": "ion:LogisticsProvider"
       },
       "rdfs:range": {
         "@id": "xsd:boolean"
@@ -65,7 +68,7 @@
       "@id": "ion:fwaApplicable",
       "@type": "rdfs:Property",
       "rdfs:domain": {
-        "@id": "ion:LogisticsProviderAttributes"
+        "@id": "ion:LogisticsProvider"
       },
       "rdfs:range": {
         "@id": "xsd:boolean"
@@ -76,7 +79,7 @@
       "@id": "ion:coldChainCertified",
       "@type": "rdfs:Property",
       "rdfs:domain": {
-        "@id": "ion:LogisticsProviderAttributes"
+        "@id": "ion:LogisticsProvider"
       },
       "rdfs:range": {
         "@id": "xsd:boolean"
@@ -87,7 +90,7 @@
       "@id": "ion:beaCukaiLicenceNumber",
       "@type": "rdfs:Property",
       "rdfs:domain": {
-        "@id": "ion:LogisticsProviderAttributes"
+        "@id": "ion:LogisticsProvider"
       },
       "rdfs:range": {
         "@id": "xsd:string"

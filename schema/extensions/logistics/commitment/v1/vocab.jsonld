@@ -7,11 +7,14 @@
   },
   "@graph": [
     {
-      "@id": "ion:LogisticsCommitmentAttributes",
+      "@id": "ion:LogisticsCommitment",
       "@type": "rdfs:Class",
       "rdfs:comment": "ION Logistics commitment extension attributes. Attaches to beckn:Commitment.CommitmentAttributes.",
-      "rdfs:label": "Logistics Commitment Attributes",
-      "rdfs:isDefinedBy": "https://schema.ion.id/logistics/v1/"
+      "rdfs:label": "LogisticsCommitment",
+      "rdfs:isDefinedBy": "https://schema.ion.id/logistics/v1/",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Commitment"
+      }
     }
   ]
 }

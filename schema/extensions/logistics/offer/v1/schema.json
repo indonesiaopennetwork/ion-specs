@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://schema.ion.id/logistics/offer/v1",
-  "title": "LogisticsOfferAttributes",
+  "title": "LogisticsOffer",
   "type": "object",
   "properties": {
     "serviceLevel": {

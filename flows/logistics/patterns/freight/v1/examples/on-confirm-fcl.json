@@ -24,7 +24,7 @@
           },
           "participantAttributes": {
             "@context": "https://schema.ion.id/logistics/v1/participant/context.jsonld",
-            "@type": "ion:LogisticsParticipantAttributes",
+            "@type": "ion:LogisticsParticipantAddendum",
             "role": "PROVIDER"
           }
         },
@@ -36,7 +36,7 @@
           },
           "participantAttributes": {
             "@context": "https://schema.ion.id/logistics/v1/participant/context.jsonld",
-            "@type": "ion:LogisticsParticipantAttributes",
+            "@type": "ion:LogisticsParticipantAddendum",
             "role": "CONSIGNOR"
           },
           "descriptor": {
@@ -51,7 +51,7 @@
           },
           "participantAttributes": {
             "@context": "https://schema.ion.id/logistics/v1/participant/context.jsonld",
-            "@type": "ion:LogisticsParticipantAttributes",
+            "@type": "ion:LogisticsParticipantAddendum",
             "role": "CONSIGNEE"
           },
           "descriptor": {
@@ -77,7 +77,7 @@
             "containerReference": "SAMU1234567",
             "sealNumber": "SL987654",
             "@context": "https://schema.ion.id/logistics/v1/commitment/context.jsonld",
-            "@type": "ion:LogisticsCommitmentAttributes"
+            "@type": "ion:LogisticsCommitment"
           },
           "status": {
             "descriptor": {
@@ -115,7 +115,7 @@
             },
             "manifestVerified": false,
             "@context": "https://schema.ion.id/logistics/v1/performance/context.jsonld",
-            "@type": "ion:LogisticsPerformanceAttributes",
+            "@type": "ion:LogisticsPerformance",
             "stops": [
               {
                 "type": "START",
@@ -165,7 +165,7 @@
             "totalAmount": 10194800,
             "currency": "IDR",
             "@context": "https://schema.ion.id/logistics/v1/consideration/context.jsonld",
-            "@type": "ion:LogisticsConsiderationAttributes"
+            "@type": "ion:LogisticsConsideration"
           },
           "id": "cons-001",
           "status": {
@@ -198,7 +198,7 @@
           "invoicingModel": "INDIVIDUAL_PER_SHIPMENT"
         },
         "@context": "https://schema.ion.id/logistics/v1/contract/context.jsonld",
-        "@type": "ion:LogisticsContractAttributes"
+        "@type": "ion:LogisticsContract"
       }
     }
   }

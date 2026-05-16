@@ -60,7 +60,7 @@
               "id": "PIZZA-PEPPERONI-LARGE",
               "resourceAttributes": {
                 "@context": "https://schema.ion.id/extensions/trade/resource/v1/context.jsonld",
-                "@type": "ion:TradeResourceAttributes",
+                "@type": "ion:TradeResource",
                 "quantity": {
                   "count": 1
                 }
@@ -69,7 +69,7 @@
           ],
           "commitmentAttributes": {
             "@context": "https://devlabs.ion.id/vocab/trade/commitment/v1",
-            "@type": "ion:TradeCommitmentAttributes",
+            "@type": "ion:TradeCommitment",
             "customisationSelections": [
               {
                 "groupId": "CG-CRUST",
@@ -94,7 +94,7 @@
           },
           "performanceAttributes": {
             "@context": "https://devlabs.ion.id/vocab/trade/performance/v1",
-            "@type": "ion:TradePerformanceAttributes",
+            "@type": "ion:TradePerformance",
             "performanceMode": "DELIVERY"
           }
         }

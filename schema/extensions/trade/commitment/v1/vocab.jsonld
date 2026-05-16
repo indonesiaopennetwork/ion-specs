@@ -6,10 +6,13 @@
   },
   "@graph": [
     {
-      "@id": "ion:TradeCommitmentAttributes",
+      "@id": "ion:TradeCommitment",
       "@type": "rdfs:Class",
-      "rdfs:label": "TradeCommitmentAttributes",
-      "rdfs:comment": "TradeCommitmentAttributes"
+      "rdfs:label": "TradeCommitment",
+      "rdfs:comment": "TradeCommitment",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Commitment"
+      }
     },
     {
       "@id": "ion:lineId",

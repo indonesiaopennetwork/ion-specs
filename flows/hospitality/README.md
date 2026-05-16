@@ -4,7 +4,7 @@
 
 | Pattern | What it covers |
 |---|---|
-| [`delivery-order`](patterns/delivery-order/v1/pattern.yaml) | Food and beverage ordered for delivery or self-pickup. Prepared after order. |
+| [`delivery-order`](patterns/delivery-order/v1/pattern.yaml) | Food and beverage ordered for delivery or self-pickup — GoFood, GrabFood, Tokopedia Food, and any online food ordering platform. Item prepared fresh after order. |
 
 ## Reserved patterns (working groups pending)
 

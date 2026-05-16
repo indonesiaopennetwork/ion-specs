@@ -7,11 +7,14 @@
   },
   "@graph": [
     {
-      "@id": "ion:LogisticsResourceAttributes",
+      "@id": "ion:LogisticsShipment",
       "@type": "rdfs:Class",
       "rdfs:comment": "ION Logistics resource extension attributes. Attaches to beckn:Resource.ResourceAttributes.",
-      "rdfs:label": "Logistics Resource Attributes",
-      "rdfs:isDefinedBy": "https://schema.ion.id/logistics/v1/"
+      "rdfs:label": "LogisticsShipment",
+      "rdfs:isDefinedBy": "https://schema.ion.id/logistics/v1/",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Resource"
+      }
     }
   ]
 }

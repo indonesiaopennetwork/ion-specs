@@ -6,10 +6,13 @@
   },
   "@graph": [
     {
-      "@id": "ion:IONRatingAttributes",
+      "@id": "ion:IONRating",
       "@type": "rdfs:Class",
-      "rdfs:label": "IONRatingAttributes",
-      "rdfs:comment": "IONRatingAttributes"
+      "rdfs:label": "IONRating",
+      "rdfs:comment": "IONRating",
+      "rdfs:subClassOf": {
+        "@id": "beckn:RatingInput"
+      }
     },
     {
       "@id": "ion:ratingCategory",

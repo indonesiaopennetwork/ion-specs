@@ -7,11 +7,14 @@
   },
   "@graph": [
     {
-      "@id": "ion:LogisticsContractAttributes",
+      "@id": "ion:LogisticsContract",
       "@type": "rdfs:Class",
       "rdfs:comment": "ION Logistics contract extension attributes. Attaches to beckn:Contract.ContractAttributes.",
-      "rdfs:label": "Logistics Contract Attributes",
-      "rdfs:isDefinedBy": "https://schema.ion.id/logistics/v1/"
+      "rdfs:label": "LogisticsContract",
+      "rdfs:isDefinedBy": "https://schema.ion.id/logistics/v1/",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Contract"
+      }
     }
   ]
 }

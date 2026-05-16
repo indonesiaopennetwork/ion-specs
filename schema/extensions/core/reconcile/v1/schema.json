@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://schema.ion.id/core/reconcile/v1",
-  "title": "IONReconcileAttributes",
+  "title": "IONReconciliation",
   "type": "object",
   "properties": {
     "reconId": {
@@ -208,7 +208,7 @@
       "type": "string",
       "description": "Human-readable reason for DISPUTED status. Referenced when raising a dispute ticket via raise/on_raise.\n"
     },
-    "recon_status": {
+    "reconStatus": {
       "type": "string",
       "enum": [
         "01",

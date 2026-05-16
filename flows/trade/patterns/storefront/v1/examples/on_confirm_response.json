@@ -87,7 +87,7 @@
               "id": "PIZZA-PEPPERONI-LARGE",
               "resourceAttributes": {
                 "@context": "https://schema.ion.id/extensions/trade/resource/v1/context.jsonld",
-                "@type": "ion:TradeResourceAttributes",
+                "@type": "ion:TradeResource",
                 "quantity": {
                   "count": 1
                 }
@@ -96,7 +96,7 @@
           ],
           "commitmentAttributes": {
             "@context": "https://devlabs.ion.id/vocab/trade/commitment/v1",
-            "@type": "ion:TradeCommitmentAttributes",
+            "@type": "ion:TradeCommitment",
             "lineId": "L01",
             "price": {
               "value": "89000",
@@ -125,7 +125,7 @@
         },
         "considerationAttributes": {
           "@context": "https://devlabs.ion.id/vocab/trade/consideration/v1",
-          "@type": "ion:TradeConsiderationAttributes",
+          "@type": "ion:TradeConsideration",
           "totalAmount": 98900,
           "currency": "IDR",
           "breakup": [
@@ -167,7 +167,7 @@
           },
           "performanceAttributes": {
             "@context": "https://devlabs.ion.id/vocab/trade/performance/v1",
-            "@type": "ion:TradePerformanceAttributes",
+            "@type": "ion:TradePerformance",
             "performanceMode": "DELIVERY",
             "sla": {
               "min": "PT30M",
@@ -222,7 +222,7 @@
       ],
       "contractAttributes": {
         "@context": "https://devlabs.ion.id/vocab/trade/contract/v1",
-        "@type": "ion:TradeContractAttributes",
+        "@type": "ion:TradeContract",
         "fulfillingLocationId": "FC-DOMINOS-SUDIRMAN-001",
         "npwp": "1234567890123456",
         "nib": "1234567890123",

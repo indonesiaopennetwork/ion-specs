@@ -8,7 +8,7 @@
   "jsonldContext": "./context.jsonld",
   "attachmentPoints": {
     "settlementAttributes": [
-      "IONReconcileAttributes"
+      "IONReconciliation"
     ]
   },
   "apis": [

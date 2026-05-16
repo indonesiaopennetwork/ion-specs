@@ -3,11 +3,11 @@ info:
   title: ION Logistics Participant Addendum (v1)
   description: "Thin logistics addendum to core/participant/v1. Carries the few participant identity fields that\
     \ apply only to logistics roles — PPJK customs-broker licence and Indonesian driver SIM details.\nAttaches to:\
-    \ beckn:Participant.participantAttributes alongside IONParticipantAttributes (core/participant/v1) on the same\
+    \ beckn:Participant.participantAttributes alongside IONParticipant (core/participant/v1) on the same\
     \ participant. Both blocks coexist because they declare disjoint field sets and carry distinct @type values.\n\
     Wire placement on a single participant:\n  message.participants[N].participantAttributes: {\n    \"@context\"\
     : [\"https://schema.ion.id/core/participant/v1/context.jsonld\",\n                 \"https://schema.ion.id/logistics/participant-logistics/v1/context.jsonld\"\
-    ],\n    \"@type\": [\"ion:ParticipantAttributes\",\n              \"ion:LogisticsParticipantAddendum\"],\n \
+    ],\n    \"@type\": [\"ion:IONParticipant\",\n              \"ion:LogisticsParticipantAddendum\"],\n \
     \   ...core participant fields...,\n    ...logistics addendum fields...\n  }\n\nNew in v0.5.2. Supersedes the\
     \ previous logistics/participant/v1 pack whose cross-sector fields were promoted to core.\n"
   version: 1.0.0
@@ -24,7 +24,7 @@ components:
       title: Logistics Participant Addendum
       additionalProperties: true
       x-jsonld:
-        '@context': ./context.jsonld
+        '@context': 'https://schema.ion.id/logistics/participant-logistics/v1/context.jsonld'
         '@type': ion:LogisticsParticipantAddendum
       x-beckn-attaches-to: Participant.participantAttributes
       properties:
@@ -36,12 +36,12 @@ components:
 
             '
           x-ion-regulatory: PMK 219/PMK.04/2019 tentang PPJK
-          x-ion-conditional-cross-schema: true
+          x-ion-cross-schema-condition: true
           x-ion-condition: Required when role=CUSTOMS_BROKER
         driverLicenceNumber:
           type: string
           description: SIM (Surat Izin Mengemudi) — Indonesian driving licence number
-          x-ion-conditional-cross-schema: true
+          x-ion-cross-schema-condition: true
           x-ion-condition: Required when role=DRIVER (roro, freight, hyperlocal)
         driverLicenceCategory:
           type: string
@@ -57,7 +57,7 @@ components:
 
             '
           x-ion-regulatory: UU 22/2009 LLAJ; Perpol 5/2021
-          x-ion-conditional-cross-schema: true
+          x-ion-cross-schema-condition: true
           x-ion-condition: Required when role=DRIVER
       x-ion-closed-extensions: false
       allOf:

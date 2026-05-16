@@ -8,9 +8,6 @@
     "capacityUnits": "ion:capacityUnits",
     "containerReference": "ion:containerReference",
     "expiryDate": "ion:expiryDate",
-    "ion:LogisticsCommitmentAttributes": {
-      "@id": "ion:LogisticsCommitmentAttributes"
-    },
     "lineId": "ion:lineId",
     "lotNumber": "ion:lotNumber",
     "offerId": "ion:offerId",
@@ -28,6 +25,8 @@
     "@protected": true,
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "owl": "http://www.w3.org/2002/07/owl#",
     "schema": "https://schema.org/"
   }
 }

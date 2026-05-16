@@ -14,13 +14,13 @@ info:
     url: https://schema.ion.id
 components:
   schemas:
-    TradeConsiderationAttributes:
+    TradeConsideration:
       type: object
-      title: Trade Consideration Attributes
+      title: TradeConsideration
       additionalProperties: true
       x-jsonld:
-        '@context': ./context.jsonld
-        '@type': ion:TradeConsiderationAttributes
+        '@context': 'https://schema.ion.id/trade/consideration/v1/context.jsonld'
+        '@type': ion:TradeConsideration
       x-beckn-attaches-to: Consideration.considerationAttributes
       properties:
         ppnRate:
@@ -29,13 +29,12 @@ components:
           maximum: 1
           description: 'PPN (Pajak Pertambahan Nilai) rate applied to this consideration line. The applicable rate
             MUST be sourced from current Indonesian tax regulation (DJP / PMK), not hardcoded. Current PPN standard
-            is 0.11 (11%) per PMK 131/2024 under UU 7/2021 HPP; some categories (basic foods, books, health services)
+            is declared by applicable PMK (see x-ion-regulatory annotation); some categories (basic foods, books, health services)
             have reduced or zero rates.
 
             '
           example: 0.11
           x-ion-regulatory: UU 7/2021 HPP; PMK 131/2024 (or current applicable PMK)
-          x-ion-conditional: true
           x-ion-condition: Required on TAX consideration lines
         ppnbmRate:
           type: number
@@ -43,12 +42,11 @@ components:
           maximum: 1
           description: 'PPnBM (Pajak Penjualan atas Barang Mewah) rate for luxury goods. Applied in addition to
             PPN. Applicable rate MUST be sourced from current regulation (rates vary by luxury category — check
-            DJP for the applicable schedule under PMK 141/2021 and later).
+            DJP for the applicable schedule — see x-ion-regulatory annotation).
 
             '
           example: 0.2
           x-ion-regulatory: UU 42/2009 tentang PPN dan PPnBM; current applicable PMK
-          x-ion-conditional: true
           x-ion-condition: Required on PPNBM consideration lines for luxury goods
         discountType:
           type: string
@@ -60,7 +58,6 @@ components:
 
             '
           example: PERCENT
-          x-ion-conditional: true
           x-ion-condition: Required on discount consideration lines
         discountValue:
           type: string
@@ -69,7 +66,6 @@ components:
 
             '
           example: '0.10'
-          x-ion-conditional: true
           x-ion-condition: Required when discountType is declared
         breakupLineType:
           type: string

@@ -14,13 +14,13 @@ info:
     url: https://schema.ion.id
 components:
   schemas:
-    LogisticsProviderAttributes:
+    LogisticsProvider:
       type: object
-      title: Logistics Provider Attributes
+      title: LogisticsProvider
       additionalProperties: true
       x-jsonld:
-        '@context': ./context.jsonld
-        '@type': ion:LogisticsProviderAttributes
+        '@context': 'https://schema.ion.id/logistics/provider/v1/context.jsonld'
+        '@type': ion:LogisticsProvider
       x-beckn-attaches-to: Provider.providerAttributes
       properties:
         catalogVersion:
@@ -73,11 +73,11 @@ components:
         nibNumber:
           type: string
           description: NIB number for registered logistics entities
-          x-ion-conditional: true
+          x-ion-condition: Required when nibRegistered is true (PP 5/2021 OSS-RBA)
         siupNumber:
           type: string
           description: SIUP (Surat Izin Usaha Perdagangan) trading licence number
-          x-ion-conditional: true
+          x-ion-condition: Required for logistics providers above UMKM tier
         alfiMembership:
           type: boolean
           description: ALFI (Asosiasi Logistik dan Forwarder Indonesia) member status
@@ -113,16 +113,16 @@ components:
           items:
             type: string
             enum:
-            - motorcycle
-            - bicycle
-            - car
-            - van
-            - truck
-            - rail
-            - sea
-            - air
-            - river
-            - ferry
+            - MOTORCYCLE
+            - BICYCLE
+            - CAR
+            - VAN
+            - TRUCK
+            - RAIL
+            - SEA
+            - AIR
+            - RIVER
+            - FERRY
         coverage:
           type: array
           description: Geographic coverage declarations
@@ -155,7 +155,7 @@ components:
             - CHILLED
             - AMBIENT
             - CONTROLLED_ROOM
-          x-ion-conditional: true
+          x-ion-condition: See property description: Cold chain handling capability
         hazmatCertified:
           type: boolean
           description: Dangerous goods handling certification
@@ -164,7 +164,7 @@ components:
           description: IATA/IMO dangerous goods classes supported
           items:
             type: string
-          x-ion-conditional: true
+          x-ion-condition: Required when shipment contains dangerous goods (DG classification present)
         highValueCapable:
           type: boolean
           description: Capable of handling high-declared-value shipments with enhanced security

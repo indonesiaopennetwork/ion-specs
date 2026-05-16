@@ -14,13 +14,13 @@ info:
     url: https://schema.ion.id
 components:
   schemas:
-    TradePerformanceAttributes:
+    TradePerformance:
       type: object
-      title: Trade Performance Attributes
+      title: TradePerformance
       additionalProperties: true
       x-jsonld:
-        '@context': ./context.jsonld
-        '@type': ion:TradePerformanceAttributes
+        '@context': 'https://schema.ion.id/trade/performance/v1/context.jsonld'
+        '@type': ion:TradePerformance
       x-beckn-attaches-to: Performance.performanceAttributes
       properties:
         performanceMode:
@@ -101,7 +101,6 @@ components:
 
             '
           example: true
-          x-ion-conditional: true
           x-ion-condition: Required in /update when seller is ready for pickup
         awbNumber:
           type: string
@@ -110,7 +109,6 @@ components:
 
             '
           example: JNE1234567890
-          x-ion-conditional: true
           x-ion-condition: Added after order is picked up by logistics provider
         trackingUrl:
           type: string
@@ -120,7 +118,6 @@ components:
 
             '
           example: https://jne.co.id/track?awb=JNE1234567890
-          x-ion-conditional: true
           x-ion-condition: Present after DISPATCHED state
         estimatedDeliveryTime:
           type: string
@@ -130,20 +127,17 @@ components:
 
             '
           example: 2026-04-19 14:30:00+07:00
-          x-ion-conditional: true
           x-ion-condition: Present from DISPATCHED state onwards
         agentName:
           type: string
           description: Name of delivery agent or driver assigned to this fulfilment.
           example: Budi Santoso
-          x-ion-conditional: true
           x-ion-condition: Present when agent is assigned
         agentPhone:
           type: string
           pattern: ^[0-9]{10,13}$
           description: Indonesian mobile number, 10-13 digits.
           example: 08123456789
-          x-ion-conditional: true
           x-ion-condition: Present when agent is assigned
         agentPhoto:
           type: string
@@ -153,7 +147,6 @@ components:
 
             '
           example: https://sellerapp.ion.id/agents/budi-santoso.jpg
-          x-ion-conditional: true
           x-ion-condition: Present when agent is assigned
         deliveryOtp:
           type: string
@@ -163,7 +156,6 @@ components:
 
             '
           example: '482930'
-          x-ion-conditional: true
           x-ion-condition: Present when offer.selfPickupOtp=true or high-value item
         deliveryProofUrl:
           type: string
@@ -173,7 +165,6 @@ components:
 
             '
           example: https://sellerapp.ion.id/proofs/delivery-ORD-001.jpg
-          x-ion-conditional: true
           x-ion-condition: Present after DELIVERED state
         selfPickupCode:
           type: string
@@ -182,20 +173,17 @@ components:
 
             '
           example: SP-4729
-          x-ion-conditional: true
           x-ion-condition: Present for SELF_PICKUP performance mode
         returnAgentName:
           type: string
           description: Name of pickup agent for return collection.
           example: Andi Wijaya
-          x-ion-conditional: true
           x-ion-condition: Present on return Performance records when agent assigned
         returnTrackingUrl:
           type: string
           format: uri
           description: Tracking URL for return shipment.
           example: https://jne.co.id/track?awb=JNE9876543210
-          x-ion-conditional: true
           x-ion-condition: Present on return Performance after RETURN_PICKED state
         installationScheduling:
           type: object
@@ -217,7 +205,6 @@ components:
               type: string
               description: Instructions for consumer regarding installation.
               example: Teknisi akan menelepon 30 menit sebelum tiba.
-          x-ion-conditional: true
           x-ion-condition: Present for products with installation.required=true
         realTimeGps:
           type: object
@@ -245,7 +232,6 @@ components:
           - latitude
           - longitude
           - timestamp
-          x-ion-conditional: true
           x-ion-condition: Present only in /on_track responses
         lspSubscriberId:
           type: string
@@ -254,7 +240,6 @@ components:
 
             '
           example: lsp.jne.ion.id
-          x-ion-conditional: true
           x-ion-condition: Present when fulfilment is handled by on-network LSP
         shippingInsurance:
           type: object
@@ -300,7 +285,6 @@ components:
               format: uri
               description: URL to claim filing procedure for this policy
           x-ion-regulatory: OJK POJK 69/POJK.05/2016 tentang Perilaku Usaha Pialang Asuransi
-          x-ion-conditional: true
           x-ion-condition: Required when offer.price > IDR 5,000,000 or category-mandated
         agentId:
           type: string
@@ -309,7 +293,6 @@ components:
 
             '
           example: SPX-RIDER-28471
-          x-ion-conditional: true
           x-ion-condition: Present when agent is assigned
         agentVehicleType:
           type: string
@@ -354,12 +337,10 @@ components:
             — full for QC_PASSED, partial for QC_PARTIAL, zero for QC_FAILED_* variants (dispute-prone).
 
             '
-          x-ion-conditional: true
           x-ion-condition: Required on Performance record for return-delivered state
         qcNotes:
           type: string
           description: Seller-provided explanation of QC findings
-          x-ion-conditional: true
           x-ion-condition: Required when qcResult is not QC_PASSED
         qcEvidence:
           type: array
@@ -420,7 +401,6 @@ components:
 
             '
           default: false
-          x-ion-conditional: true
           x-ion-condition: Required when any item in order has resource.ageRestricted=true
         ageVerificationMethod:
           type: string
@@ -466,7 +446,6 @@ components:
             (per platform policy).
 
             '
-          x-ion-conditional: true
           x-ion-condition: Required when delivery fails due to age verification
       required:
       - performanceMode
@@ -486,7 +465,7 @@ components:
       - if:
           properties:
             ageVerificationRequired:
-              const: 'true'
+              const: true
           required:
           - ageVerificationRequired
         then:

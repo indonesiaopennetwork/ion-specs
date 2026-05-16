@@ -1,6 +1,6 @@
 {
   "@context": "https://schema.ion.id/hospitality/fnb-delivery/v1/context.jsonld",
-  "@type": "ion:HospitalityFnbDeliveryAttributes",
+  "@type": "ion:FnbMenuItem",
   "_comment": "Example: Nasi Goreng Spesial — COMPOSED resource with customisation (HSC-fnb-delivery)",
   "quantity": {
     "value": 1,

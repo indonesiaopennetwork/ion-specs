@@ -14,13 +14,13 @@ info:
     url: https://schema.ion.id
 components:
   schemas:
-    LogisticsCommitmentAttributes:
+    LogisticsCommitment:
       type: object
-      title: Logistics Commitment Attributes
+      title: LogisticsCommitment
       additionalProperties: true
       x-jsonld:
-        '@context': ./context.jsonld
-        '@type': ion:LogisticsCommitmentAttributes
+        '@context': 'https://schema.ion.id/logistics/commitment/v1/context.jsonld'
+        '@type': ion:LogisticsCommitment
       x-beckn-attaches-to: Commitment.commitmentAttributes
       properties:
         lineId:

@@ -31,13 +31,13 @@ components:
         en: Special Fried Rice
       required:
       - id
-    TradeResourceAttributes:
+    TradeResource:
       type: object
-      title: Trade Resource Attributes
+      title: TradeResource
       additionalProperties: true
       x-jsonld:
-        '@context': ./context.jsonld
-        '@type': ion:TradeResourceAttributes
+        '@context': 'https://schema.ion.id/trade/resource/v1/context.jsonld'
+        '@type': ion:TradeResource
       x-beckn-attaches-to: Resource.resourceAttributes
       properties:
         quantity:
@@ -98,7 +98,6 @@ components:
           type: string
           description: ID of parent resource. Present on VARIANT and WITH_EXTRAS.
           example: PIZZA-MARGHERITA
-          x-ion-conditional: true
           x-ion-condition: Required when resourceStructure IN [VARIANT, WITH_EXTRAS]
         isDefaultVariant:
           type: boolean
@@ -286,7 +285,6 @@ components:
             - name
             - selectionType
             - options
-          x-ion-conditional: true
           x-ion-condition: Required when resourceStructure IN [COMPOSED, WITH_EXTRAS]
         menuCategory:
           type: object
@@ -304,13 +302,11 @@ components:
             imageUrl:
               type: string
               format: uri
-          x-ion-conditional: true
           x-ion-condition: Required for F&B providers
         preparationTime:
           type: string
           description: ISO 8601 duration. Time from order confirm to item ready.
           example: PT20M
-          x-ion-conditional: true
           x-ion-condition: Required for F&B and made-to-order items
         productCode:
           type: object
@@ -334,7 +330,6 @@ components:
           example:
             type: GTIN
             value: '8999999123456'
-          x-ion-conditional: true
           x-ion-condition: Required for FMCG, electronics, cross-border products
         images:
           type: array
@@ -516,7 +511,6 @@ components:
               description: Harmonized System Nomenclature code
               example: '1902.30'
           x-ion-regulatory: PerBPOM 31/2018 tentang Label Pangan Olahan
-          x-ion-conditional: true
           x-ion-condition: Required for packaged goods
         regulatory:
           type: object
@@ -643,6 +637,10 @@ components:
               description: Back-of-pack statutory requirements image
         food:
           type: object
+          description: >
+            Food product attributes for filtering and regulatory compliance.
+            Detailed nutritional information, ingredient lists, and preparation
+            notes belong in Descriptor.longDesc for agent readability.
           additionalProperties: false
           properties:
             classification:
@@ -691,7 +689,6 @@ components:
                 harvestDate:
                   type: string
                   format: date
-          x-ion-conditional: true
           x-ion-condition: Required for food and beverage resources
         preparation:
           type: object
@@ -707,7 +704,6 @@ components:
               type: string
               description: ISO 8601 duration
               example: PT2H
-          x-ion-conditional: true
           x-ion-condition: Required for F&B and perishable products
         fashion:
           type: object
@@ -783,10 +779,13 @@ components:
             careInstructions:
               type: string
               example: Cuci tangan, jangan diperas, jemur di tempat teduh
-          x-ion-conditional: true
           x-ion-condition: Required for fashion and apparel products
         electronics:
           type: object
+          description: >
+            Consumer electronics technical specifications for filtering and comparison.
+            Detailed feature descriptions and use-case information belong in
+            Descriptor.longDesc for agent readability.
           additionalProperties: false
           properties:
             ram:
@@ -884,18 +883,16 @@ components:
               minimum: 1
               maximum: 5
               description: BSN energy efficiency star rating
-          x-ion-conditional: true
           x-ion-condition: Required for electronics and appliance products
         beauty:
           type: object
+          description: >
+            Beauty and personal care product attributes. concern and ingredient
+            are descriptive fields — include them in Descriptor.longDesc for
+            richer agent-readable content. structured fields below are for
+            filtering and regulatory compliance.
           additionalProperties: false
           properties:
-            concern:
-              type: string
-              example: jerawat
-            ingredient:
-              type: string
-              example: niacinamide
             conscious:
               type: string
               enum:
@@ -967,7 +964,6 @@ components:
                   - G
                   - OZ
           x-ion-regulatory: PerBPOM 23/2019 tentang Persyaratan Teknis Kosmetika
-          x-ion-conditional: true
           x-ion-condition: Required for beauty and personal care products
         agritech:
           type: object
@@ -1022,7 +1018,6 @@ components:
               required:
               - unit
               - value
-          x-ion-conditional: true
           x-ion-condition: Required for agritech and fresh produce
         pharmacy:
           type: object
@@ -1052,7 +1047,6 @@ components:
             coldChainRequired:
               type: boolean
           x-ion-regulatory: PerBPOM Nomor 4 Tahun 2018
-          x-ion-conditional: true
           x-ion-condition: Required for pharmaceutical and OTC medicine
         installation:
           type: object
@@ -1065,7 +1059,6 @@ components:
               example: Memerlukan instalasi profesional. Membutuhkan arus 220V khusus.
             required:
             - type
-          x-ion-conditional: true
           x-ion-condition: Required for appliances and furniture needing installation
         usage:
           type: object
@@ -1101,7 +1094,6 @@ components:
             serviceCenter:
               type: string
           x-ion-regulatory: UU 8/1999 tentang Perlindungan Konsumen Pasal 25; PP 36/2023
-          x-ion-conditional: true
           x-ion-condition: Required for electronics, appliances, consumer durables
         ageRestricted:
           type: boolean
@@ -1113,7 +1105,6 @@ components:
           maximum: 21
           description: Minimum purchaser age when ageRestricted is true
           example: 18
-          x-ion-conditional: true
           x-ion-condition: Required when ageRestricted is true
         countryOfOrigin:
           type: string
@@ -1129,7 +1120,6 @@ components:
 
             '
           example: ION-CAN-ABC123XYZ
-          x-ion-conditional: true
           x-ion-condition: Required for marketplace-eligible products (marketplace-inhouse, marketplace-listed)
         featuredOfferEligible:
           type: boolean
@@ -1245,7 +1235,6 @@ components:
             required:
             - componentResourceId
             - quantity
-          x-ion-conditional: true
           x-ion-condition: Required when offer.offerType=BUNDLE
         brandIdentity:
           type: object
@@ -1285,14 +1274,12 @@ components:
             '
           example: IDN-AC
           x-ion-regulatory: UU 20/2016 tentang Merek dan Indikasi Geografis
-          x-ion-conditional: true
           x-ion-condition: Required when product claims Geographic Indication status
         geographicIndicationCert:
           type: string
           description: 'Geographic Indication certificate number from DJKI (Direktorat Jenderal Kekayaan Intelektual).
 
             '
-          x-ion-conditional: true
           x-ion-condition: Required when regionOfOrigin is declared for GI products
         digital:
           type: object
@@ -1414,7 +1401,6 @@ components:
               type: boolean
               default: false
               description: Whether cancellation is possible before delivery
-          x-ion-conditional: true
           x-ion-condition: Required when resourceTangibility IN [DIGITAL_VOUCHER, DIGITAL_TOP_UP, DIGITAL_SUBSCRIPTION]
         dataResidency:
           type: string
@@ -1429,7 +1415,6 @@ components:
             '
           example: DOMESTIC_ONLY
           x-ion-regulatory: UU 27/2022 tentang Pelindungan Data Pribadi (PDP Law)
-          x-ion-conditional: true
           x-ion-condition: Required for pharmacy, health-data, financial-services categories
       allOf:
       - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes

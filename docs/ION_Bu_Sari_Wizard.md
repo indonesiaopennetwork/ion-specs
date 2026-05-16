@@ -202,7 +202,7 @@ ION validates her NIB against OSS in the background. Her PBF pharmacy licence is
 - Her PBF licence on record means ION knows she is authorised to sell medicines
 - KYC approved — she can publish a catalogue and receive payments
 
-> **For the developer:** `Provider.providerAttributes` with `@type: ion:TradeProviderAttributes`. See Journey Document Phase 1 — Step 2.
+> **For the developer:** `Provider.providerAttributes` with `@type: ion:TradeProvider`. See Journey Document Phase 1 — Step 2.
 
 ---
 

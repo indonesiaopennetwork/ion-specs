@@ -10,7 +10,10 @@
       "@id": "ion:LogisticsParticipantAddendum",
       "@type": "rdfs:Class",
       "rdfs:label": "LogisticsParticipantAddendum",
-      "rdfs:comment": "Addendum to core/participant/v1 for logistics-specific participant attributes: PPJK customs-broker licence and Indonesian driver SIM fields."
+      "rdfs:comment": "Addendum to core/participant/v1 for logistics-specific participant attributes: PPJK customs-broker licence and Indonesian driver SIM fields.",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Participant"
+      }
     },
     {
       "@id": "ion:ppjkLicenceNumber",

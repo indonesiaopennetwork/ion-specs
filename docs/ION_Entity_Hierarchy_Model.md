@@ -227,14 +227,14 @@ CRCs do **not** drive pattern selection, regulatory enforcement, or logistics ro
 
 Selecting a CRC determines which ION schema extension packs apply to the resource — and therefore which fields become mandatory in `Resource.resourceAttributes`. The mapping:
 
-| CRC selected | Attribute pack enforced | Key mandatory fields |
-|---|---|---|
-| `TRC-health-beauty` | `schema/extensions/trade/resource/v1` → `pharmacy` sub-object | `prescriptionRequired`, `dosageForm`, `strength`, `activeIngredients` |
-| `TRC-food-bev` | `schema/extensions/trade/resource/v1` → `food` sub-object | `food.classification` (halal status), `allergens`, BPOM food registration |
-| `TRC-fashion` | `schema/extensions/trade/resource/v1` → `fashion` sub-object | `gender`, `size`, `fabricComposition` |
-| `TRC-electronics` | `schema/extensions/trade/resource/v1` → `electronics` sub-object | `osType`, `connectivity`, `wattage`, `energyRating` |
-| `LGC-lastmile` | `schema/extensions/logistics/resource/v1` | `serviceType`, `quantity`, `weight`, `dimensions` |
-| `HSC-accommodation` | `schema/extensions/logistics/resource/v1` (slot model) | check-in/check-out datetime, guest count |
+| CRC selected | Sector | Attribute pack enforced | Key mandatory fields |
+|---|---|---|---|
+| `TRC-health-beauty` | Trade | `schema/extensions/trade/resource/v1` → `pharmacy` sub-object | `prescriptionRequired`, `dosageForm`, `strength`, `activeIngredients` |
+| `TRC-food-bev` | Trade | `schema/extensions/trade/resource/v1` → `food` sub-object | `food.classification` (halal status), `allergens`, BPOM food registration. **Packaged products only — not food delivery** |
+| `TRC-fashion` | Trade | `schema/extensions/trade/resource/v1` → `fashion` sub-object | `gender`, `size`, `fabricComposition` |
+| `TRC-electronics` | Trade | `schema/extensions/trade/resource/v1` → `electronics` sub-object | `osType`, `connectivity`, `wattage`, `energyRating` |
+| `HSC-fnb-delivery` | **Hospitality** | `schema/extensions/hospitality/fnb-delivery/v1` | `fnb.classification` (halal status), `fnb.allergens`, `preparationTime`. **Food delivery and online food ordering — GoFood, GrabFood, restaurant apps** |
+| `LGC-lastmile` | Logistics | `schema/extensions/logistics/resource/v1` | `serviceType`, `quantity`, `weight`, `dimensions` |
 
 All Trade CRCs use `schema/extensions/trade/resource/v1` — the CRC determines which *conditional sub-object* within that pack is required. Logistics CRCs use `schema/extensions/logistics/resource/v1`. The full attribute pack documentation lives in `schema/extensions/`.
 

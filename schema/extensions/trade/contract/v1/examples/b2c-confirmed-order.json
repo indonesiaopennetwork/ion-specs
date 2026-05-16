@@ -1,6 +1,6 @@
 {
   "@context": "https://schema.ion.id/trade/contract/v1/context.jsonld",
-  "@type": "ion:TradeContractAttributes",
+  "@type": "ion:TradeContract",
   "_comment": "Example: Confirmed B2C order with gift and delivery preferences",
   "fulfillingLocationId": "FC-JKT-KEMANG-01",
   "buyerInstructions": "Hubungi 5 menit sebelum tiba. Masuk dari pintu belakang.",

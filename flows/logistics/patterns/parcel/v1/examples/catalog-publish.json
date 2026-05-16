@@ -42,7 +42,7 @@
           ],
           "providerAttributes": {
             "@context": "https://schema.ion.id/logistics/v1/provider/context.jsonld",
-            "@type": "ion:LogisticsProviderAttributes",
+            "@type": "ion:LogisticsProvider",
             "catalogVersion": "2026.04.22-001",
             "catalogPublishedAt": "2026-04-22T08:00:00.000Z",
             "catalogValidFrom": "2026-04-22T08:00:00.000Z",
@@ -96,7 +96,7 @@
           },
           "resourceAttributes": {
             "@context": "https://schema.ion.id/logistics/v1/resource/context.jsonld",
-            "@type": "ion:LogisticsResourceAttributes",
+            "@type": "ion:LogisticsShipment",
             "serviceType": "PARCEL",
             "maxWeight": { "value": 30, "unit": "kilogram" },
             "maxDimensions": {
@@ -124,7 +124,7 @@
           ],
           "offerAttributes": {
             "@context": "https://schema.ion.id/logistics/v1/offer/context.jsonld",
-            "@type": "ion:LogisticsOfferAttributes",
+            "@type": "ion:LogisticsOffer",
             "serviceLevel": "NEXT_DAY",
             "transportMode": "air",
             "routingTopology": "P2H2H2P",
@@ -221,7 +221,7 @@
           ],
           "offerAttributes": {
             "@context": "https://schema.ion.id/logistics/v1/offer/context.jsonld",
-            "@type": "ion:LogisticsOfferAttributes",
+            "@type": "ion:LogisticsOffer",
             "serviceLevel": "STANDARD_2_3D",
             "transportMode": "road",
             "routingTopology": "P2H2H2P",

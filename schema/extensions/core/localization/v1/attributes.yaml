@@ -69,8 +69,9 @@ components:
         '
       additionalProperties: false
       x-jsonld:
-        '@context': ./context.jsonld
+        '@context': 'https://schema.ion.id/core/localization/v1/context.jsonld'
         '@type': ion:CatalogLocalization
+      x-beckn-attaches-to: Resource.resourceAttributes
       properties:
         name:
           $ref: '#/components/schemas/LocalisedText'

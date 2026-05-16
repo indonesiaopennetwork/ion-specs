@@ -8,7 +8,7 @@
   "jsonldContext": "./context.jsonld",
   "attachmentPoints": {
     "resourceAttributes": [
-      "TradeResourceAttributes"
+      "TradeResource"
     ]
   },
   "extends": "beckn:Resource",

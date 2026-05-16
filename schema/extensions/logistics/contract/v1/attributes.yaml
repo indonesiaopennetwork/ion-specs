@@ -14,13 +14,13 @@ info:
     url: https://schema.ion.id
 components:
   schemas:
-    LogisticsContractAttributes:
+    LogisticsContract:
       type: object
-      title: Logistics Contract Attributes
+      title: LogisticsContract
       additionalProperties: true
       x-jsonld:
-        '@context': ./context.jsonld
-        '@type': ion:LogisticsContractAttributes
+        '@context': 'https://schema.ion.id/logistics/contract/v1/context.jsonld'
+        '@type': ion:LogisticsContract
       x-beckn-attaches-to: Contract.contractAttributes
       properties:
         fwaReference:
@@ -115,7 +115,7 @@ components:
               type: boolean
             djpRemittanceReference:
               type: string
-          x-ion-conditional: true
+                    x-ion-condition: Required when seller is PKP-registered and transaction is taxable
         ppnExemption:
           type: object
           description: 'PPN Dibebaskan — VAT exemption for specific categories and zones. Common for bonded-zone
@@ -139,7 +139,7 @@ components:
             validUntil:
               type: string
               format: date
-          x-ion-conditional: true
+          x-ion-condition: Required when provider is VAT-exempt and goods fall under an exemption regime
         stampDuty:
           type: object
           description: 'Bea Meterai Rp 10,000 applies to invoices over Rp 5,000,000. Required for contracts treated
@@ -155,7 +155,7 @@ components:
             eMeteraiReference:
               type: string
               description: Electronic stamp duty reference from Peruri
-          x-ion-conditional: true
+          x-ion-condition: See property description: Electronic stamp duty reference from Peruri
         creditTermsDays:
           type: integer
           description: Payment due within N days (for B2B credit-terms transactions)
@@ -252,9 +252,10 @@ components:
             transitClauseExtension:
               type: string
               description: Extension clause for multi-leg coverage gaps (warehouse-to-warehouse)
-          x-ion-conditional: true
+                    x-ion-condition: Required when transitClauseExtension is needed for multi-leg ocean/air coverage
         disputeReason:
           type: object
+          description: Policy IRI and human-readable reason for the dispute. Detailed correspondence and evidence narratives belong in Descriptor.longDesc or evidenceUrls.
           properties:
             policyIri:
               type: string
@@ -467,7 +468,7 @@ components:
         incotermsNamedPlace:
           type: string
           description: Named place per Incoterms (e.g. "DDP Jakarta port")
-          x-ion-conditional: true
+          x-ion-condition: Required for cross-border shipments where Incoterms apply
         beaCukaiDeclaration:
           type: object
           description: Indonesian customs declaration details — CEISA 4.0 integration
@@ -504,7 +505,7 @@ components:
             exchangeRateUsed:
               type: number
               description: Bea Cukai exchange rate applied
-          x-ion-conditional: true
+                    x-ion-condition: Required for cross-border (LGC-XB) shipments through Indonesian customs
         inatradePermits:
           type: array
           description: 'INATRADE (Indonesia National Single Window) permits. Required for regulated categories —
@@ -542,7 +543,7 @@ components:
               documentUrl:
                 type: string
                 format: uri
-          x-ion-conditional: true
+                    x-ion-condition: Required for goods subject to LARTAS restrictions requiring Inatrade permits
         lartasClassification:
           type: string
           enum:
@@ -554,11 +555,11 @@ components:
             (LARANGAN) and restricted (PEMBATASAN) goods lists.
 
             '
-          x-ion-conditional: true
+          x-ion-condition: Required for cross-border (LGC-XB) shipments
         aseanSingleWindowReference:
           type: string
           description: ASW reference for intra-ASEAN shipments
-          x-ion-conditional: true
+          x-ion-condition: See property description: ASW reference for intra-ASEAN shipments
         fumigationCertificate:
           type: object
           description: Required when wood packaging is used (ISPM 15)
@@ -580,7 +581,7 @@ components:
             documentUrl:
               type: string
               format: uri
-          x-ion-conditional: true
+          x-ion-condition: See property description: Registered ISPM 15 facility code
         phytosanitaryCertificate:
           type: object
           description: Required for agricultural products per Karantina
@@ -592,7 +593,7 @@ components:
             documentUrl:
               type: string
               format: uri
-          x-ion-conditional: true
+          x-ion-condition: See property description: Required for agricultural products per Karantina
         xbReturnDecision:
           type: string
           enum:

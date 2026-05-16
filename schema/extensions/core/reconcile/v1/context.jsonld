@@ -5,7 +5,6 @@
     "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
     "schema": "https://schema.org/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
-    "IONReconcileAttributes": "ion:IONReconcileAttributes",
     "adjustmentEvidence": "ion:adjustmentEvidence",
     "adjustmentReason": "ion:adjustmentReason",
     "adjustmentType": "ion:adjustmentType",
@@ -27,7 +26,6 @@
     "parentReconId": "ion:parentReconId",
     "reconId": "ion:reconId",
     "reconStatus": "ion:reconStatus",
-    "recon_status": "ion:recon_status",
     "returnWindowExpiry": "ion:returnWindowExpiry",
     "settlementBasis": "ion:settlementBasis",
     "settlementWindow": "ion:settlementWindow",
@@ -37,6 +35,9 @@
     "taxWithholdings": "ion:taxWithholdings",
     "@protected": true,
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "IONReconciliation": "ion:IONReconciliationAttributes"
   }
 }

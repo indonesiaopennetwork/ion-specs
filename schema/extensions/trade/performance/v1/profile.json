@@ -8,7 +8,7 @@
   "jsonldContext": "./context.jsonld",
   "attachmentPoints": {
     "performanceAttributes": [
-      "TradePerformanceAttributes"
+      "TradePerformance"
     ]
   },
   "extends": "beckn:Performance",

@@ -9,7 +9,10 @@
       "@id": "ion:IONTaxDetail",
       "@type": "rdfs:Class",
       "rdfs:label": "IONTaxDetail",
-      "rdfs:comment": "IONTaxDetail"
+      "rdfs:comment": "IONTaxDetail",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Consideration"
+      }
     },
     {
       "@id": "ion:taxRegime",

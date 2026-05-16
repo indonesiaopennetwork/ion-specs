@@ -20,9 +20,11 @@ components:
       title: ION Issue Ticket
       additionalProperties: false
       x-jsonld:
-        '@context': ./context.jsonld
+        '@context': 'https://schema.ion.id/core/raise/v1/context.jsonld'
         '@type': ion:Ticket
       x-beckn-attaches-to: ION Raise channel (off-Beckn)
+      allOf:
+        - \$ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       properties:
         id:
           type: string
@@ -89,13 +91,11 @@ components:
 
             '
           example: ION
-          x-ion-conditional: true
           x-ion-condition: Required when ticket is assigned to counterparty or ION
         contractId:
           type: string
           description: Related trade contract ID, if issue is transaction-specific.
           example: ORD-2026-00012345
-          x-ion-conditional: true
           x-ion-condition: Required for transaction-specific tickets
         reconId:
           type: string

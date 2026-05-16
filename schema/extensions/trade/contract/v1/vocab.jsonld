@@ -6,10 +6,13 @@
   },
   "@graph": [
     {
-      "@id": "ion:TradeContractAttributes",
+      "@id": "ion:TradeContract",
       "@type": "rdfs:Class",
-      "rdfs:label": "TradeContractAttributes",
-      "rdfs:comment": "TradeContractAttributes"
+      "rdfs:label": "TradeContract",
+      "rdfs:comment": "TradeContract",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Contract"
+      }
     },
     {
       "@id": "ion:fulfillingLocationId",
@@ -26,7 +29,8 @@
     {
       "@id": "ion:deliveryPreferences",
       "@type": "rdf:Property",
-      "rdfs:label": "deliveryPreferences"
+      "rdfs:label": "deliveryPreferences",
+      "rdfs:comment": "Buyer"
     },
     {
       "@id": "ion:invoicePreferences",

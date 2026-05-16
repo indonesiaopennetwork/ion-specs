@@ -48,8 +48,8 @@ $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
 ### Naming
 
 - Extension concept folders: `kebab-case` (e.g. `participant-logistics`)
-- Schema object names: `PascalCase` with domain prefix (e.g. `TradeResourceAttributes`)
-- JSON-LD term namespace: `ion:` prefix (e.g. `ion:TradeResourceAttributes`)
+- Schema object names: `PascalCase` with domain prefix (e.g. `TradeResource`)
+- JSON-LD term namespace: `ion:` prefix (e.g. `ion:TradeResource`)
 
 ### Pattern/variant flows (`flows/`)
 

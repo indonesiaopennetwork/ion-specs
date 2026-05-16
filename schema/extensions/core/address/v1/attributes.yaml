@@ -22,7 +22,7 @@ components:
       title: Indonesia Address Subdivisions
       additionalProperties: true
       x-jsonld:
-        '@context': ./context.jsonld
+        '@context': 'https://schema.ion.id/core/address/v1/context.jsonld'
         '@type': ion:AddressSubdivisions
       x-beckn-attaches-to: (reusable shape — embedded inside participantAttributes.addressDetail, providerAttributes.availableAt[*].ionSubdivisions,
         performanceAttributes.stops[*].location.ionSubdivisions)
@@ -87,7 +87,6 @@ components:
 
             '
           example: Gambir
-          x-ion-conditional: true
           x-ion-condition: Required for delivery addresses
         kecamatan:
           type: string
@@ -95,7 +94,6 @@ components:
 
             '
           example: Gambir
-          x-ion-conditional: true
           x-ion-condition: Required for delivery addresses
         rt:
           type: string
@@ -167,6 +165,7 @@ components:
 
             '
           example: Blok A3 Lantai 12 Unit 05
+      # ION network mandatory: Indonesian address components required per BPS administrative hierarchy
       required:
       - provinsiCode
       x-ion-closed-extensions: false

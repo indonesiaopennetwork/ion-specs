@@ -15,46 +15,46 @@ info:
     url: https://schema.ion.id
 components:
   schemas:
-    LogisticsPerformanceAttributes:
+    LogisticsPerformance:
       type: object
-      title: Logistics Performance Attributes
+      title: LogisticsPerformance
       additionalProperties: true
       x-jsonld:
-        '@context': ./context.jsonld
-        '@type': ion:LogisticsPerformanceAttributes
+        '@context': 'https://schema.ion.id/logistics/performance/v1/context.jsonld'
+        '@type': ion:LogisticsPerformance
       x-beckn-attaches-to: Performance.performanceAttributes
       properties:
         awbNumber:
           type: string
           description: Air waybill or tracking number for parcel services
-          x-ion-conditional: true
+                    x-ion-condition: Required when serviceLevel is PARCEL, AIR, or EXPRESS (AWB-based services)
         bookingReference:
           type: string
           description: Booking reference for hyperlocal services (replaces AWB)
-          x-ion-conditional: true
+                    x-ion-condition: Required when serviceLevel is HYPERLOCAL or SAME_DAY (replaces awbNumber)
         billOfLadingReference:
           type: string
           description: Bill of lading reference for freight
-          x-ion-conditional: true
+                    x-ion-condition: Required for FREIGHT (FCL/LCL) shipments
         ticketReference:
           type: string
           description: Boarding ticket reference for Ro-Ro
-          x-ion-conditional: true
+                    x-ion-condition: Required for RO_RO vehicle transport patterns
         storageContractReference:
           type: string
           description: Warehouse storage reference number
-          x-ion-conditional: true
+                    x-ion-condition: Required for WAREHOUSE storage contracts (LGC-WH)
         awbAllocationMode:
           type: string
           description: Which AWB allocation mode was used for this shipment
           enum:
           - BPP_ASSIGNED
           - BAP_PRE_ALLOCATED
-          x-ion-conditional: true
+          x-ion-condition: See property description: Which AWB allocation mode was used for this shipment
         preAllocatedAwbBlockRef:
           type: string
           description: Reference to the pre-allocated AWB block (BAP_PRE_ALLOCATED mode)
-          x-ion-conditional: true
+          x-ion-condition: See property description: Reference to the pre-allocated AWB block (BAP_PRE_ALLOCATED mode)
         pickupModel:
           type: string
           description: Which pickup model BAP chose at /init
@@ -65,12 +65,12 @@ components:
           - BULK_BATCH
           - DROP_OFF_AT_COUNTER
           - SELF_LODGEMENT
-          x-ion-conditional: true
+          x-ion-condition: See property description: Which pickup model BAP chose at /init
         requestedPickupDate:
           type: string
           format: date
           description: Requested pickup date (SCHEDULED_WINDOW, DAILY_PICKUP)
-          x-ion-conditional: true
+          x-ion-condition: See property description: Requested pickup date (SCHEDULED_WINDOW, DAILY_PICKUP)
         requestedPickupWindow:
           type: object
           properties:
@@ -80,11 +80,11 @@ components:
             until:
               type: string
               format: time
-          x-ion-conditional: true
+          x-ion-condition: See property description: Requested pickup date (SCHEDULED_WINDOW, DAILY_PICKUP)
         confirmedPickupDate:
           type: string
           format: date
-          x-ion-conditional: true
+          x-ion-condition: See property description: Requested pickup date (SCHEDULED_WINDOW, DAILY_PICKUP)
         confirmedPickupWindow:
           type: object
           properties:
@@ -94,27 +94,27 @@ components:
             until:
               type: string
               format: date-time
-          x-ion-conditional: true
+          x-ion-condition: Required when pickupModel is SCHEDULED_WINDOW or DAILY_PICKUP
         pickupBatchId:
           type: string
           description: 'Groups multiple shipments under one bulk pickup trip. All shipments sharing the same pickupBatchId
             are collected by the same rider in one visit. Used for BULK_BATCH pickup model.
 
             '
-          x-ion-conditional: true
+          x-ion-condition: Required when bulk manifest mode is supported
         pickupBatchShipmentCount:
           type: integer
           description: Total shipments in this pickup batch (informational)
-          x-ion-conditional: true
+          x-ion-condition: Required when bulk manifest mode is supported
         pickupAgentPointId:
           type: string
           description: Agent point ID where DROP_OFF_AT_COUNTER was lodged
-          x-ion-conditional: true
+                    x-ion-condition: Required when pickupModel is DROP_OFF_AT_COUNTER
         pickupLodgementTimestamp:
           type: string
           format: date-time
           description: When consignor dropped shipment at the agent point / locker
-          x-ion-conditional: true
+                    x-ion-condition: Required when pickupModel is DROP_OFF_AT_COUNTER
         appliedCutoffs:
           type: array
           description: 'Per-shipment resolved cut-off deadlines (absolute timestamps). Each entry is one cut-off
@@ -157,11 +157,11 @@ components:
             - cutoffType
             - deadline
             - status
-          x-ion-conditional: true
+                    x-ion-condition: Required when service level has declared pickup or delivery cutoff windows
         shippingLabelUrl:
           type: string
           format: uri
-          x-ion-conditional: true
+                    x-ion-condition: Required after AWB is assigned and label is generated by BPP
         shippingLabelFormat:
           type: string
           enum:
@@ -173,11 +173,11 @@ components:
           - EPL_100X150
           - PNG_DIGITAL
           - JSON_FIELDS_ONLY
-          x-ion-conditional: true
+          x-ion-condition: Required when shippingLabelFormats is declared and label is generated
         shippingLabelBytes:
           type: string
           description: Base64-encoded raw label bytes for ZPL/EPL direct printing
-          x-ion-conditional: true
+          x-ion-condition: See property description: Base64-encoded raw label bytes for ZPL/EPL direct printing
         routingTopology:
           type: string
           enum:
@@ -195,7 +195,7 @@ components:
         scheduledDeparture:
           type: string
           format: date-time
-          x-ion-conditional: true
+          x-ion-condition: See property description: Estimated time from pickup to delivery
         scheduledArrival:
           type: string
           format: date-time
@@ -253,7 +253,7 @@ components:
               type: string
         deliveryOtp:
           type: string
-          x-ion-conditional: true
+          x-ion-condition: Required when deliveryOtpMode is enabled (COD or high-value shipments)
         trackingUrl:
           type: string
           format: uri
@@ -410,7 +410,7 @@ components:
                     type: number
                   currency:
                     type: string
-          x-ion-conditional: true
+                    x-ion-condition: Required for multi-leg contracts where leg-level billing is tracked
         temperatureReading:
           type: object
           properties:
@@ -583,11 +583,11 @@ components:
             for rider pickup.
 
             '
-          x-ion-conditional: true
+          x-ion-condition: See property description: True when the consignor / warehouse signals the shipment is packed, labelled, an
         readyToShipTimestamp:
           type: string
           format: date-time
-          x-ion-conditional: true
+                    x-ion-condition: Required when readyToShip transitions to true
         readyToShipBy:
           type: string
           enum:
@@ -595,34 +595,34 @@ components:
           - WAREHOUSE_BPP
           - WAREHOUSE_OPERATOR_STAFF
           description: Which party raised the RTS signal
-          x-ion-conditional: true
+          x-ion-condition: See property description: Which party raised the RTS signal
         rtsPickupToken:
           type: string
           description: 'Opaque token included in the RTS signal that the rider must present at pickup (verified
             against what the warehouse/consignor holds). Provides authentication of the pickup at the handoff moment.
 
             '
-          x-ion-conditional: true
+          x-ion-condition: See property description: Opaque token included in the RTS signal that the rider must present at pickup (v
         parentWarehouseContractRef:
           type: string
           description: 'For transport contracts spawned from a warehouse dispatch, reference to the parent warehouse
             contract. Used to trace the dispatch origin and reconcile warehouse-held inventory.
 
             '
-          x-ion-conditional: true
+          x-ion-condition: Required for warehouse storage patterns (LGC-WH)
         parentWarehouseCommitmentRefs:
           type: array
           description: Specific commitment line IDs from the parent warehouse contract
           items:
             type: string
-          x-ion-conditional: true
+          x-ion-condition: Required for warehouse storage patterns (LGC-WH)
         dispatchOriginWarehouseBppId:
           type: string
           description: 'ION subscriber ID of the warehouse BPP originating this dispatch. Needed when warehouse
             BPP and transport BPP are different entities (e.g. warehouse=tokocabang.co.id, transport=jne.co.id).
 
             '
-          x-ion-conditional: true
+          x-ion-condition: See property description: ION subscriber ID of the warehouse BPP originating this dispatch. Needed when wa
         spawnedTransportContractRefs:
           type: array
           description: 'For warehouse contracts, list of child transport contract IDs spawned from this storage
@@ -631,7 +631,7 @@ components:
             '
           items:
             type: string
-          x-ion-conditional: true
+          x-ion-condition: Required for warehouse storage patterns (LGC-WH)
         rtsNotificationRouting:
           type: object
           description: 'Routing metadata when the RTS signal must cross BPP boundaries. Warehouse BPP emits /on_status[READY_FOR_PICKUP]
@@ -671,7 +671,7 @@ components:
                   format: date-time
                 rtsAcknowledgementRef:
                   type: string
-          x-ion-conditional: true
+                    x-ion-condition: Required when RTS (Return to Shipper) is acknowledged
         slaStatus:
           type: string
           enum:
@@ -719,7 +719,7 @@ components:
               - PUSH_ALL_DOWNSTREAM
               - SLA_BREACH_LIKELY
               - SLA_BREACH_CERTAIN
-          x-ion-conditional: true
+                    x-ion-condition: Required when stateTimingCommitments were declared in the offer
         stateTimingHistory:
           type: array
           description: 'Historical record of state dwell durations. Populated progressively as the performance moves
@@ -820,7 +820,7 @@ components:
                 - SMARTWAY_PARTNER
                 - GREEN_FREIGHT_ASIA
                 - LEAN_AND_GREEN
-          x-ion-conditional: true
+                    x-ion-condition: Required when CSRD/GLEC sustainability reporting is enabled for this provider
         hygieneProtocolApplied:
           type: array
           items:

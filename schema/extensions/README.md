@@ -10,19 +10,19 @@ Beckn v2.0 defines a data model with extension points built in. Every core objec
 Beckn core object        ION extension pack          What it adds
 ─────────────────────    ──────────────────────────  ────────────────────────────────
 Resource                 trade/resource/v1           Product structure, availability,
-  └─ resourceAttributes  ◄── TradeResourceAttributes  food/fashion/electronics fields
+  └─ resourceAttributes  ◄── TradeResource  food/fashion/electronics fields
                                                       
 Offer                    trade/offer/v1              Return policy, cancellation policy,
-  └─ offerAttributes     ◄── TradeOfferAttributes     COD availability, proof of delivery
+  └─ offerAttributes     ◄── TradeOffer     COD availability, proof of delivery
 
 Settlement               core/payment/v1             Payment method details (QRIS,
   └─ settlementAttributes ◄── PaymentDeclaration      VirtualAccount, EWallet, COD...)
 
 Participant              core/participant/v1          Role taxonomy, NPWP/NIB/NIK,
-  └─ participantAttributes ◄── IONParticipantAttributes  address hierarchy with RT/RW
+  └─ participantAttributes ◄── IONParticipant  address hierarchy with RT/RW
 ```
 
-Multiple packs can attach to the same slot simultaneously. A `Settlement` record in a reconciliation step carries both `PaymentDeclaration` (from `core/payment/v1`) and `IONReconcileAttributes` (from `core/reconcile/v1`). They are distinguished by their `@type` field.
+Multiple packs can attach to the same slot simultaneously. A `Settlement` record in a reconciliation step carries both `PaymentDeclaration` (from `core/payment/v1`) and `IONReconciliation` (from `core/reconcile/v1`). They are distinguished by their `@type` field.
 
 ## Directory structure
 
@@ -62,12 +62,12 @@ Every pack's main schema object carries an `x-beckn-attaches-to` annotation:
 ```yaml
 # schema/extensions/trade/resource/v1/attributes.yaml
 
-TradeResourceAttributes:
+TradeResource:
   type: object
   x-beckn-attaches-to: Resource.resourceAttributes
   x-jsonld:
     '@context': ./context.jsonld
-    '@type': ion:TradeResourceAttributes
+    '@type': ion:TradeResource
   allOf:
     - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
   properties:
@@ -96,7 +96,7 @@ Here is how multiple packs layer onto a single Beckn `Resource` in a trade catal
       "https://schema.ion.id/core/product/v1/context.jsonld",
       "https://schema.ion.id/trade/resource/v1/context.jsonld"
     ],
-    "@type": "ion:TradeResourceAttributes",
+    "@type": "ion:TradeResource",
 
     "name": { "id": "Nasi Goreng Spesial", "en": "Special Fried Rice" },
     "halalStatus": "HALAL",

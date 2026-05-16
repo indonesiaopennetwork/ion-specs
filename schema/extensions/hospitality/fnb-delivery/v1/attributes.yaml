@@ -22,9 +22,9 @@ info:
 
 components:
   schemas:
-    HospitalityFnbDeliveryAttributes:
+    FnbMenuItem:
       type: object
-      title: Hospitality F&B Delivery Resource Attributes
+      title: FnbMenuItem
       description: >
         Resource attributes for prepared food and beverage items available for delivery
         or self-pickup. Governed by Hospitality Sector Working Group.
@@ -33,20 +33,10 @@ components:
       x-ion-closed-extensions: false
       x-beckn-attaches-to: Resource.resourceAttributes
       x-jsonld:
-        '@context': ./context.jsonld
-        '@type': ion:HospitalityFnbDeliveryAttributes
+        '@context': 'https://schema.ion.id/hospitality/fnb-delivery/v1/context.jsonld'
+        '@type': ion:FnbMenuItem
       allOf:
         - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
-      required:
-        - quantity
-        - resourceStructure
-        - resourceTangibility
-        - images
-        - availability
-        - countryOfOrigin
-        - ageRestricted
-        - preparationTime
-        - fnb
       properties:
         quantity:
           type: object
@@ -130,7 +120,7 @@ components:
 
         fnb:
           type: object
-          title: F&B Delivery Specific Attributes
+          title: FnbMenuItem
           description: Food and beverage attributes required for all HSC-fnb-delivery resources.
           additionalProperties: false
           required: [classification, allergens]

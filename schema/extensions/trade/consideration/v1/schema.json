@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://schema.ion.id/trade/consideration/v1",
-  "title": "TradeConsiderationAttributes",
+  "title": "TradeConsideration",
   "type": "object",
   "properties": {
     "ppnRate": {

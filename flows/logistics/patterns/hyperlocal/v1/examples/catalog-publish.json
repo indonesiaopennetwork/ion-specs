@@ -87,7 +87,7 @@
             "maxDeliveryRadiusKm": 75,
             "fwaApplicable": true,
             "@context": "https://schema.ion.id/logistics/v1/provider/context.jsonld",
-            "@type": "ion:LogisticsProviderAttributes"
+            "@type": "ion:LogisticsProvider"
           },
           "items": [
             {
@@ -108,7 +108,7 @@
                   "unit": "centimeter"
                 },
                 "@context": "https://schema.ion.id/logistics/v1/resource/context.jsonld",
-                "@type": "ion:LogisticsResourceAttributes"
+                "@type": "ion:LogisticsShipment"
               }
             }
           ],
@@ -141,7 +141,7 @@
                 "reAttemptPolicy": "ion://policy/re-attempt.hyperlocal-1-only",
                 "fwaApplicable": true,
                 "@context": "https://schema.ion.id/logistics/v1/offer/context.jsonld",
-                "@type": "ion:LogisticsOfferAttributes"
+                "@type": "ion:LogisticsOffer"
               }
             },
             {
@@ -169,7 +169,7 @@
                 "reAttemptPolicy": "ion://policy/re-attempt.hyperlocal-1-only",
                 "fwaApplicable": false,
                 "@context": "https://schema.ion.id/logistics/v1/offer/context.jsonld",
-                "@type": "ion:LogisticsOfferAttributes"
+                "@type": "ion:LogisticsOffer"
               }
             }
           ]

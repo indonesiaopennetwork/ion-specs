@@ -1,6 +1,6 @@
 # ION Network Specification — Changelog
 
-## v0.5.2 — May 2026
+## v0.6.0 — May 2026
 
 **Initial published release.**
 
@@ -128,7 +128,7 @@ hyperlocal, parcel (reference — all other patterns defined as deltas), freight
 
 ### Known limitations in this release
 
-- **Production status:** Not live. v0.5.2 is a draft specification. Production launch date is set by ION Council.
+- **Production status:** Not live. v0.6.0 is a draft specification. Production launch date is set by ION Council.
 - **Beckn upstream:** Targeting `core-v2.0.0-rc1`. ION will re-validate against final Beckn v2.0.0 and publish a corrected release if any wire-level changes are required.
 - **Sectors:** Trade and Logistics are active. Hospitality, Mobility, Finance, and Services have reserved folder stubs — content will be published as their working groups ratify.
 - **ONIX:** Reference implementation is in development. Available via ION DevLabs when ready.

@@ -7,7 +7,7 @@
       "id": "buyer-a1b2c3",
       "participantAttributes": {
         "@context": "https://schema.ion.id/core/participant/v1/context.jsonld",
-        "@type": "ion:ParticipantAttributes",
+        "@type": "ion:IONParticipant",
         "role": "CONSIGNEE",
         "ktpNumber": "3171234567890001",
         "addressDetail": {
@@ -40,7 +40,7 @@
       "id": "seller.example.id",
       "participantAttributes": {
         "@context": "https://schema.ion.id/core/participant/v1/context.jsonld",
-        "@type": "ion:ParticipantAttributes",
+        "@type": "ion:IONParticipant",
         "role": "MERCHANT",
         "subscriberId": "seller.example.id",
         "npwp": "0123456789012345",

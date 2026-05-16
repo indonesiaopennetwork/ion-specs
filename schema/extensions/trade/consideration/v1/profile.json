@@ -8,7 +8,7 @@
   "jsonldContext": "./context.jsonld",
   "attachmentPoints": {
     "considerationAttributes": [
-      "TradeConsiderationAttributes"
+      "TradeConsideration"
     ]
   },
   "extends": "beckn:Consideration",

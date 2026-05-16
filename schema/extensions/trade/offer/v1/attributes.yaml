@@ -14,28 +14,19 @@ info:
     url: https://schema.ion.id
 components:
   schemas:
-    TradeOfferAttributes:
+    TradeOffer:
       type: object
-      title: Trade Offer Attributes
+      title: TradeOffer
       additionalProperties: true
       x-jsonld:
-        '@context': ./context.jsonld
-        '@type': ion:TradeOfferAttributes
+        '@context': 'https://schema.ion.id/trade/offer/v1/context.jsonld'
+        '@type': ion:TradeOffer
       x-beckn-attaches-to: Offer.offerAttributes
       properties:
         cancellationPolicy:
           type: string
-          enum:
-          - ion://policy/cancel.prepacked.free
-          - ion://policy/cancel.standard.until-dispatched
-          - ion://policy/cancel.mto.nofee-before-prepare
-          - ion://policy/cancel.standard.none
-          - ion://policy/cancel.flash-sale.none-after-confirm
-          - ion://policy/cancel.b2b.until-dispatched-15pct
-          - ion://policy/cancel.subscription.prorated-midcycle
-          - ion://policy/cancel.preorder.5d-before-release
-          - ion://policy/cancel.digital.before-pending-operator
-          - ion://policy/cancel.partial.refund-packed-threshold
+          format: iri
+          x-ion-policy-registry: https://registry.ion.id/policies
           description: 'ION standard cancellation policy IRI. cancel.prepacked.free: buyer may cancel before packed
             at no fee. cancel.mto.nofee.before_prepare: MTO, free cancellation before preparation starts. cancel.none:
             no cancellation permitted after confirm.
@@ -67,7 +58,6 @@ components:
           example:
           - CHANGE_OF_MIND
           - WRONG_ITEM_ORDERED
-          x-ion-conditional: true
           x-ion-condition: Required when cancellationPolicy is not cancel.none
         returnable:
           type: boolean
@@ -79,22 +69,8 @@ components:
           x-ion-regulatory: UU 8/1999 tentang Perlindungan Konsumen
         returnPolicy:
           type: string
-          enum:
-          - ion://policy/return.standard.7d-sellerpays
-          - ion://policy/return.standard.14d-sellerpays
-          - ion://policy/return.standard.30d-sellerpays
-          - ion://policy/return.standard.7d-buyerpays
-          - ion://policy/return.fashion.7d-fit-only-sellerpays
-          - ion://policy/return.electronics.14d-unopened-or-defective-sellerpays
-          - ion://policy/return.highvalue.14d-inspection-sellerpays
-          - ion://policy/return.beauty.hygiene-nonreturnable
-          - ion://policy/return.pharmacy.nonreturnable
-          - ion://policy/return.grocery.sameday-defect-only
-          - ion://policy/return.agritech.perishable-defect-only
-          - ion://policy/return.jewelry.3d-tamper-seal-sellerpays
-          - ion://policy/return.books.14d-sealed-only
-          - ion://policy/return.custom.nonreturnable-defect-only
-          - ion://policy/return.standard.none
+          format: iri
+          x-ion-policy-registry: https://registry.ion.id/policies
           description: 'ION standard return policy IRI. Encodes window duration and who pays return shipping.
 
             '
@@ -107,30 +83,18 @@ components:
 
             '
           example: true
-          x-ion-conditional: true
           x-ion-condition: Required when returnable is true
         warrantyPolicy:
           type: string
-          enum:
-          - ion://policy/warranty.manufacturer.1y-distance-service
-          - ion://policy/warranty.manufacturer.2y-distance-service
-          - ion://policy/warranty.manufacturer.3y-distance-service
-          - ion://policy/warranty.seller.1y
-          - ion://policy/warranty.seller.1y.replacement_only
-          - ion://policy/warranty.refurbished.30d-limited
-          - ion://policy/warranty.extended.paid-addon
-          - ion://policy/warranty.standard.none
+          format: iri
+          x-ion-policy-registry: https://registry.ion.id/policies
           description: ION standard warranty policy IRI.
           example: ion://policy/warranty.manufacturer.1y-distance-service
           x-ion-regulatory: UU 8/1999 Pasal 25; PP 36/2023
         disputePolicy:
           type: string
-          enum:
-          - ion://policy/dispute.consumer.bpsk
-          - ion://policy/dispute.commercial.bani
-          - ion://policy/dispute.commercial.odr
-          - ion://policy/dispute.international.standard.uncitral
-          - ion://policy/dispute.b2g.lkpp
+          format: iri
+          x-ion-policy-registry: https://registry.ion.id/policies
           description: 'ION standard dispute resolution policy IRI. dispute.consumer.bpsk: B2C — BPSK (Badan Penyelesaian
             Sengketa Konsumen). dispute.commercial.bani: B2B — BANI arbitration. dispute.commercial.odr: Online
             Dispute Resolution via ION platform.
@@ -228,7 +192,6 @@ components:
             '
           example:
             count: 10
-          x-ion-conditional: true
           x-ion-condition: Required for B2B wholesale commerce pattern
         weightSlabs:
           type: array
@@ -255,7 +218,6 @@ components:
           - minKg: 5
             maxKg: 10
             priceIDR: 25000
-          x-ion-conditional: true
           x-ion-condition: Required for catalogued domestic logistics patterns
         offerType:
           type: string
@@ -489,7 +451,6 @@ components:
           type: integer
           minimum: 0
           description: Estimated wait time before this consumer reaches front of queue.
-          x-ion-conditional: true
           x-ion-condition: Returned in on_select when queuePosition is present
         stackingGroup:
           type: string
@@ -545,7 +506,6 @@ components:
           - HIGH_RISK_CATEGORY
           - OTP_VERIFICATION_REQUIRED
           description: Reason for the codEligibilityForBuyer decision.
-          x-ion-conditional: true
           x-ion-condition: Required when codEligibilityForBuyer is declared
         returnEvidenceRequirement:
           type: string
@@ -567,7 +527,6 @@ components:
           minimum: 1
           maximum: 10
           description: Minimum number of evidence photos required.
-          x-ion-conditional: true
           x-ion-condition: Required when returnEvidenceRequirement includes PHOTO
         handlingTimeHours:
           type: integer
@@ -579,11 +538,8 @@ components:
           example: 72
         grievanceSlaPolicy:
           type: string
-          enum:
-          - ion://policy/grievance-sla.consumer.standard
-          - ion://policy/grievance.sla.premium_mall
-          - ion://policy/grievance-sla.consumer.flash-critical
-          - ion://policy/grievance.sla.b2b_businesshours
+          format: iri
+          x-ion-policy-registry: https://registry.ion.id/policies
           description: 'ION Grievance SLA policy IRI. Declares response time, resolution time, escalation path,
             and penalty consequences when SLA is breached. Subject to marketplace minimum (grievance.sla.standard)
             for B2C; marketplace-operated BAPs may enforce stricter policies on their sellers. ION timer auto-escalates
@@ -594,15 +550,8 @@ components:
           x-ion-regulatory: UU 8/1999 Pasal 45; Permendag 50/2020 Pasal 6
         paymentTermsPolicy:
           type: string
-          enum:
-          - ion://policy/payment-terms.upfront.full
-          - ion://policy/payment.deposit.30pct.balance_on_delivery
-          - ion://policy/payment-terms.cod.full
-          - ion://policy/payment-terms.credit.net-7
-          - ion://policy/payment-terms.credit.net-30
-          - ion://policy/payment-terms.credit.net-60
-          - ion://policy/payment.installment.3mo
-          - ion://policy/payment-terms.subscription.monthly_autopay
+          format: iri
+          x-ion-policy-registry: https://registry.ion.id/policies
           description: 'Payment terms policy IRI. Declares when payment is collected, which methods are accepted,
             whether deposit or credit terms apply, and what the late-payment penalty is if applicable. Must be compatible
             with the order''s paymentRail and collectedBy.
@@ -618,7 +567,6 @@ components:
 
             '
           example: ion://policy/penalty.seller-sla-breach.standard
-          x-ion-conditional: true
           x-ion-condition: Auto-derived from tier + other policies; declare only for explicit override
         customTermsAddendum:
           type: string
@@ -645,7 +593,7 @@ components:
       - if:
           properties:
             availableOnCod:
-              const: 'true'
+              const: true
           required:
           - availableOnCod
         then:
@@ -654,7 +602,7 @@ components:
       - if:
           properties:
             queueEnabled:
-              const: 'true'
+              const: true
           required:
           - queueEnabled
         then:
@@ -663,7 +611,7 @@ components:
       - if:
           properties:
             returnable:
-              const: 'true'
+              const: true
           required:
           - returnable
         then:

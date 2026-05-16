@@ -2,6 +2,8 @@
 
 Physical product attributes for all Trade sector categories.
 
+> **Sector boundary:** This pack covers packaged, stocked physical products. Restaurant meals and food delivery (GoFood, GrabFood, any prepared-to-order food) are **Hospitality** sector — use `schema/extensions/hospitality/fnb-delivery/v1` instead.
+
 ## Attaches to
 `beckn:Resource.resourceAttributes`
 

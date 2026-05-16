@@ -6,10 +6,13 @@
   },
   "@graph": [
     {
-      "@id": "ion:LogisticsTrackingAttributes",
+      "@id": "ion:LogisticsTracking",
       "@type": "rdfs:Class",
       "rdfs:comment": "ION Logistics tracking extension. Attaches to beckn:Tracking.trackingAttributes.",
-      "rdfs:label": "Logistics Tracking Attributes"
+      "rdfs:label": "LogisticsTracking",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Tracking"
+      }
     }
   ]
 }

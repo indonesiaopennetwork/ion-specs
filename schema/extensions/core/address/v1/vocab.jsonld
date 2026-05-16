@@ -9,7 +9,10 @@
       "@id": "ion:IONAddressSubdivisions",
       "@type": "rdfs:Class",
       "rdfs:label": "IONAddressSubdivisions",
-      "rdfs:comment": "IONAddressSubdivisions"
+      "rdfs:comment": "IONAddressSubdivisions",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Address"
+      }
     },
     {
       "@id": "ion:provinsiCode",

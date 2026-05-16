@@ -7,11 +7,14 @@
   },
   "@graph": [
     {
-      "@id": "ion:LogisticsPerformanceAttributes",
+      "@id": "ion:LogisticsPerformance",
       "@type": "rdfs:Class",
       "rdfs:comment": "ION Logistics performance extension attributes. Attaches to beckn:Performance.PerformanceAttributes.",
-      "rdfs:label": "Logistics Performance Attributes",
-      "rdfs:isDefinedBy": "https://schema.ion.id/logistics/v1/"
+      "rdfs:label": "LogisticsPerformance",
+      "rdfs:isDefinedBy": "https://schema.ion.id/logistics/v1/",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Performance"
+      }
     }
   ]
 }

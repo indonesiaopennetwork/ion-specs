@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://schema.ion.id/hospitality/fnb-delivery/v1",
-  "title": "HospitalityFnbDeliveryAttributes",
+  "title": "FnbMenuItem",
   "description": "Resource attributes for prepared F&B items (HSC-fnb-delivery). Hospitality sector, food delivery and self-pickup.",
   "type": "object",
   "required": [

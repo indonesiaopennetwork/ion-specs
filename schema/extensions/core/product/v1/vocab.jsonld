@@ -9,7 +9,10 @@
       "@id": "ion:IONProductCertifications",
       "@type": "rdfs:Class",
       "rdfs:label": "IONProductCertifications",
-      "rdfs:comment": "IONProductCertifications"
+      "rdfs:comment": "IONProductCertifications",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Resource"
+      }
     },
     {
       "@id": "ion:halalStatus",

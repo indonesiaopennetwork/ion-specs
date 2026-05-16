@@ -8,7 +8,7 @@
   "jsonldContext": "./context.jsonld",
   "attachmentPoints": {
     "providerAttributes": [
-      "TradeProviderAttributes"
+      "TradeProvider"
     ]
   },
   "extends": "beckn:Provider",

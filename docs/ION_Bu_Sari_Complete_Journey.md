@@ -71,12 +71,12 @@ ION validates her NIB against OSS. ✓
 
 ## Step 2 — Provider attributes published
 
-Dinda fills in the store's operational details. These travel in `Provider.providerAttributes` with `@type: ion:TradeProviderAttributes`.
+Dinda fills in the store's operational details. These travel in `Provider.providerAttributes` with `@type: ion:TradeProvider`.
 
 ```json
 {
   "@context": "https://schema.ion.id/trade/provider/v1/context.jsonld",
-  "@type": "ion:TradeProviderAttributes",
+  "@type": "ion:TradeProvider",
 
   "invoicingModel": "CENTRAL",
   "invoicingEntity": "Usaha Dagang Sehat Mandiri",  // Trading Business Sehat Mandiri
@@ -154,7 +154,7 @@ Dinda publishes 5 items via `POST /catalog/publish`. Each resource has its `reso
   },
   "resourceAttributes": {
     "@context": "https://schema.ion.id/trade/resource/v1/context.jsonld",
-    "@type": "ion:TradeResourceAttributes",
+    "@type": "ion:TradeResource",
 
     "quantity": { "value": 1, "unit": "piece" },
     "resourceStructure": "PLAIN",
@@ -228,7 +228,7 @@ Dinda publishes 5 items via `POST /catalog/publish`. Each resource has its `reso
   },
   "resourceAttributes": {
     "@context": "https://schema.ion.id/trade/resource/v1/context.jsonld",
-    "@type": "ion:TradeResourceAttributes",
+    "@type": "ion:TradeResource",
 
     "quantity": { "value": 1, "unit": "piece" },
     "resourceStructure": "PLAIN",
@@ -304,7 +304,7 @@ Dinda publishes 5 items via `POST /catalog/publish`. Each resource has its `reso
   },
   "resourceAttributes": {
     "@context": "https://schema.ion.id/trade/resource/v1/context.jsonld",
-    "@type": "ion:TradeResourceAttributes",
+    "@type": "ion:TradeResource",
 
     "quantity": { "value": 1, "unit": "piece" },
     "resourceStructure": "PLAIN",
@@ -379,7 +379,7 @@ Dinda publishes 5 items via `POST /catalog/publish`. Each resource has its `reso
   },
   "resourceAttributes": {
     "@context": "https://schema.ion.id/trade/resource/v1/context.jsonld",
-    "@type": "ion:TradeResourceAttributes",
+    "@type": "ion:TradeResource",
 
     "quantity": { "value": 1, "unit": "piece" },
     "resourceStructure": "PLAIN",
@@ -463,7 +463,7 @@ Dinda publishes 5 items via `POST /catalog/publish`. Each resource has its `reso
   },
   "resourceAttributes": {
     "@context": "https://schema.ion.id/trade/resource/v1/context.jsonld",
-    "@type": "ion:TradeResourceAttributes",
+    "@type": "ion:TradeResource",
 
     "quantity": { "value": 1, "unit": "piece" },
     "resourceStructure": "VARIANT",
@@ -685,7 +685,7 @@ A different buyer, Ibu Rina, wants Panadol for her fever.
           "id": "CMT-001",
           "commitmentAttributes": {
             "@context": "https://schema.ion.id/trade/commitment/v1/context.jsonld",
-            "@type": "ion:TradeCommitmentAttributes",
+            "@type": "ion:TradeCommitment",
             "lineId": "L01",
             "resourceId": "RES-APOTEK-SEHAT-001",
             "offerId": "OFFER-PANADOL-001",
@@ -710,7 +710,7 @@ BPP returns quote. 2 × Panadol + delivery:
           "id": "CMT-001",
           "commitmentAttributes": {
             "@context": "https://schema.ion.id/trade/commitment/v1/context.jsonld",
-            "@type": "ion:TradeCommitmentAttributes",
+            "@type": "ion:TradeCommitment",
             "lineId": "L01",
             "resourceId": "RES-APOTEK-SEHAT-001",
             "offerId": "OFFER-PANADOL-001",
@@ -724,7 +724,7 @@ BPP returns quote. 2 × Panadol + delivery:
           "id": "CON-ITEM",
           "considerationAttributes": {
             "@context": "https://schema.ion.id/trade/consideration/v1/context.jsonld",
-            "@type": "ion:TradeConsiderationAttributes",
+            "@type": "ion:TradeConsideration",
             "breakupLineType": "ITEM",
             "totalAmount": 24000,
             "currency": "IDR"
@@ -734,7 +734,7 @@ BPP returns quote. 2 × Panadol + delivery:
           "id": "CON-DELIVERY",
           "considerationAttributes": {
             "@context": "https://schema.ion.id/trade/consideration/v1/context.jsonld",
-            "@type": "ion:TradeConsiderationAttributes",
+            "@type": "ion:TradeConsideration",
             "breakupLineType": "DELIVERY",
             "totalAmount": 12000,
             "currency": "IDR"
@@ -759,7 +759,7 @@ Ibu Rina proceeds through init (provides address) and confirms. Payment via QRIS
     "status": "ACTIVE",
     "contractAttributes": {
       "@context": "https://schema.ion.id/trade/contract/v1/context.jsonld",
-      "@type": "ion:TradeContractAttributes",
+      "@type": "ion:TradeContract",
       "fulfillingLocationId": "LOC-KEMANG-47"
     },
     "performance": [
@@ -768,7 +768,7 @@ Ibu Rina proceeds through init (provides address) and confirms. Payment via QRIS
         "status": { "code": "ACCEPTED" },
         "performanceAttributes": {
           "@context": "https://schema.ion.id/trade/performance/v1/context.jsonld",
-          "@type": "ion:TradePerformanceAttributes",
+          "@type": "ion:TradePerformance",
           "performanceMode": "DELIVERY",
           "supportedPerformanceModes": ["DELIVERY", "SELF_PICKUP"],
           "sla": {
@@ -792,7 +792,7 @@ Ibu Rina proceeds through init (provides address) and confirms. Payment via QRIS
   "performance": [{
     "status": { "code": "OUT_FOR_DELIVERY" },
     "performanceAttributes": {
-      "@type": "ion:TradePerformanceAttributes",
+      "@type": "ion:TradePerformance",
       "performanceMode": "DELIVERY",
       "supportedPerformanceModes": ["DELIVERY"],
       "sla": { "min": "PT30M", "max": "PT90M", "unitBasis": "ORDER_CONFIRMATION" },
@@ -817,7 +817,7 @@ Delivery confirmed. No OTP required for OTC medicine — standard delivery.
   "performance": [{
     "status": { "code": "DELIVERED" },
     "performanceAttributes": {
-      "@type": "ion:TradePerformanceAttributes",
+      "@type": "ion:TradePerformance",
       "performanceMode": "DELIVERY",
       "supportedPerformanceModes": ["DELIVERY"],
       "sla": { "min": "PT30M", "max": "PT90M", "unitBasis": "ORDER_CONFIRMATION" },
@@ -850,7 +850,7 @@ BPP generates a delivery OTP at confirm time:
       "id": "PERF-002",
       "status": { "code": "ACCEPTED" },
       "performanceAttributes": {
-        "@type": "ion:TradePerformanceAttributes",
+        "@type": "ion:TradePerformance",
         "performanceMode": "DELIVERY",
         "supportedPerformanceModes": ["DELIVERY"],
         "sla": {
@@ -877,7 +877,7 @@ Agent arrives at the door. Agent shows ID, Pak Budi shows OTP "482930" on his ph
   "performance": [{
     "status": { "code": "OUT_FOR_DELIVERY" },
     "performanceAttributes": {
-      "@type": "ion:TradePerformanceAttributes",
+      "@type": "ion:TradePerformance",
       "performanceMode": "DELIVERY",
       "supportedPerformanceModes": ["DELIVERY"],
       "sla": { "min": "PT30M", "max": "PT2H", "unitBasis": "ORDER_CONFIRMATION" },
@@ -900,7 +900,7 @@ Agent confirms OTP match. Amoxicillin handed over. Proof of delivery captured.
   "performance": [{
     "status": { "code": "DELIVERED" },
     "performanceAttributes": {
-      "@type": "ion:TradePerformanceAttributes",
+      "@type": "ion:TradePerformance",
       "performanceMode": "DELIVERY",
       "supportedPerformanceModes": ["DELIVERY"],
       "sla": { "min": "PT30M", "max": "PT2H", "unitBasis": "ORDER_CONFIRMATION" },
@@ -931,7 +931,7 @@ Pak Ahmad sets up his monthly Metformin subscription.
     "contract": {
       "contractAttributes": {
         "@context": "https://schema.ion.id/trade/contract/v1/context.jsonld",
-        "@type": "ion:TradeContractAttributes",
+        "@type": "ion:TradeContract",
         "subscriptionBillingCycle": "MONTHLY",
         "subscriptionNextBillingDate": "2026-05-19T00:00:00+07:00"
       }
@@ -948,7 +948,7 @@ Pak Ahmad sets up his monthly Metformin subscription.
     "id": "ORD-2026-SUB-MET-001",
     "status": "ACTIVE",
     "contractAttributes": {
-      "@type": "ion:TradeContractAttributes",
+      "@type": "ion:TradeContract",
       "subscriptionBillingCycle": "MONTHLY",
       "subscriptionNextBillingDate": "2026-05-19T00:00:00+07:00",
       "fulfillingLocationId": "LOC-KEMANG-47"
@@ -957,7 +957,7 @@ Pak Ahmad sets up his monthly Metformin subscription.
       "id": "PERF-SUB-001",
       "status": { "code": "ACCEPTED" },
       "performanceAttributes": {
-        "@type": "ion:TradePerformanceAttributes",
+        "@type": "ion:TradePerformance",
         "performanceMode": "DELIVERY",
         "supportedPerformanceModes": ["DELIVERY"],
         "sla": {
@@ -1126,7 +1126,7 @@ After the return window closes (7 days, though Panadol is non-returnable anyway)
           "id": "SETTLE-001",
           "settlementAttributes": {
             "@context": "https://ion.id/vocab/reconcile/v1/context.jsonld",
-            "@type": "ion:ReconcileAttributes",
+            "@type": "ion:IONReconciliation",
 
             "reconId": "RECON-2026-00009182",
             "contractId": "ORD-2026-APOTEK-001",
@@ -1185,7 +1185,7 @@ Bu Sari's seller app agrees with the amounts:
       "settlements": [
         {
           "settlementAttributes": {
-            "@type": "ion:ReconcileAttributes",
+            "@type": "ion:IONReconciliation",
             "reconId": "RECON-2026-00009182",
             "reconStatus": "AGREED",
             "recon_status": "01",

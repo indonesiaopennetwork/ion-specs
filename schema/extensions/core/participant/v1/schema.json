@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://schema.ion.id/core/participant/v1",
-  "title": "IONParticipantAttributes",
+  "title": "IONParticipant",
   "type": "object",
   "properties": {
     "role": {

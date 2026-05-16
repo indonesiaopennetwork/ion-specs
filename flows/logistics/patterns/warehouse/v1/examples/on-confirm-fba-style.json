@@ -24,7 +24,7 @@
           },
           "participantAttributes": {
             "@context": "https://schema.ion.id/logistics/v1/participant/context.jsonld",
-            "@type": "ion:LogisticsParticipantAttributes",
+            "@type": "ion:LogisticsParticipantAddendum",
             "role": "PROVIDER"
           }
         },
@@ -36,7 +36,7 @@
           },
           "participantAttributes": {
             "@context": "https://schema.ion.id/logistics/v1/participant/context.jsonld",
-            "@type": "ion:LogisticsParticipantAttributes",
+            "@type": "ion:LogisticsParticipantAddendum",
             "role": "MERCHANT"
           },
           "descriptor": {
@@ -53,7 +53,7 @@
             "quantity": 500,
             "storageCategory": "HIGH_VALUE",
             "@context": "https://schema.ion.id/logistics/v1/commitment/context.jsonld",
-            "@type": "ion:LogisticsCommitmentAttributes"
+            "@type": "ion:LogisticsCommitment"
           },
           "status": {
             "descriptor": {
@@ -66,7 +66,7 @@
               "id": "GMI-SKU-IPHONE-15-BLK-128",
               "resourceAttributes": {
                 "@context": "https://schema.ion.id/extensions/logistics/resource/v1/context.jsonld",
-                "@type": "ion:LogisticsResourceAttributes",
+                "@type": "ion:LogisticsShipment",
                 "quantity": {
                   "count": 500
                 }
@@ -85,7 +85,7 @@
             "quantity": 250,
             "storageCategory": "HIGH_VALUE",
             "@context": "https://schema.ion.id/logistics/v1/commitment/context.jsonld",
-            "@type": "ion:LogisticsCommitmentAttributes"
+            "@type": "ion:LogisticsCommitment"
           },
           "status": {
             "descriptor": {
@@ -98,7 +98,7 @@
               "id": "GMI-SKU-SAMSUNG-S24-WHT-256",
               "resourceAttributes": {
                 "@context": "https://schema.ion.id/extensions/logistics/resource/v1/context.jsonld",
-                "@type": "ion:LogisticsResourceAttributes",
+                "@type": "ion:LogisticsShipment",
                 "quantity": {
                   "count": 250
                 }
@@ -132,7 +132,7 @@
             "expectedReceiptDate": "2026-04-25",
             "inboundInstructions": "Deliver to Gate 3. Reference TC-BKS-2026-001. QC team will inspect on receipt.",
             "@context": "https://schema.ion.id/logistics/v1/performance/context.jsonld",
-            "@type": "ion:LogisticsPerformanceAttributes"
+            "@type": "ion:LogisticsPerformance"
           }
         }
       ],
@@ -160,7 +160,7 @@
             "totalAmount": 3607500,
             "currency": "IDR",
             "@context": "https://schema.ion.id/logistics/v1/consideration/context.jsonld",
-            "@type": "ion:LogisticsConsiderationAttributes"
+            "@type": "ion:LogisticsConsideration"
           },
           "id": "cons-001",
           "status": {
@@ -192,7 +192,7 @@
         },
         "fwaReference": "ion://policy/logistics-fwa.tokopedia-tokocabang.2026q2",
         "@context": "https://schema.ion.id/logistics/v1/contract/context.jsonld",
-        "@type": "ion:LogisticsContractAttributes"
+        "@type": "ion:LogisticsContract"
       }
     }
   }

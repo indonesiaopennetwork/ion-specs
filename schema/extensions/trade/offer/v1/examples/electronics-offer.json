@@ -1,6 +1,6 @@
 {
   "@context": "https://schema.ion.id/trade/offer/v1/context.jsonld",
-  "@type": "ion:TradeOfferAttributes",
+  "@type": "ion:TradeOffer",
   "_comment": "Example: Electronics offer — returnable 14 days, manufacturer warranty 1 year, no COD",
   "cancellationPolicy": "ion://policy/cancel.prepacked.free",
   "cancellationAllowedReasons": [

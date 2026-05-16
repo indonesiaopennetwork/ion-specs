@@ -19,7 +19,7 @@ components:
       title: Indonesia Business Identity
       additionalProperties: true
       x-jsonld:
-        '@context': ./context.jsonld
+        '@context': 'https://schema.ion.id/core/identity/v1/context.jsonld'
         '@type': ion:BusinessIdentity
       x-beckn-attaches-to: Provider.providerAttributes (composed)
       properties:
@@ -99,6 +99,7 @@ components:
           example: SPIRT.2064701011023
           x-ion-regulatory: PerBPOM 22/2018 tentang Pedoman Pemberian Sertifikat Produksi Pangan Industri Rumah
             Tangga
+      # ION network mandatory: Indonesian business registration requirements (UU 11/2020 Cipta Kerja; PP 5/2021)
       required:
       - npwp
       - nib

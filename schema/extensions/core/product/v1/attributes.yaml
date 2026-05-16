@@ -20,8 +20,9 @@ components:
       title: Indonesia Product Certifications
       additionalProperties: false
       x-jsonld:
-        '@context': ./context.jsonld
+        '@context': 'https://schema.ion.id/core/product/v1/context.jsonld'
         '@type': ion:ProductCertifications
+      x-beckn-attaches-to: Resource.resourceAttributes
       properties:
         halalStatus:
           type: string
@@ -86,7 +87,6 @@ components:
 
             '
           example: 18
-          x-ion-conditional: true
           x-ion-condition: Required when ageRestricted is true
       allOf:
       - if:
@@ -117,6 +117,7 @@ components:
         then:
           required:
           - halalCertNumber
+      # ION network mandatory: Indonesian product compliance requirements (UU 33/2014 Halal; UU 8/1999 Consumer Protection)
       required:
       - halalStatus
       - ageRestricted

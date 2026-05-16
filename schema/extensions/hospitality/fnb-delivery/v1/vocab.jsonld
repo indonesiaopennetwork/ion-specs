@@ -7,10 +7,13 @@
   },
   "@graph": [
     {
-      "@id": "ion:HospitalityFnbDeliveryAttributes",
+      "@id": "ion:FnbMenuItem",
       "@type": "rdfs:Class",
-      "rdfs:label": "HospitalityFnbDeliveryAttributes",
-      "rdfs:comment": "Resource attributes for prepared food and beverage items available for delivery or self-pickup in the Hospitality sector."
+      "rdfs:label": "FnbMenuItem",
+      "rdfs:comment": "Resource attributes for prepared food and beverage items available for delivery or self-pickup in the Hospitality sector.",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Resource"
+      }
     },
     {
       "@id": "ion:preparationTime",

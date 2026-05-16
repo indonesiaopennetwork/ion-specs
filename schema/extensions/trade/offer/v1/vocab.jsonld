@@ -6,10 +6,13 @@
   },
   "@graph": [
     {
-      "@id": "ion:TradeOfferAttributes",
+      "@id": "ion:TradeOffer",
       "@type": "rdfs:Class",
-      "rdfs:label": "TradeOfferAttributes",
-      "rdfs:comment": "TradeOfferAttributes"
+      "rdfs:label": "TradeOffer",
+      "rdfs:comment": "TradeOffer",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Offer"
+      }
     },
     {
       "@id": "ion:cancellationPolicy",

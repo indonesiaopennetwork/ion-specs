@@ -8,17 +8,20 @@
   },
   "@graph": [
     {
-      "@id": "ion:LogisticsOfferAttributes",
+      "@id": "ion:LogisticsOffer",
       "@type": "rdfs:Class",
       "rdfs:comment": "ION Logistics Offer extension attributes. Attaches to beckn:Offer.offerAttributes.",
-      "rdfs:label": "Logistics Offer Attributes",
-      "rdfs:isDefinedBy": "https://schema.ion.id/logistics/v1/"
+      "rdfs:label": "LogisticsOffer",
+      "rdfs:isDefinedBy": "https://schema.ion.id/logistics/v1/",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Offer"
+      }
     },
     {
       "@id": "ion:serviceLevel",
       "@type": "rdfs:Property",
       "rdfs:domain": {
-        "@id": "ion:LogisticsOfferAttributes"
+        "@id": "ion:LogisticsOffer"
       },
       "rdfs:range": {
         "@id": "xsd:string"
@@ -29,7 +32,7 @@
       "@id": "ion:transportMode",
       "@type": "rdfs:Property",
       "rdfs:domain": {
-        "@id": "ion:LogisticsOfferAttributes"
+        "@id": "ion:LogisticsOffer"
       },
       "rdfs:range": {
         "@id": "xsd:string"
@@ -40,7 +43,7 @@
       "@id": "ion:routingTopology",
       "@type": "rdfs:Property",
       "rdfs:domain": {
-        "@id": "ion:LogisticsOfferAttributes"
+        "@id": "ion:LogisticsOffer"
       },
       "rdfs:range": {
         "@id": "xsd:string"
@@ -51,7 +54,7 @@
       "@id": "ion:rateLogic",
       "@type": "rdfs:Property",
       "rdfs:domain": {
-        "@id": "ion:LogisticsOfferAttributes"
+        "@id": "ion:LogisticsOffer"
       },
       "rdfs:range": {
         "@id": "xsd:string"
@@ -62,7 +65,7 @@
       "@id": "ion:selectRequired",
       "@type": "rdfs:Property",
       "rdfs:domain": {
-        "@id": "ion:LogisticsOfferAttributes"
+        "@id": "ion:LogisticsOffer"
       },
       "rdfs:range": {
         "@id": "xsd:boolean"
@@ -73,7 +76,7 @@
       "@id": "ion:quoteValidityWindow",
       "@type": "rdfs:Property",
       "rdfs:domain": {
-        "@id": "ion:LogisticsOfferAttributes"
+        "@id": "ion:LogisticsOffer"
       },
       "rdfs:range": {
         "@id": "xsd:duration"
@@ -84,7 +87,7 @@
       "@id": "ion:agentAssignmentModel",
       "@type": "rdfs:Property",
       "rdfs:domain": {
-        "@id": "ion:LogisticsOfferAttributes"
+        "@id": "ion:LogisticsOffer"
       },
       "rdfs:range": {
         "@id": "xsd:string"
@@ -95,7 +98,7 @@
       "@id": "ion:availableOnCod",
       "@type": "rdfs:Property",
       "rdfs:domain": {
-        "@id": "ion:LogisticsOfferAttributes"
+        "@id": "ion:LogisticsOffer"
       },
       "rdfs:range": {
         "@id": "xsd:boolean"
@@ -106,7 +109,7 @@
       "@id": "ion:cancellationPolicy",
       "@type": "rdfs:Property",
       "rdfs:domain": {
-        "@id": "ion:LogisticsOfferAttributes"
+        "@id": "ion:LogisticsOffer"
       },
       "rdfs:range": {
         "@id": "xsd:anyURI"
@@ -117,7 +120,7 @@
       "@id": "ion:claimPolicy",
       "@type": "rdfs:Property",
       "rdfs:domain": {
-        "@id": "ion:LogisticsOfferAttributes"
+        "@id": "ion:LogisticsOffer"
       },
       "rdfs:range": {
         "@id": "xsd:anyURI"
@@ -128,7 +131,7 @@
       "@id": "ion:slaPolicy",
       "@type": "rdfs:Property",
       "rdfs:domain": {
-        "@id": "ion:LogisticsOfferAttributes"
+        "@id": "ion:LogisticsOffer"
       },
       "rdfs:range": {
         "@id": "xsd:anyURI"
@@ -139,7 +142,7 @@
       "@id": "ion:evidencePolicy",
       "@type": "rdfs:Property",
       "rdfs:domain": {
-        "@id": "ion:LogisticsOfferAttributes"
+        "@id": "ion:LogisticsOffer"
       },
       "rdfs:range": {
         "@id": "xsd:anyURI"
@@ -150,7 +153,7 @@
       "@id": "ion:disputePolicy",
       "@type": "rdfs:Property",
       "rdfs:domain": {
-        "@id": "ion:LogisticsOfferAttributes"
+        "@id": "ion:LogisticsOffer"
       },
       "rdfs:range": {
         "@id": "xsd:anyURI"
@@ -161,7 +164,7 @@
       "@id": "ion:reAttemptPolicy",
       "@type": "rdfs:Property",
       "rdfs:domain": {
-        "@id": "ion:LogisticsOfferAttributes"
+        "@id": "ion:LogisticsOffer"
       },
       "rdfs:range": {
         "@id": "xsd:anyURI"
@@ -172,7 +175,7 @@
       "@id": "ion:fwaApplicable",
       "@type": "rdfs:Property",
       "rdfs:domain": {
-        "@id": "ion:LogisticsOfferAttributes"
+        "@id": "ion:LogisticsOffer"
       },
       "rdfs:range": {
         "@id": "xsd:boolean"

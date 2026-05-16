@@ -10,7 +10,7 @@ Inter-NP financial reconciliation between BAP (collector) and BPP (receiver).
 
 ## Flow
 1. BAP initiates `/reconcile` with contract amounts, finder fee, withholding, adjustments
-2. BPP responds via `/on_reconcile` with `recon_status`: 01=AGREED, 02=OVERPAID, 03=UNDERPAID
+2. BPP responds via `/on_reconcile` with `reconStatus`: 01=AGREED, 02=OVERPAID, 03=UNDERPAID
 3. If DISPUTED, either party raises a ticket via `raise/on_raise`
 
 ## Adjustments

@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://schema.ion.id/logistics/provider/v1",
-  "title": "LogisticsProviderAttributes",
+  "title": "LogisticsProvider",
   "type": "object",
   "properties": {
     "catalogVersion": {

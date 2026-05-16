@@ -6,10 +6,13 @@
   },
   "@graph": [
     {
-      "@id": "ion:IONReconcileAttributes",
+      "@id": "ion:IONReconciliation",
       "@type": "rdfs:Class",
-      "rdfs:label": "IONReconcileAttributes",
-      "rdfs:comment": "IONReconcileAttributes"
+      "rdfs:label": "IONReconciliation",
+      "rdfs:comment": "IONReconciliation",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Settlement"
+      }
     },
     {
       "@id": "ion:reconId",
@@ -96,9 +99,9 @@
       "rdfs:comment": "Human-readable reason for DISPUTED status. Referenced when raising a dispute ticket via raise/on_raise.\n"
     },
     {
-      "@id": "ion:recon_status",
+      "@id": "ion:reconStatus",
       "@type": "rdf:Property",
-      "rdfs:label": "recon_status",
+      "rdfs:label": "reconStatus",
       "rdfs:comment": "Numeric recon status compatible with ONDC RSF receiver_recon model. 01=amounts match, 02=collector paid more than expected, 03=less than expected.\n"
     },
     {

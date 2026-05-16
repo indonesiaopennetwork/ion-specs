@@ -1,6 +1,6 @@
 {
-  "@context": "https://schema.ion.id/extensions/core/identity/v1/context.jsonld",
-  "@type": "ion:BusinessIdentity",
+  "@context": "https://schema.ion.id/core/identity/v1/context.jsonld",
+  "@type": "ion:IONBusinessIdentity",
   "npwp": "1234567890123456",
   "nib": "1234567890123",
   "pkpStatus": "PKP",

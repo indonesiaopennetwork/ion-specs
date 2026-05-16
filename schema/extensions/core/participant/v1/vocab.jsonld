@@ -5,10 +5,13 @@
   },
   "@graph": [
     {
-      "@id": "ion:ParticipantAttributes",
+      "@id": "ion:IONParticipant",
       "@type": "rdfs:Class",
       "rdfs:label": "ION Participant Attributes",
-      "rdfs:comment": "Cross-sector participant attributes attaching to beckn:Participant.participantAttributes. Carries role, Indonesian business/individual identity, authorised-signatory metadata, and full Indonesian administrative address hierarchy with accessibility."
+      "rdfs:comment": "Cross-sector participant attributes attaching to beckn:Participant.participantAttributes. Carries role, Indonesian business/individual identity, authorised-signatory metadata, and full Indonesian administrative address hierarchy with accessibility.",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Participant"
+      }
     },
     {
       "@id": "ion:role",

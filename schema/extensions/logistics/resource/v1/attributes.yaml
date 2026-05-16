@@ -15,13 +15,13 @@ info:
     url: https://schema.ion.id
 components:
   schemas:
-    LogisticsResourceAttributes:
+    LogisticsShipment:
       type: object
-      title: Logistics Resource Attributes
+      title: LogisticsShipment
       additionalProperties: true
       x-jsonld:
-        '@context': ./context.jsonld
-        '@type': ion:LogisticsResourceAttributes
+        '@context': 'https://schema.ion.id/logistics/resource/v1/context.jsonld'
+        '@type': ion:LogisticsShipment
       x-beckn-attaches-to: Resource.resourceAttributes
       properties:
         serviceType:
@@ -68,7 +68,7 @@ components:
               - gram
               - kilogram
               - tonne
-          x-ion-conditional: true
+          x-ion-condition: See property description: Unit of measure appropriate to serviceType
         dimensions:
           type: object
           properties:
@@ -83,7 +83,7 @@ components:
               enum:
               - centimeter
               - meter
-          x-ion-conditional: true
+          x-ion-condition: Required when chargeable weight is calculated volumetrically
         volumetricWeight:
           type: object
           description: Computed by BPP; carried in on_select if applicable
@@ -150,7 +150,7 @@ components:
           - '7'
           - '8'
           - '9'
-          x-ion-conditional: true
+                    x-ion-condition: Required when dangerous goods are present (dgClassification is set)
         hazmatSubsidiaryClasses:
           type: array
           items:
@@ -160,7 +160,7 @@ components:
           type: string
           description: UN number (e.g. "UN1950") — required for all DG shipments
           pattern: ^UN[0-9]{4}$
-          x-ion-conditional: true
+          x-ion-condition: See property description: UN number (e.g. "UN1950") — required for all DG shipments
         hazmatPackingGroup:
           type: string
           enum:
@@ -168,14 +168,14 @@ components:
           - II
           - III
           description: Packing Group per IATA DGR / IMO IMDG
-          x-ion-conditional: true
+          x-ion-condition: See property description: Packing Group per IATA DGR / IMO IMDG
         hazmatProperShippingName:
           type: string
           description: 'Proper Shipping Name (PSN) as listed in the applicable DGR. Must appear on all documents
             and outer packaging.
 
             '
-          x-ion-conditional: true
+          x-ion-condition: See property description: Proper Shipping Name (PSN) as listed in the applicable DGR. Must appear on all d
         hazmatNetQuantityPerPackage:
           type: object
           properties:
@@ -189,23 +189,23 @@ components:
               - liter
               - milliliter
           description: Net quantity of dangerous substance per package
-          x-ion-conditional: true
+          x-ion-condition: Required when shipment contains dangerous goods (DG classification present)
         hazmatNetExplosiveMass:
           type: number
           description: Net Explosive Mass (NEM/NEQ) in kg — Class 1 only
-          x-ion-conditional: true
+          x-ion-condition: Required for Class 1 explosive shipments
         hazmatErgCode:
           type: string
           description: Emergency Response Guide (ERG) code for first responders
-          x-ion-conditional: true
+          x-ion-condition: See property description: Emergency Response Guide (ERG) code for first responders
         hazmatSegregationGroup:
           type: string
           description: IMDG segregation group code (for mixed-DG ocean)
-          x-ion-conditional: true
+                    x-ion-condition: Required when transportMode includes SEA and shipment contains mixed DG cargo
         hazmatPackagingInstruction:
           type: string
           description: IATA PI number or IMDG P code specifying packaging used
-          x-ion-conditional: true
+                    x-ion-condition: Required for all dangerous goods shipments per IATA DGR / IMDG Code
         hazmatPackagingCertification:
           type: object
           properties:
@@ -218,7 +218,7 @@ components:
               type: string
               format: date
           description: UN-certified packaging marking details
-          x-ion-conditional: true
+          x-ion-condition: See property description: UN-certified packaging marking details
         hazmatOverpack:
           type: boolean
           description: True if DG packages are combined in an overpack
@@ -238,7 +238,7 @@ components:
             by air. Applies to air transport only.
 
             '
-          x-ion-conditional: true
+          x-ion-condition: Required when transportMode includes AIR
         hazmatOceanStowageCategory:
           type: string
           enum:
@@ -248,7 +248,7 @@ components:
           - D
           - E
           description: IMDG stowage category — applies to ocean transport
-          x-ion-conditional: true
+          x-ion-condition: See property description: IMDG stowage category — applies to ocean transport
         hazmatShippersDeclaration:
           type: object
           properties:
@@ -263,7 +263,7 @@ components:
             signedAt:
               type: string
               format: date-time
-          x-ion-conditional: true
+          x-ion-condition: Required when shipment contains dangerous goods (DG classification present)
         lithiumBattery:
           type: object
           description: 'Lithium battery-specific fields — mandatory when UN3480/UN3481/UN3090/UN3091 is declared.
@@ -300,7 +300,7 @@ components:
               - SECTION_IB
               - SECTION_II
               description: IATA PI section classification
-          x-ion-conditional: true
+                    x-ion-condition: Required for air transport of dangerous goods (IATA DGR Section classification)
         temperatureRequirement:
           type: object
           properties:
@@ -317,7 +317,7 @@ components:
               - CHILLED
               - AMBIENT
               - CONTROLLED_ROOM
-          x-ion-conditional: true
+          x-ion-condition: See property description: IATA PI section classification
         productCategory:
           type: string
           description: Product category for classification (Grocery, Electronics, Pharma, etc.)
@@ -341,7 +341,7 @@ components:
           items:
             type: string
           description: Harmonised System codes for cross-border shipments
-          x-ion-conditional: true
+          x-ion-condition: See property description: Harmonised System codes for cross-border shipments
         commercialInvoice:
           type: object
           description: For cross-border
@@ -399,14 +399,14 @@ components:
             documentUrl:
               type: string
               format: uri
-          x-ion-conditional: true
+                    x-ion-condition: Required for cross-border shipments where Certificate of Origin is required
         packingList:
           type: object
           properties:
             documentUrl:
               type: string
               format: uri
-          x-ion-conditional: true
+          x-ion-condition: Required for cross-border (LGC-XB) consolidated shipments
         importLicence:
           type: object
           properties:
@@ -415,7 +415,7 @@ components:
             validUntil:
               type: string
               format: date
-          x-ion-conditional: true
+          x-ion-condition: Required for cross-border (LGC-XB) shipments requiring import licence
         cargoDescription:
           type: string
           description: Detailed cargo description for freight manifests
@@ -472,15 +472,15 @@ components:
               type: number
             weightKg:
               type: number
-          x-ion-conditional: true
+                    x-ion-condition: Required when transportMode is RO_RO or when oversized cargo dimensions must be declared
         vehicleRegistration:
           type: string
           description: Vehicle registration plate number
-          x-ion-conditional: true
+                    x-ion-condition: Required for RO_RO patterns where vehicle identity is part of the shipment
         skuCount:
           type: integer
           description: Number of distinct SKUs
-          x-ion-conditional: true
+                    x-ion-condition: Required for multi-SKU consolidated shipments
         storageCategory:
           type: string
           enum:
@@ -490,7 +490,7 @@ components:
           - HIGH_VALUE
           - HAZMAT
           - OVERSIZED
-          x-ion-conditional: true
+          x-ion-condition: See property description: Number of distinct SKUs
         skuManifest:
           type: array
           description: Per-SKU details for warehouse inbound
@@ -530,7 +530,7 @@ components:
               type: number
             unit:
               type: string
-          x-ion-conditional: true
+          x-ion-condition: See property description: Maximum shipment dimensions the BPP accepts. Published in catalog.
       required:
       - serviceType
       - quantity

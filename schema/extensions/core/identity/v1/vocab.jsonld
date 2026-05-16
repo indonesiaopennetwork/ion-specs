@@ -9,7 +9,13 @@
       "@id": "ion:IONBusinessIdentity",
       "@type": "rdfs:Class",
       "rdfs:label": "IONBusinessIdentity",
-      "rdfs:comment": "IONBusinessIdentity"
+      "rdfs:comment": "IONBusinessIdentity",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Provider"
+      },
+      "skos:broader": {
+        "@id": "beckn:Provider"
+      }
     },
     {
       "@id": "ion:npwp",

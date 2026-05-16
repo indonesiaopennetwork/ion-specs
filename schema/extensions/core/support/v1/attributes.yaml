@@ -24,7 +24,7 @@ components:
       title: ION Consumer Support Ticket
       additionalProperties: true
       x-jsonld:
-        '@context': ./context.jsonld
+        '@context': 'https://schema.ion.id/core/support/v1/context.jsonld'
         '@type': ion:SupportTicket
       x-beckn-attaches-to: Support.channels[*] (as an Attributes entry with @type=ion:SupportTicket)
       properties:
@@ -283,7 +283,6 @@ components:
           type: string
           format: date-time
           description: When the ticket was escalated to this level
-          x-ion-conditional: true
           x-ion-condition: Required when escalationLevel changes
         escalationSlaHours:
           type: integer

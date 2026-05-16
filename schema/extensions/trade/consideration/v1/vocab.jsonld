@@ -6,10 +6,13 @@
   },
   "@graph": [
     {
-      "@id": "ion:TradeConsiderationAttributes",
+      "@id": "ion:TradeConsideration",
       "@type": "rdfs:Class",
-      "rdfs:label": "TradeConsiderationAttributes",
-      "rdfs:comment": "TradeConsiderationAttributes"
+      "rdfs:label": "TradeConsideration",
+      "rdfs:comment": "TradeConsideration",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Consideration"
+      }
     },
     {
       "@id": "ion:ppnRate",

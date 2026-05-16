@@ -14,14 +14,14 @@ info:
     url: https://schema.ion.id
 components:
   schemas:
-    IONRatingAttributes:
+    IONRating:
       type: object
-      title: ION Rating Attributes
+      title: IONRating
       additionalProperties: true
       x-jsonld:
-        '@context': ./context.jsonld
-        '@type': ion:RatingAttributes
-      x-beckn-attaches-to: RatingInput (as ionRatingAttributes)
+        '@context': 'https://schema.ion.id/core/rating/v1/context.jsonld'
+        '@type': ion:IONRating
+      x-beckn-attaches-to: RatingInput (as ionRating)
       properties:
         ratingCategory:
           type: string

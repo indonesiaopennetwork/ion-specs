@@ -9,7 +9,10 @@
       "@id": "ion:IONSupportTicket",
       "@type": "rdfs:Class",
       "rdfs:label": "IONSupportTicket",
-      "rdfs:comment": "IONSupportTicket"
+      "rdfs:comment": "IONSupportTicket",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Support"
+      }
     },
     {
       "@id": "ion:id",
@@ -38,17 +41,20 @@
     {
       "@id": "ion:complainantInfo",
       "@type": "rdf:Property",
-      "rdfs:label": "complainantInfo"
+      "rdfs:label": "complainantInfo",
+      "rdfs:comment": "Issue title"
     },
     {
       "@id": "ion:description",
       "@type": "rdf:Property",
-      "rdfs:label": "description"
+      "rdfs:label": "description",
+      "rdfs:comment": "Issue title"
     },
     {
       "@id": "ion:source",
       "@type": "rdf:Property",
-      "rdfs:label": "source"
+      "rdfs:label": "source",
+      "rdfs:comment": "Subscriber ID of the NP where issue was raised (BAP)"
     },
     {
       "@id": "ion:expectedResponseTime",
@@ -65,12 +71,14 @@
     {
       "@id": "ion:status",
       "@type": "rdf:Property",
-      "rdfs:label": "status"
+      "rdfs:label": "status",
+      "rdfs:comment": "Action trail — both sides of the conversation."
     },
     {
       "@id": "ion:severity",
       "@type": "rdf:Property",
-      "rdfs:label": "severity"
+      "rdfs:label": "severity",
+      "rdfs:comment": "Action trail — both sides of the conversation."
     },
     {
       "@id": "ion:issueActions",
@@ -81,7 +89,8 @@
     {
       "@id": "ion:resolution",
       "@type": "rdf:Property",
-      "rdfs:label": "resolution"
+      "rdfs:label": "resolution",
+      "rdfs:comment": "Brief summary of resolution"
     },
     {
       "@id": "ion:rating",
@@ -92,12 +101,14 @@
     {
       "@id": "ion:createdAt",
       "@type": "rdf:Property",
-      "rdfs:label": "createdAt"
+      "rdfs:label": "createdAt",
+      "rdfs:comment": "Current escalation level of the dispute. Progression: 1. SELLER — buyer contacts seller"
     },
     {
       "@id": "ion:updatedAt",
       "@type": "rdf:Property",
-      "rdfs:label": "updatedAt"
+      "rdfs:label": "updatedAt",
+      "rdfs:comment": "1=Interfacing NP (auto-resolution). 2=GRO of counterparty NP. 3=ODR external resolution."
     },
     {
       "@id": "ion:escalationLevel",

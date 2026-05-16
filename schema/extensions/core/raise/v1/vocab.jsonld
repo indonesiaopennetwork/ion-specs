@@ -9,7 +9,13 @@
       "@id": "ion:IONTicket",
       "@type": "rdfs:Class",
       "rdfs:label": "IONTicket",
-      "rdfs:comment": "IONTicket"
+      "rdfs:comment": "IONTicket",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Support"
+      },
+      "skos:broader": {
+        "@id": "beckn:Support"
+      }
     },
     {
       "@id": "ion:id",
@@ -86,27 +92,32 @@
     {
       "@id": "ion:resolution",
       "@type": "rdf:Property",
-      "rdfs:label": "resolution"
+      "rdfs:label": "resolution",
+      "rdfs:comment": "How the issue was resolved"
     },
     {
       "@id": "ion:sla",
       "@type": "rdf:Property",
-      "rdfs:label": "sla"
+      "rdfs:label": "sla",
+      "rdfs:comment": "ISO 8601 duration for first response"
     },
     {
       "@id": "ion:createdAt",
       "@type": "rdf:Property",
-      "rdfs:label": "createdAt"
+      "rdfs:label": "createdAt",
+      "rdfs:comment": "createdAt — see attributes.yaml for full description"
     },
     {
       "@id": "ion:updatedAt",
       "@type": "rdf:Property",
-      "rdfs:label": "updatedAt"
+      "rdfs:label": "updatedAt",
+      "rdfs:comment": "updatedAt — see attributes.yaml for full description"
     },
     {
       "@id": "ion:resolvedAt",
       "@type": "rdf:Property",
-      "rdfs:label": "resolvedAt"
+      "rdfs:label": "resolvedAt",
+      "rdfs:comment": "ISO 8601 duration for first response"
     }
   ]
 }

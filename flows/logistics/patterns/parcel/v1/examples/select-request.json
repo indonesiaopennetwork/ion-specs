@@ -37,7 +37,7 @@
           },
           "participantAttributes": {
             "@context": "https://schema.ion.id/logistics/v1/participant/context.jsonld",
-            "@type": "ion:LogisticsParticipantAttributes",
+            "@type": "ion:LogisticsParticipantAddendum",
             "role": "CONSIGNOR",
             "addressDetail": {
               "provinsiCode": "31",
@@ -54,7 +54,7 @@
           },
           "participantAttributes": {
             "@context": "https://schema.ion.id/logistics/v1/participant/context.jsonld",
-            "@type": "ion:LogisticsParticipantAttributes",
+            "@type": "ion:LogisticsParticipantAddendum",
             "role": "CONSIGNEE",
             "addressDetail": {
               "provinsiCode": "35",
@@ -70,7 +70,7 @@
           "id": "cmt-001",
           "commitmentAttributes": {
             "@context": "https://schema.ion.id/logistics/v1/commitment/context.jsonld",
-            "@type": "ion:LogisticsCommitmentAttributes",
+            "@type": "ion:LogisticsCommitment",
             "lineId": "L1",
             "resourceId": "jne-parcel-service",
             "offerId": "jne-yes-nextday"
@@ -96,7 +96,7 @@
           "id": "perf-001",
           "performanceAttributes": {
             "@context": "https://schema.ion.id/logistics/v1/performance/context.jsonld",
-            "@type": "ion:LogisticsPerformanceAttributes",
+            "@type": "ion:LogisticsPerformance",
             "serviceLevel": "NEXT_DAY",
             "stops": [
               {
@@ -113,11 +113,11 @@
       ],
       "contractAttributes": {
         "@context": "https://schema.ion.id/logistics/v1/contract/context.jsonld",
-        "@type": "ion:LogisticsContractAttributes",
+        "@type": "ion:LogisticsContract",
         "shipmentResource": {
           "resourceAttributes": {
             "@context": "https://schema.ion.id/logistics/v1/resource/context.jsonld",
-            "@type": "ion:LogisticsResourceAttributes",
+            "@type": "ion:LogisticsShipment",
             "serviceType": "PARCEL",
             "weight": {
               "value": 2.5,

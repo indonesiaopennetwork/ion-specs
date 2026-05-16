@@ -14,13 +14,13 @@ info:
     url: https://schema.ion.id
 components:
   schemas:
-    TradeProviderAttributes:
+    TradeProvider:
       type: object
-      title: Trade Provider Attributes
+      title: TradeProvider
       additionalProperties: true
       x-jsonld:
-        '@context': ./context.jsonld
-        '@type': ion:TradeProviderAttributes
+        '@context': 'https://schema.ion.id/trade/provider/v1/context.jsonld'
+        '@type': ion:TradeProvider
       x-beckn-attaches-to: Provider.providerAttributes
       properties:
         invoicingModel:
@@ -152,7 +152,6 @@ components:
 
             '
           example: PT25M
-          x-ion-conditional: true
           x-ion-condition: Required for food-qsr and quick-commerce providers
         providerCategory:
           type: string
@@ -333,7 +332,6 @@ components:
             - licenseNumber
             - validUntil
           x-ion-regulatory: PP 5/2021; PerBPOM various
-          x-ion-conditional: true
           x-ion-condition: Required for regulated categories (pharmacy, alcohol, tobacco, meat)
       allOf:
       - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
@@ -374,33 +372,6 @@ components:
         then:
           required:
           - categoryLicenses
-      - if:
-          properties:
-            invoicingModel:
-              const: CENTRAL
-          required:
-          - invoicingModel
-        then:
-          required:
-          - invoicingEntity
-      - if:
-          properties:
-            kycStatus:
-              const: APPROVED_WITH_CAVEATS
-          required:
-          - kycStatus
-        then:
-          required:
-          - kycCaveats
-      - if:
-          properties:
-            storeStatus:
-              const: TEMPORARILY_CLOSED
-          required:
-          - storeStatus
-        then:
-          required:
-          - temporaryClosureEnd
       required:
       - invoicingModel
       - storeStatus

@@ -1,6 +1,6 @@
 {
   "@context": "https://schema.ion.id/trade/consideration/v1/context.jsonld",
-  "@type": "ion:TradeConsiderationAttributes",
+  "@type": "ion:TradeConsideration",
   "_comment": "Example: Full price breakup for a pizza order",
   "totalAmount": 165120,
   "currency": "IDR",
