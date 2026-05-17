@@ -579,7 +579,6 @@ components:
           example: Garansi seumur hidup untuk mekanisme jam tangan mewah (terms & conditions apply - see seller
             page).
       allOf:
-      - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:
           properties:
             returnable:
