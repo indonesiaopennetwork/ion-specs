@@ -1061,8 +1061,6 @@ components:
             notes:
               type: string
               example: Memerlukan instalasi profesional. Membutuhkan arus 220V khusus.
-            required:
-            - type
           x-ion-condition: Required for appliances and furniture needing installation
         usage:
           type: object
