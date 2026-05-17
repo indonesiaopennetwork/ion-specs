@@ -1,5 +1,38 @@
 # ION Network Specification — Changelog
 
+## v0.6.1 — May 2026
+
+**Logistics patch — multi-stop P2P variant.**
+
+This is a non-breaking additive patch to the logistics sector. No existing payloads, patterns, or schema packs are modified in a breaking way. All changes are additions.
+
+### What changed
+
+#### New variant: `flows/logistics/variants/multi-stop/v1/`
+
+A new variant covering single-booking, single-rider (or single-AWB) deliveries that visit one pickup stop and two or more drop stops in declared sequence. Applies to `parcel` (with `routingTopology: P2P_MULTI_STOP`) and `hyperlocal`. Key fields introduced: `performanceAttributes.sequence`, `performanceAttributes.type` (PICKUP | DROP), `performanceAttributes.packageIds[]`, `performanceAttributes.verification`, `performanceAttributes.codAmount` per stop, `performanceAttributes.agentDetails` (pre-assigned rider), `performanceAttributes.executionLogs[]` (order log), consideration breakup type `MULTI_STOP_FEE`, and `breakup[].stopRef` for per-stop COD fees.
+
+#### Modified: `flows/logistics/patterns/parcel/v1/pattern.yaml`
+
+- `P2P_MULTI_STOP` added as a named `routingTopology` value in the phase 3 state machine description alongside the existing `P2P`, `P2H2P`, `P2H2H2P`.
+- `multi-stop` added to `variantWindows` as the earliest-to-latest activation window (`init` through `on_status[DELIVERED]`).
+- `MULTI_STOP_FEE` and `COD_FEE.stopRef` added to the `on_select` `conditionalFields` list.
+
+#### Modified: `flows/logistics/patterns/hyperlocal/v1/pattern.yaml`
+
+- `multi-stop` added to `variantWindows`.
+
+#### New examples: `flows/logistics/patterns/parcel/v1/examples/`
+
+- `init-multi-stop.json` — conformant `init` request for a three-stop P2P booking (Mumbai → Pune → Bengaluru) using ION schema URLs and `ion:` type prefixes.
+- `on-confirm-multi-stop.json` — conformant `on_confirm` callback with AWB, pre-assigned agent, per-stop verification credentials (OTP/barcode), tracking URL, execution logs, and full tariff breakup including `MULTI_STOP_FEE` and per-stop `COD_FEE` lines.
+
+#### Modified: `profile.json` in parcel and hyperlocal patterns
+
+- `specVersion` bumped from `0.5.1-draft` to `0.6.1`.
+
+---
+
 ## v0.6.0 — May 2026
 
 **Initial published release.**

@@ -147,6 +147,10 @@ phases:
         conditionalFields:
           - field: message.contract.consideration.considerationAttributes.breakup[].considerationAttributes.ppnRate
             condition: required on TAX breakup lines
+          - field: message.contract.consideration.considerationAttributes.breakup[?titleType=MULTI_STOP_FEE]
+            condition: required when routingTopology is P2P_MULTI_STOP or when two or more DROP stops are declared
+          - field: message.contract.consideration.considerationAttributes.breakup[?titleType=COD_FEE].stopRef
+            condition: required on COD_FEE breakup lines in multi-stop bookings to identify which stop the fee applies to
           - field: message.contract.performance[].performanceAttributes.capacityConfirmed
             condition: required for capacity-constrained offerings
         schemaPacks:
@@ -261,6 +265,9 @@ phases:
     description: >
       The stateMachine variant is determined by the offer's routingTopology:
       - P2P: parcel-p2p state machine (direct pickup to delivery, no hub states)
+      - P2P_MULTI_STOP: parcel-p2p state machine applied per stop; one Performance
+        record per stop; the multi-stop variant governs sequencing and per-stop
+        status progression (see flows/logistics/variants/multi-stop/v1/variant.yaml)
       - P2H2P: parcel-p2h2p state machine (single hub consolidation)
       - P2H2H2P: parcel-p2h2h2p state machine (multi-hub transit)
     steps:
@@ -348,6 +355,14 @@ phases:
             condition: required for COD transactions
 
 variantWindows:
+  multi-stop:
+    earliest: init
+    latest: "on_status[DELIVERED]"
+    condition: >
+      offer.routingTopology = P2P_MULTI_STOP or
+      (P2P with two or more DROP stops declared in performance[]).
+      See flows/logistics/variants/multi-stop/v1/variant.yaml for
+      per-stop fields, sequencing rules, and MULTI_STOP_FEE breakup.
   during-transaction:
     earliest: select
     latest: on_confirm

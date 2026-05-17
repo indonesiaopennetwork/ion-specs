@@ -176,6 +176,13 @@ phases:
           - message.contract.performance[].performanceAttributes.proofOfDelivery
 
 variantWindows:
+  multi-stop:
+    earliest: init
+    latest: "on_status[DELIVERED]"
+    condition: >
+      Single rider dispatch visiting one pickup and two or more drop stops
+      in sequence. routingTopology = P2P_MULTI_STOP.
+      See flows/logistics/variants/multi-stop/v1/variant.yaml.
   rts-handoff:
     earliest: on_confirm
     latest: "on_status[READY_FOR_PICKUP]"
