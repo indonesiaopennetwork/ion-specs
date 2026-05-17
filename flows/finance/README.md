@@ -1,7 +1,25 @@
-# ION finance sector flows
+# ION Finance Sector Flows
 
-Flow specifications for the finance sector on ION.
+**Sector:** `ion:finance`
 
-Status: Planned — flow design work pending sector working group decisions.
+---
 
-When defined, flows here will follow the same structure as flows/trade/ with patterns/ and variants/ per commerce pattern.
+## Categories
+
+| Code | Name | Status |
+|---|---|---|
+| [FIN-02](FIN-02/README.md) | Lending & Consumer Credit | Active |
+
+---
+
+## Schema packs used by this sector
+
+| Beckn slot | Pack | Class |
+|---|---|---|
+| Resource | `schema/extensions/finance/resource/v1` | `CreditProduct` |
+| Offer | `schema/extensions/finance/offer/v1` | `CreditApproval` |
+| Contract | `schema/extensions/finance/contract/v1` | `LoanAgreement` |
+| Participant | `schema/extensions/finance/participant/v1` | `Borrower` / `Lender` |
+| Settlement | `schema/extensions/finance/settlement/v1` | `AmortisationRow` |
+| Performance | `schema/extensions/finance/performance/v1` | `DisbursementPerformance` |
+| Consideration | `schema/extensions/finance/consideration/v1` | `LoanConsideration` |
