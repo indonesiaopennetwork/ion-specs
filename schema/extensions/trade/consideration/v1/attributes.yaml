@@ -127,5 +127,3 @@ components:
       - totalAmount
       - currency
       x-ion-closed-extensions: false
-      allOf:
-      - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
