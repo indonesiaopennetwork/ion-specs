@@ -1,4 +1,4 @@
-openapi: 3.1.1
+﻿openapi: 3.1.1
 info:
   title: ION Trade Resource Extension (v1)
   description: 'Trade sector resource attributes. Covers all physical product types on ION. Category-specific fields
@@ -52,17 +52,17 @@ components:
             unit:
               type: string
               enum:
-              - piece
-              - pack
-              - box
-              - carton
-              - kilogram
-              - gram
-              - litre
-              - millilitre
-              - subscription
-              - voucher
-              - topup
+                - PIECE
+                - PACK
+                - BOX
+                - CARTON
+                - KILOGRAM
+                - GRAM
+                - LITRE
+                - MILLILITRE
+                - SUBSCRIPTION
+                - VOUCHER
+                - TOPUP
               description: Unit of measure appropriate to what is being ordered
           required:
           - value
@@ -70,11 +70,11 @@ components:
         resourceStructure:
           type: string
           enum:
-          - PLAIN
-          - VARIANT
-          - WITH_EXTRAS
-          - COMPOSED
-          - BUNDLE
+            - PLAIN
+            - VARIANT
+            - WITH_EXTRAS
+            - COMPOSED
+            - BUNDLE
           description: 'PLAIN: single SKU, no choices. VARIANT: one of several pre-defined options of a parent.
             WITH_EXTRAS: base item with optional add-ons. COMPOSED: base with mandatory and optional customisation
             groups. BUNDLE: composite of multiple component resources (see bundleComposition).
@@ -84,10 +84,10 @@ components:
         resourceTangibility:
           type: string
           enum:
-          - PHYSICAL
-          - DIGITAL_VOUCHER
-          - DIGITAL_TOP_UP
-          - DIGITAL_SUBSCRIPTION
+            - PHYSICAL
+            - DIGITAL_VOUCHER
+            - DIGITAL_TOP_UP
+            - DIGITAL_SUBSCRIPTION
           description: 'PHYSICAL: tangible goods requiring logistics fulfilment. DIGITAL_VOUCHER: voucher code,
             gift card, in-game currency (delivered electronically). DIGITAL_TOP_UP: mobile pulsa, data package,
             utility bill top-up. DIGITAL_SUBSCRIPTION: time-bound digital subscription access.
@@ -204,8 +204,8 @@ components:
                 priceCalculationMode:
                   type: string
                   enum:
-                  - SUM_AXIS_DELTAS
-                  - EXPLICIT_PRICE
+                    - SUM_AXIS_DELTAS
+                    - EXPLICIT_PRICE
                   description: 'SUM_AXIS_DELTAS — final price = base offer price + sum of axis priceDeltas. EXPLICIT_PRICE
                     — final price = priceValue from matching explicitCombinations entry.
 
@@ -227,10 +227,10 @@ components:
               selectionType:
                 type: string
                 enum:
-                - SINGLE_REQUIRED
-                - SINGLE_OPTIONAL
-                - MULTIPLE_OPTIONAL
-                - FIXED
+                  - SINGLE_REQUIRED
+                  - SINGLE_OPTIONAL
+                  - MULTIPLE_OPTIONAL
+                  - FIXED
               minSelections:
                 type: integer
                 minimum: 0
@@ -242,11 +242,11 @@ components:
               inputType:
                 type: string
                 enum:
-                - select
-                - text
-                - number
-                - date
-                - boolean
+                  - select
+                  - text
+                  - number
+                  - date
+                  - boolean
                 default: select
               options:
                 type: array
@@ -270,8 +270,8 @@ components:
                         type:
                           type: string
                           enum:
-                          - FIXED
-                          - PERCENT
+                            - FIXED
+                            - PERCENT
                         value:
                           type: number
                     available:
@@ -318,13 +318,13 @@ components:
             type:
               type: string
               enum:
-              - GTIN
-              - EAN
-              - UPC
-              - ISBN
-              - ASIN
-              - HSN
-              - ION_SKU
+                - GTIN
+                - EAN
+                - UPC
+                - ISBN
+                - ASIN
+                - HSN
+                - ION_SKU
             value:
               type: string
           example:
@@ -346,11 +346,11 @@ components:
         logisticsServiceType:
           type: string
           enum:
-          - DOMESTIC_SURFACE
-          - DOMESTIC_AIR
-          - HYPERLOCAL
-          - INTERNATIONAL_AIR
-          - INTERNATIONAL_OCEAN
+            - DOMESTIC_SURFACE
+            - DOMESTIC_AIR
+            - HYPERLOCAL
+            - INTERNATIONAL_AIR
+            - INTERNATIONAL_OCEAN
           description: Logistics service type. Determines flow and performance states.
           example: HYPERLOCAL
         availability:
@@ -362,11 +362,11 @@ components:
             status:
               type: string
               enum:
-              - IN_STOCK
-              - LOW_STOCK
-              - OUT_OF_STOCK
-              - PREORDER
-              - DISCONTINUED
+                - IN_STOCK
+                - LOW_STOCK
+                - OUT_OF_STOCK
+                - PREORDER
+                - DISCONTINUED
               description: 'IN_STOCK: adequate quantity available. LOW_STOCK: limited — BAP may show urgency signal.
                 OUT_OF_STOCK: not available, no backorder. PREORDER: can be pre-ordered before availability date.
                 DISCONTINUED: permanently removed.
@@ -449,14 +449,14 @@ components:
                 unit:
                   type: string
                   enum:
-                  - GRAM
-                  - KILOGRAM
-                  - MILLILITRE
-                  - LITRE
-                  - PIECE
-                  - DOZEN
-                  - METER
-                  - CENTIMETER
+                    - GRAM
+                    - KILOGRAM
+                    - MILLILITRE
+                    - LITRE
+                    - PIECE
+                    - DOZEN
+                    - METER
+                    - CENTIMETER
               example:
                 value: 85
                 unit: GRAM
@@ -470,9 +470,9 @@ components:
                 type:
                   type: string
                   enum:
-                  - MANUFACTURER
-                  - PACKER
-                  - IMPORTER
+                    - MANUFACTURER
+                    - PACKER
+                    - IMPORTER
                 name:
                   type: string
                   example: PT Indofood CBP Sukses Makmur Tbk
@@ -525,23 +525,23 @@ components:
                   scheme:
                     type: string
                     enum:
-                    - BPOM_MD
-                    - BPOM_ML
-                    - BPOM_TR
-                    - MUI_HALAL
-                    - SNI
-                    - SP_PIRT
-                    - KEMENKES
-                    - SIUP
+                      - BPOM_MD
+                      - BPOM_ML
+                      - BPOM_TR
+                      - MUI_HALAL
+                      - SNI
+                      - SP_PIRT
+                      - KEMENKES
+                      - SIUP
                   id:
                     type: string
                   role:
                     type: string
                     enum:
-                    - BRAND_OWNER
-                    - MANUFACTURER
-                    - IMPORTER
-                    - PACKER
+                      - BRAND_OWNER
+                      - MANUFACTURER
+                      - IMPORTER
+                      - PACKER
                   url:
                     type: string
                     format: uri
@@ -587,13 +587,13 @@ components:
                       unitCode:
                         type: string
                         enum:
-                        - G
-                        - MG
-                        - MCG
-                        - KCAL
-                        - KJ
-                        - IU
-                        - PERCENT
+                          - G
+                          - MG
+                          - MCG
+                          - KCAL
+                          - KJ
+                          - IU
+                          - PERCENT
                       unitQuantity:
                         type: number
                 required:
@@ -608,8 +608,8 @@ components:
                   type:
                     type: string
                     enum:
-                    - CONTAINS
-                    - FREE_FROM
+                      - CONTAINS
+                      - FREE_FROM
                   value:
                     type: string
             credentials:
@@ -650,39 +650,39 @@ components:
             classification:
               type: string
               enum:
-              - VEG
-              - NON_VEG
-              - HALAL
-              - EGG
+                - VEG
+                - NON_VEG
+                - HALAL
+                - EGG
               example: HALAL
             allergens:
               type: array
               items:
                 type: string
                 enum:
-                - GLUTEN
-                - NUTS
-                - DAIRY
-                - EGGS
-                - SOY
-                - SHELLFISH
-                - FISH
-                - SESAME
-                - SULPHITES
-                - CELERY
-                - MUSTARD
-                - LUPIN
+                  - GLUTEN
+                  - NUTS
+                  - DAIRY
+                  - EGGS
+                  - SOY
+                  - SHELLFISH
+                  - FISH
+                  - SESAME
+                  - SULPHITES
+                  - CELERY
+                  - MUSTARD
+                  - LUPIN
             cuisineType:
               type: string
               example: Padang
             spiceLevel:
               type: string
               enum:
-              - NONE
-              - LOW
-              - MEDIUM
-              - HIGH
-              - EXTRA_HOT
+                - NONE
+                - LOW
+                - MEDIUM
+                - HIGH
+                - EXTRA_HOT
             freshProduce:
               type: object
               additionalProperties: false
@@ -716,11 +716,11 @@ components:
             gender:
               type: string
               enum:
-              - MALE
-              - FEMALE
-              - UNISEX
-              - BOYS
-              - GIRLS
+                - MALE
+                - FEMALE
+                - UNISEX
+                - BOYS
+                - GIRLS
             size:
               type: string
               example: L
@@ -737,49 +737,49 @@ components:
             fitType:
               type: string
               enum:
-              - SLIM
-              - REGULAR
-              - OVERSIZED
-              - RELAXED
-              - ATHLETIC
+                - SLIM
+                - REGULAR
+                - OVERSIZED
+                - RELAXED
+                - ATHLETIC
             sleeveType:
               type: string
               enum:
-              - SLEEVELESS
-              - SHORT
-              - THREE_QUARTER
-              - FULL
-              - NONE
+                - SLEEVELESS
+                - SHORT
+                - THREE_QUARTER
+                - FULL
+                - NONE
             collarType:
               type: string
               enum:
-              - ROUND
-              - V_NECK
-              - POLO
-              - SPREAD
-              - MANDARIN
-              - HOODIE
-              - NONE
+                - ROUND
+                - V_NECK
+                - POLO
+                - SPREAD
+                - MANDARIN
+                - HOODIE
+                - NONE
             occasion:
               type: string
               enum:
-              - CASUAL
-              - FORMAL
-              - ETHNIC
-              - SPORTS
-              - PARTY
-              - BEACH
-              - WORKWEAR
+                - CASUAL
+                - FORMAL
+                - ETHNIC
+                - SPORTS
+                - PARTY
+                - BEACH
+                - WORKWEAR
             pattern:
               type: string
               enum:
-              - SOLID
-              - PRINTED
-              - STRIPED
-              - CHECKED
-              - EMBROIDERED
-              - TIE_DYE
-              - BATIK
+                - SOLID
+                - PRINTED
+                - STRIPED
+                - CHECKED
+                - EMBROIDERED
+                - TIE_DYE
+                - BATIK
             careInstructions:
               type: string
               example: Cuci tangan, jangan diperas, jemur di tempat teduh
@@ -797,26 +797,26 @@ components:
             ramUnit:
               type: string
               enum:
-              - MB
-              - GB
+                - MB
+                - GB
               default: GB
             rom:
               type: integer
             romUnit:
               type: string
               enum:
-              - MB
-              - GB
-              - TB
+                - MB
+                - GB
+                - TB
               default: GB
             storage:
               type: integer
             storageUnit:
               type: string
               enum:
-              - MB
-              - GB
-              - TB
+                - MB
+                - GB
+                - TB
               default: GB
             storageCapacity:
               type: integer
@@ -824,9 +824,9 @@ components:
             storageCapacityUnit:
               type: string
               enum:
-              - LITRE
-              - KG
-              - CUBIC_FEET
+                - LITRE
+                - KG
+                - CUBIC_FEET
             screenSize:
               type: number
               description: Screen size in inches
@@ -847,14 +847,14 @@ components:
             osType:
               type: string
               enum:
-              - IOS
-              - ANDROID
-              - WINDOWS
-              - MACOS
-              - LINUX
-              - TIZEN
-              - WEBOS
-              - OTHER
+                - IOS
+                - ANDROID
+                - WINDOWS
+                - MACOS
+                - LINUX
+                - TIZEN
+                - WEBOS
+                - OTHER
             osVersion:
               type: string
               example: Android 14
@@ -863,19 +863,19 @@ components:
               items:
                 type: string
                 enum:
-                - WIFI
-                - BLUETOOTH
-                - NFC
-                - USB_C
-                - USB_A
-                - HDMI
-                - ETHERNET
-                - LIGHTNING
-                - MMWAVE_5G
-                - SUB6_5G
-                - 4G_LTE
-                - 3G
-                - IR_BLASTER
+                  - WIFI
+                  - BLUETOOTH
+                  - NFC
+                  - USB_C
+                  - USB_A
+                  - HDMI
+                  - ETHERNET
+                  - LIGHTNING
+                  - MMWAVE_5G
+                  - SUB6_5G
+                  - 4G_LTE
+                  - 3G
+                  - IR_BLASTER
             wattage:
               type: integer
               description: Power consumption watts
@@ -900,51 +900,51 @@ components:
             conscious:
               type: string
               enum:
-              - NATURAL
-              - ORGANIC
-              - VEGAN
-              - CRUELTY_FREE
-              - HALAL_COSMETICS
+                - NATURAL
+                - ORGANIC
+                - VEGAN
+                - CRUELTY_FREE
+                - HALAL_COSMETICS
             preference:
               type: string
               enum:
-              - HERBAL
-              - AYURVEDIC
-              - CHEMICAL_FREE
-              - FRAGRANCE_FREE
-              - ALCOHOL_FREE
+                - HERBAL
+                - AYURVEDIC
+                - CHEMICAL_FREE
+                - FRAGRANCE_FREE
+                - ALCOHOL_FREE
             formulation:
               type: string
               enum:
-              - LIQUID
-              - CREAM
-              - GEL
-              - POWDER
-              - SERUM
-              - BALM
-              - SPRAY
-              - FOAM
-              - STICK
-              - SHEET
+                - LIQUID
+                - CREAM
+                - GEL
+                - POWDER
+                - SERUM
+                - BALM
+                - SPRAY
+                - FOAM
+                - STICK
+                - SHEET
             skinType:
               type: string
               enum:
-              - ALL
-              - NORMAL
-              - OILY
-              - DRY
-              - COMBINATION
-              - SENSITIVE
+                - ALL
+                - NORMAL
+                - OILY
+                - DRY
+                - COMBINATION
+                - SENSITIVE
             hairType:
               type: string
               enum:
-              - ALL
-              - NORMAL
-              - OILY
-              - DRY
-              - DAMAGED
-              - CURLY
-              - STRAIGHT
+                - ALL
+                - NORMAL
+                - OILY
+                - DRY
+                - DAMAGED
+                - CURLY
+                - STRAIGHT
             spf:
               type: integer
               minimum: 0
@@ -952,9 +952,9 @@ components:
             gender:
               type: string
               enum:
-              - MALE
-              - FEMALE
-              - UNISEX
+                - MALE
+                - FEMALE
+                - UNISEX
             volume:
               type: object
               additionalProperties: false
@@ -964,9 +964,9 @@ components:
                 unit:
                   type: string
                   enum:
-                  - ML
-                  - G
-                  - OZ
+                    - ML
+                    - G
+                    - OZ
           x-ion-regulatory: PerBPOM 23/2019 tentang Persyaratan Teknis Kosmetika
           x-ion-condition: Required for beauty and personal care products
         agritech:
@@ -979,20 +979,20 @@ components:
             produceGrade:
               type: string
               enum:
-              - PREMIUM
-              - GRADE_A
-              - GRADE_B
-              - GRADE_C
+                - PREMIUM
+                - GRADE_A
+                - GRADE_B
+                - GRADE_C
             mandiReferencePrice:
               type: number
               description: Government mandi reference price IDR/kg
             pesticideDeclaration:
               type: string
               enum:
-              - PESTICIDE_FREE
-              - LOW_PESTICIDE
-              - STANDARD
-              - ORGANIC_CERTIFIED
+                - PESTICIDE_FREE
+                - LOW_PESTICIDE
+                - STANDARD
+                - ORGANIC_CERTIFIED
             organicCertification:
               type: object
               additionalProperties: false
@@ -1009,14 +1009,14 @@ components:
                 unit:
                   type: string
                   enum:
-                  - GRAM
-                  - KILOGRAM
-                  - LITRE
-                  - MILLILITRE
-                  - PIECE
-                  - DOZEN
-                  - BUNCH
-                  - IKAT
+                    - GRAM
+                    - KILOGRAM
+                    - LITRE
+                    - MILLILITRE
+                    - PIECE
+                    - DOZEN
+                    - BUNCH
+                    - IKAT
                 value:
                   type: number
               required:
@@ -1032,15 +1032,15 @@ components:
             dosageForm:
               type: string
               enum:
-              - TABLET
-              - CAPSULE
-              - SYRUP
-              - INJECTION
-              - OINTMENT
-              - DROPS
-              - INHALER
-              - SUPPOSITORY
-              - PATCH
+                - TABLET
+                - CAPSULE
+                - SYRUP
+                - INJECTION
+                - OINTMENT
+                - DROPS
+                - INHALER
+                - SUPPOSITORY
+                - PATCH
             strength:
               type: string
               example: 500 mg
@@ -1086,10 +1086,10 @@ components:
             type:
               type: string
               enum:
-              - MANUFACTURER
-              - SELLER
-              - EXTENDED
-              - NONE
+                - MANUFACTURER
+                - SELLER
+                - EXTENDED
+                - NONE
             terms:
               type: string
               example: Garansi resmi 2 tahun. Tidak mencakup kerusakan fisik dan air.
@@ -1156,18 +1156,18 @@ components:
               role:
                 type: string
                 enum:
-                - PRIMARY
-                - GALLERY
-                - SIZE_CHART
-                - SPEC_SHEET
-                - LIFESTYLE
-                - UNBOXING
-                - SIZE_FIT
-                - USE_IN_CONTEXT
-                - PACKAGING
-                - BACK_OF_PACK
-                - INGREDIENTS_LABEL
-                - NUTRITION_FACTS
+                  - PRIMARY
+                  - GALLERY
+                  - SIZE_CHART
+                  - SPEC_SHEET
+                  - LIFESTYLE
+                  - UNBOXING
+                  - SIZE_FIT
+                  - USE_IN_CONTEXT
+                  - PACKAGING
+                  - BACK_OF_PACK
+                  - INGREDIENTS_LABEL
+                  - NUTRITION_FACTS
               altText:
                 $ref: '#/components/schemas/LocalisedText'
               sequence:
@@ -1191,13 +1191,13 @@ components:
               role:
                 type: string
                 enum:
-                - PRIMARY
-                - UNBOXING
-                - USE_IN_CONTEXT
-                - SIZE_FIT
-                - INSTALLATION_GUIDE
-                - 360_VIEW
-                - LIVE_REPLAY
+                  - PRIMARY
+                  - UNBOXING
+                  - USE_IN_CONTEXT
+                  - SIZE_FIT
+                  - INSTALLATION_GUIDE
+                  - 360_VIEW
+                  - LIVE_REPLAY
               durationSeconds:
                 type: integer
               thumbnailUrl:
@@ -1294,22 +1294,22 @@ components:
             digitalCategory:
               type: string
               enum:
-              - MOBILE_PULSA
-              - MOBILE_DATA_PACKAGE
-              - ELECTRICITY_TOKEN
-              - WATER_BILL
-              - INTERNET_BILL
-              - PDAM_BILL
-              - PBB_TAX
-              - BPJS_PAYMENT
-              - GIFT_CARD
-              - GAME_VOUCHER
-              - STREAMING_VOUCHER
-              - FOOD_VOUCHER
-              - EWALLET_TOP_UP
-              - TRANSPORT_VOUCHER
-              - EDUCATION_VOUCHER
-              - OTHER
+                - MOBILE_PULSA
+                - MOBILE_DATA_PACKAGE
+                - ELECTRICITY_TOKEN
+                - WATER_BILL
+                - INTERNET_BILL
+                - PDAM_BILL
+                - PBB_TAX
+                - BPJS_PAYMENT
+                - GIFT_CARD
+                - GAME_VOUCHER
+                - STREAMING_VOUCHER
+                - FOOD_VOUCHER
+                - EWALLET_TOP_UP
+                - TRANSPORT_VOUCHER
+                - EDUCATION_VOUCHER
+                - OTHER
               description: 'Type of digital good. MOBILE_PULSA/DATA covered by Indonesian operator regulations;
                 GAME_VOUCHER includes Mobile Legends, Free Fire, Valorant, Genshin currencies; STREAMING_VOUCHER
                 for Netflix/Disney+ Hotstar/Spotify access codes.
@@ -1335,13 +1335,13 @@ components:
                 unit:
                   type: string
                   enum:
-                  - IDR
-                  - MB
-                  - GB
-                  - MINUTES
-                  - DIAMONDS
-                  - COINS
-                  - OTHER
+                    - IDR
+                    - MB
+                    - GB
+                    - MINUTES
+                    - DIAMONDS
+                    - COINS
+                    - OTHER
                   description: IDR for money-based; MB/GB for data; DIAMONDS/COINS for in-game
               required:
               - value
@@ -1349,10 +1349,10 @@ components:
             deliveryMethod:
               type: string
               enum:
-              - PUSH_TO_TARGET
-              - CODE_TO_BUYER
-              - ACCOUNT_CREDIT
-              - QR_VOUCHER
+                - PUSH_TO_TARGET
+                - CODE_TO_BUYER
+                - ACCOUNT_CREDIT
+                - QR_VOUCHER
               description: 'PUSH_TO_TARGET: delivered directly to consumer account (pulsa to phone number, PLN token
                 to meter, in-game currency to game account). CODE_TO_BUYER: redemption code sent to buyer to redeem
                 later. ACCOUNT_CREDIT: credited to buyer''s wallet/account. QR_VOUCHER: scannable QR redeemable
@@ -1367,12 +1367,12 @@ components:
                 type:
                   type: string
                   enum:
-                  - MOBILE_NUMBER
-                  - CUSTOMER_ID
-                  - ACCOUNT_ID
-                  - EMAIL
-                  - METER_NUMBER
-                  - GAME_USER_ID
+                    - MOBILE_NUMBER
+                    - CUSTOMER_ID
+                    - ACCOUNT_ID
+                    - EMAIL
+                    - METER_NUMBER
+                    - GAME_USER_ID
                 value:
                   type: string
                 operatorValidationRequired:
@@ -1407,8 +1407,8 @@ components:
         dataResidency:
           type: string
           enum:
-          - DOMESTIC_ONLY
-          - INTERNATIONAL_ALLOWED
+            - DOMESTIC_ONLY
+            - INTERNATIONAL_ALLOWED
           description: 'Data residency requirement for this resource. DOMESTIC_ONLY means all PII and transaction
             data must be processed and stored within Indonesia; BAPs with foreign data processing must skip or refuse
             transactions for this resource. Required for pharmacy, health data, financial services, and regulated
@@ -1423,7 +1423,7 @@ components:
           properties:
             resourceStructure:
               enum:
-              - VARIANT
+                - VARIANT
           required:
           - resourceStructure
         then:
@@ -1435,8 +1435,8 @@ components:
           properties:
             resourceStructure:
               enum:
-              - COMPOSED
-              - WITH_EXTRAS
+                - COMPOSED
+                - WITH_EXTRAS
           required:
           - resourceStructure
         then:

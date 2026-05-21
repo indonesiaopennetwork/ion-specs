@@ -6,24 +6,24 @@ info:
     Canonical product-template schema for all credit and financing products
     offered in Indonesia under OJK/BI regulatory framework. Supports both
     conventional (konvensional) and Islamic (syariah) finance structures across
-    all credit categories â€” retail consumer, UMKM, corporate, and government
+    all credit categories — retail consumer, UMKM, corporate, and government
     programs (KUR, FLPP, UMi, BPUM).
 
     ION v2.0 placement:
       Placed in Resource.resourceAttributes returned in on_discover.
       The Beckn Resource wrapping it must carry:
-        Resource.id          â€” lender-assigned product identifier
-        Resource.descriptor  â€” human-readable product name/description
-        Resource.resourceAttributes["@context"] â€” context.jsonld URI
-        Resource.resourceAttributes["@type"]    â€” "ion:CreditProduct"
+        Resource.id          — lender-assigned product identifier
+        Resource.descriptor  — human-readable product name/description
+        Resource.resourceAttributes["@context"] — context.jsonld URI
+        Resource.resourceAttributes["@type"]    — "ion:CreditProduct"
 
     Regulatory anchors:
-      - OJK (Otoritas Jasa Keuangan) â€” primary financial regulator
-      - BI (Bank Indonesia) â€” central bank, macro-prudential & payment systems
-      - DSN-MUI â€” Islamic finance product certification
-      - UU PDP 2022 â€” Personal Data Protection Act (privacy disclosures)
-      - POJK 10/2022 â€” P2P lending regulation
-      - POJK 42/2017 â€” Finance company regulation
+      - OJK (Otoritas Jasa Keuangan) — primary financial regulator
+      - BI (Bank Indonesia) — central bank, macro-prudential & payment systems
+      - DSN-MUI — Islamic finance product certification
+      - UU PDP 2022 — Personal Data Protection Act (privacy disclosures)
+      - POJK 10/2022 — P2P lending regulation
+      - POJK 42/2017 — Finance company regulation
   license:
     name: Apache-2.0
     url: https://www.apache.org/licenses/LICENSE-2.0
@@ -34,14 +34,14 @@ info:
 components:
   schemas:
 
-    # â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    # ─────────────────────────────────────────────────────────────
     # ROOT OBJECT
-    # â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    # ─────────────────────────────────────────────────────────────
     CreditProduct:
       type: object
       description: |
         Product template for a credit/financing offering. This is the CATALOG
-        item â€” it describes ranges, eligibility, and terms. Per-applicant
+        item — it describes ranges, eligibility, and terms. Per-applicant
         pricing is in CreditApproval; the signed agreement is in
         LoanAgreement.
       x-jsonld:
@@ -95,9 +95,9 @@ components:
       allOf:
         - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
 
-    # â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-    # BLOCK 1 â€” Product Identity
-    # â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    # ─────────────────────────────────────────────────────────────
+    # BLOCK 1 — Product Identity
+    # ─────────────────────────────────────────────────────────────
     ProductIdentity:
       type: object
       description: Product identity, classification, and provider information
@@ -210,10 +210,6 @@ components:
               - WHATSAPP_BANKING
               - DIRECT_API
               - FIELD_SALES_AGENT
-
-    # â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-    # BLOCK 2 â€” Principal Range
-    # â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     PrincipalRange:
       type: object
       description: Loan/financing principal amount range
@@ -254,9 +250,9 @@ components:
           description: ISO 4217 currency code for this amount.
           example: "IDR"
 
-    # â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-    # BLOCK 3 â€” Tenor (Tenure)
-    # â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    # ─────────────────────────────────────────────────────────────
+    # BLOCK 3 — Tenor (Tenure)
+    # ─────────────────────────────────────────────────────────────
     Tenor:
       type: object
       description: Loan or financing tenure (maturity) range.
@@ -287,9 +283,9 @@ components:
           description: Discrete list of available tenors when free selection is not allowed.
           example: [3, 6, 12, 24, 36, 48, 60]
 
-    # â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-    # BLOCK 4 â€” Cost of Fund Mechanism
-    # â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    # ─────────────────────────────────────────────────────────────
+    # BLOCK 4 — Cost of Fund Mechanism
+    # ─────────────────────────────────────────────────────────────
     CostOfFundMechanism:
       type: object
       description: Interest mechanics for conventional products, or profit mechanics for Islamic products.
@@ -345,7 +341,7 @@ components:
           example: 3.5
         fixedPeriodYears:
           type: integer
-          description: For COMBINED â€” fixed-rate period in years before switching to floating
+          description: For COMBINED — fixed-rate period in years before switching to floating
           example: 3
         governmentSubsidyPercent:
           type: number
@@ -360,9 +356,9 @@ components:
           description: Monthly revolving interest rate for credit card products (%)
           example: 1.75
 
-    # â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-    # BLOCK 5 â€” Repayment Schedule
-    # â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    # ─────────────────────────────────────────────────────────────
+    # BLOCK 5 — Repayment Schedule
+    # ─────────────────────────────────────────────────────────────
     RepaymentSchedule:
       type: object
       description: Repayment schedule, frequency, and accepted payment channels
@@ -432,9 +428,9 @@ components:
           description: Seasonal repayment arrangement description (for farmers/fishers)
           example: "Principal repaid after harvest; interest paid monthly"
 
-    # â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-    # BLOCK 6 â€” Fee Structure
-    # â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    # ─────────────────────────────────────────────────────────────
+    # BLOCK 6 — Fee Structure
+    # ─────────────────────────────────────────────────────────────
     FeeStructure:
       type: object
       description: All fees and charges associated with this credit product
@@ -451,7 +447,7 @@ components:
           example: 200000
         appraisalFeeIDR:
           type: number
-          description: Collateral appraisal fee (KJPP â€” licensed appraiser) in IDR
+          description: Collateral appraisal fee (KJPP — licensed appraiser) in IDR
           minimum: 0
           example: 500000
         notaryFeeIDR:
@@ -484,7 +480,7 @@ components:
           example: ["LIFE_INSURANCE", "FIRE_INSURANCE"]
         latePenaltyPercentPerDay:
           type: number
-          description: Late payment penalty â€” % of outstanding installment per day overdue
+          description: Late payment penalty — % of outstanding installment per day overdue
           minimum: 0
           example: 0.1
         prepaymentPenaltyPercent:
@@ -502,9 +498,9 @@ components:
           description: All-in cost cap as % of principal (APR equivalent per POJK 6/2022).
           example: 24.0
 
-    # â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-    # BLOCK 7 â€” Collateral
-    # â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    # ─────────────────────────────────────────────────────────────
+    # BLOCK 7 — Collateral
+    # ─────────────────────────────────────────────────────────────
     Collateral:
       type: object
       description: Collateral and security requirements
@@ -544,7 +540,7 @@ components:
           type: number
           description: |
             Maximum Loan-to-Value ratio (%).
-            BI LTV limits: KPR first property â‰¤ 80%, KKB new vehicle â‰¤ 85%.
+            BI LTV limits: KPR first property ≤ 80%, KKB new vehicle ≤ 85%.
           minimum: 0
           maximum: 100
           example: 80.0
@@ -563,9 +559,9 @@ components:
             - PERUM_JAMKRINDO
           example: "JAMKRINDO"
 
-    # â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-    # BLOCK 8 â€” Borrower Criteria
-    # â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    # ─────────────────────────────────────────────────────────────
+    # BLOCK 8 — Borrower Criteria
+    # ─────────────────────────────────────────────────────────────
     BorrowerCriteria:
       type: object
       description: Borrower eligibility and qualification criteria
@@ -696,7 +692,7 @@ components:
           example: ["NATIONAL"]
         maxDSRPercent:
           type: number
-          description: Maximum Debt Service Ratio (DSR) â€” total monthly debt / gross income.
+          description: Maximum Debt Service Ratio (DSR) — total monthly debt / gross income.
           minimum: 0
           maximum: 100
           example: 70.0
@@ -706,9 +702,9 @@ components:
           default: false
           example: true
 
-    # â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-    # BLOCK 9 â€” Regulatory Declaration
-    # â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    # ─────────────────────────────────────────────────────────────
+    # BLOCK 9 — Regulatory Declaration
+    # ─────────────────────────────────────────────────────────────
     RegulatoryDeclaration:
       type: object
       description: OJK/BI license declarations, required disclosures, and consumer protection
@@ -807,7 +803,7 @@ components:
         language:
           type: string
           default: "id"
-          enum: ["id", "en"]
+          enum: [id, en]
           description: Language of the disclosure document (BCP 47 tag).
 
     ComplaintService:
@@ -833,9 +829,9 @@ components:
           description: OJK consumer protection portal for escalation.
           default: "https://konsumen.ojk.go.id"
 
-    # â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-    # BLOCK 10 â€” Required Documents
-    # â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    # ─────────────────────────────────────────────────────────────
+    # BLOCK 10 — Required Documents
+    # ─────────────────────────────────────────────────────────────
     RequiredDocument:
       type: object
       description: A single document required for the credit application
@@ -911,9 +907,9 @@ components:
           type: string
           description: Contextual notes or conditions on this document requirement
 
-    # â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-    # BLOCK 11 â€” Islamic Finance Structure
-    # â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    # ─────────────────────────────────────────────────────────────
+    # BLOCK 11 — Islamic Finance Structure
+    # ─────────────────────────────────────────────────────────────
     IslamicFinanceStructure:
       type: object
       description: Islamic finance akad details. Present only when financeType = ISLAMIC.
@@ -978,9 +974,9 @@ components:
           description: Product certified halal (no involvement in haram activities)
           default: true
 
-    # â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-    # BLOCK 12 â€” Government Program
-    # â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    # ─────────────────────────────────────────────────────────────
+    # BLOCK 12 — Government Program
+    # ─────────────────────────────────────────────────────────────
     GovernmentProgram:
       type: object
       description: Government subsidy and support program details (KUR, FLPP, UMi, BPUM).
@@ -1000,7 +996,7 @@ components:
             - BPUM
             - UMI
             - ALSINTAN
-            - GERAK_UMi
+            - GERAK_UMI
           example: "KUR_MIKRO"
         responsibleMinistry:
           type: string
@@ -1059,9 +1055,9 @@ components:
           description: Governing regulation reference
           example: "Permenko Perekonomian No. 1 Tahun 2023 tentang Pedoman KUR"
 
-    # â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-    # BLOCK 13 â€” Paylater / BNPL Service
-    # â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    # ─────────────────────────────────────────────────────────────
+    # BLOCK 13 — Paylater / BNPL Service
+    # ─────────────────────────────────────────────────────────────
     PaylaterService:
       type: object
       description: Buy-Now-Pay-Later and Paylater specific attributes

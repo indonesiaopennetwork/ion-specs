@@ -102,12 +102,12 @@ components:
           items:
             type: string
             enum:
-            - hyperlocal
-            - parcel
-            - freight
-            - roro
-            - cross-border
-            - warehouse
+            - HYPERLOCAL
+            - PARCEL
+            - FREIGHT
+            - RORO
+            - CROSS-BORDER
+            - WAREHOUSE
         modesSupported:
           type: array
           items:

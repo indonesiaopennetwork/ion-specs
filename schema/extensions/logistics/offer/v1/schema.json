@@ -1,4 +1,4 @@
-{
+﻿{
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://schema.ion.id/logistics/offer/v1",
   "title": "LogisticsOffer",
@@ -19,16 +19,16 @@
     "transportMode": {
       "type": "string",
       "enum": [
-        "motorcycle",
-        "bicycle",
-        "car",
-        "van",
-        "truck",
-        "rail",
-        "sea",
-        "air",
-        "river",
-        "ferry"
+        "MOTORCYCLE",
+        "BICYCLE",
+        "CAR",
+        "VAN",
+        "TRUCK",
+        "RAIL",
+        "SEA",
+        "AIR",
+        "RIVER",
+        "FERRY"
       ]
     },
     "routingTopology": {

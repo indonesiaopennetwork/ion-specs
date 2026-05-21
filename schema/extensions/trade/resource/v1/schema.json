@@ -1,4 +1,4 @@
-{
+﻿{
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://schema.ion.id/trade/resource/v1",
   "title": "TradeResource",
@@ -17,17 +17,17 @@
         "unit": {
           "type": "string",
           "enum": [
-            "piece",
-            "pack",
-            "box",
-            "carton",
-            "kilogram",
-            "gram",
-            "litre",
-            "millilitre",
-            "subscription",
-            "voucher",
-            "topup"
+            "PIECE",
+            "PACK",
+            "BOX",
+            "CARTON",
+            "KILOGRAM",
+            "GRAM",
+            "LITRE",
+            "MILLILITRE",
+            "SUBSCRIPTION",
+            "VOUCHER",
+            "TOPUP"
           ],
           "description": "Unit of measure appropriate to what is being ordered"
         }

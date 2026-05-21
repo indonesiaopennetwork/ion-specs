@@ -1,4 +1,4 @@
-openapi: 3.1.1
+﻿openapi: 3.1.1
 info:
   title: ION Trade Contract Extension (v1)
   description: 'Trade sector contract attributes. Order-level fields that lock at confirm — fulfilling location,
@@ -62,10 +62,10 @@ components:
             preferredPerformanceMode:
               type: string
               enum:
-              - DELIVERY
-              - SELF_PICKUP
-              - DINE_IN
-              - CURBSIDE
+                - DELIVERY
+                - SELF_PICKUP
+                - DINE_IN
+                - CURBSIDE
         invoicePreferences:
           type: object
           additionalProperties: false
@@ -78,8 +78,8 @@ components:
                 scheme:
                   type: string
                   enum:
-                  - NPWP
-                  - NIK
+                    - NPWP
+                    - NIK
                   description: NPWP for businesses, NIK for individuals
                 value:
                   type: string
@@ -91,11 +91,11 @@ components:
             invoiceType:
               type: string
               enum:
-              - RECEIPT
-              - TAX_INVOICE
-              - EINVOICE
-              - SURAT_TAGIHAN
-              - KOMERSIAL_INVOICE
+                - RECEIPT
+                - TAX_INVOICE
+                - EINVOICE
+                - SURAT_TAGIHAN
+                - KOMERSIAL_INVOICE
               description: 'RECEIPT: simple receipt, no tax identity required. TAX_INVOICE: Faktur Pajak, requires
                 PKP seller and NPWP buyer. EINVOICE: e-Faktur via DJP system. SURAT_TAGIHAN: PKP seller to non-PKP
                 buyer — commercial invoice, no input-tax claim rights. KOMERSIAL_INVOICE: cross-border commercial
@@ -128,14 +128,14 @@ components:
 
             '
           enum:
-          - BUYER_REQUESTED
-          - SELLER_INITIATED
-          - ITEM_UNAVAILABLE
-          - PAYMENT_FAILED
-          - FRAUD_SUSPECTED
-          - REGULATORY_HOLD
-          - LOGISTICS_FAILURE
-          - FORCE_CANCEL_TAT_BREACH
+            - BUYER_REQUESTED
+            - SELLER_INITIATED
+            - ITEM_UNAVAILABLE
+            - PAYMENT_FAILED
+            - FRAUD_SUSPECTED
+            - REGULATORY_HOLD
+            - LOGISTICS_FAILURE
+            - FORCE_CANCEL_TAT_BREACH
           x-ion-condition: Required when contract status is CANCELLED
         quoteTrail:
           type: array
@@ -150,12 +150,12 @@ components:
               type:
                 type: string
                 enum:
-                - item
-                - tax
-                - delivery
-                - discount
-                - refund
-                - adjustment
+                  - ITEM
+                  - TAX
+                  - DELIVERY
+                  - DISCOUNT
+                  - REFUND
+                  - ADJUSTMENT
               id:
                 type: string
                 description: Item ID or consideration ID this adjustment applies to
@@ -214,11 +214,11 @@ components:
         subscriptionBillingCycle:
           type: string
           enum:
-          - WEEKLY
-          - FORTNIGHTLY
-          - MONTHLY
-          - QUARTERLY
-          - ANNUAL
+            - WEEKLY
+            - FORTNIGHTLY
+            - MONTHLY
+            - QUARTERLY
+            - ANNUAL
           description: Billing cycle for subscription commerce pattern.
           example: MONTHLY
           x-ion-condition: Required for subscription commerce pattern
@@ -268,13 +268,13 @@ components:
             sourceChannel:
               type: string
               enum:
-              - LIVE_STREAM
-              - SHORT_VIDEO
-              - OTT_EMBEDDED
-              - SOCIAL_POST
-              - AFFILIATE_LINK
-              - GROUP_BUY
-              - SHOPPABLE_AD
+                - LIVE_STREAM
+                - SHORT_VIDEO
+                - OTT_EMBEDDED
+                - SOCIAL_POST
+                - AFFILIATE_LINK
+                - GROUP_BUY
+                - SHOPPABLE_AD
               description: 'Entry point for the order. OTT_EMBEDDED = order placed from within video streaming app
                 (Netflix, Vidio, Disney+ Hotstar shoppable content).
 
@@ -303,15 +303,15 @@ components:
             ottPlatform:
               type: string
               enum:
-              - VIDIO
-              - NETFLIX
-              - DISNEY_PLUS_HOTSTAR
-              - IFLIX
-              - VIU
-              - GENFLIX
-              - WETV
-              - YOUTUBE
-              - OTHER
+                - VIDIO
+                - NETFLIX
+                - DISNEY_PLUS_HOTSTAR
+                - IFLIX
+                - VIU
+                - GENFLIX
+                - WETV
+                - YOUTUBE
+                - OTHER
               description: OTT platform where shoppable content was served (for OTT_EMBEDDED)
             ottContentId:
               type: string
@@ -349,12 +349,12 @@ components:
             method:
               type: string
               enum:
-              - ORIGINAL_PAYMENT_METHOD
-              - PLATFORM_WALLET
-              - BANK_TRANSFER
-              - LOYALTY_POINTS
-              - STORE_CREDIT
-              - VOUCHER
+                - ORIGINAL_PAYMENT_METHOD
+                - PLATFORM_WALLET
+                - BANK_TRANSFER
+                - LOYALTY_POINTS
+                - STORE_CREDIT
+                - VOUCHER
             walletId:
               type: string
               description: Required when method=PLATFORM_WALLET
@@ -379,9 +379,9 @@ components:
         subscriptionPauseType:
           type: string
           enum:
-          - ACTIVE
-          - PAUSED_UNTIL_DATE
-          - PAUSED_INDEFINITE
+            - ACTIVE
+            - PAUSED_UNTIL_DATE
+            - PAUSED_INDEFINITE
           description: Current pause state for subscription orders
         subscriptionPauseUntil:
           type: string
@@ -427,11 +427,11 @@ components:
               milestone:
                 type: string
                 enum:
-                - AT_CONFIRM
-                - ON_DISPATCH
-                - ON_DELIVERY
-                - POST_DELIVERY
-                - ON_MILESTONE_EVENT
+                  - AT_CONFIRM
+                  - ON_DISPATCH
+                  - ON_DELIVERY
+                  - POST_DELIVERY
+                  - ON_MILESTONE_EVENT
                 description: Event that triggers this payment
               milestoneLabel:
                 type: string
@@ -450,11 +450,11 @@ components:
               status:
                 type: string
                 enum:
-                - PENDING
-                - PAID
-                - OVERDUE
-                - WAIVED
-                - FAILED
+                  - PENDING
+                  - PAID
+                  - OVERDUE
+                  - WAIVED
+                  - FAILED
               paidAt:
                 type: string
                 format: date-time

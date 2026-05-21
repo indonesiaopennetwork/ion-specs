@@ -1,4 +1,4 @@
-{
+﻿{
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://schema.ion.id/logistics/provider/v1",
   "title": "LogisticsProvider",
@@ -84,12 +84,12 @@
       "items": {
         "type": "string",
         "enum": [
-          "hyperlocal",
-          "parcel",
-          "freight",
-          "roro",
-          "cross-border",
-          "warehouse"
+          "HYPERLOCAL",
+          "PARCEL",
+          "FREIGHT",
+          "RORO",
+          "CROSS-BORDER",
+          "WAREHOUSE"
         ]
       }
     },
@@ -98,16 +98,16 @@
       "items": {
         "type": "string",
         "enum": [
-          "motorcycle",
-          "bicycle",
-          "car",
-          "van",
-          "truck",
-          "rail",
-          "sea",
-          "air",
-          "river",
-          "ferry"
+          "MOTORCYCLE",
+          "BICYCLE",
+          "CAR",
+          "VAN",
+          "TRUCK",
+          "RAIL",
+          "SEA",
+          "AIR",
+          "RIVER",
+          "FERRY"
         ]
       }
     },

@@ -1,4 +1,4 @@
-{
+﻿{
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://schema.ion.id/logistics/resource/v1",
   "title": "LogisticsShipment",
@@ -27,15 +27,15 @@
         "unit": {
           "type": "string",
           "enum": [
-            "package",
-            "unit",
-            "container",
-            "pallet",
-            "lot",
-            "carton",
-            "document",
-            "vehicle",
-            "sku"
+            "PACKAGE",
+            "UNIT",
+            "CONTAINER",
+            "PALLET",
+            "LOT",
+            "CARTON",
+            "DOCUMENT",
+            "VEHICLE",
+            "SKU"
           ],
           "description": "Unit of measure appropriate to serviceType"
         }
@@ -54,9 +54,9 @@
         "unit": {
           "type": "string",
           "enum": [
-            "gram",
-            "kilogram",
-            "tonne"
+            "GRAM",
+            "KILOGRAM",
+            "TONNE"
           ]
         }
       },
@@ -77,8 +77,8 @@
         "unit": {
           "type": "string",
           "enum": [
-            "centimeter",
-            "meter"
+            "CENTIMETER",
+            "METER"
           ]
         }
       },
@@ -109,8 +109,8 @@
         "unit": {
           "type": "string",
           "enum": [
-            "cbm",
-            "liter"
+            "CBM",
+            "LITRE"
           ]
         }
       }
@@ -201,10 +201,10 @@
         "unit": {
           "type": "string",
           "enum": [
-            "gram",
-            "kilogram",
-            "liter",
-            "milliliter"
+            "GRAM",
+            "KILOGRAM",
+            "LITRE",
+            "MILLILITRE"
           ]
         }
       },

@@ -10,17 +10,17 @@ info:
     CreditProduct product template.
 
     KEY DISTINCTION:
-      - CreditProduct = product template with RANGES (e.g., rate 7.5%â€“14%)
+      - CreditProduct = product template with RANGES (e.g., rate 7.5%–14%)
       - CreditApproval    = per-applicant decision with EXACT values (rate 9.5%)
 
     ION v2.0 placement:
       Placed in Offer.offerAttributes within Contract.commitments[].offer in on_select.
       The Beckn Offer wrapping it must carry:
-        Offer.id          â€” matches offerReference
-        Offer.resourceIds â€” references the Resource(s) this offer is for
-        Offer.validity    â€” endDate mirrors validUntil (protocol-layer expiry)
-        Offer.offerAttributes["@context"] â€” context.jsonld URI
-        Offer.offerAttributes["@type"]    â€” "ion:CreditApproval"
+        Offer.id          — matches offerReference
+        Offer.resourceIds — references the Resource(s) this offer is for
+        Offer.validity    — endDate mirrors validUntil (protocol-layer expiry)
+        Offer.offerAttributes["@context"] — context.jsonld URI
+        Offer.offerAttributes["@type"]    — "ion:CreditApproval"
 
     Regulatory anchor: Per POJK 6/POJK.07/2022, lenders must disclose the
     APR-equivalent (aprEquivalent) in all formal offers before the borrower
@@ -39,7 +39,7 @@ components:
       type: object
       description: |
         Specific, time-limited credit offer issued to an individual borrower.
-        All fields contain exact values â€” not ranges. Represents the lender's
+        All fields contain exact values — not ranges. Represents the lender's
         formal credit decision (APPROVED, CONDITIONALLY_APPROVED, or REJECTED).
         Once the borrower confirms and conditions are met, this offer becomes the
         basis for the LoanAgreement.
@@ -212,7 +212,7 @@ components:
             type: string
           description: |
             Outstanding conditions for CONDITIONALLY_APPROVED offers, or
-            rejection reason for REJECTED offers (POJK 6/2022 â€” SPPP letter required).
+            rejection reason for REJECTED offers (POJK 6/2022 — SPPP letter required).
           example:
             - "Submit original SHM (free of encumbrance) to the branch office within 14 working days"
             - "Sign the Akad Kredit before a notary designated by the bank"
@@ -235,7 +235,6 @@ components:
                 - DEALER_TRANSFER
                 - CASH
                 - VIRTUAL_ACCOUNT
-
         internalCreditScore:
           type: object
           description: Lender's internal credit risk assessment result for this borrower.
@@ -252,7 +251,7 @@ components:
             slikGrade:
               type: string
               description: Collectibility grade from OJK SLIK / iDEB credit bureau check.
-              enum: ["1", "2"]
+              enum: [1, 2]
               example: "1"
       x-ion-closed-extensions: false
       allOf:

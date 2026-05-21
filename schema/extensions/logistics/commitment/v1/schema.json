@@ -1,4 +1,4 @@
-{
+﻿{
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://schema.ion.id/logistics/commitment/v1",
   "title": "LogisticsCommitment",
@@ -29,9 +29,9 @@
         "unit": {
           "type": "string",
           "enum": [
-            "gram",
-            "kilogram",
-            "tonne"
+            "GRAM",
+            "KILOGRAM",
+            "TONNE"
           ]
         }
       }
@@ -45,8 +45,8 @@
         "unit": {
           "type": "string",
           "enum": [
-            "cbm",
-            "liter"
+            "CBM",
+            "LITRE"
           ]
         }
       }
@@ -88,10 +88,10 @@
       "type": "string",
       "enum": [
         "kg",
-        "cbm",
-        "container",
-        "pallet",
-        "truck"
+        "CBM",
+        "CONTAINER",
+        "PALLET",
+        "TRUCK"
       ]
     },
     "requestedDepartureDate": {

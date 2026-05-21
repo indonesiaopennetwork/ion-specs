@@ -419,7 +419,7 @@ components:
             unit:
               type: string
               enum:
-              - celsius
+              - CELSIUS
             timestamp:
               type: string
               format: date-time

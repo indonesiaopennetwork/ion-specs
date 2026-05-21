@@ -1,4 +1,4 @@
-openapi: 3.1.1
+﻿openapi: 3.1.1
 info:
   title: ION Logistics Commitment Extension (v1)
   description: 'Logistics sector commitment attributes. Defines line-item level details within a logistics transaction
@@ -43,9 +43,9 @@ components:
             unit:
               type: string
               enum:
-              - gram
-              - kilogram
-              - tonne
+                - GRAM
+                - KILOGRAM
+                - TONNE
         totalVolume:
           type: object
           properties:
@@ -54,8 +54,8 @@ components:
             unit:
               type: string
               enum:
-              - cbm
-              - liter
+                - CBM
+                - LITRE
         specialInstructions:
           type: string
           description: 'Free-text handling instructions for this shipment line. Examples: "Do not stack", "This
@@ -87,11 +87,11 @@ components:
         capacityUnitType:
           type: string
           enum:
-          - kg
-          - cbm
-          - container
-          - pallet
-          - truck
+            - KG
+            - CBM
+            - CONTAINER
+            - PALLET
+            - TRUCK
         requestedDepartureDate:
           type: string
           format: date

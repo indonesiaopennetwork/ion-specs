@@ -1,4 +1,4 @@
-openapi: 3.1.1
+﻿openapi: 3.1.1
 info:
   title: ION Hospitality Restaurant Ordering Extension (v1)
   description: >
@@ -58,8 +58,7 @@ components:
               minimum: 1
             unit:
               type: string
-              enum: [portion, piece, cup, bowl, plate, set, litre, millilitre]
-
+              enum: [PORTION, PIECE, CUP, BOWL, PLATE, SET, LITRE, MILLILITRE]
         lockedPrice:
           type: object
           description: >
@@ -124,10 +123,7 @@ components:
             BAP surfaces these as checkboxes; kitchen acknowledges via KDS.
           items:
             type: string
-            enum: [NO_PORK, NO_BEEF, NO_SEAFOOD, NO_NUTS, NO_DAIRY, NO_GLUTEN,
-                   VEGAN, VEGETARIAN, HALAL_ONLY, NO_MSG, LOW_SALT, NO_SPICE,
-                   EXTRA_SPICY, NO_ONION, NO_GARLIC, WELL_DONE, MEDIUM, RARE]
-
+            enum: [NO_PORK, NO_BEEF, NO_SEAFOOD, NO_NUTS, NO_DAIRY, NO_GLUTEN,VEGAN, VEGETARIAN, HALAL_ONLY, NO_MSG, LOW_SALT, NO_SPICE,EXTRA_SPICY, NO_ONION, NO_GARLIC, WELL_DONE, MEDIUM, RARE]
         substitutionPreference:
           type: string
           enum: [CANCEL_ITEM, SUBSTITUTE_SIMILAR, CONTACT_ME, MERCHANT_DECIDES]

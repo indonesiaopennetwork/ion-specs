@@ -49,8 +49,7 @@ components:
               minimum: 1
             unit:
               type: string
-              enum: [portion, piece, cup, bowl, plate, set, litre, millilitre]
-          example:
+              enum: [PORTION, PIECE, cup, BOWL, PLATE, set, LITRE, MILLILITRE]          example:
             value: 1
             unit: portion
 

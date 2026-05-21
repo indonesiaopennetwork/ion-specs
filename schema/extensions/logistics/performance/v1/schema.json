@@ -509,7 +509,7 @@
         "unit": {
           "type": "string",
           "enum": [
-            "celsius"
+            "CELSIUS"
           ]
         },
         "timestamp": {

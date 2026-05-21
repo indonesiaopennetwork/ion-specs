@@ -1,4 +1,4 @@
-{
+﻿{
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://schema.ion.id/hospitality/delivery/v1",
   "title": "RestaurantMenuItem",
@@ -29,14 +29,14 @@
         "unit": {
           "type": "string",
           "enum": [
-            "portion",
-            "piece",
-            "cup",
-            "bowl",
-            "plate",
-            "set",
-            "litre",
-            "millilitre"
+            "PORTION",
+            "PIECE",
+            "CUP",
+            "BOWL",
+            "PLATE",
+            "SET",
+            "LITRE",
+            "MILLILITRE"
           ]
         }
       }

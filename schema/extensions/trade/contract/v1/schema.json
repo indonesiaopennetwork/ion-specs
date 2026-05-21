@@ -1,4 +1,4 @@
-{
+﻿{
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://schema.ion.id/trade/contract/v1",
   "title": "TradeContract",
@@ -135,12 +135,12 @@
           "type": {
             "type": "string",
             "enum": [
-              "item",
-              "tax",
-              "delivery",
-              "discount",
-              "refund",
-              "adjustment"
+              "ITEM",
+              "TAX",
+              "DELIVERY",
+              "DISCOUNT",
+              "REFUND",
+              "ADJUSTMENT"
             ]
           },
           "id": {
