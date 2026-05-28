@@ -1,6 +1,7 @@
 {
   "@context": {
     "ion": "https://schema.ion.id/trade/resource/v1#",
+    "retail": "https://schema.beckn.io/RetailResource/v2.1#",
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
   },
@@ -11,7 +12,7 @@
       "rdfs:label": "LocalisedText",
       "rdfs:comment": "Language-keyed text. \"id\" always required. \"en\" required for XB pattern.",
       "rdfs:subClassOf": {
-        "@id": "beckn:Resource"
+        "@id": "retail:RetailResource"
       }
     },
     {
@@ -32,7 +33,16 @@
       "rdfs:label": "TradeResource",
       "rdfs:comment": "TradeResource",
       "rdfs:subClassOf": {
-        "@id": "beckn:Resource"
+        "@id": "retail:RetailResource"
+      }
+    },
+    {
+      "@id": "ion:IONTradeResource",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONTradeResource",
+      "rdfs:comment": "ION Network (Indonesia) trade resource extension. Adds Indonesia-specific regulatory and digital goods fields.",
+      "rdfs:subClassOf": {
+        "@id": "ion:TradeResource"
       }
     },
     {

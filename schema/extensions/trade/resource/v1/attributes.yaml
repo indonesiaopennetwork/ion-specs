@@ -1,4 +1,4 @@
-﻿openapi: 3.1.1
+openapi: 3.1.1
 info:
   title: ION Trade Resource Extension (v1)
   description: 'Trade sector resource attributes. Covers all physical product types on ION. Category-specific fields
@@ -40,33 +40,6 @@ components:
         '@type': ion:TradeResource
       x-beckn-attaches-to: Resource.resourceAttributes
       properties:
-        quantity:
-          type: object
-          title: Quantity of this resource on the order line
-          additionalProperties: false
-          properties:
-            value:
-              type: number
-              minimum: 0
-              description: Numeric quantity — may be fractional for weight-based goods
-            unit:
-              type: string
-              enum:
-                - PIECE
-                - PACK
-                - BOX
-                - CARTON
-                - KILOGRAM
-                - GRAM
-                - LITRE
-                - MILLILITRE
-                - SUBSCRIPTION
-                - VOUCHER
-                - TOPUP
-              description: Unit of measure appropriate to what is being ordered
-          required:
-          - value
-          - unit
         resourceStructure:
           type: string
           enum:
@@ -411,31 +384,40 @@ components:
           type: object
           additionalProperties: false
           properties:
-            colour:
+            color:
               type: string
-              pattern: ^#[0-9A-Fa-f]{6}$
-              example: '#FF5733'
-            colourName:
+              description: Product color. Human-readable name or hex code.
+              example: Coral Red
+            colorName:
               type: string
-              description: Required when colour is specified
-              example: Coral
+              description: Localised display name for the color.
+              example: Merah Koral
             dimensions:
               type: object
               additionalProperties: false
               properties:
-                lengthCm:
+                unit:
+                  type: string
+                  enum:
+                    - MM
+                    - CM
+                    - M
+                    - IN
+                    - FT
+                  default: CM
+                length:
                   type: number
                   minimum: 0
-                widthCm:
+                breadth:
                   type: number
                   minimum: 0
-                heightCm:
+                height:
                   type: number
                   minimum: 0
-            weightKg:
-              type: number
-              minimum: 0
-              example: 0.5
+            weight:
+              description: Shipping weight of the item.
+              allOf:
+                - $ref: 'https://schema.beckn.io/Quantity/2.0#/components/schemas/Quantity'
         packaged:
           type: object
           additionalProperties: false
@@ -506,10 +488,6 @@ components:
             commonOrGenericName:
               type: string
               example: Mie Instan
-            hsnCode:
-              type: string
-              description: Harmonized System Nomenclature code
-              example: '1902.30'
           x-ion-regulatory: PerBPOM 31/2018 tentang Label Pangan Olahan
           x-ion-condition: Required for packaged goods
         regulatory:
@@ -524,15 +502,7 @@ components:
                 properties:
                   scheme:
                     type: string
-                    enum:
-                      - BPOM_MD
-                      - BPOM_ML
-                      - BPOM_TR
-                      - MUI_HALAL
-                      - SNI
-                      - SP_PIRT
-                      - KEMENKES
-                      - SIUP
+                    description: Certification or regulatory scheme identifier. Network deployments constrain the enum.
                   id:
                     type: string
                   role:
@@ -561,12 +531,6 @@ components:
                 additivesInfo:
                   type: string
                 ingredientsInfo:
-                  type: string
-                brandOwnerBpomLicenseNo:
-                  type: string
-                importerBpomLicenseNo:
-                  type: string
-                mfgLicenseNo:
                   type: string
             nutrition:
               type: array
@@ -983,9 +947,6 @@ components:
                 - GRADE_A
                 - GRADE_B
                 - GRADE_C
-            mandiReferencePrice:
-              type: number
-              description: Government mandi reference price IDR/kg
             pesticideDeclaration:
               type: string
               enum:
@@ -1225,12 +1186,6 @@ components:
               individualWarrantyDuration:
                 type: string
                 description: ISO 8601 duration — per-component warranty if different from bundle
-              individualBpomReg:
-                type: string
-                description: Component's own BPOM registration if distinct
-              individualPostelReg:
-                type: string
-                description: Component's own POSTEL cert if distinct
               componentPrice:
                 type: number
                 description: Unbundled IDR price of component for break-up display
@@ -1267,22 +1222,6 @@ components:
               items:
                 type: string
               description: Brand names this seller is an authorised reseller for
-        regionOfOrigin:
-          type: string
-          pattern: ^[A-Z]{3}-[A-Z0-9]{1,3}$
-          description: 'ISO 3166-2 sub-national region code for geographic indication. Required when product claims
-            origin-protected status (Kopi Gayo from Aceh IDN-AC, Beras Cianjur from West Java IDN-JB).
-
-            '
-          example: IDN-AC
-          x-ion-regulatory: UU 20/2016 tentang Merek dan Indikasi Geografis
-          x-ion-condition: Required when product claims Geographic Indication status
-        geographicIndicationCert:
-          type: string
-          description: 'Geographic Indication certificate number from DJKI (Direktorat Jenderal Kekayaan Intelektual).
-
-            '
-          x-ion-condition: Required when regionOfOrigin is declared for GI products
         digital:
           type: object
           additionalProperties: false
@@ -1293,34 +1232,10 @@ components:
           properties:
             digitalCategory:
               type: string
-              enum:
-                - MOBILE_PULSA
-                - MOBILE_DATA_PACKAGE
-                - ELECTRICITY_TOKEN
-                - WATER_BILL
-                - INTERNET_BILL
-                - PDAM_BILL
-                - PBB_TAX
-                - BPJS_PAYMENT
-                - GIFT_CARD
-                - GAME_VOUCHER
-                - STREAMING_VOUCHER
-                - FOOD_VOUCHER
-                - EWALLET_TOP_UP
-                - TRANSPORT_VOUCHER
-                - EDUCATION_VOUCHER
-                - OTHER
-              description: 'Type of digital good. MOBILE_PULSA/DATA covered by Indonesian operator regulations;
-                GAME_VOUCHER includes Mobile Legends, Free Fire, Valorant, Genshin currencies; STREAMING_VOUCHER
-                for Netflix/Disney+ Hotstar/Spotify access codes.
-
-                '
+              description: Type of digital good. Network deployments constrain this to their catalogue enum.
             operatorOrIssuer:
               type: string
-              description: 'Issuing operator or brand. For MOBILE_PULSA: TELKOMSEL, XL, INDOSAT, TRI, SMARTFREN.
-                For ELECTRICITY_TOKEN: PLN. For GAME_VOUCHER: Moonton, Garena, Riot, etc.
-
-                '
+              description: Issuing operator or brand for the digital good.
               example: TELKOMSEL
             denomination:
               type: object
@@ -1331,17 +1246,8 @@ components:
                   type: number
                 currency:
                   type: string
-                  default: IDR
                 unit:
                   type: string
-                  enum:
-                    - IDR
-                    - MB
-                    - GB
-                    - MINUTES
-                    - DIAMONDS
-                    - COINS
-                    - OTHER
                   description: IDR for money-based; MB/GB for data; DIAMONDS/COINS for in-game
               required:
               - value
@@ -1404,21 +1310,8 @@ components:
               default: false
               description: Whether cancellation is possible before delivery
           x-ion-condition: Required when resourceTangibility IN [DIGITAL_VOUCHER, DIGITAL_TOP_UP, DIGITAL_SUBSCRIPTION]
-        dataResidency:
-          type: string
-          enum:
-            - DOMESTIC_ONLY
-            - INTERNATIONAL_ALLOWED
-          description: 'Data residency requirement for this resource. DOMESTIC_ONLY means all PII and transaction
-            data must be processed and stored within Indonesia; BAPs with foreign data processing must skip or refuse
-            transactions for this resource. Required for pharmacy, health data, financial services, and regulated
-            biometric categories.
-
-            '
-          example: DOMESTIC_ONLY
-          x-ion-regulatory: UU 27/2022 tentang Pelindungan Data Pribadi (PDP Law)
-          x-ion-condition: Required for pharmacy, health-data, financial-services categories
       allOf:
+      - $ref: 'https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource'
       - if:
           properties:
             resourceStructure:
@@ -1462,7 +1355,6 @@ components:
           - isDefaultVariant
           - variantGroup
       required:
-      - quantity
       - resourceStructure
       - resourceTangibility
       - images
@@ -1471,3 +1363,168 @@ components:
       - ageRestricted
       - countryOfOrigin
       x-ion-closed-extensions: false
+
+    IONTradeResource:
+      type: object
+      title: IONTradeResource
+      description: 'ION Network (Indonesia) trade resource extension. Extends TradeResource with Indonesia-specific
+        regulatory, geographic indication, and digital goods fields. BPPs and BAPs on ION MUST use this schema
+        for resourceAttributes.
+
+        '
+      additionalProperties: true
+      x-jsonld:
+        '@context': 'https://schema.ion.id/trade/resource/v1/context.jsonld'
+        '@type': ion:IONTradeResource
+      x-beckn-attaches-to: Resource.resourceAttributes
+      allOf:
+      - $ref: '#/components/schemas/TradeResource'
+      - type: object
+        x-ion-indonesia-specific: true
+        properties:
+          dataResidency:
+            type: string
+            enum:
+              - DOMESTIC_ONLY
+              - INTERNATIONAL_ALLOWED
+            description: 'Data residency requirement for this resource. DOMESTIC_ONLY means all PII and transaction
+              data must be processed and stored within Indonesia; BAPs with foreign data processing must skip or refuse
+              transactions for this resource. Required for pharmacy, health data, financial services, and regulated
+              biometric categories.
+
+              '
+            example: DOMESTIC_ONLY
+            x-ion-regulatory: UU 27/2022 tentang Pelindungan Data Pribadi (PDP Law)
+            x-ion-condition: Required for pharmacy, health-data, financial-services categories
+          regionOfOrigin:
+            type: string
+            pattern: ^[A-Z]{3}-[A-Z0-9]{1,3}$
+            description: 'ISO 3166-2 sub-national region code for geographic indication. Required when product claims
+              origin-protected status (Kopi Gayo from Aceh IDN-AC, Beras Cianjur from West Java IDN-JB).
+
+              '
+            example: IDN-AC
+            x-ion-regulatory: UU 20/2016 tentang Merek dan Indikasi Geografis
+            x-ion-condition: Required when product claims Geographic Indication status
+          geographicIndicationCert:
+            type: string
+            description: 'Geographic Indication certificate number from DJKI (Direktorat Jenderal Kekayaan Intelektual).
+
+              '
+            x-ion-regulatory: UU 20/2016 tentang Merek dan Indikasi Geografis
+            x-ion-condition: Required when regionOfOrigin is declared for GI products
+          packaged:
+            type: object
+            properties:
+              hsnCode:
+                type: string
+                description: Harmonized System Nomenclature code
+                example: '1902.30'
+                x-ion-regulatory: Bea Cukai UU 17/2006 tentang Kepabeanan; Faktur Pajak PMK 168/2023
+          regulatory:
+            type: object
+            properties:
+              registrations:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    scheme:
+                      type: string
+                      enum:
+                        - BPOM_MD
+                        - BPOM_ML
+                        - BPOM_TR
+                        - MUI_HALAL
+                        - SNI
+                        - SP_PIRT
+                        - KEMENKES
+                        - SIUP
+              foodRegulatoryDeclaration:
+                type: object
+                properties:
+                  brandOwnerBpomLicenseNo:
+                    type: string
+                    x-ion-regulatory: PerBPOM 31/2018 tentang Label Pangan Olahan
+                  importerBpomLicenseNo:
+                    type: string
+                  mfgLicenseNo:
+                    type: string
+          agritech:
+            type: object
+            properties:
+              mandiReferencePrice:
+                type: number
+                description: Government mandi reference price IDR/kg
+                x-ion-regulatory: Permendag 7/2020 tentang Harga Acuan Pembelian
+          digital:
+            type: object
+            properties:
+              digitalCategory:
+                type: string
+                enum:
+                  - MOBILE_PULSA
+                  - MOBILE_DATA_PACKAGE
+                  - ELECTRICITY_TOKEN
+                  - WATER_BILL
+                  - INTERNET_BILL
+                  - PDAM_BILL
+                  - PBB_TAX
+                  - BPJS_PAYMENT
+                  - GIFT_CARD
+                  - GAME_VOUCHER
+                  - STREAMING_VOUCHER
+                  - FOOD_VOUCHER
+                  - EWALLET_TOP_UP
+                  - TRANSPORT_VOUCHER
+                  - EDUCATION_VOUCHER
+                  - OTHER
+                description: 'Type of digital good. MOBILE_PULSA/DATA covered by Indonesian operator regulations;
+                  GAME_VOUCHER includes Mobile Legends, Free Fire, Valorant, Genshin currencies; STREAMING_VOUCHER
+                  for Netflix/Disney+ Hotstar/Spotify access codes.
+
+                  '
+              operatorOrIssuer:
+                type: string
+                description: 'Issuing operator or brand. For MOBILE_PULSA: TELKOMSEL, XL, INDOSAT, TRI, SMARTFREN.
+                  For ELECTRICITY_TOKEN: PLN. For GAME_VOUCHER: Moonton, Garena, Riot, etc.
+
+                  '
+                example: TELKOMSEL
+              denomination:
+                type: object
+                properties:
+                  currency:
+                    type: string
+                    default: IDR
+                  unit:
+                    type: string
+                    enum:
+                      - IDR
+                      - MB
+                      - GB
+                      - MINUTES
+                      - DIAMONDS
+                      - COINS
+                      - OTHER
+                    description: IDR for money-based; MB/GB for data; DIAMONDS/COINS for in-game
+          bundleComposition:
+            type: array
+            items:
+              type: object
+              properties:
+                individualBpomReg:
+                  type: string
+                  description: Component's own BPOM registration if distinct
+                  x-ion-regulatory: PerBPOM 27/2013 tentang Pengawasan Pemasukan Obat dan Makanan
+                individualPostelReg:
+                  type: string
+                  description: Component's own POSTEL cert if distinct
+      required:
+      - resourceStructure
+      - resourceTangibility
+      - images
+      - logisticsServiceType
+      - availability
+      - ageRestricted
+      - countryOfOrigin

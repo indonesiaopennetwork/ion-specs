@@ -3,15 +3,15 @@
   "version": "1.0.0",
   "domain": "trade",
   "name": "ION Trade Resource Extension (v1)",
-  "description": "Physical product attributes — all categories. Availability signal only, no stock count.",
+  "description": "Physical and digital product attributes — all categories. Availability signal only, no stock count.",
   "packSchema": "./schema.json",
   "jsonldContext": "./context.jsonld",
   "attachmentPoints": {
     "resourceAttributes": [
-      "TradeResource"
+      "IONTradeResource"
     ]
   },
-  "extends": "beckn:Resource",
+  "extends": "https://schema.beckn.io/RetailResource/v2.1",
   "type": "AttributePack",
   "indexing": {
     "indexable": [
