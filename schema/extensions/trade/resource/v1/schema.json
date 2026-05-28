@@ -478,7 +478,7 @@
     },
     "packaged": {
       "type": "object",
-      "additionalProperties": true,
+      "additionalProperties": false,
       "properties": {
         "netQuantity": {
           "type": "object",
@@ -574,7 +574,7 @@
     },
     "regulatory": {
       "type": "object",
-      "additionalProperties": true,
+      "additionalProperties": false,
       "properties": {
         "registrations": {
           "type": "array",
@@ -614,7 +614,7 @@
         },
         "foodRegulatoryDeclaration": {
           "type": "object",
-          "additionalProperties": true,
+          "additionalProperties": false,
           "properties": {
             "nutritionalInfo": {
               "type": "string",
@@ -1142,7 +1142,7 @@
     },
     "agritech": {
       "type": "object",
-      "additionalProperties": true,
+      "additionalProperties": false,
       "properties": {
         "harvestDate": {
           "type": "string",
@@ -1439,7 +1439,7 @@
       "description": "Components of a bundle SKU. Required for bundle offers where individual components carry their own regulatory registrations (BPOM, POSTEL, TKDN, warranty).\n",
       "items": {
         "type": "object",
-        "additionalProperties": true,
+        "additionalProperties": false,
         "properties": {
           "componentResourceId": {
             "type": "string",
@@ -1499,7 +1499,7 @@
     },
     "digital": {
       "type": "object",
-      "additionalProperties": true,
+      "additionalProperties": false,
       "description": "Digital goods attributes. Required for DIGITAL_VOUCHER, DIGITAL_TOP_UP, and DIGITAL_SUBSCRIPTION resource types.\n",
       "properties": {
         "digitalCategory": {
@@ -1513,7 +1513,7 @@
         },
         "denomination": {
           "type": "object",
-          "additionalProperties": true,
+          "additionalProperties": false,
           "description": "Voucher/top-up denomination",
           "properties": {
             "value": {

@@ -420,7 +420,7 @@ components:
                 - $ref: 'https://schema.beckn.io/Quantity/2.0#/components/schemas/Quantity'
         packaged:
           type: object
-          additionalProperties: true
+          additionalProperties: false
           properties:
             netQuantity:
               type: object
@@ -492,7 +492,7 @@ components:
           x-ion-condition: Required for packaged goods
         regulatory:
           type: object
-          additionalProperties: true
+          additionalProperties: false
           properties:
             registrations:
               type: array
@@ -523,7 +523,7 @@ components:
                 - id
             foodRegulatoryDeclaration:
               type: object
-              additionalProperties: true
+              additionalProperties: false
               properties:
                 nutritionalInfo:
                   type: string
@@ -935,7 +935,7 @@ components:
           x-ion-condition: Required for beauty and personal care products
         agritech:
           type: object
-          additionalProperties: true
+          additionalProperties: false
           properties:
             harvestDate:
               type: string
@@ -1175,7 +1175,7 @@ components:
             '
           items:
             type: object
-            additionalProperties: true
+            additionalProperties: false
             properties:
               componentResourceId:
                 type: string
@@ -1224,7 +1224,7 @@ components:
               description: Brand names this seller is an authorised reseller for
         digital:
           type: object
-          additionalProperties: true
+          additionalProperties: false
           description: 'Digital goods attributes. Required for DIGITAL_VOUCHER, DIGITAL_TOP_UP, and DIGITAL_SUBSCRIPTION
             resource types.
 
@@ -1239,7 +1239,7 @@ components:
               example: TELKOMSEL
             denomination:
               type: object
-              additionalProperties: true
+              additionalProperties: false
               description: Voucher/top-up denomination
               properties:
                 value:
