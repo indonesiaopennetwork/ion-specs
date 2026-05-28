@@ -1,27 +1,11 @@
 openapi: 3.1.1
 info:
   title: ION Trade Resource Extension (v1)
-  description: |
-    Trade sector resource attributes for ION Network. TradeResource is the generic base
-    (inherits RetailResource from schema.beckn.io). IONTradeResource is the concrete
-    Indonesia-specific schema that BPPs and BAPs on ION MUST use.
+  description: 'Trade sector resource attributes. Covers all physical product types on ION. Category-specific fields
+    are conditional properties within this single schema. Availability model: stock count is NEVER transmitted.
+    Only availability signal.
 
-    Availability model: stock count is NEVER transmitted — only availability signal.
-
-    BREAKING CHANGES from v0 (pre-harmonisation):
-    - quantity removed — belongs in trade/commitment/v1
-    - physical.weightKg replaced by physical.weight ($ref Quantity) — hard switch
-    - physical.dimensions.{lengthCm,widthCm,heightCm} replaced by {unit,length,breadth,height}
-    - physical.colour renamed to physical.color (open string, no hex constraint)
-    - Indonesia-specific fields (dataResidency, regionOfOrigin, geographicIndicationCert,
-      packaged.hsnCode, regulatory.registrations[].scheme enum, agritech.mandiReferencePrice,
-      digital.digitalCategory enum) moved to IONTradeResource
-
-    NOTE: RetailResource (schema.beckn.io) uses additionalProperties:false on nested objects.
-    Until local-retail migrates to unevaluatedProperties:false, strict JSON Schema 2020-12
-    validators may surface false positives on TradeResource extension fields. The allOf
-    reference is semantically authoritative for schema lineage. Companion issue to be filed
-    on local-retail repo.
+    '
   version: 1.0.0
   license:
     name: Apache-2.0
@@ -47,13 +31,9 @@ components:
         en: Special Fried Rice
       required:
       - id
-
     TradeResource:
       type: object
       title: TradeResource
-      description: |
-        Generic trade resource extension. Inherits RetailResource from schema.beckn.io.
-        Network-specific deployments SHOULD extend this rather than using it directly.
       additionalProperties: true
       x-jsonld:
         '@context': 'https://schema.ion.id/trade/resource/v1/context.jsonld'
@@ -68,10 +48,11 @@ components:
             - WITH_EXTRAS
             - COMPOSED
             - BUNDLE
-          description: |
-            PLAIN: single SKU, no choices. VARIANT: one of several pre-defined options of a parent.
-            WITH_EXTRAS: base item with optional add-ons. COMPOSED: base with mandatory and optional
-            customisation groups. BUNDLE: composite of multiple component resources (see bundleComposition).
+          description: 'PLAIN: single SKU, no choices. VARIANT: one of several pre-defined options of a parent.
+            WITH_EXTRAS: base item with optional add-ons. COMPOSED: base with mandatory and optional customisation
+            groups. BUNDLE: composite of multiple component resources (see bundleComposition).
+
+            '
           example: COMPOSED
         resourceTangibility:
           type: string
@@ -80,10 +61,11 @@ components:
             - DIGITAL_VOUCHER
             - DIGITAL_TOP_UP
             - DIGITAL_SUBSCRIPTION
-          description: |
-            PHYSICAL: tangible goods requiring logistics fulfilment. DIGITAL_VOUCHER: voucher code,
-            gift card, in-game currency (delivered electronically). DIGITAL_TOP_UP: mobile top-up,
-            data package, utility bill top-up. DIGITAL_SUBSCRIPTION: time-bound digital subscription.
+          description: 'PHYSICAL: tangible goods requiring logistics fulfilment. DIGITAL_VOUCHER: voucher code,
+            gift card, in-game currency (delivered electronically). DIGITAL_TOP_UP: mobile pulsa, data package,
+            utility bill top-up. DIGITAL_SUBSCRIPTION: time-bound digital subscription access.
+
+            '
           example: PHYSICAL
         parentResourceId:
           type: string
@@ -114,11 +96,12 @@ components:
         variantMatrix:
           type: object
           additionalProperties: false
-          description: |
-            Multi-axis variant declaration. Use instead of explicit VARIANT resources when combinations
-            are derivable. BPP MUST resolve the specific variant at on_select and compute final price
-            via priceDeltaByCombination or per-axis priceDelta. Only valid on parent resources with
-            resourceStructure=PLAIN; child VARIANT resources are not needed when this is declared.
+          description: 'Multi-axis variant declaration. Use instead of explicit VARIANT resources when combinations
+            are derivable. BPP MUST resolve the specific variant at on_select and compute final price via priceDeltaByCombination
+            or per-axis priceDelta. Only valid on parent resources with resourceStructure=PLAIN; child VARIANT resources
+            are not needed when this is declared.
+
+            '
           required:
           - axes
           - combinationRules
@@ -148,14 +131,15 @@ components:
                           $ref: '#/components/schemas/LocalisedText'
                         priceDelta:
                           type: number
-                          description: Price delta for this axis value (signed, in settlement currency)
+                          description: IDR delta for this axis value (signed)
                         available:
                           type: boolean
                           default: true
                           description: Whether this specific axis value is currently sellable
                         resourceIdOverride:
                           type: string
-                          description: Optional mapping to an explicit VARIANT resource ID if this combination has its own SKU
+                          description: Optional mapping to an explicit VARIANT resource ID if this combination has
+                            its own SKU
                       required:
                       - id
                 required:
@@ -170,7 +154,8 @@ components:
                   description: If true, all permutations are valid. If false, combinations must be listed explicitly.
                 explicitCombinations:
                   type: array
-                  description: Required when generateAllCombinations=false. Each entry names axis-value pairs and the resulting final price.
+                  description: Required when generateAllCombinations=false. Each entry names axis-value pairs and
+                    the resulting final price.
                   items:
                     type: object
                     additionalProperties: false
@@ -182,7 +167,7 @@ components:
                           type: string
                       priceValue:
                         type: number
-                        description: Absolute price for this combination (in settlement currency)
+                        description: Absolute IDR price for this combination
                       available:
                         type: boolean
                         default: true
@@ -194,9 +179,10 @@ components:
                   enum:
                     - SUM_AXIS_DELTAS
                     - EXPLICIT_PRICE
-                  description: |
-                    SUM_AXIS_DELTAS — final price = base offer price + sum of axis priceDeltas.
-                    EXPLICIT_PRICE — final price = priceValue from matching explicitCombinations entry.
+                  description: 'SUM_AXIS_DELTAS — final price = base offer price + sum of axis priceDeltas. EXPLICIT_PRICE
+                    — final price = priceValue from matching explicitCombinations entry.
+
+                    '
                   default: SUM_AXIS_DELTAS
               required:
               - generateAllCombinations
@@ -354,10 +340,11 @@ components:
                 - OUT_OF_STOCK
                 - PREORDER
                 - DISCONTINUED
-              description: |
-                IN_STOCK: adequate quantity available. LOW_STOCK: limited — BAP may show urgency signal.
-                OUT_OF_STOCK: not available, no backorder. PREORDER: can be pre-ordered before availability
-                date. DISCONTINUED: permanently removed.
+              description: 'IN_STOCK: adequate quantity available. LOW_STOCK: limited — BAP may show urgency signal.
+                OUT_OF_STOCK: not available, no backorder. PREORDER: can be pre-ordered before availability date.
+                DISCONTINUED: permanently removed.
+
+                '
             nextAvailableAt:
               type: string
               format: date-time
@@ -378,28 +365,28 @@ components:
               default: false
         identity:
           type: object
-          additionalProperties: true
+          additionalProperties: false
           properties:
             brand:
               type: string
-              example: Samsung
+              example: Indofood
             model:
               type: string
-              example: Galaxy S24
+              example: iPhone 14
             modelYear:
               type: integer
               example: 2024
             sku:
               type: string
               description: Seller internal SKU
-              example: SAM-S24-BLK-256
+              example: PIZ-PEP-MED-CHT
         physical:
           type: object
-          additionalProperties: true
+          additionalProperties: false
           properties:
             color:
               type: string
-              description: Product color as a human-readable name or hex code.
+              description: Product color. Human-readable name or hex code.
               example: Coral Red
             colorName:
               type: string
@@ -438,9 +425,6 @@ components:
             netQuantity:
               type: object
               additionalProperties: false
-              required:
-              - value
-              - unit
               properties:
                 value:
                   type: number
@@ -458,13 +442,12 @@ components:
               example:
                 value: 85
                 unit: GRAM
+              required:
+              - value
+              - unit
             manufacturerOrPacker:
               type: object
               additionalProperties: false
-              required:
-              - type
-              - name
-              - address
               properties:
                 type:
                   type: string
@@ -474,8 +457,14 @@ components:
                     - IMPORTER
                 name:
                   type: string
+                  example: PT Indofood CBP Sukses Makmur Tbk
                 address:
                   type: string
+                  example: Jl. Ancol Barat I No. 9-10, Jakarta Utara 14430
+              required:
+              - type
+              - name
+              - address
             manufacturePackingImportDate:
               type: object
               additionalProperties: false
@@ -498,6 +487,8 @@ components:
               example: 2027-04-19
             commonOrGenericName:
               type: string
+              example: Mie Instan
+          x-ion-regulatory: PerBPOM 31/2018 tentang Label Pangan Olahan
           x-ion-condition: Required for packaged goods
         regulatory:
           type: object
@@ -508,9 +499,6 @@ components:
               items:
                 type: object
                 additionalProperties: false
-                required:
-                - scheme
-                - id
                 properties:
                   scheme:
                     type: string
@@ -530,12 +518,16 @@ components:
                   validUntil:
                     type: string
                     format: date
+                required:
+                - scheme
+                - id
             foodRegulatoryDeclaration:
               type: object
               additionalProperties: true
               properties:
                 nutritionalInfo:
                   type: string
+                  example: Energi 350 kkal per 100g; Protein 10g; Lemak Total 5g
                 additivesInfo:
                   type: string
                 ingredientsInfo:
@@ -545,9 +537,6 @@ components:
               items:
                 type: object
                 additionalProperties: false
-                required:
-                - nutrient
-                - value
                 properties:
                   nutrient:
                     type: string
@@ -571,6 +560,9 @@ components:
                           - PERCENT
                       unitQuantity:
                         type: number
+                required:
+                - nutrient
+                - value
             additives:
               type: array
               items:
@@ -589,9 +581,6 @@ components:
               items:
                 type: object
                 additionalProperties: false
-                required:
-                - type
-                - uri
                 properties:
                   type:
                     type: string
@@ -603,18 +592,23 @@ components:
                   validUntil:
                     type: string
                     format: date
+                required:
+                - type
+                - uri
             backImage:
               type: string
               format: uri
               description: Back-of-pack statutory requirements image
         food:
           type: object
-          description: |
+          description: >
             Packaged food product attributes for filtering and regulatory compliance.
             USE THIS for: FMCG packaged food, grocery products, bottled beverages,
             packaged meal kits, snacks, confectionery sold from warehouse stock.
             DO NOT USE for restaurant or cloud kitchen menu items — those use
             RestaurantMenuItem in the Hospitality sector (hospitality/delivery/v1).
+            Detailed nutritional information and ingredient lists belong in
+            Descriptor.longDesc for agent readability.
           additionalProperties: false
           properties:
             classification:
@@ -670,8 +664,10 @@ components:
           properties:
             instructions:
               type: string
+              example: Panggang di oven 200°C selama 15 menit
             storage:
               type: string
+              example: Simpan di tempat sejuk dan kering
             shelfLife:
               type: string
               description: ISO 8601 duration
@@ -697,8 +693,11 @@ components:
               format: uri
             fabric:
               type: string
+              example: Katun
             fabricComposition:
               type: string
+              example: 100% Katun
+              x-ion-regulatory: PerBSN SNI 0055:2009
             fitType:
               type: string
               enum:
@@ -747,10 +746,14 @@ components:
                 - BATIK
             careInstructions:
               type: string
+              example: Cuci tangan, jangan diperas, jemur di tempat teduh
           x-ion-condition: Required for fashion and apparel products
         electronics:
           type: object
-          description: Consumer electronics technical specifications for filtering and comparison.
+          description: >
+            Consumer electronics technical specifications for filtering and comparison.
+            Detailed feature descriptions and use-case information belong in
+            Descriptor.longDesc for agent readability.
           additionalProperties: false
           properties:
             ram:
@@ -847,11 +850,15 @@ components:
               type: integer
               minimum: 1
               maximum: 5
-              description: Energy efficiency star rating per applicable national standard
+              description: BSN energy efficiency star rating
           x-ion-condition: Required for electronics and appliance products
         beauty:
           type: object
-          description: Beauty and personal care product attributes for filtering and regulatory compliance.
+          description: >
+            Beauty and personal care product attributes. concern and ingredient
+            are descriptive fields — include them in Descriptor.longDesc for
+            richer agent-readable content. structured fields below are for
+            filtering and regulatory compliance.
           additionalProperties: false
           properties:
             conscious:
@@ -924,6 +931,7 @@ components:
                     - ML
                     - G
                     - OZ
+          x-ion-regulatory: PerBPOM 23/2019 tentang Persyaratan Teknis Kosmetika
           x-ion-condition: Required for beauty and personal care products
         agritech:
           type: object
@@ -952,14 +960,12 @@ components:
               properties:
                 certBody:
                   type: string
+                  example: Lembaga Sertifikasi Organik Seloliman
                 certNumber:
                   type: string
             unitOfMeasure:
               type: object
               additionalProperties: false
-              required:
-              - unit
-              - value
               properties:
                 unit:
                   type: string
@@ -974,6 +980,9 @@ components:
                     - IKAT
                 value:
                   type: number
+              required:
+              - unit
+              - value
           x-ion-condition: Required for agritech and fresh produce
         pharmacy:
           type: object
@@ -1002,6 +1011,7 @@ components:
                 type: string
             coldChainRequired:
               type: boolean
+          x-ion-regulatory: PerBPOM Nomor 4 Tahun 2018
           x-ion-condition: Required for pharmaceutical and OTC medicine
         installation:
           type: object
@@ -1011,6 +1021,7 @@ components:
               type: boolean
             notes:
               type: string
+              example: Memerlukan instalasi profesional. Membutuhkan arus 220V khusus.
           x-ion-condition: Required for appliances and furniture needing installation
         usage:
           type: object
@@ -1022,6 +1033,9 @@ components:
               type: array
               items:
                 type: string
+              example:
+              - 220V outlet
+              - 36-inch doorway
         warranty:
           type: object
           additionalProperties: false
@@ -1039,8 +1053,10 @@ components:
                 - NONE
             terms:
               type: string
+              example: Garansi resmi 2 tahun. Tidak mencakup kerusakan fisik dan air.
             serviceCenter:
               type: string
+          x-ion-regulatory: UU 8/1999 tentang Perlindungan Konsumen Pasal 25; PP 36/2023
           x-ion-condition: Required for electronics, appliances, consumer durables
         ageRestricted:
           type: boolean
@@ -1058,37 +1074,42 @@ components:
           pattern: ^[A-Z]{3}$
           description: ISO 3166-1 alpha-3 country code
           example: IDN
+          x-ion-regulatory: PerBPOM 31/2018 Pasal 36; Permendag 36/2023
         canonicalId:
           type: string
-          description: |
-            Cross-provider product identity. Multiple providers selling the same product share
-            the same canonicalId. Enables Buy Box selection on BAP side and cross-seller price
-            comparison. GTIN preferred when available; otherwise network-assigned canonical ID.
+          description: 'Cross-provider product identity. Multiple providers selling the same product share the same
+            canonicalId. Enables Buy Box selection on BAP side and cross-seller price comparison. GTIN preferred
+            when available; otherwise ION-assigned canonical ID via Atlas.
+
+            '
           example: ION-CAN-ABC123XYZ
-          x-ion-condition: Required for marketplace-eligible products
+          x-ion-condition: Required for marketplace-eligible products (marketplace-inhouse, marketplace-listed)
         featuredOfferEligible:
           type: boolean
-          description: |
-            Whether this offer is eligible for featured offer / Buy Box selection. BPP declares
-            eligibility; BAP runs selection algorithm.
+          description: 'Whether this offer is eligible for "featured offer" / Buy Box selection. BPP declares eligibility;
+            BAP runs selection algorithm. Eligibility typically requires: verified seller, positive rating history,
+            standard return policy, Prime-equivalent SLA.
+
+            '
           default: false
         featuredOfferScore:
           type: number
           minimum: 0
           maximum: 1
-          description: BPP-computed score for BAP Buy Box algorithm. Decimal 0-1.
+          description: 'BPP-computed score used by BAP Buy Box algorithm. Factors in price competitiveness, rating,
+            SLA reliability, stock depth. Decimal 0-1.
+
+            '
         imageSet:
           type: array
-          description: |
-            Structured images with role metadata. More expressive than the flat images[] array.
-            When imageSet is present, images[] may still exist for backward compatibility but
-            imageSet is authoritative.
+          description: 'Structured images with role metadata. More expressive than the flat images[] array. BAPs
+            can render appropriate images per surface. When imageSet is present, images[] may still exist for backward
+            compatibility but imageSet is authoritative.
+
+            '
           items:
             type: object
             additionalProperties: false
-            required:
-            - url
-            - role
             properties:
               url:
                 type: string
@@ -1116,14 +1137,14 @@ components:
                 type: integer
               heightPx:
                 type: integer
+            required:
+            - url
+            - role
         videos:
           type: array
           items:
             type: object
             additionalProperties: false
-            required:
-            - url
-            - role
             properties:
               url:
                 type: string
@@ -1143,17 +1164,18 @@ components:
               thumbnailUrl:
                 type: string
                 format: uri
+            required:
+            - url
+            - role
         bundleComposition:
           type: array
-          description: |
-            Components of a bundle SKU. Required for bundle offers where individual components
-            carry their own regulatory registrations or warranties.
+          description: 'Components of a bundle SKU. Required for bundle offers where individual components carry
+            their own regulatory registrations (BPOM, POSTEL, TKDN, warranty).
+
+            '
           items:
             type: object
             additionalProperties: true
-            required:
-            - componentResourceId
-            - quantity
             properties:
               componentResourceId:
                 type: string
@@ -1166,26 +1188,35 @@ components:
                 description: ISO 8601 duration — per-component warranty if different from bundle
               componentPrice:
                 type: number
-                description: Unbundled price of component (in settlement currency) for break-up display
+                description: Unbundled IDR price of component for break-up display
+            required:
+            - componentResourceId
+            - quantity
           x-ion-condition: Required when offer.offerType=BUNDLE
         brandIdentity:
           type: object
           additionalProperties: false
-          description: |
-            Structured brand identity. Replaces string-only identity.brand for Official Store /
-            Brand Registry programmes.
+          description: 'Structured brand identity. Replaces string-only identity.brand for Official Store / Brand
+            Registry programmes.
+
+            '
           properties:
             name:
               type: string
               example: Samsung
             brandOwnerLegalEntity:
               type: string
+              example: PT Samsung Electronics Indonesia
             brandCertificationId:
               type: string
-              description: Brand certification reference
+              description: OSS brand certification reference
+              example: BRAND-CERT-SAMSUNG-2024
             officialStoreStatus:
               type: boolean
-              description: Whether this seller is the officially authorised brand store. Validated against brand owner whitelist.
+              description: 'Whether this seller is the officially authorised brand store on this marketplace. Validated
+                against brand owner whitelist.
+
+                '
             authorisedResellerOf:
               type: array
               items:
@@ -1194,9 +1225,10 @@ components:
         digital:
           type: object
           additionalProperties: true
-          description: |
-            Digital goods attributes. Required for DIGITAL_VOUCHER, DIGITAL_TOP_UP, and
-            DIGITAL_SUBSCRIPTION resource types.
+          description: 'Digital goods attributes. Required for DIGITAL_VOUCHER, DIGITAL_TOP_UP, and DIGITAL_SUBSCRIPTION
+            resource types.
+
+            '
           properties:
             digitalCategory:
               type: string
@@ -1204,19 +1236,22 @@ components:
             operatorOrIssuer:
               type: string
               description: Issuing operator or brand for the digital good.
+              example: TELKOMSEL
             denomination:
               type: object
               additionalProperties: true
               description: Voucher/top-up denomination
-              required:
-              - value
-              - unit
               properties:
                 value:
                   type: number
+                currency:
+                  type: string
                 unit:
                   type: string
-                  description: Unit for the denomination value (e.g. MB, GB, MINUTES, or in-game currency unit).
+                  description: IDR for money-based; MB/GB for data; DIAMONDS/COINS for in-game
+              required:
+              - value
+              - unit
             deliveryMethod:
               type: string
               enum:
@@ -1224,10 +1259,12 @@ components:
                 - CODE_TO_BUYER
                 - ACCOUNT_CREDIT
                 - QR_VOUCHER
-              description: |
-                PUSH_TO_TARGET: delivered directly to consumer account. CODE_TO_BUYER: redemption
-                code sent to buyer to redeem later. ACCOUNT_CREDIT: credited to buyer's wallet/account.
-                QR_VOUCHER: scannable QR redeemable at merchant.
+              description: 'PUSH_TO_TARGET: delivered directly to consumer account (pulsa to phone number, PLN token
+                to meter, in-game currency to game account). CODE_TO_BUYER: redemption code sent to buyer to redeem
+                later. ACCOUNT_CREDIT: credited to buyer''s wallet/account. QR_VOUCHER: scannable QR redeemable
+                at merchant.
+
+                '
             target:
               type: object
               additionalProperties: false
@@ -1246,14 +1283,17 @@ components:
                   type: string
                 operatorValidationRequired:
                   type: boolean
-                  description: Whether BPP must verify target exists before accepting
+                  description: Whether BPP must verify target exists before accepting (e.g. mobile number inquiry)
             redemptionCode:
               type: string
-              description: Redemption code or voucher code. Must be encrypted in transit.
+              description: 'Redemption code or voucher code. Returned in on_status[DELIVERED] for CODE_TO_BUYER
+                delivery. Must be encrypted in transit.
+
+                '
             redemptionUrl:
               type: string
               format: uri
-              description: URL for redemption
+              description: URL for redemption (streaming service activation, game code page)
             expiryAfterPurchase:
               type: string
               description: ISO 8601 duration — how long the voucher is valid from purchase
@@ -1261,7 +1301,10 @@ components:
             refundable:
               type: boolean
               default: false
-              description: Whether the digital good is refundable.
+              description: 'Whether the digital good is refundable. Most pulsa/top-up is non-refundable once delivered
+                to target. Vouchers may be refundable if unredeemed.
+
+                '
             cancellable:
               type: boolean
               default: false
@@ -1301,6 +1344,16 @@ components:
         then:
           required:
           - minAge
+      - if:
+          properties:
+            resourceStructure:
+              const: VARIANT
+          required:
+          - resourceStructure
+        then:
+          required:
+          - isDefaultVariant
+          - variantGroup
       required:
       - resourceStructure
       - resourceTangibility
@@ -1309,14 +1362,16 @@ components:
       - availability
       - ageRestricted
       - countryOfOrigin
+      x-ion-closed-extensions: false
 
     IONTradeResource:
       type: object
       title: IONTradeResource
-      description: |
-        ION Network (Indonesia) trade resource extension. Extends TradeResource with
-        Indonesia-specific regulatory, geographic indication, and digital goods fields.
-        This is the schema that BPPs and BAPs on ION MUST use for resourceAttributes.
+      description: 'ION Network (Indonesia) trade resource extension. Extends TradeResource with Indonesia-specific
+        regulatory, geographic indication, and digital goods fields. BPPs and BAPs on ION MUST use this schema
+        for resourceAttributes.
+
+        '
       additionalProperties: true
       x-jsonld:
         '@context': 'https://schema.ion.id/trade/resource/v1/context.jsonld'
@@ -1332,25 +1387,30 @@ components:
             enum:
               - DOMESTIC_ONLY
               - INTERNATIONAL_ALLOWED
-            description: |
-              Data residency requirement. DOMESTIC_ONLY means all PII and transaction data must
-              be processed and stored within Indonesia; BAPs with foreign data processing must
-              skip or refuse transactions for this resource.
+            description: 'Data residency requirement for this resource. DOMESTIC_ONLY means all PII and transaction
+              data must be processed and stored within Indonesia; BAPs with foreign data processing must skip or refuse
+              transactions for this resource. Required for pharmacy, health data, financial services, and regulated
+              biometric categories.
+
+              '
             example: DOMESTIC_ONLY
             x-ion-regulatory: UU 27/2022 tentang Pelindungan Data Pribadi (PDP Law)
             x-ion-condition: Required for pharmacy, health-data, financial-services categories
           regionOfOrigin:
             type: string
             pattern: ^[A-Z]{3}-[A-Z0-9]{1,3}$
-            description: |
-              ISO 3166-2 sub-national region code for geographic indication. Required when product
-              claims origin-protected status (e.g. Kopi Gayo from Aceh IDN-AC, Beras Cianjur IDN-JB).
+            description: 'ISO 3166-2 sub-national region code for geographic indication. Required when product claims
+              origin-protected status (Kopi Gayo from Aceh IDN-AC, Beras Cianjur from West Java IDN-JB).
+
+              '
             example: IDN-AC
             x-ion-regulatory: UU 20/2016 tentang Merek dan Indikasi Geografis
             x-ion-condition: Required when product claims Geographic Indication status
           geographicIndicationCert:
             type: string
-            description: Geographic Indication certificate number from DJKI (Direktorat Jenderal Kekayaan Intelektual).
+            description: 'Geographic Indication certificate number from DJKI (Direktorat Jenderal Kekayaan Intelektual).
+
+              '
             x-ion-regulatory: UU 20/2016 tentang Merek dan Indikasi Geografis
             x-ion-condition: Required when regionOfOrigin is declared for GI products
           packaged:
@@ -1358,7 +1418,7 @@ components:
             properties:
               hsnCode:
                 type: string
-                description: Harmonized System Nomenclature code. Required for cross-border customs.
+                description: Harmonized System Nomenclature code
                 example: '1902.30'
                 x-ion-regulatory: Bea Cukai UU 17/2006 tentang Kepabeanan; Faktur Pajak PMK 168/2023
           regulatory:
@@ -1385,20 +1445,17 @@ components:
                 properties:
                   brandOwnerBpomLicenseNo:
                     type: string
-                    description: Brand owner BPOM license number
                     x-ion-regulatory: PerBPOM 31/2018 tentang Label Pangan Olahan
                   importerBpomLicenseNo:
                     type: string
-                    description: Importer BPOM license number
                   mfgLicenseNo:
                     type: string
-                    description: Manufacturing facility license number
           agritech:
             type: object
             properties:
               mandiReferencePrice:
                 type: number
-                description: Government mandi reference price IDR/kg.
+                description: Government mandi reference price IDR/kg
                 x-ion-regulatory: Permendag 7/2020 tentang Harga Acuan Pembelian
           digital:
             type: object
@@ -1422,16 +1479,17 @@ components:
                   - TRANSPORT_VOUCHER
                   - EDUCATION_VOUCHER
                   - OTHER
-                description: |
-                  Type of digital good on ION. MOBILE_PULSA/DATA covered by Indonesian operator
-                  regulations (Kominfo). PDAM_BILL for local water utility; BPJS_PAYMENT for social
-                  security (BPJS Kesehatan/Ketenagakerjaan); PBB_TAX for property tax.
-                  GAME_VOUCHER includes Mobile Legends, Free Fire, Valorant, Genshin Impact currencies.
+                description: 'Type of digital good. MOBILE_PULSA/DATA covered by Indonesian operator regulations;
+                  GAME_VOUCHER includes Mobile Legends, Free Fire, Valorant, Genshin currencies; STREAMING_VOUCHER
+                  for Netflix/Disney+ Hotstar/Spotify access codes.
+
+                  '
               operatorOrIssuer:
                 type: string
-                description: |
-                  Issuing operator or brand. For MOBILE_PULSA: TELKOMSEL, XL, INDOSAT, TRI, SMARTFREN.
-                  For ELECTRICITY_TOKEN: PLN. For GAME_VOUCHER: Moonton, Garena, Riot, miHoYo, etc.
+                description: 'Issuing operator or brand. For MOBILE_PULSA: TELKOMSEL, XL, INDOSAT, TRI, SMARTFREN.
+                  For ELECTRICITY_TOKEN: PLN. For GAME_VOUCHER: Moonton, Garena, Riot, etc.
+
+                  '
                 example: TELKOMSEL
               denomination:
                 type: object
@@ -1449,7 +1507,7 @@ components:
                       - DIAMONDS
                       - COINS
                       - OTHER
-                    description: IDR for money-based (pulsa, bills, taxes); MB/GB for data; DIAMONDS/COINS for in-game
+                    description: IDR for money-based; MB/GB for data; DIAMONDS/COINS for in-game
           bundleComposition:
             type: array
             items:
@@ -1457,11 +1515,11 @@ components:
               properties:
                 individualBpomReg:
                   type: string
-                  description: Component's own BPOM registration if distinct from bundle.
+                  description: Component's own BPOM registration if distinct
                   x-ion-regulatory: PerBPOM 27/2013 tentang Pengawasan Pemasukan Obat dan Makanan
                 individualPostelReg:
                   type: string
-                  description: Component's own POSTEL/Kominfo telecom certification if distinct.
+                  description: Component's own POSTEL cert if distinct
       required:
       - resourceStructure
       - resourceTangibility
