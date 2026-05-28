@@ -25,13 +25,13 @@
       "@id": "ion:en",
       "@type": "rdf:Property",
       "rdfs:label": "en",
-      "rdfs:comment": "English text for cross-border pattern"
+      "rdfs:comment": "Numeric quantity — may be fractional for weight-based goods"
     },
     {
       "@id": "ion:TradeResource",
       "@type": "rdfs:Class",
       "rdfs:label": "TradeResource",
-      "rdfs:comment": "Generic trade resource extension. Inherits RetailResource from schema.beckn.io.",
+      "rdfs:comment": "TradeResource",
       "rdfs:subClassOf": {
         "@id": "retail:RetailResource"
       }
@@ -55,7 +55,7 @@
       "@id": "ion:resourceTangibility",
       "@type": "rdf:Property",
       "rdfs:label": "resourceTangibility",
-      "rdfs:comment": "PHYSICAL: tangible goods requiring logistics fulfilment. DIGITAL_VOUCHER: voucher code, gift card, in-game currency (delivered electronically). DIGITAL_TOP_UP: mobile top-up, data package, utility bill top-up. DIGITAL_SUBSCRIPTION: time-bound digital subscription access.\n"
+      "rdfs:comment": "PHYSICAL: tangible goods requiring logistics fulfilment. DIGITAL_VOUCHER: voucher code, gift card, in-game currency (delivered electronically). DIGITAL_TOP_UP: mobile pulsa, data package, utility bill top-up. DIGITAL_SUBSCRIPTION: time-bound digital subscription access.\n"
     },
     {
       "@id": "ion:parentResourceId",
@@ -85,13 +85,13 @@
       "@id": "ion:customisationGroups",
       "@type": "rdf:Property",
       "rdfs:label": "customisationGroups",
-      "rdfs:comment": "Customisation group definitions for COMPOSED and WITH_EXTRAS resources."
+      "rdfs:comment": "ISO 8601 duration. Time from order confirm to item ready."
     },
     {
       "@id": "ion:menuCategory",
       "@type": "rdf:Property",
       "rdfs:label": "menuCategory",
-      "rdfs:comment": "Menu category for food and beverage providers."
+      "rdfs:comment": "ISO 8601 duration. Time from order confirm to item ready."
     },
     {
       "@id": "ion:preparationTime",
@@ -103,7 +103,7 @@
       "@id": "ion:productCode",
       "@type": "rdf:Property",
       "rdfs:label": "productCode",
-      "rdfs:comment": "Structured product code (GTIN, EAN, UPC, ISBN, ASIN, HSN, ION_SKU)."
+      "rdfs:comment": "First image is primary thumbnail. Additional images for gallery."
     },
     {
       "@id": "ion:images",
@@ -133,13 +133,13 @@
       "@id": "ion:identity",
       "@type": "rdf:Property",
       "rdfs:label": "identity",
-      "rdfs:comment": "Brand, model, model year, and seller internal SKU."
+      "rdfs:comment": "Seller internal SKU"
     },
     {
       "@id": "ion:physical",
       "@type": "rdf:Property",
       "rdfs:label": "physical",
-      "rdfs:comment": "Physical attributes: color, dimensions, weight."
+      "rdfs:comment": "Required when colour is specified"
     },
     {
       "@id": "ion:packaged",
@@ -151,61 +151,61 @@
       "@id": "ion:regulatory",
       "@type": "rdf:Property",
       "rdfs:label": "regulatory",
-      "rdfs:comment": "Regulatory registrations, food declarations, nutritional data, credentials."
+      "rdfs:comment": "Back-of-pack statutory requirements image"
     },
     {
       "@id": "ion:food",
       "@type": "rdf:Property",
       "rdfs:label": "food",
-      "rdfs:comment": "Packaged food product attributes: classification, allergens, cuisine, spice level."
+      "rdfs:comment": "ISO 8601 duration"
     },
     {
       "@id": "ion:preparation",
       "@type": "rdf:Property",
       "rdfs:label": "preparation",
-      "rdfs:comment": "Preparation and storage instructions, shelf life."
+      "rdfs:comment": "ISO 8601 duration"
     },
     {
       "@id": "ion:fashion",
       "@type": "rdf:Property",
       "rdfs:label": "fashion",
-      "rdfs:comment": "Fashion and apparel attributes."
+      "rdfs:comment": "Appliance capacity. Fridge=litres, Washer=kg load"
     },
     {
       "@id": "ion:electronics",
       "@type": "rdf:Property",
       "rdfs:label": "electronics",
-      "rdfs:comment": "Consumer electronics technical specifications."
+      "rdfs:comment": "Appliance capacity. Fridge=litres, Washer=kg load"
     },
     {
       "@id": "ion:beauty",
       "@type": "rdf:Property",
       "rdfs:label": "beauty",
-      "rdfs:comment": "Beauty and personal care product attributes."
+      "rdfs:comment": "Government mandi reference price IDR/kg"
     },
     {
       "@id": "ion:agritech",
       "@type": "rdf:Property",
       "rdfs:label": "agritech",
-      "rdfs:comment": "Agritech and fresh produce attributes."
+      "rdfs:comment": "Government mandi reference price IDR/kg"
     },
     {
       "@id": "ion:pharmacy",
       "@type": "rdf:Property",
       "rdfs:label": "pharmacy",
-      "rdfs:comment": "Pharmaceutical and OTC medicine attributes."
+      "rdfs:comment": "ISO 8601 duration. Minimum P1Y for electronics."
     },
     {
       "@id": "ion:installation",
       "@type": "rdf:Property",
       "rdfs:label": "installation",
-      "rdfs:comment": "Installation service details."
+      "rdfs:comment": "ISO 8601 duration. Minimum P1Y for electronics."
     },
     {
       "@id": "ion:usage",
       "@type": "rdf:Property",
       "rdfs:label": "usage",
-      "rdfs:comment": "Usage constraints and compatibility."
+      "rdfs:comment": "ISO 8601 duration. Minimum P1Y for electronics."
     },
     {
       "@id": "ion:warranty",
@@ -235,37 +235,37 @@
       "@id": "ion:canonicalId",
       "@type": "rdf:Property",
       "rdfs:label": "canonicalId",
-      "rdfs:comment": "Cross-provider product identity. Multiple providers selling the same product share the same canonicalId. Enables Buy Box selection on BAP side and cross-seller price comparison. GTIN preferred when available; otherwise network-assigned canonical ID.\n"
+      "rdfs:comment": "Cross-provider product identity. Multiple providers selling the same product share the same canonicalId. Enables Buy Box selection on BAP side and cross-seller price comparison. GTIN preferred when available; otherwise ION-assigned canonical ID via Atlas.\n"
     },
     {
       "@id": "ion:featuredOfferEligible",
       "@type": "rdf:Property",
       "rdfs:label": "featuredOfferEligible",
-      "rdfs:comment": "Whether this offer is eligible for \"featured offer\" / Buy Box selection. BPP declares eligibility; BAP runs selection algorithm.\n"
+      "rdfs:comment": "Whether this offer is eligible for \"featured offer\" / Buy Box selection. BPP declares eligibility; BAP runs selection algorithm. Eligibility typically requires: verified seller, positive rating history, standard return policy, Prime-equivalent SLA.\n"
     },
     {
       "@id": "ion:featuredOfferScore",
       "@type": "rdf:Property",
       "rdfs:label": "featuredOfferScore",
-      "rdfs:comment": "BPP-computed score used by BAP Buy Box algorithm. Decimal 0-1.\n"
+      "rdfs:comment": "BPP-computed score used by BAP Buy Box algorithm. Factors in price competitiveness, rating, SLA reliability, stock depth. Decimal 0-1.\n"
     },
     {
       "@id": "ion:imageSet",
       "@type": "rdf:Property",
       "rdfs:label": "imageSet",
-      "rdfs:comment": "Structured images with role metadata. More expressive than the flat images[] array.\n"
+      "rdfs:comment": "Structured images with role metadata. More expressive than the flat images[] array. BAPs can render appropriate images per surface. When imageSet is present, images[] may still exist for backward compatibility but imageSet is authoritative.\n"
     },
     {
       "@id": "ion:videos",
       "@type": "rdf:Property",
       "rdfs:label": "videos",
-      "rdfs:comment": "Video assets with role metadata."
+      "rdfs:comment": "Components of a bundle SKU. Required for bundle offers where individual components carry"
     },
     {
       "@id": "ion:bundleComposition",
       "@type": "rdf:Property",
       "rdfs:label": "bundleComposition",
-      "rdfs:comment": "Components of a bundle SKU. Required for bundle offers where individual components carry their own regulatory registrations or warranties.\n"
+      "rdfs:comment": "Components of a bundle SKU. Required for bundle offers where individual components carry their own regulatory registrations (BPOM, POSTEL, TKDN, warranty).\n"
     },
     {
       "@id": "ion:brandIdentity",
@@ -277,7 +277,7 @@
       "@id": "ion:regionOfOrigin",
       "@type": "rdf:Property",
       "rdfs:label": "regionOfOrigin",
-      "rdfs:comment": "ISO 3166-2 sub-national region code for geographic indication. Required when product claims origin-protected status.\n"
+      "rdfs:comment": "ISO 3166-2 sub-national region code for geographic indication. Required when product claims origin-protected status (Kopi Gayo from Aceh IDN-AC, Beras Cianjur from West Java IDN-JB).\n"
     },
     {
       "@id": "ion:geographicIndicationCert",
@@ -295,7 +295,7 @@
       "@id": "ion:dataResidency",
       "@type": "rdf:Property",
       "rdfs:label": "dataResidency",
-      "rdfs:comment": "Data residency requirement for this resource. DOMESTIC_ONLY means all PII and transaction data must be processed and stored within Indonesia."
+      "rdfs:comment": "Data residency requirement for this resource. DOMESTIC_ONLY means all PII and transaction data must be processed and stored within Indonesia; BAPs with foreign data processing must skip or refuse transactions for this resource. Required for pharmacy, health data, financial services, and regulated biometric categories."
     }
   ]
 }
