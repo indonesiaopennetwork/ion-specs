@@ -1,6 +1,7 @@
 {
   "@context": {
     "ion": "https://schema.ion.id/trade/resource/v1#",
+    "retail": "https://schema.beckn.io/RetailResource/v2.1#",
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
   },
@@ -11,7 +12,7 @@
       "rdfs:label": "LocalisedText",
       "rdfs:comment": "Language-keyed text. \"id\" always required. \"en\" required for XB pattern.",
       "rdfs:subClassOf": {
-        "@id": "beckn:Resource"
+        "@id": "retail:RetailResource"
       }
     },
     {
@@ -24,15 +25,24 @@
       "@id": "ion:en",
       "@type": "rdf:Property",
       "rdfs:label": "en",
-      "rdfs:comment": "Numeric quantity — may be fractional for weight-based goods"
+      "rdfs:comment": "English text for cross-border pattern"
     },
     {
       "@id": "ion:TradeResource",
       "@type": "rdfs:Class",
       "rdfs:label": "TradeResource",
-      "rdfs:comment": "TradeResource",
+      "rdfs:comment": "Generic trade resource extension. Inherits RetailResource from schema.beckn.io.",
       "rdfs:subClassOf": {
-        "@id": "beckn:Resource"
+        "@id": "retail:RetailResource"
+      }
+    },
+    {
+      "@id": "ion:IONTradeResource",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONTradeResource",
+      "rdfs:comment": "ION Network (Indonesia) trade resource extension. Adds Indonesia-specific regulatory and digital goods fields.",
+      "rdfs:subClassOf": {
+        "@id": "ion:TradeResource"
       }
     },
     {
@@ -45,7 +55,7 @@
       "@id": "ion:resourceTangibility",
       "@type": "rdf:Property",
       "rdfs:label": "resourceTangibility",
-      "rdfs:comment": "PHYSICAL: tangible goods requiring logistics fulfilment. DIGITAL_VOUCHER: voucher code, gift card, in-game currency (delivered electronically). DIGITAL_TOP_UP: mobile pulsa, data package, utility bill top-up. DIGITAL_SUBSCRIPTION: time-bound digital subscription access.\n"
+      "rdfs:comment": "PHYSICAL: tangible goods requiring logistics fulfilment. DIGITAL_VOUCHER: voucher code, gift card, in-game currency (delivered electronically). DIGITAL_TOP_UP: mobile top-up, data package, utility bill top-up. DIGITAL_SUBSCRIPTION: time-bound digital subscription access.\n"
     },
     {
       "@id": "ion:parentResourceId",
@@ -75,13 +85,13 @@
       "@id": "ion:customisationGroups",
       "@type": "rdf:Property",
       "rdfs:label": "customisationGroups",
-      "rdfs:comment": "ISO 8601 duration. Time from order confirm to item ready."
+      "rdfs:comment": "Customisation group definitions for COMPOSED and WITH_EXTRAS resources."
     },
     {
       "@id": "ion:menuCategory",
       "@type": "rdf:Property",
       "rdfs:label": "menuCategory",
-      "rdfs:comment": "ISO 8601 duration. Time from order confirm to item ready."
+      "rdfs:comment": "Menu category for food and beverage providers."
     },
     {
       "@id": "ion:preparationTime",
@@ -93,7 +103,7 @@
       "@id": "ion:productCode",
       "@type": "rdf:Property",
       "rdfs:label": "productCode",
-      "rdfs:comment": "First image is primary thumbnail. Additional images for gallery."
+      "rdfs:comment": "Structured product code (GTIN, EAN, UPC, ISBN, ASIN, HSN, ION_SKU)."
     },
     {
       "@id": "ion:images",
@@ -123,13 +133,13 @@
       "@id": "ion:identity",
       "@type": "rdf:Property",
       "rdfs:label": "identity",
-      "rdfs:comment": "Seller internal SKU"
+      "rdfs:comment": "Brand, model, model year, and seller internal SKU."
     },
     {
       "@id": "ion:physical",
       "@type": "rdf:Property",
       "rdfs:label": "physical",
-      "rdfs:comment": "Required when colour is specified"
+      "rdfs:comment": "Physical attributes: color, dimensions, weight."
     },
     {
       "@id": "ion:packaged",
@@ -141,61 +151,61 @@
       "@id": "ion:regulatory",
       "@type": "rdf:Property",
       "rdfs:label": "regulatory",
-      "rdfs:comment": "Back-of-pack statutory requirements image"
+      "rdfs:comment": "Regulatory registrations, food declarations, nutritional data, credentials."
     },
     {
       "@id": "ion:food",
       "@type": "rdf:Property",
       "rdfs:label": "food",
-      "rdfs:comment": "ISO 8601 duration"
+      "rdfs:comment": "Packaged food product attributes: classification, allergens, cuisine, spice level."
     },
     {
       "@id": "ion:preparation",
       "@type": "rdf:Property",
       "rdfs:label": "preparation",
-      "rdfs:comment": "ISO 8601 duration"
+      "rdfs:comment": "Preparation and storage instructions, shelf life."
     },
     {
       "@id": "ion:fashion",
       "@type": "rdf:Property",
       "rdfs:label": "fashion",
-      "rdfs:comment": "Appliance capacity. Fridge=litres, Washer=kg load"
+      "rdfs:comment": "Fashion and apparel attributes."
     },
     {
       "@id": "ion:electronics",
       "@type": "rdf:Property",
       "rdfs:label": "electronics",
-      "rdfs:comment": "Appliance capacity. Fridge=litres, Washer=kg load"
+      "rdfs:comment": "Consumer electronics technical specifications."
     },
     {
       "@id": "ion:beauty",
       "@type": "rdf:Property",
       "rdfs:label": "beauty",
-      "rdfs:comment": "Government mandi reference price IDR/kg"
+      "rdfs:comment": "Beauty and personal care product attributes."
     },
     {
       "@id": "ion:agritech",
       "@type": "rdf:Property",
       "rdfs:label": "agritech",
-      "rdfs:comment": "Government mandi reference price IDR/kg"
+      "rdfs:comment": "Agritech and fresh produce attributes."
     },
     {
       "@id": "ion:pharmacy",
       "@type": "rdf:Property",
       "rdfs:label": "pharmacy",
-      "rdfs:comment": "ISO 8601 duration. Minimum P1Y for electronics."
+      "rdfs:comment": "Pharmaceutical and OTC medicine attributes."
     },
     {
       "@id": "ion:installation",
       "@type": "rdf:Property",
       "rdfs:label": "installation",
-      "rdfs:comment": "ISO 8601 duration. Minimum P1Y for electronics."
+      "rdfs:comment": "Installation service details."
     },
     {
       "@id": "ion:usage",
       "@type": "rdf:Property",
       "rdfs:label": "usage",
-      "rdfs:comment": "ISO 8601 duration. Minimum P1Y for electronics."
+      "rdfs:comment": "Usage constraints and compatibility."
     },
     {
       "@id": "ion:warranty",
@@ -225,37 +235,37 @@
       "@id": "ion:canonicalId",
       "@type": "rdf:Property",
       "rdfs:label": "canonicalId",
-      "rdfs:comment": "Cross-provider product identity. Multiple providers selling the same product share the same canonicalId. Enables Buy Box selection on BAP side and cross-seller price comparison. GTIN preferred when available; otherwise ION-assigned canonical ID via Atlas.\n"
+      "rdfs:comment": "Cross-provider product identity. Multiple providers selling the same product share the same canonicalId. Enables Buy Box selection on BAP side and cross-seller price comparison. GTIN preferred when available; otherwise network-assigned canonical ID.\n"
     },
     {
       "@id": "ion:featuredOfferEligible",
       "@type": "rdf:Property",
       "rdfs:label": "featuredOfferEligible",
-      "rdfs:comment": "Whether this offer is eligible for \"featured offer\" / Buy Box selection. BPP declares eligibility; BAP runs selection algorithm. Eligibility typically requires: verified seller, positive rating history, standard return policy, Prime-equivalent SLA.\n"
+      "rdfs:comment": "Whether this offer is eligible for \"featured offer\" / Buy Box selection. BPP declares eligibility; BAP runs selection algorithm.\n"
     },
     {
       "@id": "ion:featuredOfferScore",
       "@type": "rdf:Property",
       "rdfs:label": "featuredOfferScore",
-      "rdfs:comment": "BPP-computed score used by BAP Buy Box algorithm. Factors in price competitiveness, rating, SLA reliability, stock depth. Decimal 0-1.\n"
+      "rdfs:comment": "BPP-computed score used by BAP Buy Box algorithm. Decimal 0-1.\n"
     },
     {
       "@id": "ion:imageSet",
       "@type": "rdf:Property",
       "rdfs:label": "imageSet",
-      "rdfs:comment": "Structured images with role metadata. More expressive than the flat images[] array. BAPs can render appropriate images per surface. When imageSet is present, images[] may still exist for backward compatibility but imageSet is authoritative.\n"
+      "rdfs:comment": "Structured images with role metadata. More expressive than the flat images[] array.\n"
     },
     {
       "@id": "ion:videos",
       "@type": "rdf:Property",
       "rdfs:label": "videos",
-      "rdfs:comment": "Components of a bundle SKU. Required for bundle offers where individual components carry"
+      "rdfs:comment": "Video assets with role metadata."
     },
     {
       "@id": "ion:bundleComposition",
       "@type": "rdf:Property",
       "rdfs:label": "bundleComposition",
-      "rdfs:comment": "Components of a bundle SKU. Required for bundle offers where individual components carry their own regulatory registrations (BPOM, POSTEL, TKDN, warranty).\n"
+      "rdfs:comment": "Components of a bundle SKU. Required for bundle offers where individual components carry their own regulatory registrations or warranties.\n"
     },
     {
       "@id": "ion:brandIdentity",
@@ -267,7 +277,7 @@
       "@id": "ion:regionOfOrigin",
       "@type": "rdf:Property",
       "rdfs:label": "regionOfOrigin",
-      "rdfs:comment": "ISO 3166-2 sub-national region code for geographic indication. Required when product claims origin-protected status (Kopi Gayo from Aceh IDN-AC, Beras Cianjur from West Java IDN-JB).\n"
+      "rdfs:comment": "ISO 3166-2 sub-national region code for geographic indication. Required when product claims origin-protected status.\n"
     },
     {
       "@id": "ion:geographicIndicationCert",
@@ -285,7 +295,7 @@
       "@id": "ion:dataResidency",
       "@type": "rdf:Property",
       "rdfs:label": "dataResidency",
-      "rdfs:comment": "Data residency requirement for this resource. DOMESTIC_ONLY means all PII and transaction data must be processed and stored within Indonesia; BAPs with foreign data processing must skip or refuse transactions for this resource. Required for pharmacy, health data, financial services, and regulated biometric categories."
+      "rdfs:comment": "Data residency requirement for this resource. DOMESTIC_ONLY means all PII and transaction data must be processed and stored within Indonesia."
     }
   ]
 }
