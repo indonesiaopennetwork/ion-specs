@@ -27,10 +27,10 @@ components:
       x-recommended-parent: Consideration.considerationAttributes
       additionalProperties: true
       allOf:
-        # LOCAL vendored copy (default — active):
-        - $ref: ../../../core/v2/api/v2.0.0/vendored/logistics-fare-v2.0.yaml#/components/schemas/LogisticsFare
-        # REMOTE (uncomment to validate against upstream directly):
-        # - $ref: https://raw.githubusercontent.com/beckn/schemas/main/schema/LogisticsFare/v2.0/attributes.yaml#/components/schemas/LogisticsFare
+        # REMOTE upstream (active — used by ONIX at validation time):
+        - $ref: https://raw.githubusercontent.com/beckn/schemas/main/schema/LogisticsFare/v2.0/attributes.yaml#/components/schemas/LogisticsFare
+        # LOCAL vendored reference copy (for offline review and version drift detection):
+        # - $ref: ../../../core/v2/api/v2.0.0/vendored/logistics-fare-v2.0.yaml#/components/schemas/LogisticsFare
     IONLogisticsConsideration:
       type: object
       x-ion-layer: ion

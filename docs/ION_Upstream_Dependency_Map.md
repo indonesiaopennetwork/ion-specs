@@ -21,19 +21,27 @@ Upstreams come from two places:
 - **`beckn.yaml`** (local) — core protocol objects. Already vendored as a single file at `schema/core/v2/api/v2.0.0/beckn.yaml`.
 - **`vendored/`** (local copies of schema.beckn.io domain schemas) — one file per schema at `schema/core/v2/api/v2.0.0/vendored/`. See `vendored/README.md` for fetch instructions.
 
-The `allOf` pattern in every generic layer schema:
+## The `allOf` pattern
 
+**For `beckn.yaml` upstreams** (core protocol objects — Participant, Resource, Offer etc.):
 ```yaml
-# For beckn.yaml upstreams:
 allOf:
   - $ref: beckn.yaml#/components/schemas/Participant
   # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Participant
-
-# For vendored/ upstreams:
-allOf:
-  - $ref: ../../../core/v2/api/v2.0.0/vendored/retail-resource-v2.1.yaml#/components/schemas/RetailResource
-  # - $ref: https://raw.githubusercontent.com/beckn/local-retail/main/schema/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource
 ```
+`beckn.yaml` is kept locally as a vendored reference copy. The local ref is active.
+
+**For `schema.beckn.io` upstreams** (domain schemas — RetailResource, Shipment etc.):
+```yaml
+allOf:
+  # REMOTE upstream (active — used by ONIX at validation time):
+  - $ref: https://raw.githubusercontent.com/beckn/local-retail/main/schema/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource
+  # LOCAL vendored reference copy (for offline review and version drift detection):
+  # - $ref: ../../../core/v2/api/v2.0.0/vendored/retail-resource-v2.1.yaml#/components/schemas/RetailResource
+```
+The remote URL is **always active**. The local copy is commented out.
+ONIX resolves the upstream schema at validation time via the remote URL.
+The local vendored copy is for offline review and version drift detection only.
 
 ---
 

@@ -38,10 +38,10 @@ components:
       x-recommended-parent: Resource.resourceAttributes
       additionalProperties: true
       allOf:
-        # LOCAL vendored copy (default — active):
-        - $ref: ../../../core/v2/api/v2.0.0/vendored/food-and-beverage-resource-v2.1.yaml#/components/schemas/FoodAndBeverageResource
-        # REMOTE (uncomment to validate against upstream directly):
-        # - $ref: https://raw.githubusercontent.com/beckn/local-retail/main/schema/FoodAndBeverageResource/v2.1/attributes.yaml#/components/schemas/FoodAndBeverageResource
+        # REMOTE upstream (active — used by ONIX at validation time):
+        - $ref: https://raw.githubusercontent.com/beckn/local-retail/main/schema/FoodAndBeverageResource/v2.1/attributes.yaml#/components/schemas/FoodAndBeverageResource
+        # LOCAL vendored reference copy (for offline review and version drift detection):
+        # - $ref: ../../../core/v2/api/v2.0.0/vendored/food-and-beverage-resource-v2.1.yaml#/components/schemas/FoodAndBeverageResource
 
     IONMenuItem:
       type: object

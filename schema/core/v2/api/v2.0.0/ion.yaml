@@ -410,12 +410,20 @@ x-ion-profile:
   x-ion-schema-dependencies:
     description: >
       Explicit version-pinned mapping between ION generic schemas and their upstream
-      beckn/schemas or beckn/DEG parents. These versions are FROZEN — Beckn upstream
-      changes do NOT automatically apply to ION. Upgrades require an explicit ION
-      Council decision. All entries pinned on 2026-06-02.
+      beckn/schemas or beckn/DEG parents. The active allOf in each attributes.yaml
+      references the REMOTE upstream URL directly — ONIX resolves it at validation time.
+      Local vendored copies in schema/core/v2/api/v2.0.0/vendored/ are reference copies
+      only, used for offline review and version drift detection. These versions are
+      FROZEN — Beckn upstream changes do NOT automatically apply to ION. Upgrades
+      require an explicit ION Council decision. All entries pinned on 2026-06-02.
     upgradePolicy: ION_COUNCIL_DECISION_REQUIRED
     pinnedAt: 2026-06-02
     referenceDoc: docs/ION_Upstream_Dependency_Map.md
+    vendoredCopiesPolicy: >
+      Vendored copies in vendored/ are reference copies only. The active allOf $ref
+      points to the remote URL. To check for version drift, diff the remote URL against
+      the vendored copy. Do NOT activate the local ref in production — ONIX requires
+      the remote URL to resolve the upstream schema at validation time.
     dependencies:
       - ionSchema: Address
         upstreamSchema: Address

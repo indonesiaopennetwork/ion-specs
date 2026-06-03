@@ -33,10 +33,10 @@ components:
       x-recommended-parent: Settlement.settlementAttributes
       additionalProperties: true
       allOf:
-        # LOCAL vendored copy (default — active):
-        - $ref: ../../../core/v2/api/v2.0.0/vendored/retail-settlement-v2.1.yaml#/components/schemas/RetailSettlement
-        # REMOTE (uncomment to validate against upstream directly):
-        # - $ref: https://raw.githubusercontent.com/beckn/local-retail/main/schema/RetailSettlement/v2.1/attributes.yaml#/components/schemas/RetailSettlement
+        # REMOTE upstream (active — used by ONIX at validation time):
+        - $ref: https://raw.githubusercontent.com/beckn/local-retail/main/schema/RetailSettlement/v2.1/attributes.yaml#/components/schemas/RetailSettlement
+        # LOCAL vendored reference copy (for offline review and version drift detection):
+        # - $ref: ../../../core/v2/api/v2.0.0/vendored/retail-settlement-v2.1.yaml#/components/schemas/RetailSettlement
     IONTradeSettlement:
       type: object
       x-ion-layer: ion

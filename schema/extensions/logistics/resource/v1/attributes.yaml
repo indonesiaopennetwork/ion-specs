@@ -28,10 +28,10 @@ components:
       x-recommended-parent: Resource.resourceAttributes
       additionalProperties: true
       allOf:
-        # LOCAL vendored copy (default — active):
-        - $ref: ../../../core/v2/api/v2.0.0/vendored/shipment-v2.0.yaml#/components/schemas/Shipment
-        # REMOTE (uncomment to validate against upstream directly):
-        # - $ref: https://raw.githubusercontent.com/beckn/schemas/main/schema/Shipment/v2.0/attributes.yaml#/components/schemas/Shipment
+        # REMOTE upstream (active — used by ONIX at validation time):
+        - $ref: https://raw.githubusercontent.com/beckn/schemas/main/schema/Shipment/v2.0/attributes.yaml#/components/schemas/Shipment
+        # LOCAL vendored reference copy (for offline review and version drift detection):
+        # - $ref: ../../../core/v2/api/v2.0.0/vendored/shipment-v2.0.yaml#/components/schemas/Shipment
     IONLogisticsResource:
       type: object
       x-ion-layer: ion
