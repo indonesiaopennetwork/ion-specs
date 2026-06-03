@@ -1,9 +1,10 @@
-# reconcile/v1 — Documentation
+# reconcile/v1 — Supplementary Documentation
 
-`01-overview.md` — Conceptual overview, design decisions, and regulatory notes.
+This folder may contain extended conceptual notes, design decision records, and regulatory annotations for the `reconcile/v1` pack.
 
-For field definitions, see `../attributes.yaml`.
-
+**For all normative content, see:**
+- `../reconcile/attributes.yaml` — field definitions
+- `../README.md` — canonical pack README (Attaches to, Network-required fields, Used in, Rejection reasons, Changelog)
 
 ## Changelog
 

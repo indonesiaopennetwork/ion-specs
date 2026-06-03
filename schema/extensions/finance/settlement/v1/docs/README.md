@@ -1,13 +1,10 @@
-# settlement/v1 — Documentation Index
+# settlement/v1 — Supplementary Documentation
 
-This folder contains conceptual documentation for the `settlement` schema extension.
+This folder may contain extended conceptual notes, design decision records, and regulatory annotations for the `settlement/v1` pack.
 
-| File | Purpose |
-|---|---|
-| [01-overview.md](01-overview.md) | Amortisation schedule design, payment tracking, SLIK reporting rows |
-
-For field-level definitions see [`../attributes.yaml`](../attributes.yaml).
-
+**For all normative content, see:**
+- `../settlement/attributes.yaml` — field definitions
+- `../README.md` — canonical pack README (Attaches to, Network-required fields, Used in, Rejection reasons, Changelog)
 
 ## Changelog
 

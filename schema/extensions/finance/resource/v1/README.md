@@ -1,5 +1,7 @@
 # CreditResourceAttributes — v1 Property Table
 
+**ION schema class:** `ion:IONCreditProduct`
+
 **Pack ID:** `ion-finance-credit-resource-v1`  
 **Attaches to:** `Resource.resourceAttributes`  
 **ION IRI:** `https://schema.ion.id/finance/credit-resource/v1#CreditResourceAttributes`  

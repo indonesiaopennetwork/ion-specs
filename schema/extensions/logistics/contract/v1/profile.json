@@ -13,7 +13,10 @@
     "filterable": [],
     "sortable": []
   },
-  "minimalForDiscovery": [],
+  "minimalForDiscovery": [
+    "fwaReference",
+    "awbNumber"
+  ],
   "x-ion-layer": {
     "generic": "LogisticsContract",
     "ion": "IONLogisticsContract",

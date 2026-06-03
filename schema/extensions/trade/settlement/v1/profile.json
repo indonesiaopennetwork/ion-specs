@@ -8,5 +8,10 @@
   },
   "status": "active",
   "ionSchemaLayer": "ion",
-  "genericSchemaLayer": "TradeSettlement"
+  "genericSchemaLayer": "TradeSettlement",
+  "minimalForDiscovery": [
+    "method",
+    "paymentRail",
+    "collectedBy"
+  ]
 }

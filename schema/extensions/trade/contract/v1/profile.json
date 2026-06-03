@@ -18,7 +18,10 @@
     "filterable": [],
     "sortable": []
   },
-  "minimalForDiscovery": [],
+  "minimalForDiscovery": [
+    "fulfillingLocationId",
+    "deliveryPreferences"
+  ],
   "x-ion-layer": {
     "generic": "TradeContract",
     "ion": "IONTradeContract",

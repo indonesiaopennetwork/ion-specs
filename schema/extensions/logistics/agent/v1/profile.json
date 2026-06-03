@@ -25,7 +25,10 @@
     "filterable": [],
     "sortable": []
   },
-  "minimalForDiscovery": [],
+  "minimalForDiscovery": [
+    "ppjkLicenceNumber",
+    "driverLicenceNumber"
+  ],
   "x-ion-layer": {
     "generic": "LogisticsAgent",
     "ion": "IONLogisticsAgent",

@@ -454,6 +454,7 @@ components:
               description: Remittance batch reference (ties many shipments to one transfer)
             batchPeriod:
               type: object
+              additionalProperties: true
               description: Window over which collections were aggregated
               properties:
                 start:
@@ -475,6 +476,7 @@ components:
               - QRIS
             variance:
               type: object
+              additionalProperties: true
               description: Variance between expected and remitted amounts
               properties:
                 expectedAmount:

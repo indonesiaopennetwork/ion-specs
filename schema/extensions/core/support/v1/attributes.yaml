@@ -195,9 +195,9 @@ components:
                   updatedBy:
                     $ref: '#/components/schemas/IONSupportTicket/properties/issueActions/properties/ActionParty'
                 required:
-                - complainantAction
-                - updatedAt
-                - updatedBy
+                - COMPLAINANT_ACTION
+                - UPDATED_AT
+                - UPDATED_BY
             respondentActions:
               type: array
               items:
@@ -226,15 +226,16 @@ components:
 
                       '
                 required:
-                - respondentAction
-                - updatedAt
-                - updatedBy
+                - RESPONDENT_ACTION
+                - UPDATED_AT
+                - UPDATED_BY
             ActionParty:
               type: object
               additionalProperties: false
               properties:
                 org:
                   type: object
+                  additionalProperties: true
                   properties:
                     name:
                       type: string

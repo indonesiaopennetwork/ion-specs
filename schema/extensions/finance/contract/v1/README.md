@@ -9,7 +9,7 @@ This is a **multi-slot pack** — each sub-schema attaches to a different Beckn 
 
 | Sub-schema | Beckn slot |
 |------------|-----------|
-| `CreditContract` | `Contract.contractAttributes` |
+| `IONCreditContract` | `Contract.contractAttributes` |
 | `Borrower` | `Contract.participants[].participantAttributes` |
 | `Lender` | `Contract.participants[].participantAttributes` |
 | `AmortisationRow` | `Contract.settlements[].settlementAttributes` |

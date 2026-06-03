@@ -45,6 +45,7 @@ components:
       x-beckn-attaches-to: Provider.providerAttributes (composed)
       properties:
         npwp:
+          x-ion-data-residency: ID
           type: string
           pattern: ^[0-9]{16}$
           description: 'Nomor Pokok Wajib Pajak — 16-digit tax identification number. New format post-2024 (previously
@@ -63,6 +64,7 @@ components:
           example: '1234567890123'
           x-ion-regulatory: PP 5/2021 tentang Penyelenggaraan Perizinan Berusaha Berbasis Risiko
         nikNumber:
+          x-ion-data-residency: ID
           type: string
           pattern: ^[0-9]{16}$
           description: 'Nomor Induk Kependudukan — 16-digit national identity number from e-KTP. Required for individual
@@ -83,6 +85,7 @@ components:
           example: PKP
           x-ion-regulatory: UU 8/1983 tentang Pajak Pertambahan Nilai Pasal 3A
         legalEntityName:
+          x-ion-data-residency: ID
           type: string
           description: 'Registered business name as per OSS/notary deed. For PT: "PT Nama Perusahaan Tbk". For UD/CV:
             "UD Nama Usaha". For individual: full name as per KTP.

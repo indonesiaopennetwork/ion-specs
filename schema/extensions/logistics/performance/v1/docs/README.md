@@ -1,7 +1,10 @@
-# ION Logistics Performance Extension (v1) — Documentation
+# performance/v1 — Supplementary Documentation
 
-See [01-overview.md](01-overview.md) for pack overview.
+This folder may contain extended conceptual notes, design decision records, and regulatory annotations for the `performance/v1` pack.
 
+**For all normative content, see:**
+- `../performance/attributes.yaml` — field definitions
+- `../README.md` — canonical pack README (Attaches to, Network-required fields, Used in, Rejection reasons, Changelog)
 
 ## Changelog
 

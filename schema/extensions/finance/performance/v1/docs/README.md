@@ -1,13 +1,10 @@
-# performance/v1 — Documentation Index
+# performance/v1 — Supplementary Documentation
 
-This folder contains conceptual documentation for the `performance` schema extension.
+This folder may contain extended conceptual notes, design decision records, and regulatory annotations for the `performance/v1` pack.
 
-| File | Purpose |
-|---|---|
-| [01-overview.md](01-overview.md) | Disbursement execution tracking, SLA measurement, method types |
-
-For field-level definitions see [`../attributes.yaml`](../attributes.yaml).
-
+**For all normative content, see:**
+- `../performance/attributes.yaml` — field definitions
+- `../README.md` — canonical pack README (Attaches to, Network-required fields, Used in, Rejection reasons, Changelog)
 
 ## Changelog
 

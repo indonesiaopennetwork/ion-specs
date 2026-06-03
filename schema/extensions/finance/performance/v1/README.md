@@ -3,7 +3,7 @@
 
 Attaches to: **`Performance.performanceAttributes`**
 
-Schema: `DisbursementPerformance` — tracks the execution of fund disbursement after the loan contract is confirmed.
+Schema: `IONDisbursementPerformance` — tracks the execution of fund disbursement after the loan contract is confirmed.
 
 ## Fields
 

@@ -6,7 +6,7 @@ Two schemas in this pack, distinguished by `@type`:
 
 | Schema | Role | Required fields |
 |---|---|---|
-| `Borrower` | Individual borrower (`role = BORROWER`) | `fullName`, `nik` |
+| `IONBorrower` | Individual borrower (`role = BORROWER`) | `fullName`, `nik` |
 | `Lender` | Lending institution (`role = LENDER`) | `institutionName`, `ojkLicenseNumber` |
 
 ## Borrower fields

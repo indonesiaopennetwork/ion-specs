@@ -31,3 +31,19 @@ One `AmortisationRow` per installment. Each row in `Contract.settlements[]` hold
 | Version | Date | Summary |
 |---|---|---|
 | v1 | 2026-06-02 | Initial release |
+
+## Network-required fields
+
+| Field | Condition |
+|---|---|
+| `disbursementDate` | Required when `paymentStatus` transitions to `PAID` |
+| `paymentReference` | Required when `paymentStatus` is `PAID` |
+
+## Used in
+
+`flows/finance/README.md` — loan disbursement and repayment patterns
+
+## Common rejection reasons
+
+- `paymentStatus` value not in the defined enum → `ION-F6xxx`.
+- `disbursementDate` in the future when `paymentStatus` is `PAID` → `ION-F6xxx`.

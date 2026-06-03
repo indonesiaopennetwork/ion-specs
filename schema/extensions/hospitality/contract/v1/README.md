@@ -2,7 +2,7 @@
 > **Schema evolution note (v1.1):** This pack does not yet implement the generic/ION-specific two-schema split pattern (as established in `trade/` and `logistics/` packs). The split — separating a generic `Contract` layer (inheriting from upstream Beckn) from an `IONContract` ION-specific layer — is planned for v1.1 of this pack. This pack is pre-production; the split will be applied before any production traffic is carried on the hospitality sector. Tracked in the ION spec issue register as ION-7.
 
 **Pack:** `hospitality/contract/v1`  
-**Class:** `ion:HospitalityContract`  
+**Class:** `ion:IONHospitalityContract`  
 **Attaches to:** `Contract.contractAttributes`  
 **Sector:** Hospitality — Restaurant & Food Ordering (HSC-restaurant-ordering)  
 **Version:** v1  
@@ -69,3 +69,7 @@ See `tools/README.md` and `tools/samples/required-fields-hospitality-delivery-or
 
 `flows/hospitality/README.md` — `delivery-order` pattern
 
+## Common rejection reasons
+
+- `scheduledDeliveryTime` is in the past → `ION-D3xxx`. Scheduled delivery must be a future timestamp.
+- `deliveryInstructions` exceeds 500 characters → `ION-D8xxx`.

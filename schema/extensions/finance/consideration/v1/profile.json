@@ -8,20 +8,36 @@
   "jsonldContext": "./context.jsonld",
   "extends": "beckn:Consideration",
   "attachmentPoints": {
-    "considerationAttributes": ["LoanConsideration"]
+    "considerationAttributes": [
+      "IONLoanConsideration"
+    ]
   },
   "indexing": {
     "indexable": [
-      { "path": "$.approvedPrincipal" },
-      { "path": "$.totalFeesIDR" },
-      { "path": "$.aprEquivalent" }
+      {
+        "path": "$.approvedPrincipal"
+      },
+      {
+        "path": "$.totalFeesIDR"
+      },
+      {
+        "path": "$.aprEquivalent"
+      }
     ],
     "sortable": [
-      { "path": "$.approvedPrincipal" },
-      { "path": "$.aprEquivalent" }
+      {
+        "path": "$.approvedPrincipal"
+      },
+      {
+        "path": "$.aprEquivalent"
+      }
     ]
   },
-  "minimalForDiscovery": ["approvedPrincipal", "currency", "aprEquivalent"],
+  "minimalForDiscovery": [
+    "approvedPrincipal",
+    "currency",
+    "aprEquivalent"
+  ],
   "context": {
     "schemaContext": [
       "https://schema.ion.id/finance/consideration/v1/context.jsonld"

@@ -40,10 +40,10 @@ components:
       x-recommended-parent: Consideration.considerationAttributes
       additionalProperties: true
       allOf:
-        # LOCAL (default — active):
-        - $ref: beckn.yaml#/components/schemas/Attributes
-        # REMOTE (uncomment to use upstream directly):
-        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+        # LOCAL vendored copy (default — active):
+        - $ref: ../../../core/v2/api/v2.0.0/vendored/retail-consideration-v2.1.yaml#/components/schemas/RetailConsideration
+        # REMOTE (uncomment to validate against upstream directly):
+        # - $ref: https://raw.githubusercontent.com/beckn/local-retail/main/schema/RetailConsideration/v2.1/attributes.yaml#/components/schemas/RetailConsideration
     IONTradeConsideration:
       type: object
       x-ion-layer: ion

@@ -2,7 +2,7 @@
 > **Schema evolution note (v1.1):** This pack does not yet implement the generic/ION-specific two-schema split pattern (as established in `trade/` and `logistics/` packs). The split — separating a generic `Commitment` layer (inheriting from upstream Beckn) from an `IONCommitment` ION-specific layer — is planned for v1.1 of this pack. This pack is pre-production; the split will be applied before any production traffic is carried on the hospitality sector. Tracked in the ION spec issue register as ION-7.
 
 **Pack:** `hospitality/commitment/v1`  
-**Class:** `ion:RestaurantCommitment`  
+**Class:** `ion:IONRestaurantCommitment`  
 **Attaches to:** `Commitment.commitmentAttributes`  
 **Sector:** Hospitality — Restaurant & Food Ordering (HSC-restaurant-ordering)  
 **Version:** v1  
@@ -69,3 +69,8 @@ See `tools/README.md` and `tools/samples/required-fields-hospitality-delivery-or
 
 `flows/hospitality/README.md` — `delivery-order` pattern
 
+## Common rejection reasons
+
+- Missing `lineId` or `resourceId` → `ION-D2xxx`. Both are required at `select` step.
+- `quantity.value` is zero or negative → `ION-D2xxx`. Quantity must be ≥ 1.
+- `lockedPrice` does not match the offer price at time of selection → `ION-D3xxx`.

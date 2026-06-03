@@ -33,9 +33,9 @@ components:
       additionalProperties: true
       allOf:
         # LOCAL (default — active):
-        - $ref: beckn.yaml#/components/schemas/Attributes
+        - $ref: beckn.yaml#/components/schemas/Participant
         # REMOTE (uncomment to use upstream directly):
-        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Participant
     IONLogisticsAgent:
       type: object
       x-ion-layer: ion
@@ -50,6 +50,7 @@ components:
       x-beckn-attaches-to: Participant (direct properties — Beckn v2.0 Participant has no participantAttributes wrapper)
       properties:
         ppjkLicenceNumber:
+          x-ion-data-residency: ID
           type: string
           description: 'PPJK (Pengusaha Pengurusan Jasa Kepabeanan) licence number — Indonesian customs-broker licence.
             Governs who may file customs declarations on behalf of importers/exporters. Only applicable to the CUSTOMS_BROKER
@@ -60,6 +61,7 @@ components:
           x-ion-cross-schema-condition: true
           x-ion-condition: Required when role=CUSTOMS_BROKER
         driverLicenceNumber:
+          x-ion-data-residency: ID
           type: string
           description: SIM (Surat Izin Mengemudi) — Indonesian driving licence number
           x-ion-cross-schema-condition: true

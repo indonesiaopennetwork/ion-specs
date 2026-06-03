@@ -8,20 +8,36 @@
   "jsonldContext": "./context.jsonld",
   "extends": "beckn:Participant",
   "attachmentPoints": {
-    "participantAttributes": ["Borrower", "Lender"]
+    "participantAttributes": [
+      "IONBorrower",
+      "IONLender"
+    ]
   },
   "indexing": {
     "indexable": [
-      { "path": "$.fullName" },
-      { "path": "$.nik" },
-      { "path": "$.institutionName" },
-      { "path": "$.ojkLicenseNumber" }
+      {
+        "path": "$.fullName"
+      },
+      {
+        "path": "$.nik"
+      },
+      {
+        "path": "$.institutionName"
+      },
+      {
+        "path": "$.ojkLicenseNumber"
+      }
     ],
     "filterable": [
-      { "path": "$.@type" }
+      {
+        "path": "$.@type"
+      }
     ]
   },
-  "minimalForDiscovery": ["fullName", "nik"],
+  "minimalForDiscovery": [
+    "fullName",
+    "nik"
+  ],
   "context": {
     "schemaContext": [
       "https://schema.ion.id/finance/participant/v1/context.jsonld"

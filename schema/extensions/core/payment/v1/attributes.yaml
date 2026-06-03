@@ -493,6 +493,7 @@ components:
           description: Reminder schedule leading up to and past due date
           items:
             type: object
+            additionalProperties: false
             properties:
               daysRelativeToDueDate:
                 type: integer
@@ -610,6 +611,7 @@ components:
           description: When borneBy=SPLIT, how the fee is split
           items:
             type: object
+            additionalProperties: false
             properties:
               party:
                 type: string

@@ -86,6 +86,7 @@ components:
             '
           x-ion-condition: Required when the participant is itself an ION-registered subscriber
         npwp:
+          x-ion-data-residency: ID
           type: string
           x-ion-regulatory: PMK 112/2022 (NPWP 16-digit format transition)
           description: 'Indonesian Tax Registration Number (NPWP) — 16-digit format
@@ -100,6 +101,7 @@ components:
           description: NIB (Nomor Induk Berusaha) business registration — 13 digits
           x-ion-condition: Required for all seller/provider/merchant participants
         nik:
+          x-ion-data-residency: ID
           type: string
           description: NIK — Indonesian customs registration number for international trade
           x-ion-condition: Required for cross-border trade (Nomor Identitas Kepabeanan — customs registration number)
@@ -111,10 +113,12 @@ components:
           - NOT_APPLICABLE
           description: VAT-registered status — declared at participant onboarding
         ktpNumber:
+          x-ion-data-residency: ID
           type: string
           description: KTP national ID number (16 digits)
           x-ion-condition: Required for DRIVER role; optional for consignee verification
         passportNumber:
+          x-ion-data-residency: ID
           type: string
           x-ion-condition: Required for foreign consignees/shippers in cross-border patterns
         bankCode:
@@ -138,7 +142,9 @@ components:
               format: email
           x-ion-condition: Required for B2B contracts over materiality threshold
         addressDetail:
+          x-ion-data-residency: ID
           type: object
+          additionalProperties: true
           description: 'Full Indonesian administrative hierarchy plus landmark and accessibility metadata. Applies
             to participants with a physical location: CONSIGNOR, CONSIGNEE, SHIPPER, NOTIFY_PARTY, MERCHANT, BANK_OFFICE,
             CUSTOMS_BROKER office, buyer/seller for trade, etc.

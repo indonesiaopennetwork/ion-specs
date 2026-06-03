@@ -6,7 +6,11 @@
   "attachmentPoints": [
     "Contract.contractAttributes"
   ],
-  "className": "HospitalityContract",
+  "className": "IONHospitalityContract",
   "schemaUri": "https://schema.ion.id/hospitality/contract/v1/schema.json",
-  "contextUri": "https://schema.ion.id/hospitality/contract/v1/context.jsonld"
+  "contextUri": "https://schema.ion.id/hospitality/contract/v1/context.jsonld",
+  "minimalForDiscovery": [
+    "deliveryInstructions",
+    "scheduledDeliveryTime"
+  ]
 }

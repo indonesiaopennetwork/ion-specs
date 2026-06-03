@@ -1,13 +1,10 @@
-# consideration/v1 — Documentation Index
+# consideration/v1 — Supplementary Documentation
 
-This folder contains conceptual documentation for the `consideration` schema extension.
+This folder may contain extended conceptual notes, design decision records, and regulatory annotations for the `consideration/v1` pack.
 
-| File | Purpose |
-|---|---|
-| [01-overview.md](01-overview.md) | Loan monetary consideration, APR disclosure, POJK 6/2022 RIPLAY obligations |
-
-For field-level definitions see [`../attributes.yaml`](../attributes.yaml).
-
+**For all normative content, see:**
+- `../consideration/attributes.yaml` — field definitions
+- `../README.md` — canonical pack README (Attaches to, Network-required fields, Used in, Rejection reasons, Changelog)
 
 ## Changelog
 

@@ -2,6 +2,10 @@
 
 Indonesian address subdivisions (provinsi / kabupaten / kecamatan / kelurahan / RT / RW). Reusable shape embedded inside other ION Attributes bags — does NOT attach to Beckn's `Address` object directly.
 
+## Attaches to
+
+Used as a standalone object embedded within `Participant` (billing/delivery address), `Provider` (outlet locations), and `Performance` (delivery destination). Not an `*Attributes` extension pack — no `@context`/`@type` wrapper required.
+
 ## Why not attach to `beckn:Address`?
 
 Beckn 2.0.0's `Address` schema is `additionalProperties: false` — it has no extension slot. The Beckn fields (streetAddress, addressLocality, postalCode, addressRegion, addressCountry, extendedAddress) cover international postal-address needs and are used as-is.

@@ -8,18 +8,29 @@
   "jsonldContext": "./context.jsonld",
   "extends": "beckn:Performance",
   "attachmentPoints": {
-    "performanceAttributes": ["DisbursementPerformance"]
+    "performanceAttributes": [
+      "IONDisbursementPerformance"
+    ]
   },
   "indexing": {
     "indexable": [
-      { "path": "$.disbursementDate" },
-      { "path": "$.disbursementMethod" }
+      {
+        "path": "$.disbursementDate"
+      },
+      {
+        "path": "$.disbursementMethod"
+      }
     ],
     "filterable": [
-      { "path": "$.disbursementMethod" }
+      {
+        "path": "$.disbursementMethod"
+      }
     ]
   },
-  "minimalForDiscovery": ["disbursementMethod", "disbursementDate"],
+  "minimalForDiscovery": [
+    "disbursementMethod",
+    "disbursementDate"
+  ],
   "context": {
     "schemaContext": [
       "https://schema.ion.id/finance/performance/v1/context.jsonld"

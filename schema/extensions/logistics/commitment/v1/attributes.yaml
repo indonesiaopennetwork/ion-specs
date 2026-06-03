@@ -28,9 +28,9 @@ components:
       additionalProperties: true
       allOf:
         # LOCAL (default — active):
-        - $ref: beckn.yaml#/components/schemas/Attributes
+        - $ref: beckn.yaml#/components/schemas/Commitment
         # REMOTE (uncomment to use upstream directly):
-        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Commitment
     IONLogisticsCommitment:
       type: object
       x-ion-layer: ion
@@ -58,6 +58,7 @@ components:
           description: Number of packages in this commitment line
         totalWeight:
           type: object
+          additionalProperties: true
           properties:
             value:
               type: number
@@ -69,6 +70,7 @@ components:
                 - TONNE
         totalVolume:
           type: object
+          additionalProperties: true
           properties:
             value:
               type: number

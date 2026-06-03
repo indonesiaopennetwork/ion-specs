@@ -25,18 +25,19 @@ components:
       type: object
       title: RestaurantOffer
       description: >
-        Network-agnostic generic layer. Inherits from Beckn core Attributes.
+        Network-agnostic generic layer for RestaurantOffer. Inherits from FoodAndBeverageOffer v2.1.
         ION-specific layer (IONRestaurantOffer) extends this via allOf.
+        Upstream: schema.beckn.io/FoodAndBeverageOffer v2.1 (Offer.offerAttributes).
       x-ion-layer: generic
       x-ion-split-version: "0.7.0"
       x-recommended-parent: Offer.offerAttributes
       additionalProperties: true
       allOf:
-        # LOCAL (default — active):
-        - $ref: beckn.yaml#/components/schemas/Attributes
-        # REMOTE (uncomment to use upstream directly):
-        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
-    RestaurantOffer:
+        # LOCAL vendored copy (default — active):
+        - $ref: ../../../core/v2/api/v2.0.0/vendored/food-and-beverage-offer-v2.1.yaml#/components/schemas/FoodAndBeverageOffer
+        # REMOTE (uncomment to validate against upstream directly):
+        # - $ref: https://raw.githubusercontent.com/beckn/local-retail/main/schema/FoodAndBeverageOffer/v2.1/attributes.yaml#/components/schemas/FoodAndBeverageOffer
+    IONRestaurantOffer:
       type: object
       x-ion-layer: ion
       x-ion-split-version: "0.7.0"
@@ -51,7 +52,7 @@ components:
       x-beckn-attaches-to: Offer.offerAttributes
       x-jsonld:
         '@context': 'https://schema.ion.id/hospitality/offer/v1/context.jsonld'
-        '@type': ion:RestaurantOffer
+        '@type': ion:IONRestaurantOffer
       allOf:
         - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
 

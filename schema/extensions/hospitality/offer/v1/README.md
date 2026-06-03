@@ -2,7 +2,7 @@
 > **Schema evolution note (v1.1):** This pack does not yet implement the generic/ION-specific two-schema split pattern (as established in `trade/` and `logistics/` packs). The split — separating a generic `Offer` layer (inheriting from upstream Beckn) from an `IONOffer` ION-specific layer — is planned for v1.1 of this pack. This pack is pre-production; the split will be applied before any production traffic is carried on the hospitality sector. Tracked in the ION spec issue register as ION-7.
 
 **Pack:** `hospitality/offer/v1`  
-**Class:** `ion:RestaurantOffer`  
+**Class:** `ion:IONRestaurantOffer`  
 **Attaches to:** `Offer.offerAttributes`  
 **Sector:** Hospitality — Restaurant & Food Ordering (HSC-restaurant-ordering)  
 **Version:** v1  
@@ -69,3 +69,7 @@ See `tools/README.md` and `tools/samples/required-fields-hospitality-delivery-or
 
 `flows/hospitality/README.md` — `delivery-order` pattern
 
+## Common rejection reasons
+
+- `priceModel` enum value not recognised → `ION-D8xxx`. Use values from `x-ion-suggested-values` in `attributes.yaml`.
+- `deliveryFeeAmount` present but `deliveryFeeModel` is `FREE` → `ION-D8xxx`. Contradictory fields.

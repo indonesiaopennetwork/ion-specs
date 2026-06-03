@@ -3,7 +3,7 @@
 
 Attaches to: **`Consideration.considerationAttributes`**
 
-Schema: `LoanConsideration` — the monetary value exchanged under the credit contract (principal disbursed plus fees).
+Schema: `IONLoanConsideration` — the monetary value exchanged under the credit contract (principal disbursed plus fees).
 
 ## Fields
 

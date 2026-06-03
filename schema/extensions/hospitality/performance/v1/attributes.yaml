@@ -35,10 +35,10 @@ components:
       additionalProperties: true
       allOf:
         # LOCAL (default — active):
-        - $ref: beckn.yaml#/components/schemas/Attributes
+        - $ref: beckn.yaml#/components/schemas/Performance
         # REMOTE (uncomment to use upstream directly):
-        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
-    RestaurantPerformance:
+        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Performance
+    IONRestaurantPerformance:
       type: object
       x-ion-layer: ion
       x-ion-split-version: "0.7.0"
@@ -53,7 +53,7 @@ components:
       x-beckn-attaches-to: Performance.performanceAttributes
       x-jsonld:
         '@context': 'https://schema.ion.id/hospitality/performance/v1/context.jsonld'
-        '@type': ion:RestaurantPerformance
+        '@type': ion:IONRestaurantPerformance
       allOf:
         - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
 

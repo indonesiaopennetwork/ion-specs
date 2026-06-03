@@ -6,7 +6,11 @@
   "attachmentPoints": [
     "Performance.performanceAttributes"
   ],
-  "className": "RestaurantPerformance",
+  "className": "IONRestaurantPerformance",
   "schemaUri": "https://schema.ion.id/hospitality/performance/v1/schema.json",
-  "contextUri": "https://schema.ion.id/hospitality/performance/v1/context.jsonld"
+  "contextUri": "https://schema.ion.id/hospitality/performance/v1/context.jsonld",
+  "minimalForDiscovery": [
+    "kitchenState",
+    "estimatedReadyAt"
+  ]
 }

@@ -27,10 +27,10 @@ components:
       x-recommended-parent: Consideration.considerationAttributes
       additionalProperties: true
       allOf:
-        # LOCAL (default — active):
-        - $ref: beckn.yaml#/components/schemas/Attributes
-        # REMOTE (uncomment to use upstream directly):
-        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+        # LOCAL vendored copy (default — active):
+        - $ref: ../../../core/v2/api/v2.0.0/vendored/logistics-fare-v2.0.yaml#/components/schemas/LogisticsFare
+        # REMOTE (uncomment to validate against upstream directly):
+        # - $ref: https://raw.githubusercontent.com/beckn/schemas/main/schema/LogisticsFare/v2.0/attributes.yaml#/components/schemas/LogisticsFare
     IONLogisticsConsideration:
       type: object
       x-ion-layer: ion
@@ -52,6 +52,7 @@ components:
             and description. Replaces the pre-v2.0 breakup[] field.
           items:
             type: object
+            additionalProperties: true
             properties:
               type:
                 type: string
@@ -202,6 +203,7 @@ components:
           description: Breakup of the revised amount
           items:
             type: object
+            additionalProperties: true
             properties:
               type:
                 type: string

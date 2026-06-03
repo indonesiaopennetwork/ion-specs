@@ -6,7 +6,13 @@
   "attachmentPoints": [
     "Commitment.commitmentAttributes"
   ],
-  "className": "RestaurantCommitment",
+  "className": "IONRestaurantCommitment",
   "schemaUri": "https://schema.ion.id/hospitality/commitment/v1/schema.json",
-  "contextUri": "https://schema.ion.id/hospitality/commitment/v1/context.jsonld"
+  "contextUri": "https://schema.ion.id/hospitality/commitment/v1/context.jsonld",
+  "minimalForDiscovery": [
+    "lineId",
+    "resourceId",
+    "offerId",
+    "quantity"
+  ]
 }

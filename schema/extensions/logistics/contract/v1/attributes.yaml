@@ -28,9 +28,9 @@ components:
       additionalProperties: true
       allOf:
         # LOCAL (default — active):
-        - $ref: beckn.yaml#/components/schemas/Attributes
+        - $ref: beckn.yaml#/components/schemas/Contract
         # REMOTE (uncomment to use upstream directly):
-        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Contract
     IONLogisticsContract:
       type: object
       x-ion-layer: ion
@@ -484,6 +484,7 @@ components:
               - DISPOSAL
             destinationAddress:
               type: object
+              additionalProperties: true
         incoterms:
           type: string
           enum:

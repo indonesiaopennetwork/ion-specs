@@ -29,9 +29,9 @@ components:
       additionalProperties: true
       allOf:
         # LOCAL (default — active):
-        - $ref: beckn.yaml#/components/schemas/Attributes
+        - $ref: beckn.yaml#/components/schemas/Performance
         # REMOTE (uncomment to use upstream directly):
-        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Performance
     IONLogisticsPerformance:
       type: object
       x-ion-layer: ion
@@ -379,6 +379,7 @@ components:
                     type: string
                   address:
                     type: object
+                    additionalProperties: true
               carrierId:
                 type: string
                 description: ION subscriber ID of the actual performing carrier for this leg
@@ -674,6 +675,7 @@ components:
           x-ion-condition: Required for warehouse storage patterns (LGC-WH)
         rtsNotificationRouting:
           type: object
+          additionalProperties: true
           description: 'Routing metadata when the RTS signal must cross BPP boundaries. Warehouse BPP emits /on_status[READY_FOR_PICKUP]
             on the transport contract (which it does not own) by first notifying ION Gateway, which forwards to
             the transport BPP.
@@ -697,6 +699,7 @@ components:
                 '
             handoffEvidence:
               type: object
+              additionalProperties: true
               description: 'Evidence captured at the BPP-to-BPP handoff, used for accountability when the warehouse-to-transport
                 handoff itself fails (e.g. rider arrived but package wasn''t ready, or transport system didn''t
                 receive the RTS signal).

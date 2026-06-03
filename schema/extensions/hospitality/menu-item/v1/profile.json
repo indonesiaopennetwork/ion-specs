@@ -1,0 +1,58 @@
+{
+  "id": "ion-hospitality-menu-item-v1",
+  "version": "1.0.0",
+  "domain": "hospitality",
+  "type": "AttributePack",
+  "name": "ION Hospitality Menu Item Extension (v1)",
+  "description": "Prepared food and beverage item attributes for restaurant delivery and self-pickup. Covers both HSC-restaurant-ordering and HSC-fnb-delivery CRCs.",
+  "packSchema": "./schema.json",
+  "jsonldContext": "./context.jsonld",
+  "extends": "beckn:Resource",
+  "attachmentPoints": {
+    "resourceAttributes": [
+      "IONMenuItem"
+    ]
+  },
+  "ionResourceCategories": [
+    "HSC-restaurant-ordering",
+    "HSC-fnb-delivery"
+  ],
+  "indexing": {
+    "indexable": [
+      {
+        "path": "$.fnb.classification"
+      },
+      {
+        "path": "$.menuCategory"
+      },
+      {
+        "path": "$.availability"
+      },
+      {
+        "path": "$.logisticsServiceType"
+      }
+    ],
+    "filterable": [
+      {
+        "path": "$.fnb.classification"
+      },
+      {
+        "path": "$.logisticsServiceType"
+      }
+    ],
+    "sortable": []
+  },
+  "minimalForDiscovery": [
+    "images",
+    "availability",
+    "fnb.classification",
+    "fnb.allergens",
+    "menuCategory",
+    "preparationTime"
+  ],
+  "x-ion-layer": {
+    "generic": "MenuItem",
+    "ion": "IONMenuItem",
+    "splitVersion": "0.7.0"
+  }
+}

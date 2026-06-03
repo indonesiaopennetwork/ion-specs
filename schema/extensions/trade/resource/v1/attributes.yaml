@@ -28,10 +28,10 @@ components:
       x-recommended-parent: Resource.resourceAttributes
       additionalProperties: true
       allOf:
-        # LOCAL (default — active):
-        - $ref: beckn.yaml#/components/schemas/Attributes
-        # REMOTE (uncomment to use upstream directly):
-        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+        # LOCAL vendored copy (default — active):
+        - $ref: ../../../core/v2/api/v2.0.0/vendored/retail-resource-v2.1.yaml#/components/schemas/RetailResource
+        # REMOTE (uncomment to validate against upstream directly):
+        # - $ref: https://raw.githubusercontent.com/beckn/local-retail/main/schema/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource
     IONTradeResource:
       type: object
       additionalProperties: true
@@ -39,7 +39,7 @@ components:
       x-ion-split-version: "0.7.0"
       allOf:
         - $ref: '#/components/schemas/TradeResource'
-      description: Language-keyed text. "id" always required. "en" required for cross-border pattern.
+      description: ION Trade sector resource attributes. Attaches to Resource.resourceAttributes.
       minProperties: 1
       additionalProperties:
         type: string
@@ -62,14 +62,6 @@ components:
       example:
         id: Nasi Goreng Spesial
         en: Special Fried Rice
-      # NETWORK POLICY NOTE (GAP 32 / NFH-012 CON-012-18):
-      # Shared schemas MUST NOT declare mandatory fields.
-      # The following fields were required in v0.6.0 and are now
-      # enforced via ION network policy (x-ion-crc-rules,
-      # x-ion-conditional-rules) rather than the shared schema:
-      # id
-    TradeResource:
-      type: object
       title: TradeResource
       additionalProperties: true
       x-jsonld:
@@ -95,33 +87,6 @@ components:
             in Descriptor.longDesc.
           x-ion-condition: Required at catalog/publish for all resource types
 
-        quantity:
-          type: object
-          title: Quantity of this resource on the order line
-          additionalProperties: false
-          properties:
-            value:
-              type: number
-              minimum: 0
-              description: Numeric quantity — may be fractional for weight-based goods
-            unit:
-              type: string
-              enum:
-                - PIECE
-                - PACK
-                - BOX
-                - CARTON
-                - KILOGRAM
-                - GRAM
-                - LITRE
-                - MILLILITRE
-                - SUBSCRIPTION
-                - VOUCHER
-                - TOPUP
-              description: Unit of measure appropriate to what is being ordered
-          required:
-          - value
-          - unit
         resourceStructure:
           type: string
           enum:
@@ -1465,3 +1430,9 @@ components:
       # x-ion-conditional-rules) rather than the shared schema:
       # quantity, resourceStructure, resourceTangibility, images, logisticsServiceType, availability, ageRestricted, countryOfOrigin
       x-ion-closed-extensions: false
+      # NETWORK POLICY NOTE (GAP 32 / NFH-012 CON-012-18):
+      # Shared schemas MUST NOT declare mandatory fields.
+      # The following fields were required in v0.6.0 and are now
+      # enforced via ION network policy (x-ion-crc-rules,
+      # x-ion-conditional-rules) rather than the shared schema:
+      # id

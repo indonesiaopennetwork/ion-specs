@@ -1,13 +1,10 @@
-# offer/v1 — Documentation Index
+# offer/v1 — Supplementary Documentation
 
-This folder contains conceptual documentation for the `offer` schema extension.
+This folder may contain extended conceptual notes, design decision records, and regulatory annotations for the `offer/v1` pack.
 
-| File | Purpose |
-|---|---|
-| [01-overview.md](01-overview.md) | Conceptual overview, offer lifecycle, and POJK 6/2022 disclosure rules |
-
-For field-level definitions see [`../attributes.yaml`](../attributes.yaml).
-
+**For all normative content, see:**
+- `../offer/attributes.yaml` — field definitions
+- `../README.md` — canonical pack README (Attaches to, Network-required fields, Used in, Rejection reasons, Changelog)
 
 ## Changelog
 

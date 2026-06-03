@@ -101,6 +101,7 @@ components:
 
     IonLocalization:
       type: object
+      additionalProperties: true
       x-ion-layer: ion
       x-ion-split-version: "0.7.0"
       x-ion-native: true

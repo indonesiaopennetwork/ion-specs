@@ -28,9 +28,9 @@ components:
       additionalProperties: true
       allOf:
         # LOCAL (default — active):
-        - $ref: beckn.yaml#/components/schemas/Attributes
+        - $ref: beckn.yaml#/components/schemas/Provider
         # REMOTE (uncomment to use upstream directly):
-        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Provider
     IONTradeProvider:
       type: object
       x-ion-layer: ion
@@ -160,6 +160,7 @@ components:
                 example: food-qsr
               geo:
                 type: object
+                additionalProperties: true
                 description: GeoJSON Polygon defining delivery zone
                 x-format: GeoJSONGeometry (RFC 7946)
             required:

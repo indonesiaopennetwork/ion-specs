@@ -31,3 +31,19 @@ The exception is tracked in the ION spec issue register.
 ## Changelog
 
 - v1 — Initial release, 2026-06-02. State machine for ION trade performance lifecycle.
+
+## Attaches to
+
+Not an Attributes pack. This is a state machine reference document. It does not attach to any Beckn core object directly. Referenced by trade flow patterns via `stateMachine:` field in `pattern.yaml`.
+
+## Network-required fields
+
+Not applicable — this pack defines states, not attributes.
+
+## Used in
+
+`flows/trade/README.md` — all trade patterns that carry `performanceAttributes`
+
+## Common rejection reasons
+
+Not applicable — this pack is a reference document, not validated by ONIX at runtime.

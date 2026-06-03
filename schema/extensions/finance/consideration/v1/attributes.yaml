@@ -27,10 +27,10 @@ components:
       additionalProperties: true
       allOf:
         # LOCAL (default — active):
-        - $ref: beckn.yaml#/components/schemas/Attributes
+        - $ref: beckn.yaml#/components/schemas/Consideration
         # REMOTE (uncomment to use upstream directly):
-        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
-    LoanConsideration:
+        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Consideration
+    IONLoanConsideration:
       type: object
       x-ion-layer: ion
       x-ion-split-version: "0.7.0"
@@ -41,7 +41,7 @@ components:
         Beckn Contract.consideration[] with considerationAttributes["@type"] = "ion:LoanConsideration".
       x-jsonld:
         '@context': ./context.jsonld
-        '@type': ion:LoanConsideration
+        '@type': ion:IONLoanConsideration
       x-beckn-attaches-to: Consideration.considerationAttributes
       additionalProperties: true
       # required: removed — mandatoriness declared in x-ion-field-requirements network policy

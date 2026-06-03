@@ -8,31 +8,67 @@
   "jsonldContext": "./context.jsonld",
   "extends": "beckn:Contract",
   "attachmentPoints": {
-    "contractAttributes": ["LoanAgreement"]
+    "contractAttributes": [
+      "IONCreditContract"
+    ]
   },
   "indexing": {
     "indexable": [
-      { "path": "$.contractNumber" },
-      { "path": "$.loanAccountNumber" },
-      { "path": "$.agreementDate" },
-      { "path": "$.maturityDate" },
-      { "path": "$.loanStatus" },
-      { "path": "$.loanTerms.approvedPrincipal" },
-      { "path": "$.loanTerms.effectiveRatePercent" },
-      { "path": "$.loanTerms.tenorMonths" },
-      { "path": "$.loanTerms.outstandingPrincipal" }
+      {
+        "path": "$.contractNumber"
+      },
+      {
+        "path": "$.loanAccountNumber"
+      },
+      {
+        "path": "$.agreementDate"
+      },
+      {
+        "path": "$.maturityDate"
+      },
+      {
+        "path": "$.loanStatus"
+      },
+      {
+        "path": "$.loanTerms.approvedPrincipal"
+      },
+      {
+        "path": "$.loanTerms.effectiveRatePercent"
+      },
+      {
+        "path": "$.loanTerms.tenorMonths"
+      },
+      {
+        "path": "$.loanTerms.outstandingPrincipal"
+      }
     ],
     "filterable": [
-      { "path": "$.loanStatus" },
-      { "path": "$.loanTerms.yieldType" },
-      { "path": "$.loanTerms.calculationMethod" }
+      {
+        "path": "$.loanStatus"
+      },
+      {
+        "path": "$.loanTerms.yieldType"
+      },
+      {
+        "path": "$.loanTerms.calculationMethod"
+      }
     ],
     "sortable": [
-      { "path": "$.agreementDate" },
-      { "path": "$.maturityDate" },
-      { "path": "$.loanTerms.approvedPrincipal" },
-      { "path": "$.loanTerms.effectiveRatePercent" },
-      { "path": "$.loanTerms.outstandingPrincipal" }
+      {
+        "path": "$.agreementDate"
+      },
+      {
+        "path": "$.maturityDate"
+      },
+      {
+        "path": "$.loanTerms.approvedPrincipal"
+      },
+      {
+        "path": "$.loanTerms.effectiveRatePercent"
+      },
+      {
+        "path": "$.loanTerms.outstandingPrincipal"
+      }
     ]
   },
   "minimalForDiscovery": [

@@ -6,5 +6,6 @@
   "sector": "ion:trade",
   "description": "Canonical state machine definitions for all ION Trade patterns. Referenced by pattern definitions via stateMachine: field. Not an attribute pack \u2014 has no Beckn attachment point.",
   "stateDefinitions": "./states.yaml",
-  "status": "ready"
+  "status": "ready",
+  "minimalForDiscovery": []
 }

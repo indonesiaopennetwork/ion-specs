@@ -1,13 +1,13 @@
 
 ## Minimum for your first integration
 
-**Hospitality BPP (food delivery, delivery-order pattern):** You must implement at minimum `delivery/v1` (or `fnb-delivery/v1`) plus `commitment/v1`, `consideration/v1`, and `performance/v1` to pass ONIX validation. `contract/v1` is required after `/confirm`.
+**Hospitality BPP (food menu-item, menu-item-order pattern):** You must implement at minimum `menu-item/v1` (or `fnb-menu-item/v1`) plus `commitment/v1`, `consideration/v1`, and `performance/v1` to pass ONIX validation. `contract/v1` is required after `/confirm`.
 
-**Hospitality BAP (food ordering app):** You must be able to read `delivery/v1` (or `fnb-delivery/v1`), `offer/v1`, and `consideration/v1`.
+**Hospitality BAP (food ordering app):** You must be able to read `menu-item/v1` (or `fnb-menu-item/v1`), `offer/v1`, and `consideration/v1`.
 
 # ION Hospitality Extension Packs
 
-Hospitality sector (Layer 5) attribute packs. Covers time-bounded reservations and prepared food delivery.
+Hospitality sector (Layer 5) attribute packs. Covers time-bounded reservations and prepared food menu-item.
 
 **Sector principle:** buyer reserves or consumes an experience, not a physical good.
 
@@ -15,7 +15,7 @@ Hospitality sector (Layer 5) attribute packs. Covers time-bounded reservations a
 
 | Pack | CRC | Attaches to | Status |
 |---|---|---|---|
-| `delivery/v1` | `HSC-restaurant-ordering` | `Resource.resourceAttributes` | **ACTIVE** — food delivery and online ordering |
+| `menu-item/v1` | `HSC-restaurant-ordering` | `Resource.resourceAttributes` | **ACTIVE** — food menu-item and online ordering |
 
 ## Reserved packs (working groups pending)
 
@@ -33,7 +33,7 @@ Hospitality (`HSC-restaurant-ordering`) covers prepared food made to order. Trad
 | Item | Sector | CRC |
 |---|---|---|
 | Nasi goreng from GoFood/GrabFood | Hospitality | `HSC-restaurant-ordering` |
-| Restaurant meal for delivery | Hospitality | `HSC-restaurant-ordering` |
+| Restaurant meal for menu-item | Hospitality | `HSC-restaurant-ordering` |
 | Packaged Indomie from Tokopedia | Trade | `TRC-food-bev` |
 | AQUA 600ml from apotek | Trade | `TRC-food-bev` |
 | Protein powder supplement | Trade | `TRC-food-bev` |

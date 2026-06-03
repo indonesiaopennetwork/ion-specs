@@ -69,7 +69,7 @@ x-ion-profile:
       logistics/provider: v1
       logistics/resource: v1
       logistics/tracking: v1
-      hospitality/delivery: v1
+      hospitality/menu-item: v1
     policies:
       return: v1
       cancellation: v1
@@ -302,7 +302,7 @@ x-ion-profile:
           reason: Three-component name — renamed per NFH-012 naming rules
         - oldName: FnbMenuItem
           newName: FnbItem
-          owl:sameAs: https://schema.ion.id/hospitality/fnb-delivery/v1#FnbItem
+          owl:sameAs: https://schema.ion.id/hospitality/menu-item/v1#FnbItem
           renamedIn: 0.7.0
           reason: Three-component name — renamed per NFH-012 naming rules
   x-ion-actions:
@@ -415,6 +415,7 @@ x-ion-profile:
       Council decision. All entries pinned on 2026-06-02.
     upgradePolicy: ION_COUNCIL_DECISION_REQUIRED
     pinnedAt: 2026-06-02
+    referenceDoc: docs/ION_Upstream_Dependency_Map.md
     dependencies:
       - ionSchema: Address
         upstreamSchema: Address
@@ -429,6 +430,7 @@ x-ion-profile:
         upstreamSchema: Payment
         upstreamVersion: v2.0
         ionNative: false
+        vendoredFile: vendored/payment-v2.0.yaml
       - ionSchema: Participant
         upstreamSchema: Participant
         upstreamVersion: v2.0
@@ -454,38 +456,51 @@ x-ion-profile:
         upstreamSchema: RetailResource
         upstreamVersion: v2.1
         ionNative: false
+        vendoredFile: vendored/retail-resource-v2.1.yaml
       - ionSchema: TradeOffer
         upstreamSchema: RetailOffer
         upstreamVersion: v2.1
         ionNative: false
+        vendoredFile: vendored/retail-offer-v2.1.yaml
       - ionSchema: TradeCommitment
         upstreamSchema: RetailCommitment
         upstreamVersion: v2.1
         ionNative: false
+        vendoredFile: vendored/retail-commitment-v2.1.yaml
       - ionSchema: TradeConsideration
         upstreamSchema: RetailConsideration
         upstreamVersion: v2.1
         ionNative: false
+        vendoredFile: vendored/retail-consideration-v2.1.yaml
       - ionSchema: TradeContract
         upstreamSchema: RetailContract
         upstreamVersion: v2.1
         ionNative: false
+        vendoredFile: vendored/retail-contract-v2.1.yaml
       - ionSchema: TradePerformance
         upstreamSchema: RetailPerformance
         upstreamVersion: v2.1
         ionNative: false
+        vendoredFile: vendored/retail-performance-v2.1.yaml
       - ionSchema: TradeProvider
         upstreamSchema: Provider
         upstreamVersion: v2.1
         ionNative: false
+      - ionSchema: TradeSettlement
+        upstreamSchema: RetailSettlement
+        upstreamVersion: v2.1
+        ionNative: false
+        vendoredFile: vendored/retail-settlement-v2.1.yaml
       - ionSchema: LogisticsResource
         upstreamSchema: Shipment
         upstreamVersion: v2.0
         ionNative: false
+        vendoredFile: vendored/shipment-v2.0.yaml
       - ionSchema: LogisticsOffer
         upstreamSchema: LogisticsModule
         upstreamVersion: v2.0
         ionNative: false
+        vendoredFile: vendored/logistics-v2.0.yaml
       - ionSchema: LogisticsCommitment
         upstreamSchema: Commitment
         upstreamVersion: v2.0
@@ -494,6 +509,7 @@ x-ion-profile:
         upstreamSchema: LogisticsFare
         upstreamVersion: v2.0
         ionNative: false
+        vendoredFile: vendored/logistics-fare-v2.0.yaml
       - ionSchema: LogisticsContract
         upstreamSchema: Contract
         upstreamVersion: v2.0
@@ -506,6 +522,7 @@ x-ion-profile:
         upstreamSchema: LogisticsOperator
         upstreamVersion: v2.0
         ionNative: false
+        vendoredFile: vendored/logistics-operator-v2.0.yaml
       - ionSchema: LogisticsAgent
         upstreamSchema: Participant
         upstreamVersion: v2.0
@@ -515,18 +532,85 @@ x-ion-profile:
         upstreamSchema: Tracking
         upstreamVersion: v2.1
         ionNative: false
-      - ionSchema: HospitalityDelivery
-        upstreamSchema: Offer
+      - ionSchema: MenuItem
+        upstreamSchema: FoodAndBeverageResource
         upstreamVersion: v2.1
         ionNative: false
-        status: TEMPORARY
-        reason: >
-          Pending validation of trade/logistics two-schema split pattern in production.
-          FoodAndBeverageOffer v2.1 is the intended upstream once pattern is confirmed stable.
-        targetUpstream:
-          schema: FoodAndBeverageOffer
-          version: v2.1
-          condition: After trade and logistics split pattern validated in production
+        vendoredFile: vendored/food-and-beverage-resource-v2.1.yaml
+        note: >
+          Merged from hospitality/menu-item and hospitality/menu-item.
+          Serves both HSC-restaurant-ordering and HSC-fnb-delivery CRCs.
+      - ionSchema: RestaurantOffer
+        upstreamSchema: FoodAndBeverageOffer
+        upstreamVersion: v2.1
+        ionNative: false
+        vendoredFile: vendored/food-and-beverage-offer-v2.1.yaml
+      - ionSchema: RestaurantProvider
+        upstreamSchema: Provider
+        upstreamVersion: v2.1
+        ionNative: false
+        note: >
+          No FoodAndBeverage-specific provider schema exists at schema.beckn.io.
+          RestaurantProvider inherits directly from beckn.yaml#Provider.
+      - ionSchema: HospitalityConsideration
+        upstreamSchema: Consideration
+        upstreamVersion: v2.0
+        ionNative: false
+      - ionSchema: HospitalityContract
+        upstreamSchema: Contract
+        upstreamVersion: v2.0
+        ionNative: false
+      - ionSchema: RestaurantCommitment
+        upstreamSchema: Commitment
+        upstreamVersion: v2.0
+        ionNative: false
+      - ionSchema: RestaurantPerformance
+        upstreamSchema: Performance
+        upstreamVersion: v2.0
+        ionNative: false
+      - ionSchema: RestaurantOffer
+        upstreamSchema: FoodAndBeverageOffer
+        upstreamVersion: v2.1
+        ionNative: false
+        vendoredFile: vendored/food-and-beverage-offer-v2.1.yaml
+      - ionSchema: MenuItem
+        upstreamSchema: FoodAndBeverageResource
+        upstreamVersion: v2.1
+        ionNative: false
+        vendoredFile: vendored/food-and-beverage-resource-v2.1.yaml
+      - ionSchema: RestaurantProvider
+        upstreamSchema: Provider
+        upstreamVersion: v2.1
+        ionNative: false
+        note: No FoodAndBeverage provider schema exists at schema.beckn.io.
+      - ionSchema: AmortisationRow
+        upstreamSchema: Settlement
+        upstreamVersion: v2.0
+        ionNative: false
+      - ionSchema: Borrower
+        upstreamSchema: Participant
+        upstreamVersion: v2.0
+        ionNative: false
+      - ionSchema: CreditContract
+        upstreamSchema: Contract
+        upstreamVersion: v2.0
+        ionNative: false
+      - ionSchema: CreditOffer
+        upstreamSchema: Offer
+        upstreamVersion: v2.0
+        ionNative: false
+      - ionSchema: CreditProduct
+        upstreamSchema: Resource
+        upstreamVersion: v2.0
+        ionNative: false
+      - ionSchema: DisbursementPerformance
+        upstreamSchema: Performance
+        upstreamVersion: v2.0
+        ionNative: false
+      - ionSchema: LoanConsideration
+        upstreamSchema: Consideration
+        upstreamVersion: v2.0
+        ionNative: false
     ionNativeSchemas:
       description: >
         These schemas have no upstream beckn/schemas parent — they are ION-native
@@ -837,32 +921,38 @@ x-ion-profile:
       - code: HSC-accommodation
         name: Accommodation
         sector: hospitality
-        status: ACTIVE
-        attributePack: schema/extensions/hospitality/delivery/v1
+        status: INACTIVE
+        attributePack: null  # pending hospitality sector expansion beyond food delivery
         requiredSubObject: null
       - code: HSC-restaurant
         name: Restaurant & Dining
         sector: hospitality
         status: ACTIVE
-        attributePack: schema/extensions/hospitality/delivery/v1
+        attributePack: schema/extensions/hospitality/menu-item/v1
         requiredSubObject: null
       - code: HSC-restaurant-ordering
         name: Restaurant & Food Ordering
         sector: hospitality
         status: ACTIVE
-        attributePack: schema/extensions/hospitality/delivery/v1
+        attributePack: schema/extensions/hospitality/menu-item/v1
         requiredSubObject: null
       - code: HSC-events
         name: Events & Experiences
         sector: hospitality
-        status: ACTIVE
-        attributePack: schema/extensions/hospitality/delivery/v1
+        status: INACTIVE
+        attributePack: null  # pending hospitality sector expansion beyond food delivery
         requiredSubObject: null
+      - code: HSC-fnb-delivery
+        name: Food & Beverage Delivery
+        sector: hospitality
+        status: ACTIVE
+        attributePack: schema/extensions/hospitality/menu-item/v1
+        requiredSubObject: fnb
       - code: HSC-wellness
         name: Recreation & Wellness
         sector: hospitality
-        status: ACTIVE
-        attributePack: schema/extensions/hospitality/delivery/v1
+        status: INACTIVE
+        attributePack: null  # pending hospitality sector expansion beyond food delivery
         requiredSubObject: null
       # Logistics CRCs (LGC)
       - code: LGC-lastmile

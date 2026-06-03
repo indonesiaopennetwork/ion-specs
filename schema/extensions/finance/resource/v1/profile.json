@@ -8,38 +8,88 @@
   "jsonldContext": "./context.jsonld",
   "extends": "beckn:Resource",
   "attachmentPoints": {
-    "resourceAttributes": ["CreditProduct"]
+    "resourceAttributes": [
+      "IONCreditProduct"
+    ]
   },
   "indexing": {
     "indexable": [
-      { "path": "$.productIdentity.productType" },
-      { "path": "$.productIdentity.financeType" },
-      { "path": "$.productIdentity.institutionName" },
-      { "path": "$.productIdentity.institutionType" },
-      { "path": "$.principalRange.minimum.value" },
-      { "path": "$.principalRange.maximum.value" },
-      { "path": "$.tenor.minimum" },
-      { "path": "$.tenor.maximum" },
-      { "path": "$.costOfFund.yieldType" },
-      { "path": "$.costOfFund.rateMinPercent" },
-      { "path": "$.costOfFund.rateMaxPercent" },
-      { "path": "$.borrowerCriteria.serviceRegions[*]" },
-      { "path": "$.borrowerCriteria.applicantTypes[*]" }
+      {
+        "path": "$.productIdentity.productType"
+      },
+      {
+        "path": "$.productIdentity.financeType"
+      },
+      {
+        "path": "$.productIdentity.institutionName"
+      },
+      {
+        "path": "$.productIdentity.institutionType"
+      },
+      {
+        "path": "$.principalRange.minimum.value"
+      },
+      {
+        "path": "$.principalRange.maximum.value"
+      },
+      {
+        "path": "$.tenor.minimum"
+      },
+      {
+        "path": "$.tenor.maximum"
+      },
+      {
+        "path": "$.costOfFund.yieldType"
+      },
+      {
+        "path": "$.costOfFund.rateMinPercent"
+      },
+      {
+        "path": "$.costOfFund.rateMaxPercent"
+      },
+      {
+        "path": "$.borrowerCriteria.serviceRegions[*]"
+      },
+      {
+        "path": "$.borrowerCriteria.applicantTypes[*]"
+      }
     ],
     "filterable": [
-      { "path": "$.productIdentity.productType" },
-      { "path": "$.productIdentity.financeType" },
-      { "path": "$.productIdentity.currency" },
-      { "path": "$.productIdentity.institutionType" },
-      { "path": "$.costOfFund.yieldType" },
-      { "path": "$.costOfFund.calculationMethod" },
-      { "path": "$.collateral.required" },
-      { "path": "$.borrowerCriteria.serviceRegions[*]" },
-      { "path": "$.governmentProgram.programType" }
+      {
+        "path": "$.productIdentity.productType"
+      },
+      {
+        "path": "$.productIdentity.financeType"
+      },
+      {
+        "path": "$.productIdentity.currency"
+      },
+      {
+        "path": "$.productIdentity.institutionType"
+      },
+      {
+        "path": "$.costOfFund.yieldType"
+      },
+      {
+        "path": "$.costOfFund.calculationMethod"
+      },
+      {
+        "path": "$.collateral.required"
+      },
+      {
+        "path": "$.borrowerCriteria.serviceRegions[*]"
+      },
+      {
+        "path": "$.governmentProgram.programType"
+      }
     ],
     "sortable": [
-      { "path": "$.costOfFund.rateMinPercent" },
-      { "path": "$.principalRange.maximum.value" }
+      {
+        "path": "$.costOfFund.rateMinPercent"
+      },
+      {
+        "path": "$.principalRange.maximum.value"
+      }
     ]
   },
   "minimalForDiscovery": [

@@ -36,3 +36,25 @@ Carries the payment method declaration, instrument detail, and refund lifecycle 
 | Version | Date | Summary |
 |---|---|---|
 | v1 | 2026-06-02 | Initial release |
+
+## Network-required fields
+
+Enforced by ONIX at `confirm` and `on_confirm`:
+
+| Field | Condition |
+|---|---|
+| `method` | Always required |
+| `paymentRail` | Always required |
+| `collectedBy` | Always required |
+
+For the full step-by-step list: `python tools/ion_required_fields.py --sector trade --pattern storefront --crc TRC-fashion`
+
+## Used in
+
+`flows/trade/README.md` — all trade patterns (storefront, made-to-order, subscription)
+
+## Common rejection reasons
+
+- `method` not in the declared payment method set for the network → `ION-A6xxx`.
+- `paymentRail` and `method` combination not supported → `ION-A6xxx`. E.g. `method: QRIS` requires `paymentRail: QRIS`.
+- `collectedBy` value is neither `BAP` nor `BPP` → `ION-A8xxx`.

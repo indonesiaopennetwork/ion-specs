@@ -6,7 +6,12 @@
   "attachmentPoints": [
     "Consideration.considerationAttributes"
   ],
-  "className": "HospitalityConsideration",
+  "className": "IONHospitalityConsideration",
   "schemaUri": "https://schema.ion.id/hospitality/consideration/v1/schema.json",
-  "contextUri": "https://schema.ion.id/hospitality/consideration/v1/context.jsonld"
+  "contextUri": "https://schema.ion.id/hospitality/consideration/v1/context.jsonld",
+  "minimalForDiscovery": [
+    "totalAmount",
+    "currency",
+    "breakupLineType"
+  ]
 }

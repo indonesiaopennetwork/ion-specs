@@ -45,6 +45,7 @@ components:
       x-jsonld:
         '@context': 'https://schema.ion.id/core/address/v1/context.jsonld'
         '@type': ion:AddressSubdivisions
+      x-ion-data-residency: ID  # RT/RW and building sub-fields can identify a household
       x-beckn-attaches-to: (reusable shape — embedded inside participantAttributes.addressDetail, providerAttributes.availableAt[*].ionSubdivisions,
         performanceAttributes.stops[*].location.ionSubdivisions)
       properties:

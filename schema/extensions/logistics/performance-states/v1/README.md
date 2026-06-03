@@ -31,3 +31,19 @@ The exception is tracked in the ION spec issue register.
 ## Changelog
 
 - v1 — Initial release, 2026-06-02. State machine for ION logistics performance lifecycle.
+
+## Attaches to
+
+Not an Attributes pack. State machine reference document. Referenced by logistics flow patterns via `stateMachine:` field in `pattern.yaml`.
+
+## Network-required fields
+
+Not applicable.
+
+## Used in
+
+`flows/logistics/README.md` — all logistics patterns that carry `performanceAttributes`
+
+## Common rejection reasons
+
+Not applicable — this pack is a reference document, not validated by ONIX at runtime.

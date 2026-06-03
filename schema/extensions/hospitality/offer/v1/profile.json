@@ -6,7 +6,11 @@
   "attachmentPoints": [
     "Offer.offerAttributes"
   ],
-  "className": "RestaurantOffer",
+  "className": "IONRestaurantOffer",
   "schemaUri": "https://schema.ion.id/hospitality/offer/v1/schema.json",
-  "contextUri": "https://schema.ion.id/hospitality/offer/v1/context.jsonld"
+  "contextUri": "https://schema.ion.id/hospitality/offer/v1/context.jsonld",
+  "minimalForDiscovery": [
+    "priceModel",
+    "deliveryFeeModel"
+  ]
 }

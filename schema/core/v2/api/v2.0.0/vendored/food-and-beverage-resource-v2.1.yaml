@@ -1,0 +1,25 @@
+# VENDORED UPSTREAM SCHEMA — FoodAndBeverageResource v2.1
+# Remote URL: https://raw.githubusercontent.com/beckn/local-retail/main/schema/FoodAndBeverageResource/v2.1/attributes.yaml
+# Pinned: 2026-06-03
+# Status: STUB — fetch from remote URL and replace this file with actual content
+#
+# To fetch:
+#   curl -o food-and-beverage-resource-v2.1.yaml "https://raw.githubusercontent.com/beckn/local-retail/main/schema/FoodAndBeverageResource/v2.1/attributes.yaml"
+#
+# Used by: hospitality/delivery/v1, hospitality/fnb-delivery/v1
+
+openapi: 3.1.1
+info:
+  title: "FoodAndBeverageResource v2.1 — STUB"
+  description: >
+    STUB FILE. Replace with actual content fetched from:
+    https://raw.githubusercontent.com/beckn/local-retail/main/schema/FoodAndBeverageResource/v2.1/attributes.yaml
+  version: "v2.1"
+components:
+  schemas:
+    FoodAndBeverageResource:
+      type: object
+      description: "STUB — see remote URL above for actual schema definition"
+      additionalProperties: true
+      allOf:
+        - $ref: ../beckn.yaml#/components/schemas/Attributes

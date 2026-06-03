@@ -5,7 +5,7 @@
 **ION IRI:** `https://schema.ion.id/finance/credit-offer/v1#CreditOffer`  
 **Beckn flow:** `on_select` / `on_init` → `message.contract.commitments[].offer.offerAttributes`
 
-> **Key distinction:** `CreditResourceAttributes` carries product RANGES. `CreditOffer` carries EXACT values approved for a specific borrower.
+> **Key distinction:** `CreditResourceAttributes` carries product RANGES. `IONCreditOffer` carries EXACT values approved for a specific borrower.
 
 ---
 

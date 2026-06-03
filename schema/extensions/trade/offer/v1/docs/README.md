@@ -1,9 +1,10 @@
-# offer/v1 — Documentation
+# offer/v1 — Supplementary Documentation
 
-`01-overview.md` — Conceptual overview, design decisions, and regulatory notes.
+This folder may contain extended conceptual notes, design decision records, and regulatory annotations for the `offer/v1` pack.
 
-For field definitions, see `../attributes.yaml`.
-
+**For all normative content, see:**
+- `../offer/attributes.yaml` — field definitions
+- `../README.md` — canonical pack README (Attaches to, Network-required fields, Used in, Rejection reasons, Changelog)
 
 ## Changelog
 
