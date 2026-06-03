@@ -123,3 +123,34 @@ xbReturnDecision: RETURN_TO_ORIGIN  # RETURN_TO_ORIGIN | DESTROY_IN_PLACE | RE_E
 ```
 
 Incoterms determine duty payment responsibility. cross-border return decision is made after customs rejection.
+
+## Network-required fields
+
+The following fields are always required for this pack by ION network policy (`ion.yaml → x-ion-field-requirements.alwaysRequired`):
+
+- `awbNumber`
+- `billingNpwp`
+
+Mandatoriness is enforced by ONIX — these fields are not marked `required:` in the schema itself (mandatoriness lives in network policy, not the schema).
+
+## Conditional requirements
+
+- If `pkpStatus=PKP`: **fakturPajakReference becomes required**. Source: `ion.yaml → x-ion-conditional-rules`.
+
+## Per-step required fields
+
+The `flows/logistics/patterns/parcel/v1/pattern.yaml` lists every field ONIX validates at each API step for your commerce flow — use it as your implementation checklist. If ONIX rejects a message, check your step's `requiredFields` list in that file first.
+
+## Used in
+
+`flows/logistics/README.md`
+
+## Common rejection reasons
+
+Missing `awbNumber` at confirm → `ION-3xxx`. PKP billing: missing `fakturPajakReference` → `ION-6xxx`. See `errors/README.md` for the full error code reference.
+
+## Changelog
+
+| Version | Date | Summary |
+|---|---|---|
+| v1 | 2026-06-02 | Initial release |

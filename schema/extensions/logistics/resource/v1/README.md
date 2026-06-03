@@ -81,7 +81,7 @@ vehicleDetails:
   lengthM: 12.5
   widthM: 2.5
   heightM: 4.0
-  weightKg: 24000
+  weight: {value: 24000000, unit: G}
 vehicleRegistration: "B 1234 ABC"
 ```
 
@@ -123,3 +123,31 @@ Required for all freight transactions. HS codes per line are mandatory for cross
 ## Product category enum
 
 Used for customs classification and compliance checks. Values: `GROCERY`, `FOOD_AND_BEVERAGE`, `FASHION`, `ELECTRONICS`, `BEAUTY`, `PHARMA`, `AGRITECH`, `INDUSTRIAL`, `AUTOMOTIVE`, `CHEMICALS`, `HAZMAT`, `HIGH_VALUE`, `DOCUMENTS`, `OTHER`.
+
+## Network-required fields
+
+The following fields are always required for this pack by ION network policy (`ion.yaml → x-ion-field-requirements.alwaysRequired`):
+
+- `declaredWeight`
+- `declaredValue`
+- `fragile`
+
+Mandatoriness is enforced by ONIX — these fields are not marked `required:` in the schema itself (mandatoriness lives in network policy, not the schema).
+
+## Per-step required fields
+
+The `flows/logistics/patterns/parcel/v1/pattern.yaml` lists every field ONIX validates at each API step for your commerce flow — use it as your implementation checklist. If ONIX rejects a message, check your step's `requiredFields` list in that file first.
+
+## Used in
+
+`flows/logistics/README.md — used in all logistics patterns`
+
+## Common rejection reasons
+
+Missing `declaredWeight` → `ION-8xxx`. Missing `declaredValue` → `ION-8xxx`. See `errors/README.md` for the full error code reference.
+
+## Changelog
+
+| Version | Date | Summary |
+|---|---|---|
+| v1 | 2026-06-02 | Initial release |

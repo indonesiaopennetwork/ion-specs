@@ -17,6 +17,27 @@ components:
     LogisticsOffer:
       type: object
       title: LogisticsOffer
+      description: >
+        Network-agnostic generic layer for LogisticsOffer. Inherits from Beckn core Attributes.
+        Downstream ION-specific layer (IONLogisticsOffer) extends this schema via allOf.
+        This layer carries only fields that are meaningful across any Beckn network — 
+        no Indonesia-specific regulatory or compliance fields.
+      x-ion-layer: generic
+      x-ion-split-version: "0.7.0"
+      x-recommended-parent: Offer.offerAttributes
+      additionalProperties: true
+      allOf:
+        # LOCAL (default — active):
+        - $ref: beckn.yaml#/components/schemas/Attributes
+        # REMOTE (uncomment to use upstream directly):
+        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+    IONLogisticsOffer:
+      type: object
+      x-ion-layer: ion
+      x-ion-split-version: "0.7.0"
+      allOf:
+        - $ref: '#/components/schemas/LogisticsOffer'
+      title: LogisticsOffer
       additionalProperties: true
       x-jsonld:
         '@context': 'https://schema.ion.id/logistics/offer/v1/context.jsonld'
@@ -74,6 +95,7 @@ components:
           description: Zone definitions for zone-based pricing
           items:
             type: object
+            additionalProperties: false
             properties:
               zoneId:
                 type: string
@@ -95,6 +117,7 @@ components:
           description: Weight-based rate tiers
           items:
             type: object
+            additionalProperties: false
             properties:
               maxKg:
                 type: number
@@ -135,6 +158,7 @@ components:
             '
           items:
             type: object
+            additionalProperties: false
             properties:
               modifierType:
                 type: string
@@ -255,6 +279,7 @@ components:
             '
           items:
             type: object
+            additionalProperties: false
             properties:
               cutoffType:
                 type: string
@@ -379,6 +404,7 @@ components:
                 - ACCEPT_WITH_MANAGER_APPROVAL
               lateFee:
                 type: object
+                additionalProperties: false
                 properties:
                   amount:
                     type: number
@@ -443,6 +469,7 @@ components:
           type: integer
         apiSlaCommitment:
           type: object
+          additionalProperties: false
           properties:
             p50LatencyMs:
               type: integer
@@ -461,6 +488,7 @@ components:
             '
           items:
             type: object
+            additionalProperties: false
             properties:
               state:
                 type: string
@@ -513,6 +541,7 @@ components:
             x-ion-condition: Required when the offer declares machine-readable SLA state timing commitments
         overallTatCommitment:
           type: object
+          additionalProperties: false
           description: 'End-to-end time commitment from PICKED_UP to DELIVERED (or equivalent terminal state per
             pattern). This is the contract-level SLA; stateTimingCommitments are the per-state breakdowns.
 
@@ -618,6 +647,7 @@ components:
           type: array
           items:
             type: object
+            additionalProperties: false
             properties:
               start:
                 type: string
@@ -731,6 +761,7 @@ components:
           type: array
           items:
             type: object
+            additionalProperties: false
             properties:
               departurePort:
                 type: string
@@ -796,17 +827,12 @@ components:
         fwaApplicable:
           type: boolean
           description: Whether this offer accepts FWA-governed transactions
-      required:
-      - serviceLevel
-      - transportMode
-      - rateLogic
-      - selectRequired
-      - availableOnCod
-      - cancellationPolicy
-      - claimPolicy
-      - slaPolicy
-      - evidencePolicy
-      - disputePolicy
+      # NETWORK POLICY NOTE (GAP 32 / NFH-012 CON-012-18):
+      # Shared schemas MUST NOT declare mandatory fields.
+      # The following fields were required in v0.6.0 and are now
+      # enforced via ION network policy (x-ion-crc-rules,
+      # x-ion-conditional-rules) rather than the shared schema:
+      # serviceLevel, transportMode, rateLogic, selectRequired, availableOnCod, cancellationPolicy, claimPolicy, slaPolicy, evidencePolicy, disputePolicy
       allOf:
       - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:

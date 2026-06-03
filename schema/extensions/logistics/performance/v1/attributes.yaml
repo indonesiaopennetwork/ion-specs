@@ -18,6 +18,27 @@ components:
     LogisticsPerformance:
       type: object
       title: LogisticsPerformance
+      description: >
+        Network-agnostic generic layer for LogisticsPerformance. Inherits from Beckn core Attributes.
+        Downstream ION-specific layer (IONLogisticsPerformance) extends this schema via allOf.
+        This layer carries only fields that are meaningful across any Beckn network — 
+        no Indonesia-specific regulatory or compliance fields.
+      x-ion-layer: generic
+      x-ion-split-version: "0.7.0"
+      x-recommended-parent: Performance.performanceAttributes
+      additionalProperties: true
+      allOf:
+        # LOCAL (default — active):
+        - $ref: beckn.yaml#/components/schemas/Attributes
+        # REMOTE (uncomment to use upstream directly):
+        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+    IONLogisticsPerformance:
+      type: object
+      x-ion-layer: ion
+      x-ion-split-version: "0.7.0"
+      allOf:
+        - $ref: '#/components/schemas/LogisticsPerformance'
+      title: LogisticsPerformance
       additionalProperties: true
       x-jsonld:
         '@context': 'https://schema.ion.id/logistics/performance/v1/context.jsonld'
@@ -73,6 +94,7 @@ components:
         x-ion-condition: 'Required when applicable — Requested pickup date (SCHEDULED_WINDOW, DAILY_PICKUP)'
         requestedPickupWindow:
           type: object
+          additionalProperties: false
           properties:
             from:
               type: string
@@ -87,6 +109,7 @@ components:
         x-ion-condition: 'Required when applicable — Requested pickup date (SCHEDULED_WINDOW, DAILY_PICKUP)'
         confirmedPickupWindow:
           type: object
+          additionalProperties: false
           properties:
             from:
               type: string
@@ -124,6 +147,7 @@ components:
             '
           items:
             type: object
+            additionalProperties: false
             properties:
               cutoffType:
                 type: string
@@ -215,6 +239,7 @@ components:
           - NONE
         proofOfPickup:
           type: object
+          additionalProperties: false
           properties:
             type:
               type: string
@@ -237,6 +262,7 @@ components:
           - NONE
         proofOfDelivery:
           type: object
+          additionalProperties: false
           properties:
             type:
               type: string
@@ -259,6 +285,7 @@ components:
           format: uri
         liveGps:
           type: object
+          additionalProperties: false
           description: Real-time GPS for hyperlocal
           properties:
             lat:
@@ -277,6 +304,7 @@ components:
           type: string
         agentDetails:
           type: object
+          additionalProperties: false
           description: 'Rider or agent identity. Exposed per agentAssignmentModel timing. Phone is always a proxy
             number.
 
@@ -304,6 +332,7 @@ components:
             '
           items:
             type: object
+            additionalProperties: false
             properties:
               legId:
                 type: string
@@ -322,6 +351,7 @@ components:
                 - TRANSHIPMENT
               origin:
                 type: object
+                additionalProperties: false
                 properties:
                   locationType:
                     type: string
@@ -341,6 +371,7 @@ components:
                     type: object
               destination:
                 type: object
+                additionalProperties: false
                 properties:
                   locationType:
                     type: string
@@ -400,6 +431,7 @@ components:
                 - CANCELLED
               financialAttribution:
                 type: object
+                additionalProperties: false
                 description: Which participant invoices whom for this leg
                 properties:
                   billingFromSubscriberId:
@@ -413,6 +445,7 @@ components:
                   x-ion-condition: Required for multi-leg contracts where leg-level billing is tracked
         temperatureReading:
           type: object
+          additionalProperties: false
           properties:
             value:
               type: number
@@ -434,6 +467,7 @@ components:
           description: True if temperature was within range throughout the journey
         actualWeight:
           type: object
+          additionalProperties: false
           description: Weight measured by LSP at pickup or hub (may trigger weight-dispute variant)
           properties:
             value:
@@ -451,6 +485,7 @@ components:
               format: date-time
         reservedCapacity:
           type: object
+          additionalProperties: false
           properties:
             quantity:
               type: number
@@ -489,6 +524,7 @@ components:
           format: date-time
         boardingWindow:
           type: object
+          additionalProperties: false
           properties:
             from:
               type: string
@@ -537,6 +573,7 @@ components:
           type: array
           items:
             type: object
+            additionalProperties: false
             properties:
               skuId:
                 type: string
@@ -546,6 +583,7 @@ components:
                 type: integer
         inboundDiscrepancy:
           type: object
+          additionalProperties: false
           properties:
             hasDiscrepancy:
               type: boolean
@@ -555,6 +593,7 @@ components:
           type: array
           items:
             type: object
+            additionalProperties: false
             properties:
               skuId:
                 type: string
@@ -564,6 +603,7 @@ components:
           type: string
         capacityAllocated:
           type: object
+          additionalProperties: false
           properties:
             cbm:
               type: number
@@ -680,6 +720,7 @@ components:
           - BREACHED
         currentStateTimingStatus:
           type: object
+          additionalProperties: false
           description: Real-time timing status for the current performance state
           properties:
             currentState:
@@ -728,6 +769,7 @@ components:
             '
           items:
             type: object
+            additionalProperties: false
             properties:
               state:
                 type: string
@@ -751,6 +793,7 @@ components:
                 description: Time past commitment (absent if not breached)
         sustainabilityReport:
           type: object
+          additionalProperties: false
           description: 'Per-shipment carbon and sustainability metrics. Required for enterprise shippers with CSRD/ISSB
             disclosure obligations (K+N, DB Schenker, DHL customers). Calculated per GLEC framework.
 
@@ -830,6 +873,20 @@ components:
             - CONTACTLESS_DELIVERY
             - DRIVER_HEALTH_CHECKED
             - PPE_WORN
+        riderRefusalReason:
+          type: string
+          description: >
+            Reason code when a rider/driver refuses to complete a delivery due to
+            safety concerns. Populated by BPP on the incident variant sub-branch
+            rider-refused-delivery. Distinct from a failed delivery attempt (NDR) —
+            refusal is a deliberate safety-based decision by the rider.
+          enum:
+            - UNSAFE_ADDRESS_CONFIRMED
+            - CONSIGNEE_THREAT
+            - AREA_ACCESS_DENIED_BY_AUTHORITIES
+            - SUSPECTED_FRAUD
+            - RIDER_SAFETY_CONCERN_OTHER
+          x-ion-condition: Required when incident type is RIDER_REFUSED_DELIVERY
       x-ion-closed-extensions: false
       allOf:
       - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes

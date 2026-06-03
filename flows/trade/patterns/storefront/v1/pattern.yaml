@@ -42,12 +42,15 @@ phases:
           - message.catalog.resources[].id
           - message.catalog.resources[].resourceAttributes.name.id
           - message.catalog.resources[].resourceAttributes.shortDesc.id
+          - message.catalog.resources[].resourceAttributes.shortDesc.id
           - message.catalog.resources[].resourceAttributes.resourceStructure
           - message.catalog.resources[].resourceAttributes.availability.status
           - message.catalog.resources[].resourceAttributes.images[]
           - message.catalog.resources[].resourceAttributes.countryOfOrigin
           - message.catalog.resources[].resourceAttributes.ageRestricted
           - message.catalog.resources[].resourceAttributes.logisticsServiceType
+          - message.catalog.resources[].resourceAttributes.resourceTangibility
+          - message.catalog.resources[].resourceAttributes.minAge
           - message.catalog.offers[].id
           - message.catalog.offers[].price
           - message.catalog.offers[].offerAttributes.cancellationPolicy
@@ -71,7 +74,7 @@ phases:
           - field: message.catalog.resources[].resourceAttributes.regulatory
             condition: required for regulated product categories
         schemaPacks:
-          core: [localization/v1, identity/v1, address/v1, product/v1]
+          core: [localization/v1, business-registration/v1, address/v1, product-compliance/v1]
           trade: [provider/v1, resource/v1, offer/v1]
 
       - step: on_discover
@@ -102,6 +105,10 @@ phases:
           - context.location.city.code
           - message.contract.participants[role=PROVIDER].id
           - message.contract.commitments[].id
+          - message.contract.commitments[].commitmentAttributes.lineId
+          - message.contract.commitments[].commitmentAttributes.resourceId
+          - message.contract.commitments[].commitmentAttributes.offerId
+          - message.contract.commitments[].commitmentAttributes.quantity.value
           - message.contract.commitments[].resources[].quantity.count
           - message.contract.performance[].performanceAttributes.performanceMode
         conditionalFields:
@@ -119,6 +126,7 @@ phases:
           - message.contract.consideration.considerationAttributes.breakup[]
           - message.contract.consideration.considerationAttributes.totalAmount
           - message.contract.performance[].performanceAttributes.performanceMode
+          - message.contract.performance[].performanceAttributes.supportedPerformanceModes
           - message.contract.performance[].performanceAttributes.sla
         conditionalFields:
           - field: message.contract.consideration.considerationAttributes.breakup[].considerationAttributes.ppnRate
@@ -169,6 +177,8 @@ phases:
           - message.contract.settlements[].settlementAttributes.methodDetail[]
           - message.contract.consideration.considerationAttributes.breakup[]
           - message.contract.consideration.considerationAttributes.totalAmount
+          - message.contract.settlements[].settlementAttributes.amount
+          - message.contract.settlements[].settlementAttributes.currency
         conditionalFields:
           - field: message.contract.settlements[].settlementAttributes.methodDetail.qrisString
             condition: for QRIS method
@@ -240,6 +250,9 @@ phases:
           - message.contract.performance[].performanceAttributes.awbNumber
           - message.contract.performance[].performanceAttributes.trackingUrl
           - message.contract.performance[].performanceAttributes.estimatedDeliveryTime
+        conditionalFields:
+          - field: message.contract.performance[].performanceAttributes.lspSubscriberId
+            condition: present when fulfilment is handled by on-network logistics provider
 
       - step: on_status
         trigger: OUT_FOR_DELIVERY

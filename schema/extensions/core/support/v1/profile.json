@@ -40,5 +40,10 @@
   },
   "minimalForDiscovery": [
     "category"
-  ]
+  ],
+  "x-ion-layer": {
+    "generic": "Support",
+    "ion": "IONSupportTicket",
+    "splitVersion": "0.7.0"
+  }
 }

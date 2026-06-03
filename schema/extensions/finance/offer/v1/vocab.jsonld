@@ -6,7 +6,8 @@
     "schema": "https://schema.org/",
     "ion": "https://schema.ion.id/finance/offer/v1#",
     "skos": "http://www.w3.org/2004/02/skos/core#",
-    "owl": "http://www.w3.org/2002/07/owl#"
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#"
   },
   "@graph": [
     {
@@ -391,7 +392,10 @@
         "skos:ConceptScheme"
       ],
       "rdfs:label": "OfferStatus",
-      "rdfs:comment": "Taxonomy of credit offer decision states."
+      "rdfs:comment": "Taxonomy of credit offer decision states.",
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#CategoryCode"
+      }
     },
     {
       "@id": "ion:APPROVED",

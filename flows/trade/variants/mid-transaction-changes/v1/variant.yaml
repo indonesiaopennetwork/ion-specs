@@ -156,7 +156,7 @@ subBranches:
           - field: message.contract.contractAttributes.fakturPajakReference
           - field: message.contract.tags.invoice_amendment_rejected
     schemaPacks:
-      core: [identity/v1]
+      core: [business-registration/v1]
       trade: [contract/v1]
 
   price-adjustment:
@@ -181,7 +181,7 @@ subBranches:
           - message.contract.contractAttributes.quoteTrail[]
         conditionalFields:
           - field: message.contract.settlements[].settlementAttributes.refundAmount
-          - field: message.contract.settlements[].settlementAttributes.additionalCharge
+          - field: message.contract.settlements[].settlementAttributes.additionalChargeAmount
         businessRules:
           - BAP must re-confirm with consumer if adjustment is a new charge > 0
           - Refund adjustments do not require consumer re-confirmation

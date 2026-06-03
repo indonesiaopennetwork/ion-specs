@@ -8,5 +8,24 @@
   "specVersion": "0.5.1-draft",
   "beckn": "2.0.0",
   "type": "Pattern",
-  "patternName": "roro"
+  "patternName": "roro",
+  "policyRequirements": {
+    "requiredCategories": [
+      "CANCELLATION",
+      "CLAIM",
+      "SLA",
+      "GRIEVANCE_SLA",
+      "LIABILITY"
+    ],
+    "policyIris": [
+      "ion://policy/trade/cancellation/v1",
+      "ion://policy/logistics/claim/v1",
+      "ion://policy/logistics/sla/v1",
+      "ion://policy/grievance-sla/v1",
+      "ion://policy/logistics/liability/v1"
+    ],
+    "enforcedBy": "ONIX",
+    "enforcementPoint": "catalog/publish and on_confirm",
+    "note": "All offers on this pattern MUST carry policyIris for each required category in offerAttributes."
+  }
 }

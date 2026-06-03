@@ -6,5 +6,18 @@
   "crc": "HSC-restaurant-ordering",
   "applicablePatterns": [
     "delivery-order"
-  ]
+  ],
+  "policyRequirements": {
+    "requiredCategories": [
+      "GRIEVANCE_SLA",
+      "DISPUTE"
+    ],
+    "policyIris": [
+      "ion://policy/grievance-sla/v1",
+      "ion://policy/trade/dispute/v1"
+    ],
+    "enforcedBy": "ONIX",
+    "enforcementPoint": "catalog/publish and on_confirm",
+    "note": "All offers on this variant MUST carry policyIris for each required category in offerAttributes."
+  }
 }

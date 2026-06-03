@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schema.ion.id/trade/settlement/v1/schema.json",
+  "title": "IONTradeSettlement",
+  "description": "Trade sector settlement attributes",
+  "type": "object",
+  "properties": {
+    "@context": { "type": "string", "format": "uri" },
+    "@type": { "type": "string", "const": "ion:TradeSettlement" },
+    "method": { "type": "string" },
+    "paymentRail": { "type": "string" },
+    "collectedBy": { "type": "string", "enum": ["BAP", "BPP"] },
+    "timing": { "type": "string" },
+    "status": { "type": "string" },
+    "currency": { "type": "string", "const": "IDR" },
+    "amount": { "type": "number", "minimum": 0 },
+    "methodDetail": { "type": "object" },
+    "refundAmount": { "type": "number", "minimum": 0 },
+    "refundMethod": { "type": "string" },
+    "refundTimeline": { "type": "string" },
+    "additionalChargeAmount": { "type": "number" }
+  },
+  "additionalProperties": true
+}

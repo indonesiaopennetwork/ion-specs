@@ -19,6 +19,8 @@ info:
     url: https://schema.ion.id
 components:
   schemas:
+    # x-ion-layer: generic — not applicable (ION-native schema, no Beckn upstream parent)
+    # x-ion-layer-note: This pack is ION-native. The primary schema carries x-ion-layer: ion directly.
     LocalisedText:
       type: object
       title: Localised Text Object
@@ -95,6 +97,80 @@ components:
 
             '
           x-ion-regulatory: ION Network Policy — Bahasa Indonesia localisation requirement
-      required:
-      - name
-      - shortDesc
+      # required: removed — mandatoriness declared in x-ion-field-requirements network policy
+
+    IonLocalization:
+      type: object
+      x-ion-layer: ion
+      x-ion-split-version: "0.7.0"
+      x-ion-native: true
+      title: IonLocalization
+      description: >
+        Network-level locale settings for an ION network participant, declaring the
+        participant's default locale, timezone, currency, and display format preferences.
+        Produced by CNs and PNs at registration and carried in providerAttributes or
+        participantAttributes. Consumed by ONIX and by counterparty CNs/PNs to render
+        amounts, dates, and numbers in the sender's preferred locale without runtime
+        negotiation.
+
+        Relationship: ION-native schema with no upstream beckn/schemas parent. Extends
+        the core/localization schema pack alongside IONCatalogLocalization and LocalisedText.
+      x-ion-layer: ion-native
+      additionalProperties: false
+      x-beckn-attaches-to: Provider.providerAttributes
+      properties:
+        defaultLocale:
+          type: string
+          description: >
+            BCP 47 language tag for the participant's default locale. The locale used
+            when no explicit language preference is provided by the counterparty.
+            Beckn Descriptor.name and shortDesc are populated using this locale.
+          example: id-ID
+          default: id-ID
+        supportedLocales:
+          type: array
+          description: >
+            Ordered list of BCP 47 locale tags this participant can produce content in.
+            The first entry is the default locale. Consumers MAY request content in any
+            listed locale; the participant SHOULD respond in the requested locale if supported.
+          items:
+            type: string
+          example: [id-ID, en-US]
+          default: [id-ID]
+        defaultTimezone:
+          type: string
+          description: >
+            IANA timezone identifier for the participant's operating timezone. Used to
+            interpret date-only fields (e.g. offer validity startDate/endDate) and to
+            display timestamps in the participant's local time. All wire timestamps remain
+            in UTC per Beckn protocol; this field governs display only.
+          example: Asia/Jakarta
+          default: Asia/Jakarta
+        defaultCurrency:
+          type: string
+          description: >
+            ISO 4217 currency code for the participant's default trading currency.
+            Consideration amounts without an explicit currency field are interpreted
+            in this currency. For ION network participants this is IDR.
+          example: IDR
+          default: IDR
+        numberFormat:
+          type: string
+          description: >
+            Number formatting convention used by this participant for display purposes.
+            PERIOD_COMMA: 1.000,00 (Indonesian standard — period as thousands separator,
+            comma as decimal separator). COMMA_PERIOD: 1,000.00 (English standard).
+          enum:
+            - PERIOD_COMMA
+            - COMMA_PERIOD
+          default: PERIOD_COMMA
+          example: PERIOD_COMMA
+        dateFormat:
+          type: string
+          description: >
+            Date display format used by this participant. Values follow Unicode CLDR
+            date pattern syntax. Does not affect wire-format dates (ISO 8601 always used
+            on wire). DD/MM/YYYY is the Indonesian standard display convention.
+          example: DD/MM/YYYY
+          default: DD/MM/YYYY
+      # required: removed — mandatoriness declared in x-ion-field-requirements network policy

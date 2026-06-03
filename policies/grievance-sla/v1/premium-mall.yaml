@@ -1,4 +1,4 @@
-iri: ion://policy/grievance.sla.premium_mall
+iri: ion://policy/grievance-sla.consumer.premium-mall
 version: "1.0.0"
 versionEffectiveFrom: "2026-05-01"
 category: GRIEVANCE_SLA

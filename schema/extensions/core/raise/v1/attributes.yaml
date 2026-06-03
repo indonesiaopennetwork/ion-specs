@@ -15,8 +15,12 @@ info:
     url: https://schema.ion.id
 components:
   schemas:
+    # x-ion-layer: generic — not applicable (ION-native schema, no Beckn upstream parent)
+    # x-ion-layer-note: This pack is ION-native. The primary schema carries x-ion-layer: ion directly.
     IONTicket:
       type: object
+      x-ion-layer: ion
+      x-ion-split-version: "0.7.0"
       title: ION Issue Ticket
       additionalProperties: false
       x-jsonld:
@@ -197,13 +201,4 @@ components:
         resolvedAt:
           type: string
           format: date-time
-      required:
-      - id
-      - title
-      - description
-      - type
-      - priority
-      - raisedBy
-      - status
-      - createdAt
-      - updatedAt
+      # required: removed — mandatoriness declared in x-ion-field-requirements network policy

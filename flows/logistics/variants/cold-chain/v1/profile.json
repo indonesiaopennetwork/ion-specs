@@ -7,5 +7,18 @@
   "maintainer": "ION Council \u2014 Sector B Lead",
   "type": "Variant",
   "variantName": "cold-chain",
-  "sector": "ion:logistics"
+  "sector": "ion:logistics",
+  "policyRequirements": {
+    "requiredCategories": [
+      "SLA",
+      "CLAIM"
+    ],
+    "policyIris": [
+      "ion://policy/logistics/sla/v1",
+      "ion://policy/logistics/claim/v1"
+    ],
+    "enforcedBy": "ONIX",
+    "enforcementPoint": "catalog/publish and on_confirm",
+    "note": "All offers on this variant MUST carry policyIris for each required category in offerAttributes."
+  }
 }

@@ -6,7 +6,8 @@
     "schema": "https://schema.org/",
     "ion": "https://schema.ion.id/finance/resource/v1#",
     "skos": "http://www.w3.org/2004/02/skos/core#",
-    "owl": "http://www.w3.org/2002/07/owl#"
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#"
   },
   "@graph": [
     {
@@ -16,7 +17,10 @@
         "@id": "schema:LoanOrCredit"
       },
       "rdfs:label": "CreditProduct",
-      "rdfs:comment": "Product template for credit/financing offerings. Placed in Beckn Resource.resourceAttributes within Catalog.resources[] returned in on_discover. Carries ranges (not exact values) — exact per-applicant values are in CreditApproval."
+      "rdfs:comment": "Product template for credit/financing offerings. Placed in Beckn Resource.resourceAttributes within Catalog.resources[] returned in on_discover. Carries ranges (not exact values) — exact per-applicant values are in CreditApproval.",
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Resource"
+      }
     },
     {
       "@id": "ion:ProductIdentity",
@@ -871,7 +875,10 @@
         "skos:ConceptScheme"
       ],
       "rdfs:label": "YieldType",
-      "rdfs:comment": "Taxonomy of cost-of-fund mechanisms for credit products. This is the canonical definition; offer/v1 declares owl:sameAs pointing here."
+      "rdfs:comment": "Taxonomy of cost-of-fund mechanisms for credit products. This is the canonical definition; offer/v1 declares owl:sameAs pointing here.",
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#CategoryCode"
+      }
     },
     {
       "@id": "ion:CalculationMethod",
@@ -880,7 +887,10 @@
         "skos:ConceptScheme"
       ],
       "rdfs:label": "CalculationMethod",
-      "rdfs:comment": "Taxonomy of amortisation / installment calculation methods. This is the canonical definition; offer/v1 declares owl:sameAs pointing here."
+      "rdfs:comment": "Taxonomy of amortisation / installment calculation methods. This is the canonical definition; offer/v1 declares owl:sameAs pointing here.",
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#CategoryCode"
+      }
     },
     {
       "@id": "ion:InstitutionType",
@@ -889,7 +899,10 @@
         "skos:ConceptScheme"
       ],
       "rdfs:label": "InstitutionType",
-      "rdfs:comment": "OJK-defined taxonomy of licensed financial institution categories in Indonesia."
+      "rdfs:comment": "OJK-defined taxonomy of licensed financial institution categories in Indonesia.",
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#CategoryCode"
+      }
     },
     {
       "@id": "ion:ProductTypeScheme",
@@ -898,7 +911,10 @@
         "skos:ConceptScheme"
       ],
       "rdfs:label": "ProductTypeScheme",
-      "rdfs:comment": "Taxonomy of credit product categories recognised on the ION network."
+      "rdfs:comment": "Taxonomy of credit product categories recognised on the ION network.",
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#CategoryCode"
+      }
     },
     {
       "@id": "ion:FIXED",

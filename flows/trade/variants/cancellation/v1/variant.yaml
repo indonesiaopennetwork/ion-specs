@@ -198,3 +198,6 @@ subFlowNote: >
   Refund fields are declared inside on_cancel: refundAmount, refundMethod,
   refundTimeline. The actual money movement is handled by the payment rail
   outside of ION.
+
+schemaPacks:
+  trade: [contract/v1, settlement/v1]

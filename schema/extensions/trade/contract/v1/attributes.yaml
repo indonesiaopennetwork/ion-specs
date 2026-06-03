@@ -1,4 +1,4 @@
-﻿openapi: 3.1.1
+openapi: 3.1.1
 info:
   title: ION Trade Contract Extension (v1)
   description: 'Trade sector contract attributes. Order-level fields that lock at confirm — fulfilling location,
@@ -17,6 +17,27 @@ components:
   schemas:
     TradeContract:
       type: object
+      title: TradeContract
+      description: >
+        Network-agnostic generic layer for TradeContract. Inherits from Beckn core Attributes.
+        Downstream ION-specific layer (IONTradeContract) extends this schema via allOf.
+        This layer carries only fields that are meaningful across any Beckn network — 
+        no Indonesia-specific regulatory or compliance fields.
+      x-ion-layer: generic
+      x-ion-split-version: "0.7.0"
+      x-recommended-parent: Contract.contractAttributes
+      additionalProperties: true
+      allOf:
+        # LOCAL (default — active):
+        - $ref: beckn.yaml#/components/schemas/Attributes
+        # REMOTE (uncomment to use upstream directly):
+        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+    IONTradeContract:
+      type: object
+      x-ion-layer: ion
+      x-ion-split-version: "0.7.0"
+      allOf:
+        - $ref: '#/components/schemas/TradeContract'
       title: TradeContract
       additionalProperties: true
       x-jsonld:
@@ -387,6 +408,14 @@ components:
           type: string
           format: date-time
           description: Date to automatically resume. Required when pauseType=PAUSED_UNTIL_DATE
+        gift:
+          type: boolean
+          description: >-
+            Simple gift flag. True when this order is a gift. When declared true,
+            populate giftingDetails for recipient name, message, and wrap preferences.
+            Patterns reference this field as the shorthand gifting signal; giftingDetails
+            carries the full structured data.
+          x-ion-condition: Optional; when true, giftingDetails should be populated
         giftingDetails:
           type: object
           additionalProperties: false
@@ -474,6 +503,126 @@ components:
             - dueAt
             - status
           x-ion-condition: Required when paymentTermsPolicy is schedule-based
+        cancellationReason:
+          type: object
+          additionalProperties: false
+          description: >
+            Structured cancellation reason. Carries both a machine-readable
+            descriptor code (for policy enforcement) and a localised human-readable
+            explanation (for consumer-facing messaging). Set by the requesting party
+            (BAP for buyer-initiated, BPP for seller-initiated) at time of cancel.
+          properties:
+            id:
+              type: string
+              description: Unique reason identifier. Matches an entry in offer.cancellationAllowedReasons.
+            descriptor:
+              type: object
+              additionalProperties: false
+              properties:
+                code:
+                  type: string
+                  description: Machine-readable reason code. Must be in offer.cancellationAllowedReasons.
+                  example: BUYER_REQUESTED
+                shortDesc:
+                  type: string
+                  description: Localised short reason for consumer display.
+                  example: Changed my mind
+          x-ion-condition: Required on /cancel request and on_cancel callback
+
+        cancellationTags:
+          type: object
+          additionalProperties: true
+          description: >
+            Structured metadata bag for the cancellation event. Used in
+            force-cancel (TAT breach) scenarios to carry timestamp evidence
+            and override flags. Fields within are open — BAP declares what
+            is relevant for the cancellation sub-branch.
+          properties:
+            force:
+              type: boolean
+              description: >
+                True when BAP is force-cancelling due to BPP TAT breach.
+                Overrides normal cancellation window constraints.
+            lastBppInteractionAt:
+              type: string
+              format: date-time
+              description: Timestamp of last received BPP message — documents the TAT breach.
+            expectedStatusBy:
+              type: string
+              format: date-time
+              description: Datetime by which BPP was expected to send on_status per declared SLA.
+          x-ion-condition: Required when force-cancelling after BPP TAT breach
+
+        cancelledCommitmentIds:
+          type: array
+          description: >
+            Line IDs from commitments[] that have been individually cancelled in a
+            partial-cancellation flow. Only populated when partialCancellationAllowed=true
+            and the buyer is cancelling specific lines rather than the full order.
+          items:
+            type: string
+            description: lineId from the cancelled commitment
+          x-ion-condition: Required on partial-cancellation /cancel request
+
+        subscriptionAction:
+          type: string
+          enum:
+            - PAUSE
+            - RESUME
+            - SKIP_NEXT
+            - MODIFY
+            - CANCEL
+          description: >
+            Action being applied to a subscription in a lifecycle management
+            /update call. Tells BPP which subscription lifecycle operation the
+            BAP is requesting. Combined with subscriptionPauseType and
+            subscriptionPauseUntil for pause operations.
+          x-ion-condition: Required on /update calls for subscription lifecycle management
+
+        dunningReminderSequence:
+          type: integer
+          minimum: 1
+          description: >
+            Sequence number of this dunning (payment reminder) attempt for overdue
+            credit orders. 1 = first reminder, 2 = second, and so on. BPP increments
+            this field on each /update push to BAP when creditTermsDays has elapsed
+            without payment. Used by BAP to escalate consumer communication tone.
+          x-ion-condition: Required on /update when creditTermsDays > 0 and payment is overdue
+
+        legalEntityName:
+          type: string
+          description: >
+            Registered legal entity name of the buyer organisation. Declared by
+            BAP at init for B2B wholesale and business-procurement patterns. Used
+            for invoice printing and regulatory compliance. Matches the entity
+            registered against the declared NPWP.
+          example: PT Maju Bersama Indonesia
+          x-ion-condition: Required for B2B wholesale and business-procurement patterns
+
+        nib:
+          type: string
+          description: >
+            Nomor Induk Berusaha (Business Registration Number) of the buyer
+            organisation. Declared by BAP at confirm for B2B patterns. Allows
+            seller to verify buyer is a registered Indonesian business entity
+            before extending credit or issuing Faktur Pajak.
+          pattern: "^[0-9]{13}$"
+          example: "1234567890123"
+          x-ion-regulatory: PP 24/2018 tentang Pelayanan Perizinan Berusaha OSS
+          x-ion-condition: Required for B2B wholesale and business-procurement patterns at confirm
+
+        npwp:
+          type: string
+          description: >
+            NPWP (Nomor Pokok Wajib Pajak) of the buyer. Declared by BAP at
+            confirm for patterns that generate a tax invoice. Required when
+            invoicePreferences.invoiceType=TAX_INVOICE. 15-digit or 16-digit
+            format depending on registration type.
+          pattern: "^[0-9]{15,16}$"
+          example: "123456789012345"
+          x-ion-regulatory: UU 36/2008 tentang PPh; PMK 168/PMK.010/2023
+          x-ion-condition: Required when invoiceType=TAX_INVOICE or buyer is a PKP entity
+
       allOf:
       - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:

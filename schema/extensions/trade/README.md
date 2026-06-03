@@ -1,3 +1,10 @@
+
+## Minimum for your first integration
+
+**Trade BPP (selling physical goods):** You must implement at minimum `resource/v1`, `offer/v1`, and `consideration/v1` to pass ONIX validation for the `storefront` reference pattern. `performance/v1` and `contract/v1` are required once the transaction moves beyond `/confirm`.
+
+**Trade BAP (buyer app):** You must be able to read `resource/v1`, `offer/v1`, and `consideration/v1`. `performance/v1` is required to display fulfilment status.
+
 # ION Trade Extension Packs
 
 Trade sector schema extensions. These packs apply to all Trade sector transactions — B2C, B2B, marketplace, subscription, cross-border, auction, and procurement. Trade covers all physical goods commerce on ION.

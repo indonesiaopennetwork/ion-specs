@@ -18,3 +18,9 @@ Uses Beckn 2.0 `/cancel` (BAP → BPP) and `/on_cancel` (BPP → BAP). LSP-initi
 
 ## Applies to
 LOG-PARCEL, LOG-HYPERLOCAL (sub-branch: cancel-buyer-prepickup only — window is very tight), LOG-FREIGHT (all sub-branches), LOG-XB (note: window closes at export customs submission).
+
+## How variant fields layer
+
+These fields are required **in addition to** the base pattern's required fields for the same API step. They do not replace pattern requirements — they extend them. Always check your pattern's `pattern.yaml` for the base requirements, then add variant requirements on top.
+
+The `variant.yaml` in this directory is the machine-readable source of truth for this variant's required fields per step.

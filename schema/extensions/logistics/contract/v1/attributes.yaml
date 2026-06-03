@@ -17,6 +17,27 @@ components:
     LogisticsContract:
       type: object
       title: LogisticsContract
+      description: >
+        Network-agnostic generic layer for LogisticsContract. Inherits from Beckn core Attributes.
+        Downstream ION-specific layer (IONLogisticsContract) extends this schema via allOf.
+        This layer carries only fields that are meaningful across any Beckn network — 
+        no Indonesia-specific regulatory or compliance fields.
+      x-ion-layer: generic
+      x-ion-split-version: "0.7.0"
+      x-recommended-parent: Contract.contractAttributes
+      additionalProperties: true
+      allOf:
+        # LOCAL (default — active):
+        - $ref: beckn.yaml#/components/schemas/Attributes
+        # REMOTE (uncomment to use upstream directly):
+        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+    IONLogisticsContract:
+      type: object
+      x-ion-layer: ion
+      x-ion-split-version: "0.7.0"
+      allOf:
+        - $ref: '#/components/schemas/LogisticsContract'
+      title: LogisticsContract
       additionalProperties: true
       x-jsonld:
         '@context': 'https://schema.ion.id/logistics/contract/v1/context.jsonld'
@@ -45,6 +66,7 @@ components:
           description: NIB business registration of the consignor (B2B transactions)
         invoicePreferences:
           type: object
+          additionalProperties: false
           properties:
             fakturaRequired:
               type: boolean
@@ -83,6 +105,7 @@ components:
               description: Coretax transaction ID when issued via Coretax
         withholdingTax:
           type: object
+          additionalProperties: false
           description: 'PPh 23 withholding applies to logistics services at 2% rate. The buyer (BAP or consignor)
             withholds this amount and remits to DJP, providing a Bukti Potong certificate to the LSP.
 
@@ -118,6 +141,7 @@ components:
             x-ion-condition: Required when seller is PKP-registered and transaction is taxable
         ppnExemption:
           type: object
+          additionalProperties: false
           description: 'PPN Dibebaskan — VAT exemption for specific categories and zones. Common for bonded-zone
             and free-trade-zone transactions.
 
@@ -142,6 +166,7 @@ components:
           x-ion-condition: Required when provider is VAT-exempt and goods fall under an exemption regime
         stampDuty:
           type: object
+          additionalProperties: false
           description: 'Bea Meterai Rp 10,000 applies to invoices over Rp 5,000,000. Required for contracts treated
             as formal legal documents.
 
@@ -178,6 +203,7 @@ components:
           type: string
         cargoInsurance:
           type: object
+          additionalProperties: false
           description: 'Cargo insurance coverage details. Distinct from driver/vehicle insurance (covered under
             incident variant).
 
@@ -255,6 +281,7 @@ components:
             x-ion-condition: Required when transitClauseExtension is needed for multi-leg ocean/air coverage
         disputeReason:
           type: object
+          additionalProperties: false
           description: Policy IRI and human-readable reason for the dispute. Detailed correspondence and evidence narratives belong in Descriptor.longDesc or evidenceUrls.
           properties:
             policyIri:
@@ -278,6 +305,7 @@ components:
           - CLAIM_ESCALATED
         disputeResolution:
           type: object
+          additionalProperties: false
           properties:
             outcome:
               type: string
@@ -297,6 +325,7 @@ components:
           - COD_DISPUTE
         claimDetail:
           type: object
+          additionalProperties: false
           properties:
             policyIri:
               type: string
@@ -317,6 +346,7 @@ components:
               format: date-time
         claimAssessment:
           type: object
+          additionalProperties: false
           properties:
             outcome:
               type: string
@@ -333,6 +363,7 @@ components:
               type: boolean
         claimResolution:
           type: object
+          additionalProperties: false
           properties:
             decision:
               type: string
@@ -349,6 +380,7 @@ components:
           - CANCEL_ORDER
         returnReason:
           type: object
+          additionalProperties: false
           properties:
             code:
               type: string
@@ -361,6 +393,7 @@ components:
           type: array
           items:
             type: object
+            additionalProperties: false
             properties:
               resourceId:
                 type: string
@@ -371,6 +404,7 @@ components:
           description: Reference to the reverse/return contract created
         excursionDetail:
           type: object
+          additionalProperties: false
           properties:
             detectedAt:
               type: string
@@ -387,6 +421,7 @@ components:
               type: integer
         excursionResolution:
           type: object
+          additionalProperties: false
           properties:
             decision:
               type: string
@@ -396,6 +431,7 @@ components:
               - CANCEL_AND_RETURN
         discrepancyDetail:
           type: object
+          additionalProperties: false
           properties:
             declaredWeight:
               type: number
@@ -417,6 +453,7 @@ components:
               type: object
         disputeCounter:
           type: object
+          additionalProperties: false
           properties:
             counterWeight:
               type: number
@@ -428,6 +465,7 @@ components:
               type: string
         inventoryReleaseRequest:
           type: object
+          additionalProperties: false
           properties:
             skus:
               type: array
@@ -471,6 +509,7 @@ components:
         x-ion-condition: Required for cross-border shipments where Incoterms apply
         beaCukaiDeclaration:
           type: object
+          additionalProperties: false
           description: Indonesian customs declaration details — CEISA 4.0 integration
           properties:
             declarationType:
@@ -514,6 +553,7 @@ components:
             '
           items:
             type: object
+            additionalProperties: false
             properties:
               permitType:
                 type: string
@@ -562,6 +602,7 @@ components:
         x-ion-condition: 'Required when applicable — ASW reference for intra-ASEAN shipments'
         fumigationCertificate:
           type: object
+          additionalProperties: false
           description: Required when wood packaging is used (ISPM 15)
           properties:
             certificateNumber:
@@ -584,6 +625,7 @@ components:
           x-ion-condition: 'Required when applicable — Registered ISPM 15 facility code'
         phytosanitaryCertificate:
           type: object
+          additionalProperties: false
           description: Required for agricultural products per Karantina
           properties:
             certificateNumber:
@@ -600,13 +642,132 @@ components:
           - RETURN_TO_ORIGIN
           - DESTROY_IN_PLACE
           - RE_EXPORT_TO_THIRD_COUNTRY
-        cancellationReason:
+        incidentDetail:
           type: object
+          additionalProperties: false
+          description: >
+            In-transit incident record. Populated by BPP via unsolicited /on_update
+            when an incident affecting one or more shipments is detected or reported.
+            Carries incident classification, driver safety status, cargo impact, and
+            regulatory references. Required for accident, robbery, and force-majeure
+            sub-branches of the incident variant.
+          x-ion-regulatory: PP 22/2011 tentang pengangkutan darat; Permenhub PM 60/2019
+          properties:
+            type:
+              type: string
+              description: >
+                Incident classification code. Determines which downstream branches
+                fire (loss-claim, police report, driver insurance).
+              enum:
+                - ACCIDENT_COLLISION
+                - ACCIDENT_ROLLOVER
+                - ACCIDENT_FIRE
+                - ACCIDENT_DROWNED
+                - BREAKDOWN_MECHANICAL
+                - BREAKDOWN_ELECTRICAL
+                - BREAKDOWN_TIRE
+                - BREAKDOWN_FUEL
+                - ROBBERY_ARMED
+                - ROBBERY_UNARMED
+                - THEFT_UNATTENDED
+                - HIJACK_VEHICLE
+                - MEDICAL_EMERGENCY_DRIVER
+                - FORCE_MAJEURE_FLOOD
+                - FORCE_MAJEURE_EARTHQUAKE
+                - FORCE_MAJEURE_VOLCANIC
+                - FORCE_MAJEURE_CIVIL_UNREST
+                - FORCE_MAJEURE_PANDEMIC
+                - FORCE_MAJEURE_WEATHER
+            timestamp:
+              type: string
+              format: date-time
+              description: >
+                ISO 8601 UTC timestamp of when the incident occurred or was first reported.
+            location:
+              type: string
+              description: >
+                GPS coordinates or address string of the incident location.
+                Format: lat,lng (e.g. -6.2088,106.8456) or free-text address.
+            severity:
+              type: string
+              description: >
+                Incident severity classification. Determines escalation path and
+                SLA waiver eligibility.
+              enum:
+                - MINOR
+                - MODERATE
+                - SEVERE
+                - CRITICAL
+            driverSafetyStatus:
+              type: string
+              description: >
+                Driver/rider safety status at time of incident report. Must be
+                populated within PT15M of incident occurrence per ION incident policy.
+                Driver safety is always assessed before cargo status.
+              enum:
+                - SAFE
+                - INJURED_MINOR
+                - INJURED_SERIOUS
+                - FATALITY
+                - UNKNOWN
+            cargoImpactEstimated:
+              type: boolean
+              description: >
+                Whether cargo is estimated to be damaged or lost. Set true when cargo
+                condition cannot be immediately confirmed. Triggers loss-claim assessment.
+            cargoLost:
+              type: boolean
+              description: >
+                Whether cargo is confirmed lost (robbery, severe accident, submersion).
+                Triggers automatic loss-claim branch for affected shipments.
+            cargoPartiallyRecovered:
+              type: boolean
+              description: >
+                For robbery incidents — whether some cargo was subsequently recovered.
+            policeReportReference:
+              type: string
+              description: >
+                Official police report number (Nomor Laporan Polisi). Required within
+                P1D for robbery incidents and SEVERE/CRITICAL accidents. Format varies
+                by police district.
+              example: LP/123/IV/2026/Polda Metro Jaya
+            insuranceClaimReference:
+              type: string
+              description: >
+                Driver or cargo insurance claim reference number. Distinct from
+                cargo insurance claim — driver insurance covers vehicle and personal
+                injury; cargo insurance covers goods.
+            estimatedResolutionEta:
+              type: string
+              format: date-time
+              description: >
+                Estimated time when the incident will be resolved and the shipment
+                can proceed or be confirmed lost. Used for breakdown incidents.
+            affectedRegion:
+              type: string
+              description: >
+                BPS province code or free-text description of the affected region.
+                Used for force-majeure incidents affecting multiple shipments.
+            expectedResolutionDate:
+              type: string
+              format: date
+              description: >
+                Expected date when force-majeure conditions will be resolved and
+                normal operations resume.
+            reassignmentPlan:
+              type: string
+              description: >
+                Plan for reassigning the shipment to another rider/driver after a
+                medical emergency. Free text describing the reassignment.
+                cancellationReason:
+          type: object
+          additionalProperties: false
           properties:
             id:
               type: string
             descriptor:
               type: object
+              additionalProperties: false
               properties:
                 code:
                   type: string

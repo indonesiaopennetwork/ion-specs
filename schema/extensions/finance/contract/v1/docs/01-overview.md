@@ -12,8 +12,8 @@ The credit contract extension defines five distinct object types, each placed in
 
 | Object | Beckn Attachment | Purpose |
 |---|---|---|
-| `CreditContractAttributes` | `Contract.contractAttributes` | Core agreement: contract numbers, frozen loan terms, legal documents, SLIK status |
-| `ActiveLoanTerms` | Nested in `contractAttributes` | Rate, tenor, installment, and outstanding balance — immutable at akad |
+| `CreditContract` | `Contract.contractAttributes` | Core agreement: contract numbers, frozen loan terms, legal documents, SLIK status |
+| `LoanTerms` | Nested in `contractAttributes` | Rate, tenor, installment, and outstanding balance — immutable at akad |
 | `LegalDocuments` | Nested in `contractAttributes` | Document URLs (akad PDF, RIPLAY, collateral cert, e-Meterai) |
 | `LoanRestructuring` | Nested in `contractAttributes` (conditional) | Restructuring record per POJK 40/2019 |
 | `AmortisationRow` | `Settlement.settlementAttributes` | One installment row; see settlement/v1 |
@@ -24,7 +24,7 @@ The credit contract extension defines five distinct object types, each placed in
 
 ## Immutability of Loan Terms
 
-`loanTerms` (the `ActiveLoanTerms` object) is **frozen at akad signing** (`agreementDate`). It cannot be modified unless a formal restructuring is executed per **POJK 40/POJK.03/2019**.
+`loanTerms` (the `LoanTerms` object) is **frozen at akad signing** (`agreementDate`). It cannot be modified unless a formal restructuring is executed per **POJK 40/POJK.03/2019**.
 
 Fields that must not change post-akad:
 - `approvedPrincipal`

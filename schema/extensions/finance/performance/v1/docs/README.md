@@ -7,3 +7,8 @@ This folder contains conceptual documentation for the `performance` schema exten
 | [01-overview.md](01-overview.md) | Disbursement execution tracking, SLA measurement, method types |
 
 For field-level definitions see [`../attributes.yaml`](../attributes.yaml).
+
+
+## Changelog
+
+- v1 — Initial release, 2026-06-02.

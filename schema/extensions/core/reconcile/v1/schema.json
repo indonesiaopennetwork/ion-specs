@@ -215,7 +215,7 @@
         "02",
         "03"
       ],
-      "description": "Numeric recon status compatible with ONDC RSF receiver_recon model. 01=amounts match, 02=collector paid more than expected, 03=less than expected.\n",
+      "description": "ION reconciliation status. PENDING: awaiting counterparty acknowledgment. AGREED: both parties confirm amounts match. DISPUTED: amounts do not match — raise a ticket via /raise.",
       "x-ion-conditional": true,
       "x-ion-condition": "Set by on_reconcile from BPP/receiver"
     },

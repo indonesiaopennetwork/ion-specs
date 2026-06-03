@@ -1,7 +1,7 @@
-﻿{
+{
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://schema.ion.id/logistics/resource/v1",
-  "title": "LogisticsShipment",
+  "title": "LogisticsResource",
   "type": "object",
   "properties": {
     "serviceType": {
@@ -567,7 +567,7 @@
         "heightM": {
           "type": "number"
         },
-        "weightKg": {
+        "weight": {
           "type": "number"
         }
       },

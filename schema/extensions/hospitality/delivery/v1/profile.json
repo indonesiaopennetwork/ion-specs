@@ -9,7 +9,7 @@
   "extends": "beckn:Resource",
   "attachmentPoints": {
     "resourceAttributes": [
-      "RestaurantMenuItem"
+      "IONHospitalityDelivery"
     ]
   },
   "ionResourceCategory": "HSC-restaurant-ordering",
@@ -51,5 +51,10 @@
     "allergens",
     "preparationTime",
     "availability.status"
-  ]
+  ],
+  "x-ion-layer": {
+    "generic": "HospitalityDelivery",
+    "ion": "IONHospitalityDelivery",
+    "splitVersion": "0.7.0"
+  }
 }

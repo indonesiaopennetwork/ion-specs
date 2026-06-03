@@ -1,6 +1,6 @@
-﻿openapi: 3.1.1
+openapi: 3.1.1
 info:
-  title: ION Hospitality Restaurant Ordering Extension (v1)
+  title: ION Hospitality Commitment Extension (v1)
   description: >
     Order line (commitment) attributes for restaurant ordering. Captures per-item selections
     including customisation choices (size, spice level, add-ons, toppings),
@@ -18,6 +18,25 @@ components:
   schemas:
     RestaurantCommitment:
       type: object
+      title: RestaurantCommitment
+      description: >
+        Network-agnostic generic layer. Inherits from Beckn core Attributes.
+        ION-specific layer (IONRestaurantCommitment) extends this via allOf.
+      x-ion-layer: generic
+      x-ion-split-version: "0.7.0"
+      x-recommended-parent: Commitment.commitmentAttributes
+      additionalProperties: true
+      allOf:
+        # LOCAL (default — active):
+        - $ref: beckn.yaml#/components/schemas/Attributes
+        # REMOTE (uncomment to use upstream directly):
+        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+    RestaurantCommitment:
+      type: object
+      x-ion-layer: ion
+      x-ion-split-version: "0.7.0"
+      allOf:
+        - $ref: '#/components/schemas/RestaurantCommitment'
       title: RestaurantCommitment
       description: >
         Per-item order line for online food ordering.

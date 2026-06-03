@@ -35,5 +35,18 @@
   ],
   "type": "Variant",
   "variantName": "rto",
-  "sector": "ion:trade"
+  "sector": "ion:trade",
+  "policyRequirements": {
+    "requiredCategories": [
+      "RETURN",
+      "CANCELLATION"
+    ],
+    "policyIris": [
+      "ion://policy/trade/return/v1",
+      "ion://policy/trade/cancellation/v1"
+    ],
+    "enforcedBy": "ONIX",
+    "enforcementPoint": "catalog/publish and on_confirm",
+    "note": "All offers on this variant MUST carry policyIris for each required category in offerAttributes."
+  }
 }

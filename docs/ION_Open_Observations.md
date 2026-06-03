@@ -191,7 +191,7 @@ The actual Indonesian label text — four words like "Extra Pedas" — sits at d
 
 The guide is explicit: not everything should be flattened. Fields that participate in **arithmetic** (price, weight for shipping cost calculation), **filtering** (halal status, age restriction for consumer safety), or **regulatory compliance** (BPOM registration number for legal traceability) — these must stay structured because machines need to process them precisely.
 
-The fields that should be flattened are purely **descriptive** ones: nutritional labels, preparation notes, colour descriptions, feature lists. These are things a human would write in a product description, and an AI agent reads them best as natural prose anyway.
+The fields that should be flattened are purely **descriptive** ones: nutritional labels, preparation notes, color descriptions, feature lists. These are things a human would write in a product description, and an AI agent reads them best as natural prose anyway.
 
 ### Why it has not been fixed yet
 

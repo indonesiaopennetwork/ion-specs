@@ -1,0 +1,120 @@
+{
+  "_meta": {
+    "description": "Storefront init — BAP provides delivery address and payment method. QRIS payment, delivery to South Jakarta.",
+    "pattern": "storefront",
+    "step": "init",
+    "sent_by": "BAP",
+    "received_by": "BPP",
+    "schemaPacks": [
+      "core/address/v1",
+      "core/payment/v1",
+      "trade/contract/v1"
+    ]
+  },
+  "context": {
+    "domain": "ion:trade",
+    "action": "init",
+    "version": "2.0.0",
+    "bapId": "buyerapp.ion.id",
+    "bapUri": "https://buyerapp.ion.id/beckn",
+    "bppId": "sellerapp.ion.id",
+    "bppUri": "https://sellerapp.ion.id/beckn",
+    "networkId": "ion.id",
+    "transactionId": "9fdb667c-76c6-456a-9742-ba9caa5eb765",
+    "messageId": "msg-init-001",
+    "timestamp": "2026-04-19T10:30:00.000+07:00",
+    "ttl": "PT30S",
+    "location": {
+      "city": {
+        "code": "std:3171"
+      },
+      "country": {
+        "code": "IDN"
+      }
+    },
+    "schemaContext": [
+      "https://schema.ion.id/core/address/v1/context.jsonld",
+      "https://schema.ion.id/core/payment/v1/context.jsonld",
+      "https://schema.ion.id/trade/contract/v1/context.jsonld"
+    ]
+  },
+  "message": {
+    "contract": {
+      "participants": [
+        {
+          "role": "PROVIDER",
+          "id": "PROV-APOTEK-SEHAT-001"
+        },
+        {
+          "role": "BUYER",
+          "person": {
+            "name": "Ahmad Fauzi"
+          },
+          "contact": {
+            "phone": "+628123456789",
+            "email": "ahmad@example.com"
+          },
+          "address": {
+            "door": "Unit 12B",
+            "building": "Apartemen Sudirman Park",
+            "street": "Jl. KH. Mas Mansyur No. 121",
+            "city": "Jakarta Pusat",
+            "areaCode": "10220"
+          }
+        }
+      ],
+      "commitments": [
+        {
+          "id": "L01"
+        }
+      ],
+      "performance": [
+        {
+          "id": "PERF-001",
+          "performanceAttributes": {
+            "@context": "https://schema.ion.id/trade/performance/v1/context.jsonld",
+            "@type": "ion:IONTradePerformance",
+            "performanceMode": "DELIVERY"
+          },
+          "stops": [
+            {
+              "type": "end",
+              "location": {
+                "address": "Unit 12B, Apartemen Sudirman Park, Jl. KH. Mas Mansyur No. 121",
+                "gps": "-6.2100,106.8200",
+                "areaCode": "10220",
+                "ionAddressAttributes": {
+                  "@context": "https://schema.ion.id/core/address/v1/context.jsonld",
+                  "@type": "ion:IONAddress",
+                  "provinsiCode": "BPS-31",
+                  "kabupatenCode": "3171",
+                  "kelurahan": "Karet Tengsin",
+                  "kecamatan": "Tanah Abang",
+                  "rt": "005",
+                  "rw": "003"
+                }
+              },
+              "contact": {
+                "phone": "+628123456789"
+              }
+            }
+          ]
+        }
+      ],
+      "settlements": [
+        {
+          "settlementAttributes": {
+            "@context": "https://schema.ion.id/core/payment/v1/context.jsonld",
+            "@type": "ion:IONPayment",
+            "method": "QRIS",
+            "paymentRail": "QRIS",
+            "collectedBy": "BAP",
+            "timing": "ON_ORDER",
+            "status": "NOT_PAID",
+            "currency": "IDR"
+          }
+        }
+      ]
+    }
+  }
+}

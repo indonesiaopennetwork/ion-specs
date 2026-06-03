@@ -21,3 +21,9 @@ Branches active between `select` and `on_confirm`. They shape the transaction be
 - fulfillment-type and payment method selection always happen during this window
 - Technical cancellations use standardised codes 998 (BPP) and 999 (BAP)
 - on-network-LSP is triggered by BPP unilaterally after on_confirm — BAP is not involved in the Logistics contract
+
+## How variant fields layer
+
+These fields are required **in addition to** the base pattern's required fields for the same API step. They do not replace pattern requirements — they extend them. Always check your pattern's `pattern.yaml` for the base requirements, then add variant requirements on top.
+
+The `variant.yaml` in this directory is the machine-readable source of truth for this variant's required fields per step.

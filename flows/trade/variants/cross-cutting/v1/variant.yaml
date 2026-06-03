@@ -23,7 +23,7 @@ subFlows:
       - step: track
         from: BAP
         to: BPP
-        requiredFields: [message.contract.id, message.tracking.fulfillment_id]
+        requiredFields: [message.contract.id, message.tracking.contract.id]
       - step: on_track
         from: BPP
         to: BAP
@@ -119,6 +119,19 @@ subFlows:
         conditionalFields:
           - field: message.contract.settlements[].settlementAttributes.disputeReason
             condition: if reconStatus=DISPUTED
+
+  sla-monitoring:
+    window:
+      earliest: on_confirm
+      latest: contract_COMPLETE
+    description: >
+      BAP increments slaBreachCount when BPP misses a declared SLA TAT.
+      Tracked for reconciliation penalty calculation.
+    conditionalFields:
+      - field: message.contract.performance[].performanceAttributes.slaBreachCount
+        condition: incremented by BAP on each missed TAT
+      - field: message.contract.performance[].performanceAttributes.slaBreachDetails
+        condition: appended on each breach event
 
   raise:
     apis: [raise, on_raise, raise_status, on_raise_status, raise_details, on_raise_details]

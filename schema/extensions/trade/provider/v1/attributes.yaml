@@ -17,6 +17,27 @@ components:
     TradeProvider:
       type: object
       title: TradeProvider
+      description: >
+        Network-agnostic generic layer for TradeProvider. Inherits from Beckn core Attributes.
+        Downstream ION-specific layer (IONTradeProvider) extends this schema via allOf.
+        This layer carries only fields that are meaningful across any Beckn network — 
+        no Indonesia-specific regulatory or compliance fields.
+      x-ion-layer: generic
+      x-ion-split-version: "0.7.0"
+      x-recommended-parent: Provider.providerAttributes
+      additionalProperties: true
+      allOf:
+        # LOCAL (default — active):
+        - $ref: beckn.yaml#/components/schemas/Attributes
+        # REMOTE (uncomment to use upstream directly):
+        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+    IONTradeProvider:
+      type: object
+      x-ion-layer: ion
+      x-ion-split-version: "0.7.0"
+      allOf:
+        - $ref: '#/components/schemas/TradeProvider'
+      title: TradeProvider
       additionalProperties: true
       x-jsonld:
         '@context': 'https://schema.ion.id/trade/provider/v1/context.jsonld'
@@ -372,14 +393,10 @@ components:
         then:
           required:
           - categoryLicenses
-      required:
-      - invoicingModel
-      - storeStatus
-      - operatingHours
-      - holidayCalendar
-      - providerCategory
-      - nibRegistered
-      - kycStatus
-      - kycLevel
-      - kycValidUntil
+      # NETWORK POLICY NOTE (GAP 32 / NFH-012 CON-012-18):
+      # Shared schemas MUST NOT declare mandatory fields.
+      # The following fields were required in v0.6.0 and are now
+      # enforced via ION network policy (x-ion-crc-rules,
+      # x-ion-conditional-rules) rather than the shared schema:
+      # invoicingModel, storeStatus, operatingHours, holidayCalendar, providerCategory, nibRegistered, kycStatus, kycLevel, kycValidUntil
       x-ion-closed-extensions: false

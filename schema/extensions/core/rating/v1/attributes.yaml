@@ -14,8 +14,29 @@ info:
     url: https://schema.ion.id
 components:
   schemas:
+    Rating:
+      type: object
+      title: Rating
+      description: >
+        Network-agnostic generic layer for Rating. Inherits from Beckn core Attributes.
+        Downstream ION-specific layer (IONRating) extends this schema via allOf.
+        This layer carries only fields that are meaningful across any Beckn network — 
+        no Indonesia-specific regulatory or compliance fields.
+      x-ion-layer: generic
+      x-ion-split-version: "0.7.0"
+      x-recommended-parent: RatingInput.target.targetAttributes
+      additionalProperties: true
+      allOf:
+        # LOCAL (default — active):
+        - $ref: beckn.yaml#/components/schemas/Attributes
+        # REMOTE (uncomment to use upstream directly):
+        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
     IONRating:
       type: object
+      x-ion-layer: ion
+      x-ion-split-version: "0.7.0"
+      allOf:
+        - $ref: '#/components/schemas/Rating'
       title: IONRating
       additionalProperties: true
       x-jsonld:
@@ -137,9 +158,12 @@ components:
             respondedBy:
               type: string
               description: Name of seller representative
-      required:
-      - ratingCategory
-      - ratingValue
+      # NETWORK POLICY NOTE (GAP 32 / NFH-012 CON-012-18):
+      # Shared schemas MUST NOT declare mandatory fields.
+      # The following fields were required in v0.6.0 and are now
+      # enforced via ION network policy (x-ion-crc-rules,
+      # x-ion-conditional-rules) rather than the shared schema:
+      # ratingCategory, ratingValue
       x-ion-closed-extensions: false
       allOf:
       - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes

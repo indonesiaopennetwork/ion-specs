@@ -1,4 +1,4 @@
-iri: ion://policy/penalty.seller.rto_seller_fault
+iri: ion://policy/penalty.seller.rto-seller-fault
 version: "1.0.0"
 versionEffectiveFrom: "2026-05-01"
 category: PENALTY

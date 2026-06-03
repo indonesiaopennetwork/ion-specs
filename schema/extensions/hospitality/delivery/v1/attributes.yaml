@@ -1,4 +1,4 @@
-﻿openapi: 3.1.1
+openapi: 3.1.1
 info:
   title: ION Hospitality Restaurant Ordering Extension (v1)
   description: 'ION extension for the Hospitality sector, Restaurant & Food Ordering category (HSC-restaurant-ordering).
@@ -21,8 +21,29 @@ info:
     url: https://schema.ion.id
 components:
   schemas:
-    RestaurantMenuItem:
+    HospitalityDelivery:
       type: object
+      title: HospitalityDelivery
+      description: >
+        Network-agnostic generic layer for HospitalityDelivery. Inherits from Beckn core Attributes.
+        Downstream ION-specific layer (IONHospitalityDelivery) extends this schema via allOf.
+        This layer carries only fields that are meaningful across any Beckn network — 
+        no Indonesia-specific regulatory or compliance fields.
+      x-ion-layer: generic
+      x-ion-split-version: "0.7.0"
+      x-recommended-parent: Resource.resourceAttributes
+      additionalProperties: true
+      allOf:
+        # LOCAL (default — active):
+        - $ref: beckn.yaml#/components/schemas/Attributes
+        # REMOTE (uncomment to use upstream directly):
+        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+    IONHospitalityDelivery:
+      type: object
+      x-ion-layer: ion
+      x-ion-split-version: "0.7.0"
+      allOf:
+        - $ref: '#/components/schemas/HospitalityDelivery'
       title: RestaurantMenuItem
       description: 'Resource attributes for prepared food and beverage items available for delivery or self-pickup. Governed
         by Hospitality Sector Working Group. CRC: HSC-restaurant-ordering
@@ -130,6 +151,17 @@ components:
           description: Time from order confirm to item ready for pickup/dispatch. ISO 8601 duration.
           example: PT20M
           x-ion-regulatory: Used for SLA computation and ETA display to consumer.
+        crc:
+          type: string
+          description: >
+            Catalogue Resource Category code classifying this resource within the ION
+            item taxonomy. Determines which attribute sub-objects are mandatory at
+            catalog/publish time and signals to CNs how to present and discover the
+            item. Values from x-ion-crc-registry in ion.yaml (e.g. TRC-fashion,
+            LGC-lastmile, HSC-restaurant-ordering). Optional now — will become
+            required in a future version once CRC enforcement is fully activated in ONIX.
+          example: TRC-fashion
+          x-ion-enforcement: optional-now-required-later
         classification:
           type: string
           enum:
@@ -202,6 +234,7 @@ components:
               type: string
             name:
               type: object
+              additionalProperties: false
               required:
               - id
               properties:
@@ -237,6 +270,7 @@ components:
                 type: string
               name:
                 type: object
+                additionalProperties: false
                 required:
                 - id
                 properties:
@@ -272,6 +306,7 @@ components:
                       type: string
                     label:
                       type: object
+                      additionalProperties: false
                       required:
                       - id
                       properties:

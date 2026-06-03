@@ -1,6 +1,6 @@
 openapi: 3.1.1
 info:
-  title: ION Hospitality F&B Delivery Extension (v1)
+  title: ION Hospitality FnB Delivery Extension (v1)
   description: >
     ION extension for the Hospitality sector, Food & Beverage Delivery category (HSC-fnb-delivery).
 
@@ -22,9 +22,28 @@ info:
 
 components:
   schemas:
-    FnbMenuItem:
+    FnbItem:
       type: object
-      title: FnbMenuItem
+      title: FnbItem
+      description: >
+        Network-agnostic generic layer. Inherits from Beckn core Attributes.
+        ION-specific layer (IONFnbItem) extends this via allOf.
+      x-ion-layer: generic
+      x-ion-split-version: "0.7.0"
+      x-recommended-parent: Resource.resourceAttributes
+      additionalProperties: true
+      allOf:
+        # LOCAL (default — active):
+        - $ref: beckn.yaml#/components/schemas/Attributes
+        # REMOTE (uncomment to use upstream directly):
+        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+    IONFnbItem:
+      type: object
+      x-ion-layer: ion
+      x-ion-split-version: "0.7.0"
+      allOf:
+        - $ref: '#/components/schemas/FnbItem'
+      title: FnbItem
       description: >
         Resource attributes for prepared food and beverage items available for delivery
         or self-pickup. Governed by Hospitality Sector Working Group.
@@ -34,7 +53,7 @@ components:
       x-beckn-attaches-to: Resource.resourceAttributes
       x-jsonld:
         '@context': 'https://schema.ion.id/hospitality/fnb-delivery/v1/context.jsonld'
-        '@type': ion:FnbMenuItem
+        '@type': ion:FnbItem
       allOf:
         - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       properties:
@@ -49,7 +68,8 @@ components:
               minimum: 1
             unit:
               type: string
-              enum: [PORTION, PIECE, cup, BOWL, PLATE, set, LITRE, MILLILITRE]          example:
+              enum: [PORTION, PIECE, CUP, BOWL, PLATE, SET, LITRE, MILLILITRE]
+              example:
             value: 1
             unit: portion
 
@@ -119,7 +139,7 @@ components:
 
         fnb:
           type: object
-          title: FnbMenuItem
+          title: FnbItem
           description: Food and beverage attributes required for all HSC-fnb-delivery resources.
           additionalProperties: false
           required: [classification, allergens]

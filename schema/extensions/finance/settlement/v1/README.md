@@ -25,3 +25,9 @@ One `AmortisationRow` per installment. Each row in `Contract.settlements[]` hold
 | `PAID` | COMPLETE | Paid in full on or before due date |
 | `OVERDUE` | COMPLETE | Paid after due date |
 | `PARTIAL` | COMMITTED | Partially paid |
+
+## Changelog
+
+| Version | Date | Summary |
+|---|---|---|
+| v1 | 2026-06-02 | Initial release |

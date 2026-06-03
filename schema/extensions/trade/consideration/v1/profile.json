@@ -8,7 +8,7 @@
   "jsonldContext": "./context.jsonld",
   "attachmentPoints": {
     "considerationAttributes": [
-      "TradeConsideration"
+      "IONTradeConsideration"
     ]
   },
   "extends": "beckn:Consideration",
@@ -36,5 +36,10 @@
     "breakupLineType",
     "totalAmount",
     "currency"
-  ]
+  ],
+  "x-ion-layer": {
+    "generic": "TradeConsideration",
+    "ion": "IONTradeConsideration",
+    "splitVersion": "0.7.0"
+  }
 }

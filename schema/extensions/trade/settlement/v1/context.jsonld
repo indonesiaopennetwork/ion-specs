@@ -1,0 +1,24 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@protected": true,
+    "ion": "https://schema.ion.id/trade/settlement/v1#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "method": "ion:method",
+    "paymentRail": "ion:paymentRail",
+    "collectedBy": "ion:collectedBy",
+    "timing": "ion:timing",
+    "status": "ion:status",
+    "currency": "ion:currency",
+    "amount": "ion:amount",
+    "methodDetail": "ion:methodDetail",
+    "refundAmount": "ion:refundAmount",
+    "refundMethod": "ion:refundMethod",
+    "refundTimeline": "ion:refundTimeline",
+    "additionalChargeAmount": "ion:additionalChargeAmount"
+  }
+}

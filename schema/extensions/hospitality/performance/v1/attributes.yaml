@@ -1,6 +1,6 @@
 openapi: 3.1.1
 info:
-  title: ION Hospitality Restaurant Ordering Extension (v1)
+  title: ION Hospitality Performance Extension (v1)
   description: >
     Order status and delivery tracking attributes for food delivery.
     Covers the full kitchen-to-door lifecycle: kitchen acceptance, preparation states
@@ -25,6 +25,25 @@ components:
   schemas:
     RestaurantPerformance:
       type: object
+      title: RestaurantPerformance
+      description: >
+        Network-agnostic generic layer. Inherits from Beckn core Attributes.
+        ION-specific layer (IONRestaurantPerformance) extends this via allOf.
+      x-ion-layer: generic
+      x-ion-split-version: "0.7.0"
+      x-recommended-parent: Performance.performanceAttributes
+      additionalProperties: true
+      allOf:
+        # LOCAL (default — active):
+        - $ref: beckn.yaml#/components/schemas/Attributes
+        # REMOTE (uncomment to use upstream directly):
+        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+    RestaurantPerformance:
+      type: object
+      x-ion-layer: ion
+      x-ion-split-version: "0.7.0"
+      allOf:
+        - $ref: '#/components/schemas/RestaurantPerformance'
       title: RestaurantPerformance
       description: >
         Kitchen-to-door tracking for online food orders.

@@ -2,7 +2,10 @@
   "@context": {
     "ion": "https://schema.ion.id/core/support/v1#",
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "owl": "http://www.w3.org/2002/07/owl#"
   },
   "@graph": [
     {
@@ -11,7 +14,10 @@
       "rdfs:label": "IONSupportTicket",
       "rdfs:comment": "IONSupportTicket",
       "rdfs:subClassOf": {
-        "@id": "beckn:Support"
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Support"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Support"
       }
     },
     {
@@ -72,19 +78,19 @@
       "@id": "ion:status",
       "@type": "rdf:Property",
       "rdfs:label": "status",
-      "rdfs:comment": "Action trail — both sides of the conversation."
+      "rdfs:comment": "Action trail \u2014 both sides of the conversation."
     },
     {
       "@id": "ion:severity",
       "@type": "rdf:Property",
       "rdfs:label": "severity",
-      "rdfs:comment": "Action trail — both sides of the conversation."
+      "rdfs:comment": "Action trail \u2014 both sides of the conversation."
     },
     {
       "@id": "ion:issueActions",
       "@type": "rdf:Property",
       "rdfs:label": "issueActions",
-      "rdfs:comment": "Action trail — both sides of the conversation."
+      "rdfs:comment": "Action trail \u2014 both sides of the conversation."
     },
     {
       "@id": "ion:resolution",
@@ -102,7 +108,7 @@
       "@id": "ion:createdAt",
       "@type": "rdf:Property",
       "rdfs:label": "createdAt",
-      "rdfs:comment": "Current escalation level of the dispute. Progression: 1. SELLER — buyer contacts seller"
+      "rdfs:comment": "Current escalation level of the dispute. Progression: 1. SELLER \u2014 buyer contacts seller"
     },
     {
       "@id": "ion:updatedAt",
@@ -114,7 +120,7 @@
       "@id": "ion:escalationLevel",
       "@type": "rdf:Property",
       "rdfs:label": "escalationLevel",
-      "rdfs:comment": "Current escalation level of the dispute. Progression: 1. SELLER — buyer contacts seller (default support flow, 1-2 days). 2. MARKETPLACE_MEDIATION — marketplace intervenes (3-5 days). 3. BPSK — Badan Penyelesaian Sengketa Konsumen (government, 6-14 days). 4. KOMINFO — Kominfo consumer protection portal. 5. ION_NETWORK — escalated to ION via raise channel. Each level has its own SLA declared in support/on_support."
+      "rdfs:comment": "Current escalation level of the dispute. Progression: 1. SELLER \u2014 buyer contacts seller (default support flow, 1-2 days). 2. MARKETPLACE_MEDIATION \u2014 marketplace intervenes (3-5 days). 3. BPSK \u2014 Badan Penyelesaian Sengketa Konsumen (government, 6-14 days). 4. KOMINFO \u2014 Kominfo consumer protection portal. 5. ION_NETWORK \u2014 escalated to ION via raise channel. Each level has its own SLA declared in support/on_support."
     },
     {
       "@id": "ion:escalationTimestamp",

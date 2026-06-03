@@ -17,6 +17,27 @@ components:
     LogisticsProvider:
       type: object
       title: LogisticsProvider
+      description: >
+        Network-agnostic generic layer for LogisticsProvider. Inherits from Beckn core Attributes.
+        Downstream ION-specific layer (IONLogisticsProvider) extends this schema via allOf.
+        This layer carries only fields that are meaningful across any Beckn network — 
+        no Indonesia-specific regulatory or compliance fields.
+      x-ion-layer: generic
+      x-ion-split-version: "0.7.0"
+      x-recommended-parent: Provider.providerAttributes
+      additionalProperties: true
+      allOf:
+        # LOCAL (default — active):
+        - $ref: beckn.yaml#/components/schemas/Attributes
+        # REMOTE (uncomment to use upstream directly):
+        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+    IONLogisticsProvider:
+      type: object
+      x-ion-layer: ion
+      x-ion-split-version: "0.7.0"
+      allOf:
+        - $ref: '#/components/schemas/LogisticsProvider'
+      title: LogisticsProvider
       additionalProperties: true
       x-jsonld:
         '@context': 'https://schema.ion.id/logistics/provider/v1/context.jsonld'
@@ -106,7 +127,7 @@ components:
             - PARCEL
             - FREIGHT
             - RORO
-            - CROSS-BORDER
+            - CROSS_BORDER
             - WAREHOUSE
         modesSupported:
           type: array
@@ -128,6 +149,7 @@ components:
           description: Geographic coverage declarations
           items:
             type: object
+            additionalProperties: false
             properties:
               provinsiCode:
                 type: string
@@ -175,6 +197,7 @@ components:
           type: array
           items:
             type: object
+            additionalProperties: false
             properties:
               day:
                 type: string
@@ -204,6 +227,7 @@ components:
           description: Latest time to request pickup for same-day or next-day dispatch per corridor
           items:
             type: object
+            additionalProperties: false
             properties:
               corridor:
                 type: string
@@ -229,6 +253,7 @@ components:
           description: For warehouse providers
           items:
             type: object
+            additionalProperties: false
             properties:
               locationId:
                 type: string
@@ -250,16 +275,12 @@ components:
         fwaApplicable:
           type: boolean
           description: Whether this provider accepts Framework Agreement-governed transactions
-      required:
-      - catalogVersion
-      - catalogPublishedAt
-      - catalogValidFrom
-      - nibRegistered
-      - providerCategory
-      - patternsSupported
-      - modesSupported
-      - coverage
-      - operatingHours
+      # NETWORK POLICY NOTE (GAP 32 / NFH-012 CON-012-18):
+      # Shared schemas MUST NOT declare mandatory fields.
+      # The following fields were required in v0.6.0 and are now
+      # enforced via ION network policy (x-ion-crc-rules,
+      # x-ion-conditional-rules) rather than the shared schema:
+      # catalogVersion, catalogPublishedAt, catalogValidFrom, nibRegistered, providerCategory, patternsSupported, modesSupported, coverage, operatingHours
       x-ion-closed-extensions: false
       allOf:
       - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes

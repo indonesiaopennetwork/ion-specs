@@ -19,8 +19,29 @@ info:
     url: https://schema.ion.id
 components:
   schemas:
-    PaymentDeclaration:
+    Payment:
       type: object
+      title: Payment
+      description: >
+        Network-agnostic generic layer for Payment. Inherits from Beckn core Attributes.
+        Downstream ION-specific layer (IONPayment) extends this schema via allOf.
+        This layer carries only fields that are meaningful across any Beckn network — 
+        no Indonesia-specific regulatory or compliance fields.
+      x-ion-layer: generic
+      x-ion-split-version: "0.7.0"
+      x-recommended-parent: Settlement.settlementAttributes
+      additionalProperties: true
+      allOf:
+        # LOCAL (default — active):
+        - $ref: beckn.yaml#/components/schemas/Attributes
+        # REMOTE (uncomment to use upstream directly):
+        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+    IONPayment:
+      type: object
+      x-ion-layer: ion
+      x-ion-split-version: "0.7.0"
+      allOf:
+        - $ref: '#/components/schemas/Payment'
       title: Payment Declaration
       description: 'Contents of a Beckn Settlement''s settlementAttributes bag for a buyer-facing payment event.
         Binds a payment method to a transaction and carries method-specific instrument details in methodDetail.
@@ -156,12 +177,7 @@ components:
         processingFee:
           $ref: '#/components/schemas/ProcessingFee'
       # ION network mandatory: Payment settlement fields required for BI regulatory compliance
-      required:
-      - method
-      - collectedBy
-      - timing
-      - status
-      - currency
+      # required: removed — mandatoriness declared in x-ion-field-requirements network policy
       allOf:
       - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:

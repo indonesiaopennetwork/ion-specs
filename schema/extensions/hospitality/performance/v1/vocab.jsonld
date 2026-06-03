@@ -11,7 +11,7 @@
       "@id": "ion:RestaurantPerformance",
       "@type": "rdfs:Class",
       "rdfs:subClassOf": {
-        "@id": "beckn:Attributes"
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Performance"
       },
       "rdfs:label": "RestaurantPerformance",
       "rdfs:comment": "ION Hospitality Restaurant Ordering \u2014 kitchen state, rider tracking, live GPS, delivery proof. CRC: HSC-restaurant-ordering",

@@ -16,7 +16,7 @@
         {"groupId": "CG-EXTRAS", "optionId": "OPT-EXTRA-CHEESE", "priceDelta": 8000}
       ],
       "specialInstructions": "Pinggiran extra crispy",
-      "fulfillmentId": "PERF-001"
+      "performanceId": "PERF-001"
     },
     {
       "@context": "https://schema.ion.id/extensions/trade/commitment/v1/context.jsonld",
@@ -28,7 +28,7 @@
       "price": {"value": 58000, "currency": "IDR", "unitPrice": 29000},
       "customisationSelections": [],
       "specialInstructions": null,
-      "fulfillmentId": "PERF-001"
+      "performanceId": "PERF-001"
     }
   ]
 }

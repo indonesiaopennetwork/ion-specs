@@ -8,9 +8,9 @@ The financial structure of a logistics transaction — from the initial quote br
 
 ## Breakup line types
 
-Every charge in a logistics transaction must be expressed as a breakup line with a declared `titleType`. ION Central validates breakup consistency against offer attributes.
+Every charge in a logistics transaction must be expressed as a component entry with a declared `type`. ION Central validates components consistency against offer attributes.
 
-| titleType | When it appears | Notes |
+| type | When it appears | Notes |
 |---|---|---|
 | `FREIGHT_BASE` | Always | Core transport charge |
 | `FUEL_SURCHARGE` | Always | Computed from `offer.fuelSurchargeFormula` |
@@ -37,17 +37,17 @@ Every charge in a logistics transaction must be expressed as a breakup line with
 
 ## PPN handling
 
-PPN must be declared as a separate breakup line with `ppnRate` set to the current applicable rate (e.g. `0.11` under PMK 131/2024 — source from DJP, not hardcoded). Every `on_select` and `on_init` response carrying a PPN line must include `ppnRate` on that specific breakup entry.
+PPN must be declared as a separate component entry with `ppnRate` set to the current applicable rate (e.g. `0.11` under PMK 131/2024 — source from DJP, not hardcoded). Every `on_select` and `on_init` response carrying a PPN line must include `ppnRate` on that specific breakup entry.
 
 ```yaml
 breakup:
-  - titleType: FREIGHT_BASE
+  - type: FREIGHT_BASE
     amount: 45000
     currency: IDR
-  - titleType: FUEL_SURCHARGE
+  - type: FUEL_SURCHARGE
     amount: 3600
     currency: IDR
-  - titleType: PPN_TAX
+  - type: PPN_TAX
     amount: 5346
     currency: IDR
     ppnRate: 0.11      # 11% applied to base + surcharge = 48600 * 0.11 = 5346
@@ -83,7 +83,7 @@ Estimates are provided at `/on_select` for DDP incoterms. Actual amounts are dec
 ```yaml
 revisedAmount: 68066              # BPP's proposed total after reweigh
 revisionBreakup:
-  - titleType: FREIGHT_BASE
+  - type: FREIGHT_BASE
     originalAmount: 45000
     revisedAmount: 57600          # 3.2kg actual vs 2.5kg declared
     diff: 12600
@@ -113,3 +113,30 @@ settlements:
     netSettlementAmount: 69321
     reconStatus: AGREED
 ```
+
+## Network-required fields
+
+The following fields are always required for this pack by ION network policy (`ion.yaml → x-ion-field-requirements.alwaysRequired`):
+
+- `freightCharge`
+- `totalCharge`
+
+Mandatoriness is enforced by ONIX — these fields are not marked `required:` in the schema itself (mandatoriness lives in network policy, not the schema).
+
+## Per-step required fields
+
+The `flows/logistics/patterns/parcel/v1/pattern.yaml` lists every field ONIX validates at each API step for your commerce flow — use it as your implementation checklist. If ONIX rejects a message, check your step's `requiredFields` list in that file first.
+
+## Used in
+
+`flows/logistics/README.md`
+
+## Common rejection reasons
+
+Missing `freightCharge` → `ION-8xxx`. See `errors/README.md` for the full error code reference.
+
+## Changelog
+
+| Version | Date | Summary |
+|---|---|---|
+| v1 | 2026-06-02 | Initial release |

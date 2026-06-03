@@ -1,4 +1,4 @@
-iri: ion://policy/payment.installment.3mo
+iri: ion://policy/payment-terms.installment.3mo
 version: "1.0.0"
 versionEffectiveFrom: "2026-05-01"
 category: PAYMENT_TERMS
@@ -20,7 +20,7 @@ installmentTenure: 3
 allowedPaymentMethods:
   - BNPL
 
-latePaymentPenalty: ion://policy/penalty.buyer.late_installment
+latePaymentPenalty: ion://policy/penalty.buyer.late-installment
 latePaymentFeePercent: 0.03
 
 applicableResourceTypes: [PLAIN, VARIANT, WITH_EXTRAS, COMPOSED, BUNDLE, DIGITAL_VOUCHER, DIGITAL_TOP_UP]

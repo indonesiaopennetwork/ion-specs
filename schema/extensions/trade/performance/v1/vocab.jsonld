@@ -2,7 +2,10 @@
   "@context": {
     "ion": "https://schema.ion.id/trade/performance/v1#",
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "owl": "http://www.w3.org/2002/07/owl#"
   },
   "@graph": [
     {
@@ -12,6 +15,9 @@
       "rdfs:comment": "TradePerformance",
       "rdfs:subClassOf": {
         "@id": "beckn:Performance"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Performance"
       }
     },
     {
@@ -90,7 +96,7 @@
       "@id": "ion:deliveryProofUrl",
       "@type": "rdf:Property",
       "rdfs:label": "deliveryProofUrl",
-      "rdfs:comment": "URL to photo proof of delivery — package at door or consumer signature. Added at DELIVERED state.\n"
+      "rdfs:comment": "URL to photo proof of delivery \u2014 package at door or consumer signature. Added at DELIVERED state.\n"
     },
     {
       "@id": "ion:selfPickupCode",
@@ -120,7 +126,7 @@
       "@id": "ion:realTimeGps",
       "@type": "rdf:Property",
       "rdfs:label": "realTimeGps",
-      "rdfs:comment": "Current GPS position of delivery agent. Updated via /track API. Not persisted — real-time only.\n"
+      "rdfs:comment": "Current GPS position of delivery agent. Updated via /track API. Not persisted \u2014 real-time only.\n"
     },
     {
       "@id": "ion:lspSubscriberId",
@@ -132,19 +138,19 @@
       "@id": "ion:shippingInsurance",
       "@type": "rdf:Property",
       "rdfs:label": "shippingInsurance",
-      "rdfs:comment": "Insurance declaration for high-value shipments. Mandatory for items above IDR 5,000,000 on all major marketplaces. Affects RTO refund calculations — claim filed against insurance policy when applicable.\n"
+      "rdfs:comment": "Insurance declaration for high-value shipments. Mandatory for items above IDR 5,000,000 on all major marketplaces. Affects RTO refund calculations \u2014 claim filed against insurance policy when applicable.\n"
     },
     {
       "@id": "ion:agentId",
       "@type": "rdf:Property",
       "rdfs:label": "agentId",
-      "rdfs:comment": "Platform-issued agent ID that consumer can verify against BPP app or logistics app. More trustworthy than name alone — prevents impersonation scams.\n"
+      "rdfs:comment": "Platform-issued agent ID that consumer can verify against BPP app or logistics app. More trustworthy than name alone \u2014 prevents impersonation scams.\n"
     },
     {
       "@id": "ion:agentVehicleType",
       "@type": "rdf:Property",
       "rdfs:label": "agentVehicleType",
-      "rdfs:comment": "Agent vehicle type — affects delivery ETA and corporate policy"
+      "rdfs:comment": "Agent vehicle type \u2014 affects delivery ETA and corporate policy"
     },
     {
       "@id": "ion:agentPlateNumber",
@@ -168,7 +174,7 @@
       "@id": "ion:qcResult",
       "@type": "rdf:Property",
       "rdfs:label": "qcResult",
-      "rdfs:comment": "Quality inspection result when return package is received by seller. Determines refund amount — full for QC_PASSED, partial for QC_PARTIAL, zero for QC_FAILED_* variants (dispute-prone).\n"
+      "rdfs:comment": "Quality inspection result when return package is received by seller. Determines refund amount \u2014 full for QC_PASSED, partial for QC_PARTIAL, zero for QC_FAILED_* variants (dispute-prone).\n"
     },
     {
       "@id": "ion:qcNotes",

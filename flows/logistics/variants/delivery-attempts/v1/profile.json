@@ -7,5 +7,16 @@
   "maintainer": "ION Council \u2014 Sector B Lead",
   "type": "Variant",
   "variantName": "delivery-attempts",
-  "sector": "ion:logistics"
+  "sector": "ion:logistics",
+  "policyRequirements": {
+    "requiredCategories": [
+      "RE_ATTEMPT"
+    ],
+    "policyIris": [
+      "ion://policy/logistics/re-attempt/v1"
+    ],
+    "enforcedBy": "ONIX",
+    "enforcementPoint": "catalog/publish and on_confirm",
+    "note": "All offers on this variant MUST carry policyIris for each required category in offerAttributes."
+  }
 }

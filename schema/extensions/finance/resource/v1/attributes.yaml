@@ -1,6 +1,6 @@
-﻿openapi: "3.1.1"
+openapi: "3.1.1"
 info:
-  title: "ION Finance Credit Resource Extension (v1)"
+  title: ION Finance Resource Extension (v1)
   version: 1.0.0
   description: |
     Canonical product-template schema for all credit and financing products
@@ -39,6 +39,25 @@ components:
     # ─────────────────────────────────────────────────────────────
     CreditProduct:
       type: object
+      title: CreditProduct
+      description: >
+        Network-agnostic generic layer. Inherits from Beckn core Attributes.
+        ION-specific layer (IONCreditProduct) extends this via allOf.
+      x-ion-layer: generic
+      x-ion-split-version: "0.7.0"
+      x-recommended-parent: Resource.resourceAttributes
+      additionalProperties: true
+      allOf:
+        # LOCAL (default — active):
+        - $ref: beckn.yaml#/components/schemas/Attributes
+        # REMOTE (uncomment to use upstream directly):
+        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+    CreditProduct:
+      type: object
+      x-ion-layer: ion
+      x-ion-split-version: "0.7.0"
+      allOf:
+        - $ref: '#/components/schemas/CreditProduct'
       description: |
         Product template for a credit/financing offering. This is the CATALOG
         item — it describes ranges, eligibility, and terms. Per-applicant
@@ -49,15 +68,7 @@ components:
         '@type': ion:CreditProduct
       x-beckn-attaches-to: Resource.resourceAttributes
       additionalProperties: true
-      required:
-        - productIdentity
-        - principalRange
-        - tenor
-        - costOfFund
-        - repaymentSchedule
-        - borrowerCriteria
-        - regulatoryDeclaration
-        - requiredDocuments
+      # required: removed — mandatoriness declared in x-ion-field-requirements network policy
       properties:
         productIdentity:
           $ref: '#/components/schemas/ProductIdentity'
@@ -100,6 +111,7 @@ components:
     # ─────────────────────────────────────────────────────────────
     ProductIdentity:
       type: object
+      additionalProperties: false
       description: Product identity, classification, and provider information
       required:
         - productName
@@ -212,6 +224,7 @@ components:
               - FIELD_SALES_AGENT
     PrincipalRange:
       type: object
+      additionalProperties: false
       description: Loan/financing principal amount range
       required:
         - minimum
@@ -234,6 +247,7 @@ components:
 
     MonetaryAmount:
       type: object
+      additionalProperties: false
       description: Reusable monetary amount object with value and currency.
       required:
         - value
@@ -255,6 +269,7 @@ components:
     # ─────────────────────────────────────────────────────────────
     Tenor:
       type: object
+      additionalProperties: false
       description: Loan or financing tenure (maturity) range.
       required:
         - unit
@@ -288,6 +303,7 @@ components:
     # ─────────────────────────────────────────────────────────────
     CostOfFundMechanism:
       type: object
+      additionalProperties: false
       description: Interest mechanics for conventional products, or profit mechanics for Islamic products.
       required:
         - yieldType
@@ -361,6 +377,7 @@ components:
     # ─────────────────────────────────────────────────────────────
     RepaymentSchedule:
       type: object
+      additionalProperties: false
       description: Repayment schedule, frequency, and accepted payment channels
       required:
         - frequency
@@ -433,6 +450,7 @@ components:
     # ─────────────────────────────────────────────────────────────
     FeeStructure:
       type: object
+      additionalProperties: false
       description: All fees and charges associated with this credit product
       properties:
         provisionFeePercent:
@@ -503,6 +521,7 @@ components:
     # ─────────────────────────────────────────────────────────────
     Collateral:
       type: object
+      additionalProperties: false
       description: Collateral and security requirements
       required:
         - required
@@ -564,6 +583,7 @@ components:
     # ─────────────────────────────────────────────────────────────
     BorrowerCriteria:
       type: object
+      additionalProperties: false
       description: Borrower eligibility and qualification criteria
       required:
         - applicantTypes
@@ -651,6 +671,7 @@ components:
           description: ISO 3166-2:ID provinces where available. NATIONAL = all 38 provinces.
           items:
             type: string
+            x-ion-iso-exception: "ISO 3166-2:ID province codes retain their official hyphenated format per the standard"
             enum:
               - NATIONAL
               - ID-AC
@@ -707,6 +728,7 @@ components:
     # ─────────────────────────────────────────────────────────────
     RegulatoryDeclaration:
       type: object
+      additionalProperties: false
       description: OJK/BI license declarations, required disclosures, and consumer protection
       required:
         - licenses
@@ -732,6 +754,7 @@ components:
 
     License:
       type: object
+      additionalProperties: false
       description: Single regulatory license / registration record
       required:
         - regulatoryBody
@@ -777,6 +800,7 @@ components:
 
     Disclosure:
       type: object
+      additionalProperties: false
       description: Required disclosure document reference
       required:
         - disclosureType
@@ -808,6 +832,7 @@ components:
 
     ComplaintService:
       type: object
+      additionalProperties: false
       description: Customer complaint and grievance redressal contacts per POJK 6/POJK.07/2022.
       properties:
         tollFreePhone:
@@ -834,6 +859,7 @@ components:
     # ─────────────────────────────────────────────────────────────
     RequiredDocument:
       type: object
+      additionalProperties: false
       description: A single document required for the credit application
       required:
         - documentType
@@ -912,6 +938,7 @@ components:
     # ─────────────────────────────────────────────────────────────
     IslamicFinanceStructure:
       type: object
+      additionalProperties: false
       description: Islamic finance akad details. Present only when financeType = ISLAMIC.
       required:
         - contractType
@@ -979,6 +1006,7 @@ components:
     # ─────────────────────────────────────────────────────────────
     GovernmentProgram:
       type: object
+      additionalProperties: false
       description: Government subsidy and support program details (KUR, FLPP, UMi, BPUM).
       required:
         - programType
@@ -1060,6 +1088,7 @@ components:
     # ─────────────────────────────────────────────────────────────
     PaylaterService:
       type: object
+      additionalProperties: false
       description: Buy-Now-Pay-Later and Paylater specific attributes
       properties:
         maxCreditLimitIDR:

@@ -84,7 +84,7 @@ phases:
           - field: message.catalog.resources[].resourceAttributes.food.allergens[]  # packaged food allergens
           - field: message.catalog.resources[].resourceAttributes.food.spiceLevel   # packaged food spice level
         schemaPacks:
-          core: [localization/v1, identity/v1, address/v1, product/v1]
+          core: [localization/v1, business-registration/v1, address/v1, product-compliance/v1]
           trade: [provider/v1, resource/v1, offer/v1]
 
       - step: on_discover

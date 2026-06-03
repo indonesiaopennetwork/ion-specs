@@ -1,7 +1,7 @@
 openapi: 3.1.1
 info:
   title: ION Support Extension (v1)
-  description: 'Consumer complaint ticket — buyer raises issue about their order to seller. Derived from ONDC IGM
+  description: 'Consumer complaint ticket — buyer raises issue about their order to seller. Based on ION grievance
     model. Covers issue creation, action trail, resolution. APIs: support / on_support
 
     ATTACH POINT — Beckn 2.0.0''s `Support` object is `additionalProperties: false` and has no `supportAttributes`
@@ -19,8 +19,29 @@ info:
     url: https://schema.ion.id
 components:
   schemas:
+    Support:
+      type: object
+      title: Support
+      description: >
+        Network-agnostic generic layer for Support. Inherits from Beckn core Attributes.
+        Downstream ION-specific layer (IONSupportTicket) extends this schema via allOf.
+        This layer carries only fields that are meaningful across any Beckn network — 
+        no Indonesia-specific regulatory or compliance fields.
+      x-ion-layer: generic
+      x-ion-split-version: "0.7.0"
+      x-recommended-parent: Support (via on_support)
+      additionalProperties: true
+      allOf:
+        # LOCAL (default — active):
+        - $ref: beckn.yaml#/components/schemas/Attributes
+        # REMOTE (uncomment to use upstream directly):
+        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
     IONSupportTicket:
       type: object
+      x-ion-layer: ion
+      x-ion-split-version: "0.7.0"
+      allOf:
+        - $ref: '#/components/schemas/Support'
       title: ION Consumer Support Ticket
       additionalProperties: true
       x-jsonld:
@@ -293,15 +314,7 @@ components:
         kominfoReference:
           type: string
           description: Kominfo consumer complaint portal reference
-      required:
-      - id
-      - category
-      - complainantInfo
-      - description
-      - source
-      - status
-      - createdAt
-      - updatedAt
+      # required: removed — mandatoriness declared in x-ion-field-requirements network policy
       allOf:
       - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:

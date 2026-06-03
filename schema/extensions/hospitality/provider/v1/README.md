@@ -46,3 +46,25 @@ All HSC-restaurant-ordering packs work together:
 ## Examples
 
 See `examples/` for complete payload examples.
+
+## Changelog
+
+| Version | Date | Summary |
+|---|---|---|
+| v1 | 2026-06-02 | Initial release |
+
+## Network-required fields
+
+For the full list of fields required by ION network policy for this pack, run:
+
+```bash
+python tools/ion_required_fields.py --sector hospitality --pattern delivery-order --crc HSC-delivery
+```
+
+See `tools/README.md` and `tools/samples/required-fields-hospitality-delivery-order-HSC-delivery.md` for a pre-generated checklist.
+
+
+## Used in
+
+`flows/hospitality/README.md` — `delivery-order` pattern
+

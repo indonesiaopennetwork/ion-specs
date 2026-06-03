@@ -5,7 +5,9 @@
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "schema": "https://schema.org/",
-    "skos": "http://www.w3.org/2004/02/skos/core#"
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "owl": "http://www.w3.org/2002/07/owl#"
   },
   "@graph": [
     {
@@ -81,12 +83,12 @@
       "@id": "ion:loanTerms",
       "@type": "rdf:Property",
       "rdfs:label": "loanTerms",
-      "rdfs:comment": "Core loan parameters frozen at akad signing (ActiveLoanTerms). Immutable unless formally restructured.",
+      "rdfs:comment": "Core loan parameters frozen at akad signing (LoanTerms). Immutable unless formally restructured.",
       "rdfs:domain": {
         "@id": "ion:LoanAgreement"
       },
       "rdfs:range": {
-        "@id": "ion:ActiveLoanTerms"
+        "@id": "ion:LoanTerms"
       }
     },
     {
@@ -252,9 +254,9 @@
       }
     },
     {
-      "@id": "ion:ActiveLoanTerms",
+      "@id": "ion:LoanTerms",
       "@type": "rdfs:Class",
-      "rdfs:label": "ActiveLoanTerms",
+      "rdfs:label": "LoanTerms",
       "rdfs:comment": "Active loan parameters frozen at akad signing. Reported to OJK SLIK monthly.",
       "rdfs:subClassOf": {
         "@id": "schema:LoanOrCredit"
@@ -275,7 +277,7 @@
       "rdfs:label": "effectiveRatePercent",
       "rdfs:comment": "Annual interest rate (% p.a.) frozen at akad signing.",
       "rdfs:domain": {
-        "@id": "ion:ActiveLoanTerms"
+        "@id": "ion:LoanTerms"
       },
       "rdfs:range": {
         "@id": "xsd:decimal"
@@ -287,7 +289,7 @@
       "rdfs:label": "calculationMethod",
       "rdfs:comment": "Amortisation method. Values: ANNUITY, FLAT, EFFECTIVE.",
       "rdfs:domain": {
-        "@id": "ion:ActiveLoanTerms"
+        "@id": "ion:LoanTerms"
       },
       "rdfs:range": {
         "@id": "xsd:string"
@@ -299,7 +301,7 @@
       "rdfs:label": "yieldType",
       "rdfs:comment": "Cost-of-fund mechanism frozen at akad. Values: FIXED, COMBINED, FLOATING, MARGIN, NISBAH.",
       "rdfs:domain": {
-        "@id": "ion:ActiveLoanTerms"
+        "@id": "ion:LoanTerms"
       },
       "rdfs:range": {
         "@id": "xsd:string"
@@ -320,7 +322,7 @@
       "rdfs:label": "monthlyInstallmentIDR",
       "rdfs:comment": "Fixed monthly installment in IDR for the current rate period.",
       "rdfs:domain": {
-        "@id": "ion:ActiveLoanTerms"
+        "@id": "ion:LoanTerms"
       },
       "rdfs:range": {
         "@id": "xsd:decimal"
@@ -332,7 +334,7 @@
       "rdfs:label": "monthlyDueDay",
       "rdfs:comment": "Day of month (1–31) on which installments are due.",
       "rdfs:domain": {
-        "@id": "ion:ActiveLoanTerms"
+        "@id": "ion:LoanTerms"
       },
       "rdfs:range": {
         "@id": "xsd:integer"
@@ -344,7 +346,7 @@
       "rdfs:label": "outstandingPrincipal",
       "rdfs:comment": "Outstanding principal balance after the most recent payment, in IDR.",
       "rdfs:domain": {
-        "@id": "ion:ActiveLoanTerms"
+        "@id": "ion:LoanTerms"
       },
       "rdfs:range": {
         "@id": "xsd:decimal"
@@ -356,7 +358,7 @@
       "rdfs:label": "totalInterestPaid",
       "rdfs:comment": "Cumulative interest / margin paid to date in IDR.",
       "rdfs:domain": {
-        "@id": "ion:ActiveLoanTerms"
+        "@id": "ion:LoanTerms"
       },
       "rdfs:range": {
         "@id": "xsd:decimal"
@@ -368,7 +370,7 @@
       "rdfs:label": "islamicContractType",
       "rdfs:comment": "For Islamic products — akad type governing this contract (e.g., MURABAHAH, MUSYARAKAH).",
       "rdfs:domain": {
-        "@id": "ion:ActiveLoanTerms"
+        "@id": "ion:LoanTerms"
       },
       "rdfs:range": {
         "@id": "xsd:string"
@@ -741,7 +743,10 @@
         "skos:ConceptScheme"
       ],
       "rdfs:label": "LoanStatus",
-      "rdfs:comment": "OJK SLIK collectibility grade taxonomy."
+      "rdfs:comment": "OJK SLIK collectibility grade taxonomy.",
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#CategoryCode"
+      }
     },
     {
       "@id": "ion:LANCAR",

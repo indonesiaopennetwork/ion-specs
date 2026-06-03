@@ -4,7 +4,10 @@
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "ion": "https://schema.ion.id/finance/consideration/v1#",
-    "schema": "https://schema.org/"
+    "schema": "https://schema.org/",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "owl": "http://www.w3.org/2002/07/owl#"
   },
   "@graph": [
     {
@@ -13,6 +16,9 @@
       "rdfs:comment": "Principal and fee amounts exchanged under the credit contract.",
       "rdfs:subClassOf": {
         "@id": "schema:MonetaryAmount"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Consideration"
       }
     },
     {

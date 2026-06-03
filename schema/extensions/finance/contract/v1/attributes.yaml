@@ -1,6 +1,6 @@
-﻿openapi: "3.1.1"
+openapi: "3.1.1"
 info:
-  title: "ION Finance Credit Contract Extension (v1)"
+  title: ION Finance Contract Extension (v1)
   version: 1.0.0
   description: |
     Credit contract attributes for the Finance domain. Carries the immutable
@@ -15,8 +15,27 @@ info:
 components:
   schemas:
 
-    CreditContractAttributes:
+    CreditContract:
       type: object
+      title: CreditContract
+      description: >
+        Network-agnostic generic layer. Inherits from Beckn core Attributes.
+        ION-specific layer (IONCreditContract) extends this via allOf.
+      x-ion-layer: generic
+      x-ion-split-version: "0.7.0"
+      x-recommended-parent: Contract.contractAttributes
+      additionalProperties: true
+      allOf:
+        # LOCAL (default — active):
+        - $ref: beckn.yaml#/components/schemas/Attributes
+        # REMOTE (uncomment to use upstream directly):
+        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+    CreditContract:
+      type: object
+      x-ion-layer: ion
+      x-ion-split-version: "0.7.0"
+      allOf:
+        - $ref: '#/components/schemas/CreditContract'
       description: |
         Core loan agreement attributes placed in Beckn Contract.contractAttributes.
         Contains contract reference numbers, dates, frozen loan terms, legal
@@ -26,12 +45,7 @@ components:
         '@type': ion:LoanAgreement
       x-beckn-attaches-to: Contract.contractAttributes
       additionalProperties: true
-      required:
-        - contractNumber
-        - loanAccountNumber
-        - agreementDate
-        - loanTerms
-        - legalDocuments
+      # required: removed — mandatoriness declared in x-ion-field-requirements network policy
       properties:
         contractNumber:
           type: string
@@ -68,7 +82,7 @@ components:
             - RESTRUCTURED
           default: "ACTIVE"
         loanTerms:
-          $ref: '#/components/schemas/ActiveLoanTerms'
+          $ref: '#/components/schemas/LoanTerms'
           description: Core loan parameters frozen at akad signing. Immutable unless formally restructured.
         legalDocuments:
           $ref: '#/components/schemas/LegalDocuments'
@@ -80,8 +94,9 @@ components:
       allOf:
         - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
 
-    ActiveLoanTerms:
+    LoanTerms:
       type: object
+      additionalProperties: false
       description: Active loan parameters frozen at akad signing. Reported to OJK SLIK monthly.
       required:
         - approvedPrincipal
@@ -135,6 +150,7 @@ components:
 
     LegalDocuments:
       type: object
+      additionalProperties: false
       description: |
         Legal document references for this credit contract.
         All URLs must be HTTPS, stable, and accessible for 10 years post-closure
@@ -174,6 +190,7 @@ components:
 
     LoanRestructuring:
       type: object
+      additionalProperties: false
       description: |
         Formal loan restructuring record per POJK 40/POJK.03/2019.
         Restructuring modifies tenor, rate, or principal schedule.

@@ -7,6 +7,8 @@ beckn.yaml   ← Beckn Protocol v2.0.0 (upstream, do not edit)
 ion.yaml     ← ION network extension (this is what you implement)
 ```
 
+> **You do not need to read `beckn.yaml` to build an integration.** `ion.yaml` is your implementation target. `beckn.yaml` is only touched when upgrading the vendored Beckn version or debugging a protocol-level issue.
+
 ## How they relate
 
 `beckn.yaml` is the upstream Beckn Protocol specification. It defines:
@@ -20,6 +22,29 @@ ion.yaml     ← ION network extension (this is what you implement)
 - **L5** — Trade (8) and Logistics (10) sector attribute packs, same mounting pattern
 - **Cross-schema rules** — 5 conditional requirements that ONIX enforces at runtime (`x-ion-conditional-rules` block)
 
+## How to find your required fields
+
+`ion.yaml` is a 10,000+ line file. You should not read it top-to-bottom. The parts that matter for your integration are:
+
+| What to check | Location in ion.yaml | When to check it |
+|---|---|---|
+| Always-required fields | `x-ion-field-requirements.alwaysRequired` | When setting up your integration for the first time |
+| Category-conditional fields | `x-ion-crc-rules` | When you know which CRC (product category) you are using |
+| Cross-schema conditional fields | `x-ion-conditional-rules` | When implementing COD, logistics driver flows, or PKP billing |
+
+For most developers the fastest path is to read the flow pattern's `pattern.yaml` first — it gives you the per-step required fields for your specific commerce pattern, assembled in one place.
+
+
+## Quick start: run the required-fields tool
+
+Rather than reading the four sources above manually, run:
+
+```bash
+python tools/ion_required_fields.py --sector <sector> --pattern <pattern> --crc <your-crc>
+```
+
+This assembles the complete field checklist for your integration in one command. See `tools/README.md` for usage.
+
 ## To validate
 
 Run both files together through any OpenAPI 3.1.1 validator:
@@ -27,12 +52,10 @@ Run both files together through any OpenAPI 3.1.1 validator:
 spectral lint ion.yaml --ruleset beckn-ruleset.yaml
 ```
 
-If your toolchain requires a single merged file:
-```
-```
+If your toolchain requires a single merged file, see `tools/README.md` for the merge utility.
 
 ## Upstream tracking
 
 When Beckn releases a new version, only `beckn.yaml` needs updating. All 42 `$ref: beckn.yaml#/...` references in `ion.yaml` automatically resolve to the new version. No other files need changing for a Beckn version bump.
 
-Current Beckn target: **v2.0.0** (`core-v2.0.0-rc1`)
+Current Beckn target: **v2.0.0** (LTS `main` branch)

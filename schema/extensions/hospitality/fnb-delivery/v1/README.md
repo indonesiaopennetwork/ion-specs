@@ -49,7 +49,7 @@ Restaurant meals and beverages ordered for delivery or self-pickup. The resource
 ```json
 {
   "@context": "https://schema.ion.id/hospitality/fnb-delivery/v1/context.jsonld",
-  "@type": "ion:FnbMenuItem",
+  "@type": "ion:FnbItem",
   "quantity": { "value": 1, "unit": "portion" },
   "resourceStructure": "PLAIN",
   "resourceTangibility": "PHYSICAL",
@@ -74,3 +74,25 @@ Restaurant meals and beverages ordered for delivery or self-pickup. The resource
 ```
 
 See `docs/` for design notes and `examples/` for full payloads.
+
+## Changelog
+
+| Version | Date | Summary |
+|---|---|---|
+| v1 | 2026-06-02 | Initial release |
+
+## Network-required fields
+
+For the full list of fields required by ION network policy for this pack, run:
+
+```bash
+python tools/ion_required_fields.py --sector hospitality --pattern delivery-order --crc HSC-delivery
+```
+
+See `tools/README.md` and `tools/samples/required-fields-hospitality-delivery-order-HSC-delivery.md` for a pre-generated checklist.
+
+
+## Used in
+
+`flows/hospitality/README.md` — `delivery-order` pattern
+

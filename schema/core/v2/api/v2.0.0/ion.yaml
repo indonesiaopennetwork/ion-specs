@@ -16,8 +16,8 @@ info:
     \ whose trigger field lives in a different schema bag than the\nrequired field are declared in x-ion-conditional-rules\
     \ below. Standard\nJSON Schema if/then/else cannot express cross-bag conditions. ONIX\n(the ION validator) enforces these\
     \ at network boundaries.\n\nVALIDATOR USAGE:\nRun beckn.yaml + ion.yaml together through any OpenAPI 3.1.1 validator.\n\
-    Do not merge them — they are designed to be used as two separate files."
-  version: 0.6.0-draft
+    Do not merge them — they are designed to be used as two separate files.\n\nBECKN v2.0 TERMINOLOGY:\nThis spec targets Beckn v2.0.0 LTS. Key terminology changes from earlier versions:\n- resources[] replaces the legacy items[] array. Do NOT use items[].\n- performance[] replaces fulfillments[] in Contract. Do NOT use fulfillments[].\n- Consumer Node (CN) replaces BAP. Provider Node (PN) replaces BPP.\n  Wire-level field names bapId/bapUri/bppId/bppUri are RETAINED for backward compatibility.\n\nPARTICIPANT EXCEPTION:\nBeckn v2.0 Participant has no participantAttributes wrapper. IONParticipant and\nLogisticsAgent fields attach as DIRECT PROPERTIES on the Participant object — not\ninside a participantAttributes bag. This is the single exception to the\n*Attributes container pattern. See core/participant/v1 and logistics/agent/v1.\n\n@CONTEXT AND @TYPE PLACEMENT RULE:\n@context and @type belong ONLY on *Attributes extension containers and the top-level\nContract object. Specifically, ONLY these fields carry @context and @type:\n  Resource.resourceAttributes, Offer.offerAttributes, Provider.providerAttributes,\n  Commitment.commitmentAttributes, Consideration.considerationAttributes,\n  Performance.performanceAttributes, Settlement.settlementAttributes,\n  Contract.contractAttributes, Tracking.trackingAttributes,\n  RatingInput.target.targetAttributes, Support.channels[]\n\nCore Beckn objects — Descriptor, Location, Catalog, Resource, Offer, Commitment,\nConsideration, Performance, Participant, Entitlement, Contract — MUST NOT carry\n@context or @type directly. Any ION schema or example that places @context/@type\non a non-Attributes object is non-conformant and MUST be corrected."
+  version: 0.7.0-draft
   contact:
     name: ION Network
     url: https://schema.ion.id
@@ -33,18 +33,18 @@ x-ion-profile:
     catalogPublishingService: https://catalog.ion.id
     discoverService: https://discover.ion.id
   x-ion-compatibility:
-    profileVersion: 0.6.0-draft
+    profileVersion: 0.7.0-draft
     becknCore: 2.0.0
-    becknCoreUpstreamTag: core-v2.0.0-rc1
+    becknCoreUpstreamTag: main-2026-06-02
     becknCoreUpstreamRepo: https://github.com/beckn/protocol-specifications-v2
-    becknCoreStatus: RELEASE_CANDIDATE
+    becknCoreStatus: LTS
     schemaPacks:
       core/address: v1
-      core/identity: v1
+      core/business-registration: v1
       core/localization: v1
       core/participant: v1
       core/payment: v1
-      core/product: v1
+      core/product-compliance: v1
       core/raise: v1
       core/rating: v1
       core/reconcile: v1
@@ -58,11 +58,12 @@ x-ion-profile:
       trade/performance-states: v1
       trade/provider: v1
       trade/resource: v1
+      trade/settlement: v1
       logistics/commitment: v1
       logistics/consideration: v1
       logistics/contract: v1
       logistics/offer: v1
-      logistics/participant-logistics: v1
+      logistics/agent: v1
       logistics/performance: v1
       logistics/performance-states: v1
       logistics/provider: v1
@@ -124,7 +125,46 @@ x-ion-profile:
     status: EXPERIMENTAL
     mandatoryFrom: 0.6.0 (tentative — pending Council ratification)
     optionalIn: 0.6.0
+    ionDivergenceNote: >
+      The Beckn Protocol v2.0.0 LTS base Context schema (beckn.yaml) does not
+      include a domain field. Domain identity in base Beckn is expressed through
+      networkId or catalog @context. ION introduces the domain field as an explicit
+      ION extension to Context for the following reasons:
+
+      1. SECTOR ROUTING — ION operates six sectors on a single network (ion.id).
+         networkId alone does not distinguish sector; domain gives ONIX a
+         deterministic routing signal without requiring separate sub-networks per sector.
+
+      2. REGULATORY ROUTING — Indonesian regulations differ by sector (OJK for finance,
+         BPOM for trade/health, Kemenhub for logistics/mobility). ONIX uses domain to
+         apply the correct regulatory rule-set at every API boundary.
+
+      3. POLICY ATTACHMENT — ION policy IRIs (cancellation, return, grievance-SLA) are
+         sector-scoped. domain lets ONIX resolve and enforce the correct policy registry
+         without parsing catalog @context on every call.
+
+      ION-specific handling: ONIX validates domain against x-ion-sector-registry.
+      Non-ION Beckn nodes that receive a message with this field MUST ignore it per
+      Beckn Protocol extension rules (unknown Context fields are non-breaking).
+      This divergence is explicitly documented here and does not affect Beckn LTS
+      conformance — ION does not modify beckn.yaml.
     fields:
+      domain:
+        type: string
+        description: >
+          ION sector identity for this transaction. An ION-specific extension to the
+          Beckn Context — not present in the base beckn.yaml Context schema. See
+          ionDivergenceNote above for the full rationale. Values correspond to the
+          six ION sectors declared in x-ion-sector-registry. ONIX validates this
+          field at every API boundary; non-ION Beckn nodes MUST ignore it.
+        enum:
+          - ion:trade
+          - ion:hospitality
+          - ion:logistics
+          - ion:mobility
+          - ion:finance
+          - ion:services
+        example: ion:trade
       pattern:
         type: string
         description: 'Pattern name claimed by this transaction (e.g. storefront, parcel). Enables deterministic flow validation
@@ -185,32 +225,86 @@ x-ion-profile:
     targetAuthoritative: json-ld
     transitionPlan: docs/ION_Semantic_Model_Transition.md
     vocabularyRoot: https://schema.ion.id/
+    schemaLayerModel:
+      description: >
+        Every L4/L5 schema pack has two layers introduced in v0.7.0.
+        Generic layer uses upstream beckn/schemas IRI namespace.
+        ION layer uses schema.ion.id IRI namespace and inherits from generic via allOf.
+      genericLayerIriPattern: https://spec.beckn.io/vocab/v2.0.0#{GenericSchemaName}
+      ionLayerIriPattern: https://schema.ion.id/{sector}/{pack}/{version}#{IONSchemaName}
+      activeAttachmentLayer: ion
     urlPattern:
-      packRoot: https://schema.ion.id/{layer}/{pack}/{version}/
-      termIri: https://schema.ion.id/{layer}/{pack}/{version}#{term}
-      contextJson: https://schema.ion.id/{layer}/{pack}/{version}/context.jsonld
-      vocabJson: https://schema.ion.id/{layer}/{pack}/{version}/vocab.jsonld
-      openapiYaml: https://schema.ion.id/{layer}/{pack}/{version}/attributes.yaml
-      humanHtml: https://schema.ion.id/{layer}/{pack}/{version}/
+      packRoot: https://schema.ion.id/{sector}/{pack}/{version}/
+      termIri: https://schema.ion.id/{sector}/{pack}/{version}#{term}
+      contextJson: https://schema.ion.id/{sector}/{pack}/{version}/context.jsonld
+      vocabJson: https://schema.ion.id/{sector}/{pack}/{version}/vocab.jsonld
+      openapiYaml: https://schema.ion.id/{sector}/{pack}/{version}/attributes.yaml
+      humanHtml: https://schema.ion.id/{sector}/{pack}/{version}/
     contentNegotiation:
       application/ld+json: context.jsonld (or vocab.jsonld under /vocab path)
       application/json: context.jsonld
       application/yaml: attributes.yaml
-      text/turtle: vocab.ttl (v0.6+)
+      text/turtle: vocab.ttl (v0.7+)
       default: text/html
     allowedContexts:
     - prefix: ion
       namespace: https://schema.ion.id/
-      description: ION's own vocabulary (extension attribute types, policies, states, error categories)
+      description: ION's own vocabulary — ION layer schemas, policies, states, error categories
       status: authoritative
     - prefix: beckn
       namespace: https://spec.beckn.io/vocab/v2.0.0#
-      description: Beckn core transport and object-model types
+      description: Beckn core transport and object-model types; also the IRI namespace for generic layer schemas
       status: authoritative
     crossNetworkMappings:
       status: none-ratified-yet
       publishedUnder: https://schema.ion.id/mappings/
       ratificationRequired: true
+    x-ion-deprecated-names:
+      description: >
+        Schema names that were renamed in v0.7.0. Each entry carries an owl:sameAs
+        pointer to the conformant replacement. Consumers resolving old IRIs MUST
+        follow the sameAs chain to the new name.
+      renames:
+        - oldName: IONBusinessIdentity
+          newName: IONBusinessRegistration
+          owl:sameAs: https://schema.ion.id/core/business-registration/v1#IONBusinessRegistration
+          renamedIn: 0.7.0
+          reason: Three-component name — renamed per NFH-012 naming rules
+        - oldName: IONProductCertifications
+          newName: IONProductCompliance
+          owl:sameAs: https://schema.ion.id/core/product-compliance/v1#IONProductCompliance
+          renamedIn: 0.7.0
+          reason: Three-component name — renamed per NFH-012 naming rules
+        - oldName: LogisticsParticipantAddendum
+          newName: IONLogisticsAgent
+          owl:sameAs: https://schema.ion.id/logistics/agent/v1#IONLogisticsAgent
+          renamedIn: 0.7.0
+          reason: Non-standard suffix 'Addendum' — renamed per NFH-012 naming rules
+        - oldName: LogisticsShipment
+          newName: LogisticsResource
+          owl:sameAs: https://schema.ion.id/logistics/resource/v1#LogisticsResource
+          renamedIn: 0.7.0
+          reason: Aligned with schemaPacks entry logistics/resource per GAP 8
+        - oldName: CreditContractAttributes
+          newName: CreditContract
+          owl:sameAs: https://schema.ion.id/finance/contract/v1#CreditContract
+          renamedIn: 0.7.0
+          reason: Three-component name — renamed per NFH-012 naming rules
+        - oldName: CreditOfferAttributes
+          newName: CreditOffer
+          owl:sameAs: https://schema.ion.id/finance/offer/v1#CreditOffer
+          renamedIn: 0.7.0
+          reason: Three-component name — renamed per NFH-012 naming rules
+        - oldName: ActiveLoanTerms
+          newName: LoanTerms
+          owl:sameAs: https://schema.ion.id/finance/contract/v1#LoanTerms
+          renamedIn: 0.7.0
+          reason: Three-component name — renamed per NFH-012 naming rules
+        - oldName: FnbMenuItem
+          newName: FnbItem
+          owl:sameAs: https://schema.ion.id/hospitality/fnb-delivery/v1#FnbItem
+          renamedIn: 0.7.0
+          reason: Three-component name — renamed per NFH-012 naming rules
   x-ion-actions:
     mandatory:
       becknNative:
@@ -273,15 +367,19 @@ x-ion-profile:
     - LSP
   x-ion-conformance:
     protocolVersion: 2.0.0
-    ionProfileVersion: 0.6.0-draft
+    ionProfileVersion: 0.7.0-draft
     schemaPackMatrix:
+      # NOTE: Each pack has two schema layers (GAP 6):
+      #   generic layer — network-agnostic, inherits from upstream beckn/schemas
+      #   ion layer     — Indonesia-specific, inherits from generic via allOf
+      # The ION layer name is the active attachment point for all network participants.
       core:
       - address/v1
-      - identity/v1
+      - business-registration/v1
       - localization/v1
       - participant/v1
       - payment/v1
-      - product/v1
+      - product-compliance/v1
       - raise/v1
       - rating/v1
       - reconcile/v1
@@ -301,7 +399,7 @@ x-ion-profile:
       - consideration/v1
       - contract/v1
       - offer/v1
-      - participant-logistics/v1
+      - agent/v1
       - performance/v1
       - performance-states/v1
       - provider/v1
@@ -309,6 +407,927 @@ x-ion-profile:
       - tracking/v1
       hospitality:
       - delivery/v1
+  x-ion-schema-dependencies:
+    description: >
+      Explicit version-pinned mapping between ION generic schemas and their upstream
+      beckn/schemas or beckn/DEG parents. These versions are FROZEN — Beckn upstream
+      changes do NOT automatically apply to ION. Upgrades require an explicit ION
+      Council decision. All entries pinned on 2026-06-02.
+    upgradePolicy: ION_COUNCIL_DECISION_REQUIRED
+    pinnedAt: 2026-06-02
+    dependencies:
+      - ionSchema: Address
+        upstreamSchema: Address
+        upstreamVersion: v2.0
+        ionNative: false
+      - ionSchema: BusinessRegistration
+        upstreamSchema: Participant
+        upstreamVersion: v2.0
+        ionNative: false
+        note: BusinessRegistration was IONBusinessIdentity — renamed per GAP 18 NFH-012 naming rules
+      - ionSchema: Payment
+        upstreamSchema: Payment
+        upstreamVersion: v2.0
+        ionNative: false
+      - ionSchema: Participant
+        upstreamSchema: Participant
+        upstreamVersion: v2.0
+        ionNative: false
+      - ionSchema: ProductCompliance
+        upstreamSchema: Resource
+        upstreamVersion: v2.0
+        ionNative: false
+        note: ProductCompliance was IONProductCompliance — renamed per GAP 18 NFH-012 naming rules
+      - ionSchema: Rating
+        upstreamSchema: Rating
+        upstreamVersion: v2.1
+        ionNative: false
+      - ionSchema: Support
+        upstreamSchema: Support
+        upstreamVersion: v2.0
+        ionNative: false
+      - ionSchema: Reconciliation
+        upstreamSchema: Settlement
+        upstreamVersion: v2.0
+        ionNative: false
+      - ionSchema: TradeResource
+        upstreamSchema: RetailResource
+        upstreamVersion: v2.1
+        ionNative: false
+      - ionSchema: TradeOffer
+        upstreamSchema: RetailOffer
+        upstreamVersion: v2.1
+        ionNative: false
+      - ionSchema: TradeCommitment
+        upstreamSchema: RetailCommitment
+        upstreamVersion: v2.1
+        ionNative: false
+      - ionSchema: TradeConsideration
+        upstreamSchema: RetailConsideration
+        upstreamVersion: v2.1
+        ionNative: false
+      - ionSchema: TradeContract
+        upstreamSchema: RetailContract
+        upstreamVersion: v2.1
+        ionNative: false
+      - ionSchema: TradePerformance
+        upstreamSchema: RetailPerformance
+        upstreamVersion: v2.1
+        ionNative: false
+      - ionSchema: TradeProvider
+        upstreamSchema: Provider
+        upstreamVersion: v2.1
+        ionNative: false
+      - ionSchema: LogisticsResource
+        upstreamSchema: Shipment
+        upstreamVersion: v2.0
+        ionNative: false
+      - ionSchema: LogisticsOffer
+        upstreamSchema: LogisticsModule
+        upstreamVersion: v2.0
+        ionNative: false
+      - ionSchema: LogisticsCommitment
+        upstreamSchema: Commitment
+        upstreamVersion: v2.0
+        ionNative: false
+      - ionSchema: LogisticsConsideration
+        upstreamSchema: LogisticsFare
+        upstreamVersion: v2.0
+        ionNative: false
+      - ionSchema: LogisticsContract
+        upstreamSchema: Contract
+        upstreamVersion: v2.0
+        ionNative: false
+      - ionSchema: LogisticsPerformance
+        upstreamSchema: Performance
+        upstreamVersion: v2.0
+        ionNative: false
+      - ionSchema: LogisticsProvider
+        upstreamSchema: LogisticsOperator
+        upstreamVersion: v2.0
+        ionNative: false
+      - ionSchema: LogisticsAgent
+        upstreamSchema: Participant
+        upstreamVersion: v2.0
+        ionNative: false
+        note: LogisticsAgent was LogisticsParticipantAddendum — renamed per GAP 18 NFH-012 naming rules
+      - ionSchema: LogisticsTracking
+        upstreamSchema: Tracking
+        upstreamVersion: v2.1
+        ionNative: false
+      - ionSchema: HospitalityDelivery
+        upstreamSchema: Offer
+        upstreamVersion: v2.1
+        ionNative: false
+        status: TEMPORARY
+        reason: >
+          Pending validation of trade/logistics two-schema split pattern in production.
+          FoodAndBeverageOffer v2.1 is the intended upstream once pattern is confirmed stable.
+        targetUpstream:
+          schema: FoodAndBeverageOffer
+          version: v2.1
+          condition: After trade and logistics split pattern validated in production
+    ionNativeSchemas:
+      description: >
+        These schemas have no upstream beckn/schemas parent — they are ION-native
+        and governed exclusively by the ION Council.
+      schemas:
+        - IonTax
+        - IonLocalization
+        - IONTicket
+        - TradePerformanceStates
+        - LogisticsPerformanceStates
+        - IONCatalogLocalization
+        - IonLocalization
+        - LocalisedText
+        - PaymentDeclaration
+        - IONTaxDetail
+        - BISettlement
+        - BNPL
+        - QRIS
+  x-ion-sector-registry:
+    description: >
+      The six ION sectors. Each sector has a canonical domain identifier used in
+      x-ion-context-extensions.domain and in vocab.jsonld linkages. Sector
+      membership determines which attribute packs, patterns, and regulatory rules
+      apply to a transaction.
+    sectors:
+      - id: trade
+        domain: ion:trade
+        description: Buyer ends up owning a physical or digital thing
+        active: true
+      - id: hospitality
+        domain: ion:hospitality
+        description: Time-bounded reservation of capacity or food ordering
+        active: true
+      - id: logistics
+        domain: ion:logistics
+        description: Movement and storage of goods
+        active: true
+      - id: mobility
+        domain: ion:mobility
+        description: Movement of people
+        active: false
+        note: Reserved — activation pending ION Council decision
+      - id: finance
+        domain: ion:finance
+        description: Money and financial instruments
+        active: false
+        note: Reserved — activation pending ION Council decision
+      - id: services
+        domain: ion:services
+        description: Human labour and expertise
+        active: false
+        note: Reserved — activation pending ION Council decision
+
+  x-ion-category-registry:
+    description: >
+      38 business categories across 6 sectors. Category codes are used at
+      participant onboarding to classify the organisation's business activity.
+      They determine which regulatory obligations apply and which patterns are
+      eligible. Full descriptions and pattern eligibility in docs/ION_Entity_Hierarchy_Model.md.
+    categories:
+      # Trade (TRD) — 7 categories
+      - code: TRD-01
+        name: Grocery, FMCG & Quick Commerce
+        sector: trade
+      - code: TRD-02
+        name: E-commerce & Digital Marketplaces
+        sector: trade
+      - code: TRD-03
+        name: Specialty Retail
+        sector: trade
+      - code: TRD-04
+        name: Pharmacy & Health Retail
+        sector: trade
+      - code: TRD-05
+        name: Automotive Sales & Parts
+        sector: trade
+      - code: TRD-06
+        name: Wholesale & Supply Trade
+        sector: trade
+      - code: TRD-07
+        name: Energy & Commodity Trade
+        sector: trade
+      # Hospitality (HSP) — 7 categories
+      - code: HSP-01
+        name: Hotels & Accommodation
+        sector: hospitality
+      - code: HSP-02
+        name: Short-Stay & Alternative Accommodation
+        sector: hospitality
+      - code: HSP-03
+        name: Travel Platforms & OTAs
+        sector: hospitality
+      - code: HSP-04
+        name: Restaurants & Dining
+        sector: hospitality
+      - code: HSP-05
+        name: Restaurant & Online Ordering
+        sector: hospitality
+      - code: HSP-06
+        name: Events, Catering & MICE
+        sector: hospitality
+      - code: HSP-07
+        name: Recreation, Attractions & Wellness
+        sector: hospitality
+      # Logistics (LOG) — 5 categories
+      - code: LOG-01
+        name: Last-Mile & Courier Delivery
+        sector: logistics
+      - code: LOG-02
+        name: Freight Transport
+        sector: logistics
+      - code: LOG-03
+        name: Warehousing & Fulfilment
+        sector: logistics
+      - code: LOG-04
+        name: Sea & Air Freight
+        sector: logistics
+      - code: LOG-05
+        name: Freight Support & Forwarding
+        sector: logistics
+      # Mobility (MOB) — 4 categories
+      - code: MOB-01
+        name: Ride-Hailing & On-Demand Transport
+        sector: mobility
+      - code: MOB-02
+        name: Mass Transit & Scheduled Transport
+        sector: mobility
+      - code: MOB-03
+        name: Aviation — Passenger
+        sector: mobility
+      - code: MOB-04
+        name: Future Mobility
+        sector: mobility
+      # Finance (FIN) — 7 categories
+      - code: FIN-01
+        name: Banking
+        sector: finance
+      - code: FIN-02
+        name: Lending & Consumer Credit
+        sector: finance
+      - code: FIN-03
+        name: Payments & E-money
+        sector: finance
+      - code: FIN-04
+        name: Insurance & Risk
+        sector: finance
+      - code: FIN-05
+        name: Capital Markets & Wealth
+        sector: finance
+      - code: FIN-06
+        name: Digital Assets & Carbon Finance
+        sector: finance
+      - code: FIN-07
+        name: Financial Infrastructure & Support
+        sector: finance
+      # Services (SVC) — 8 categories
+      - code: SVC-01
+        name: Technology & Digital Services
+        sector: services
+      - code: SVC-02
+        name: Telecom & Connectivity
+        sector: services
+      - code: SVC-03
+        name: Professional & Advisory Services
+        sector: services
+      - code: SVC-04
+        name: Marketing, Media & Creative
+        sector: services
+      - code: SVC-05
+        name: Healthcare & Wellness Services
+        sector: services
+      - code: SVC-06
+        name: Real Estate & Construction Services
+        sector: services
+      - code: SVC-07
+        name: Automotive & Vehicle Services
+        sector: services
+      - code: SVC-08
+        name: Facilities, Support & Personal Services
+        sector: services
+
+  x-ion-crc-registry:
+    description: >
+      46 Catalogue Resource Categories (CRCs) across 6 sectors. The CRC is the
+      item-level classification a seller assigns when publishing a resource. It
+      determines which attribute sub-objects are mandatory at catalog/publish time
+      and signals to CNs how to present and filter the item. Full descriptions,
+      GPC crosswalk (Trade only), and design notes in docs/ION_Resource_Categories.md.
+    enforcedBy: ONIX
+    enforcementPoint: catalog/publish
+    crcs:
+      # Trade CRCs (TRC)
+      - code: TRC-fashion
+        name: Fashion & Accessories
+        sector: trade
+        status: ACTIVE
+        attributePack: schema/extensions/trade/resource/v1
+        requiredSubObject: fashion
+      - code: TRC-electronics
+        name: Electronics & Gadgets
+        sector: trade
+        status: ACTIVE
+        attributePack: schema/extensions/trade/resource/v1
+        requiredSubObject: electronics
+      - code: TRC-food-bev
+        name: Food, Beverages & Tobacco
+        sector: trade
+        status: ACTIVE
+        attributePack: schema/extensions/trade/resource/v1
+        requiredSubObject: food
+      - code: TRC-health-beauty
+        name: Health & Beauty
+        sector: trade
+        status: ACTIVE
+        attributePack: schema/extensions/trade/resource/v1
+        requiredSubObject: pharmacy
+      - code: TRC-home-garden
+        name: Home & Garden
+        sector: trade
+        status: ACTIVE
+        attributePack: schema/extensions/trade/resource/v1
+        requiredSubObject: null
+      - code: TRC-furniture
+        name: Furniture
+        sector: trade
+        status: ACTIVE
+        attributePack: schema/extensions/trade/resource/v1
+        requiredSubObject: null
+      - code: TRC-automotive
+        name: Vehicles & Parts
+        sector: trade
+        status: ACTIVE
+        attributePack: schema/extensions/trade/resource/v1
+        requiredSubObject: null
+      - code: TRC-sports
+        name: Sporting Goods
+        sector: trade
+        status: ACTIVE
+        attributePack: schema/extensions/trade/resource/v1
+        requiredSubObject: null
+      - code: TRC-toys-baby
+        name: Toys, Games & Baby
+        sector: trade
+        status: ACTIVE
+        attributePack: schema/extensions/trade/resource/v1
+        requiredSubObject: null
+      - code: TRC-media
+        name: Books & Media
+        sector: trade
+        status: ACTIVE
+        attributePack: schema/extensions/trade/resource/v1
+        requiredSubObject: null
+      - code: TRC-digital
+        name: Digital Goods
+        sector: trade
+        status: ACTIVE
+        attributePack: schema/extensions/trade/resource/v1
+        requiredSubObject: digital
+      - code: TRC-b2b
+        name: Business & Industrial
+        sector: trade
+        status: ACTIVE
+        attributePack: schema/extensions/trade/resource/v1
+        requiredSubObject: null
+      - code: TRC-arts
+        name: Arts, Crafts & Collectibles
+        sector: trade
+        status: ACTIVE
+        attributePack: schema/extensions/trade/resource/v1
+        requiredSubObject: null
+      - code: TRC-religious
+        name: Religious & Ceremonial
+        sector: trade
+        status: ACTIVE
+        attributePack: schema/extensions/trade/resource/v1
+        requiredSubObject: null
+      - code: TRC-luggage
+        name: Luggage & Bags
+        sector: trade
+        status: ACTIVE
+        attributePack: schema/extensions/trade/resource/v1
+        requiredSubObject: null
+      - code: TRC-pets
+        name: Animals & Pet Supplies
+        sector: trade
+        status: INACTIVE
+        attributePack: schema/extensions/trade/resource/v1
+        requiredSubObject: null
+      - code: TRC-hardware
+        name: Hardware & Tools
+        sector: trade
+        status: INACTIVE
+        attributePack: schema/extensions/trade/resource/v1
+        requiredSubObject: null
+      - code: TRC-office
+        name: Office Supplies
+        sector: trade
+        status: INACTIVE
+        attributePack: schema/extensions/trade/resource/v1
+        requiredSubObject: null
+      - code: TRC-mature
+        name: Mature
+        sector: trade
+        status: GOVERNED
+        attributePack: null
+        requiredSubObject: null
+      # Hospitality CRCs (HSC)
+      - code: HSC-accommodation
+        name: Accommodation
+        sector: hospitality
+        status: ACTIVE
+        attributePack: schema/extensions/hospitality/delivery/v1
+        requiredSubObject: null
+      - code: HSC-restaurant
+        name: Restaurant & Dining
+        sector: hospitality
+        status: ACTIVE
+        attributePack: schema/extensions/hospitality/delivery/v1
+        requiredSubObject: null
+      - code: HSC-restaurant-ordering
+        name: Restaurant & Food Ordering
+        sector: hospitality
+        status: ACTIVE
+        attributePack: schema/extensions/hospitality/delivery/v1
+        requiredSubObject: null
+      - code: HSC-events
+        name: Events & Experiences
+        sector: hospitality
+        status: ACTIVE
+        attributePack: schema/extensions/hospitality/delivery/v1
+        requiredSubObject: null
+      - code: HSC-wellness
+        name: Recreation & Wellness
+        sector: hospitality
+        status: ACTIVE
+        attributePack: schema/extensions/hospitality/delivery/v1
+        requiredSubObject: null
+      # Logistics CRCs (LGC)
+      - code: LGC-lastmile
+        name: Last-Mile Delivery
+        sector: logistics
+        status: ACTIVE
+        attributePack: schema/extensions/logistics/resource/v1
+        requiredSubObject: null
+      - code: LGC-freight
+        name: Freight Transport
+        sector: logistics
+        status: ACTIVE
+        attributePack: schema/extensions/logistics/resource/v1
+        requiredSubObject: null
+      - code: LGC-international
+        name: Sea & Air Freight
+        sector: logistics
+        status: ACTIVE
+        attributePack: schema/extensions/logistics/resource/v1
+        requiredSubObject: null
+      - code: LGC-warehouse
+        name: Warehousing
+        sector: logistics
+        status: ACTIVE
+        attributePack: schema/extensions/logistics/resource/v1
+        requiredSubObject: null
+      - code: LGC-forwarding
+        name: Freight Forwarding
+        sector: logistics
+        status: ACTIVE
+        attributePack: schema/extensions/logistics/resource/v1
+        requiredSubObject: null
+      # Mobility CRCs (MOC)
+      - code: MOC-ride
+        name: Ride-Hailing
+        sector: mobility
+        status: ACTIVE
+        attributePack: null
+        requiredSubObject: null
+      - code: MOC-scheduled
+        name: Scheduled Transport
+        sector: mobility
+        status: ACTIVE
+        attributePack: null
+        requiredSubObject: null
+      - code: MOC-rental
+        name: Vehicle Rental
+        sector: mobility
+        status: ACTIVE
+        attributePack: null
+        requiredSubObject: null
+      - code: MOC-charter
+        name: Charter
+        sector: mobility
+        status: INACTIVE
+        attributePack: null
+        requiredSubObject: null
+      # Finance CRCs (FNC)
+      - code: FNC-lending
+        name: Lending & Credit
+        sector: finance
+        status: ACTIVE
+        attributePack: schema/extensions/finance/resource/v1
+        requiredSubObject: null
+      - code: FNC-insurance
+        name: Insurance
+        sector: finance
+        status: ACTIVE
+        attributePack: null
+        requiredSubObject: null
+      - code: FNC-payments
+        name: Payments & E-money
+        sector: finance
+        status: ACTIVE
+        attributePack: null
+        requiredSubObject: null
+      - code: FNC-investment
+        name: Investment
+        sector: finance
+        status: ACTIVE
+        attributePack: null
+        requiredSubObject: null
+      - code: FNC-banking
+        name: Banking Services
+        sector: finance
+        status: INACTIVE
+        attributePack: null
+        requiredSubObject: null
+      # Services CRCs (SVC)
+      - code: SVC-tech
+        name: Technology & Digital Services
+        sector: services
+        status: ACTIVE
+        attributePack: null
+        requiredSubObject: null
+      - code: SVC-professional
+        name: Professional & Advisory
+        sector: services
+        status: ACTIVE
+        attributePack: null
+        requiredSubObject: null
+      - code: SVC-healthcare
+        name: Healthcare & Wellness Services
+        sector: services
+        status: ACTIVE
+        attributePack: null
+        requiredSubObject: null
+      - code: SVC-telecom
+        name: Telecom & Connectivity
+        sector: services
+        status: ACTIVE
+        attributePack: null
+        requiredSubObject: null
+      - code: SVC-creative
+        name: Creative & Marketing
+        sector: services
+        status: ACTIVE
+        attributePack: null
+        requiredSubObject: null
+      - code: SVC-home
+        name: Home & Facility Services
+        sector: services
+        status: ACTIVE
+        attributePack: null
+        requiredSubObject: null
+      - code: SVC-education
+        name: Education & Training
+        sector: services
+        status: ACTIVE
+        attributePack: null
+        requiredSubObject: null
+      - code: SVC-auto
+        name: Automotive Services
+        sector: services
+        status: INACTIVE
+        attributePack: null
+        requiredSubObject: null
+
+  x-ion-crc-rules:
+    description: >
+      CRC-conditional attribute enforcement rules. When a resource carries a crc
+      field matching one of the codes below, ONIX enforces the listed requiredBlocks
+      and requiredFields at catalog/publish time. Fields listed under requiredFields
+      are validated as non-null on the resource's ION attributes schema sub-object.
+    enforcedBy: ONIX
+    enforcementPoint: catalog/publish
+    rules:
+      - crc: TRC-food-bev
+        requiredBlocks: [food, packaged]
+        requiredFields:
+          food: [classification, allergens]
+          packaged: [genericName, countryOfOrigin]
+      - crc: TRC-health-beauty
+        requiredBlocks: [regulatory]
+        requiredFields:
+          regulatory:
+            - registrations  # at least one registration entry required
+      - crc: TRC-fashion
+        requiredBlocks: [fashion]
+        requiredFields:
+          fashion: [gender, size, fabricComposition]
+      - crc: TRC-electronics
+        requiredBlocks: [electronics]
+        requiredFields:
+          electronics: [connectivity, wattage, energyRating]
+      - crc: TRC-digital
+        requiredBlocks: [digital]
+        requiredFields:
+          digital: [digitalCategory, denomination]
+      - crc: HSC-restaurant-ordering
+        requiredBlocks: []
+        requiredFields:
+          root: [classification, allergens, preparationTime]
+      - crc: LGC-lastmile
+        requiredBlocks: []
+        requiredFields:
+          root: [serviceType, weight, dimensions]
+      - crc: LGC-freight
+        requiredBlocks: []
+        requiredFields:
+          root: [serviceType, weight, dimensions]
+      - crc: LGC-warehouse
+        requiredBlocks: []
+        requiredFields:
+          root: [serviceType]
+      - crc: FNC-lending
+        requiredBlocks: []
+        requiredFields:
+          root: [productType, maxLoanAmount, tenureMonths, interestRateType]
+
+  x-ion-transaction-types:
+    description: >
+      Seven transaction types derived from resource attributes and sector membership.
+      Transaction type is not a declared wire field — it is derived by ONIX at
+      validation time from the resource's ION attribute values. The derived type
+      determines which patterns are eligible and which performance state machine applies.
+    derivedBy: ONIX
+    types:
+      PHYSICAL_GOOD:
+        description: A tangible item that requires physical logistics for delivery
+        derivedFrom:
+          resourceTangibility: PHYSICAL
+          preparationTime: absent
+        eligiblePatterns:
+          - storefront
+          - marketplace-listed
+          - marketplace-inhouse
+          - business-procurement
+          - cross-border
+          - live-commerce
+          - forward-auction
+          - reverse-auction
+      PREPARED_GOOD:
+        description: A tangible item prepared after order placement — food, custom bakery, tailoring
+        derivedFrom:
+          resourceTangibility: PHYSICAL
+          preparationTime: present
+        eligiblePatterns:
+          - made-to-order
+      DIGITAL_ENTITLEMENT:
+        description: A digitally delivered good — pulsa, voucher, top-up, game credits, e-book
+        derivedFrom:
+          resourceTangibility: DIGITAL
+        eligiblePatterns:
+          - digital-goods
+      SLOT:
+        description: A time-bounded reservation — restaurant table, accommodation, event ticket
+        derivedFrom:
+          resourceTangibility: SLOT
+        eligiblePatterns:
+          - storefront
+      CAPACITY:
+        description: A logistics or mobility capacity booking — parcel, freight, ride
+        derivedFrom:
+          sector: [ion:logistics, ion:mobility]
+        eligiblePatterns:
+          - hyperlocal
+          - parcel
+          - freight
+          - roro
+          - warehouse
+          - cross-border
+      FINANCIAL_INSTRUMENT:
+        description: A financial product — loan, insurance, investment instrument
+        derivedFrom:
+          sector: ion:finance
+        eligiblePatterns: []
+        note: Finance patterns defined separately under flows/finance/
+      PROFESSIONAL_SERVICE:
+        description: A human labour or expertise engagement
+        derivedFrom:
+          sector: ion:services
+        eligiblePatterns: []
+        note: Services patterns defined separately under flows/services/
+
+  x-ion-extension-zones:
+    description: >
+      Four zones inside any Attributes bag, applied in order. Each zone has
+      different governance rules, validation behaviour, and IRI namespace
+      requirements. ONIX validates zones 1 and 2 at every API boundary.
+      Zone 3 is accepted but not validated by ONIX. Zone 4 must be explicitly
+      flagged and auto-expires if not ratified.
+    zones:
+      beckn_defined:
+        zoneNumber: 1
+        description: >
+          The Beckn-defined base fields. Exactly two fields: @context and @type.
+          Governed by beckn.yaml LTS. MUST be present on every Attributes bag.
+          @context MUST be a single string URL resolving to a published JSON-LD
+          context document. @type MUST identify the domain type being expressed.
+        fields: ['@context', '@type']
+        governance: beckn-cwg
+        namespace: null
+        validated: true
+        note: >
+          @context and @type are the ONLY fields that belong in zone 1.
+          Core objects (Descriptor, Location, Catalog, Resource, Offer,
+          Commitment, Consideration, Performance, Participant, Entitlement)
+          MUST NOT carry @context or @type directly — only their *Attributes
+          extension containers do.
+      ion_mandated:
+        zoneNumber: 2
+        description: >
+          ION core, sector, and conditional fields. Governed by ion.yaml v0.7.0+.
+          These are the fields defined in the ION extension pack schemas published
+          at schema.ion.id. ONIX validates all zone 2 fields at every API boundary.
+          Mandatory fields are declared via network policy (x-ion-crc-rules,
+          x-ion-conditional-rules) not in the shared schema itself.
+        namespace: https://schema.ion.id/
+        governance: ion-council
+        validated: true
+      participant_extensions:
+        zoneNumber: 3
+        description: >
+          Network participant (NP) declared fields. Published under the NP's own
+          IRI namespace — never ion: or beckn:. Accepted by ONIX without structural
+          validation. Size-capped at 10 fields per Attributes bag to prevent
+          uncontrolled growth. NPs wishing to promote a zone 3 field to zone 2
+          MUST open a contribution via the ION schema contribution process.
+        maxFields: 10
+        governance: participant-self
+        namespace: participant-owned
+        validated: false
+        iriRule: >
+          MUST NOT use ion: or beckn: prefix. MUST use a namespace owned by the
+          declaring NP and registered on dedi.global under their namespace.
+      experimental:
+        zoneNumber: 4
+        description: >
+          Sector Working Group (SWG) pilot fields. Declared by an active SWG during
+          a ratification cycle. MUST carry x-ion-experimental: true tag on each
+          experimental field. Auto-expire after one ION release cycle (90 days)
+          if not ratified by the ION Council into zone 2. Experimental fields
+          that expire are treated as zone 3 fields from the expiry date.
+        tag: x-ion-experimental
+        governance: ion-sector-working-group
+        autoExpire: true
+        autoExpireDays: 90
+        ratificationPath: >
+          SWG proposes → ION Council vote → if ratified, field promoted to zone 2
+          and added to the relevant ion.yaml schema pack in the next release cycle.
+  x-ion-field-requirements:
+    description: >
+      ION network policy field requirements per NFH-012 CON-012-18. Shared schemas
+      MUST NOT declare mandatory fields — mandatoriness is expressed here through
+      network policy, enforced by ONIX at catalog/publish and API boundaries.
+      These were formerly declared as required: arrays on the shared schemas
+      (removed in v0.7.0). The source of truth for enforcement is x-ion-crc-rules
+      (CRC-conditional) and x-ion-conditional-rules (cross-schema conditional).
+    enforcedBy: ONIX
+    enforcementPoints:
+      - catalog/publish
+      - on_select
+      - on_init
+      - on_confirm
+    alwaysRequired:
+      description: >
+        Fields required on every ION transaction regardless of sector, pattern,
+        or CRC. These apply to all L4/L5 schemas at every API boundary. This block
+        is the canonical source of truth for mandatory fields — replacing the
+        removed required: arrays on shared schemas (removed in v0.7.0 per NFH-012
+        CON-012-18 and GAP 32).
+      fields:
+        - schema: IONBusinessRegistration
+          fields: [npwp, nib, pkpStatus, legalEntityName, businessType]
+          reason: Indonesian tax and business identity — required for all ION network participants
+          regulation: PMK 136/2023, PP 24/2018 OSS
+        - schema: IONAddressSubdivisions
+          fields: [provinsiCode]
+          reason: Province code required for tax routing and logistics zone determination
+        - schema: IONCatalogLocalization
+          fields: [name, shortDesc]
+          reason: Minimum localised catalog content required for display on ION marketplace surfaces
+        - schema: LocalisedText
+          fields: [id]
+          reason: Indonesian (id) locale always required; en required only for cross-border pattern
+        - schema: IONParticipant
+          fields: [role]
+          reason: Participant role required for ONIX access control and regulatory routing
+        - schema: BISettlement
+          fields: [settlementType]
+          reason: Settlement rail type required for BI SNAP routing
+        - schema: BNPL
+          fields: [provider]
+          reason: BNPL provider required for OJK-licensed BNPL routing
+        - schema: BankTransfer
+          fields: [bankCode, accountNumber]
+          reason: Bank identity required for BI RTGS / SKN transfer
+        - schema: CardPayment
+          fields: [cardType, scheme]
+          reason: Card type and scheme required for payment gateway routing
+        - schema: EWallet
+          fields: [provider]
+          reason: E-wallet provider required for OJK-licensed wallet routing
+        - schema: PaymentDeclaration
+          fields: [method, collectedBy, timing, status, currency]
+          reason: Payment declaration completeness — required for all financial transactions
+        - schema: QRIS
+          fields: [qrisType, merchantId]
+          reason: QRIS merchant identity required for BI QRIS mandate compliance
+        - schema: Refund
+          fields: [refundAmount, refundMethod]
+          reason: Refund amount and method required for consumer protection compliance
+        - schema: VirtualAccount
+          fields: [bankCode, vaNumber]
+          reason: VA identity required for reconciliation and settlement routing
+        - schema: IONProductCompliance
+          fields: [halalStatus, ageRestricted]
+          reason: MUI halal status and age restriction required for all trade products per ION consumer protection policy
+        - schema: IONTicket
+          fields: [id, title, description, type, priority, raisedBy, status, createdAt, updatedAt]
+          reason: Ticket identity and lifecycle fields required for ION dispute and grievance tracking
+        - schema: IONRating
+          fields: [ratingCategory, ratingValue]
+          reason: Rating category and value required for ION trust and reputation system
+        - schema: IONReconciliation
+          fields: [reconId, contractId, collectedBy, settlementBasis, settlementWindow, amounts, counterparty, reconStatus]
+          reason: Core reconciliation identity fields required for financial settlement integrity
+        - schema: IONSupportTicket
+          fields: [id, category, complainantInfo, description, source, status, createdAt, updatedAt]
+          reason: Support ticket identity fields required for OJK-mandated grievance SLA tracking
+        - schema: IONTaxDetail
+          fields: [taxRegime, taxCategory, taxIncluded]
+          reason: Tax regime and category required for DJP/PMK compliance on every taxable transaction
+        - schema: TradeCommitment
+          fields: [lineId, resourceId, offerId, quantity]
+          reason: Order line identification — required to form a valid trade contract
+        - schema: TradeConsideration
+          fields: [breakupLineType, totalAmount, currency]
+          reason: Financial completeness — required for every consideration line
+        - schema: TradeOffer
+          fields: [cancellationPolicy, returnable, returnPolicy, warrantyPolicy, disputePolicy, timeToShip, availableOnCod, contactDetailsConsumerCare, displayLanguage, grievanceSlaPolicy, paymentTermsPolicy]
+          reason: Merchant policy completeness — ONIX enforces these at catalog/publish; required for consumer protection compliance
+        - schema: TradePerformance
+          fields: [performanceMode, supportedPerformanceModes, sla]
+          reason: Delivery mode and SLA required for ONIX performance tracking and penalty enforcement
+        - schema: TradeProvider
+          fields: [invoicingModel, storeStatus, operatingHours, holidayCalendar, providerCategory, nibRegistered, kycStatus, kycLevel, kycValidUntil]
+          reason: Provider operational identity required for ION marketplace listing
+        - schema: TradeResource
+          fields: [quantity, resourceStructure, resourceTangibility, images, logisticsServiceType, availability, ageRestricted, countryOfOrigin]
+          reason: Core product fields required for discovery, logistics routing, and consumer protection
+        - schema: LogisticsConsideration
+          fields: [components, totalAmount]
+          reason: Logistics charge breakdown required for billing transparency
+        - schema: LogisticsOffer
+          fields: [serviceLevel, transportMode, rateLogic, selectRequired, availableOnCod, cancellationPolicy, claimPolicy, slaPolicy, evidencePolicy, disputePolicy]
+          reason: Logistics service terms required for shipper selection and ONIX contract validation
+        - schema: LogisticsProvider
+          fields: [catalogVersion, catalogPublishedAt, catalogValidFrom, nibRegistered, providerCategory, patternsSupported, modesSupported, coverage, operatingHours]
+          reason: Logistics provider capability declaration required for network routing and compliance
+        - schema: LogisticsResource
+          fields: [serviceType, quantity]
+          reason: Shipment service type and quantity required for logistics booking
+        - schema: LogisticsTracking
+          fields: [trackingType]
+          reason: Tracking type required for ONIX to route tracking events to the correct handler
+    crcConditional:
+      description: >
+        Fields required only when the resource carries a specific CRC code.
+        Declared in x-ion-crc-rules. See that block for the full mapping.
+      examples:
+        - crc: TRC-food-bev
+          requiredIn: IONTradeResource
+          fields: [food.classification, food.allergens, packaged.genericName, packaged.countryOfOrigin]
+        - crc: TRC-health-beauty
+          requiredIn: IONTradeResource
+          fields: [regulatory.registrations]
+        - crc: TRC-fashion
+          requiredIn: IONTradeResource
+          fields: [fashion.gender, fashion.size, fashion.fabricComposition]
+    crossSchemaConditional:
+      description: >
+        Fields required only when a field in a different schema bag has a specific value.
+        Declared in x-ion-conditional-rules. ONIX enforces at API boundaries.
+      examples:
+        - trigger: IONParticipant.role = DRIVER
+          requiredIn: IONLogisticsAgent
+          fields: [driverLicenceCategory, driverLicenceNumber]
+        - trigger: IONPayment.paymentRail = COD
+          requiredIn: IONTradeContract
+          fields: [codAmount]
+        - trigger: IONBusinessRegistration.pkpStatus = PKP
+          requiredIn: IONTradeContract
+          fields: [fakturPajakReference]
   x-ion-policy-registry:
     description: 'ION Policy Terms Registry. Policy IRIs are the authoritative source of policy semantics across the network.
       Each offer declares IRIs; ION Central resolves to the terms document and enforces at every API boundary.
@@ -379,19 +1398,19 @@ x-ion-conditional-rules:
     '
   enforcedBy: ONIX
   rules:
-  - schema: LogisticsParticipantAddendum
+  - schema: IONLogisticsAgent
     field: driverLicenceCategory
     triggerSchema: IONParticipant
     triggerField: role
     triggerValue: DRIVER
     condition: Required when role=DRIVER
-  - schema: LogisticsParticipantAddendum
+  - schema: IONLogisticsAgent
     field: driverLicenceNumber
     triggerSchema: IONParticipant
     triggerField: role
     triggerValue: DRIVER
     condition: Required when role=DRIVER (roro, freight, hyperlocal)
-  - schema: LogisticsParticipantAddendum
+  - schema: IONLogisticsAgent
     field: ppjkLicenceNumber
     triggerSchema: IONParticipant
     triggerField: role
@@ -405,7 +1424,7 @@ x-ion-conditional-rules:
     condition: Required when paymentRail=COD
   - schema: TradeContract
     field: fakturPajakReference
-    triggerSchema: IONBusinessIdentity
+    triggerSchema: IONBusinessRegistration
     triggerField: pkpStatus
     triggerValue: PKP
     condition: Required for PKP sellers (identity.pkpStatus=PKP) when invoiceType=TAX_INVOICE
@@ -442,7 +1461,10 @@ paths:
               properties:
                 context:
                   allOf:
+                  # LOCAL (default — active):
                   - $ref: beckn.yaml#/components/schemas/Context
+                  # REMOTE (uncomment to use upstream directly):
+                  # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Context
                   - type: object
                     properties:
                       action:
@@ -456,7 +1478,10 @@ paths:
           content:
             application/json:
               schema:
+                # LOCAL (default — active):
                 $ref: beckn.yaml#/components/schemas/Ack
+                # REMOTE (uncomment to use upstream directly):
+                # $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Ack
   /on_raise:
     post:
       summary: Callback — ticket ID and expected resolution timeline
@@ -476,7 +1501,10 @@ paths:
               properties:
                 context:
                   allOf:
+                  # LOCAL (default — active):
                   - $ref: beckn.yaml#/components/schemas/Context
+                  # REMOTE (uncomment to use upstream directly):
+                  # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Context
                   - type: object
                     properties:
                       action:
@@ -490,7 +1518,10 @@ paths:
           content:
             application/json:
               schema:
+                # LOCAL (default — active):
                 $ref: beckn.yaml#/components/schemas/Ack
+                # REMOTE (uncomment to use upstream directly):
+                # $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Ack
   /raise_status:
     post:
       summary: Query current dispute ticket status
@@ -510,7 +1541,10 @@ paths:
               properties:
                 context:
                   allOf:
+                  # LOCAL (default — active):
                   - $ref: beckn.yaml#/components/schemas/Context
+                  # REMOTE (uncomment to use upstream directly):
+                  # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Context
                   - type: object
                     properties:
                       action:
@@ -524,7 +1558,10 @@ paths:
           content:
             application/json:
               schema:
+                # LOCAL (default — active):
                 $ref: beckn.yaml#/components/schemas/Ack
+                # REMOTE (uncomment to use upstream directly):
+                # $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Ack
   /on_raise_status:
     post:
       summary: Callback — current ticket status and stage
@@ -544,7 +1581,10 @@ paths:
               properties:
                 context:
                   allOf:
+                  # LOCAL (default — active):
                   - $ref: beckn.yaml#/components/schemas/Context
+                  # REMOTE (uncomment to use upstream directly):
+                  # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Context
                   - type: object
                     properties:
                       action:
@@ -558,7 +1598,10 @@ paths:
           content:
             application/json:
               schema:
+                # LOCAL (default — active):
                 $ref: beckn.yaml#/components/schemas/Ack
+                # REMOTE (uncomment to use upstream directly):
+                # $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Ack
   /raise_details:
     post:
       summary: Request full ticket thread
@@ -578,7 +1621,10 @@ paths:
               properties:
                 context:
                   allOf:
+                  # LOCAL (default — active):
                   - $ref: beckn.yaml#/components/schemas/Context
+                  # REMOTE (uncomment to use upstream directly):
+                  # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Context
                   - type: object
                     properties:
                       action:
@@ -592,7 +1638,10 @@ paths:
           content:
             application/json:
               schema:
+                # LOCAL (default — active):
                 $ref: beckn.yaml#/components/schemas/Ack
+                # REMOTE (uncomment to use upstream directly):
+                # $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Ack
   /on_raise_details:
     post:
       summary: Callback — full ticket thread with messages and evidence
@@ -612,7 +1661,10 @@ paths:
               properties:
                 context:
                   allOf:
+                  # LOCAL (default — active):
                   - $ref: beckn.yaml#/components/schemas/Context
+                  # REMOTE (uncomment to use upstream directly):
+                  # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Context
                   - type: object
                     properties:
                       action:
@@ -626,7 +1678,10 @@ paths:
           content:
             application/json:
               schema:
+                # LOCAL (default — active):
                 $ref: beckn.yaml#/components/schemas/Ack
+                # REMOTE (uncomment to use upstream directly):
+                # $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Ack
   /reconcile:
     post:
       summary: Initiate financial settlement reconciliation
@@ -652,7 +1707,10 @@ paths:
               properties:
                 context:
                   allOf:
+                  # LOCAL (default — active):
                   - $ref: beckn.yaml#/components/schemas/Context
+                  # REMOTE (uncomment to use upstream directly):
+                  # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Context
                   - type: object
                     properties:
                       action:
@@ -666,7 +1724,10 @@ paths:
           content:
             application/json:
               schema:
+                # LOCAL (default — active):
                 $ref: beckn.yaml#/components/schemas/Ack
+                # REMOTE (uncomment to use upstream directly):
+                # $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Ack
   /on_reconcile:
     post:
       summary: Callback — reconciliation result
@@ -690,7 +1751,10 @@ paths:
               properties:
                 context:
                   allOf:
+                  # LOCAL (default — active):
                   - $ref: beckn.yaml#/components/schemas/Context
+                  # REMOTE (uncomment to use upstream directly):
+                  # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Context
                   - type: object
                     properties:
                       action:
@@ -704,7 +1768,10 @@ paths:
           content:
             application/json:
               schema:
+                # LOCAL (default — active):
                 $ref: beckn.yaml#/components/schemas/Ack
+                # REMOTE (uncomment to use upstream directly):
+                # $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Ack
 components:
   schemas:
     RaiseAction:
@@ -717,6 +1784,7 @@ components:
           $ref: '#/components/schemas/DisputeTicket'
     DisputeTicket:
       type: object
+      additionalProperties: false
       required:
       - title
       - description
@@ -824,6 +1892,7 @@ components:
           $ref: '#/components/schemas/DisputeTicket'
     RaiseStatusAction:
       type: object
+      additionalProperties: false
       required:
       - ticket
       properties:
@@ -836,6 +1905,7 @@ components:
               type: string
     OnRaiseStatusAction:
       type: object
+      additionalProperties: false
       required:
       - ticket
       properties:
@@ -843,6 +1913,7 @@ components:
           $ref: '#/components/schemas/DisputeTicket'
     RaiseDetailsAction:
       type: object
+      additionalProperties: false
       required:
       - ticket
       properties:
@@ -855,6 +1926,7 @@ components:
               type: string
     OnRaiseDetailsAction:
       type: object
+      additionalProperties: false
       required:
       - ticket
       properties:
@@ -888,7 +1960,10 @@ components:
       properties:
         contract:
           allOf:
+          # LOCAL (default — active):
           - $ref: beckn.yaml#/components/schemas/Contract
+          # REMOTE (uncomment to use upstream directly):
+          # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Contract
           - required:
             - id
             - settlements
@@ -900,7 +1975,10 @@ components:
       properties:
         contract:
           allOf:
+          # LOCAL (default — active):
           - $ref: beckn.yaml#/components/schemas/Contract
+          # REMOTE (uncomment to use upstream directly):
+          # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Contract
           - required:
             - id
             - settlements
@@ -1053,14 +2131,26 @@ components:
 
             '
           example: Blok A3 Lantai 12 Unit 05
-      required:
-      - provinsiCode
+      # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
       x-ion-closed-extensions: false
       allOf:
+      # LOCAL (default — active):
       - $ref: beckn.yaml#/components/schemas/Attributes
-    IONBusinessIdentity:
+      # REMOTE (uncomment to use upstream directly):
+      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+    IONBusinessRegistration:
       type: object
       title: Indonesia Business Identity
+      description: >
+        Indonesian legal business registration and tax identity for a Provider Node (PN/BPP) operating
+        on the ION network. Produced by the merchant or logistics provider at onboarding and
+        re-validated by ONIX at every /on_confirm boundary. Consumed by Consumer Nodes (CNs/BAPs) to
+        verify merchant legitimacy, by the ION settlement layer to determine tax withholding obligations,
+        and by ONIX to enforce Indonesian regulatory requirements (PMK 136/2023 tax compliance, PP
+        24/2018 OSS business licensing, UU 27/2022 PDP data residency). Extends beckn.yaml Attributes;
+        mounts onto Provider.providerAttributes as a composed extension. Upstream parent: Participant
+        v2.0 (schema.beckn.io). ION-native fields: all — this schema has no generic layer counterpart
+        in the extension pack sense; it IS the ION-specific layer for provider identity.
       additionalProperties: true
       x-jsonld:
         '@context': ./context.jsonld
@@ -1143,14 +2233,12 @@ components:
             '
           example: SPIRT.2064701011023
           x-ion-regulatory: PerBPOM 22/2018 tentang Pedoman Pemberian Sertifikat Produksi Pangan Industri Rumah Tangga
-      required:
-      - npwp
-      - nib
-      - pkpStatus
-      - legalEntityName
-      - businessType
+      # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
       allOf:
+      # LOCAL (default — active):
       - $ref: beckn.yaml#/components/schemas/Attributes
+      # REMOTE (uncomment to use upstream directly):
+      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:
           properties:
             businessType:
@@ -1163,6 +2251,7 @@ components:
       x-ion-closed-extensions: false
     IONCatalogLocalization:
       type: object
+      additionalProperties: false
       title: ION Catalog Localization
       description: 'Localised text fields for catalog content — name, short description, long description. All three use the
         LocalisedText pattern. These extend beckn:descriptor fields with proper multilingual support.
@@ -1195,11 +2284,10 @@ components:
 
             '
           x-ion-regulatory: ION Network Policy — Bahasa Indonesia localisation requirement
-      required:
-      - name
-      - shortDesc
+      # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
     LocalisedText:
       type: object
+      additionalProperties: false
       title: Localised Text Object
       description: 'Language-keyed text object. Keys are ISO 639-1 language codes. "id" is always mandatory per ION network
         policy. "en" is mandatory for export commerce (cross-border pattern). Additional languages optional: ms (Malay), zh
@@ -1237,16 +2325,25 @@ components:
       example:
         id: Nasi Goreng Spesial
         en: Special Fried Rice
-      required:
-      - id
+      # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
     IONParticipant:
       type: object
       title: ION Participant Attributes
+      description: >
+        Role-specific identity and contact attributes for a participant in an ION transaction.
+        A participant is any actor recorded on a Contract — buyer, seller, carrier, consignee,
+        delivery agent, guarantor, or platform. Produced by the party declaring their own role
+        at /init or /confirm time; consumed by counterparties and ONIX to enforce role-based
+        access controls, regulatory identity checks, and notification routing. Fields attach
+        as DIRECT PROPERTIES on the Beckn v2.0.0 Participant object — NOT inside a
+        participantAttributes wrapper. This is the single exception to the *Attributes container
+        pattern; Beckn v2.0.0 Participant has no participantAttributes extension bag.
+        Upstream parent: Participant v2.0 (schema.beckn.io).
       additionalProperties: true
       x-jsonld:
         '@context': ./context.jsonld
         '@type': ion:IONParticipant
-      x-beckn-attaches-to: Participant.participantAttributes
+      x-beckn-attaches-to: Participant (direct properties — NOT participantAttributes)
       properties:
         role:
           type: string
@@ -1479,10 +2576,12 @@ components:
                     type: string
                     format: time
           x-ion-conditional: true
-      required:
-      - role
+      # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
       allOf:
+      # LOCAL (default — active):
       - $ref: beckn.yaml#/components/schemas/Attributes
+      # REMOTE (uncomment to use upstream directly):
+      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:
           properties:
             role:
@@ -1535,8 +2634,7 @@ components:
           type: string
           description: Indonesian equivalent — bank routing code
       x-ion-regulatory: PBI 22/23/PBI/2020 tentang Sistem Pembayaran; SNAP BI specification
-      required:
-      - settlementType
+      # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
     BNPL:
       type: object
       title: Buy Now Pay Later
@@ -1577,8 +2675,7 @@ components:
         firstPaymentDate:
           type: string
           format: date
-      required:
-      - provider
+      # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
     BankTransfer:
       type: object
       title: Bank Transfer
@@ -1600,9 +2697,7 @@ components:
           - INTERNET_BANKING
           - MOBILE_BANKING
           - TELLER
-      required:
-      - bankCode
-      - accountNumber
+      # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
     CardPayment:
       type: object
       title: Credit or Debit Card Payment
@@ -1631,11 +2726,10 @@ components:
         gatewayRef:
           type: string
           description: Payment gateway transaction reference
-      required:
-      - cardType
-      - scheme
+      # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
     CashOnDelivery:
       type: object
+      additionalProperties: false
       title: Cash On Delivery
       description: 'Runtime COD collection state. Offer-level COD policy fields (OTP required, denominations accepted, buyer
         daily limit, hold period, reconciliation variance) are declared per-offer in schema/extensions/logistics/offer/v1
@@ -1685,6 +2779,7 @@ components:
           x-ion-condition: Required when collectionAmountCollected < collectionAmount
     CreditTerms:
       type: object
+      additionalProperties: false
       title: Credit Terms
       description: 'Credit-based payment terms (business-procurement pattern, FWA-governed logistics, any deferred-payment
         scenario). Populated on PaymentDeclaration when method=CREDIT_FACILITY or when an active FWA grants credit terms to
@@ -1765,10 +2860,10 @@ components:
           format: uri
           description: Deep link to open wallet app for payment
       x-ion-regulatory: PBI 23/6/PBI/2021 tentang Penyedia Jasa Pembayaran
-      required:
-      - provider
+      # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
     InvoiceReference:
       type: object
+      additionalProperties: false
       title: Invoice Reference
       description: 'Invoice document references. A transaction may have a proforma (issued at /init for credit-term scenarios)
         and a final invoice (issued at /on_confirm or later). Faktur Pajak tax-invoice references live in core/tax/v1 — this
@@ -1792,6 +2887,7 @@ components:
           description: URL to PDF invoice (access-controlled, time-limited)
     PaymentDeclaration:
       type: object
+      additionalProperties: false
       title: Payment Declaration
       description: 'Contents of a Beckn Settlement''s settlementAttributes bag for a buyer-facing payment event. Binds a payment
         method to a transaction and carries method-specific instrument details in methodDetail.
@@ -1932,14 +3028,12 @@ components:
           $ref: '#/components/schemas/InvoiceReference'
         processingFee:
           $ref: '#/components/schemas/ProcessingFee'
-      required:
-      - method
-      - collectedBy
-      - timing
-      - status
-      - currency
+      # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
       allOf:
+      # LOCAL (default — active):
       - $ref: beckn.yaml#/components/schemas/Attributes
+      # REMOTE (uncomment to use upstream directly):
+      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:
           properties:
             method:
@@ -1961,6 +3055,7 @@ components:
       x-ion-closed-extensions: false
     ProcessingFee:
       type: object
+      additionalProperties: false
       title: Payment Processing Fee
       description: 'Per-transaction processing fee charged by the payment gateway or collecting party. Carried on the PaymentDeclaration
         so both parties see the fee split.
@@ -2032,11 +3127,10 @@ components:
           format: date-time
           description: Expiry for DYNAMIC QRIS. UTC (ISO 8601).
       x-ion-regulatory: PBI 21/18/PBI/2019 tentang Implementasi Standar Nasional Quick Response Code
-      required:
-      - qrisType
-      - merchantId
+      # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
     Refund:
       type: object
+      additionalProperties: false
       title: Refund
       description: 'Refund record attached to a PaymentDeclaration when a settlement is fully or partially refunded. Default
         destination is the original payment instrument (MATI — refund to original); fallbacks are declared explicitly.
@@ -2084,9 +3178,7 @@ components:
         refundSettledAt:
           type: string
           format: date-time
-      required:
-      - refundAmount
-      - refundMethod
+      # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
     VirtualAccount:
       type: object
       title: Bank Virtual Account
@@ -2119,10 +3211,8 @@ components:
           type: string
           format: date-time
           description: VA expiry timestamp in UTC
-      required:
-      - bankCode
-      - vaNumber
-    IONProductCertifications:
+      # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
+    IONProductCompliance:
       type: object
       title: Indonesia Product Certifications
       additionalProperties: false
@@ -2224,9 +3314,7 @@ components:
         then:
           required:
           - halalCertNumber
-      required:
-      - halalStatus
-      - ageRestricted
+      # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
     IONTicket:
       type: object
       title: ION Issue Ticket
@@ -2408,16 +3496,7 @@ components:
         resolvedAt:
           type: string
           format: date-time
-      required:
-      - id
-      - title
-      - description
-      - type
-      - priority
-      - raisedBy
-      - status
-      - createdAt
-      - updatedAt
+      # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
     IONRating:
       type: object
       title: ION Rating Attributes
@@ -2538,15 +3617,26 @@ components:
             respondedBy:
               type: string
               description: Name of seller representative
-      required:
-      - ratingCategory
-      - ratingValue
+      # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
       x-ion-closed-extensions: false
       allOf:
+      # LOCAL (default — active):
       - $ref: beckn.yaml#/components/schemas/Attributes
+      # REMOTE (uncomment to use upstream directly):
+      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
     IONReconciliation:
       type: object
       title: ION Reconcile Attributes
+      description: >
+        Post-fulfilment financial reconciliation record between a merchant (BPP/receiver) and a
+        platform or aggregator (BAP/collector) on the ION network. Produced by the receiving party
+        (BPP) in the /on_reconcile callback after reviewing the collector's submitted amounts;
+        consumed by the initiating party (BAP/collector) to confirm amounts before triggering
+        settlement. Carries the agreed or disputed financial position: base contract amount, finder
+        fee, tax withholding, adjustments (returns, penalties, COD remittance), and the net
+        settlement amount. If reconStatus is DISPUTED, the initiating party MUST raise a ticket
+        via /raise before settlement proceeds. Mounts onto Settlement.settlementAttributes.
+        Upstream parent: Settlement v2.0 (schema.beckn.io).
       additionalProperties: true
       x-jsonld:
         '@context': ./context.jsonld
@@ -2651,9 +3741,13 @@ components:
                 - PLATFORM_FEE_CORRECTION
               amount:
                 type: number
-                description: 'IDR amount. Positive = deducted from receiver. Negative = credited to receiver.
-
-                  '
+                description: >
+                  Adjustment amount in the declared currency. Positive value = deducted from
+                  receiver's net settlement. Negative value = credited to receiver.
+              currency:
+                type: string
+                default: IDR
+                description: ISO 4217 currency code for this adjustment. Defaults to IDR for ION network transactions.
               reason:
                 type: string
                 description: Human-readable reason for adjustment
@@ -2726,29 +3820,18 @@ components:
           - PENDING
           - AGREED
           - DISPUTED
-          description: 'PENDING: recon initiated, awaiting counterparty acknowledgment. AGREED: both parties agree on amounts.
-            DISPUTED: amounts do not match — raise ticket via raise/on_raise.
-
-            '
+          description: >
+            ION canonical reconciliation status. Produced by the receiving party (BPP/receiver) on
+            /on_reconcile and consumed by the initiating party (BAP/collector) to determine whether
+            to proceed to settlement or raise a dispute ticket. PENDING: reconciliation initiated,
+            awaiting counterparty acknowledgment. AGREED: both parties confirm the amounts match and
+            settlement may proceed. DISPUTED: amounts do not match — initiating party MUST raise a
+            ticket via /raise before settlement can proceed.
           example: PENDING
-        disputeReason:
-          type: string
-          description: 'Human-readable reason for DISPUTED status. Referenced when raising a dispute ticket via raise/on_raise.
 
             '
           x-ion-condition: Required when reconStatus is DISPUTED
-        recon_status:
-          type: string
-          enum:
-          - '01'
-          - '02'
-          - '03'
-          description: 'Numeric recon status compatible with ONDC RSF receiver_recon model. 01=amounts match, 02=collector
-            paid more than expected, 03=less than expected.
-
-            '
-          x-ion-conditional: true
-          x-ion-condition: Set by on_reconcile from BPP/receiver
+        # recon_status removed in v0.7.0 — GAP 10. Do not use recon_status in new payloads.
         slaPenaltyDeduction:
           type: number
           minimum: 0
@@ -3000,17 +4083,12 @@ components:
                   type: boolean
           x-ion-conditional: true
           x-ion-condition: Required when one or more settlements in this reconcile carry method=COD
-      required:
-      - reconId
-      - contractId
-      - collectedBy
-      - settlementBasis
-      - settlementWindow
-      - amounts
-      - counterparty
-      - reconStatus
+      # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
       allOf:
+      # LOCAL (default — active):
       - $ref: beckn.yaml#/components/schemas/Attributes
+      # REMOTE (uncomment to use upstream directly):
+      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:
           properties:
             adjustmentType:
@@ -3316,17 +4394,12 @@ components:
           type: string
           description: Kominfo consumer complaint portal reference
           x-ion-condition: Required when escalationLevel=KOMINFO
-      required:
-      - id
-      - category
-      - complainantInfo
-      - description
-      - source
-      - status
-      - createdAt
-      - updatedAt
+      # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
       allOf:
+      # LOCAL (default — active):
       - $ref: beckn.yaml#/components/schemas/Attributes
+      # REMOTE (uncomment to use upstream directly):
+      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:
           properties:
             escalationLevel:
@@ -3442,10 +4515,7 @@ components:
           - taxRate
           - taxAmount
           - taxBaseAmount
-      required:
-      - taxRegime
-      - taxCategory
-      - taxIncluded
+      # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
     TradeCommitment:
       type: object
       title: Trade Commitment Attributes
@@ -3570,17 +4640,26 @@ components:
             '
           maxLength: 500
           example: Tanpa bawang, tolong pedas ekstra.
-      required:
-      - lineId
-      - resourceId
-      - offerId
-      - quantity
+      # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
       x-ion-closed-extensions: false
       allOf:
+      # LOCAL (default — active):
       - $ref: beckn.yaml#/components/schemas/Attributes
+      # REMOTE (uncomment to use upstream directly):
+      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
     TradeConsideration:
       type: object
       title: Trade Consideration Attributes
+      description: >
+        Financial terms and price breakdown for a single consideration line in a trade transaction
+        on the ION network. Produced by the merchant Provider Node (PN/BPP) in /on_select, /on_init,
+        and /on_confirm responses; consumed by the Consumer Node (CN/BAP) to display the itemised
+        price breakdown to the buyer and to validate total payable amounts. Each consideration
+        line covers one pricing unit (per-item, per-order, delivery charge, tax line, discount, etc.)
+        with a canonical breakup line type, total amount, and currency. Indonesian tax obligations
+        (PPN at 11% per PMK 131/2024, PPNBM for luxury goods, PPh-22/23 withholding) are
+        expressed as separate consideration lines, not embedded in item prices. Mounts onto
+        Consideration.considerationAttributes. Upstream parent: RetailConsideration v2.1.
       additionalProperties: true
       x-jsonld:
         '@context': ./context.jsonld
@@ -3689,13 +4768,13 @@ components:
           const: IDR
           description: Always IDR for domestic ION transactions.
           default: IDR
-      required:
-      - breakupLineType
-      - totalAmount
-      - currency
+      # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
       x-ion-closed-extensions: false
       allOf:
+      # LOCAL (default — active):
       - $ref: beckn.yaml#/components/schemas/Attributes
+      # REMOTE (uncomment to use upstream directly):
+      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
     TradeContract:
       type: object
       title: Trade Contract Attributes
@@ -4164,7 +5243,10 @@ components:
           x-ion-conditional: true
           x-ion-condition: Required when paymentTermsPolicy is schedule-based
       allOf:
+      # LOCAL (default — active):
       - $ref: beckn.yaml#/components/schemas/Attributes
+      # REMOTE (uncomment to use upstream directly):
+      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:
           properties:
             subscriptionPauseType:
@@ -4791,7 +5873,10 @@ components:
             '
           example: Garansi seumur hidup untuk mekanisme jam tangan mewah (terms & conditions apply - see seller page).
       allOf:
+      # LOCAL (default — active):
       - $ref: beckn.yaml#/components/schemas/Attributes
+      # REMOTE (uncomment to use upstream directly):
+      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:
           properties:
             returnable:
@@ -4829,18 +5914,7 @@ components:
         then:
           required:
           - returnEvidenceRequirement
-      required:
-      - cancellationPolicy
-      - returnable
-      - returnPolicy
-      - warrantyPolicy
-      - disputePolicy
-      - timeToShip
-      - availableOnCod
-      - contactDetailsConsumerCare
-      - displayLanguage
-      - grievanceSlaPolicy
-      - paymentTermsPolicy
+      # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
       x-ion-closed-extensions: false
     TradePerformance:
       type: object
@@ -5295,12 +6369,12 @@ components:
             '
           x-ion-conditional: true
           x-ion-condition: Required when delivery fails due to age verification
-      required:
-      - performanceMode
-      - supportedPerformanceModes
-      - sla
+      # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
       allOf:
+      # LOCAL (default — active):
       - $ref: beckn.yaml#/components/schemas/Attributes
+      # REMOTE (uncomment to use upstream directly):
+      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:
           properties:
             ageVerificationMethod:
@@ -5653,7 +6727,10 @@ components:
           x-ion-conditional: true
           x-ion-condition: Required for regulated categories (pharmacy, alcohol, tobacco, meat)
       allOf:
+      # LOCAL (default — active):
       - $ref: beckn.yaml#/components/schemas/Attributes
+      # REMOTE (uncomment to use upstream directly):
+      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:
           properties:
             storeStatus:
@@ -5718,16 +6795,7 @@ components:
         then:
           required:
           - temporaryClosureEnd
-      required:
-      - invoicingModel
-      - storeStatus
-      - operatingHours
-      - holidayCalendar
-      - providerCategory
-      - nibRegistered
-      - kycStatus
-      - kycLevel
-      - kycValidUntil
+      # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
       x-ion-closed-extensions: false
     LocalisedText__trade_resource:
       type: object
@@ -5743,16 +6811,37 @@ components:
       example:
         id: Nasi Goreng Spesial
         en: Special Fried Rice
-      required:
-      - id
+      # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
     TradeResource:
       type: object
       title: Trade Resource Attributes
+      description: >
+        A tradeable physical product, digital good, or service offered by a merchant on the ION
+        trade network. Produced by Provider Nodes (PNs/BPPs) during catalog publication and
+        /on_discover responses; consumed by Consumer Nodes (CNs/BAPs) to present product listings
+        and drive discovery, selection, and ordering. TradeResource is the generic (network-agnostic)
+        layer for trade sector resources; ION-specific regulatory, compliance, and Indonesia-mandated
+        fields are carried by IONTradeResource, which extends this schema via allOf in the extension
+        pack. Mounts onto Resource.resourceAttributes. Inherits @context and @type requirements from
+        beckn.yaml Attributes. Upstream parent: RetailResource v2.1 (schema.beckn.io) — version-pinned
+        per x-ion-schema-dependencies.
       additionalProperties: true
       x-jsonld:
         '@context': ./context.jsonld
         '@type': ion:TradeResource
       x-beckn-attaches-to: Resource.resourceAttributes
+      x-ion-layer: generic
+      x-ion-split-note: >
+        GAP 4 / v0.7.0 two-schema split. This ion.yaml entry is the GENERIC layer for
+        TradeResource — it carries only network-agnostic fields. The ION-specific regulatory
+        and compliance fields (dataResidency, regionOfOrigin, geographicIndicationCert,
+        regulatory.registrations, agritech.mandiReferencePrice, digital.digitalCategory,
+        bundleComposition with BPOM/Postel IDs, etc.) belong on IONTradeResource in the
+        extension pack schema/extensions/trade/resource/v1/attributes.yaml. In ion.yaml the
+        full merged schema is presented for validator convenience — implementers MUST read
+        the two-layer split in the extension pack as authoritative. Indonesia-specific fields
+        visible below are from the ION layer and MUST only be enforced per x-ion-crc-rules
+        and x-ion-field-requirements — never hardcoded as required by the shared schema.
       properties:
         quantity:
           type: object
@@ -5834,7 +6923,7 @@ components:
               $ref: '#/components/schemas/LocalisedText'
             variantOn:
               type: string
-              description: The attribute that varies. e.g. size, colour, storage
+              description: The attribute that varies. e.g. size, color, storage
               example: size
           x-ion-condition: Required when resourceStructure = VARIANT
         variantMatrix:
@@ -6132,31 +7221,63 @@ components:
           type: object
           additionalProperties: false
           properties:
-            colour:
+            color:
               type: string
-              pattern: ^#[0-9A-Fa-f]{6}$
-              example: '#FF5733'
-            colourName:
+              description: >
+                Product color in any commonly understood format — hex code (#FF5733), CSS name
+                (coral), or trade name (Phantom Black). Open string; no pattern constraint so
+                that color values expressed in natural language are not rejected.
+              example: Phantom Black
+            colorName:
               type: string
-              description: Required when colour is specified
-              example: Coral
+              description: >
+                Human-readable localised color name, displayed in the product listing.
+                Provide alongside color when color is a hex or technical code.
+              example: Hitam Malam
             dimensions:
               type: object
               additionalProperties: false
               properties:
-                lengthCm:
+                unit:
+                  type: string
+                  enum:
+                  - MM
+                  - CM
+                  - M
+                  - IN
+                  - FT
+                  description: Unit of measurement for length, breadth, and height values.
+                  default: CM
+                length:
                   type: number
                   minimum: 0
-                widthCm:
+                breadth:
                   type: number
                   minimum: 0
-                heightCm:
+                height:
                   type: number
                   minimum: 0
-            weightKg:
-              type: number
-              minimum: 0
-              example: 0.5
+            weight:
+              type: object
+              additionalProperties: false
+              description: >
+                Physical weight of the product. Used by logistics providers to compute
+                shipping charges. Declare in the most precise unit available.
+              properties:
+                value:
+                  type: number
+                  minimum: 0
+                  description: Numeric weight quantity.
+                  example: 162
+                unit:
+                  type: string
+                  enum:
+                  - G
+                  - KG
+                  - OZ
+                  - LB
+                  description: Unit of weight measurement.
+                  default: G
         packaged:
           type: object
           additionalProperties: false
@@ -6391,12 +7512,16 @@ components:
               example: Padang
             spiceLevel:
               type: string
-              enum:
-              - NONE
-              - LOW
-              - MEDIUM
-              - HIGH
-              - EXTRA_HOT
+              description: >
+                Spice intensity of the dish. Open string — regional spice terminology varies
+                significantly (e.g. Indonesian "pedas sedang" vs international "medium"). Use
+                suggested values for cross-platform listings; custom values permitted.
+              x-ion-suggested-values:
+                - NONE
+                - LOW
+                - MEDIUM
+                - HIGH
+                - EXTRA_HOT
             freshProduce:
               type: object
               additionalProperties: false
@@ -6452,50 +7577,62 @@ components:
               x-ion-regulatory: PerBSN SNI 0055:2009
             fitType:
               type: string
-              enum:
-              - SLIM
-              - REGULAR
-              - OVERSIZED
-              - RELAXED
-              - ATHLETIC
+              description: >
+                Garment fit style. Open string — new fit terminology does not require a schema bump.
+                Use the suggested values for maximum cross-platform discoverability.
+              x-ion-suggested-values:
+                - SLIM
+                - REGULAR
+                - OVERSIZED
+                - RELAXED
+                - ATHLETIC
             sleeveType:
               type: string
-              enum:
-              - SLEEVELESS
-              - SHORT
-              - THREE_QUARTER
-              - FULL
-              - NONE
+              description: Sleeve length or style of the garment. Open string.
+              x-ion-suggested-values:
+                - SLEEVELESS
+                - SHORT
+                - THREE_QUARTER
+                - FULL
+                - NONE
             collarType:
               type: string
-              enum:
-              - ROUND
-              - V_NECK
-              - POLO
-              - SPREAD
-              - MANDARIN
-              - HOODIE
-              - NONE
+              description: Collar or neckline style. Open string.
+              x-ion-suggested-values:
+                - ROUND
+                - V_NECK
+                - POLO
+                - SPREAD
+                - MANDARIN
+                - HOODIE
+                - NONE
             occasion:
               type: string
-              enum:
-              - CASUAL
-              - FORMAL
-              - ETHNIC
-              - SPORTS
-              - PARTY
-              - BEACH
-              - WORKWEAR
+              description: >
+                Intended wearing occasion or context. Open string — occasion terminology varies
+                significantly by culture and market. Use suggested values where applicable.
+              x-ion-suggested-values:
+                - CASUAL
+                - FORMAL
+                - ETHNIC
+                - SPORTS
+                - PARTY
+                - BEACH
+                - WORKWEAR
             pattern:
               type: string
-              enum:
-              - SOLID
-              - PRINTED
-              - STRIPED
-              - CHECKED
-              - EMBROIDERED
-              - TIE_DYE
-              - BATIK
+              description: >
+                Visual surface pattern of the fabric. Open string — pattern descriptions are
+                culturally variable and new patterns (e.g. regional batik motifs) should not
+                require a schema bump.
+              x-ion-suggested-values:
+                - SOLID
+                - PRINTED
+                - STRIPED
+                - CHECKED
+                - EMBROIDERED
+                - TIE_DYE
+                - BATIK
             careInstructions:
               type: string
               example: Cuci tangan, jangan diperas, jemur di tempat teduh
@@ -7144,7 +8281,10 @@ components:
           x-ion-conditional: true
           x-ion-condition: Required for pharmacy, health-data, financial-services categories
       allOf:
+      # LOCAL (default — active):
       - $ref: beckn.yaml#/components/schemas/Attributes
+      # REMOTE (uncomment to use upstream directly):
+      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:
           properties:
             resourceStructure:
@@ -7187,15 +8327,7 @@ components:
           required:
           - isDefaultVariant
           - variantGroup
-      required:
-      - quantity
-      - resourceStructure
-      - resourceTangibility
-      - images
-      - logisticsServiceType
-      - availability
-      - ageRestricted
-      - countryOfOrigin
+      # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
       x-ion-closed-extensions: false
     LogisticsCommitment:
       type: object
@@ -7287,7 +8419,10 @@ components:
           description: Parent commitment reference for child transactions under a parent contract
       x-ion-closed-extensions: false
       allOf:
+      # LOCAL (default — active):
       - $ref: beckn.yaml#/components/schemas/Attributes
+      # REMOTE (uncomment to use upstream directly):
+      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
     LogisticsConsideration:
       type: object
       title: Logistics Consideration Attributes
@@ -7297,92 +8432,109 @@ components:
         '@type': ion:LogisticsConsideration
       x-beckn-attaches-to: Consideration.considerationAttributes
       properties:
-        breakup:
+        # breakup[] removed — replaced by components[] per Beckn v2.0.0 LTS (GAP 30).
+        # The legacy titleType enum is preserved as x-ion-suggested-values on the type field below.
+        components:
           type: array
-          description: Line-item financial breakdown. Each entry is one charge type.
+          description: >
+            Line-item financial breakdown for this logistics consideration. Each entry represents one
+            charge type in the logistics transaction. Produced by the logistics provider (PN/BPP) at
+            /on_select and confirmed at /on_init and /on_confirm. Consumed by the shipper (CN/BAP) to
+            display the full charge breakdown to the end customer. Extends the Beckn v2.0.0 LTS
+            components[] pattern (type / value / currency / description) with ION logistics-specific
+            charge types expressed as an open vocabulary via x-ion-suggested-values.
           items:
             type: object
+            additionalProperties: false
             properties:
-              titleType:
+              type:
                 type: string
-                enum:
-                - FREIGHT_BASE
-                - MINIMUM_CHARGE
-                - COD_COLLECTION_FEE
-                - COD_HANDLING_FEE
-                - COD_CONVENIENCE_FEE
-                - COD_CHARGE
-                - FUEL_SURCHARGE
-                - PEAK_SEASON_SURCHARGE
-                - EMERGENCY_BUNKER_SURCHARGE
-                - CURRENCY_ADJUSTMENT_FACTOR
-                - LOW_SULPHUR_SURCHARGE
-                - SECURITY_SURCHARGE
-                - CHASSIS_FEE
-                - DEMURRAGE
-                - DETENTION
-                - TERMINAL_HANDLING_CHARGE
-                - DOCUMENTATION_FEE
-                - BILL_OF_LADING_FEE
-                - CONTAINER_CLEANING_FEE
-                - MULTI_STOP_PICKUP_FEE
-                - MULTI_STOP_DELIVERY_FEE
-                - SIGNATURE_ON_DELIVERY_FEE
-                - INSIDE_DELIVERY_FEE
-                - LIFTGATE_DELIVERY_FEE
-                - RESIDENTIAL_DELIVERY_FEE
-                - ARMED_ESCORT_FEE
-                - WAITING_TIME_FEE
-                - REDELIVERY_FEE
-                - HANDLING_FEE
-                - COLD_CHAIN_PREMIUM
-                - HAZMAT_SURCHARGE
-                - REEFER_POWER_FEE
-                - REMOTE_AREA_SURCHARGE
-                - OVERSIZE_SURCHARGE
-                - OVERWEIGHT_SURCHARGE
-                - HIGH_VALUE_DECLARATION_FEE
-                - INSURANCE_PREMIUM
-                - WAR_RISK_PREMIUM
-                - STRIKE_RISK_PREMIUM
-                - CUSTOMS_DUTY
-                - CUSTOMS_HANDLING_FEE
-                - INATRADE_PERMIT_FEE
-                - FUMIGATION_FEE
-                - PHYTOSANITARY_FEE
-                - VALUE_ADDED_SERVICE_FEE
-                - PICK_PACK_FEE
-                - STORAGE_FEE
-                - QC_INSPECTION_FEE
-                - KITTING_FEE
-                - LABELLING_FEE
-                - PACKAGING_FEE
-                - RETURNS_PROCESSING_FEE
-                - RE_ATTEMPT_FEE
-                - FAILED_PICKUP_FEE
-                - RETURN_TO_SENDER_FEE
-                - WEIGHT_DIFF_ADJUSTMENT
-                - CREDIT_NOTE
-                - DISCOUNT
-                - VOLUME_REBATE
-                - SLA_REBATE
-                - PAYMENT_PROCESSING_FEE
-                - PPN_TAX
-                - PPNBM_TAX
-                - PPN_DIBEBASKAN_CREDIT
-                - PPH_23_WITHHOLDING
-                - STAMP_DUTY
-              amount:
+                description: >
+                  Logistics charge type for this component. Open string — use the suggested values
+                  below where applicable; custom values are permitted for network-participant-specific
+                  charge types. New charge types do not require a schema bump.
+                x-ion-suggested-values:
+                  - FREIGHT_BASE
+                  - MINIMUM_CHARGE
+                  - COD_COLLECTION_FEE
+                  - COD_HANDLING_FEE
+                  - COD_CONVENIENCE_FEE
+                  - COD_CHARGE
+                  - FUEL_SURCHARGE
+                  - PEAK_SEASON_SURCHARGE
+                  - EMERGENCY_BUNKER_SURCHARGE
+                  - CURRENCY_ADJUSTMENT_FACTOR
+                  - LOW_SULPHUR_SURCHARGE
+                  - SECURITY_SURCHARGE
+                  - CHASSIS_FEE
+                  - DEMURRAGE
+                  - DETENTION
+                  - TERMINAL_HANDLING_CHARGE
+                  - DOCUMENTATION_FEE
+                  - BILL_OF_LADING_FEE
+                  - CONTAINER_CLEANING_FEE
+                  - MULTI_STOP_PICKUP_FEE
+                  - MULTI_STOP_DELIVERY_FEE
+                  - SIGNATURE_ON_DELIVERY_FEE
+                  - INSIDE_DELIVERY_FEE
+                  - LIFTGATE_DELIVERY_FEE
+                  - RESIDENTIAL_DELIVERY_FEE
+                  - ARMED_ESCORT_FEE
+                  - WAITING_TIME_FEE
+                  - REDELIVERY_FEE
+                  - HANDLING_FEE
+                  - COLD_CHAIN_PREMIUM
+                  - HAZMAT_SURCHARGE
+                  - REEFER_POWER_FEE
+                  - REMOTE_AREA_SURCHARGE
+                  - OVERSIZE_SURCHARGE
+                  - OVERWEIGHT_SURCHARGE
+                  - HIGH_VALUE_DECLARATION_FEE
+                  - INSURANCE_PREMIUM
+                  - WAR_RISK_PREMIUM
+                  - STRIKE_RISK_PREMIUM
+                  - CUSTOMS_DUTY
+                  - CUSTOMS_HANDLING_FEE
+                  - INATRADE_PERMIT_FEE
+                  - FUMIGATION_FEE
+                  - PHYTOSANITARY_FEE
+                  - VALUE_ADDED_SERVICE_FEE
+                  - PICK_PACK_FEE
+                  - STORAGE_FEE
+                  - QC_INSPECTION_FEE
+                  - KITTING_FEE
+                  - LABELLING_FEE
+                  - PACKAGING_FEE
+                  - RETURNS_PROCESSING_FEE
+                  - RE_ATTEMPT_FEE
+                  - FAILED_PICKUP_FEE
+                  - RETURN_TO_SENDER_FEE
+                  - WEIGHT_DIFF_ADJUSTMENT
+                  - CREDIT_NOTE
+                  - DISCOUNT
+                  - VOLUME_REBATE
+                  - SLA_REBATE
+                  - PAYMENT_PROCESSING_FEE
+                  - PPN_TAX
+                  - PPNBM_TAX
+                  - PPN_DIBEBASKAN_CREDIT
+                  - PPH_23_WITHHOLDING
+                  - STAMP_DUTY
+              value:
                 type: number
+                description: Monetary amount for this component. Positive = charge to shipper. Negative = credit or rebate.
               currency:
                 type: string
                 default: IDR
+                description: ISO 4217 currency code. Defaults to IDR for ION network transactions.
+              description:
+                type: string
+                description: Human-readable description of this charge line, suitable for display on invoice or receipt.
               ppnRate:
                 type: number
-                description: 'PPN rate actually charged on this line (decimal fraction). Source applicable rate from current
-                  DJP/PMK regulation — current standard is 0.11 per PMK 131/2024.
-
-                  '
+                description: >
+                  PPN rate applied to this component (decimal fraction). Source the applicable rate
+                  from current DJP/PMK regulation — current standard is 0.11 per PMK 131/2024.
                 x-ion-conditional: true
         totalAmount:
           type: number
@@ -7438,13 +8590,13 @@ components:
         revisedAmount:
           type: number
           description: BPP's proposed revised total after weight discrepancy
-        revisionBreakup:
+        revisionComponents:
           type: array
-          description: Breakup of the revised amount
+          description: Component-level breakdown of the revised amount after weight discrepancy or price correction.
           items:
             type: object
             properties:
-              titleType:
+              type:
                 type: string
               originalAmount:
                 type: number
@@ -7481,12 +8633,13 @@ components:
           type: number
           description: Computed PPN amount
           x-ion-conditional: true
-      required:
-      - breakup
-      - totalAmount
+      # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
       x-ion-closed-extensions: false
       allOf:
+      # LOCAL (default — active):
       - $ref: beckn.yaml#/components/schemas/Attributes
+      # REMOTE (uncomment to use upstream directly):
+      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
     LogisticsContract:
       type: object
       title: Logistics Contract Attributes
@@ -8096,7 +9249,10 @@ components:
           type: string
       x-ion-closed-extensions: false
       allOf:
+      # LOCAL (default — active):
       - $ref: beckn.yaml#/components/schemas/Attributes
+      # REMOTE (uncomment to use upstream directly):
+      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
     LogisticsOffer:
       type: object
       title: Logistics Offer Attributes
@@ -8879,19 +10035,12 @@ components:
         fwaApplicable:
           type: boolean
           description: Whether this offer accepts FWA-governed transactions
-      required:
-      - serviceLevel
-      - transportMode
-      - rateLogic
-      - selectRequired
-      - availableOnCod
-      - cancellationPolicy
-      - claimPolicy
-      - slaPolicy
-      - evidencePolicy
-      - disputePolicy
+      # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
       allOf:
+      # LOCAL (default — active):
       - $ref: beckn.yaml#/components/schemas/Attributes
+      # REMOTE (uncomment to use upstream directly):
+      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:
           properties:
             availableOnCod:
@@ -8902,14 +10051,14 @@ components:
           required:
           - codVerifiedReceiptOtpRequired
       x-ion-closed-extensions: false
-    LogisticsParticipantAddendum:
+    IONLogisticsAgent:
       type: object
       title: Logistics Participant Addendum
       additionalProperties: true
       x-jsonld:
         '@context': ./context.jsonld
-        '@type': ion:LogisticsParticipantAddendum
-      x-beckn-attaches-to: Participant.participantAttributes
+        '@type': ion:LogisticsAgent
+      x-beckn-attaches-to: Participant (direct properties — no participantAttributes wrapper in Beckn v2.0)
       properties:
         ppjkLicenceNumber:
           type: string
@@ -8942,7 +10091,10 @@ components:
           x-ion-cross-schema-condition: true
       x-ion-closed-extensions: false
       allOf:
+      # LOCAL (default — active):
       - $ref: beckn.yaml#/components/schemas/Attributes
+      # REMOTE (uncomment to use upstream directly):
+      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
     LogisticsPerformance:
       type: object
       title: Logistics Performance Attributes
@@ -9758,7 +10910,10 @@ components:
             - PPE_WORN
       x-ion-closed-extensions: false
       allOf:
+      # LOCAL (default — active):
       - $ref: beckn.yaml#/components/schemas/Attributes
+      # REMOTE (uncomment to use upstream directly):
+      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
     LogisticsProvider:
       type: object
       title: Logistics Provider Attributes
@@ -9995,26 +11150,29 @@ components:
         fwaApplicable:
           type: boolean
           description: Whether this provider accepts Framework Agreement-governed transactions
-      required:
-      - catalogVersion
-      - catalogPublishedAt
-      - catalogValidFrom
-      - nibRegistered
-      - providerCategory
-      - patternsSupported
-      - modesSupported
-      - coverage
-      - operatingHours
+      # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
       x-ion-closed-extensions: false
       allOf:
+      # LOCAL (default — active):
       - $ref: beckn.yaml#/components/schemas/Attributes
-    LogisticsShipment:
+      # REMOTE (uncomment to use upstream directly):
+      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+    LogisticsResource:
       type: object
       title: Logistics Resource Attributes
+      description: >
+        A logistics shipment or freight service offered by a logistics service provider (LSP) on
+        the ION logistics network. Produced by logistics Provider Nodes (PNs/BPPs) during service
+        publication and /on_discover responses; consumed by shipper Consumer Nodes (CNs/BAPs) to
+        browse available logistics services, compare rates, and create shipment bookings. Describes
+        the nature of the goods to be moved (serviceType, quantity, dimensions, storage requirements)
+        and the logistics capabilities required (transport mode, handling requirements). ION-specific
+        compliance and operational fields are carried by IONLogisticsResource in the extension pack.
+        Mounts onto Resource.resourceAttributes. Upstream parent: Shipment v2.0 (schema.beckn.io).
       additionalProperties: true
       x-jsonld:
         '@context': ./context.jsonld
-        '@type': ion:LogisticsShipment
+        '@type': ion:LogisticsResource
       x-beckn-attaches-to: Resource.resourceAttributes
       properties:
         serviceType:
@@ -10463,8 +11621,21 @@ components:
               type: number
             heightM:
               type: number
-            weightKg:
-              type: number
+            weight:
+              type: object
+              additionalProperties: false
+              properties:
+                value:
+                  type: number
+                  minimum: 0
+                unit:
+                  type: string
+                  enum: [G, KG, OZ, LB]
+                  default: G
+              description: >
+                Vehicle gross weight capacity in kilograms. Retained as weightKg (not weight object)
+                for the vehicle sub-object since it is always kg and participates in logistics
+                capacity arithmetic. Implementers may also express as weight.value + weight.unit=KG.
           x-ion-conditional: true
         vehicleRegistration:
           type: string
@@ -10524,12 +11695,13 @@ components:
             unit:
               type: string
           x-ion-conditional: true
-      required:
-      - serviceType
-      - quantity
+      # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
       x-ion-closed-extensions: false
       allOf:
+      # LOCAL (default — active):
       - $ref: beckn.yaml#/components/schemas/Attributes
+      # REMOTE (uncomment to use upstream directly):
+      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
     LogisticsTracking:
       type: object
       title: Logistics Tracking Attributes
@@ -10648,8 +11820,10 @@ components:
           description: 'URL template for AWB_URL tracking. E.g. "https://jne.co.id/tracking?awb={awbNumber}"
 
             '
-      required:
-      - trackingType
+      # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
       x-ion-closed-extensions: false
       allOf:
+      # LOCAL (default — active):
       - $ref: beckn.yaml#/components/schemas/Attributes
+      # REMOTE (uncomment to use upstream directly):
+      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes

@@ -1,43 +1,50 @@
-# Weight Dispute Policy: Standard 10% Tolerance
-# ion://policy/weight-dispute.standard-10pct-tolerance
-
-id: weight-dispute.standard-10pct-tolerance
 type: WEIGHT_DISPUTE_POLICY
 sector: logistics
-
 tolerancePct: 10
 toleranceMinKg: 0.5
-description: >
-  Weight discrepancies within 10% of declared weight (or 0.5kg minimum)
-  are absorbed by the LSP. Above this threshold, LSP may raise a
-  weight-dispute variant.
+description: 'Weight discrepancies within 10% of declared weight (or 0.5kg minimum)
+  are absorbed by the LSP. Above this threshold, LSP may raise a weight-dispute variant.
 
+  '
 measurementAuthority: LSP_HUB_SCALE
 buyerResponseWindowHours: 24
 escalationAfterHours: 72
-
 evidenceRequired:
-  - SCALE_PHOTO
-  - MEASUREMENT_TIMESTAMP
-  - MEASUREMENT_LOCATION
+- SCALE_PHOTO
+- MEASUREMENT_TIMESTAMP
+- MEASUREMENT_LOCATION
+iri: ion://policy/weight-dispute.standard-10pct-tolerance
+displayText:
+  id: Sengketa berat — toleransi 10%
+  en: Weight discrepancies within 10% of declared weight (or 0.5kg minimum) are absorbed
+    by the LSP. Above this threshold, LSP may raise a weight-dispute variant.
+version: 1.0.0
+versionEffectiveFrom: '2026-05-01'
+status: ratified
+ratifiedAt: '2026-04-15'
+supersededBy: null
+deprecatedAt: null
 
 ---
 
-# Weight Dispute Policy: Enterprise 5% Tolerance
-# ion://policy/weight-dispute.enterprise-5pct-tolerance
-
-id: weight-dispute.enterprise-5pct-tolerance
 type: WEIGHT_DISPUTE_POLICY
 sector: logistics
-
 tolerancePct: 5
 toleranceMinKg: 0.2
-
 measurementAuthority: THIRD_PARTY_CERTIFIED_SCALE
 buyerResponseWindowHours: 48
 escalationAfterHours: 96
-
 evidenceRequired:
-  - CERTIFIED_SCALE_READING
-  - THIRD_PARTY_CERTIFICATE
-  - PHOTO_AT_TIME_OF_MEASUREMENT
+- CERTIFIED_SCALE_READING
+- THIRD_PARTY_CERTIFICATE
+- PHOTO_AT_TIME_OF_MEASUREMENT
+iri: ion://policy/weight-dispute.enterprise-5pct-tolerance
+displayText:
+  id: Sengketa berat enterprise — toleransi 5%
+  en: weight-dispute.enterprise-5pct-tolerance
+version: 1.0.0
+versionEffectiveFrom: '2026-05-01'
+status: ratified
+ratifiedAt: '2026-04-15'
+supersededBy: null
+deprecatedAt: null

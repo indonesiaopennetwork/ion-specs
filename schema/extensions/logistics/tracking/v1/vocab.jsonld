@@ -2,7 +2,10 @@
   "@context": {
     "@version": 1.1,
     "ion": "https://schema.ion.id/logistics/v1/",
-    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "owl": "http://www.w3.org/2002/07/owl#"
   },
   "@graph": [
     {
@@ -12,6 +15,9 @@
       "rdfs:label": "LogisticsTracking",
       "rdfs:subClassOf": {
         "@id": "beckn:Tracking"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Tracking"
       }
     }
   ]

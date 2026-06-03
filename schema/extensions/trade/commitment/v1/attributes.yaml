@@ -18,6 +18,27 @@ components:
     TradeCommitment:
       type: object
       title: TradeCommitment
+      description: >
+        Network-agnostic generic layer for TradeCommitment. Inherits from Beckn core Attributes.
+        Downstream ION-specific layer (IONTradeCommitment) extends this schema via allOf.
+        This layer carries only fields that are meaningful across any Beckn network — 
+        no Indonesia-specific regulatory or compliance fields.
+      x-ion-layer: generic
+      x-ion-split-version: "0.7.0"
+      x-recommended-parent: Commitment.commitmentAttributes
+      additionalProperties: true
+      allOf:
+        # LOCAL (default — active):
+        - $ref: beckn.yaml#/components/schemas/Attributes
+        # REMOTE (uncomment to use upstream directly):
+        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+    IONTradeCommitment:
+      type: object
+      x-ion-layer: ion
+      x-ion-split-version: "0.7.0"
+      allOf:
+        - $ref: '#/components/schemas/TradeCommitment'
+      title: TradeCommitment
       additionalProperties: true
       x-jsonld:
         '@context': 'https://schema.ion.id/trade/commitment/v1/context.jsonld'
@@ -139,9 +160,10 @@ components:
             '
           maxLength: 500
           example: Tanpa bawang, tolong pedas ekstra.
-      required:
-      - lineId
-      - resourceId
-      - offerId
-      - quantity
+      # NETWORK POLICY NOTE (GAP 32 / NFH-012 CON-012-18):
+      # Shared schemas MUST NOT declare mandatory fields.
+      # The following fields were required in v0.6.0 and are now
+      # enforced via ION network policy (x-ion-crc-rules,
+      # x-ion-conditional-rules) rather than the shared schema:
+      # lineId, resourceId, offerId, quantity
       x-ion-closed-extensions: false

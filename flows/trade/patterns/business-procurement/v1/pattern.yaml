@@ -90,7 +90,7 @@ phases:
         conditionalFields:
           - field: message.contract.contractAttributes.invoicePreferences.invoiceType  # note: TAX_INVOICE is standard for B2B; requires PKP seller and NPWP buyer
         schemaPacks:
-          core: [identity/v1, address/v1, payment/v1]
+          core: [business-registration/v1, address/v1, payment/v1]
           trade: [contract/v1]
 
       - step: on_init
@@ -112,7 +112,7 @@ phases:
           - message.contract.contractAttributes.npwp
           - message.contract.contractAttributes.nib
           - message.contract.contractAttributes.purchaseOrderReference
-          - message.contract.contractAttributes.legalEntityName
+          - message.contract.contractAttributes.legalEntityName  # required for B2B
 
       - step: on_confirm
         from: BPP
@@ -126,7 +126,7 @@ phases:
           - field: message.contract.contractAttributes.fakturPajakReference  # condition: if seller pkpStatus=PKP and invoiceType=TAX_INVOICE
         schemaPacks:
           trade: [performance/v1, contract/v1]
-          core: [identity/v1]
+          core: [business-registration/v1]
 
   phase3:
     name: Fulfilment

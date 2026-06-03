@@ -1,10 +1,10 @@
-﻿openapi: "3.1.1"
+openapi: "3.1.1"
 info:
-  title: "ION Finance Credit Participant Extension (v1)"
+  title: ION Finance Participant Extension (v1)
   version: 1.0.0
   description: |
     Credit participant identity attributes for the Finance domain. Carries
-    borrower and lender identity after on_confirm. Attaches to: beckn:Participant.participantAttributes
+    borrower and lender identity after on_confirm. Attaches to: beckn:Participant (direct properties — Participant has no participantAttributes wrapper in Beckn v2.0)
   license:
     name: Apache-2.0
     url: https://www.apache.org/licenses/LICENSE-2.0
@@ -17,17 +17,34 @@ components:
 
     Borrower:
       type: object
+      title: Borrower
+      description: >
+        Network-agnostic generic layer. Inherits from Beckn core Attributes.
+        ION-specific layer (IONBorrower) extends this via allOf.
+      x-ion-layer: generic
+      x-ion-split-version: "0.7.0"
+      x-recommended-parent: Participant (direct properties)
+      additionalProperties: true
+      allOf:
+        # LOCAL (default — active):
+        - $ref: beckn.yaml#/components/schemas/Attributes
+        # REMOTE (uncomment to use upstream directly):
+        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+    Borrower:
+      type: object
+      x-ion-layer: ion
+      x-ion-split-version: "0.7.0"
+      allOf:
+        - $ref: '#/components/schemas/Borrower'
       description: |
         Borrower identity attributes. Placed in Beckn Contract.participants[]
-        with participantAttributes["@type"] = "ion:Borrower".
+        as direct properties on Beckn Contract.participants[] (Participant has no participantAttributes wrapper).
       x-jsonld:
         '@context': ./context.jsonld
         '@type': ion:Borrower
-      x-beckn-attaches-to: Participant.participantAttributes
+      x-beckn-attaches-to: Participant (direct properties — no participantAttributes wrapper in Beckn v2.0)
       additionalProperties: true
-      required:
-        - fullName
-        - nik
+      # required: removed — mandatoriness declared in x-ion-field-requirements network policy
       properties:
         fullName:
           type: string
@@ -71,15 +88,13 @@ components:
       type: object
       description: |
         Lending institution identity attributes. Placed in Beckn Contract.participants[]
-        with participantAttributes["@type"] = "ion:Lender".
+        as direct properties on Beckn Contract.participants[] (Participant has no participantAttributes wrapper).
       x-jsonld:
         '@context': ./context.jsonld
         '@type': ion:Lender
-      x-beckn-attaches-to: Participant.participantAttributes
+      x-beckn-attaches-to: Participant (direct properties — no participantAttributes wrapper in Beckn v2.0)
       additionalProperties: true
-      required:
-        - institutionName
-        - ojkLicenseNumber
+      # required: removed — mandatoriness declared in x-ion-field-requirements network policy
       properties:
         institutionName:
           type: string

@@ -2,7 +2,10 @@
   "@context": {
     "ion": "https://schema.ion.id/core/localization/v1#",
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "owl": "http://www.w3.org/2002/07/owl#"
   },
   "@graph": [
     {
@@ -21,13 +24,13 @@
       "@id": "ion:id",
       "@type": "rdf:Property",
       "rdfs:label": "id",
-      "rdfs:comment": "Bahasa Indonesia — always required"
+      "rdfs:comment": "Bahasa Indonesia \u2014 always required"
     },
     {
       "@id": "ion:en",
       "@type": "rdf:Property",
       "rdfs:label": "en",
-      "rdfs:comment": "English — required for XB pattern"
+      "rdfs:comment": "English \u2014 required for XB pattern"
     },
     {
       "@id": "ion:ms",
@@ -69,7 +72,7 @@
       "@id": "ion:IONCatalogLocalization",
       "@type": "rdfs:Class",
       "rdfs:label": "IONCatalogLocalization",
-      "rdfs:comment": "Localised text fields for catalog content — name, short description, long description. All three use the LocalisedText pattern. These extend beckn:descriptor fields with proper multilingual support.\n",
+      "rdfs:comment": "Localised text fields for catalog content \u2014 name, short description, long description. All three use the LocalisedText pattern. These extend beckn:descriptor fields with proper multilingual support.\n",
       "rdfs:subClassOf": {
         "@id": "beckn:Descriptor"
       },

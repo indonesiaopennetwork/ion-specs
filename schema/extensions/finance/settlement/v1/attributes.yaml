@@ -1,6 +1,6 @@
-﻿openapi: "3.1.1"
+openapi: "3.1.1"
 info:
-  title: "ION Finance Credit Settlement Extension (v1)"
+  title: ION Finance Settlement Extension (v1)
   version: 1.0.0
   description: |
     Credit amortisation schedule attributes for the Finance domain. Each row
@@ -17,6 +17,25 @@ components:
 
     AmortisationRow:
       type: object
+      title: AmortisationRow
+      description: >
+        Network-agnostic generic layer. Inherits from Beckn core Attributes.
+        ION-specific layer (IONAmortisationRow) extends this via allOf.
+      x-ion-layer: generic
+      x-ion-split-version: "0.7.0"
+      x-recommended-parent: Settlement.settlementAttributes
+      additionalProperties: true
+      allOf:
+        # LOCAL (default — active):
+        - $ref: beckn.yaml#/components/schemas/Attributes
+        # REMOTE (uncomment to use upstream directly):
+        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+    IONAmortisationRow:
+      type: object
+      x-ion-layer: ion
+      x-ion-split-version: "0.7.0"
+      allOf:
+        - $ref: '#/components/schemas/AmortisationRow'
       description: |
         A single installment row in the amortisation schedule. Placed in
         Beckn Contract.settlements[] with settlementAttributes["@type"] = "ion:AmortisationRow".
@@ -27,10 +46,7 @@ components:
         '@type': ion:AmortisationRow
       x-beckn-attaches-to: Settlement.settlementAttributes
       additionalProperties: true
-      required:
-        - installmentNumber
-        - dueDate
-        - installmentIDR
+      # required: removed — mandatoriness declared in x-ion-field-requirements network policy
       properties:
         installmentNumber:
           type: integer

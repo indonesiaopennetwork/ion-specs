@@ -2,7 +2,10 @@
   "@context": {
     "ion": "https://schema.ion.id/trade/consideration/v1#",
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "owl": "http://www.w3.org/2002/07/owl#"
   },
   "@graph": [
     {
@@ -12,6 +15,9 @@
       "rdfs:comment": "TradeConsideration",
       "rdfs:subClassOf": {
         "@id": "beckn:Consideration"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Consideration"
       }
     },
     {
@@ -24,7 +30,7 @@
       "@id": "ion:ppnbmRate",
       "@type": "rdf:Property",
       "rdfs:label": "ppnbmRate",
-      "rdfs:comment": "PPnBM (Pajak Penjualan atas Barang Mewah) rate for luxury goods. Applied in addition to PPN. Applicable rate MUST be sourced from current regulation (rates vary by luxury category — check DJP for the applicable schedule under PMK 141/2021 and later)."
+      "rdfs:comment": "PPnBM (Pajak Penjualan atas Barang Mewah) rate for luxury goods. Applied in addition to PPN. Applicable rate MUST be sourced from current regulation (rates vary by luxury category \u2014 check DJP for the applicable schedule under PMK 141/2021 and later)."
     },
     {
       "@id": "ion:discountType",

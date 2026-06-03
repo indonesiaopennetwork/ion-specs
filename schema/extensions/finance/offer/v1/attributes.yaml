@@ -1,6 +1,6 @@
-﻿openapi: "3.1.1"
+openapi: "3.1.1"
 info:
-  title: "ION Finance Credit Offer Extension (v1)"
+  title: ION Finance Offer Extension (v1)
   version: 1.0.0
   description: |
     Per-applicant credit offer pricing schema for the Finance / Credit domain.
@@ -35,8 +35,27 @@ info:
 components:
   schemas:
 
-    CreditOfferAttributes:
+    CreditOffer:
       type: object
+      title: CreditOffer
+      description: >
+        Network-agnostic generic layer. Inherits from Beckn core Attributes.
+        ION-specific layer (IONCreditOffer) extends this via allOf.
+      x-ion-layer: generic
+      x-ion-split-version: "0.7.0"
+      x-recommended-parent: Offer.offerAttributes
+      additionalProperties: true
+      allOf:
+        # LOCAL (default — active):
+        - $ref: beckn.yaml#/components/schemas/Attributes
+        # REMOTE (uncomment to use upstream directly):
+        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+    CreditOffer:
+      type: object
+      x-ion-layer: ion
+      x-ion-split-version: "0.7.0"
+      allOf:
+        - $ref: '#/components/schemas/CreditOffer'
       description: |
         Specific, time-limited credit offer issued to an individual borrower.
         All fields contain exact values — not ranges. Represents the lender's
@@ -48,15 +67,7 @@ components:
         '@type': ion:CreditApproval
       x-beckn-attaches-to: Offer.offerAttributes
       additionalProperties: true
-      required:
-        - offerReference
-        - validUntil
-        - offerStatus
-        - approvedPrincipal
-        - approvedTenor
-        - effectiveRate
-        - monthlyInstallment
-        - totalFees
+      # required: removed — mandatoriness declared in x-ion-field-requirements network policy
       properties:
 
         offerReference:
@@ -88,6 +99,7 @@ components:
 
         approvedPrincipal:
           type: object
+          additionalProperties: false
           description: Exact approved principal amount (plafond yang disetujui) for this borrower.
           required: [value, currency]
           properties:
@@ -102,6 +114,7 @@ components:
 
         approvedTenor:
           type: object
+          additionalProperties: false
           description: Exact approved tenure / maturity agreed for this borrower.
           required: [value, unit]
           properties:
@@ -117,6 +130,7 @@ components:
 
         effectiveRate:
           type: object
+          additionalProperties: false
           description: Exact annual interest rate or margin/nisbah ratio offered to this borrower.
           required: [percentPerYear, method]
           properties:
@@ -145,6 +159,7 @@ components:
 
         monthlyInstallment:
           type: object
+          additionalProperties: false
           description: Monthly installment amount breakdown for this specific offer.
           required: [totalIDR]
           properties:
@@ -163,6 +178,7 @@ components:
 
         totalFees:
           type: object
+          additionalProperties: false
           description: |
             Complete fee breakdown for this approved offer. Includes APR-equivalent
             for POJK 6/2022 RIPLAY transparency disclosure. All amounts in IDR.
@@ -220,6 +236,7 @@ components:
 
         disbursementSchedule:
           type: object
+          additionalProperties: false
           description: Expected disbursement timeline and method after all conditions are met.
           properties:
             targetBusinessDays:
@@ -237,6 +254,7 @@ components:
                 - VIRTUAL_ACCOUNT
         internalCreditScore:
           type: object
+          additionalProperties: false
           description: Lender's internal credit risk assessment result for this borrower.
           properties:
             score:

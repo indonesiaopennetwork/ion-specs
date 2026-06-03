@@ -1,0 +1,20 @@
+{
+  "@context": {
+    "ion": "https://schema.ion.id/trade/settlement/v1#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "owl": "http://www.w3.org/2002/07/owl#"
+  },
+  "@graph": [
+    {
+      "@id": "ion:IONTradeSettlement",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONTradeSettlement",
+      "rdfs:comment": "Trade sector settlement attributes. Payment method, status, instrument detail, and refund lifecycle.",
+      "rdfs:subClassOf": { "@id": "https://spec.beckn.io/vocab/v2.0.0#Settlement" },
+      "skos:broader": { "@id": "https://spec.beckn.io/vocab/v2.0.0#Settlement" }
+    }
+  ]
+}

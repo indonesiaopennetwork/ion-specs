@@ -24,6 +24,6 @@
     "customisationGroups": "ion:customisationGroups",
     "identity": "ion:identity",
     "itemRating": "ion:itemRating",
-    "FnbMenuItem": "ion:FnbMenuItem"
+    "FnbItem": "ion:FnbItem"
   }
 }

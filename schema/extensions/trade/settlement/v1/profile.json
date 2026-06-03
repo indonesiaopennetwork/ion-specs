@@ -1,0 +1,12 @@
+{
+  "pack": "trade/settlement",
+  "version": "v1",
+  "sector": "trade",
+  "schemaName": "IONTradeSettlement",
+  "attachmentPoints": {
+    "settlementAttributes": "Settlement.settlementAttributes"
+  },
+  "status": "active",
+  "ionSchemaLayer": "ion",
+  "genericSchemaLayer": "TradeSettlement"
+}

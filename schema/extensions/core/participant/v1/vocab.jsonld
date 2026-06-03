@@ -1,7 +1,10 @@
 {
   "@context": {
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
-    "ion": "https://schema.ion.id/core/participant/v1#"
+    "ion": "https://schema.ion.id/core/participant/v1#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "owl": "http://www.w3.org/2002/07/owl#"
   },
   "@graph": [
     {
@@ -10,7 +13,10 @@
       "rdfs:label": "ION Participant Attributes",
       "rdfs:comment": "Cross-sector participant attributes attaching to beckn:Participant.participantAttributes. Carries role, Indonesian business/individual identity, authorised-signatory metadata, and full Indonesian administrative address hierarchy with accessibility.",
       "rdfs:subClassOf": {
-        "@id": "beckn:Participant"
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Participant"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Participant"
       }
     },
     {

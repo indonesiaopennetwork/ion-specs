@@ -51,7 +51,7 @@
       "default": "ACTIVE"
     },
     "loanTerms": {
-      "$ref": "#/$defs/ActiveLoanTerms"
+      "$ref": "#/$defs/LoanTerms"
     },
     "legalDocuments": {
       "$ref": "#/$defs/LegalDocuments"
@@ -61,8 +61,8 @@
     }
   },
   "$defs": {
-    "ActiveLoanTerms": {
-      "title": "ActiveLoanTerms",
+    "LoanTerms": {
+      "title": "LoanTerms",
       "description": "Active loan parameters frozen at akad signing. Reported to OJK SLIK monthly.",
       "type": "object",
       "required": [

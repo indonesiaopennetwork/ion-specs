@@ -30,5 +30,10 @@
     "totalAmount",
     "currency"
   ],
-  "packSchema": "./schema.json"
+  "packSchema": "./schema.json",
+  "x-ion-layer": {
+    "generic": "LogisticsConsideration",
+    "ion": "IONLogisticsConsideration",
+    "splitVersion": "0.7.0"
+  }
 }

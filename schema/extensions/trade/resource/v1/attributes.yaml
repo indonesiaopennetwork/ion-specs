@@ -1,4 +1,4 @@
-﻿openapi: 3.1.1
+openapi: 3.1.1
 info:
   title: ION Trade Resource Extension (v1)
   description: 'Trade sector resource attributes. Covers all physical product types on ION. Category-specific fields
@@ -15,13 +15,46 @@ info:
     url: https://schema.ion.id
 components:
   schemas:
-    LocalisedText:
+    TradeResource:
       type: object
+      title: TradeResource
+      description: >
+        Network-agnostic generic layer for TradeResource. Inherits from Beckn core Attributes.
+        Downstream ION-specific layer (IONTradeResource) extends this schema via allOf.
+        This layer carries only fields that are meaningful across any Beckn network — 
+        no Indonesia-specific regulatory or compliance fields.
+      x-ion-layer: generic
+      x-ion-split-version: "0.7.0"
+      x-recommended-parent: Resource.resourceAttributes
+      additionalProperties: true
+      allOf:
+        # LOCAL (default — active):
+        - $ref: beckn.yaml#/components/schemas/Attributes
+        # REMOTE (uncomment to use upstream directly):
+        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+    IONTradeResource:
+      type: object
+      additionalProperties: true
+      x-ion-layer: ion
+      x-ion-split-version: "0.7.0"
+      allOf:
+        - $ref: '#/components/schemas/TradeResource'
       description: Language-keyed text. "id" always required. "en" required for cross-border pattern.
       minProperties: 1
       additionalProperties:
         type: string
       properties:
+        crc:
+          type: string
+          description: >
+            Catalogue Resource Category code classifying this resource within the ION
+            item taxonomy. Determines which attribute sub-objects are mandatory at
+            catalog/publish time and signals to CNs how to present and discover the
+            item. Values from x-ion-crc-registry in ion.yaml (e.g. TRC-fashion,
+            LGC-lastmile, HSC-restaurant-ordering). Optional now — will become
+            required in a future version once CRC enforcement is fully activated in ONIX.
+          example: TRC-fashion
+          x-ion-enforcement: optional-now-required-later
         id:
           type: string
         en:
@@ -29,8 +62,12 @@ components:
       example:
         id: Nasi Goreng Spesial
         en: Special Fried Rice
-      required:
-      - id
+      # NETWORK POLICY NOTE (GAP 32 / NFH-012 CON-012-18):
+      # Shared schemas MUST NOT declare mandatory fields.
+      # The following fields were required in v0.6.0 and are now
+      # enforced via ION network policy (x-ion-crc-rules,
+      # x-ion-conditional-rules) rather than the shared schema:
+      # id
     TradeResource:
       type: object
       title: TradeResource
@@ -40,6 +77,24 @@ components:
         '@type': ion:TradeResource
       x-beckn-attaches-to: Resource.resourceAttributes
       properties:
+        name:
+          $ref: '#/components/schemas/LocalisedText'
+          description: >
+            Display name of the resource. Language-keyed localised text object.
+            Minimum: name.id (Bahasa Indonesia). name.en required for cross-border
+            pattern. Rendered as the product title in consumer-facing CN interfaces.
+          x-ion-condition: Required at catalog/publish for all resource types
+
+        shortDesc:
+          $ref: '#/components/schemas/LocalisedText'
+          description: >
+            Short product description. Language-keyed localised text object.
+            Maximum 280 characters per language value. Used in search results,
+            product cards, and push notification previews. Longer descriptive
+            content including specs, features, and care instructions belongs
+            in Descriptor.longDesc.
+          x-ion-condition: Required at catalog/publish for all resource types
+
         quantity:
           type: object
           title: Quantity of this resource on the order line
@@ -118,7 +173,7 @@ components:
               $ref: '#/components/schemas/LocalisedText'
             variantOn:
               type: string
-              description: The attribute that varies. e.g. size, colour, storage
+              description: The attribute that varies. e.g. size, color, storage
               example: size
         variantMatrix:
           type: object
@@ -242,12 +297,12 @@ components:
               inputType:
                 type: string
                 enum:
-                  - select
-                  - text
-                  - number
-                  - date
-                  - boolean
-                default: select
+                  - SELECT
+                  - TEXT
+                  - NUMBER
+                  - DATE
+                  - BOOLEAN
+                default: SELECT
               options:
                 type: array
                 items:
@@ -411,31 +466,59 @@ components:
           type: object
           additionalProperties: false
           properties:
-            colour:
+            color:
               type: string
-              pattern: ^#[0-9A-Fa-f]{6}$
-              example: '#FF5733'
-            colourName:
+              description: >
+                Product color in any commonly understood format — hex code (#FF5733), CSS
+                name (coral), or trade name (Phantom Black). Open string; no pattern
+                constraint so that color values expressed in natural language are not rejected.
+              example: Phantom Black
+            colorName:
               type: string
-              description: Required when colour is specified
-              example: Coral
+              description: >
+                Human-readable localised color name for display in product listings.
+                Provide alongside color when color is a hex or technical code.
+              example: Hitam Malam
             dimensions:
               type: object
               additionalProperties: false
               properties:
-                lengthCm:
+                unit:
+                  type: string
+                  enum: [MM, CM, M, IN, FT]
+                  default: CM
+                length:
                   type: number
                   minimum: 0
-                widthCm:
+                breadth:
                   type: number
                   minimum: 0
-                heightCm:
+                height:
                   type: number
                   minimum: 0
-            weightKg:
-              type: number
-              minimum: 0
-              example: 0.5
+            weight:
+              type: object
+              additionalProperties: false
+              description: >
+                Packed weight of the resource. Used for logistics cost calculation,
+                shipping surcharge determination, and regulatory labelling (packaged
+                goods weight declaration per BPOM / BSN standards).
+              properties:
+                value:
+                  type: number
+                  minimum: 0
+                  example: 0.5
+                unit:
+                  type: string
+                  enum:
+                    - G
+                    - KG
+                    - OZ
+                    - LB
+                  default: G
+              required:
+              - value
+              - unit
         packaged:
           type: object
           additionalProperties: false
@@ -677,12 +760,11 @@ components:
               example: Padang
             spiceLevel:
               type: string
-              enum:
-                - NONE
-                - LOW
-                - MEDIUM
-                - HIGH
-                - EXTRA_HOT
+              description: >
+                Spiciness level of the food item. Free-text to accommodate
+                regional descriptors (e.g. "Pedas Sedang", "Level 3", "Extra Hot").
+              x-ion-suggested-values: [NONE, LOW, MEDIUM, HIGH, EXTRA_HOT]
+              example: MEDIUM
             freshProduce:
               type: object
               additionalProperties: false
@@ -734,55 +816,14 @@ components:
               type: string
               example: 100% Katun
               x-ion-regulatory: PerBSN SNI 0055:2009
-            fitType:
-              type: string
-              enum:
-                - SLIM
-                - REGULAR
-                - OVERSIZED
-                - RELAXED
-                - ATHLETIC
-            sleeveType:
-              type: string
-              enum:
-                - SLEEVELESS
-                - SHORT
-                - THREE_QUARTER
-                - FULL
-                - NONE
-            collarType:
-              type: string
-              enum:
-                - ROUND
-                - V_NECK
-                - POLO
-                - SPREAD
-                - MANDARIN
-                - HOODIE
-                - NONE
-            occasion:
-              type: string
-              enum:
-                - CASUAL
-                - FORMAL
-                - ETHNIC
-                - SPORTS
-                - PARTY
-                - BEACH
-                - WORKWEAR
-            pattern:
-              type: string
-              enum:
-                - SOLID
-                - PRINTED
-                - STRIPED
-                - CHECKED
-                - EMBROIDERED
-                - TIE_DYE
-                - BATIK
-            careInstructions:
-              type: string
-              example: Cuci tangan, jangan diperas, jemur di tempat teduh
+            x-ion-descriptor-guidance: >
+              Descriptive attributes such as fitType, sleeveType, collarType,
+              occasion, pattern, and careInstructions belong in
+              Descriptor.longDesc as natural-language prose. Example:
+              "Regular fit, round neck, short sleeve, solid white cotton tee.
+              Machine wash cold, do not tumble dry. Suitable for casual and
+              workwear." AI agents extract richer meaning from prose than from
+              closed enums. Enums create schema bumps for every new value.
           x-ion-condition: Required for fashion and apparel products
         electronics:
           type: object
@@ -792,58 +833,17 @@ components:
             Descriptor.longDesc for agent readability.
           additionalProperties: false
           properties:
-            ram:
-              type: integer
-            ramUnit:
-              type: string
-              enum:
-                - MB
-                - GB
-              default: GB
-            rom:
-              type: integer
-            romUnit:
-              type: string
-              enum:
-                - MB
-                - GB
-                - TB
-              default: GB
-            storage:
-              type: integer
-            storageUnit:
-              type: string
-              enum:
-                - MB
-                - GB
-                - TB
-              default: GB
-            storageCapacity:
-              type: integer
-              description: Appliance capacity. Fridge=litres, Washer=kg load
-            storageCapacityUnit:
-              type: string
-              enum:
-                - LITRE
-                - KG
-                - CUBIC_FEET
-            screenSize:
-              type: number
-              description: Screen size in inches
-              example: 6.1
-            primaryCamera:
-              type: integer
-              description: Megapixels
-            secondaryCamera:
-              type: integer
-            cpu:
-              type: string
-              example: A15 Bionic
-            gpu:
-              type: string
-            batteryCapacity:
-              type: integer
-              description: mAh
+            x-ion-descriptor-guidance: >
+              Descriptive specifications such as RAM, ROM, storage capacity,
+              screen size, camera resolution, CPU, GPU, and battery capacity
+              belong in Descriptor.longDesc as natural-language prose. Example:
+              "6.1-inch Super Retina XDR display, A15 Bionic chip, 128GB storage,
+              12MP dual camera system, 3227 mAh battery, 5G capable."
+              Multimodal agents extract these from linked product datasheets and
+              images in Descriptor.docs[] and Descriptor.mediaFile[] with higher
+              fidelity than typed fields. Keep structured fields only for values
+              that participate in deterministic filtering (osType, connectivity)
+              or regulatory compliance (energyRating, wattage).
             osType:
               type: string
               enum:
@@ -855,9 +855,6 @@ components:
                 - TIZEN
                 - WEBOS
                 - OTHER
-            osVersion:
-              type: string
-              example: Android 14
             connectivity:
               type: array
               items:
@@ -1461,13 +1458,10 @@ components:
           required:
           - isDefaultVariant
           - variantGroup
-      required:
-      - quantity
-      - resourceStructure
-      - resourceTangibility
-      - images
-      - logisticsServiceType
-      - availability
-      - ageRestricted
-      - countryOfOrigin
+      # NETWORK POLICY NOTE (GAP 32 / NFH-012 CON-012-18):
+      # Shared schemas MUST NOT declare mandatory fields.
+      # The following fields were required in v0.6.0 and are now
+      # enforced via ION network policy (x-ion-crc-rules,
+      # x-ion-conditional-rules) rather than the shared schema:
+      # quantity, resourceStructure, resourceTangibility, images, logisticsServiceType, availability, ageRestricted, countryOfOrigin
       x-ion-closed-extensions: false

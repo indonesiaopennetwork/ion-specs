@@ -2,7 +2,10 @@
   "@context": {
     "ion": "https://schema.ion.id/core/raise/v1#",
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "owl": "http://www.w3.org/2002/07/owl#"
   },
   "@graph": [
     {
@@ -11,7 +14,7 @@
       "rdfs:label": "IONTicket",
       "rdfs:comment": "IONTicket",
       "rdfs:subClassOf": {
-        "@id": "beckn:Support"
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Support"
       },
       "skos:broader": {
         "@id": "beckn:Support"
@@ -105,13 +108,13 @@
       "@id": "ion:createdAt",
       "@type": "rdf:Property",
       "rdfs:label": "createdAt",
-      "rdfs:comment": "createdAt — see attributes.yaml for full description"
+      "rdfs:comment": "createdAt \u2014 see attributes.yaml for full description"
     },
     {
       "@id": "ion:updatedAt",
       "@type": "rdf:Property",
       "rdfs:label": "updatedAt",
-      "rdfs:comment": "updatedAt — see attributes.yaml for full description"
+      "rdfs:comment": "updatedAt \u2014 see attributes.yaml for full description"
     },
     {
       "@id": "ion:resolvedAt",

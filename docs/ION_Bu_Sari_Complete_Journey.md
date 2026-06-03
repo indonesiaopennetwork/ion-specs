@@ -497,7 +497,7 @@ Dinda publishes 5 items via `POST /catalog/publish`. Each resource has its `reso
     },
 
     "physical": {
-      "weightKg": 2.27
+      "weight": {"value": 2270, "unit": "G"}
     },
 
     "packaged": {
@@ -1188,7 +1188,7 @@ Bu Sari's seller app agrees with the amounts:
             "@type": "ion:IONReconciliation",
             "reconId": "RECON-2026-00009182",
             "reconStatus": "AGREED",
-            "recon_status": "01",
+            "reconStatus": "AGREED",
             "netSettlementAmount": 32400
           }
         }

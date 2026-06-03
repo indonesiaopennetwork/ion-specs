@@ -1,4 +1,4 @@
-iri: ion://policy/payment.deposit.30pct.balance_on_delivery
+iri: ion://policy/payment-terms.deposit.30pct-balance-on-delivery
 version: "1.0.0"
 versionEffectiveFrom: "2026-05-01"
 category: PAYMENT_TERMS
@@ -23,7 +23,7 @@ allowedPaymentMethods:
   - BI_FAST
   - RTGS
 
-latePaymentPenalty: ion://policy/penalty.buyer.late_balance_payment
+latePaymentPenalty: ion://policy/penalty.buyer.late-balance-payment
 latePaymentFeePercent: 0.02
 
 applicableResourceTypes: [PLAIN, VARIANT, WITH_EXTRAS, COMPOSED, BUNDLE, DIGITAL_VOUCHER, DIGITAL_TOP_UP]

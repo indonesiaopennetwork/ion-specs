@@ -1,44 +1,33 @@
-# trade/performance-states/v1
+# Trade Performance States (v1)
 
-Canonical performance state codes for all Trade sector fulfilment flows.
+> **Non-standard pack**: This pack contains only a state-machine definition (`states.yaml`) and does not follow the standard 5-file schema pack structure. It is intentionally non-standard because it defines state-machine metadata rather than a Beckn Attributes extension schema.
 
-This is not a schema pack — it has no `attributes.yaml` or `profile.json`. It is a vocabulary definition file referenced by pattern and variant files for state codes.
+## Why this pack is non-standard
 
-## File
+The `trade/performance-states/v1` pack defines the canonical ION state machine for `TradePerformance` objects. It carries:
 
-`states.yaml` — defines all state machines with valid transitions.
+- **`states.yaml`** — Complete state definition including allowed transitions, max dwell durations, alert thresholds, and SLA breach flags.
+- **`profile.json`** — Pack metadata for ONIX and the schema registry.
 
-## State machines
+It does **not** carry `attributes.yaml`, `schema.json`, `context.jsonld`, or `vocab.jsonld` because this pack does not define an Attributes extension — it defines state-machine constraints that ONIX applies at the network policy layer, not a payload schema that implementers populate.
 
-| Machine | Used in |
-|---|---|
-| `standard` | storefront, business-procurement, marketplace-inhouse, forward-auction, cross-border — standard packaged goods delivery |
-| `mto` | made-to-order — make-to-order (food QSR, custom bakery, tailoring) |
-| `self_pickup` | When performanceMode=SELF_PICKUP on any pattern |
-| `return` | Returns variant |
-| `replacement` | Returns variant — replacement sub-flow |
-| `rto` | RTO variant |
+## How this pack is used
 
-## How BPPs use these
+ONIX reads `states.yaml` to validate performance state transitions during a transaction. Implementers do not reference this pack in payload `@context` or `@type` fields. The states defined here are referenced by the `trade/performance/v1` pack's `status.code` property.
 
-BPPs set `beckn:Performance.status.code` using these codes. The BPP picks the appropriate state machine based on the performanceMode and resourceStructure.
+## State machine
 
-## How BAPs use these
+See `states.yaml` for the full state list with transition rules, dwell limits, and SLA thresholds.
 
-BAPs map incoming state codes to consumer-facing labels:
+## Exception documentation
 
-| Code | Suggested display (Bahasa Indonesia) |
-|---|---|
-| PLANNED | Pesanan dikonfirmasi, sedang diproses |
-| PACKED | Pesanan dikemas, menunggu kurir |
-| DISPATCHED | Pesanan dalam perjalanan |
-| OUT_FOR_DELIVERY | Kurir sedang menuju lokasi Anda |
-| DELIVERED | Pesanan telah diterima |
-| PREPARING | Sedang dipersiapkan |
-| READY | Siap diambil |
-| RETURN_INITIATED | Permintaan retur diterima |
-| RETURN_APPROVED | Retur disetujui |
-| RETURN_PICKED | Barang sudah dijemput kurir |
-| RETURN_DELIVERED | Barang sudah sampai ke penjual |
-| RTO_INITIATED | Pengiriman gagal, barang dikembalikan ke penjual |
-| RTO_DELIVERED | Barang sudah kembali ke penjual |
+This pack is a **documented exception** to CON-012-02 of NFH-012, which requires all schema packs to include five required files. The exception is justified because:
+1. This pack does not define an Attributes extension schema.
+2. There is no JSON-LD context or vocabulary to publish — states are not RDF classes.
+3. The `attributes.yaml` / `schema.json` artifacts would be empty or trivially thin.
+
+The exception is tracked in the ION spec issue register.
+
+## Changelog
+
+- v1 — Initial release, 2026-06-02. State machine for ION trade performance lifecycle.

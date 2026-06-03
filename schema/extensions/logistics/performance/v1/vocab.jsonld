@@ -3,7 +3,10 @@
     "@version": 1.1,
     "ion": "https://schema.ion.id/logistics/v1/",
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
-    "xsd": "http://www.w3.org/2001/XMLSchema#"
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "owl": "http://www.w3.org/2002/07/owl#"
   },
   "@graph": [
     {
@@ -13,7 +16,10 @@
       "rdfs:label": "LogisticsPerformance",
       "rdfs:isDefinedBy": "https://schema.ion.id/logistics/v1/",
       "rdfs:subClassOf": {
-        "@id": "beckn:Performance"
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Performance"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Performance"
       }
     }
   ]

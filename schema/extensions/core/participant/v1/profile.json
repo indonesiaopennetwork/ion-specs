@@ -7,7 +7,7 @@
   "packSchema": "./schema.json",
   "jsonldContext": "./context.jsonld",
   "attachmentPoints": {
-    "participantAttributes": [
+    "directProperties": [
       "IONParticipant"
     ]
   },
@@ -39,5 +39,11 @@
   },
   "minimalForDiscovery": [
     "role"
-  ]
+  ],
+  "x-ion-layer": {
+    "generic": "Participant",
+    "ion": "IONParticipant",
+    "splitVersion": "0.7.0"
+  },
+  "x-ion-participant-note": "Beckn v2.0 Participant has no participantAttributes wrapper. Fields declared in this schema attach as direct properties on the Participant object."
 }

@@ -29,7 +29,7 @@ UNDER_EVALUATION → APPROVED ──────→ [borrower confirms] → Loan
 The lender has received the borrower's application and is running credit assessment (SLIK inquiry, income verification, DTI calculation). The BAP should display a pending state.
 
 ### APPROVED
-Full approval with no outstanding conditions. All fields in `CreditOfferAttributes` are populated. `validUntil` is typically 14–30 calendar days from issue date.
+Full approval with no outstanding conditions. All fields in `CreditOffer` are populated. `validUntil` is typically 14–30 calendar days from issue date.
 
 ### CONDITIONALLY_APPROVED
 Approval subject to conditions listed in `additionalConditions[]`. Common conditions:

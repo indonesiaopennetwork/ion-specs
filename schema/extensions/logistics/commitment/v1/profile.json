@@ -29,5 +29,10 @@
   "minimalForDiscovery": [
     "lineId"
   ],
-  "packSchema": "./schema.json"
+  "packSchema": "./schema.json",
+  "x-ion-layer": {
+    "generic": "LogisticsCommitment",
+    "ion": "IONLogisticsCommitment",
+    "splitVersion": "0.7.0"
+  }
 }

@@ -11,7 +11,7 @@
       "@id": "ion:RestaurantProvider",
       "@type": "rdfs:Class",
       "rdfs:subClassOf": {
-        "@id": "beckn:Attributes"
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Provider"
       },
       "rdfs:label": "RestaurantProvider",
       "rdfs:comment": "ION Hospitality Restaurant Ordering \u2014 restaurant and cloud kitchen provider profile. CRC: HSC-restaurant-ordering",

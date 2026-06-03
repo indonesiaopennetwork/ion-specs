@@ -1,6 +1,6 @@
 # ION Support Extension — Overview
 
-Consumer complaint ticket system. Buyer raises order issues to seller. Derived from ONDC IGM (Issue and Grievance Management) model.
+Consumer complaint ticket system. Buyer raises order issues to seller. Part of the ION grievance management flow.
 
 ## Two-phase flow
 1. `context.try = true` — preview available support channels (get contact options without creating a ticket)

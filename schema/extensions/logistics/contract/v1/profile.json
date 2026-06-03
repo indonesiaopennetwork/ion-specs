@@ -13,5 +13,10 @@
     "filterable": [],
     "sortable": []
   },
-  "minimalForDiscovery": []
+  "minimalForDiscovery": [],
+  "x-ion-layer": {
+    "generic": "LogisticsContract",
+    "ion": "IONLogisticsContract",
+    "splitVersion": "0.7.0"
+  }
 }

@@ -6,7 +6,7 @@ info:
     administrative address hierarchy. Applies to every ION sector — trade, logistics, mobility, finance, tourism,
     healthcare.
 
-    Attaches to: beckn:Participant.participantAttributes
+    Attaches to: beckn:Participant (direct properties). Beckn v2.0 Participant has no participantAttributes wrapper.
 
     NEW in v0.5.2 — unified from what was previously schema/extensions/logistics/participant/. Logistics-only licence
     fields (PPJK customs broker, driver SIM) live in the thin addendum pack logistics/participant-logistics/v1.
@@ -21,14 +21,35 @@ info:
     url: https://schema.ion.id
 components:
   schemas:
+    Participant:
+      type: object
+      title: Participant
+      description: >
+        Network-agnostic generic layer for Participant. Inherits from Beckn core Attributes.
+        Downstream ION-specific layer (IONParticipant) extends this schema via allOf.
+        This layer carries only fields that are meaningful across any Beckn network — 
+        no Indonesia-specific regulatory or compliance fields.
+      x-ion-layer: generic
+      x-ion-split-version: "0.7.0"
+      x-recommended-parent: Participant (direct properties)
+      additionalProperties: true
+      allOf:
+        # LOCAL (default — active):
+        - $ref: beckn.yaml#/components/schemas/Attributes
+        # REMOTE (uncomment to use upstream directly):
+        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
     IONParticipant:
       type: object
+      x-ion-layer: ion
+      x-ion-split-version: "0.7.0"
+      allOf:
+        - $ref: '#/components/schemas/Participant'
       title: IONParticipant
       additionalProperties: true
       x-jsonld:
         '@context': 'https://schema.ion.id/core/participant/v1/context.jsonld'
         '@type': ion:IONParticipant
-      x-beckn-attaches-to: Participant.participantAttributes
+      x-beckn-attaches-to: Participant (direct properties — Beckn v2.0 Participant has no participantAttributes wrapper)
       properties:
         role:
           type: string
@@ -104,6 +125,7 @@ components:
           description: OJK (Otoritas Jasa Keuangan) licence number
         authorisedSignatory:
           type: object
+          additionalProperties: false
           properties:
             name:
               type: string
@@ -211,6 +233,7 @@ components:
               description: 3T classification per Kementerian Desa PDTT
             accessibility:
               type: object
+              additionalProperties: false
               properties:
                 motorcycleAccessible:
                   type: boolean
@@ -242,6 +265,7 @@ components:
               type: array
               items:
                 type: object
+                additionalProperties: false
                 properties:
                   dayOfWeek:
                     type: string
@@ -252,8 +276,12 @@ components:
                     type: string
                     format: time
       # ION network mandatory: Network participant identity requirements
-      required:
-      - role
+      # NETWORK POLICY NOTE (GAP 32 / NFH-012 CON-012-18):
+      # Shared schemas MUST NOT declare mandatory fields.
+      # The following fields were required in v0.6.0 and are now
+      # enforced via ION network policy (x-ion-crc-rules,
+      # x-ion-conditional-rules) rather than the shared schema:
+      # role
       allOf:
       - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:

@@ -40,7 +40,7 @@ subBranches:
           - message.contract.id
           - message.contract.performance[].id
           - message.contract.performance[].status.descriptor.code
-          - message.contract.performance[].performanceAttributes.tags.return_reason.code
+          - message.contract.performance[].performanceAttributes.tags.return_reason.code  # tags is open key-value map
         conditionalFields:
           - field: message.contract.performance[].performanceAttributes.tags.return_evidence[]
         errors:
@@ -141,7 +141,7 @@ subBranches:
     window:
       earliest: after return-initiated
     description: >
-      Buyer wants to exchange for a different variant (size, colour) rather
+      Buyer wants to exchange for a different variant (size, color) rather
       than return for refund. Return pickup + new forward delivery.
       Two Performance records: one for the return, one for the new delivery.
     steps:
@@ -305,7 +305,7 @@ subBranches:
         requiredFields:
           - message.contract.id
           - message.contract.commitments[][].lineId  # note: array of commitment lineIds to return (subset of order)
-          - message.contract.performance[].performanceAttributes.tags.return_reason.code
+          - message.contract.performance[].performanceAttributes.tags.return_reason.code  # tags is open key-value map
         conditionalFields:
           - field: message.contract.performance[].performanceAttributes.tags.return_evidence[]
             condition: per offer.returnEvidenceRequirement

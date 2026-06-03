@@ -8,5 +8,20 @@
   "specVersion": "0.6.1",
   "beckn": "2.0.0",
   "type": "Pattern",
-  "patternName": "hyperlocal"
+  "patternName": "hyperlocal",
+  "policyRequirements": {
+    "requiredCategories": [
+      "CANCELLATION",
+      "SLA",
+      "GRIEVANCE_SLA"
+    ],
+    "policyIris": [
+      "ion://policy/trade/cancellation/v1",
+      "ion://policy/logistics/sla/v1",
+      "ion://policy/grievance-sla/v1"
+    ],
+    "enforcedBy": "ONIX",
+    "enforcementPoint": "catalog/publish and on_confirm",
+    "note": "All offers on this pattern MUST carry policyIris for each required category in offerAttributes."
+  }
 }

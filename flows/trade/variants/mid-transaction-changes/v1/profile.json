@@ -70,5 +70,18 @@
   ],
   "type": "Variant",
   "variantName": "mid-transaction-changes",
-  "sector": "ion:trade"
+  "sector": "ion:trade",
+  "policyRequirements": {
+    "requiredCategories": [
+      "CANCELLATION",
+      "PAYMENT_TERMS"
+    ],
+    "policyIris": [
+      "ion://policy/trade/cancellation/v1",
+      "ion://policy/trade/payment-terms/v1"
+    ],
+    "enforcedBy": "ONIX",
+    "enforcementPoint": "catalog/publish and on_confirm",
+    "note": "All offers on this variant MUST carry policyIris for each required category in offerAttributes."
+  }
 }

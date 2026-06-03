@@ -29,5 +29,10 @@
   "minimalForDiscovery": [
     "awbNumber"
   ],
-  "packSchema": "./schema.json"
+  "packSchema": "./schema.json",
+  "x-ion-layer": {
+    "generic": "LogisticsPerformance",
+    "ion": "IONLogisticsPerformance",
+    "splitVersion": "0.7.0"
+  }
 }

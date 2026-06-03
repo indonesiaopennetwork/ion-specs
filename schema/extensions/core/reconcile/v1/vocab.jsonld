@@ -2,7 +2,10 @@
   "@context": {
     "ion": "https://schema.ion.id/core/reconcile/v1#",
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "owl": "http://www.w3.org/2002/07/owl#"
   },
   "@graph": [
     {
@@ -12,6 +15,9 @@
       "rdfs:comment": "IONReconciliation",
       "rdfs:subClassOf": {
         "@id": "beckn:Settlement"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Settlement"
       }
     },
     {
@@ -90,7 +96,7 @@
       "@id": "ion:reconStatus",
       "@type": "rdf:Property",
       "rdfs:label": "reconStatus",
-      "rdfs:comment": "PENDING: recon initiated, awaiting counterparty acknowledgment. AGREED: both parties agree on amounts. DISPUTED: amounts do not match — raise ticket via raise/on_raise.\n"
+      "rdfs:comment": "PENDING: recon initiated, awaiting counterparty acknowledgment. AGREED: both parties agree on amounts. DISPUTED: amounts do not match \u2014 raise ticket via raise/on_raise.\n"
     },
     {
       "@id": "ion:disputeReason",
@@ -102,7 +108,7 @@
       "@id": "ion:reconStatus",
       "@type": "rdf:Property",
       "rdfs:label": "reconStatus",
-      "rdfs:comment": "Numeric recon status compatible with ONDC RSF receiver_recon model. 01=amounts match, 02=collector paid more than expected, 03=less than expected.\n"
+      "rdfs:comment": "ION reconciliation status. PENDING: awaiting counterparty acknowledgment. AGREED: amounts confirmed. DISPUTED: mismatch, raise a ticket via /raise."
     },
     {
       "@id": "ion:slaPenaltyDeduction",

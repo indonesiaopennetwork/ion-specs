@@ -2,7 +2,10 @@
   "@context": {
     "ion": "https://schema.ion.id/trade/resource/v1#",
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "owl": "http://www.w3.org/2002/07/owl#"
   },
   "@graph": [
     {
@@ -12,6 +15,9 @@
       "rdfs:comment": "Language-keyed text. \"id\" always required. \"en\" required for XB pattern.",
       "rdfs:subClassOf": {
         "@id": "beckn:Resource"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Resource"
       }
     },
     {
@@ -24,7 +30,7 @@
       "@id": "ion:en",
       "@type": "rdf:Property",
       "rdfs:label": "en",
-      "rdfs:comment": "Numeric quantity — may be fractional for weight-based goods"
+      "rdfs:comment": "Numeric quantity \u2014 may be fractional for weight-based goods"
     },
     {
       "@id": "ion:TradeResource",
@@ -117,7 +123,7 @@
       "@id": "ion:availability",
       "@type": "rdf:Property",
       "rdfs:label": "availability",
-      "rdfs:comment": "IN_STOCK: adequate quantity available. LOW_STOCK: limited — BAP may show urgency signal."
+      "rdfs:comment": "IN_STOCK: adequate quantity available. LOW_STOCK: limited \u2014 BAP may show urgency signal."
     },
     {
       "@id": "ion:identity",

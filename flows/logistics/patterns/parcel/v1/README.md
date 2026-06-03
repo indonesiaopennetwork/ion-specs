@@ -50,3 +50,30 @@ All three are defined in `schema/extensions/logistics/performance-states/v1/stat
 - **LOG-HYPERLOCAL**: sub-day rider-based, real-time GPS, rider identity exposed mid-flow, no hub states. Use LOG-HYPERLOCAL when service level is INSTANT and no hub routing applies.
 - **LOG-FREIGHT**: capacity-based booking (FTL/LTL, FCL/LCL, air cargo slots), bill-of-lading, departure-event state machine. Use LOG-FREIGHT when the shipment is booked against capacity, not against a rate card.
 - **LOG-XB**: adds customs clearance branch. Use LOG-XB for cross-border freight; for cross-border parcel (small packages), LOG-PARCEL with the customs-clearance branch attached is usually sufficient.
+
+## Schema packs
+
+| Pack | Purpose | Reference |
+|---|---|---|
+| `logistics/resource/v1` | See pack README | [`schema/extensions/logistics/resource/v1/README.md`](../../../../schema/extensions/logistics/resource/v1/README.md) |
+| `logistics/offer/v1` | See pack README | [`schema/extensions/logistics/offer/v1/README.md`](../../../../schema/extensions/logistics/offer/v1/README.md) |
+| `logistics/commitment/v1` | See pack README | [`schema/extensions/logistics/commitment/v1/README.md`](../../../../schema/extensions/logistics/commitment/v1/README.md) |
+| `logistics/consideration/v1` | See pack README | [`schema/extensions/logistics/consideration/v1/README.md`](../../../../schema/extensions/logistics/consideration/v1/README.md) |
+| `logistics/performance/v1` | See pack README | [`schema/extensions/logistics/performance/v1/README.md`](../../../../schema/extensions/logistics/performance/v1/README.md) |
+| `logistics/contract/v1` | See pack README | [`schema/extensions/logistics/contract/v1/README.md`](../../../../schema/extensions/logistics/contract/v1/README.md) |
+| `core/address/v1` | See pack README | [`schema/extensions/core/address/v1/README.md`](../../../../schema/extensions/core/address/v1/README.md) |
+| `core/payment/v1` | See pack README | [`schema/extensions/core/payment/v1/README.md`](../../../../schema/extensions/core/payment/v1/README.md) |
+
+## Variants
+
+**Always active:** `cross-cutting` — available on all patterns after `on_confirm`: tracking, support, rating, reconciliation, raise escalation. You must implement this regardless of which base pattern you use.
+
+**Conditionally active:** `during-transaction, cancellation, cash-on-delivery, delivery-attempts, weight-dispute` — activate when specific conditions are met. Check each variant's `variant.yaml` for activation conditions. Variant field requirements are **additive** — they add to this pattern's required fields, they do not replace them.
+
+
+## Using pattern.yaml as your implementation checklist
+
+> **The `pattern.yaml` in this directory is your primary implementation reference.** It lists every field ONIX validates at each API step — use it as your implementation checklist alongside this README. If ONIX rejects a message, look up the step in `pattern.yaml` first.
+
+Variant field requirements are declared in each variant's `variant.yaml` and are additive on top of this pattern's requirements.
+

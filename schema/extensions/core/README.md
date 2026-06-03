@@ -1,3 +1,20 @@
+
+## Which core packs does your integration need?
+
+| Pack | Required for |
+|---|---|
+| `address/v1` | All integrations with delivery address (trade, logistics, hospitality) |
+| `identity/v1` | All integrations — NPWP/NIB mandatory for every participant |
+| `payment/v1` | All integrations — every transaction has a payment method |
+| `tax/v1` | All integrations — PPN applies to all goods and services |
+| `localization/v1` | All integrations — Bahasa Indonesia product name (`name.id`) required for all resources |
+| `product/v1` | All integrations — `halalStatus` and `ageRestricted` required for all resources |
+| `participant/v1` | All integrations — participant roles and identifiers |
+| `support/v1` | All integrations — consumer complaint handling (required by cross-cutting variant) |
+| `rating/v1` | All integrations — ratings (required by cross-cutting variant) |
+| `reconcile/v1` | Post-fulfilment only — settlement reconciliation after delivery |
+| `raise/v1` | Conditional — network dispute escalation if reconcile is disputed |
+
 # ION Core Extension Packs
 
 These packs apply to every ION sector — Trade, Mobility, Tourism, Finance, Healthcare, Logistics. A field belongs here when it is required across more than one sector.
@@ -15,7 +32,7 @@ These packs apply to every ION sector — Trade, Mobility, Tourism, Finance, Hea
 | `support/v1` | `beckn:Support` | Consumer complaint ticket: category, sub-category, complainant info, description, issueActions (complainant + respondent trail), resolution, escalation level |
 | `raise/v1` | ION network channel | NP-to-NP and NP-to-ION issue tickets: type, priority, thread, SLA, resolution — separate from consumer support |
 | `rating/v1` | `beckn:Rate` | Rating category (PROVIDER/ITEM/FULFILLMENT/AGENT), value 1–5, feedbackText, feedbackUrl, ratingWindowDays |
-| `reconcile/v1` | `Settlement.settlementAttributes` | reconId, contractId, amounts (baseContractAmount, finderFee, withholding), adjustments[], netSettlementAmount, reconStatus, recon_status (ONDC RSF compatible: 01/02/03) |
+| `reconcile/v1` | `Settlement.settlementAttributes` | reconId, contractId, amounts (baseContractAmount, finderFee, withholding), adjustments[], netSettlementAmount, reconStatus (PENDING | AGREED | DISPUTED) |
 
 ## Design rules
 

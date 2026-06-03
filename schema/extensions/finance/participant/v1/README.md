@@ -57,3 +57,9 @@ Two schemas in this pack, distinguished by `@type`:
   ]
 }
 ```
+
+## Changelog
+
+| Version | Date | Summary |
+|---|---|---|
+| v1 | 2026-06-02 | Initial release |

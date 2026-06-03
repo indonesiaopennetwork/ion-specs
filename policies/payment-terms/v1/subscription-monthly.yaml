@@ -1,4 +1,4 @@
-iri: ion://policy/payment-terms.subscription.monthly_autopay
+iri: ion://policy/payment-terms.subscription.monthly-autopay
 version: "1.0.0"
 versionEffectiveFrom: "2026-05-01"
 category: PAYMENT_TERMS
@@ -23,7 +23,7 @@ allowedPaymentMethods:
   - EWALLET
   - DIRECT_DEBIT
 
-latePaymentPenalty: ion://policy/penalty.buyer.subscription_retry_failed
+latePaymentPenalty: ion://policy/penalty.buyer.subscription-retry-failed
 latePaymentFeePercent: 0
 
 applicableResourceTypes: [PLAIN, VARIANT, WITH_EXTRAS, COMPOSED, BUNDLE, DIGITAL_VOUCHER, DIGITAL_TOP_UP]

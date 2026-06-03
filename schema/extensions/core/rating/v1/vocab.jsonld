@@ -2,7 +2,10 @@
   "@context": {
     "ion": "https://schema.ion.id/core/rating/v1#",
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "owl": "http://www.w3.org/2002/07/owl#"
   },
   "@graph": [
     {
@@ -11,7 +14,10 @@
       "rdfs:label": "IONRating",
       "rdfs:comment": "IONRating",
       "rdfs:subClassOf": {
-        "@id": "beckn:RatingInput"
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#RatingInput"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#RatingInput"
       }
     },
     {
@@ -78,7 +84,7 @@
       "@id": "ion:verifiedPurchase",
       "@type": "rdf:Property",
       "rdfs:label": "verifiedPurchase",
-      "rdfs:comment": "Whether this rating is from a verified purchase on ION. True by default — all ION ratings are verified purchases by design.\n"
+      "rdfs:comment": "Whether this rating is from a verified purchase on ION. True by default \u2014 all ION ratings are verified purchases by design.\n"
     },
     {
       "@id": "ion:helpfulCount",

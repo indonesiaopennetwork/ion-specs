@@ -17,6 +17,27 @@ components:
     TradePerformance:
       type: object
       title: TradePerformance
+      description: >
+        Network-agnostic generic layer for TradePerformance. Inherits from Beckn core Attributes.
+        Downstream ION-specific layer (IONTradePerformance) extends this schema via allOf.
+        This layer carries only fields that are meaningful across any Beckn network — 
+        no Indonesia-specific regulatory or compliance fields.
+      x-ion-layer: generic
+      x-ion-split-version: "0.7.0"
+      x-recommended-parent: Performance.performanceAttributes
+      additionalProperties: true
+      allOf:
+        # LOCAL (default — active):
+        - $ref: beckn.yaml#/components/schemas/Attributes
+        # REMOTE (uncomment to use upstream directly):
+        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+    IONTradePerformance:
+      type: object
+      x-ion-layer: ion
+      x-ion-split-version: "0.7.0"
+      allOf:
+        - $ref: '#/components/schemas/TradePerformance'
+      title: TradePerformance
       additionalProperties: true
       x-jsonld:
         '@context': 'https://schema.ion.id/trade/performance/v1/context.jsonld'
@@ -447,10 +468,127 @@ components:
 
             '
           x-ion-condition: Required when delivery fails due to age verification
-      required:
-      - performanceMode
-      - supportedPerformanceModes
-      - sla
+        returnAgentPhone:
+          type: string
+          pattern: "^[0-9]{10,13}$"
+          description: >
+            Indonesian mobile number of the return pickup agent. Companion field
+            to returnAgentName — both are populated when a return pickup agent is
+            assigned. Displayed by BAP so consumer can coordinate handover.
+          example: "08129876543"
+          x-ion-condition: Present on return Performance records when agent assigned
+
+        stops:
+          type: array
+          description: >
+            Ordered list of stops for this performance leg. Each stop carries a
+            location and a type (START, END, INTERMEDIATE). Declared by BAP at
+            init for the delivery address, and by BPP at on_confirm for the
+            fulfilment centre origin. Used by logistics integrations to define
+            the full route.
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              id:
+                type: string
+                description: Unique identifier for this stop within this performance
+              type:
+                type: string
+                enum:
+                  - START
+                  - END
+                  - INTERMEDIATE
+                description: >
+                  START — pickup/origin point. END — delivery/destination point.
+                  INTERMEDIATE — waypoint (e.g. multi-stop deliveries, hub transfers).
+              location:
+                type: object
+                additionalProperties: false
+                properties:
+                  address:
+                    type: string
+                    description: Human-readable address string
+                  gps:
+                    type: string
+                    description: 'GPS coordinates in decimal degrees format: lat,lng'
+                    pattern: '^-?[0-9]{1,2}.[0-9]+,-?[0-9]{1,3}.[0-9]+$'
+                    example: "-6.2088,106.8456"
+                  areaCode:
+                    type: string
+                    description: Indonesian postal code (5-digit kode pos)
+                    example: "10110"
+                  ionAddressAttributes:
+                    $ref: '../../../../extensions/core/address/v1/attributes.yaml#/components/schemas/IONAddress'
+              instructions:
+                type: string
+                description: Delivery or pickup instructions for this stop
+              estimatedArrival:
+                type: string
+                format: date-time
+                description: Estimated arrival datetime at this stop
+              actualArrival:
+                type: string
+                format: date-time
+                description: Actual arrival time — populated after stop is reached
+              proof:
+                type: string
+                format: uri
+                description: Photo/signature proof URL for this stop
+
+        tags:
+          type: object
+          additionalProperties: true
+          description: >
+            Open key-value tag bag on the performance record. Used by patterns
+            and variants to attach structured event metadata without requiring
+            schema bumps. Common tag namespaces: return (return flow metadata),
+            rto (return-to-origin flow), exchange_item (exchange flow),
+            delivery (delivery event details). Tag keys use namespace.key format.
+          example:
+            returnReason.code: DEFECTIVE
+            returnEvidence: "[https://...]"
+            rtoReason: CONSUMER_UNAVAILABLE
+            deliveryAttemptCount: "2"
+
+        totalCartons:
+          type: integer
+          minimum: 1
+          description: >
+            Total number of physical cartons/boxes in this shipment. Used by
+            logistics for multi-carton fulfilments — furniture, bulk FMCG,
+            B2B wholesale. Declared by BPP at PACKED state. Enables consumer
+            to verify all cartons received at delivery.
+          example: 3
+          x-ion-condition: Present when fulfilment has multiple physical cartons
+
+        totalWeightKg:
+          type: number
+          minimum: 0
+          description: >
+            Total packed weight of this fulfilment in kilograms. Declared at
+            PACKED state. Used for logistics cost audit, insurance valuation,
+            and oversized surcharge verification. Matches logistics contract
+            weight declaration.
+          example: 12.5
+          x-ion-condition: Present at PACKED state and later
+
+        deliveryReceiptRef:
+          type: string
+          description: >
+            Reference number from the physical delivery receipt or proof-of-delivery
+            document signed or acknowledged by the consumer at handover. Populated
+            by the logistics provider at DELIVERED state. Used in dispute resolution
+            to prove delivery was completed and acknowledged by the consumer.
+          example: DLV-RCP-2026-00012345
+          x-ion-condition: Present after DELIVERED state when physical receipt was issued
+
+      # NETWORK POLICY NOTE (GAP 32 / NFH-012 CON-012-18):
+      # Shared schemas MUST NOT declare mandatory fields.
+      # The following fields were required in v0.6.0 and are now
+      # enforced via ION network policy (x-ion-crc-rules,
+      # x-ion-conditional-rules) rather than the shared schema:
+      # performanceMode, supportedPerformanceModes, sla
       allOf:
       - if:
           properties:

@@ -40,3 +40,28 @@ FTL, LTL, FCL, LCL, BULK, BREAK_BULK, PROJECT_CARGO.
 
 ## Multi-leg freight
 For multi-modal freight (ocean + road, air + trucking), the `performance.stops[]` array carries each leg. Each leg has its own carrier attribution. The parent contract governs commercial terms; leg-level events update the performance object.
+
+## Schema packs
+
+| Pack | Purpose | Reference |
+|---|---|---|
+| `logistics/resource/v1` | See pack README | [`schema/extensions/logistics/resource/v1/README.md`](../../../../schema/extensions/logistics/resource/v1/README.md) |
+| `logistics/offer/v1` | See pack README | [`schema/extensions/logistics/offer/v1/README.md`](../../../../schema/extensions/logistics/offer/v1/README.md) |
+| `logistics/commitment/v1` | See pack README | [`schema/extensions/logistics/commitment/v1/README.md`](../../../../schema/extensions/logistics/commitment/v1/README.md) |
+| `logistics/consideration/v1` | See pack README | [`schema/extensions/logistics/consideration/v1/README.md`](../../../../schema/extensions/logistics/consideration/v1/README.md) |
+| `logistics/performance/v1` | See pack README | [`schema/extensions/logistics/performance/v1/README.md`](../../../../schema/extensions/logistics/performance/v1/README.md) |
+| `logistics/contract/v1` | See pack README | [`schema/extensions/logistics/contract/v1/README.md`](../../../../schema/extensions/logistics/contract/v1/README.md) |
+
+## Variants
+
+**Always active:** `cross-cutting` — available on all patterns after `on_confirm`: tracking, support, rating, reconciliation, raise escalation. You must implement this regardless of which base pattern you use.
+
+**Conditionally active:** `during-transaction, cancellation, exception` — activate when specific conditions are met. Check each variant's `variant.yaml` for activation conditions. Variant field requirements are **additive** — they add to this pattern's required fields, they do not replace them.
+
+
+## Using pattern.yaml as your implementation checklist
+
+> **The `pattern.yaml` in this directory is your primary implementation reference.** It lists every field ONIX validates at each API step — use it as your implementation checklist alongside this README. If ONIX rejects a message, look up the step in `pattern.yaml` first.
+
+Variant field requirements are declared in each variant's `variant.yaml` and are additive on top of this pattern's requirements.
+

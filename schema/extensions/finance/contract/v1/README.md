@@ -1,4 +1,5 @@
-# CreditContractAttributes — v1 Property Table
+# CreditContract — v1 Property Table
+> **Schema evolution note (v1.1):** This pack does not yet implement the generic/ION-specific two-schema split pattern (as established in `trade/` and `logistics/` packs). The split — separating a generic `Contract` layer (inheriting from upstream Beckn) from an `IONContract` ION-specific layer — is planned for v1.1 of this pack. This pack is pre-production; the split will be applied before any production traffic is carried on the finance sector. Tracked in the ION spec issue register as ION-7.
 
 **Pack ID:** `ion-finance-credit-contract-v1`  
 **ION IRI:** `https://schema.ion.id/finance/credit-contract/v1#`  
@@ -8,7 +9,7 @@ This is a **multi-slot pack** — each sub-schema attaches to a different Beckn 
 
 | Sub-schema | Beckn slot |
 |------------|-----------|
-| `CreditContractAttributes` | `Contract.contractAttributes` |
+| `CreditContract` | `Contract.contractAttributes` |
 | `Borrower` | `Contract.participants[].participantAttributes` |
 | `Lender` | `Contract.participants[].participantAttributes` |
 | `AmortisationRow` | `Contract.settlements[].settlementAttributes` |
@@ -17,7 +18,7 @@ This is a **multi-slot pack** — each sub-schema attaches to a different Beckn 
 
 ---
 
-## CreditContractAttributes (`Contract.contractAttributes`)
+## CreditContract (`Contract.contractAttributes`)
 
 ### Required
 
@@ -26,7 +27,7 @@ This is a **multi-slot pack** — each sub-schema attaches to a different Beckn 
 | `contractNumber` | string | Unique Perjanjian Kredit / Akad number assigned by lender |
 | `loanAccountNumber` | string | Loan account number from core banking system |
 | `agreementDate` | date | Date Akad Kredit was formally signed (YYYY-MM-DD) |
-| `loanTerms` | ActiveLoanTerms | Frozen loan parameters — see sub-table below |
+| `loanTerms` | LoanTerms | Frozen loan parameters — see sub-table below |
 | `legalDocuments` | LegalDocuments | Document references — see sub-table below |
 
 ### Optional
@@ -51,7 +52,7 @@ This is a **multi-slot pack** — each sub-schema attaches to a different Beckn 
 
 ---
 
-## ActiveLoanTerms
+## LoanTerms
 
 ### Required
 
@@ -203,3 +204,9 @@ This is a **multi-slot pack** — each sub-schema attaches to a different Beckn 
 | `newTenorMonths` | integer | New total tenor in months after restructuring |
 | `newRatePercent` | number | New annual rate % p.a. after restructuring |
 | `restructuringReason` | string | Plain-language reason (audit trail per POJK 40/2019) |
+
+## Changelog
+
+| Version | Date | Summary |
+|---|---|---|
+| v1 | 2026-06-02 | Initial release |

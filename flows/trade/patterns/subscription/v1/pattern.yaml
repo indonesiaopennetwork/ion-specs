@@ -126,7 +126,7 @@ phases:
         description: Buyer pauses subscription for N billing cycles.
         requiredFields:
           - message.contract.id
-          - message.contract.contractAttributes.subscriptionAction
+          - message.contract.contractAttributes.subscriptionAction  # enum: PAUSE|RESUME|SKIP_NEXT|MODIFY|CANCEL
           - message.contract.contractAttributes.subscriptionPauseUntil
 
       - step: update

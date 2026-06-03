@@ -27,3 +27,25 @@ RT and RW are critical for last-mile delivery in Indonesia. Riders use RT/RW to 
 
 ## Regulatory
 Permendagri 72/2019 tentang Perubahan atas Permendagri 137/2017
+
+## Network-required fields
+
+The following fields are always required for this pack by ION network policy (`ion.yaml → x-ion-field-requirements.alwaysRequired`):
+
+- `provinsiCode`
+
+Mandatoriness is enforced by ONIX — these fields are not marked `required:` in the schema itself (mandatoriness lives in network policy, not the schema).
+
+## Used in
+
+`flows/trade/README.md and flows/logistics/README.md`
+
+## Common rejection reasons
+
+Invalid `provinsiCode` → `ION-8xxx`. Use 2-digit BPS province codes (e.g. `31` for DKI Jakarta). See `errors/README.md` for the full error code reference.
+
+## Changelog
+
+| Version | Date | Summary |
+|---|---|---|
+| v1 | 2026-06-02 | Initial release |

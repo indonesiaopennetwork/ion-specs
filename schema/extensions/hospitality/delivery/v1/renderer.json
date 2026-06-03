@@ -43,7 +43,7 @@
         "id": "Halal",
         "en": "Halal"
       },
-      "colour": "#2D7D27"
+      "color": "#2D7D27"
     },
     {
       "condition": "classification == 'VEG'",
@@ -51,7 +51,7 @@
         "id": "Vegetarian",
         "en": "Vegetarian"
       },
-      "colour": "#4CAF50"
+      "color": "#4CAF50"
     },
     {
       "condition": "isAlcoholic == true",
@@ -59,7 +59,7 @@
         "id": "Mengandung Alkohol",
         "en": "Contains Alcohol"
       },
-      "colour": "#D32F2F"
+      "color": "#D32F2F"
     }
   ]
 }

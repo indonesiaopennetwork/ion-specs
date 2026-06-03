@@ -7,5 +7,16 @@
   "maintainer": "ION Council \u2014 Sector B Lead",
   "type": "Variant",
   "variantName": "ekyc",
-  "sector": "ion:logistics"
+  "sector": "ion:logistics",
+  "policyRequirements": {
+    "requiredCategories": [
+      "GRIEVANCE_SLA"
+    ],
+    "policyIris": [
+      "ion://policy/grievance-sla/v1"
+    ],
+    "enforcedBy": "ONIX",
+    "enforcementPoint": "catalog/publish and on_confirm",
+    "note": "All offers on this variant MUST carry policyIris for each required category in offerAttributes."
+  }
 }

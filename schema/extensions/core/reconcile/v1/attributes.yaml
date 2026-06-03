@@ -17,8 +17,29 @@ info:
     url: https://schema.ion.id
 components:
   schemas:
-    IONReconciliation:
+    Reconciliation:
       type: object
+      title: Reconciliation
+      description: >
+        Network-agnostic generic layer for Reconciliation. Inherits from Beckn core Attributes.
+        Downstream ION-specific layer (IONReconcile) extends this schema via allOf.
+        This layer carries only fields that are meaningful across any Beckn network — 
+        no Indonesia-specific regulatory or compliance fields.
+      x-ion-layer: generic
+      x-ion-split-version: "0.7.0"
+      x-recommended-parent: Settlement.settlementAttributes
+      additionalProperties: true
+      allOf:
+        # LOCAL (default — active):
+        - $ref: beckn.yaml#/components/schemas/Attributes
+        # REMOTE (uncomment to use upstream directly):
+        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+    IONReconcile:
+      type: object
+      x-ion-layer: ion
+      x-ion-split-version: "0.7.0"
+      allOf:
+        - $ref: '#/components/schemas/Reconciliation'
       title: IONReconciliation
       additionalProperties: true
       x-jsonld:
@@ -127,9 +148,18 @@ components:
                 - PLATFORM_FEE_CORRECTION
               amount:
                 type: number
-                description: 'IDR amount. Positive = deducted from receiver. Negative = credited to receiver.
+                description: 'Monetary amount of this adjustment. Positive = deducted from receiver (BPP).
+                  Negative = credited to receiver. The currency is declared in the sibling currency field.
 
                   '
+              currency:
+                type: string
+                default: IDR
+                description: >
+                  ISO 4217 currency code for this adjustment amount. Defaults to IDR for all
+                  standard ION trade and logistics transactions. Cross-border transactions
+                  involving foreign currency settlements MUST explicitly set this field.
+                example: IDR
               reason:
                 type: string
                 description: Human-readable reason for adjustment
@@ -208,23 +238,14 @@ components:
 
             '
           example: PENDING
+
         disputeReason:
           type: string
           description: 'Human-readable reason for DISPUTED status. Referenced when raising a dispute ticket via
             raise/on_raise.
 
             '
-        reconStatus:
-          type: string
-          enum:
-          - '01'
-          - '02'
-          - '03'
-          description: 'Numeric recon status compatible with ONDC RSF receiver_recon model. 01=amounts match, 02=collector
-            paid more than expected, 03=less than expected.
 
-            '
-          x-ion-condition: Set by on_reconcile from BPP/receiver
         slaPenaltyDeduction:
           type: number
           minimum: 0
@@ -469,15 +490,7 @@ components:
                 withinTolerance:
                   type: boolean
           x-ion-condition: Required when one or more settlements in this reconcile carry method=COD
-      required:
-      - reconId
-      - contractId
-      - collectedBy
-      - settlementBasis
-      - settlementWindow
-      - amounts
-      - counterparty
-      - reconStatus
+      # required: removed — mandatoriness declared in x-ion-field-requirements network policy
       allOf:
       - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:

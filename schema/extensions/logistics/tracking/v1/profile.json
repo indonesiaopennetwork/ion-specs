@@ -23,5 +23,10 @@
   "minimalForDiscovery": [
     "trackingType"
   ],
-  "packSchema": "./schema.json"
+  "packSchema": "./schema.json",
+  "x-ion-layer": {
+    "generic": "LogisticsTracking",
+    "ion": "IONLogisticsTracking",
+    "splitVersion": "0.7.0"
+  }
 }

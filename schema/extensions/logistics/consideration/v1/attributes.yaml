@@ -17,19 +17,43 @@ components:
     LogisticsConsideration:
       type: object
       title: LogisticsConsideration
+      description: >
+        Network-agnostic generic layer for LogisticsConsideration. Inherits from Beckn core Attributes.
+        Downstream ION-specific layer (IONLogisticsConsideration) extends this schema via allOf.
+        This layer carries only fields that are meaningful across any Beckn network — 
+        no Indonesia-specific regulatory or compliance fields.
+      x-ion-layer: generic
+      x-ion-split-version: "0.7.0"
+      x-recommended-parent: Consideration.considerationAttributes
+      additionalProperties: true
+      allOf:
+        # LOCAL (default — active):
+        - $ref: beckn.yaml#/components/schemas/Attributes
+        # REMOTE (uncomment to use upstream directly):
+        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+    IONLogisticsConsideration:
+      type: object
+      x-ion-layer: ion
+      x-ion-split-version: "0.7.0"
+      allOf:
+        - $ref: '#/components/schemas/LogisticsConsideration'
+      title: LogisticsConsideration
       additionalProperties: true
       x-jsonld:
         '@context': 'https://schema.ion.id/logistics/consideration/v1/context.jsonld'
         '@type': ion:LogisticsConsideration
       x-beckn-attaches-to: Consideration.considerationAttributes
       properties:
-        breakup:
+        components:
           type: array
-          description: Line-item financial breakdown. Each entry is one charge type.
+          description: >
+            Line-item financial breakdown per Beckn v2.0 Consideration.components[]
+            structure. Each entry is one charge type with type, value, currency,
+            and description. Replaces the pre-v2.0 breakup[] field.
           items:
             type: object
             properties:
-              titleType:
+              type:
                 type: string
                 enum:
                 - FREIGHT_BASE
@@ -52,6 +76,18 @@ components:
                 - BILL_OF_LADING_FEE
                 - CONTAINER_CLEANING_FEE
                 - MULTI_STOP_PICKUP_FEE
+              value:
+                type: number
+                description: Monetary value of this component. Positive for charges, negative for credits/discounts.
+              currency:
+                type: string
+                default: IDR
+                description: ISO 4217 currency code. Defaults to IDR for all standard ION logistics transactions.
+                example: IDR
+              description:
+                type: string
+                description: Human-readable label for this component line.
+                enum:
                 - MULTI_STOP_DELIVERY_FEE
                 - SIGNATURE_ON_DELIVERY_FEE
                 - INSIDE_DELIVERY_FEE
@@ -167,7 +203,7 @@ components:
           items:
             type: object
             properties:
-              titleType:
+              type:
                 type: string
               originalAmount:
                 type: number
@@ -204,9 +240,12 @@ components:
           type: number
           description: Computed PPN amount
           x-ion-condition: Required when taxRegime is not EXEMPT on this consideration line
-      required:
-      - breakup
-      - totalAmount
+      # NETWORK POLICY NOTE (GAP 32 / NFH-012 CON-012-18):
+      # Shared schemas MUST NOT declare mandatory fields.
+      # The following fields were required in v0.6.0 and are now
+      # enforced via ION network policy (x-ion-crc-rules,
+      # x-ion-conditional-rules) rather than the shared schema:
+      # components, totalAmount
       x-ion-closed-extensions: false
       allOf:
       - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes

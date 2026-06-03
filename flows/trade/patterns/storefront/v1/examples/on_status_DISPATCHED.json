@@ -1,0 +1,64 @@
+{
+  "_meta": {
+    "description": "Storefront on_status DISPATCHED — package picked up. AWB and tracking URL required.",
+    "pattern": "storefront",
+    "step": "on_status[DISPATCHED]",
+    "sent_by": "BPP",
+    "received_by": "BAP",
+    "schemaPacks": [
+      "trade/performance/v1"
+    ]
+  },
+  "context": {
+    "domain": "ion:trade",
+    "action": "on_status",
+    "version": "2.0.0",
+    "bapId": "buyerapp.ion.id",
+    "bapUri": "https://buyerapp.ion.id/beckn",
+    "bppId": "sellerapp.ion.id",
+    "bppUri": "https://sellerapp.ion.id/beckn",
+    "networkId": "ion.id",
+    "transactionId": "9fdb667c-76c6-456a-9742-ba9caa5eb765",
+    "messageId": "msg-on-status-001",
+    "timestamp": "2026-04-19T10:30:00.000+07:00",
+    "ttl": "PT30S",
+    "location": {
+      "city": {
+        "code": "std:3171"
+      },
+      "country": {
+        "code": "IDN"
+      }
+    },
+    "schemaContext": [
+      "https://schema.ion.id/trade/performance/v1/context.jsonld"
+    ]
+  },
+  "message": {
+    "contract": {
+      "id": "ORD-2026-04190001",
+      "performance": [
+        {
+          "id": "PERF-001",
+          "status": {
+            "descriptor": {
+              "code": "DISPATCHED"
+            }
+          },
+          "performanceAttributes": {
+            "@context": "https://schema.ion.id/trade/performance/v1/context.jsonld",
+            "@type": "ion:IONTradePerformance",
+            "performanceMode": "DELIVERY",
+            "awbNumber": "JNE-2026041900001234",
+            "trackingUrl": "https://track.jne.co.id/JNE-2026041900001234",
+            "estimatedDeliveryTime": "2026-04-19T14:00:00.000+07:00",
+            "logisticsAgent": {
+              "name": "Budi Santoso",
+              "phone": "+62812-0000-1234"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

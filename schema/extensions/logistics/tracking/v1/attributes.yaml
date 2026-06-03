@@ -18,6 +18,27 @@ components:
     LogisticsTracking:
       type: object
       title: LogisticsTracking
+      description: >
+        Network-agnostic generic layer for LogisticsTracking. Inherits from Beckn core Attributes.
+        Downstream ION-specific layer (IONLogisticsTracking) extends this schema via allOf.
+        This layer carries only fields that are meaningful across any Beckn network — 
+        no Indonesia-specific regulatory or compliance fields.
+      x-ion-layer: generic
+      x-ion-split-version: "0.7.0"
+      x-recommended-parent: Tracking.trackingAttributes
+      additionalProperties: true
+      allOf:
+        # LOCAL (default — active):
+        - $ref: beckn.yaml#/components/schemas/Attributes
+        # REMOTE (uncomment to use upstream directly):
+        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+    IONLogisticsTracking:
+      type: object
+      x-ion-layer: ion
+      x-ion-split-version: "0.7.0"
+      allOf:
+        - $ref: '#/components/schemas/LogisticsTracking'
+      title: LogisticsTracking
       additionalProperties: true
       x-jsonld:
         '@context': 'https://schema.ion.id/logistics/tracking/v1/context.jsonld'
@@ -46,6 +67,7 @@ components:
           x-ion-condition: 'See property description: Recommended polling interval for LIVE_GPS and POLLING_API modes. Typical: 5-15 s'
         credentials:
           type: object
+          additionalProperties: false
           description: Authentication for WEBSOCKET or authenticated webhook
           properties:
             type:
@@ -65,15 +87,19 @@ components:
           description: Events the BPP will push to webhook (if trackingType=WEBHOOK)
           items:
             type: string
-            enum:
-            - STATE_CHANGE
-            - LOCATION_UPDATE
-            - SLA_BREACH_IMMINENT
-            - EXCEPTION
-            - DELIVERY_COMPLETE
+            description: >
+              Webhook event name. Free-text to accommodate new state machine
+              states without requiring schema bumps.
+            x-ion-suggested-values:
+              - STATE_CHANGE
+              - LOCATION_UPDATE
+              - SLA_BREACH_IMMINENT
+              - EXCEPTION
+              - DELIVERY_COMPLETE
           x-ion-condition: 'See property description: Events the BPP will push to webhook (if trackingType=WEBHOOK)'
         currentLocation:
           type: object
+          additionalProperties: false
           description: 'Last known location snapshot at time of /on_track response. Primarily for LIVE_GPS.
 
             '
@@ -102,6 +128,7 @@ components:
           description: Encoded polyline of planned route (Google-style encoding)
         agentDetails:
           type: object
+          additionalProperties: false
           description: 'Agent details exposed based on offer.agentAssignmentModel and current performance state.
 
             '
@@ -134,8 +161,12 @@ components:
           description: 'URL template for AWB_URL tracking. E.g. "https://jne.co.id/tracking?awb={awbNumber}"
 
             '
-      required:
-      - trackingType
+      # NETWORK POLICY NOTE (GAP 32 / NFH-012 CON-012-18):
+      # Shared schemas MUST NOT declare mandatory fields.
+      # The following fields were required in v0.6.0 and are now
+      # enforced via ION network policy (x-ion-crc-rules,
+      # x-ion-conditional-rules) rather than the shared schema:
+      # trackingType
       x-ion-closed-extensions: false
       allOf:
       - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes

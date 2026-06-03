@@ -1,0 +1,384 @@
+openapi: 3.1.1
+info:
+  title: ION Trade Settlement Extension (v1)
+  description: >
+    Trade sector settlement and payment declaration attributes. Carries the
+    payment method declaration, collection party, timing, status, and method
+    detail for payment instrument presentation (QRIS string, VA number, e-wallet
+    deep link). Also carries refund declarations for cancellation and return flows.
+    Produced by the BAP at init with method and collectedBy; supplemented by the
+    BPP at on_init with methodDetail (payment instrument); updated at confirm with
+    status=PAID; updated again at on_cancel/on_update with refund fields.
+    Attaches to: beckn:Settlement.settlementAttributes (each Settlement object
+    in Contract.settlements[] carries one IONTradeSettlement).
+  version: 1.0.0
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    name: ION Network
+    url: https://schema.ion.id
+components:
+  schemas:
+    TradeSettlement:
+      type: object
+      title: TradeSettlement
+      description: >
+        Network-agnostic generic layer for TradeSettlement. Inherits from Beckn
+        core Attributes. Downstream ION-specific layer (IONTradeSettlement) extends
+        this schema via allOf. This layer carries only fields meaningful across any
+        Beckn network — no Indonesia-specific payment rails or regulatory fields.
+      x-ion-layer: generic
+      x-ion-split-version: "0.7.0"
+      x-recommended-parent: Settlement.settlementAttributes
+      additionalProperties: true
+      allOf:
+        # LOCAL (default — active):
+        - $ref: beckn.yaml#/components/schemas/Attributes
+        # REMOTE (uncomment to use upstream directly):
+        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+    IONTradeSettlement:
+      type: object
+      x-ion-layer: ion
+      x-ion-split-version: "0.7.0"
+      allOf:
+        - $ref: '#/components/schemas/TradeSettlement'
+      title: TradeSettlement
+      additionalProperties: true
+      x-jsonld:
+        '@context': 'https://schema.ion.id/trade/settlement/v1/context.jsonld'
+        '@type': ion:TradeSettlement
+      x-beckn-attaches-to: Settlement.settlementAttributes
+      properties:
+        method:
+          type: string
+          enum:
+            - QRIS
+            - VIRTUAL_ACCOUNT
+            - EWALLET
+            - BANK_TRANSFER
+            - CREDIT_CARD
+            - DEBIT_CARD
+            - COD
+            - BNPL
+            - PAYLATER
+            - STORE_CREDIT
+            - LOYALTY_POINTS
+            - PAYMENT_LINK
+          description: >
+            Payment method declared by BAP at init. QRIS: QR Indonesian Standard
+            (Bank Indonesia mandate). VIRTUAL_ACCOUNT: bank-issued VA number.
+            EWALLET: GoPay, OVO, Dana, ShopeePay, LinkAja. BANK_TRANSFER: manual
+            bank transfer. COD: cash on delivery. BNPL/PAYLATER: deferred payment.
+          example: QRIS
+          x-ion-regulatory: PBI 23/6/PBI/2021 (QRIS); PBI 22/23/PBI/2020 (e-money)
+
+        paymentRail:
+          type: string
+          description: >
+            Specific payment rail within the method. Provides precision beyond
+            method alone — e.g. method=EWALLET with paymentRail=GOPAY.
+            Used for payment routing and reconciliation.
+          enum:
+            - QRIS_STATIC
+            - QRIS_DYNAMIC
+            - QRIS_CPM
+            - VA_BCA
+            - VA_BNI
+            - VA_BRI
+            - VA_MANDIRI
+            - VA_CIMB
+            - VA_PERMATA
+            - VA_DANA
+            - GOPAY
+            - OVO
+            - DANA
+            - SHOPEEPAY
+            - LINKAJA
+            - KREDIVO
+            - AKULAKU
+            - SPAYLATER
+            - COD
+          example: GOPAY
+
+        collectedBy:
+          type: string
+          enum:
+            - BAP
+            - BPP
+          description: >
+            Which party collects the payment. BAP: consumer pays directly to CN
+            platform (marketplace wallet, CN-owned payment gateway). BPP: consumer
+            pays directly to seller/provider (merchant PG, COD). Determines
+            settlement flow direction.
+          example: BAP
+
+        timing:
+          type: string
+          enum:
+            - PRE_ORDER
+            - ON_CONFIRM
+            - ON_DELIVERY
+            - POST_DELIVERY
+            - SUBSCRIPTION_CYCLE
+          description: >
+            When payment is collected. PRE_ORDER: prepaid before fulfilment.
+            ON_CONFIRM: collected at order confirm. ON_DELIVERY: COD model.
+            POST_DELIVERY: credit terms. SUBSCRIPTION_CYCLE: recurring billing.
+          example: PRE_ORDER
+
+        status:
+          type: string
+          enum:
+            - NOT_PAID
+            - INITIATED
+            - PROCESSING
+            - PAID
+            - FAILED
+            - CANCELLED
+            - REFUND_INITIATED
+            - REFUNDED
+            - PARTIALLY_REFUNDED
+          description: >
+            Current payment status. Declared by BAP at confirm; updated by BPP
+            on subsequent events. PAID confirms successful payment collection.
+          example: PAID
+
+        currency:
+          type: string
+          const: IDR
+          default: IDR
+          description: Always IDR for domestic ION transactions.
+
+        amount:
+          type: number
+          minimum: 0
+          description: >
+            Total settlement amount in IDR for this settlement record.
+            For multi-settlement (partial payment, milestones), each Settlement
+            object carries its own amount.
+          example: 150000
+
+        methodDetail:
+          type: object
+          additionalProperties: true
+          description: >
+            Payment instrument detail for consumer presentation. Populated by BPP
+            at on_init after payment instrument is generated. Structure varies
+            by method — use the relevant sub-fields based on the declared method.
+          properties:
+            qrisString:
+              type: string
+              description: QRIS payload string. Consumer's CN app renders as QR code.
+              x-ion-condition: Present when method=QRIS
+            vaNumber:
+              type: string
+              description: Virtual account number for bank transfer. Prefixed with bank code.
+              example: "8800123456789012"
+              x-ion-condition: Present when method=VIRTUAL_ACCOUNT
+            vaBankCode:
+              type: string
+              description: Bank code for the VA (BCA, BNI, BRI, MANDIRI, CIMB, PERMATA, DANA)
+              example: BCA
+              x-ion-condition: Present when method=VIRTUAL_ACCOUNT
+            deepLink:
+              type: string
+              format: uri
+              description: E-wallet deep link for redirect to wallet app. GoPay / OVO / Dana / ShopeePay.
+              example: gojek://gopay/pay?token=abc123
+              x-ion-condition: Present when method=EWALLET
+            paymentLink:
+              type: string
+              format: uri
+              description: Universal payment link for web-based checkout.
+              x-ion-condition: Present when method=PAYMENT_LINK
+            expiresAt:
+              type: string
+              format: date-time
+              description: Expiry datetime for this payment instrument (QRIS, VA, payment link).
+            gatewayRef:
+              type: string
+              description: >
+                Payment gateway transaction reference. Unique ID assigned by the
+                payment gateway after instrument generation. Used for reconciliation.
+              example: PG-TXN-2026-00123456
+            paidAt:
+              type: string
+              format: date-time
+              description: Timestamp when payment was confirmed as received by the gateway.
+
+        refundAmount:
+          type: number
+          minimum: 0
+          description: >
+            Refund amount in IDR. Populated in on_cancel callback and return
+            flow on_update/on_status. May be less than original payment amount
+            for partial refunds (cancellation fee applied, QC_PARTIAL result,
+            non-refundable delivery charge).
+          x-ion-condition: Present in cancellation and return resolution callbacks
+
+        refundMethod:
+          type: string
+          enum:
+            - ORIGINAL_PAYMENT_METHOD
+            - PLATFORM_WALLET
+            - BANK_TRANSFER
+            - STORE_CREDIT
+            - LOYALTY_POINTS
+            - VOUCHER
+          description: >
+            Where the refund will be credited. Defaults to ORIGINAL_PAYMENT_METHOD.
+            Platform wallet refunds are typically faster (instant). Store credit
+            used for partial refunds and goodwill gestures.
+          x-ion-condition: Present when refundAmount is declared
+
+        refundTimeline:
+          type: string
+          description: >
+            Human-readable refund processing timeline declared by BPP. Consumer
+            uses this as their expectation anchor. Format: ISO 8601 duration
+            (e.g. PT24H, P3D, P7D) or regulatory deadline reference.
+          example: P3D
+          x-ion-condition: Present when refundAmount is declared
+
+        additionalChargeAmount:
+          type: number
+          description: >
+            Additional charge collected at resolution of an exchange or modification
+            when the replacement or update has a higher price than the original.
+            Declared in on_update for exchange-variant-doorstep and mid-transaction
+            changes. Negative values are not used here — use refundAmount for credits.
+          example: 15000
+          x-ion-condition: Present when exchange or modification results in additional charge
+
+      # NETWORK POLICY NOTE (GAP 32 / NFH-012 CON-012-18):
+      # Shared schemas MUST NOT declare mandatory fields.
+      # The following fields are always required and enforced via ION network policy:
+      # method, collectedBy, timing, status, currency
+      # (Previously on IONPayment in core/payment/v1 — split to trade/settlement/v1 for
+      # trade-specific settlement lifecycle. core/payment/v1 remains the payment METHOD
+      # registry; trade/settlement/v1 is the per-transaction settlement declaration.)
+        gatewayRef:
+          type: string
+          description: >
+            Payment gateway transaction reference at the settlement level.
+            Unique ID assigned by the payment gateway when payment is confirmed.
+            Referenced directly on settlementAttributes (not nested in methodDetail)
+            for payment confirmation callbacks and reconciliation. Same value as
+            methodDetail.gatewayRef — surfaced at top level for direct pattern access.
+          example: PG-TXN-2026-00123456
+          x-ion-condition: Present after payment gateway confirms receipt
+
+        paidAt:
+          type: string
+          format: date-time
+          description: >
+            Timestamp when payment was confirmed as received by the payment gateway.
+            Set by BPP at on_confirm or on_status[PAYMENT_RECEIVED]. Referenced
+            directly on settlementAttributes for payment confirmation callbacks and
+            reconciliation. Same value as methodDetail.paidAt — surfaced at top
+            level for direct pattern access.
+          example: "2026-04-19T14:32:11+07:00"
+          x-ion-condition: Present after status transitions to PAID
+
+        reconId:
+          type: string
+          description: >
+            Reconciliation record identifier linking this settlement to an
+            IONReconcile record in core/reconcile/v1. Populated when the
+            BAP initiates the /reconcile flow after delivery. Used to join
+            Settlement → Reconcile records in ION Central ledger.
+          example: RECON-2026-TRD-00012345
+          x-ion-condition: Present when /reconcile flow is active for this settlement
+
+        contractId:
+          type: string
+          description: >
+            Back-reference to the Contract ID this settlement belongs to.
+            Redundant to Contract.id but carried on the Settlement record
+            for reconciliation messages where only Settlement context is available.
+          example: TRD-2026-00012345
+
+        amounts:
+          type: object
+          additionalProperties: false
+          description: >
+            Structured amount breakdown for reconciliation. Carries the financial
+            components that BAP and BPP must agree on during the /reconcile flow.
+          properties:
+            baseContractAmount:
+              type: number
+              description: Gross contract value before deductions (IDR)
+            buyerFinderFeeAmount:
+              type: number
+              description: Platform/BAP finder fee deduction (IDR)
+            netSettlementAmount:
+              type: number
+              description: Net amount due to BPP after all deductions (IDR)
+            currency:
+              type: string
+              const: IDR
+              default: IDR
+          x-ion-condition: Required on /reconcile request
+
+        settlementBasis:
+          type: string
+          enum:
+            - COLLECTION
+            - DELIVERY
+            - RETURN_RESOLVED
+            - CUSTOM
+          description: >
+            The event that triggers settlement between BAP and BPP. COLLECTION:
+            settlement on payment collection. DELIVERY: settlement after confirmed
+            delivery. RETURN_RESOLVED: settlement after return/refund is resolved.
+          x-ion-condition: Required on /reconcile request
+
+        adjustments:
+          type: array
+          description: >
+            Adjustments applied to the base contract amount during reconciliation —
+            cancellation fees, return deductions, SLA penalty credits, platform
+            goodwill credits. Each entry modifies the net settlement amount.
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              type:
+                type: string
+                enum:
+                  - CANCELLATION_FEE
+                  - RETURN_DEDUCTION
+                  - SLA_PENALTY
+                  - PLATFORM_GOODWILL
+                  - INSURANCE_CLAIM
+                  - TAX_ADJUSTMENT
+              amount:
+                type: number
+                description: Signed IDR amount. Positive=charge to BPP, Negative=credit to BPP.
+              reason:
+                type: string
+            required:
+            - type
+            - amount
+          x-ion-condition: Present when cancellation fees, returns, or adjustments apply
+
+        reconStatus:
+          type: string
+          enum:
+            - PENDING
+            - AGREED
+            - DISPUTED
+          description: >
+            Current reconciliation status. PENDING: BPP has not responded.
+            AGREED: BPP confirms the amounts. DISPUTED: BPP disputes one or
+            more line items.
+          x-ion-condition: Set by BPP on /on_reconcile
+
+        disputeReason:
+          type: string
+          description: >
+            Free-text reason declared by BPP when reconStatus=DISPUTED.
+            Should reference the specific amount or line item being disputed.
+          x-ion-condition: Required when reconStatus=DISPUTED
+        x-ion-closed-extensions: false

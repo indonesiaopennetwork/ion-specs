@@ -1,11 +1,11 @@
-# CreditOfferAttributes — v1 Property Table
+# CreditOffer — v1 Property Table
 
 **Pack ID:** `ion-finance-credit-offer-v1`  
 **Attaches to:** `Offer.offerAttributes`  
-**ION IRI:** `https://schema.ion.id/finance/credit-offer/v1#CreditOfferAttributes`  
+**ION IRI:** `https://schema.ion.id/finance/credit-offer/v1#CreditOffer`  
 **Beckn flow:** `on_select` / `on_init` → `message.contract.commitments[].offer.offerAttributes`
 
-> **Key distinction:** `CreditResourceAttributes` carries product RANGES. `CreditOfferAttributes` carries EXACT values approved for a specific borrower.
+> **Key distinction:** `CreditResourceAttributes` carries product RANGES. `CreditOffer` carries EXACT values approved for a specific borrower.
 
 ---
 
@@ -62,7 +62,7 @@
 
 | Field | Type | Notes |
 |-------|------|-------|
-| `percentPerYear` | number | **Required.** Annual rate % (frozen in CreditContractAttributes) |
+| `percentPerYear` | number | **Required.** Annual rate % (frozen in CreditContract) |
 | `method` | enum | **Required.** ANNUITY \| FLAT \| EFFECTIVE |
 | `yieldType` | enum | FIXED \| FLOATING \| COMBINED \| MARGIN \| NISBAH |
 | `fixedPeriodYears` | integer | For COMBINED products |
@@ -104,3 +104,9 @@
 | `score` | integer | Lender proprietary scale |
 | `category` | enum | EXCELLENT \| GOOD \| FAIR \| POOR |
 | `slikGrade` | enum | `"1"` = Lancar \| `"2"` = Special Mention |
+
+## Changelog
+
+| Version | Date | Summary |
+|---|---|---|
+| v1 | 2026-06-02 | Initial release |

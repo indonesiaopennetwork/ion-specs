@@ -23,7 +23,7 @@ allowedPaymentMethods:
   - RTGS
   - SKN
 
-latePaymentPenalty: ion://policy/penalty.buyer.late_credit_payment
+latePaymentPenalty: ion://policy/penalty.buyer.late-credit-payment
 latePaymentFeePercent: 0.02
 
 applicableResourceTypes: [PLAIN, VARIANT, WITH_EXTRAS, COMPOSED, BUNDLE, DIGITAL_VOUCHER, DIGITAL_TOP_UP]

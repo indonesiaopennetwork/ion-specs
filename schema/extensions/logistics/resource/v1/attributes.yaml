@@ -1,4 +1,4 @@
-﻿openapi: 3.1.1
+openapi: 3.1.1
 info:
   title: ION Logistics Resource Extension (v1)
   description: 'Logistics sector resource attributes. Describes the shipment object — physical characteristics,
@@ -15,15 +15,47 @@ info:
     url: https://schema.ion.id
 components:
   schemas:
-    LogisticsShipment:
+    LogisticsResource:
       type: object
-      title: LogisticsShipment
+      title: LogisticsResource
+      description: >
+        Network-agnostic generic layer for LogisticsResource. Inherits from Beckn core Attributes.
+        Downstream ION-specific layer (IONLogisticsResource) extends this schema via allOf.
+        This layer carries only fields that are meaningful across any Beckn network — 
+        no Indonesia-specific regulatory or compliance fields.
+      x-ion-layer: generic
+      x-ion-split-version: "0.7.0"
+      x-recommended-parent: Resource.resourceAttributes
+      additionalProperties: true
+      allOf:
+        # LOCAL (default — active):
+        - $ref: beckn.yaml#/components/schemas/Attributes
+        # REMOTE (uncomment to use upstream directly):
+        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+    IONLogisticsResource:
+      type: object
+      x-ion-layer: ion
+      x-ion-split-version: "0.7.0"
+      allOf:
+        - $ref: '#/components/schemas/LogisticsResource'
+      title: LogisticsResource
       additionalProperties: true
       x-jsonld:
         '@context': 'https://schema.ion.id/logistics/resource/v1/context.jsonld'
-        '@type': ion:LogisticsShipment
+        '@type': ion:LogisticsResource
       x-beckn-attaches-to: Resource.resourceAttributes
       properties:
+        crc:
+          type: string
+          description: >
+            Catalogue Resource Category code classifying this resource within the ION
+            item taxonomy. Determines which attribute sub-objects are mandatory at
+            catalog/publish time and signals to CNs how to present and discover the
+            item. Values from x-ion-crc-registry in ion.yaml (e.g. TRC-fashion,
+            LGC-lastmile, HSC-restaurant-ordering). Optional now — will become
+            required in a future version once CRC enforcement is fully activated in ONIX.
+          example: TRC-fashion
+          x-ion-enforcement: optional-now-required-later
         serviceType:
           type: string
           enum:
@@ -59,6 +91,7 @@ components:
           - unit
         weight:
           type: object
+          additionalProperties: false
           properties:
             value:
               type: number
@@ -71,6 +104,7 @@ components:
           x-ion-condition: Required when quantity is declared (unit appropriate to serviceType)
         dimensions:
           type: object
+          additionalProperties: false
           properties:
             length:
               type: number
@@ -86,6 +120,7 @@ components:
           x-ion-condition: Required when chargeable weight is calculated volumetrically
         volumetricWeight:
           type: object
+          additionalProperties: false
           description: Computed by BPP; carried in on_select if applicable
           properties:
             value:
@@ -96,6 +131,7 @@ components:
               type: string
         totalVolume:
           type: object
+          additionalProperties: false
           description: For freight bookings
           properties:
             value:
@@ -107,6 +143,7 @@ components:
                 - LITRE
         declaredValue:
           type: object
+          additionalProperties: false
           properties:
             amount:
               type: number
@@ -129,6 +166,7 @@ components:
             UN ADR for road/rail.
 
             '
+          # x-ion-iso-exception: IATA/IMO/ADR dangerous goods class codes retain their official numeric dot-notation format per the international standard
           enum:
             - 1.1
             - 1.2
@@ -178,6 +216,7 @@ components:
           x-ion-condition: 'Required when applicable — Proper Shipping Name (PSN) as listed in the applicable DGR. '
         hazmatNetQuantityPerPackage:
           type: object
+          additionalProperties: false
           properties:
             value:
               type: number
@@ -208,6 +247,7 @@ components:
           x-ion-condition: Required for all dangerous goods shipments per IATA DGR / IMDG Code
         hazmatPackagingCertification:
           type: object
+          additionalProperties: false
           properties:
             unCertifiedMarking:
               type: string
@@ -251,6 +291,7 @@ components:
           x-ion-condition: 'Required when applicable — IMDG stowage category — applies to ocean transport'
         hazmatShippersDeclaration:
           type: object
+          additionalProperties: false
           properties:
             documentReference:
               type: string
@@ -266,6 +307,7 @@ components:
           x-ion-condition: Required when shipment contains dangerous goods (DG classification present)
         lithiumBattery:
           type: object
+          additionalProperties: false
           description: 'Lithium battery-specific fields — mandatory when UN3480/UN3481/UN3090/UN3091 is declared.
             Additional to standard hazmat fields.
 
@@ -303,6 +345,7 @@ components:
               x-ion-condition: Required for air transport of dangerous goods (IATA DGR Section classification)
         temperatureRequirement:
           type: object
+          additionalProperties: false
           properties:
             controlled:
               type: boolean
@@ -344,6 +387,7 @@ components:
           x-ion-condition: 'Required when applicable — Harmonised System codes for cross-border shipments'
         commercialInvoice:
           type: object
+          additionalProperties: false
           description: For cross-border
           properties:
             invoiceNumber:
@@ -360,6 +404,7 @@ components:
               format: uri
         certificateOfOrigin:
           type: object
+          additionalProperties: false
           properties:
             certificateNumber:
               type: string
@@ -402,6 +447,7 @@ components:
               x-ion-condition: Required for cross-border shipments where Certificate of Origin is required
         packingList:
           type: object
+          additionalProperties: false
           properties:
             documentUrl:
               type: string
@@ -409,6 +455,7 @@ components:
           x-ion-condition: Required for cross-border (LGC-XB) consolidated shipments
         importLicence:
           type: object
+          additionalProperties: false
           properties:
             licenceNumber:
               type: string
@@ -424,6 +471,7 @@ components:
           description: Line-level cargo manifest for freight
           items:
             type: object
+            additionalProperties: false
             properties:
               lineId:
                 type: string
@@ -447,6 +495,7 @@ components:
             - OTHER
         vehicleDetails:
           type: object
+          additionalProperties: false
           properties:
             category:
               type: string
@@ -470,8 +519,17 @@ components:
               type: number
             heightM:
               type: number
-            weightKg:
-              type: number
+            weight:
+              type: object
+              additionalProperties: false
+              properties:
+                value:
+                  type: number
+                  minimum: 0
+                unit:
+                  type: string
+                  enum: [G, KG, OZ, LB]
+                  default: G
               x-ion-condition: Required when transportMode is RO_RO or when oversized cargo dimensions must be declared
         vehicleRegistration:
           type: string
@@ -496,6 +554,7 @@ components:
           description: Per-SKU details for warehouse inbound
           items:
             type: object
+            additionalProperties: false
             properties:
               skuId:
                 type: string
@@ -512,6 +571,7 @@ components:
                 format: date
         maxWeight:
           type: object
+          additionalProperties: false
           description: Maximum shipment weight the BPP accepts. Published in catalog.
           properties:
             value:
@@ -520,6 +580,7 @@ components:
               type: string
         maxDimensions:
           type: object
+          additionalProperties: false
           description: Maximum shipment dimensions the BPP accepts. Published in catalog.
           properties:
             length:
@@ -531,9 +592,12 @@ components:
             unit:
               type: string
           x-ion-condition: 'Required when applicable — Maximum shipment dimensions the BPP accepts. Published in ca'
-      required:
-      - serviceType
-      - quantity
+      # NETWORK POLICY NOTE (GAP 32 / NFH-012 CON-012-18):
+      # Shared schemas MUST NOT declare mandatory fields.
+      # The following fields were required in v0.6.0 and are now
+      # enforced via ION network policy (x-ion-crc-rules,
+      # x-ion-conditional-rules) rather than the shared schema:
+      # serviceType, quantity
       x-ion-closed-extensions: false
       allOf:
       - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes

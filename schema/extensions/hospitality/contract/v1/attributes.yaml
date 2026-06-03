@@ -1,6 +1,6 @@
 openapi: 3.1.1
 info:
-  title: ION Hospitality Restaurant Ordering Extension (v1)
+  title: ION Hospitality Contract Extension (v1)
   description: >
     Confirmed order attributes for restaurant ordering. Captures delivery preferences,
     scheduled delivery slot, contactless delivery, OTP mode, special order instructions
@@ -19,6 +19,25 @@ components:
   schemas:
     HospitalityContract:
       type: object
+      title: HospitalityContract
+      description: >
+        Network-agnostic generic layer. Inherits from Beckn core Attributes.
+        ION-specific layer (IONHospitalityContract) extends this via allOf.
+      x-ion-layer: generic
+      x-ion-split-version: "0.7.0"
+      x-recommended-parent: Contract.contractAttributes
+      additionalProperties: true
+      allOf:
+        # LOCAL (default — active):
+        - $ref: beckn.yaml#/components/schemas/Attributes
+        # REMOTE (uncomment to use upstream directly):
+        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+    HospitalityContract:
+      type: object
+      x-ion-layer: ion
+      x-ion-split-version: "0.7.0"
+      allOf:
+        - $ref: '#/components/schemas/HospitalityContract'
       title: HospitalityContract
       description: >
         Confirmed food order contract attributes.

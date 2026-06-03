@@ -1,0 +1,17 @@
+{
+  "@context": "https://schema.ion.id/trade/settlement/v1/context.jsonld",
+  "@type": "ion:TradeSettlement",
+  "method": "QRIS",
+  "paymentRail": "QRIS_DYNAMIC",
+  "collectedBy": "BAP",
+  "timing": "PRE_ORDER",
+  "status": "PAID",
+  "currency": "IDR",
+  "amount": 150000,
+  "methodDetail": {
+    "qrisString": "00020101021226...",
+    "expiresAt": "2026-04-19T15:00:00+07:00",
+    "gatewayRef": "PG-TXN-2026-00123456",
+    "paidAt": "2026-04-19T14:32:11+07:00"
+  }
+}

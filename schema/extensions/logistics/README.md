@@ -1,3 +1,10 @@
+
+## Minimum for your first integration
+
+**Logistics BPP (LSP):** You must implement at minimum `resource/v1`, `offer/v1`, and `performance/v1` to pass ONIX validation for the `parcel` reference pattern. `contract/v1` is required after `/confirm`. `tracking/v1` is required if you expose live GPS tracking.
+
+**Logistics BAP (shipper app):** You must be able to read `resource/v1`, `offer/v1`, `consideration/v1`, and `performance/v1`.
+
 # ION Logistics Extension Packs
 
 Logistics sector (Layer 5) attribute packs. These attach to Beckn-native `*Attributes` slots and apply to all logistics-sector transactions on ION — hyperlocal delivery, parcel, freight, Ro-Ro, cross-border, and warehousing.

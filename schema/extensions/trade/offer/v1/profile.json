@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "domain": "trade",
   "name": "ION Trade Offer Extension (v1)",
-  "description": "Terms of sale — cancel, return, warranty, COD, promotions, consumer care.",
+  "description": "Terms of sale \u2014 cancel, return, warranty, COD, promotions, consumer care.",
   "packSchema": "./schema.json",
   "jsonldContext": "./context.jsonld",
   "attachmentPoints": {
     "offerAttributes": [
-      "TradeOffer"
+      "IONTradeOffer"
     ]
   },
   "extends": "beckn:Offer",
@@ -36,5 +36,10 @@
     "cancellationPolicy",
     "returnable",
     "returnPolicy"
-  ]
+  ],
+  "x-ion-layer": {
+    "generic": "TradeOffer",
+    "ion": "IONTradeOffer",
+    "splitVersion": "0.7.0"
+  }
 }

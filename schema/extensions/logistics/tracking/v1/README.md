@@ -79,3 +79,25 @@ message:
       trackingHandoffToCarrier: true
       carrierTrackingUrlPattern: "https://jne.co.id/tracking?awb={awbNumber}"
 ```
+
+## Network-required fields
+
+The following fields are always required for this pack by ION network policy (`ion.yaml → x-ion-field-requirements.alwaysRequired`):
+
+- `trackingMode`
+
+Mandatoriness is enforced by ONIX — these fields are not marked `required:` in the schema itself (mandatoriness lives in network policy, not the schema).
+
+## Used in
+
+`flows/logistics/variants/cross-cutting/v1/variant.yaml`
+
+## Common rejection reasons
+
+Missing `trackingMode` → `ION-8xxx`. See `errors/README.md` for the full error code reference.
+
+## Changelog
+
+| Version | Date | Summary |
+|---|---|---|
+| v1 | 2026-06-02 | Initial release |

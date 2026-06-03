@@ -1,4 +1,4 @@
-iri: ion://policy/warranty.seller.1y.replacement_only
+iri: ion://policy/warranty.seller.1y.replacement-only
 version: "1.0.0"
 versionEffectiveFrom: "2026-05-01"
 category: WARRANTY

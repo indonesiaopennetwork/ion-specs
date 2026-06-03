@@ -4,13 +4,13 @@
   "title": "LogisticsConsideration",
   "type": "object",
   "properties": {
-    "breakup": {
+    "components": {
       "type": "array",
       "description": "Line-item financial breakdown. Each entry is one charge type.",
       "items": {
         "type": "object",
         "properties": {
-          "titleType": {
+          "type": {
             "type": "string",
             "enum": [
               "FREIGHT_BASE",
@@ -175,7 +175,7 @@
       "items": {
         "type": "object",
         "properties": {
-          "titleType": {
+          "type": {
             "type": "string"
           },
           "originalAmount": {
@@ -227,7 +227,7 @@
     }
   },
   "required": [
-    "breakup",
+    "components",
     "totalAmount"
   ],
   "additionalProperties": true,

@@ -6,5 +6,16 @@
   "crc": "HSC-restaurant-ordering",
   "applicablePatterns": [
     "delivery-order"
-  ]
+  ],
+  "policyRequirements": {
+    "requiredCategories": [
+      "PAYMENT_TERMS"
+    ],
+    "policyIris": [
+      "ion://policy/trade/payment-terms/v1"
+    ],
+    "enforcedBy": "ONIX",
+    "enforcementPoint": "catalog/publish and on_confirm",
+    "note": "All offers on this variant MUST carry policyIris for each required category in offerAttributes."
+  }
 }

@@ -14,3 +14,9 @@ Sub-branches that activate between `/select` and `/on_confirm`. They shape the t
 
 ## Multiple can be active simultaneously
 FWA activation and payment-credit-fwa often coexist. FWA activation and eKYC branch do not — FWA waives eKYC.
+
+## How variant fields layer
+
+These fields are required **in addition to** the base pattern's required fields for the same API step. They do not replace pattern requirements — they extend them. Always check your pattern's `pattern.yaml` for the base requirements, then add variant requirements on top.
+
+The `variant.yaml` in this directory is the machine-readable source of truth for this variant's required fields per step.

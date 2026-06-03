@@ -1,4 +1,4 @@
-﻿openapi: 3.1.1
+openapi: 3.1.1
 info:
   title: ION Logistics Commitment Extension (v1)
   description: 'Logistics sector commitment attributes. Defines line-item level details within a logistics transaction
@@ -16,6 +16,27 @@ components:
   schemas:
     LogisticsCommitment:
       type: object
+      title: LogisticsCommitment
+      description: >
+        Network-agnostic generic layer for LogisticsCommitment. Inherits from Beckn core Attributes.
+        Downstream ION-specific layer (IONLogisticsCommitment) extends this schema via allOf.
+        This layer carries only fields that are meaningful across any Beckn network — 
+        no Indonesia-specific regulatory or compliance fields.
+      x-ion-layer: generic
+      x-ion-split-version: "0.7.0"
+      x-recommended-parent: Commitment.commitmentAttributes
+      additionalProperties: true
+      allOf:
+        # LOCAL (default — active):
+        - $ref: beckn.yaml#/components/schemas/Attributes
+        # REMOTE (uncomment to use upstream directly):
+        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+    IONLogisticsCommitment:
+      type: object
+      x-ion-layer: ion
+      x-ion-split-version: "0.7.0"
+      allOf:
+        - $ref: '#/components/schemas/LogisticsCommitment'
       title: LogisticsCommitment
       additionalProperties: true
       x-jsonld:

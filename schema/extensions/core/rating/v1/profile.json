@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "domain": "ion-core",
   "name": "ION Rating Extension (v1)",
-  "description": "Post-transaction rating — provider, item, fulfilment, agent. Scale 1-5.",
+  "description": "Post-transaction rating \u2014 provider, item, fulfilment, agent. Scale 1-5.",
   "packSchema": "./schema.json",
   "jsonldContext": "./context.jsonld",
   "attachmentPoints": {
@@ -38,5 +38,10 @@
   "minimalForDiscovery": [
     "ratingCategory",
     "ratingValue"
-  ]
+  ],
+  "x-ion-layer": {
+    "generic": "Rating",
+    "ion": "IONRating",
+    "splitVersion": "0.7.0"
+  }
 }

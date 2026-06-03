@@ -1,4 +1,5 @@
 # RestaurantOffer — ION Hospitality Restaurant Ordering Extension
+> **Schema evolution note (v1.1):** This pack does not yet implement the generic/ION-specific two-schema split pattern (as established in `trade/` and `logistics/` packs). The split — separating a generic `Offer` layer (inheriting from upstream Beckn) from an `IONOffer` ION-specific layer — is planned for v1.1 of this pack. This pack is pre-production; the split will be applied before any production traffic is carried on the hospitality sector. Tracked in the ION spec issue register as ION-7.
 
 **Pack:** `hospitality/offer/v1`  
 **Class:** `ion:RestaurantOffer`  
@@ -46,3 +47,25 @@ All HSC-restaurant-ordering packs work together:
 ## Examples
 
 See `examples/` for complete payload examples.
+
+## Changelog
+
+| Version | Date | Summary |
+|---|---|---|
+| v1 | 2026-06-02 | Initial release |
+
+## Network-required fields
+
+For the full list of fields required by ION network policy for this pack, run:
+
+```bash
+python tools/ion_required_fields.py --sector hospitality --pattern delivery-order --crc HSC-delivery
+```
+
+See `tools/README.md` and `tools/samples/required-fields-hospitality-delivery-order-HSC-delivery.md` for a pre-generated checklist.
+
+
+## Used in
+
+`flows/hospitality/README.md` — `delivery-order` pattern
+

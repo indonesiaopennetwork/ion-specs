@@ -26,5 +26,22 @@
   ],
   "policyRegistryVersion": "1.0.0",
   "type": "Pattern",
-  "patternName": "forward-auction"
+  "patternName": "forward-auction",
+  "policyRequirements": {
+    "requiredCategories": [
+      "CANCELLATION",
+      "RETURN",
+      "DISPUTE",
+      "GRIEVANCE_SLA"
+    ],
+    "policyIris": [
+      "ion://policy/trade/cancellation/v1",
+      "ion://policy/trade/return/v1",
+      "ion://policy/trade/dispute/v1",
+      "ion://policy/grievance-sla/v1"
+    ],
+    "enforcedBy": "ONIX",
+    "enforcementPoint": "catalog/publish and on_confirm",
+    "note": "All offers on this pattern MUST carry policyIris for each required category in offerAttributes."
+  }
 }

@@ -1,6 +1,6 @@
-﻿openapi: "3.1.1"
+openapi: "3.1.1"
 info:
-  title: "ION Finance Credit Performance Extension (v1)"
+  title: ION Finance Performance Extension (v1)
   version: 1.0.0
   description: |
     Credit disbursement performance attributes for the Finance domain. Tracks
@@ -17,6 +17,25 @@ components:
 
     DisbursementPerformance:
       type: object
+      title: DisbursementPerformance
+      description: >
+        Network-agnostic generic layer. Inherits from Beckn core Attributes.
+        ION-specific layer (IONDisbursementPerformance) extends this via allOf.
+      x-ion-layer: generic
+      x-ion-split-version: "0.7.0"
+      x-recommended-parent: Performance.performanceAttributes
+      additionalProperties: true
+      allOf:
+        # LOCAL (default — active):
+        - $ref: beckn.yaml#/components/schemas/Attributes
+        # REMOTE (uncomment to use upstream directly):
+        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+    DisbursementPerformance:
+      type: object
+      x-ion-layer: ion
+      x-ion-split-version: "0.7.0"
+      allOf:
+        - $ref: '#/components/schemas/DisbursementPerformance'
       description: |
         Loan disbursement execution details. Placed in Beckn Contract.performance[]
         with performanceAttributes["@type"] = "ion:DisbursementPerformance".
@@ -26,8 +45,7 @@ components:
         '@type': ion:DisbursementPerformance
       x-beckn-attaches-to: Performance.performanceAttributes
       additionalProperties: true
-      required:
-        - disbursementMethod
+      # required: removed — mandatoriness declared in x-ion-field-requirements network policy
       properties:
         disbursementDate:
           type: string

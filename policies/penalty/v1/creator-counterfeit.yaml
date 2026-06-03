@@ -1,4 +1,4 @@
-iri: ion://policy/penalty.creator-counterfeit.standard_products
+iri: ion://policy/penalty.creator-counterfeit.standard-products
 version: "1.0.0"
 versionEffectiveFrom: "2026-05-01"
 category: PENALTY

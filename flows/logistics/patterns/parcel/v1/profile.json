@@ -8,5 +8,28 @@
   "specVersion": "0.6.1",
   "beckn": "2.0.0",
   "type": "Pattern",
-  "patternName": "parcel"
+  "patternName": "parcel",
+  "policyRequirements": {
+    "requiredCategories": [
+      "CANCELLATION",
+      "CLAIM",
+      "SLA",
+      "GRIEVANCE_SLA",
+      "RE_ATTEMPT",
+      "WEIGHT_DISPUTE",
+      "LIABILITY"
+    ],
+    "policyIris": [
+      "ion://policy/trade/cancellation/v1",
+      "ion://policy/logistics/claim/v1",
+      "ion://policy/logistics/sla/v1",
+      "ion://policy/grievance-sla/v1",
+      "ion://policy/logistics/re-attempt/v1",
+      "ion://policy/logistics/weight-dispute/v1",
+      "ion://policy/logistics/liability/v1"
+    ],
+    "enforcedBy": "ONIX",
+    "enforcementPoint": "catalog/publish and on_confirm",
+    "note": "All offers on this pattern MUST carry policyIris for each required category in offerAttributes."
+  }
 }

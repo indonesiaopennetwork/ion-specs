@@ -1,7 +1,7 @@
 {
   "@context": "https://schema.ion.id/logistics/consideration/v1/context.jsonld",
   "@type": "ion:LogisticsConsideration",
-  "breakup": [
+  "components": [
     {
       "title": "Base freight",
       "price": {

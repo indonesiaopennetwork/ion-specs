@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "domain": "trade",
   "name": "ION Trade Contract Extension (v1)",
-  "description": "Order-level contract fields — fulfilling location, buyer instructions, gift, credit terms, subscription.",
+  "description": "Order-level contract fields \u2014 fulfilling location, buyer instructions, gift, credit terms, subscription.",
   "packSchema": "./schema.json",
   "jsonldContext": "./context.jsonld",
   "attachmentPoints": {
     "contractAttributes": [
-      "TradeContract"
+      "IONTradeContract"
     ]
   },
   "extends": "beckn:Contract",
@@ -18,5 +18,10 @@
     "filterable": [],
     "sortable": []
   },
-  "minimalForDiscovery": []
+  "minimalForDiscovery": [],
+  "x-ion-layer": {
+    "generic": "TradeContract",
+    "ion": "IONTradeContract",
+    "splitVersion": "0.7.0"
+  }
 }

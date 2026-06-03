@@ -1,52 +1,33 @@
-# performance-states/v1
+# Logistics Performance States (v1)
 
-Canonical state machine definitions for all ION Logistics patterns.
+> **Non-standard pack**: This pack contains only a state-machine definition (`states.yaml`) and does not follow the standard 5-file schema pack structure. It is intentionally non-standard because it defines state-machine metadata rather than a Beckn Attributes extension schema.
 
-## Two-level status model (Beckn 2.0)
+## Why this pack is non-standard
 
-ION Logistics maintains **two distinct state levels** per Beckn 2.0 — only the upper level is constrained by Beckn.
+The `logistics/performance-states/v1` pack defines the canonical ION state machine for `LogisticsPerformance` objects. It carries:
 
-### Level 1 — `Contract.status` (Beckn 2.0 native, 4 values)
+- **`states.yaml`** — Complete state definition including allowed transitions, max dwell durations, alert thresholds, and SLA breach flags.
+- **`profile.json`** — Pack metadata for ONIX and the schema registry.
 
-Beckn 2.0 `Contract.status.code` is constrained to exactly:
-- `DRAFT` — contract being negotiated (pre-confirm)
-- `ACTIVE` — confirmed and in execution
-- `CANCELLED` — cancelled before completion
-- `COMPLETE` — fulfilled successfully
+It does **not** carry `attributes.yaml`, `schema.json`, `context.jsonld`, or `vocab.jsonld` because this pack does not define an Attributes extension — it defines state-machine constraints that ONIX applies at the network policy layer, not a payload schema that implementers populate.
 
-Every contract on the network reports one of these four states. Network-level observers (ION Gateway, regulators, analytics) consume this level.
+## How this pack is used
 
-### Level 2 — `Performance.status` (pattern-specific, detailed)
+ONIX reads `states.yaml` to validate performance state transitions during a transaction. Implementers do not reference this pack in payload `@context` or `@type` fields. The states defined here are referenced by the `logistics/performance/v1` pack's `status.code` property.
 
-Each performance execution unit carries its own detailed state value. Beckn 2.0 imposes no enum constraint on `Performance.status` — it's free-form per domain. ION Logistics uses state machines with 10-30+ states per pattern, defined in `states.yaml`.
+## State machine
 
-### Mapping
+See `states.yaml` for the full state list with transition rules, dwell limits, and SLA thresholds.
 
-| Performance state category | Contract.status |
-|---|---|
-| Pre-confirm states (DRAFT, QUOTED, SELECTED) | DRAFT |
-| Active fulfilment states (PICKED_UP, IN_TRANSIT, OUT_FOR_DELIVERY, etc.) | ACTIVE |
-| Cancellation terminal states | CANCELLED |
-| Successful terminal states (DELIVERED, RTO_DELIVERED with RTO acknowledged, COMPLETED) | COMPLETE |
+## Exception documentation
 
-BPP updates `Performance.status` at every state transition. When a performance enters a terminal state, BPP also updates `Contract.status` to the mapped Beckn value.
+This pack is a **documented exception** to CON-012-02 of NFH-012, which requires all schema packs to include five required files. The exception is justified because:
+1. This pack does not define an Attributes extension schema.
+2. There is no JSON-LD context or vocabulary to publish — states are not RDF classes.
+3. The `attributes.yaml` / `schema.json` artifacts would be empty or trivially thin.
 
-## State machines defined
-| Name | Used by | Terminal states |
-|---|---|---|
-| `hyperlocal-pre-assigned` | hyperlocal (PRE_ASSIGNED, DEDICATED_FLEET) | DELIVERED, CANCELLED |
-| `hyperlocal-fifo` | hyperlocal (FIFO_AT_PICKUP, POOL_ASSIGNED) | DELIVERED, CANCELLED |
-| `parcel-p2p` | parcel (P2P topology) | DELIVERED, RTO_DELIVERED |
-| `parcel-p2h2p` | parcel (P2H2P topology) | DELIVERED, RTO_DELIVERED |
-| `parcel-p2h2h2p` | parcel (P2H2H2P topology) | DELIVERED, RTO_DELIVERED |
-| `parcel-reverse-qc` | reverse variant (on parcel) | RETURN_DELIVERED_TO_ORIGIN, RETURN_DISPUTED |
-| `freight-capacity` | freight | DELIVERED, FREIGHT_RETURN_INITIATED |
-| `roro` | roro | EXITED_PORT, MISSED_SAILING |
-| `xb` | cross-border | DELIVERED, IMPORT_CUSTOMS_REJECTED, DESTROY_IN_PLACE |
-| `warehouse-inventory` | warehouse | INVENTORY_RELEASED, STORAGE_CONTRACT_EXPIRED |
+The exception is tracked in the ION spec issue register.
 
-## How to reference
-In pattern.yaml: `stateMachine: schema/extensions/logistics/performance-states/v1/states.yaml#{name}`
+## Changelog
 
-## Routing topology selection (parcel)
-The topology variant is determined by `offer.routingTopology` at catalog time. The pattern field is `performanceAttributes.routingTopology` set in `on_select` or inherited from the offer.
+- v1 — Initial release, 2026-06-02. State machine for ION logistics performance lifecycle.

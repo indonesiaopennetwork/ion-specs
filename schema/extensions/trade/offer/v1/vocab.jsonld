@@ -2,7 +2,10 @@
   "@context": {
     "ion": "https://schema.ion.id/trade/offer/v1#",
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "owl": "http://www.w3.org/2002/07/owl#"
   },
   "@graph": [
     {
@@ -12,6 +15,9 @@
       "rdfs:comment": "TradeOffer",
       "rdfs:subClassOf": {
         "@id": "beckn:Offer"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Offer"
       }
     },
     {
@@ -54,7 +60,7 @@
       "@id": "ion:disputePolicy",
       "@type": "rdf:Property",
       "rdfs:label": "disputePolicy",
-      "rdfs:comment": "ION standard dispute resolution policy IRI. dispute.consumer.bpsk: B2C — BPSK (Badan Penyelesaian Sengketa Konsumen). dispute.commercial.bani: B2B — BANI arbitration. dispute.commercial.odr: Online Dispute Resolution via ION platform.\n"
+      "rdfs:comment": "ION standard dispute resolution policy IRI. dispute.consumer.bpsk: B2C \u2014 BPSK (Badan Penyelesaian Sengketa Konsumen). dispute.commercial.bani: B2B \u2014 BANI arbitration. dispute.commercial.odr: Online Dispute Resolution via ION platform.\n"
     },
     {
       "@id": "ion:timeToShip",
@@ -78,7 +84,7 @@
       "@id": "ion:selfPickupInstructions",
       "@type": "rdf:Property",
       "rdfs:label": "selfPickupInstructions",
-      "rdfs:comment": "Instructions for self-pickup — counter number, floor, collection point."
+      "rdfs:comment": "Instructions for self-pickup \u2014 counter number, floor, collection point."
     },
     {
       "@id": "ion:proofOfDeliveryType",
@@ -186,7 +192,7 @@
       "@id": "ion:priceValidFrom",
       "@type": "rdf:Property",
       "rdfs:label": "priceValidFrom",
-      "rdfs:comment": "Start of price validity window. Distinct from startAt (offer availability window) — price may change mid-campaign while offer remains active. Catalog TTL for offers with active priceChangeSchedule SHOULD be <=30 seconds to avoid stale-price surfacing on browsing surfaces.\n"
+      "rdfs:comment": "Start of price validity window. Distinct from startAt (offer availability window) \u2014 price may change mid-campaign while offer remains active. Catalog TTL for offers with active priceChangeSchedule SHOULD be <=30 seconds to avoid stale-price surfacing on browsing surfaces.\n"
     },
     {
       "@id": "ion:priceValidUntil",
@@ -288,7 +294,7 @@
       "@id": "ion:grievanceSlaPolicy",
       "@type": "rdf:Property",
       "rdfs:label": "grievanceSlaPolicy",
-      "rdfs:comment": "ION Grievance SLA policy IRI. Declares response time, resolution time, escalation path, and penalty consequences when SLA is breached. Subject to marketplace minimum (grievance.sla.standard) for B2C; marketplace-operated BAPs may enforce stricter policies on their sellers. ION timer auto-escalates when SLAs are breached — no manual action needed."
+      "rdfs:comment": "ION Grievance SLA policy IRI. Declares response time, resolution time, escalation path, and penalty consequences when SLA is breached. Subject to marketplace minimum (grievance.sla.standard) for B2C; marketplace-operated BAPs may enforce stricter policies on their sellers. ION timer auto-escalates when SLAs are breached \u2014 no manual action needed."
     },
     {
       "@id": "ion:paymentTermsPolicy",

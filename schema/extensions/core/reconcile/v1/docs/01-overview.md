@@ -11,8 +11,8 @@ A portion (`withholdingAmount`) is held back until the return window closes. Thi
 ## Adjustments
 Post-confirm changes that affect the final settlement: cancellation fees, return deductions, damage penalties, COD remittance, loyalty adjustments.
 
-## ONDC RSF compatibility
-`recon_status` uses the ONDC RSF numeric codes: `01` (AGREED), `02` (OVERPAID), `03` (UNDERPAID). This enables interoperability with platforms that implement the ONDC reconciliation framework.
+## Reconciliation status
+`reconStatus` uses ION semantic codes: `PENDING` (awaiting counterparty acknowledgment), `AGREED` (both parties confirm amounts match), `DISPUTED` (mismatch — raise a ticket via /raise).
 
 ## Dispute escalation
 If `reconStatus = DISPUTED`, either party raises to ION via the `raise` channel. ION mediates.

@@ -1,3 +1,10 @@
+
+## Minimum for your first integration
+
+**Hospitality BPP (food delivery, delivery-order pattern):** You must implement at minimum `delivery/v1` (or `fnb-delivery/v1`) plus `commitment/v1`, `consideration/v1`, and `performance/v1` to pass ONIX validation. `contract/v1` is required after `/confirm`.
+
+**Hospitality BAP (food ordering app):** You must be able to read `delivery/v1` (or `fnb-delivery/v1`), `offer/v1`, and `consideration/v1`.
+
 # ION Hospitality Extension Packs
 
 Hospitality sector (Layer 5) attribute packs. Covers time-bounded reservations and prepared food delivery.

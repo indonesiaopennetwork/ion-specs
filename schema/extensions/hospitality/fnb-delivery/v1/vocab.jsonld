@@ -3,16 +3,22 @@
     "ion": "https://schema.ion.id/hospitality/fnb-delivery/v1#",
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
-    "xsd": "http://www.w3.org/2001/XMLSchema#"
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "owl": "http://www.w3.org/2002/07/owl#"
   },
   "@graph": [
     {
-      "@id": "ion:FnbMenuItem",
+      "@id": "ion:FnbItem",
       "@type": "rdfs:Class",
-      "rdfs:label": "FnbMenuItem",
+      "rdfs:label": "FnbItem",
       "rdfs:comment": "Resource attributes for prepared food and beverage items available for delivery or self-pickup in the Hospitality sector.",
       "rdfs:subClassOf": {
-        "@id": "beckn:Resource"
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Resource"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Resource"
       }
     },
     {

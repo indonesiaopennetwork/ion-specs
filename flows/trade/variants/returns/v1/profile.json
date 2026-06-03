@@ -60,5 +60,16 @@
   ],
   "type": "Variant",
   "variantName": "returns",
-  "sector": "ion:trade"
+  "sector": "ion:trade",
+  "policyRequirements": {
+    "requiredCategories": [
+      "RETURN"
+    ],
+    "policyIris": [
+      "ion://policy/trade/return/v1"
+    ],
+    "enforcedBy": "ONIX",
+    "enforcementPoint": "catalog/publish and on_confirm",
+    "note": "All offers on this variant MUST carry policyIris for each required category in offerAttributes."
+  }
 }

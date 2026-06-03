@@ -1,23 +1,16 @@
-# Standard SLA Policy
-# ion://policy/sla.standard-95pct
-
-id: sla.standard-95pct
 type: SLA_POLICY
 sector: logistics
-
 metrics:
   onTimeDeliveryTarget: 0.95
   onTimeWindow: rolling_7d
   damagRateThreshold: 0.005
   lossRateThreshold: 0.001
-
 measurement:
   method: on_status[DELIVERED].timestamp vs confirm.estimatedDeliveryTime
   excludes:
-    - FORCE_MAJEURE
-    - BUYER_NOT_AVAILABLE_3_ATTEMPTS
-    - ADDRESS_INCORRECT_BY_BUYER
-
+  - FORCE_MAJEURE
+  - BUYER_NOT_AVAILABLE_3_ATTEMPTS
+  - ADDRESS_INCORRECT_BY_BUYER
 breachConsequences:
   firstBreach:
     type: WARNING
@@ -25,32 +18,45 @@ breachConsequences:
   repeatedBreach:
     definition: 3 consecutive weeks below target
     type: REBATE
-    rebateFormula: "base_freight * 0.05 per percentage point below target"
-
+    rebateFormula: base_freight * 0.05 per percentage point below target
 escalation:
   threshold: 4_consecutive_weeks_below_target
   path: ion://policy/dispute-resolution.network-adjudication
+iri: ion://policy/sla.standard-95pct
+displayText:
+  id: Standar SLA pengiriman tepat waktu 95%
+  en: sla.standard-95pct
+version: 1.0.0
+versionEffectiveFrom: '2026-05-01'
+status: ratified
+ratifiedAt: '2026-04-15'
+supersededBy: null
+deprecatedAt: null
 
 ---
 
-# Enterprise SLA Policy with Rebate
-# ion://policy/sla.enterprise-95pct-rebate
-
-id: sla.enterprise-95pct-rebate
 type: SLA_POLICY
 sector: logistics
-
 metrics:
   onTimeDeliveryTarget: 0.95
   damagRateThreshold: 0.002
   lossRateThreshold: 0.0005
   measurementWindow: calendar_month
-
 breachConsequences:
   autoRebate:
     enabled: true
-    formula: "base_freight_month * max(0, 0.95 - actual_ontime_pct) * 2"
+    formula: base_freight_month * max(0, 0.95 - actual_ontime_pct) * 2
     appliedTo: next_settlement_cycle
   terminationThreshold:
     definition: 3 consecutive months below 0.90
     noticePeriodDays: 30
+iri: ion://policy/sla.enterprise-95pct-rebate
+displayText:
+  id: Enterprise SLA 95% dengan rebat otomatis
+  en: sla.enterprise-95pct-rebate
+version: 1.0.0
+versionEffectiveFrom: '2026-05-01'
+status: ratified
+ratifiedAt: '2026-04-15'
+supersededBy: null
+deprecatedAt: null

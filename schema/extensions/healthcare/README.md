@@ -1,17 +1,13 @@
-# ION healthcare sector extension packs
+# ION Healthcare Extension Packs
 
-Schema extension packs for the healthcare sector on ION.
+**Status:** Planned — schema design pending sector working group decisions.
 
-Status: Planned — schema design work pending sector working group decisions.
+## If you need healthcare on ION now
 
-When defined, packs here will follow the same structure as extensions/trade/ and extensions/core/:
+The healthcare working group has not yet ratified its schema packs. In the interim:
 
-{pack}/v1/
-  attributes.yaml
-  context.jsonld
-  vocab.jsonld
-  profile.json
-  renderer.json
-  README.md
-  docs/
-  examples/
+1. **Contact the ION Council** to register interest and join the healthcare working group discussion.
+2. **Use core packs.** `schema/extensions/core/` packs (address, identity, payment, tax, participant) apply to every sector and can be used immediately.
+3. **Use a custom overlay.** For healthcare-specific fields, publish your own `context.jsonld` and `vocab.jsonld` on your own infrastructure using your own IRI namespace — not the `ion:` prefix.
+
+Once the healthcare working group ratifies its pack definitions, this directory will be populated with pack folders following the same structure as `schema/extensions/trade/`.

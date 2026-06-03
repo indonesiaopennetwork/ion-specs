@@ -30,5 +30,10 @@
     "nibRegistered",
     "providerCategory"
   ],
-  "packSchema": "./schema.json"
+  "packSchema": "./schema.json",
+  "x-ion-layer": {
+    "generic": "LogisticsProvider",
+    "ion": "IONLogisticsProvider",
+    "splitVersion": "0.7.0"
+  }
 }

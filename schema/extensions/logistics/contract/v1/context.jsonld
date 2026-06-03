@@ -56,6 +56,21 @@
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "owl": "http://www.w3.org/2002/07/owl#",
-    "schema": "https://schema.org/"
+    "schema": "https://schema.org/",
+    "incidentDetail": "ion:incidentDetail",
+    "incidentType": "ion:incidentType",
+    "incidentTimestamp": "ion:incidentTimestamp",
+    "incidentLocation": "ion:incidentLocation",
+    "incidentSeverity": "ion:incidentSeverity",
+    "driverSafetyStatus": "ion:driverSafetyStatus",
+    "cargoImpactEstimated": "ion:cargoImpactEstimated",
+    "cargoLost": "ion:cargoLost",
+    "cargoPartiallyRecovered": "ion:cargoPartiallyRecovered",
+    "policeReportReference": "ion:policeReportReference",
+    "insuranceClaimReference": "ion:insuranceClaimReference",
+    "estimatedResolutionEta": "ion:estimatedResolutionEta",
+    "affectedRegion": "ion:affectedRegion",
+    "expectedResolutionDate": "ion:expectedResolutionDate",
+    "reassignmentPlan": "ion:reassignmentPlan"
   }
 }

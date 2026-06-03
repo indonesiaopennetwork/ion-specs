@@ -171,3 +171,9 @@
 | `billingCycle` | enum | FIXED_INSTALLMENT \| MONTHLY_BILLING |
 | `availableInstallmentTenors` | integer[] | e.g. [3, 6, 12, 24] |
 | `merchantCategories` | enum[] | E_COMMERCE, FASHION_RETAIL, ALL_MERCHANTS, ... |
+
+## Changelog
+
+| Version | Date | Summary |
+|---|---|---|
+| v1 | 2026-06-02 | Initial release |
