@@ -42,7 +42,7 @@
       "@id": "ion:settlementWindow",
       "@type": "rdf:Property",
       "rdfs:label": "settlementWindow",
-      "rdfs:comment": "Time window after settlementBasis event within which settlement must be completed. ISO 8601 duration.\n"
+      "rdfs:comment": "Time window within which settlement must be completed. Expressed as ISO 8601 duration."
     },
     {
       "@id": "ion:collectedBy",
@@ -96,7 +96,7 @@
       "@id": "ion:reconStatus",
       "@type": "rdf:Property",
       "rdfs:label": "reconStatus",
-      "rdfs:comment": "PENDING: recon initiated, awaiting counterparty acknowledgment. AGREED: both parties agree on amounts. DISPUTED: amounts do not match \u2014 raise ticket via raise/on_raise.\n"
+      "rdfs:comment": "PENDING: recon initiated, awaiting counterparty acknowledgment. AGREED: both parties agree on amounts. DISPUTED: amounts do not match — raise ticket via raise/on_raise.\n"
     },
     {
       "@id": "ion:disputeReason",

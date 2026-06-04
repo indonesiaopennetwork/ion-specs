@@ -26,10 +26,6 @@ components:
       x-ion-split-version: "0.7.0"
       x-recommended-parent: Provider.providerAttributes
       additionalProperties: true
-      allOf:
-        # LOCAL (default — active):
-        - $ref: beckn.yaml#/components/schemas/Attributes
-        # REMOTE (uncomment to use upstream directly):
         # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
     IONBusinessRegistration:
       type: object
@@ -37,6 +33,15 @@ components:
       x-ion-split-version: "0.7.0"
       allOf:
         - $ref: '#/components/schemas/BusinessRegistration'
+        - if:
+            properties:
+              businessType:
+                const: PERORANGAN
+            required:
+            - businessType
+          then:
+            required:
+            - nikNumber
       title: Indonesia Business Identity
       additionalProperties: true
       x-jsonld:
@@ -130,15 +135,4 @@ components:
       # enforced via ION network policy (x-ion-crc-rules,
       # x-ion-conditional-rules) rather than the shared schema:
       # npwp, nib, pkpStatus, legalEntityName, businessType
-      allOf:
-      - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
-      - if:
-          properties:
-            businessType:
-              const: PERORANGAN
-          required:
-          - businessType
-        then:
-          required:
-          - nikNumber
       x-ion-closed-extensions: false

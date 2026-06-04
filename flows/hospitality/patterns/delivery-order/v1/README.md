@@ -41,8 +41,8 @@ See `pattern.yaml` for the full API sequence.
 
 | Pack | Purpose | Reference |
 |---|---|---|
-| `hospitality/delivery/v1` | See pack README | [`schema/extensions/hospitality/delivery/v1/README.md`](../../../../schema/extensions/hospitality/delivery/v1/README.md) |
-| `hospitality/fnb-delivery/v1` | See pack README | [`schema/extensions/hospitality/fnb-delivery/v1/README.md`](../../../../schema/extensions/hospitality/fnb-delivery/v1/README.md) |
+| `hospitality/menu-item/v1` | See pack README | [`schema/extensions/hospitality/menu-item/v1/README.md`](../../../../schema/extensions/hospitality/menu-item/v1/README.md) |
+| `hospitality/menu-item/v1` | See pack README | [`schema/extensions/hospitality/menu-item/v1/README.md`](../../../../schema/extensions/hospitality/menu-item/v1/README.md) |
 | `hospitality/commitment/v1` | See pack README | [`schema/extensions/hospitality/commitment/v1/README.md`](../../../../schema/extensions/hospitality/commitment/v1/README.md) |
 | `hospitality/consideration/v1` | See pack README | [`schema/extensions/hospitality/consideration/v1/README.md`](../../../../schema/extensions/hospitality/consideration/v1/README.md) |
 | `hospitality/performance/v1` | See pack README | [`schema/extensions/hospitality/performance/v1/README.md`](../../../../schema/extensions/hospitality/performance/v1/README.md) |

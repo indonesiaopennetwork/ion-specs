@@ -31,10 +31,6 @@ components:
       x-ion-split-version: "0.7.0"
       x-recommended-parent: Settlement.settlementAttributes
       additionalProperties: true
-      allOf:
-        # LOCAL (default — active):
-        - $ref: beckn.yaml#/components/schemas/Attributes
-        # REMOTE (uncomment to use upstream directly):
         # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
     IONPayment:
       type: object
@@ -42,6 +38,24 @@ components:
       x-ion-split-version: "0.7.0"
       allOf:
         - $ref: '#/components/schemas/Payment'
+        - if:
+            properties:
+              method:
+                const: CREDIT_FACILITY
+            required:
+            - method
+          then:
+            required:
+            - creditTerms
+        - if:
+            properties:
+              status:
+                const: REFUNDED
+            required:
+            - status
+          then:
+            required:
+            - refund
       title: Payment Declaration
       description: 'Contents of a Beckn Settlement''s settlementAttributes bag for a buyer-facing payment event.
         Binds a payment method to a transaction and carries method-specific instrument details in methodDetail.
@@ -178,26 +192,6 @@ components:
           $ref: '#/components/schemas/ProcessingFee'
       # ION network mandatory: Payment settlement fields required for BI regulatory compliance
       # required: removed — mandatoriness declared in x-ion-field-requirements network policy
-      allOf:
-      - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
-      - if:
-          properties:
-            method:
-              const: CREDIT_FACILITY
-          required:
-          - method
-        then:
-          required:
-          - creditTerms
-      - if:
-          properties:
-            status:
-              const: REFUNDED
-          required:
-          - status
-        then:
-          required:
-          - refund
       x-ion-closed-extensions: false
     QRIS:
       type: object

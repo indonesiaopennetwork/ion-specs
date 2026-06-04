@@ -27,7 +27,7 @@ components:
       additionalProperties: true
       allOf:
         # LOCAL (default — active):
-        - $ref: beckn.yaml#/components/schemas/Performance
+        - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Performance
         # REMOTE (uncomment to use upstream directly):
         # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Performance
     IONDisbursementPerformance:
@@ -62,6 +62,4 @@ components:
           enum: [BANK_TRANSFER, DEVELOPER_TRANSFER, DEALER_TRANSFER, CASH, VIRTUAL_ACCOUNT]
           example: "BANK_TRANSFER"
       x-ion-closed-extensions: false
-      allOf:
-        - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
 

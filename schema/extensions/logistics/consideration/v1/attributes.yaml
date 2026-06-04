@@ -30,7 +30,7 @@ components:
         # REMOTE upstream (active — used by ONIX at validation time):
         - $ref: https://raw.githubusercontent.com/beckn/schemas/main/schema/LogisticsFare/v2.0/attributes.yaml#/components/schemas/LogisticsFare
         # LOCAL vendored reference copy (for offline review and version drift detection):
-        # - $ref: ../../../core/v2/api/v2.0.0/vendored/logistics-fare-v2.0.yaml#/components/schemas/LogisticsFare
+        # - $ref: ../../../../core/v2/api/v2.0.0/vendored/logistics-fare-v2.0.yaml#/components/schemas/LogisticsFare
     IONLogisticsConsideration:
       type: object
       x-ion-layer: ion
@@ -137,9 +137,6 @@ components:
                 - STAMP_DUTY
               amount:
                 type: number
-              currency:
-                type: string
-                default: IDR
               ppnRate:
                 type: number
                 x-ion-condition: Required when taxRegime is not EXEMPT on this consideration line
@@ -249,5 +246,3 @@ components:
       # x-ion-conditional-rules) rather than the shared schema:
       # components, totalAmount
       x-ion-closed-extensions: false
-      allOf:
-      - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes

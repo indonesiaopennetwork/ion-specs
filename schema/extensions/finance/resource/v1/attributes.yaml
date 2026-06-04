@@ -49,7 +49,7 @@ components:
       additionalProperties: true
       allOf:
         # LOCAL (default — active):
-        - $ref: beckn.yaml#/components/schemas/Resource
+        - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Resource
         # REMOTE (uncomment to use upstream directly):
         # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Resource
     IONCreditProduct:
@@ -103,8 +103,6 @@ components:
           $ref: '#/components/schemas/PaylaterService'
           description: Present only for productType = PAYLATER or BNPL
       x-ion-closed-extensions: false
-      allOf:
-        - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
 
     # ─────────────────────────────────────────────────────────────
     # BLOCK 1 — Product Identity

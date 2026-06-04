@@ -176,7 +176,7 @@
       "@id": "ion:warranty",
       "@type": "rdf:Property",
       "rdfs:label": "warranty",
-      "rdfs:comment": "Warranty terms for the resource under UU 8/1999 and PP 36/2023. Covers duration (ISO 8601), warranty type (manufacturer/seller/extended), terms, and service centre information.",
+      "rdfs:comment": "Warranty terms for the resource. Covers manufacturer warranty, seller warranty, and extended warranty with duration, type, and service centre.",
       "rdfs:domain": {
         "@id": "ion:TradeResource"
       }

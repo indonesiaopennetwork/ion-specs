@@ -30,13 +30,50 @@ components:
         # REMOTE upstream (active — used by ONIX at validation time):
         - $ref: https://raw.githubusercontent.com/beckn/local-retail/main/schema/RetailOffer/v2.1/attributes.yaml#/components/schemas/RetailOffer
         # LOCAL vendored reference copy (for offline review and version drift detection):
-        # - $ref: ../../../core/v2/api/v2.0.0/vendored/retail-offer-v2.1.yaml#/components/schemas/RetailOffer
+        # - $ref: ../../../../core/v2/api/v2.0.0/vendored/retail-offer-v2.1.yaml#/components/schemas/RetailOffer
     IONTradeOffer:
       type: object
       x-ion-layer: ion
       x-ion-split-version: "0.7.0"
       allOf:
         - $ref: '#/components/schemas/TradeOffer'
+        - if:
+            properties:
+              returnable:
+                const: true
+            required:
+            - returnable
+          then:
+            required:
+            - returnPolicy
+            - sellerPickupReturn
+        - if:
+            properties:
+              availableOnCod:
+                const: true
+            required:
+            - availableOnCod
+          then:
+            required:
+            - codEligibilityForBuyer
+        - if:
+            properties:
+              queueEnabled:
+                const: true
+            required:
+            - queueEnabled
+          then:
+            required:
+            - queuePosition
+        - if:
+            properties:
+              returnable:
+                const: true
+            required:
+            - returnable
+          then:
+            required:
+            - returnEvidenceRequirement
       title: TradeOffer
       additionalProperties: true
       x-jsonld:
@@ -599,48 +636,4 @@ components:
             '
           example: Garansi seumur hidup untuk mekanisme jam tangan mewah (terms & conditions apply - see seller
             page).
-      allOf:
-      - if:
-          properties:
-            returnable:
-              const: true
-          required:
-          - returnable
-        then:
-          required:
-          - returnPolicy
-          - sellerPickupReturn
-      - if:
-          properties:
-            availableOnCod:
-              const: true
-          required:
-          - availableOnCod
-        then:
-          required:
-          - codEligibilityForBuyer
-      - if:
-          properties:
-            queueEnabled:
-              const: true
-          required:
-          - queueEnabled
-        then:
-          required:
-          - queuePosition
-      - if:
-          properties:
-            returnable:
-              const: true
-          required:
-          - returnable
-        then:
-          required:
-          - returnEvidenceRequirement
-      # NETWORK POLICY NOTE (GAP 32 / NFH-012 CON-012-18):
-      # Shared schemas MUST NOT declare mandatory fields.
-      # The following fields were required in v0.6.0 and are now
-      # enforced via ION network policy (x-ion-crc-rules,
-      # x-ion-conditional-rules) rather than the shared schema:
-      # cancellationPolicy, returnable, returnPolicy, warrantyPolicy, disputePolicy, timeToShip, availableOnCod, contactDetailsConsumerCare, displayLanguage, grievanceSlaPolicy, paymentTermsPolicy
       x-ion-closed-extensions: false

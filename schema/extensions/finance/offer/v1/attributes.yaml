@@ -47,7 +47,7 @@ components:
       additionalProperties: true
       allOf:
         # LOCAL (default — active):
-        - $ref: beckn.yaml#/components/schemas/Offer
+        - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Offer
         # REMOTE (uncomment to use upstream directly):
         # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Offer
     IONCreditOffer:
@@ -67,7 +67,6 @@ components:
         '@context': ./context.jsonld
         '@type': ion:CreditApproval
       x-beckn-attaches-to: Offer.offerAttributes
-      additionalProperties: true
       # required: removed — mandatoriness declared in x-ion-field-requirements network policy
       properties:
 
@@ -273,6 +272,4 @@ components:
               enum: [1, 2]
               example: "1"
       x-ion-closed-extensions: false
-      allOf:
-        - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
 

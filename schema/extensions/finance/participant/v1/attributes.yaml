@@ -27,7 +27,7 @@ components:
       additionalProperties: true
       allOf:
         # LOCAL (default — active):
-        - $ref: beckn.yaml#/components/schemas/Participant
+        - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Participant
         # REMOTE (uncomment to use upstream directly):
         # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Participant
     IONBorrower:
@@ -81,8 +81,6 @@ components:
           description: Mobile phone in E.164 format (+62XXXXXXXX). Verified via OTP.
           example: "+6281234567890"
       x-ion-closed-extensions: false
-      allOf:
-        - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
 
     Lender:
       type: object
@@ -113,6 +111,4 @@ components:
           description: Relationship Manager / Account Officer responsible for this loan.
           example: "Dewi Rahmawati"
       x-ion-closed-extensions: false
-      allOf:
-        - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
 

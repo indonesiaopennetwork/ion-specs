@@ -31,10 +31,6 @@ components:
       x-ion-split-version: "0.7.0"
       x-recommended-parent: Support (via on_support)
       additionalProperties: true
-      allOf:
-        # LOCAL (default — active):
-        - $ref: beckn.yaml#/components/schemas/Attributes
-        # REMOTE (uncomment to use upstream directly):
         # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
     IONSupportTicket:
       type: object
@@ -42,6 +38,24 @@ components:
       x-ion-split-version: "0.7.0"
       allOf:
         - $ref: '#/components/schemas/Support'
+        - if:
+            properties:
+              escalationLevel:
+                const: BPSK
+            required:
+            - escalationLevel
+          then:
+            required:
+            - bpskReference
+        - if:
+            properties:
+              escalationLevel:
+                const: KOMINFO
+            required:
+            - escalationLevel
+          then:
+            required:
+            - kominfoReference
       title: ION Consumer Support Ticket
       additionalProperties: true
       x-jsonld:
@@ -316,24 +330,4 @@ components:
           type: string
           description: Kominfo consumer complaint portal reference
       # required: removed — mandatoriness declared in x-ion-field-requirements network policy
-      allOf:
-      - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
-      - if:
-          properties:
-            escalationLevel:
-              const: BPSK
-          required:
-          - escalationLevel
-        then:
-          required:
-          - bpskReference
-      - if:
-          properties:
-            escalationLevel:
-              const: KOMINFO
-          required:
-          - escalationLevel
-        then:
-          required:
-          - kominfoReference
       x-ion-closed-extensions: false

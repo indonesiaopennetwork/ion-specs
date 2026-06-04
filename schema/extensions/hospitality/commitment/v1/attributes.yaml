@@ -28,7 +28,7 @@ components:
       additionalProperties: true
       allOf:
         # LOCAL (default — active):
-        - $ref: beckn.yaml#/components/schemas/Commitment
+        - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Commitment
         # REMOTE (uncomment to use upstream directly):
         # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Commitment
     IONRestaurantCommitment:
@@ -47,8 +47,6 @@ components:
       x-jsonld:
         '@context': 'https://schema.ion.id/hospitality/commitment/v1/context.jsonld'
         '@type': ion:IONRestaurantCommitment
-      allOf:
-        - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
 
       properties:
 

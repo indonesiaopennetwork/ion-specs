@@ -30,7 +30,7 @@
       "@id": "ion:invoicingEntity",
       "@type": "rdf:Property",
       "rdfs:label": "invoicingEntity",
-      "rdfs:comment": "Legal entity name of the invoicing entity when invoicingModel is CENTRAL. This is the brand's registered legal entity \u2014 not the store name.\n"
+      "rdfs:comment": "Legal entity name of the invoicing entity when invoicingModel is CENTRAL. This is the brand's registered legal entity — not the store name.\n"
     },
     {
       "@id": "ion:storeStatus",
@@ -66,7 +66,7 @@
       "@id": "ion:averagePreparationTime",
       "@type": "rdf:Property",
       "rdfs:label": "averagePreparationTime",
-      "rdfs:comment": "Average time from order confirm to item ready for logistics pickup at this location. ISO 8601 duration. Used by BAP to compute estimated delivery time. Provider-level default; per-item preparationTime in resource/v1 overrides this.\n"
+      "rdfs:comment": "Average time for this provider to prepare an order. ISO 8601 duration. Used for ETA estimation."
     },
     {
       "@id": "ion:providerCategory",
@@ -126,7 +126,7 @@
       "@id": "ion:kycStatus",
       "@type": "rdf:Property",
       "rdfs:label": "kycStatus",
-      "rdfs:comment": "Current KYC status of this provider with the BPP platform. Only APPROVED and APPROVED_WITH_CAVEATS providers may publish catalogs. EXPIRED providers must renew before next catalog. SUSPENDED signals temporary enforcement action \u2014 spec processors must pause active transactions.\n"
+      "rdfs:comment": "Current KYC status of this provider with the BPP platform. Only APPROVED and APPROVED_WITH_CAVEATS providers may publish catalogs. EXPIRED providers must renew before next catalog. SUSPENDED signals temporary enforcement action — spec processors must pause active transactions.\n"
     },
     {
       "@id": "ion:kycLevel",
@@ -144,7 +144,7 @@
       "@id": "ion:kycEvidenceRef",
       "@type": "rdf:Property",
       "rdfs:label": "kycEvidenceRef",
-      "rdfs:comment": "Opaque reference to KYC evidence bundle (encrypted off-network). Used by ION Central when audit required. Not a URL \u2014 internal ref.\n"
+      "rdfs:comment": "Opaque reference to KYC evidence bundle (encrypted off-network). Used by ION Central when audit required. Not a URL — internal ref.\n"
     },
     {
       "@id": "ion:kycCaveats",

@@ -20,6 +20,22 @@ components:
       x-ion-split-version: "0.7.0"
       allOf:
         - $ref: '#/components/schemas/IONTaxDetail'
+        - if:
+            properties:
+              taxRegime:
+                not:
+                  enum:
+                  - EXEMPT
+            required:
+            - taxRegime
+          then:
+            required:
+            - taxRate
+            - taxAmount
+            - taxBaseAmount
+        - taxRegime
+        - taxCategory
+        - taxIncluded
       title: Indonesia Tax Detail
       additionalProperties: false
       x-jsonld:
@@ -94,21 +110,3 @@ components:
           description: The amount on which tax is calculated (before tax)
           example: 90000
           x-ion-condition: Required for proper tax computation trail
-      allOf:
-      - if:
-          properties:
-            taxRegime:
-              not:
-                enum:
-                - EXEMPT
-          required:
-          - taxRegime
-        then:
-          required:
-          - taxRate
-          - taxAmount
-          - taxBaseAmount
-      # required: removed — mandatoriness declared in x-ion-field-requirements network policy
-      - taxRegime
-      - taxCategory
-      - taxIncluded

@@ -30,13 +30,22 @@ components:
         # REMOTE upstream (active — used by ONIX at validation time):
         - $ref: https://raw.githubusercontent.com/beckn/schemas/main/schema/Logistics/v2.0/attributes.yaml#/components/schemas/Logistics
         # LOCAL vendored reference copy (for offline review and version drift detection):
-        # - $ref: ../../../core/v2/api/v2.0.0/vendored/logistics-v2.0.yaml#/components/schemas/Logistics
+        # - $ref: ../../../../core/v2/api/v2.0.0/vendored/logistics-v2.0.yaml#/components/schemas/Logistics
     IONLogisticsOffer:
       type: object
       x-ion-layer: ion
       x-ion-split-version: "0.7.0"
       allOf:
         - $ref: '#/components/schemas/LogisticsOffer'
+        - if:
+            properties:
+              availableOnCod:
+                const: true
+            required:
+            - availableOnCod
+          then:
+            required:
+            - codVerifiedReceiptOtpRequired
       title: LogisticsOffer
       additionalProperties: true
       x-jsonld:
@@ -74,7 +83,7 @@ components:
           - P2H2P
           - P2H2H2P
           description: Hub routing topology for parcel
-        x-ion-condition: 'Required when routing topology is defined (P2P, P2H2P, or P2H2H2P)'
+          x-ion-condition: 'Required when routing topology is defined (P2P, P2H2P, or P2H2H2P)'
         rateLogic:
           type: string
           enum:
@@ -146,7 +155,7 @@ components:
             Some LTL carriers as well.
 
             '
-        x-ion-condition: 'Required when applicable — Minimum freight charge regardless of weight. Air freight alw'
+          x-ion-condition: 'Required when applicable — Minimum freight charge regardless of weight. Air freight alw'
         fuelSurchargeFormula:
           type: string
           description: Formula for fuel surcharge computation (e.g. "base * 0.08")
@@ -256,21 +265,21 @@ components:
         pickupWindowGranularityMinutes:
           type: integer
           description: Smallest pickup time window offered
-        x-ion-condition: 'Required when applicable — Smallest pickup time window offered'
+          x-ion-condition: 'Required when applicable — Smallest pickup time window offered'
         bulkPickupMaxShipments:
           type: integer
           description: Maximum shipments per bulk pickup batch
-        x-ion-condition: Required when bulk manifest mode is supported
+          x-ion-condition: Required when bulk manifest mode is supported
         sameDayPickupCutoffTime:
           type: string
           format: time
           description: Latest on-demand pickup booking time for same-day dispatch
-        x-ion-condition: Required when pickupModel includes ON_DEMAND same-day dispatch
+          x-ion-condition: Required when pickupModel includes ON_DEMAND same-day dispatch
         dropOffLocationsUrl:
           type: string
           format: uri
           description: URL to LSP agent-point directory for DROP_OFF_AT_COUNTER
-        x-ion-condition: Required when pickupModel includes DROP_OFF_AT_COUNTER
+          x-ion-condition: Required when pickupModel includes DROP_OFF_AT_COUNTER
         cutoffs:
           type: array
           description: 'Operational cut-off schedule. Each entry declares one cut-off. Multiple cut-offs per offer
@@ -464,7 +473,7 @@ components:
           description: True if BPP accepts batched /confirm calls
         maxBulkBatchSize:
           type: integer
-        x-ion-condition: Required when bulk manifest mode is supported
+          x-ion-condition: Required when bulk manifest mode is supported
         apiRateLimitPerSecond:
           type: integer
         apiSlaCommitment:
@@ -622,7 +631,7 @@ components:
           - REGULAR_FLIGHT
           - AD_HOC
           - ON_DEMAND
-        x-ion-condition: Required when capacityModel declares slot-based availability
+          x-ion-condition: Required when capacityModel declares slot-based availability
         agentAssignmentModel:
           type: string
           enum:
@@ -630,19 +639,19 @@ components:
           - POOL_ASSIGNED
           - FIFO_AT_PICKUP
           - DEDICATED_FLEET
-        x-ion-condition: Required when capacityModel is DAILY_SLOTS or ROUTE_SLOTS
+          x-ion-condition: Required when capacityModel is DAILY_SLOTS or ROUTE_SLOTS
         maxDeliveryRadiusKm:
           type: number
-        x-ion-condition: Required when capacityModel is DAILY_SLOTS or ROUTE_SLOTS
+          x-ion-condition: Required when capacityModel is DAILY_SLOTS or ROUTE_SLOTS
         liveTrackingEnabled:
           type: boolean
-        x-ion-condition: Required when capacityModel is DAILY_SLOTS or ROUTE_SLOTS
+          x-ion-condition: Required when capacityModel is DAILY_SLOTS or ROUTE_SLOTS
         slotsAvailable:
           type: boolean
         slotGranularityMinutes:
           type: integer
           description: Slot duration in minutes (e.g. 60, 120)
-        x-ion-condition: 'Required when applicable — Slot duration in minutes (e.g. 60, 120)'
+          x-ion-condition: 'Required when applicable — Slot duration in minutes (e.g. 60, 120)'
         slotWindowsOffered:
           type: array
           items:
@@ -662,11 +671,11 @@ components:
           type: boolean
         maxCodAmount:
           type: number
-        x-ion-condition: Required when availableOnCod is true
+          x-ion-condition: Required when availableOnCod is true
         codPolicy:
           type: string
           format: iri
-        x-ion-condition: Required when availableOnCod is true
+          x-ion-condition: Required when availableOnCod is true
         codVerifiedReceiptOtpRequired:
           type: boolean
           description: 'When true, an anti-fraud OTP is sent to the buyer separately and must be entered by the
@@ -701,7 +710,7 @@ components:
         codShipmentLimit:
           type: number
           description: Maximum COD amount per single shipment on this offer.
-        x-ion-condition: Required when availableOnCod is true
+          x-ion-condition: Required when availableOnCod is true
         codHoldPeriodDays:
           type: integer
           description: 'Days the LSP holds collected cash before remittance to the BAP. Provides refund buffer for
@@ -740,11 +749,11 @@ components:
           - PER_SKU_PER_DAY
           - PER_CBM_PER_MONTH
           - PER_PALLET_PER_MONTH
-        x-ion-condition: 'Required when applicable — ION policy IRI for insurance coverage terms'
+          x-ion-condition: 'Required when applicable — ION policy IRI for insurance coverage terms'
         minimumStorageTerm:
           type: string
           format: duration
-        x-ion-condition: Required for Ro-Ro patterns where ferry schedule is published
+          x-ion-condition: Required for Ro-Ro patterns where ferry schedule is published
         vehicleCategoriesAccepted:
           type: array
           items:
@@ -780,7 +789,7 @@ components:
         crossingDuration:
           type: string
           format: duration
-        x-ion-condition: Required for Ro-Ro patterns where vessel crossing duration is published
+          x-ion-condition: Required for Ro-Ro patterns where vessel crossing duration is published
         incotermsSupported:
           type: array
           items:
@@ -804,7 +813,7 @@ components:
           - DDP_INCLUSIVE
           - DAP_BUYER_PAYS
           - DDU_ON_DELIVERY
-        x-ion-condition: Required when shipment value exceeds LSP declared value cap
+          x-ion-condition: Required when shipment value exceeds LSP declared value cap
         cancellationPolicy:
           type: string
           format: iri
@@ -833,15 +842,4 @@ components:
       # enforced via ION network policy (x-ion-crc-rules,
       # x-ion-conditional-rules) rather than the shared schema:
       # serviceLevel, transportMode, rateLogic, selectRequired, availableOnCod, cancellationPolicy, claimPolicy, slaPolicy, evidencePolicy, disputePolicy
-      allOf:
-      - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
-      - if:
-          properties:
-            availableOnCod:
-              const: true
-          required:
-          - availableOnCod
-        then:
-          required:
-          - codVerifiedReceiptOtpRequired
       x-ion-closed-extensions: false

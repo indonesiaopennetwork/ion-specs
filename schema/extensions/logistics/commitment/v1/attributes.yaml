@@ -28,7 +28,7 @@ components:
       additionalProperties: true
       allOf:
         # LOCAL (default — active):
-        - $ref: beckn.yaml#/components/schemas/Commitment
+        - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Commitment
         # REMOTE (uncomment to use upstream directly):
         # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Commitment
     IONLogisticsCommitment:
@@ -126,5 +126,3 @@ components:
           type: string
           description: Parent commitment reference for child transactions under a parent contract
       x-ion-closed-extensions: false
-      allOf:
-      - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes

@@ -30,13 +30,42 @@ components:
         # REMOTE upstream (active — used by ONIX at validation time):
         - $ref: https://raw.githubusercontent.com/beckn/local-retail/main/schema/RetailPerformance/v2.1/attributes.yaml#/components/schemas/RetailPerformance
         # LOCAL vendored reference copy (for offline review and version drift detection):
-        # - $ref: ../../../core/v2/api/v2.0.0/vendored/retail-performance-v2.1.yaml#/components/schemas/RetailPerformance
+        # - $ref: ../../../../core/v2/api/v2.0.0/vendored/retail-performance-v2.1.yaml#/components/schemas/RetailPerformance
     IONTradePerformance:
       type: object
       x-ion-layer: ion
       x-ion-split-version: "0.7.0"
       allOf:
         - $ref: '#/components/schemas/TradePerformance'
+        - if:
+            properties:
+              ageVerificationMethod:
+                const: KTP_SCANNED
+            required:
+            - ageVerificationMethod
+          then:
+            required:
+            - ageVerificationEvidence
+        - if:
+            properties:
+              ageVerificationRequired:
+                const: true
+            required:
+            - ageVerificationRequired
+          then:
+            required:
+            - ageVerificationMethod
+            - ageVerifiedAt
+            - ageVerifiedByAgentId
+        - if:
+            properties:
+              qcResult:
+                const: QC_FAILED_
+            required:
+            - qcResult
+          then:
+            required:
+            - qcEvidence
       title: TradePerformance
       additionalProperties: true
       x-jsonld:
@@ -589,34 +618,4 @@ components:
       # enforced via ION network policy (x-ion-crc-rules,
       # x-ion-conditional-rules) rather than the shared schema:
       # performanceMode, supportedPerformanceModes, sla
-      allOf:
-      - if:
-          properties:
-            ageVerificationMethod:
-              const: KTP_SCANNED
-          required:
-          - ageVerificationMethod
-        then:
-          required:
-          - ageVerificationEvidence
-      - if:
-          properties:
-            ageVerificationRequired:
-              const: true
-          required:
-          - ageVerificationRequired
-        then:
-          required:
-          - ageVerificationMethod
-          - ageVerifiedAt
-          - ageVerifiedByAgentId
-      - if:
-          properties:
-            qcResult:
-              const: QC_FAILED_
-          required:
-          - qcResult
-        then:
-          required:
-          - qcEvidence
       x-ion-closed-extensions: false
