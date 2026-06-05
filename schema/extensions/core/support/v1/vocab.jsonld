@@ -66,31 +66,31 @@
       "@id": "ion:expectedResponseTime",
       "@type": "rdf:Property",
       "rdfs:label": "expectedResponseTime",
-      "rdfs:comment": "ISO 8601 duration. Time within which respondent must acknowledge."
+      "rdfs:comment": "Expected time for the support team to provide an initial response. ISO 8601 duration."
     },
     {
       "@id": "ion:expectedResolutionTime",
       "@type": "rdf:Property",
       "rdfs:label": "expectedResolutionTime",
-      "rdfs:comment": "ISO 8601 duration. Time within which resolution must be provided."
+      "rdfs:comment": "Expected time for the support issue to be fully resolved. ISO 8601 duration."
     },
     {
       "@id": "ion:status",
       "@type": "rdf:Property",
       "rdfs:label": "status",
-      "rdfs:comment": "Action trail \u2014 both sides of the conversation."
+      "rdfs:comment": "Action trail — both sides of the conversation."
     },
     {
       "@id": "ion:severity",
       "@type": "rdf:Property",
       "rdfs:label": "severity",
-      "rdfs:comment": "Action trail \u2014 both sides of the conversation."
+      "rdfs:comment": "Action trail — both sides of the conversation."
     },
     {
       "@id": "ion:issueActions",
       "@type": "rdf:Property",
       "rdfs:label": "issueActions",
-      "rdfs:comment": "Action trail \u2014 both sides of the conversation."
+      "rdfs:comment": "Action trail — both sides of the conversation."
     },
     {
       "@id": "ion:resolution",
@@ -108,7 +108,7 @@
       "@id": "ion:createdAt",
       "@type": "rdf:Property",
       "rdfs:label": "createdAt",
-      "rdfs:comment": "Current escalation level of the dispute. Progression: 1. SELLER \u2014 buyer contacts seller"
+      "rdfs:comment": "Current escalation level of the dispute. Progression: 1. SELLER — buyer contacts seller"
     },
     {
       "@id": "ion:updatedAt",
@@ -120,7 +120,7 @@
       "@id": "ion:escalationLevel",
       "@type": "rdf:Property",
       "rdfs:label": "escalationLevel",
-      "rdfs:comment": "Current escalation level of the dispute. Progression: 1. SELLER \u2014 buyer contacts seller (default support flow, 1-2 days). 2. MARKETPLACE_MEDIATION \u2014 marketplace intervenes (3-5 days). 3. BPSK \u2014 Badan Penyelesaian Sengketa Konsumen (government, 6-14 days). 4. KOMINFO \u2014 Kominfo consumer protection portal. 5. ION_NETWORK \u2014 escalated to ION via raise channel. Each level has its own SLA declared in support/on_support."
+      "rdfs:comment": "Current escalation level of the dispute. Progression: 1. SELLER — buyer contacts seller (default support flow, 1-2 days). 2. MARKETPLACE_MEDIATION — marketplace intervenes (3-5 days). 3. BPSK — Badan Penyelesaian Sengketa Konsumen (government, 6-14 days). 4. KOMINFO — Kominfo consumer protection portal. 5. ION_NETWORK — escalated to ION via raise channel. Each level has its own SLA declared in support/on_support."
     },
     {
       "@id": "ion:escalationTimestamp",

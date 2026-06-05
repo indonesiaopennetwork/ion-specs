@@ -30,9 +30,9 @@
 
 | Beckn slot | Pack | Class |
 |---|---|---|
-| Resource | `hospitality/delivery/v1` | `RestaurantMenuItem` |
+| Resource | `hospitality/menu-item/v1` | `RestaurantMenuItem` |
 | Offer | `hospitality/offer/v1` | `RestaurantOffer` |
-| Provider | `hospitality/provider/v1` | `RestaurantProvider` |
+| Provider | `hospitality/restaurant-provider/v1` | `RestaurantProvider` |
 | Commitment | `hospitality/commitment/v1` | `RestaurantCommitment` |
 | Consideration | `hospitality/consideration/v1` | `HospitalityConsideration` |
 | Contract | `hospitality/contract/v1` | `HospitalityContract` |

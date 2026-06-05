@@ -25,10 +25,6 @@ components:
       x-ion-split-version: "0.7.0"
       x-recommended-parent: Settlement.settlementAttributes
       additionalProperties: true
-      allOf:
-        # LOCAL (default — active):
-        - $ref: beckn.yaml#/components/schemas/Attributes
-        # REMOTE (uncomment to use upstream directly):
         # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
     IONAmortisationRow:
       type: object
@@ -83,6 +79,4 @@ components:
           format: date
           description: Actual payment receipt date. Populated when status is PAID, OVERDUE, or PARTIAL.
       x-ion-closed-extensions: false
-      allOf:
-        - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
 

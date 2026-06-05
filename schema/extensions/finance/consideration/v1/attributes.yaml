@@ -27,7 +27,7 @@ components:
       additionalProperties: true
       allOf:
         # LOCAL (default — active):
-        - $ref: beckn.yaml#/components/schemas/Consideration
+        - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Consideration
         # REMOTE (uncomment to use upstream directly):
         # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Consideration
     IONLoanConsideration:
@@ -63,6 +63,4 @@ components:
           description: All-in annualised cost of credit % (POJK 6/2022 RIPLAY disclosure).
           example: 11.24
       x-ion-closed-extensions: false
-      allOf:
-        - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
 

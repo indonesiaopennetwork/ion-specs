@@ -116,8 +116,6 @@ components:
 
         Relationship: ION-native schema with no upstream beckn/schemas parent. Extends
         the core/localization schema pack alongside IONCatalogLocalization and LocalisedText.
-      x-ion-layer: ion-native
-      additionalProperties: false
       x-beckn-attaches-to: Provider.providerAttributes
       properties:
         defaultLocale:

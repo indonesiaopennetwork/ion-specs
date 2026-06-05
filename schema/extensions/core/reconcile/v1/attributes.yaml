@@ -29,10 +29,6 @@ components:
       x-ion-split-version: "0.7.0"
       x-recommended-parent: Settlement.settlementAttributes
       additionalProperties: true
-      allOf:
-        # LOCAL (default — active):
-        - $ref: beckn.yaml#/components/schemas/Attributes
-        # REMOTE (uncomment to use upstream directly):
         # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
     IONReconcile:
       type: object
@@ -40,6 +36,35 @@ components:
       x-ion-split-version: "0.7.0"
       allOf:
         - $ref: '#/components/schemas/Reconciliation'
+        - if:
+            properties:
+              adjustmentType:
+                const: CLAWBACK
+            required:
+            - adjustmentType
+          then:
+            required:
+            - adjustmentEvidence
+        - if:
+            properties:
+              isBatch:
+                const: true
+            required:
+            - isBatch
+          then:
+            required:
+            - batchPeriod
+            - contractDetails
+            - contractIds
+        - if:
+            properties:
+              reconStatus:
+                const: DISPUTED
+            required:
+            - reconStatus
+          then:
+            required:
+            - disputeReason
       title: IONReconciliation
       additionalProperties: true
       x-jsonld:
@@ -493,35 +518,4 @@ components:
                   type: boolean
           x-ion-condition: Required when one or more settlements in this reconcile carry method=COD
       # required: removed — mandatoriness declared in x-ion-field-requirements network policy
-      allOf:
-      - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
-      - if:
-          properties:
-            adjustmentType:
-              const: CLAWBACK
-          required:
-          - adjustmentType
-        then:
-          required:
-          - adjustmentEvidence
-      - if:
-          properties:
-            isBatch:
-              const: true
-          required:
-          - isBatch
-        then:
-          required:
-          - batchPeriod
-          - contractDetails
-          - contractIds
-      - if:
-          properties:
-            reconStatus:
-              const: DISPUTED
-          required:
-          - reconStatus
-        then:
-          required:
-          - disputeReason
       x-ion-closed-extensions: false

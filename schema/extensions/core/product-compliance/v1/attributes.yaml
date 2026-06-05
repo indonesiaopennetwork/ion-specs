@@ -27,10 +27,6 @@ components:
       x-ion-split-version: "0.7.0"
       x-recommended-parent: Resource.resourceAttributes
       additionalProperties: true
-      allOf:
-        # LOCAL (default — active):
-        - $ref: beckn.yaml#/components/schemas/Attributes
-        # REMOTE (uncomment to use upstream directly):
         # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
     IONProductCompliance:
       type: object
@@ -38,6 +34,41 @@ components:
       x-ion-split-version: "0.7.0"
       allOf:
         - $ref: '#/components/schemas/ProductCompliance'
+        - if:
+            properties:
+              halalStatus:
+                enum:
+                - HALAL
+            required:
+            - halalStatus
+          then:
+            required:
+            - halalCertNumber
+        - if:
+            properties:
+              ageRestricted:
+                const: true
+            required:
+            - ageRestricted
+          then:
+            required:
+            - minAge
+        - if:
+            properties:
+              halalStatus:
+                const: HALAL
+            required:
+            - halalStatus
+          then:
+            required:
+            - halalCertNumber
+        # ION network mandatory: Indonesian product compliance requirements (UU 33/2014 Halal; UU 8/1999 Consumer Protection)
+        # NETWORK POLICY NOTE (GAP 32 / NFH-012 CON-012-18):
+        # Shared schemas MUST NOT declare mandatory fields.
+        # The following fields were required in v0.6.0 and are now
+        # enforced via ION network policy (x-ion-crc-rules,
+        # x-ion-conditional-rules) rather than the shared schema:
+        # halalStatus, ageRestricted
       title: Indonesia Product Certifications
       additionalProperties: false
       x-jsonld:
@@ -109,39 +140,3 @@ components:
             '
           example: 18
           x-ion-condition: Required when ageRestricted is true
-      allOf:
-      - if:
-          properties:
-            halalStatus:
-              enum:
-              - HALAL
-          required:
-          - halalStatus
-        then:
-          required:
-          - halalCertNumber
-      - if:
-          properties:
-            ageRestricted:
-              const: true
-          required:
-          - ageRestricted
-        then:
-          required:
-          - minAge
-      - if:
-          properties:
-            halalStatus:
-              const: HALAL
-          required:
-          - halalStatus
-        then:
-          required:
-          - halalCertNumber
-      # ION network mandatory: Indonesian product compliance requirements (UU 33/2014 Halal; UU 8/1999 Consumer Protection)
-      # NETWORK POLICY NOTE (GAP 32 / NFH-012 CON-012-18):
-      # Shared schemas MUST NOT declare mandatory fields.
-      # The following fields were required in v0.6.0 and are now
-      # enforced via ION network policy (x-ion-crc-rules,
-      # x-ion-conditional-rules) rather than the shared schema:
-      # halalStatus, ageRestricted

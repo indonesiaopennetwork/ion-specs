@@ -35,7 +35,7 @@ components:
       additionalProperties: true
       allOf:
         # LOCAL (default — active):
-        - $ref: beckn.yaml#/components/schemas/Performance
+        - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Performance
         # REMOTE (uncomment to use upstream directly):
         # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Performance
     IONRestaurantPerformance:
@@ -54,8 +54,6 @@ components:
       x-jsonld:
         '@context': 'https://schema.ion.id/hospitality/performance/v1/context.jsonld'
         '@type': ion:IONRestaurantPerformance
-      allOf:
-        - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
 
       properties:
 

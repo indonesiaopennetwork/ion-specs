@@ -102,25 +102,25 @@
       "@id": "ion:sla",
       "@type": "rdf:Property",
       "rdfs:label": "sla",
-      "rdfs:comment": "ISO 8601 duration for first response"
+      "rdfs:comment": "Service Level Agreement terms for issue resolution. Specifies response and resolution time targets."
     },
     {
       "@id": "ion:createdAt",
       "@type": "rdf:Property",
       "rdfs:label": "createdAt",
-      "rdfs:comment": "createdAt \u2014 see attributes.yaml for full description"
+      "rdfs:comment": "createdAt — see attributes.yaml for full description"
     },
     {
       "@id": "ion:updatedAt",
       "@type": "rdf:Property",
       "rdfs:label": "updatedAt",
-      "rdfs:comment": "updatedAt \u2014 see attributes.yaml for full description"
+      "rdfs:comment": "updatedAt — see attributes.yaml for full description"
     },
     {
       "@id": "ion:resolvedAt",
       "@type": "rdf:Property",
       "rdfs:label": "resolvedAt",
-      "rdfs:comment": "ISO 8601 duration for first response"
+      "rdfs:comment": "ISO 8601 timestamp when the raised issue was resolved by the responding party."
     }
   ]
 }

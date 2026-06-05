@@ -31,7 +31,7 @@ components:
         # REMOTE upstream (active — used by ONIX at validation time):
         - $ref: https://raw.githubusercontent.com/beckn/schemas/main/schema/Shipment/v2.0/attributes.yaml#/components/schemas/Shipment
         # LOCAL vendored reference copy (for offline review and version drift detection):
-        # - $ref: ../../../core/v2/api/v2.0.0/vendored/shipment-v2.0.yaml#/components/schemas/Shipment
+        # - $ref: ../../../../core/v2/api/v2.0.0/vendored/shipment-v2.0.yaml#/components/schemas/Shipment
     IONLogisticsResource:
       type: object
       x-ion-layer: ion
@@ -599,5 +599,3 @@ components:
       # x-ion-conditional-rules) rather than the shared schema:
       # serviceType, quantity
       x-ion-closed-extensions: false
-      allOf:
-      - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes

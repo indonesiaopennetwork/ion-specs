@@ -33,7 +33,7 @@ components:
       additionalProperties: true
       allOf:
         # LOCAL (default — active):
-        - $ref: beckn.yaml#/components/schemas/Participant
+        - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Participant
         # REMOTE (uncomment to use upstream directly):
         # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Participant
     IONLogisticsAgent:
@@ -83,5 +83,3 @@ components:
           x-ion-cross-schema-condition: true
           x-ion-condition: Required when role=DRIVER
       x-ion-closed-extensions: false
-      allOf:
-      - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes

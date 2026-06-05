@@ -27,8 +27,6 @@ components:
         '@context': 'https://schema.ion.id/core/raise/v1/context.jsonld'
         '@type': ion:Ticket
       x-beckn-attaches-to: ION Raise channel (off-Beckn)
-      allOf:
-        - \$ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       properties:
         id:
           type: string

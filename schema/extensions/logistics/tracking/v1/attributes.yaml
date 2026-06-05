@@ -29,7 +29,7 @@ components:
       additionalProperties: true
       allOf:
         # LOCAL (default — active):
-        - $ref: beckn.yaml#/components/schemas/Tracking
+        - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Tracking
         # REMOTE (uncomment to use upstream directly):
         # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Tracking
     IONLogisticsTracking:
@@ -168,5 +168,3 @@ components:
       # x-ion-conditional-rules) rather than the shared schema:
       # trackingType
       x-ion-closed-extensions: false
-      allOf:
-      - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes

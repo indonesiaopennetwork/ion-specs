@@ -28,7 +28,7 @@ components:
       additionalProperties: true
       allOf:
         # LOCAL (default — active):
-        - $ref: beckn.yaml#/components/schemas/Contract
+        - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Contract
         # REMOTE (uncomment to use upstream directly):
         # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Contract
     IONLogisticsContract:
@@ -507,7 +507,7 @@ components:
         incotermsNamedPlace:
           type: string
           description: Named place per Incoterms (e.g. "DDP Jakarta port")
-        x-ion-condition: Required for cross-border shipments where Incoterms apply
+          x-ion-condition: Required for cross-border shipments where Incoterms apply
         beaCukaiDeclaration:
           type: object
           additionalProperties: false
@@ -600,7 +600,7 @@ components:
         aseanSingleWindowReference:
           type: string
           description: ASW reference for intra-ASEAN shipments
-        x-ion-condition: 'Required when applicable — ASW reference for intra-ASEAN shipments'
+          x-ion-condition: 'Required when applicable — ASW reference for intra-ASEAN shipments'
         fumigationCertificate:
           type: object
           additionalProperties: false
@@ -760,20 +760,21 @@ components:
               description: >
                 Plan for reassigning the shipment to another rider/driver after a
                 medical emergency. Free text describing the reassignment.
-                cancellationReason:
-          type: object
-          additionalProperties: false
-          properties:
-            id:
-              type: string
-            descriptor:
+            cancellationReason:
               type: object
               additionalProperties: false
+              description: Structured cancellation reason. Present when incidentDetail triggers a cancellation.
               properties:
-                code:
+                id:
                   type: string
-                shortDesc:
-                  type: string
+                descriptor:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    code:
+                      type: string
+                    shortDesc:
+                      type: string
         cancellationReasonCode:
           type: string
         pickupFailedResolution:
@@ -787,5 +788,3 @@ components:
         codPartialReason:
           type: string
       x-ion-closed-extensions: false
-      allOf:
-      - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes

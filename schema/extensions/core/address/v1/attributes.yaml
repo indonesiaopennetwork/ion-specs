@@ -29,6 +29,7 @@ components:
       x-ion-split-version: "0.7.0"
       x-recommended-parent: Location (via Performance/Participant)
       additionalProperties: true
+        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
     IONAddress:
       type: object
       x-ion-layer: ion
@@ -188,5 +189,3 @@ components:
       # x-ion-conditional-rules) rather than the shared schema:
       # provinsiCode
       x-ion-closed-extensions: false
-      allOf:
-        - $ref: '#/components/schemas/Address'

@@ -2231,9 +2231,6 @@ components:
           example: Blok A3 Lantai 12 Unit 05
       # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
       x-ion-closed-extensions: false
-      allOf:
-      # LOCAL (default — active):
-      - $ref: beckn.yaml#/components/schemas/Attributes
       # REMOTE (uncomment to use upstream directly):
       # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
     IONBusinessRegistration:
@@ -2334,7 +2331,6 @@ components:
       # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
       allOf:
       # LOCAL (default — active):
-      - $ref: beckn.yaml#/components/schemas/Attributes
       # REMOTE (uncomment to use upstream directly):
       # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:
@@ -2355,7 +2351,6 @@ components:
         LocalisedText pattern. These extend beckn:descriptor fields with proper multilingual support.
 
         '
-      additionalProperties: false
       x-jsonld:
         '@context': ./context.jsonld
         '@type': ion:CatalogLocalization
@@ -2384,8 +2379,6 @@ components:
           x-ion-regulatory: ION Network Policy — Bahasa Indonesia localisation requirement
       # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
     LocalisedText:
-      type: object
-      additionalProperties: false
       title: Localised Text Object
       description: 'Language-keyed text object. Keys are ISO 639-1 language codes. "id" is always mandatory per ION network
         policy. "en" is mandatory for export commerce (cross-border pattern). Additional languages optional: ms (Malay), zh
@@ -2677,7 +2670,6 @@ components:
       # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
       allOf:
       # LOCAL (default — active):
-      - $ref: beckn.yaml#/components/schemas/Attributes
       # REMOTE (uncomment to use upstream directly):
       # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:
@@ -2827,7 +2819,6 @@ components:
       # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
     CashOnDelivery:
       type: object
-      additionalProperties: false
       title: Cash On Delivery
       description: 'Runtime COD collection state. Offer-level COD policy fields (OTP required, denominations accepted, buyer
         daily limit, hold period, reconciliation variance) are declared per-offer in schema/extensions/logistics/offer/v1
@@ -2877,7 +2868,6 @@ components:
           x-ion-condition: Required when collectionAmountCollected < collectionAmount
     CreditTerms:
       type: object
-      additionalProperties: false
       title: Credit Terms
       description: 'Credit-based payment terms (business-procurement pattern, FWA-governed logistics, any deferred-payment
         scenario). Populated on PaymentDeclaration when method=CREDIT_FACILITY or when an active FWA grants credit terms to
@@ -2961,7 +2951,6 @@ components:
       # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
     InvoiceReference:
       type: object
-      additionalProperties: false
       title: Invoice Reference
       description: 'Invoice document references. A transaction may have a proforma (issued at /init for credit-term scenarios)
         and a final invoice (issued at /on_confirm or later). Faktur Pajak tax-invoice references live in core/tax/v1 — this
@@ -2984,8 +2973,6 @@ components:
           format: uri
           description: URL to PDF invoice (access-controlled, time-limited)
     PaymentDeclaration:
-      type: object
-      additionalProperties: false
       title: Payment Declaration
       description: 'Contents of a Beckn Settlement''s settlementAttributes bag for a buyer-facing payment event. Binds a payment
         method to a transaction and carries method-specific instrument details in methodDetail.
@@ -3129,7 +3116,6 @@ components:
       # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
       allOf:
       # LOCAL (default — active):
-      - $ref: beckn.yaml#/components/schemas/Attributes
       # REMOTE (uncomment to use upstream directly):
       # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:
@@ -3153,7 +3139,6 @@ components:
       x-ion-closed-extensions: false
     ProcessingFee:
       type: object
-      additionalProperties: false
       title: Payment Processing Fee
       description: 'Per-transaction processing fee charged by the payment gateway or collecting party. Carried on the PaymentDeclaration
         so both parties see the fee split.
@@ -3228,7 +3213,6 @@ components:
       # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
     Refund:
       type: object
-      additionalProperties: false
       title: Refund
       description: 'Refund record attached to a PaymentDeclaration when a settlement is fully or partially refunded. Default
         destination is the original payment instrument (MATI — refund to original); fallbacks are declared explicitly.
@@ -3717,9 +3701,6 @@ components:
               description: Name of seller representative
       # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
       x-ion-closed-extensions: false
-      allOf:
-      # LOCAL (default — active):
-      - $ref: beckn.yaml#/components/schemas/Attributes
       # REMOTE (uncomment to use upstream directly):
       # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
     IONReconciliation:
@@ -4184,7 +4165,6 @@ components:
       # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
       allOf:
       # LOCAL (default — active):
-      - $ref: beckn.yaml#/components/schemas/Attributes
       # REMOTE (uncomment to use upstream directly):
       # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:
@@ -4495,7 +4475,6 @@ components:
       # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
       allOf:
       # LOCAL (default — active):
-      - $ref: beckn.yaml#/components/schemas/Attributes
       # REMOTE (uncomment to use upstream directly):
       # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:
@@ -4740,9 +4719,6 @@ components:
           example: Tanpa bawang, tolong pedas ekstra.
       # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
       x-ion-closed-extensions: false
-      allOf:
-      # LOCAL (default — active):
-      - $ref: beckn.yaml#/components/schemas/Attributes
       # REMOTE (uncomment to use upstream directly):
       # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
     TradeConsideration:
@@ -4868,9 +4844,6 @@ components:
           default: IDR
       # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
       x-ion-closed-extensions: false
-      allOf:
-      # LOCAL (default — active):
-      - $ref: beckn.yaml#/components/schemas/Attributes
       # REMOTE (uncomment to use upstream directly):
       # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
     TradeContract:
@@ -5342,7 +5315,6 @@ components:
           x-ion-condition: Required when paymentTermsPolicy is schedule-based
       allOf:
       # LOCAL (default — active):
-      - $ref: beckn.yaml#/components/schemas/Attributes
       # REMOTE (uncomment to use upstream directly):
       # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:
@@ -5972,7 +5944,6 @@ components:
           example: Garansi seumur hidup untuk mekanisme jam tangan mewah (terms & conditions apply - see seller page).
       allOf:
       # LOCAL (default — active):
-      - $ref: beckn.yaml#/components/schemas/Attributes
       # REMOTE (uncomment to use upstream directly):
       # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:
@@ -6470,7 +6441,6 @@ components:
       # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
       allOf:
       # LOCAL (default — active):
-      - $ref: beckn.yaml#/components/schemas/Attributes
       # REMOTE (uncomment to use upstream directly):
       # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:
@@ -6826,7 +6796,6 @@ components:
           x-ion-condition: Required for regulated categories (pharmacy, alcohol, tobacco, meat)
       allOf:
       # LOCAL (default — active):
-      - $ref: beckn.yaml#/components/schemas/Attributes
       # REMOTE (uncomment to use upstream directly):
       # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:
@@ -8380,7 +8349,6 @@ components:
           x-ion-condition: Required for pharmacy, health-data, financial-services categories
       allOf:
       # LOCAL (default — active):
-      - $ref: beckn.yaml#/components/schemas/Attributes
       # REMOTE (uncomment to use upstream directly):
       # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:
@@ -8516,9 +8484,6 @@ components:
           type: string
           description: Parent commitment reference for child transactions under a parent contract
       x-ion-closed-extensions: false
-      allOf:
-      # LOCAL (default — active):
-      - $ref: beckn.yaml#/components/schemas/Attributes
       # REMOTE (uncomment to use upstream directly):
       # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
     LogisticsConsideration:
@@ -8733,9 +8698,6 @@ components:
           x-ion-conditional: true
       # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
       x-ion-closed-extensions: false
-      allOf:
-      # LOCAL (default — active):
-      - $ref: beckn.yaml#/components/schemas/Attributes
       # REMOTE (uncomment to use upstream directly):
       # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
     LogisticsContract:
@@ -9346,9 +9308,6 @@ components:
         codPartialReason:
           type: string
       x-ion-closed-extensions: false
-      allOf:
-      # LOCAL (default — active):
-      - $ref: beckn.yaml#/components/schemas/Attributes
       # REMOTE (uncomment to use upstream directly):
       # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
     LogisticsOffer:
@@ -10136,7 +10095,6 @@ components:
       # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
       allOf:
       # LOCAL (default — active):
-      - $ref: beckn.yaml#/components/schemas/Attributes
       # REMOTE (uncomment to use upstream directly):
       # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:
@@ -10188,9 +10146,6 @@ components:
           x-ion-condition: Required when role=DRIVER
           x-ion-cross-schema-condition: true
       x-ion-closed-extensions: false
-      allOf:
-      # LOCAL (default — active):
-      - $ref: beckn.yaml#/components/schemas/Attributes
       # REMOTE (uncomment to use upstream directly):
       # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
     LogisticsPerformance:
@@ -11007,9 +10962,6 @@ components:
             - DRIVER_HEALTH_CHECKED
             - PPE_WORN
       x-ion-closed-extensions: false
-      allOf:
-      # LOCAL (default — active):
-      - $ref: beckn.yaml#/components/schemas/Attributes
       # REMOTE (uncomment to use upstream directly):
       # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
     LogisticsProvider:
@@ -11250,9 +11202,6 @@ components:
           description: Whether this provider accepts Framework Agreement-governed transactions
       # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
       x-ion-closed-extensions: false
-      allOf:
-      # LOCAL (default — active):
-      - $ref: beckn.yaml#/components/schemas/Attributes
       # REMOTE (uncomment to use upstream directly):
       # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
     LogisticsResource:
@@ -11795,9 +11744,6 @@ components:
           x-ion-conditional: true
       # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
       x-ion-closed-extensions: false
-      allOf:
-      # LOCAL (default — active):
-      - $ref: beckn.yaml#/components/schemas/Attributes
       # REMOTE (uncomment to use upstream directly):
       # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
     LogisticsTracking:
@@ -11920,8 +11866,5 @@ components:
             '
       # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
       x-ion-closed-extensions: false
-      allOf:
-      # LOCAL (default — active):
-      - $ref: beckn.yaml#/components/schemas/Attributes
       # REMOTE (uncomment to use upstream directly):
       # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes

@@ -26,10 +26,6 @@ components:
       x-ion-split-version: "0.7.0"
       x-recommended-parent: RatingInput.target.targetAttributes
       additionalProperties: true
-      allOf:
-        # LOCAL (default — active):
-        - $ref: beckn.yaml#/components/schemas/Attributes
-        # REMOTE (uncomment to use upstream directly):
         # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
     IONRating:
       type: object
@@ -165,5 +161,3 @@ components:
       # x-ion-conditional-rules) rather than the shared schema:
       # ratingCategory, ratingValue
       x-ion-closed-extensions: false
-      allOf:
-      - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes

@@ -36,7 +36,7 @@ components:
         # REMOTE upstream (active — used by ONIX at validation time):
         - $ref: https://raw.githubusercontent.com/beckn/local-retail/main/schema/FoodAndBeverageOffer/v2.1/attributes.yaml#/components/schemas/FoodAndBeverageOffer
         # LOCAL vendored reference copy (for offline review and version drift detection):
-        # - $ref: ../../../core/v2/api/v2.0.0/vendored/food-and-beverage-offer-v2.1.yaml#/components/schemas/FoodAndBeverageOffer
+        # - $ref: ../../../../core/v2/api/v2.0.0/vendored/food-and-beverage-offer-v2.1.yaml#/components/schemas/FoodAndBeverageOffer
     IONRestaurantOffer:
       type: object
       x-ion-layer: ion
@@ -53,8 +53,6 @@ components:
       x-jsonld:
         '@context': 'https://schema.ion.id/hospitality/offer/v1/context.jsonld'
         '@type': ion:IONRestaurantOffer
-      allOf:
-        - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
 
       properties:
 

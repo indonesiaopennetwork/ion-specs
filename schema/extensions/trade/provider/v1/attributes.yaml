@@ -28,7 +28,7 @@ components:
       additionalProperties: true
       allOf:
         # LOCAL (default — active):
-        # - $ref: beckn.yaml#/components/schemas/Provider
+        - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Provider
         # REMOTE (uncomment to use upstream directly):
         # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Provider
     IONTradeProvider:
@@ -74,6 +74,12 @@ components:
           then:
             required:
             - categoryLicenses
+        # NETWORK POLICY NOTE (GAP 32 / NFH-012 CON-012-18):
+        # Shared schemas MUST NOT declare mandatory fields.
+        # The following fields were required in v0.6.0 and are now
+        # enforced via ION network policy (x-ion-crc-rules,
+        # x-ion-conditional-rules) rather than the shared schema:
+        # invoicingModel, storeStatus, operatingHours, holidayCalendar, providerCategory, nibRegistered, kycStatus, kycLevel, kycValidUntil
       title: TradeProvider
       additionalProperties: true
       x-jsonld:
@@ -392,10 +398,4 @@ components:
             - validUntil
           x-ion-regulatory: PP 5/2021; PerBPOM various
           x-ion-condition: Required for regulated categories (pharmacy, alcohol, tobacco, meat)
-      # NETWORK POLICY NOTE (GAP 32 / NFH-012 CON-012-18):
-      # Shared schemas MUST NOT declare mandatory fields.
-      # The following fields were required in v0.6.0 and are now
-      # enforced via ION network policy (x-ion-crc-rules,
-      # x-ion-conditional-rules) rather than the shared schema:
-      # invoicingModel, storeStatus, operatingHours, holidayCalendar, providerCategory, nibRegistered, kycStatus, kycLevel, kycValidUntil
       x-ion-closed-extensions: false

@@ -33,10 +33,6 @@ components:
       x-ion-split-version: "0.7.0"
       x-recommended-parent: Participant (direct properties)
       additionalProperties: true
-      allOf:
-        # LOCAL (default — active):
-        - $ref: beckn.yaml#/components/schemas/Attributes
-        # REMOTE (uncomment to use upstream directly):
         # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
     IONParticipant:
       type: object
@@ -44,6 +40,24 @@ components:
       x-ion-split-version: "0.7.0"
       allOf:
         - $ref: '#/components/schemas/Participant'
+        - if:
+            properties:
+              role:
+                const: BANK
+            required:
+            - role
+          then:
+            required:
+            - bankCode
+        - if:
+            properties:
+              role:
+                const: UNDERWRITER
+            required:
+            - role
+          then:
+            required:
+            - insurerLicenceNumber
       title: IONParticipant
       additionalProperties: true
       x-jsonld:
@@ -288,24 +302,4 @@ components:
       # enforced via ION network policy (x-ion-crc-rules,
       # x-ion-conditional-rules) rather than the shared schema:
       # role
-      allOf:
-      - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
-      - if:
-          properties:
-            role:
-              const: BANK
-          required:
-          - role
-        then:
-          required:
-          - bankCode
-      - if:
-          properties:
-            role:
-              const: UNDERWRITER
-          required:
-          - role
-        then:
-          required:
-          - insurerLicenceNumber
       x-ion-closed-extensions: false
