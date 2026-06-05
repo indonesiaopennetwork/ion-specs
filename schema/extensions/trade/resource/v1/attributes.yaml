@@ -15,6 +15,11 @@ info:
     url: https://schema.ion.id
 components:
   schemas:
+    LocalisedText:
+      type: object
+      additionalProperties:
+        type: string
+      description: Language-keyed text object. Keys are BCP 47 language codes (e.g. id, en).
     TradeResource:
       type: object
       title: TradeResource
@@ -29,20 +34,65 @@ components:
       additionalProperties: true
       allOf:
         # REMOTE upstream (active — used by ONIX at validation time):
-        - $ref: https://raw.githubusercontent.com/beckn/local-retail/main/schema/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource
+        # - $ref: https://raw.githubusercontent.com/beckn/local-retail/main/schema/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource
         # LOCAL vendored reference copy (for offline review and version drift detection):
         # - $ref: ../../../core/v2/api/v2.0.0/vendored/retail-resource-v2.1.yaml#/components/schemas/RetailResource
     IONTradeResource:
       type: object
-      additionalProperties: true
       x-ion-layer: ion
       x-ion-split-version: "0.7.0"
       allOf:
         - $ref: '#/components/schemas/TradeResource'
+        - if:
+            properties:
+              resourceStructure:
+                enum:
+                  - VARIANT
+            required:
+            - resourceStructure
+          then:
+            required:
+            - parentResourceId
+            - isDefaultVariant
+            - variantGroup
+        - if:
+            properties:
+              resourceStructure:
+                enum:
+                  - COMPOSED
+                  - WITH_EXTRAS
+            required:
+            - resourceStructure
+          then:
+            required:
+            - customisationGroups
+        - if:
+            properties:
+              ageRestricted:
+                const: true
+            required:
+            - ageRestricted
+          then:
+            required:
+            - minAge
+        - if:
+            properties:
+              resourceStructure:
+                const: VARIANT
+            required:
+            - resourceStructure
+          then:
+            required:
+            - isDefaultVariant
+            - variantGroup
       description: ION Trade sector resource attributes. Attaches to Resource.resourceAttributes.
       minProperties: 1
-      additionalProperties:
-        type: string
+      additionalProperties: true
+      title: TradeResource
+      x-jsonld:
+        '@context': 'https://schema.ion.id/trade/resource/v1/context.jsonld'
+        '@type': ion:IONTradeResource
+      x-beckn-attaches-to: Resource.resourceAttributes
       properties:
         crc:
           type: string
@@ -55,22 +105,10 @@ components:
             required in a future version once CRC enforcement is fully activated in ONIX.
           example: TRC-fashion
           x-ion-enforcement: optional-now-required-later
-        id:
-          type: string
-        en:
-          type: string
-      example:
-        id: Nasi Goreng Spesial
-        en: Special Fried Rice
-      title: TradeResource
-      additionalProperties: true
-      x-jsonld:
-        '@context': 'https://schema.ion.id/trade/resource/v1/context.jsonld'
-        '@type': ion:TradeResource
-      x-beckn-attaches-to: Resource.resourceAttributes
-      properties:
         name:
-          $ref: '#/components/schemas/LocalisedText'
+          type: object
+          additionalProperties:
+            type: string
           description: >
             Display name of the resource. Language-keyed localised text object.
             Minimum: name.id (Bahasa Indonesia). name.en required for cross-border
@@ -78,7 +116,9 @@ components:
           x-ion-condition: Required at catalog/publish for all resource types
 
         shortDesc:
-          $ref: '#/components/schemas/LocalisedText'
+          type: object
+          additionalProperties:
+            type: string
           description: >
             Short product description. Language-keyed localised text object.
             Maximum 280 characters per language value. Used in search results,
@@ -135,7 +175,9 @@ components:
               type: string
               example: VG-SIZE
             name:
-              $ref: '#/components/schemas/LocalisedText'
+              type: object
+              additionalProperties:
+                type: string
             variantOn:
               type: string
               description: The attribute that varies. e.g. size, color, storage
@@ -165,7 +207,9 @@ components:
                     type: string
                     description: Axis identifier (size, color, storage, model, etc.)
                   label:
-                    $ref: '#/components/schemas/LocalisedText'
+                    type: object
+                    additionalProperties:
+                      type: string
                   values:
                     type: array
                     items:
@@ -175,7 +219,9 @@ components:
                         id:
                           type: string
                         label:
-                          $ref: '#/components/schemas/LocalisedText'
+                          type: object
+                          additionalProperties:
+                            type: string
                         priceDelta:
                           type: number
                           description: IDR delta for this axis value (signed)
@@ -243,7 +289,9 @@ components:
                 type: string
                 example: CG-SIZE
               name:
-                $ref: '#/components/schemas/LocalisedText'
+                type: object
+                additionalProperties:
+                  type: string
               selectionType:
                 type: string
                 enum:
@@ -277,7 +325,9 @@ components:
                     id:
                       type: string
                     label:
-                      $ref: '#/components/schemas/LocalisedText'
+                      type: object
+                      additionalProperties:
+                        type: string
                     resourceId:
                       type: string
                     priceDelta:
@@ -316,7 +366,9 @@ components:
             id:
               type: string
             name:
-              $ref: '#/components/schemas/LocalisedText'
+              type: object
+              additionalProperties:
+                type: string
             sequence:
               type: integer
             imageUrl:
@@ -781,14 +833,14 @@ components:
               type: string
               example: 100% Katun
               x-ion-regulatory: PerBSN SNI 0055:2009
-            x-ion-descriptor-guidance: >
-              Descriptive attributes such as fitType, sleeveType, collarType,
-              occasion, pattern, and careInstructions belong in
-              Descriptor.longDesc as natural-language prose. Example:
-              "Regular fit, round neck, short sleeve, solid white cotton tee.
-              Machine wash cold, do not tumble dry. Suitable for casual and
-              workwear." AI agents extract richer meaning from prose than from
-              closed enums. Enums create schema bumps for every new value.
+          x-ion-descriptor-guidance: >
+            Descriptive attributes such as fitType, sleeveType, collarType,
+            occasion, pattern, and careInstructions belong in
+            Descriptor.longDesc as natural-language prose. Example:
+            "Regular fit, round neck, short sleeve, solid white cotton tee.
+            Machine wash cold, do not tumble dry. Suitable for casual and
+            workwear." AI agents extract richer meaning from prose than from
+            closed enums. Enums create schema bumps for every new value.
           x-ion-condition: Required for fashion and apparel products
         electronics:
           type: object
@@ -797,18 +849,18 @@ components:
             Detailed feature descriptions and use-case information belong in
             Descriptor.longDesc for agent readability.
           additionalProperties: false
+          x-ion-descriptor-guidance: >
+            Descriptive specifications such as RAM, ROM, storage capacity,
+            screen size, camera resolution, CPU, GPU, and battery capacity
+            belong in Descriptor.longDesc as natural-language prose. Example:
+            "6.1-inch Super Retina XDR display, A15 Bionic chip, 128GB storage,
+            12MP dual camera system, 3227 mAh battery, 5G capable."
+            Multimodal agents extract these from linked product datasheets and
+            images in Descriptor.docs[] and Descriptor.mediaFile[] with higher
+            fidelity than typed fields. Keep structured fields only for values
+            that participate in deterministic filtering (osType, connectivity)
+            or regulatory compliance (energyRating, wattage).
           properties:
-            x-ion-descriptor-guidance: >
-              Descriptive specifications such as RAM, ROM, storage capacity,
-              screen size, camera resolution, CPU, GPU, and battery capacity
-              belong in Descriptor.longDesc as natural-language prose. Example:
-              "6.1-inch Super Retina XDR display, A15 Bionic chip, 128GB storage,
-              12MP dual camera system, 3227 mAh battery, 5G capable."
-              Multimodal agents extract these from linked product datasheets and
-              images in Descriptor.docs[] and Descriptor.mediaFile[] with higher
-              fidelity than typed fields. Keep structured fields only for values
-              that participate in deterministic filtering (osType, connectivity)
-              or regulatory compliance (energyRating, wattage).
             osType:
               type: string
               enum:
@@ -1131,7 +1183,9 @@ components:
                   - INGREDIENTS_LABEL
                   - NUTRITION_FACTS
               altText:
-                $ref: '#/components/schemas/LocalisedText'
+                type: object
+                additionalProperties:
+                  type: string
               sequence:
                 type: integer
               widthPx:
@@ -1380,59 +1434,10 @@ components:
           example: DOMESTIC_ONLY
           x-ion-regulatory: UU 27/2022 tentang Pelindungan Data Pribadi (PDP Law)
           x-ion-condition: Required for pharmacy, health-data, financial-services categories
-      allOf:
-      - if:
-          properties:
-            resourceStructure:
-              enum:
-                - VARIANT
-          required:
-          - resourceStructure
-        then:
-          required:
-          - parentResourceId
-          - isDefaultVariant
-          - variantGroup
-      - if:
-          properties:
-            resourceStructure:
-              enum:
-                - COMPOSED
-                - WITH_EXTRAS
-          required:
-          - resourceStructure
-        then:
-          required:
-          - customisationGroups
-      - if:
-          properties:
-            ageRestricted:
-              const: true
-          required:
-          - ageRestricted
-        then:
-          required:
-          - minAge
-      - if:
-          properties:
-            resourceStructure:
-              const: VARIANT
-          required:
-          - resourceStructure
-        then:
-          required:
-          - isDefaultVariant
-          - variantGroup
       # NETWORK POLICY NOTE (GAP 32 / NFH-012 CON-012-18):
       # Shared schemas MUST NOT declare mandatory fields.
       # The following fields were required in v0.6.0 and are now
       # enforced via ION network policy (x-ion-crc-rules,
       # x-ion-conditional-rules) rather than the shared schema:
-      # quantity, resourceStructure, resourceTangibility, images, logisticsServiceType, availability, ageRestricted, countryOfOrigin
+      # quantity, resourceStructure, resourceTangibility, images, logisticsServiceType, availability, ageRestricted, countryOfOrigin, id
       x-ion-closed-extensions: false
-      # NETWORK POLICY NOTE (GAP 32 / NFH-012 CON-012-18):
-      # Shared schemas MUST NOT declare mandatory fields.
-      # The following fields were required in v0.6.0 and are now
-      # enforced via ION network policy (x-ion-crc-rules,
-      # x-ion-conditional-rules) rather than the shared schema:
-      # id

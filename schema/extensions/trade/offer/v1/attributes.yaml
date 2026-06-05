@@ -37,11 +37,48 @@ components:
       x-ion-split-version: "0.7.0"
       allOf:
         - $ref: '#/components/schemas/TradeOffer'
+        - if:
+            properties:
+              returnable:
+                const: true
+            required:
+            - returnable
+          then:
+            required:
+            - returnPolicy
+            - sellerPickupReturn
+        - if:
+            properties:
+              availableOnCod:
+                const: true
+            required:
+            - availableOnCod
+          then:
+            required:
+            - codEligibilityForBuyer
+        - if:
+            properties:
+              queueEnabled:
+                const: true
+            required:
+            - queueEnabled
+          then:
+            required:
+            - queuePosition
+        - if:
+            properties:
+              returnable:
+                const: true
+            required:
+            - returnable
+          then:
+            required:
+            - returnEvidenceRequirement
       title: TradeOffer
       additionalProperties: true
       x-jsonld:
         '@context': 'https://schema.ion.id/trade/offer/v1/context.jsonld'
-        '@type': ion:TradeOffer
+        '@type': ion:IONTradeOffer
       x-beckn-attaches-to: Offer.offerAttributes
       properties:
         cancellationPolicy:
@@ -599,44 +636,6 @@ components:
             '
           example: Garansi seumur hidup untuk mekanisme jam tangan mewah (terms & conditions apply - see seller
             page).
-      allOf:
-      - if:
-          properties:
-            returnable:
-              const: true
-          required:
-          - returnable
-        then:
-          required:
-          - returnPolicy
-          - sellerPickupReturn
-      - if:
-          properties:
-            availableOnCod:
-              const: true
-          required:
-          - availableOnCod
-        then:
-          required:
-          - codEligibilityForBuyer
-      - if:
-          properties:
-            queueEnabled:
-              const: true
-          required:
-          - queueEnabled
-        then:
-          required:
-          - queuePosition
-      - if:
-          properties:
-            returnable:
-              const: true
-          required:
-          - returnable
-        then:
-          required:
-          - returnEvidenceRequirement
       # NETWORK POLICY NOTE (GAP 32 / NFH-012 CON-012-18):
       # Shared schemas MUST NOT declare mandatory fields.
       # The following fields were required in v0.6.0 and are now

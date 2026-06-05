@@ -41,7 +41,7 @@ components:
       additionalProperties: true
       allOf:
         # REMOTE upstream (active — used by ONIX at validation time):
-        - $ref: https://raw.githubusercontent.com/beckn/local-retail/main/schema/RetailConsideration/v2.1/attributes.yaml#/components/schemas/RetailConsideration
+        # - $ref: https://raw.githubusercontent.com/beckn/local-retail/main/schema/RetailConsideration/v2.1/attributes.yaml#/components/schemas/RetailConsideration
         # LOCAL vendored reference copy (for offline review and version drift detection):
         # - $ref: ../../../core/v2/api/v2.0.0/vendored/retail-consideration-v2.1.yaml#/components/schemas/RetailConsideration
     IONTradeConsideration:
@@ -54,7 +54,7 @@ components:
       additionalProperties: true
       x-jsonld:
         '@context': 'https://schema.ion.id/trade/consideration/v1/context.jsonld'
-        '@type': ion:TradeConsideration
+        '@type': ion:IONTradeConsideration
       x-beckn-attaches-to: Consideration.considerationAttributes
       properties:
         breakup:

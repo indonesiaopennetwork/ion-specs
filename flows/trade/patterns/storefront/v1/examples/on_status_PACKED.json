@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "description": "Storefront on_status PACKED — order packed, ready for logistics pickup.",
+    "description": "Storefront on_status PACKED \u2014 order packed, ready for logistics pickup.",
     "pattern": "storefront",
     "step": "on_status[PACKED]",
     "sent_by": "BPP",
@@ -31,25 +31,50 @@
       }
     },
     "schemaContext": [
-      "https://schema.ion.id/trade/performance/v1/context.jsonld"
+      "https://schema.ion.id/extensions/trade/performance/v1/context.jsonld"
     ]
   },
   "message": {
     "contract": {
       "id": "ORD-2026-04190001",
+      "commitments": [
+        {
+          "id": "L01",
+          "status": {
+            "descriptor": {
+              "code": "ACTIVE"
+            }
+          },
+          "resources": [
+            {
+              "id": "RES-PANADOL-500MG-STRIP"
+            }
+          ],
+          "offer": {
+            "id": "OFFER-PANADOL-001",
+            "provider": {
+              "id": "PROV-APOTEK-SEHAT-001",
+              "descriptor": {
+                "name": "Apotek Sehat Mandiri"
+              }
+            }
+          }
+        }
+      ],
       "performance": [
         {
           "id": "PERF-001",
           "status": {
-            "descriptor": {
-              "code": "PACKED"
-            }
+            "code": "PACKED"
           },
           "performanceAttributes": {
-            "@context": "https://schema.ion.id/trade/performance/v1/context.jsonld",
+            "@context": "https://schema.ion.id/extensions/trade/performance/v1/context.jsonld",
             "@type": "ion:IONTradePerformance",
             "performanceMode": "DELIVERY",
-            "totalCartons": 1
+            "totalCartons": 1,
+            "supportedPerformanceModes": [
+              "DELIVERY"
+            ]
           }
         }
       ]

@@ -29,22 +29,15 @@ components:
       x-ion-split-version: "0.7.0"
       x-recommended-parent: Location (via Performance/Participant)
       additionalProperties: true
-      allOf:
-        # LOCAL (default — active):
-        - $ref: beckn.yaml#/components/schemas/Attributes
-        # REMOTE (uncomment to use upstream directly):
-        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
     IONAddress:
       type: object
       x-ion-layer: ion
       x-ion-split-version: "0.7.0"
-      allOf:
-        - $ref: '#/components/schemas/Address'
       title: Indonesia Address Subdivisions
       additionalProperties: true
       x-jsonld:
         '@context': 'https://schema.ion.id/core/address/v1/context.jsonld'
-        '@type': ion:AddressSubdivisions
+        '@type': ion:IONAddress
       x-ion-data-residency: ID  # RT/RW and building sub-fields can identify a household
       x-beckn-attaches-to: (reusable shape — embedded inside participantAttributes.addressDetail, providerAttributes.availableAt[*].ionSubdivisions,
         performanceAttributes.stops[*].location.ionSubdivisions)
@@ -196,4 +189,4 @@ components:
       # provinsiCode
       x-ion-closed-extensions: false
       allOf:
-      - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+        - $ref: '#/components/schemas/Address'

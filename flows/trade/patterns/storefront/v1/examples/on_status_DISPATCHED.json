@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "description": "Storefront on_status DISPATCHED — package picked up. AWB and tracking URL required.",
+    "description": "Storefront on_status DISPATCHED \u2014 package picked up. AWB and tracking URL required.",
     "pattern": "storefront",
     "step": "on_status[DISPATCHED]",
     "sent_by": "BPP",
@@ -31,22 +31,44 @@
       }
     },
     "schemaContext": [
-      "https://schema.ion.id/trade/performance/v1/context.jsonld"
+      "https://schema.ion.id/extensions/trade/performance/v1/context.jsonld"
     ]
   },
   "message": {
     "contract": {
       "id": "ORD-2026-04190001",
+      "commitments": [
+        {
+          "id": "L01",
+          "status": {
+            "descriptor": {
+              "code": "ACTIVE"
+            }
+          },
+          "resources": [
+            {
+              "id": "RES-PANADOL-500MG-STRIP"
+            }
+          ],
+          "offer": {
+            "id": "OFFER-PANADOL-001",
+            "provider": {
+              "id": "PROV-APOTEK-SEHAT-001",
+              "descriptor": {
+                "name": "Apotek Sehat Mandiri"
+              }
+            }
+          }
+        }
+      ],
       "performance": [
         {
           "id": "PERF-001",
           "status": {
-            "descriptor": {
-              "code": "DISPATCHED"
-            }
+            "code": "DISPATCHED"
           },
           "performanceAttributes": {
-            "@context": "https://schema.ion.id/trade/performance/v1/context.jsonld",
+            "@context": "https://schema.ion.id/extensions/trade/performance/v1/context.jsonld",
             "@type": "ion:IONTradePerformance",
             "performanceMode": "DELIVERY",
             "awbNumber": "JNE-2026041900001234",
@@ -55,7 +77,10 @@
             "logisticsAgent": {
               "name": "Budi Santoso",
               "phone": "+62812-0000-1234"
-            }
+            },
+            "supportedPerformanceModes": [
+              "DELIVERY"
+            ]
           }
         }
       ]

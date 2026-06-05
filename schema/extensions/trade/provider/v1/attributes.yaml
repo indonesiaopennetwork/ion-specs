@@ -28,7 +28,7 @@ components:
       additionalProperties: true
       allOf:
         # LOCAL (default — active):
-        - $ref: beckn.yaml#/components/schemas/Provider
+        # - $ref: beckn.yaml#/components/schemas/Provider
         # REMOTE (uncomment to use upstream directly):
         # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Provider
     IONTradeProvider:
@@ -37,11 +37,48 @@ components:
       x-ion-split-version: "0.7.0"
       allOf:
         - $ref: '#/components/schemas/TradeProvider'
+        - if:
+            properties:
+              storeStatus:
+                const: TEMPORARILY_CLOSED
+            required:
+            - storeStatus
+          then:
+            required:
+            - temporaryClosureEnd
+        - if:
+            properties:
+              invoicingModel:
+                const: CENTRAL
+            required:
+            - invoicingModel
+          then:
+            required:
+            - invoicingEntity
+        - if:
+            properties:
+              kycStatus:
+                const: APPROVED_WITH_CAVEATS
+            required:
+            - kycStatus
+          then:
+            required:
+            - kycCaveats
+        - if:
+            properties:
+              providerCategory:
+                enum:
+                - PHARMACY
+            required:
+            - providerCategory
+          then:
+            required:
+            - categoryLicenses
       title: TradeProvider
       additionalProperties: true
       x-jsonld:
         '@context': 'https://schema.ion.id/trade/provider/v1/context.jsonld'
-        '@type': ion:TradeProvider
+        '@type': ion:IONTradeProvider
       x-beckn-attaches-to: Provider.providerAttributes
       properties:
         invoicingModel:
@@ -355,45 +392,6 @@ components:
             - validUntil
           x-ion-regulatory: PP 5/2021; PerBPOM various
           x-ion-condition: Required for regulated categories (pharmacy, alcohol, tobacco, meat)
-      allOf:
-      - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
-      - if:
-          properties:
-            storeStatus:
-              const: TEMPORARILY_CLOSED
-          required:
-          - storeStatus
-        then:
-          required:
-          - temporaryClosureEnd
-      - if:
-          properties:
-            invoicingModel:
-              const: CENTRAL
-          required:
-          - invoicingModel
-        then:
-          required:
-          - invoicingEntity
-      - if:
-          properties:
-            kycStatus:
-              const: APPROVED_WITH_CAVEATS
-          required:
-          - kycStatus
-        then:
-          required:
-          - kycCaveats
-      - if:
-          properties:
-            providerCategory:
-              enum:
-              - PHARMACY
-          required:
-          - providerCategory
-        then:
-          required:
-          - categoryLicenses
       # NETWORK POLICY NOTE (GAP 32 / NFH-012 CON-012-18):
       # Shared schemas MUST NOT declare mandatory fields.
       # The following fields were required in v0.6.0 and are now

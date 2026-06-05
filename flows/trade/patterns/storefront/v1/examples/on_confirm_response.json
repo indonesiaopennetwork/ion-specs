@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "description": "B2C-SF on_confirm — BPP confirms a food QSR order. Beckn v2.0 Contract shape.",
+    "description": "B2C-SF on_confirm \u2014 BPP confirms a food QSR order. Beckn v2.0 Contract shape.",
     "pattern": "B2C-SF",
     "step": "on_confirm",
     "sent_by": "BPP",
@@ -37,21 +37,19 @@
       }
     },
     "schemaContext": [
-      "https://schema.ion.id/trade/performance/v1/context.jsonld",
-      "https://schema.ion.id/trade/contract/v1/context.jsonld",
-      "https://schema.ion.id/trade/consideration/v1/context.jsonld",
-      "https://schema.ion.id/trade/commitment/v1/context.jsonld",
-      "https://schema.ion.id/core/business-registration/v1/context.jsonld",
-      "https://schema.ion.id/core/payment/v1/context.jsonld"
+      "https://schema.ion.id/extensions/trade/performance/v1/context.jsonld",
+      "https://schema.ion.id/extensions/trade/contract/v1/context.jsonld",
+      "https://schema.ion.id/extensions/trade/consideration/v1/context.jsonld",
+      "https://schema.ion.id/extensions/trade/commitment/v1/context.jsonld",
+      "https://schema.ion.id/extensions/core/business-registration/v1/context.jsonld",
+      "https://schema.ion.id/extensions/core/payment/v1/context.jsonld"
     ]
   },
   "message": {
     "contract": {
       "id": "ORD-2026-00012345",
       "status": {
-        "descriptor": {
-          "code": "ACTIVE"
-        }
+        "code": "ACTIVE"
       },
       "participants": [
         {
@@ -87,15 +85,18 @@
           "offer": {
             "id": "OFFER-PIZZA-001",
             "provider": {
-              "id": "PROV-DOMINOS-SUDIRMAN-001"
+              "id": "PROV-DOMINOS-SUDIRMAN-001",
+              "descriptor": {
+                "name": "Domino's Pizza Sudirman"
+              }
             }
           },
           "resources": [
             {
               "id": "PIZZA-PEPPERONI-LARGE",
               "resourceAttributes": {
-                "@context": "https://schema.ion.id/trade/resource/v1/context.jsonld",
-                "@type": "ion:TradeResource",
+                "@context": "https://schema.ion.id/extensions/trade/resource/v1/context.jsonld",
+                "@type": "ion:IONTradeResource",
                 "quantity": {
                   "count": 1
                 }
@@ -103,13 +104,9 @@
             }
           ],
           "commitmentAttributes": {
-            "@context": "https://schema.ion.id/trade/commitment/v1/context.jsonld",
-            "@type": "ion:TradeCommitment",
+            "@context": "https://schema.ion.id/extensions/trade/commitment/v1/context.jsonld",
+            "@type": "ion:IONTradeCommitment",
             "lineId": "L01",
-            "price": {
-              "value": "89000",
-              "currency": "IDR"
-            },
             "customisationSelections": [
               {
                 "groupId": "CG-CRUST",
@@ -120,48 +117,62 @@
                 "optionId": "OPT-TOMATO"
               }
             ],
-            "specialInstructions": "Tolong dipotong 8 bagian."
+            "specialInstructions": "Tolong dipotong 8 bagian.",
+            "resourceId": "PIZZA-PEPPERONI-LARGE",
+            "quantity": {
+              "count": 1
+            },
+            "price": {
+              "value": "89000",
+              "currency": "IDR"
+            }
           }
         }
       ],
-      "consideration": {
-        "id": "CONSID-ORD-2026-00012345",
-        "status": {
-          "descriptor": {
+      "consideration": [
+        {
+          "id": "CONSID-ORD-2026-00012345",
+          "status": {
             "code": "ACTIVE"
+          },
+          "considerationAttributes": {
+            "@context": "https://schema.ion.id/extensions/trade/consideration/v1/context.jsonld",
+            "@type": "ion:IONTradeConsideration",
+            "totalAmount": 98900,
+            "currency": "IDR",
+            "breakup": [
+              {
+                "title": "Pepperoni Pizza Large",
+                "breakupLineType": "ITEM",
+                "commitmentId": "L01",
+                "resourceId": "PIZZA-PEPPERONI-LARGE",
+                "totalAmount": 89000,
+                "currency": "IDR",
+                "amount": 89000,
+                "type": "BASE_PRICE"
+              },
+              {
+                "title": "Biaya Pengiriman",
+                "breakupLineType": "DELIVERY",
+                "totalAmount": 0,
+                "currency": "IDR",
+                "amount": 0,
+                "type": "DELIVERY_CHARGE"
+              },
+              {
+                "title": "PPN 11%",
+                "breakupLineType": "TAX",
+                "ppnRate": 0.11,
+                "taxBaseAmount": 89000,
+                "totalAmount": 9900,
+                "currency": "IDR",
+                "amount": 9900,
+                "type": "TAX"
+              }
+            ]
           }
-        },
-        "considerationAttributes": {
-          "@context": "https://schema.ion.id/trade/consideration/v1/context.jsonld",
-          "@type": "ion:TradeConsideration",
-          "totalAmount": 98900,
-          "currency": "IDR",
-          "breakup": [
-            {
-              "title": "Pepperoni Pizza Large",
-              "breakupLineType": "ITEM",
-              "commitmentId": "L01",
-              "resourceId": "PIZZA-PEPPERONI-LARGE",
-              "totalAmount": 89000,
-              "currency": "IDR"
-            },
-            {
-              "title": "Biaya Pengiriman",
-              "breakupLineType": "DELIVERY",
-              "totalAmount": 0,
-              "currency": "IDR"
-            },
-            {
-              "title": "PPN 11%",
-              "breakupLineType": "TAX",
-              "ppnRate": 0.11,
-              "taxBaseAmount": 89000,
-              "totalAmount": 9900,
-              "currency": "IDR"
-            }
-          ]
         }
-      },
+      ],
       "performance": [
         {
           "id": "PERF-2026-00012345",
@@ -169,13 +180,11 @@
             "L01"
           ],
           "status": {
-            "descriptor": {
-              "code": "PLANNED"
-            }
+            "code": "PLANNED"
           },
           "performanceAttributes": {
-            "@context": "https://schema.ion.id/trade/performance/v1/context.jsonld",
-            "@type": "ion:TradePerformance",
+            "@context": "https://schema.ion.id/extensions/trade/performance/v1/context.jsonld",
+            "@type": "ion:IONTradePerformance",
             "performanceMode": "DELIVERY",
             "sla": {
               "min": "PT30M",
@@ -186,25 +195,24 @@
             "deliveryOtp": "482930",
             "stops": [
               {
-                "type": "end",
+                "type": "END",
                 "location": {
-                  "address": {
-                    "door": "No. 45",
-                    "building": "Gedung Sudirman Plaza",
-                    "street": "Jl. Jend. Sudirman",
-                    "city": "Jakarta Selatan",
-                    "areaCode": "12190",
+                  "gps": "-6.2271,106.8070",
+                  "address": "No. 45, Gedung Sudirman Plaza, Jl. Jend. Sudirman, Jakarta Selatan",
+                  "areaCode": "12190",
+                  "ionAddressAttributes": {
                     "provinsiCode": "BPS-31",
                     "kabupatenCode": "3171",
                     "kelurahan": "Senayan",
-                    "kecamatan": "Kebayoran Baru"
-                  },
-                  "gps": "-6.2271,106.8070"
-                },
-                "contact": {
-                  "phone": "08123456789"
+                    "kecamatan": "Kebayoran Baru",
+                    "@context": "https://schema.ion.id/extensions/core/address/v1/context.jsonld",
+                    "@type": "ion:IONAddress"
+                  }
                 }
               }
+            ],
+            "supportedPerformanceModes": [
+              "DELIVERY"
             ]
           }
         }
@@ -215,8 +223,8 @@
           "considerationId": "CONSID-ORD-2026-00012345",
           "status": "COMMITTED",
           "settlementAttributes": {
-            "@context": "https://schema.ion.id/core/payment/v1/context.jsonld",
-            "@type": "ion:PaymentDeclaration",
+            "@context": "https://schema.ion.id/extensions/core/payment/v1/context.jsonld",
+            "@type": "ion:IONPayment",
             "method": "QRIS",
             "collectedBy": "BAP",
             "timing": "ON_ORDER",
@@ -229,8 +237,8 @@
         }
       ],
       "contractAttributes": {
-        "@context": "https://schema.ion.id/trade/contract/v1/context.jsonld",
-        "@type": "ion:TradeContract",
+        "@context": "https://schema.ion.id/extensions/trade/contract/v1/context.jsonld",
+        "@type": "ion:IONTradeContract",
         "fulfillingLocationId": "FC-DOMINOS-SUDIRMAN-001",
         "npwp": "1234567890123456",
         "nib": "1234567890123",

@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "description": "B2C-SF select — BAP sends item selection. Beckn v2.0 SelectAction shape. Note: example uses generic item IDs; replace with your actual resource and offer IDs.",
+    "description": "B2C-SF select \u2014 BAP sends item selection. Beckn v2.0 SelectAction shape. Note: example uses generic item IDs; replace with your actual resource and offer IDs.",
     "pattern": "B2C-SF",
     "step": "select",
     "sent_by": "BAP",
@@ -34,9 +34,9 @@
       }
     },
     "schemaContext": [
-      "https://schema.ion.id/trade/resource/v1/context.jsonld",
-      "https://schema.ion.id/trade/commitment/v1/context.jsonld",
-      "https://schema.ion.id/trade/performance/v1/context.jsonld"
+      "https://schema.ion.id/extensions/trade/resource/v1/context.jsonld",
+      "https://schema.ion.id/extensions/trade/commitment/v1/context.jsonld",
+      "https://schema.ion.id/extensions/trade/performance/v1/context.jsonld"
     ]
   },
   "message": {
@@ -53,19 +53,17 @@
             "id": "OFFER-PIZZA-001",
             "provider": {
               "id": "PROV-DOMINOS-SUDIRMAN-001",
-              "availableAt": [
-                {
-                  "id": "LOC-SUDIRMAN-001"
-                }
-              ]
+              "descriptor": {
+                "name": "Domino's Pizza Sudirman"
+              }
             }
           },
           "resources": [
             {
               "id": "PIZZA-PEPPERONI-LARGE",
               "resourceAttributes": {
-                "@context": "https://schema.ion.id/trade/resource/v1/context.jsonld",
-                "@type": "ion:TradeResource",
+                "@context": "https://schema.ion.id/extensions/trade/resource/v1/context.jsonld",
+                "@type": "ion:IONTradeResource",
                 "quantity": {
                   "count": 1
                 }
@@ -73,8 +71,8 @@
             }
           ],
           "commitmentAttributes": {
-            "@context": "https://schema.ion.id/trade/commitment/v1/context.jsonld",
-            "@type": "ion:TradeCommitment",
+            "@context": "https://schema.ion.id/extensions/trade/commitment/v1/context.jsonld",
+            "@type": "ion:IONTradeCommitment",
             "customisationSelections": [
               {
                 "groupId": "CG-CRUST",
@@ -85,7 +83,12 @@
                 "optionId": "OPT-TOMATO"
               }
             ],
-            "specialInstructions": "Tolong dipotong 8 bagian."
+            "specialInstructions": "Tolong dipotong 8 bagian.",
+            "lineId": "L01",
+            "resourceId": "PIZZA-PEPPERONI-LARGE",
+            "quantity": {
+              "count": 1
+            }
           }
         }
       ],
@@ -93,14 +96,15 @@
         {
           "id": "PERF-001",
           "status": {
-            "descriptor": {
-              "code": "PLANNED"
-            }
+            "code": "PLANNED"
           },
           "performanceAttributes": {
-            "@context": "https://schema.ion.id/trade/performance/v1/context.jsonld",
-            "@type": "ion:TradePerformance",
-            "performanceMode": "DELIVERY"
+            "@context": "https://schema.ion.id/extensions/trade/performance/v1/context.jsonld",
+            "@type": "ion:IONTradePerformance",
+            "performanceMode": "DELIVERY",
+            "supportedPerformanceModes": [
+              "DELIVERY"
+            ]
           }
         }
       ]
