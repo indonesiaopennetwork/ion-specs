@@ -64,8 +64,10 @@ components:
       additionalProperties: true
       x-jsonld:
         '@context': 'https://schema.ion.id/core/payment/v1/context.jsonld'
-        '@type': ion:PaymentDeclaration
+        '@type': ion:IONPayment
       x-beckn-attaches-to: Settlement.settlementAttributes
+      allOf:
+        - $ref: '#/components/schemas/Payment'
       properties:
         method:
           type: string

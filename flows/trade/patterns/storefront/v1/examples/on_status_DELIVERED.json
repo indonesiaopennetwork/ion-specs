@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "description": "Storefront on_status DELIVERED — package delivered. Contract transitions to COMPLETE.",
+    "description": "Storefront on_status DELIVERED \u2014 package delivered. Contract transitions to COMPLETE.",
     "pattern": "storefront",
     "step": "on_status[DELIVERED]",
     "sent_by": "BPP",
@@ -31,31 +31,54 @@
       }
     },
     "schemaContext": [
-      "https://schema.ion.id/trade/performance/v1/context.jsonld"
+      "https://schema.ion.id/extensions/trade/performance/v1/context.jsonld"
     ]
   },
   "message": {
     "contract": {
       "id": "ORD-2026-04190001",
       "status": {
-        "descriptor": {
-          "code": "COMPLETE"
-        }
+        "code": "COMPLETE"
       },
       "performance": [
         {
           "id": "PERF-001",
           "status": {
-            "descriptor": {
-              "code": "DELIVERED"
-            }
+            "code": "DELIVERED"
           },
           "performanceAttributes": {
-            "@context": "https://schema.ion.id/trade/performance/v1/context.jsonld",
+            "@context": "https://schema.ion.id/extensions/trade/performance/v1/context.jsonld",
             "@type": "ion:IONTradePerformance",
             "performanceMode": "DELIVERY",
             "awbNumber": "JNE-2026041900001234",
-            "deliveredAt": "2026-04-19T13:45:00.000+07:00"
+            "deliveredAt": "2026-04-19T13:45:00.000+07:00",
+            "supportedPerformanceModes": [
+              "DELIVERY"
+            ]
+          }
+        }
+      ],
+      "commitments": [
+        {
+          "id": "L01",
+          "status": {
+            "descriptor": {
+              "code": "ACTIVE"
+            }
+          },
+          "resources": [
+            {
+              "id": "RES-PANADOL-500MG-STRIP"
+            }
+          ],
+          "offer": {
+            "id": "OFFER-PANADOL-001",
+            "provider": {
+              "id": "PROV-APOTEK-SEHAT-001",
+              "descriptor": {
+                "name": "Apotek Sehat Mandiri"
+              }
+            }
           }
         }
       ]

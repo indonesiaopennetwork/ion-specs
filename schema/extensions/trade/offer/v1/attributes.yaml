@@ -78,7 +78,7 @@ components:
       additionalProperties: true
       x-jsonld:
         '@context': 'https://schema.ion.id/trade/offer/v1/context.jsonld'
-        '@type': ion:TradeOffer
+        '@type': ion:IONTradeOffer
       x-beckn-attaches-to: Offer.offerAttributes
       properties:
         cancellationPolicy:

@@ -34,13 +34,11 @@ components:
       type: object
       x-ion-layer: ion
       x-ion-split-version: "0.7.0"
-      allOf:
-        - $ref: '#/components/schemas/Address'
       title: Indonesia Address Subdivisions
       additionalProperties: true
       x-jsonld:
         '@context': 'https://schema.ion.id/core/address/v1/context.jsonld'
-        '@type': ion:AddressSubdivisions
+        '@type': ion:IONAddress
       x-ion-data-residency: ID  # RT/RW and building sub-fields can identify a household
       x-beckn-attaches-to: (reusable shape — embedded inside participantAttributes.addressDetail, providerAttributes.availableAt[*].ionSubdivisions,
         performanceAttributes.stops[*].location.ionSubdivisions)

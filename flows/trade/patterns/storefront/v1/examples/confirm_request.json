@@ -33,9 +33,9 @@
       }
     },
     "schemaContext": [
-      "https://schema.ion.id/core/payment/v1/context.jsonld",
-      "https://schema.ion.id/trade/contract/v1/context.jsonld",
-      "https://schema.ion.id/core/business-registration/v1/context.jsonld"
+      "https://schema.ion.id/extensions/core/payment/v1/context.jsonld",
+      "https://schema.ion.id/extensions/trade/contract/v1/context.jsonld",
+      "https://schema.ion.id/extensions/core/business-registration/v1/context.jsonld"
     ]
   },
   "message": {
@@ -57,7 +57,26 @@
       ],
       "commitments": [
         {
-          "id": "L01"
+          "id": "L01",
+          "status": {
+            "descriptor": {
+              "code": "DRAFT"
+            }
+          },
+          "resources": [
+            {
+              "id": "RES-PANADOL-500MG-STRIP"
+            }
+          ],
+          "offer": {
+            "id": "OFFER-PANADOL-001",
+            "provider": {
+              "id": "PROV-APOTEK-SEHAT-001",
+              "descriptor": {
+                "name": "Apotek Sehat Mandiri"
+              }
+            }
+          }
         }
       ],
       "performance": [
@@ -68,7 +87,7 @@
       "settlements": [
         {
           "settlementAttributes": {
-            "@context": "https://schema.ion.id/core/payment/v1/context.jsonld",
+            "@context": "https://schema.ion.id/extensions/core/payment/v1/context.jsonld",
             "@type": "ion:IONPayment",
             "method": "QRIS",
             "paymentRail": "QRIS",
@@ -83,7 +102,7 @@
         }
       ],
       "contractAttributes": {
-        "@context": "https://schema.ion.id/trade/contract/v1/context.jsonld",
+        "@context": "https://schema.ion.id/extensions/trade/contract/v1/context.jsonld",
         "@type": "ion:IONTradeContract",
         "npwp": "123456789012345",
         "nib": "1234567890123"

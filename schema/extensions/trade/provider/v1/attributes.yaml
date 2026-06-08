@@ -84,7 +84,7 @@ components:
       additionalProperties: true
       x-jsonld:
         '@context': 'https://schema.ion.id/trade/provider/v1/context.jsonld'
-        '@type': ion:TradeProvider
+        '@type': ion:IONTradeProvider
       x-beckn-attaches-to: Provider.providerAttributes
       properties:
         invoicingModel:

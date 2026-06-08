@@ -29,7 +29,7 @@ components:
       additionalProperties: true
       allOf:
         # REMOTE upstream (active — used by ONIX at validation time):
-        - $ref: https://raw.githubusercontent.com/beckn/local-retail/main/schema/RetailContract/v2.1/attributes.yaml#/components/schemas/RetailContract
+        # - $ref: https://raw.githubusercontent.com/beckn/local-retail/main/schema/RetailContract/v2.1/attributes.yaml#/components/schemas/RetailContract
         # LOCAL vendored reference copy (for offline review and version drift detection):
         # - $ref: ../../../../core/v2/api/v2.0.0/vendored/retail-contract-v2.1.yaml#/components/schemas/RetailContract
     IONTradeContract:
@@ -51,7 +51,7 @@ components:
       additionalProperties: true
       x-jsonld:
         '@context': 'https://schema.ion.id/trade/contract/v1/context.jsonld'
-        '@type': ion:TradeContract
+        '@type': ion:IONTradeContract
       x-beckn-attaches-to: Contract.contractAttributes
       properties:
         fulfillingLocationId:

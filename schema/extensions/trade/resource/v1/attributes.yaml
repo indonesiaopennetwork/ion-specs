@@ -79,12 +79,14 @@ components:
       additionalProperties: true
       allOf:
         # REMOTE upstream (active — used by ONIX at validation time):
-        - $ref: https://raw.githubusercontent.com/beckn/local-retail/main/schema/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource
+        # - $ref: https://raw.githubusercontent.com/beckn/local-retail/main/schema/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource
         # LOCAL vendored reference copy (for offline review and version drift detection):
         # - $ref: ../../../../core/v2/api/v2.0.0/vendored/retail-resource-v2.1.yaml#/components/schemas/RetailResource
       properties:
         name:
-          $ref: '#/components/schemas/LocalisedText'
+          type: object
+          additionalProperties:
+            type: string
           description: >
             Display name of the resource. Language-keyed localised text object.
             Minimum: name.id (Bahasa Indonesia). name.en required for cross-border
@@ -92,7 +94,9 @@ components:
           x-ion-condition: Required at catalog/publish for all resource types
 
         shortDesc:
-          $ref: '#/components/schemas/LocalisedText'
+          type: object
+          additionalProperties:
+            type: string
           description: >
             Short product description. Language-keyed localised text object.
             Maximum 280 characters per language value. Used in search results,
@@ -115,7 +119,9 @@ components:
             id:
               type: string
             name:
-              $ref: '#/components/schemas/LocalisedText'
+              type: object
+              additionalProperties:
+                type: string
             sequence:
               type: integer
               description: Display order of this category relative to others.

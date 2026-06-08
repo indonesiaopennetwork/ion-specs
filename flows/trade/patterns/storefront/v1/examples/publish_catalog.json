@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "description": "Storefront publish_catalog — BPP publishes a physical goods catalog. Example: Apotek Sehat Mandiri pharmacy publishing Panadol (TRC-health-beauty).",
+    "description": "Storefront publish_catalog \u2014 BPP publishes a physical goods catalog. Example: Apotek Sehat Mandiri pharmacy publishing Panadol (TRC-health-beauty).",
     "pattern": "storefront",
     "step": "publish_catalog",
     "sent_by": "BPP",
@@ -36,10 +36,10 @@
       }
     },
     "schemaContext": [
-      "https://schema.ion.id/core/localization/v1/context.jsonld",
-      "https://schema.ion.id/trade/resource/v1/context.jsonld",
-      "https://schema.ion.id/trade/offer/v1/context.jsonld",
-      "https://schema.ion.id/trade/provider/v1/context.jsonld"
+      "https://schema.ion.id/extensions/core/localization/v1/context.jsonld",
+      "https://schema.ion.id/extensions/trade/resource/v1/context.jsonld",
+      "https://schema.ion.id/extensions/trade/offer/v1/context.jsonld",
+      "https://schema.ion.id/extensions/trade/provider/v1/context.jsonld"
     ]
   },
   "message": {
@@ -50,51 +50,30 @@
           "name": "Apotek Sehat Mandiri"
         },
         "providerAttributes": {
-          "@context": "https://schema.ion.id/trade/provider/v1/context.jsonld",
+          "@context": "https://schema.ion.id/extensions/trade/provider/v1/context.jsonld",
           "@type": "ion:IONTradeProvider",
           "storeStatus": "OPEN",
           "operatingHours": [
             {
-              "day": "MON",
-              "open": "08:00",
-              "close": "21:00"
+              "type": "ORDER",
+              "dayFrom": 1,
+              "dayTo": 6,
+              "timeFrom": "0800",
+              "timeTo": "2100"
             },
             {
-              "day": "TUE",
-              "open": "08:00",
-              "close": "21:00"
-            },
-            {
-              "day": "WED",
-              "open": "08:00",
-              "close": "21:00"
-            },
-            {
-              "day": "THU",
-              "open": "08:00",
-              "close": "21:00"
-            },
-            {
-              "day": "FRI",
-              "open": "08:00",
-              "close": "21:00"
-            },
-            {
-              "day": "SAT",
-              "open": "08:00",
-              "close": "21:00"
-            },
-            {
-              "day": "SUN",
-              "open": "09:00",
-              "close": "18:00"
+              "type": "ORDER",
+              "dayFrom": 7,
+              "dayTo": 7,
+              "timeFrom": "0900",
+              "timeTo": "1800"
             }
           ],
-          "providerCategory": "MERCHANT",
+          "providerCategory": "FMCG",
           "nibRegistered": true,
-          "invoicingModel": "PLATFORM_INVOICE",
-          "kycStatus": "VERIFIED",
-          "kycLevel": "FULL"
+          "invoicingModel": "CENTRAL",
+          "kycStatus": "APPROVED",
+          "kycLevel": "STANDARD"
         },
         "availableAt": [
           {
@@ -112,7 +91,7 @@
             "longDesc": "Panadol 500mg mengandung paracetamol 500mg per tablet. Digunakan untuk meredakan demam, sakit kepala, dan nyeri ringan hingga sedang. Tersedia dalam strip 4 tablet. Tidak memerlukan resep dokter."
           },
           "resourceAttributes": {
-            "@context": "https://schema.ion.id/trade/resource/v1/context.jsonld",
+            "@context": "https://schema.ion.id/extensions/trade/resource/v1/context.jsonld",
             "@type": "ion:IONTradeResource",
             "crc": "TRC-health-beauty",
             "resourceStructure": "PLAIN",
@@ -135,7 +114,7 @@
             "packaged": {
               "netQuantity": {
                 "value": 4,
-                "unit": "TABLET"
+                "unit": "PIECE"
               },
               "manufacturerOrPacker": {
                 "type": "MANUFACTURER",
@@ -148,14 +127,13 @@
             "regulatory": {
               "registrations": [
                 {
-                  "scheme": "BPOM_OTC",
+                  "scheme": "KEMENKES",
                   "id": "DTL8707002337A1",
                   "role": "MANUFACTURER",
                   "validUntil": "2028-01-01"
                 }
               ]
-            },
-            "halalStatus": "NOT_APPLICABLE"
+            }
           }
         }
       ],
@@ -170,7 +148,7 @@
             "currency": "IDR"
           },
           "offerAttributes": {
-            "@context": "https://schema.ion.id/trade/offer/v1/context.jsonld",
+            "@context": "https://schema.ion.id/extensions/trade/offer/v1/context.jsonld",
             "@type": "ion:IONTradeOffer",
             "cancellationPolicy": "ion://policy/cancel.prepacked.free",
             "returnPolicy": "ion://policy/return.standard.7d-sellerpays",
@@ -181,10 +159,7 @@
             "returnable": false,
             "timeToShip": "PT2H",
             "availableOnCod": true,
-            "contactDetailsConsumerCare": {
-              "phone": "+6221-5555-1234",
-              "email": "cs@apotek-sehat.id"
-            },
+            "contactDetailsConsumerCare": "Customer Service,cs@apotek-sehat.id,+6221-5555-1234",
             "displayLanguage": [
               "id"
             ]

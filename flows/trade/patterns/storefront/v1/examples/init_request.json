@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "description": "Storefront init — BAP provides delivery address and payment method. QRIS payment, delivery to South Jakarta.",
+    "description": "Storefront init \u2014 BAP provides delivery address and payment method. QRIS payment, delivery to South Jakarta.",
     "pattern": "storefront",
     "step": "init",
     "sent_by": "BAP",
@@ -33,9 +33,9 @@
       }
     },
     "schemaContext": [
-      "https://schema.ion.id/core/address/v1/context.jsonld",
-      "https://schema.ion.id/core/payment/v1/context.jsonld",
-      "https://schema.ion.id/trade/contract/v1/context.jsonld"
+      "https://schema.ion.id/extensions/core/address/v1/context.jsonld",
+      "https://schema.ion.id/extensions/core/payment/v1/context.jsonld",
+      "https://schema.ion.id/extensions/trade/contract/v1/context.jsonld"
     ]
   },
   "message": {
@@ -65,52 +65,71 @@
       ],
       "commitments": [
         {
-          "id": "L01"
+          "id": "L01",
+          "status": {
+            "descriptor": {
+              "code": "DRAFT"
+            }
+          },
+          "resources": [
+            {
+              "id": "RES-PANADOL-500MG-STRIP"
+            }
+          ],
+          "offer": {
+            "id": "OFFER-PANADOL-001",
+            "provider": {
+              "id": "PROV-APOTEK-SEHAT-001",
+              "descriptor": {
+                "name": "Apotek Sehat Mandiri"
+              }
+            }
+          }
         }
       ],
       "performance": [
         {
           "id": "PERF-001",
           "performanceAttributes": {
-            "@context": "https://schema.ion.id/trade/performance/v1/context.jsonld",
+            "@context": "https://schema.ion.id/extensions/trade/performance/v1/context.jsonld",
             "@type": "ion:IONTradePerformance",
-            "performanceMode": "DELIVERY"
-          },
-          "stops": [
-            {
-              "type": "end",
-              "location": {
-                "address": "Unit 12B, Apartemen Sudirman Park, Jl. KH. Mas Mansyur No. 121",
-                "gps": "-6.2100,106.8200",
-                "areaCode": "10220",
-                "ionAddressAttributes": {
-                  "@context": "https://schema.ion.id/core/address/v1/context.jsonld",
-                  "@type": "ion:IONAddress",
-                  "provinsiCode": "BPS-31",
-                  "kabupatenCode": "3171",
-                  "kelurahan": "Karet Tengsin",
-                  "kecamatan": "Tanah Abang",
-                  "rt": "005",
-                  "rw": "003"
+            "performanceMode": "DELIVERY",
+            "stops": [
+              {
+                "type": "END",
+                "location": {
+                  "address": "Unit 12B, Apartemen Sudirman Park, Jl. KH. Mas Mansyur No. 121",
+                  "gps": "-6.2100,106.8200",
+                  "areaCode": "10220",
+                  "ionAddressAttributes": {
+                    "@context": "https://schema.ion.id/extensions/core/address/v1/context.jsonld",
+                    "@type": "ion:IONAddress",
+                    "provinsiCode": "BPS-31",
+                    "kabupatenCode": "3171",
+                    "kelurahan": "Karet Tengsin",
+                    "kecamatan": "Tanah Abang",
+                    "rt": "005",
+                    "rw": "003"
+                  }
                 }
-              },
-              "contact": {
-                "phone": "+628123456789"
               }
-            }
-          ]
+            ],
+            "supportedPerformanceModes": [
+              "DELIVERY"
+            ]
+          }
         }
       ],
       "settlements": [
         {
           "settlementAttributes": {
-            "@context": "https://schema.ion.id/core/payment/v1/context.jsonld",
+            "@context": "https://schema.ion.id/extensions/core/payment/v1/context.jsonld",
             "@type": "ion:IONPayment",
             "method": "QRIS",
             "paymentRail": "QRIS",
             "collectedBy": "BAP",
             "timing": "ON_ORDER",
-            "status": "NOT_PAID",
+            "status": "PENDING",
             "currency": "IDR"
           }
         }

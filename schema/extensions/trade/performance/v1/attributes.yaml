@@ -28,7 +28,7 @@ components:
       additionalProperties: true
       allOf:
         # REMOTE upstream (active — used by ONIX at validation time):
-        - $ref: https://raw.githubusercontent.com/beckn/local-retail/main/schema/RetailPerformance/v2.1/attributes.yaml#/components/schemas/RetailPerformance
+        # - $ref: https://raw.githubusercontent.com/beckn/local-retail/main/schema/RetailPerformance/v2.1/attributes.yaml#/components/schemas/RetailPerformance
         # LOCAL vendored reference copy (for offline review and version drift detection):
         # - $ref: ../../../../core/v2/api/v2.0.0/vendored/retail-performance-v2.1.yaml#/components/schemas/RetailPerformance
     IONTradePerformance:
@@ -70,7 +70,7 @@ components:
       additionalProperties: true
       x-jsonld:
         '@context': 'https://schema.ion.id/trade/performance/v1/context.jsonld'
-        '@type': ion:TradePerformance
+        '@type': ion:IONTradePerformance
       x-beckn-attaches-to: Performance.performanceAttributes
       properties:
         performanceMode:
