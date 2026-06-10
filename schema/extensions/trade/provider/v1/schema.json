@@ -385,56 +385,5 @@
         ]
       }
     },
-    {
-      "if": {
-        "properties": {
-          "invoicingModel": {
-            "const": "CENTRAL"
-          }
-        },
-        "required": [
-          "invoicingModel"
-        ]
-      },
-      "then": {
-        "required": [
-          "invoicingEntity"
-        ]
-      }
-    },
-    {
-      "if": {
-        "properties": {
-          "kycStatus": {
-            "const": "APPROVED_WITH_CAVEATS"
-          }
-        },
-        "required": [
-          "kycStatus"
-        ]
-      },
-      "then": {
-        "required": [
-          "kycCaveats"
-        ]
-      }
-    },
-    {
-      "if": {
-        "properties": {
-          "storeStatus": {
-            "const": "TEMPORARILY_CLOSED"
-          }
-        },
-        "required": [
-          "storeStatus"
-        ]
-      },
-      "then": {
-        "required": [
-          "temporaryClosureEnd"
-        ]
-      }
-    }
   ]
 }
