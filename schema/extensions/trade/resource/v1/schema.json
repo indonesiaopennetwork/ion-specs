@@ -5,6 +5,16 @@
   "description": "JSON Schema 2020-12 for the ION trade/resource/v1 schema pack. Root resolves to IONTradeResource (ION layer). TradeResource (generic layer) is defined in $defs and inherited via allOf. Mandatory fields are declared in ion.yaml x-ion-field-requirements \u2014 not in this schema.",
   "$ref": "#/$defs/IONTradeResource",
   "$defs": {
+    "LocalisedText": {
+      "type": "object",
+      "description": "Multilingual text object. Keys are BCP-47 language codes (e.g. 'id', 'en'). At least one language key required.",
+      "properties": {
+        "id": { "type": "string", "description": "Bahasa Indonesia text" },
+        "en": { "type": "string", "description": "English text" }
+      },
+      "additionalProperties": { "type": "string" },
+      "minProperties": 1
+    },
     "TradeResource": {
       "type": "object",
       "title": "TradeResource",
@@ -93,7 +103,7 @@
               "example": "VG-SIZE"
             },
             "name": {
-              "$ref": "#/components/schemas/LocalisedText"
+              "$ref": "#/$defs/LocalisedText"
             },
             "variantOn": {
               "type": "string",
@@ -124,7 +134,7 @@
                     "description": "Axis identifier (size, color, storage, model, etc.)"
                   },
                   "label": {
-                    "$ref": "#/components/schemas/LocalisedText"
+                    "$ref": "#/$defs/LocalisedText"
                   },
                   "values": {
                     "type": "array",
@@ -136,7 +146,7 @@
                           "type": "string"
                         },
                         "label": {
-                          "$ref": "#/components/schemas/LocalisedText"
+                          "$ref": "#/$defs/LocalisedText"
                         },
                         "priceDelta": {
                           "type": "number",
@@ -228,7 +238,7 @@
                 "example": "CG-SIZE"
               },
               "name": {
-                "$ref": "#/components/schemas/LocalisedText"
+                "$ref": "#/$defs/LocalisedText"
               },
               "selectionType": {
                 "type": "string",
@@ -271,7 +281,7 @@
                       "type": "string"
                     },
                     "label": {
-                      "$ref": "#/components/schemas/LocalisedText"
+                      "$ref": "#/$defs/LocalisedText"
                     },
                     "resourceId": {
                       "type": "string"
@@ -330,7 +340,7 @@
               "type": "string"
             },
             "name": {
-              "$ref": "#/components/schemas/LocalisedText"
+              "$ref": "#/$defs/LocalisedText"
             },
             "sequence": {
               "type": "integer"
@@ -1472,7 +1482,7 @@
                 ]
               },
               "altText": {
-                "$ref": "#/components/schemas/LocalisedText"
+                "$ref": "#/$defs/LocalisedText"
               },
               "sequence": {
                 "type": "integer"
