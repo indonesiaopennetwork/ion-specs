@@ -1,0 +1,77 @@
+{
+  "@context": {
+    "ion": "https://schema.ion.id/finance/insurance-offer/v1#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "schema": "https://schema.org/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "owl": "http://www.w3.org/2002/07/owl#"
+  },
+  "@graph": [
+    {
+      "@id": "ion:PolicyQuote",
+      "@type": "rdfs:Class",
+      "rdfs:label": "PolicyQuote",
+      "rdfs:comment": "Per-policyholder motor insurance premium quote. Placed in Beckn Offer.offerAttributes at on_select.",
+      "rdfs:subClassOf": { "@id": "schema:MonetaryAmount" }
+    },
+    {
+      "@id": "ion:approvedIDV",
+      "@type": "rdf:Property",
+      "rdfs:label": "approvedIDV",
+      "rdfs:comment": "Insured Declared Value approved by underwriter in IDR (vehicle market price minus depreciation).",
+      "rdfs:domain": { "@id": "ion:PolicyQuote" },
+      "rdfs:range": { "@id": "xsd:decimal" }
+    },
+    {
+      "@id": "ion:annualPremiumIDR",
+      "@type": "rdf:Property",
+      "rdfs:label": "annualPremiumIDR",
+      "rdfs:comment": "Base annual premium in IDR calculated as approvedIDV × ojkFinalRatePercent.",
+      "rdfs:domain": { "@id": "ion:PolicyQuote" },
+      "rdfs:range": { "@id": "xsd:decimal" }
+    },
+    {
+      "@id": "ion:ojkFinalRatePercent",
+      "@type": "rdf:Property",
+      "rdfs:label": "ojkFinalRatePercent",
+      "rdfs:comment": "Final premium rate applied (% per annum of IDV). Must be within OJK tariff zone floor/ceiling per SE-06/D.05/2013.",
+      "rdfs:domain": { "@id": "ion:PolicyQuote" },
+      "rdfs:range": { "@id": "xsd:decimal" }
+    },
+    {
+      "@id": "ion:quoteValidUntil",
+      "@type": "rdf:Property",
+      "rdfs:label": "quoteValidUntil",
+      "rdfs:comment": "ISO 8601 datetime until which this premium quote is binding.",
+      "rdfs:domain": { "@id": "ion:PolicyQuote" },
+      "rdfs:range": { "@id": "xsd:dateTime" }
+    },
+    {
+      "@id": "ion:deductible",
+      "@type": "rdf:Property",
+      "rdfs:label": "deductible",
+      "rdfs:comment": "Risiko sendiri (deductible) per claim in IDR. Standard IDR 300.000 for most MOTOR_COMPREHENSIVE products.",
+      "rdfs:domain": { "@id": "ion:PolicyQuote" },
+      "rdfs:range": { "@id": "xsd:decimal" }
+    },
+    {
+      "@id": "ion:ncdApplied",
+      "@type": "rdf:Property",
+      "rdfs:label": "ncdApplied",
+      "rdfs:comment": "True if No Claims Discount was applied at renewal.",
+      "rdfs:domain": { "@id": "ion:PolicyQuote" },
+      "rdfs:range": { "@id": "xsd:boolean" }
+    },
+    {
+      "@id": "ion:ncdPercentage",
+      "@type": "rdf:Property",
+      "rdfs:label": "ncdPercentage",
+      "rdfs:comment": "NCD percentage applied to base premium (0–25%). Earned from consecutive claim-free policy years.",
+      "rdfs:domain": { "@id": "ion:PolicyQuote" },
+      "rdfs:range": { "@id": "xsd:decimal" }
+    }
+  ]
+}

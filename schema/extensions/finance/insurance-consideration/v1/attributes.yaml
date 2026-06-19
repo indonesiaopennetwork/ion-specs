@@ -1,0 +1,55 @@
+openapi: "3.1.1"
+info:
+  title: ION Finance Insurance Consideration Extension (v1)
+  version: 1.0.0
+  description: |
+    Premium consideration attributes for the Finance domain. Carries the
+    total premium and itemised breakdown at on_confirm.
+    Attaches to: beckn:Contract.consideration[].considerationAttributes
+
+components:
+  schemas:
+    PremiumConsideration:
+      type: object
+      title: PremiumConsideration
+      x-ion-layer: ion
+      x-ion-split-version: "1.0.0"
+      x-beckn-attaches-to: Contract.consideration[].considerationAttributes
+      x-jsonld:
+        '@context': ./context.jsonld
+        '@type': ion:PremiumConsideration
+      additionalProperties: true
+      properties:
+        totalPremiumIDR:
+          type: number
+          description: Total premium payable in IDR (all-in)
+          example: 2840000
+        currency:
+          type: string
+          const: IDR
+        paymentFrequency:
+          type: string
+          enum: [ANNUAL, SEMI_ANNUAL, QUARTERLY, MONTHLY]
+          default: ANNUAL
+        breakup:
+          type: array
+          items:
+            type: object
+            required: [type, amountIDR]
+            properties:
+              type:
+                type: string
+                enum: [BASE_PREMIUM, ADD_ON_PREMIUM, ADMIN_FEE, STAMP_DUTY, TAX_PPN, TAX_PPH, NCD_DISCOUNT, LOADING]
+              amountIDR: { type: number }
+              description: { type: string }
+        addOnPremiums:
+          type: array
+          items:
+            type: object
+            properties:
+              code: { type: string }
+              name: { type: string }
+              premiumIDR: { type: number }
+        ncdDiscountIDR:
+          type: number
+          description: No Claims Discount amount deducted in IDR

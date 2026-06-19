@@ -9,6 +9,7 @@
 | Code | Name | Status |
 |---|---|---|
 | [FIN-02](FIN-02/README.md) | Lending & Consumer Credit | Active |
+| [FIN-03](FIN-03/README.md) | Insurance | Active |
 
 ---
 

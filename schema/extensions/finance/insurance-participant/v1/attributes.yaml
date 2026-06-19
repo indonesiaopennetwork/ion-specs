@@ -1,0 +1,59 @@
+openapi: "3.1.1"
+info:
+  title: ION Finance Insurance Participant Extension (v1)
+  version: 1.0.0
+  description: |
+    Policyholder and insurer identity attributes for the Finance domain.
+    Attaches to: beckn:Contract.participants[].participantAttributes
+
+components:
+  schemas:
+    Policyholder:
+      type: object
+      title: Policyholder
+      x-ion-layer: ion
+      x-ion-split-version: "1.0.0"
+      x-beckn-attaches-to: "Contract.participants[role=POLICYHOLDER].participantAttributes"
+      x-jsonld:
+        '@context': ./context.jsonld
+        '@type': ion:Policyholder
+      additionalProperties: true
+      properties:
+        nik:
+          type: string
+          pattern: '^[0-9]{16}$'
+          description: Nomor Induk Kependudukan — 16-digit national ID
+          example: "3171012345678901"
+        npwp:
+          type: string
+          description: Tax ID — required when annual premium > IDR 5 juta
+        driverLicenseType:
+          type: string
+          enum: [SIM_A, SIM_B1, SIM_B2, SIM_C, SIM_D]
+        kycStatus:
+          type: string
+          enum: [APPROVED, PENDING, REJECTED, EXPIRED]
+        kycExpiry:
+          type: string
+          format: date
+
+    Insurer:
+      type: object
+      title: Insurer
+      x-ion-layer: ion
+      x-beckn-attaches-to: "Contract.participants[role=INSURER].participantAttributes"
+      x-jsonld:
+        '@context': ./context.jsonld
+        '@type': ion:Insurer
+      additionalProperties: true
+      properties:
+        ojkIknbLicense:
+          type: string
+          description: OJK IKNB operating license number
+          example: "KEP-1234/KM.13/2023"
+        companyName:
+          type: string
+          example: "Asuransi Maju Tbk"
+        lossPayeeIfAny:
+          type: string
+          description: Name of loss payee if bancassurance-linked

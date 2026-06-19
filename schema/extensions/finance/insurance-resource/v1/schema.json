@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schema.ion.id/finance/insurance-resource/v1/schema.json",
+  "title": "InsuranceProduct",
+  "description": "ION Finance Insurance Resource Extension v1 — insurance product template placed in Resource.resourceAttributes.",
+  "type": "object",
+  "required": [
+    "@context",
+    "@type",
+    "productType",
+    "vehicleType",
+    "tariffZone",
+    "premiumRateRange",
+    "ojkProductCode",
+    "ojkLicenseNumber",
+    "coverageInclusions",
+    "standardExclusions"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "@context": {
+      "type": "string",
+      "const": "https://schema.ion.id/finance/insurance-resource/v1/context.jsonld"
+    },
+    "@type": {
+      "type": "string",
+      "const": "ion:InsuranceProduct"
+    },
+    "productType": {
+      "type": "string",
+      "enum": ["MOTOR_COMPREHENSIVE", "MOTOR_THIRD_PARTY", "MOTOR_FIRE_THEFT"]
+    },
+    "vehicleType": {
+      "type": "string",
+      "enum": ["TWO_WHEELER", "FOUR_WHEELER", "COMMERCIAL_VEHICLE"]
+    },
+    "tariffZone": {
+      "type": "string",
+      "enum": ["ZONE_1", "ZONE_2", "ZONE_3", "ZONE_4", "ZONE_5"]
+    },
+    "premiumRateRange": {
+      "$ref": "#/$defs/RateRange"
+    },
+    "ojkProductCode": {
+      "type": "string"
+    },
+    "ojkLicenseNumber": {
+      "type": "string"
+    },
+    "coverageInclusions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "enum": [
+          "PARTIAL_LOSS",
+          "TOTAL_LOSS",
+          "THEFT",
+          "FIRE",
+          "THIRD_PARTY_LIABILITY",
+          "NATURAL_DISASTER",
+          "ROADSIDE_ASSISTANCE",
+          "PERSONAL_ACCIDENT_DRIVER",
+          "PERSONAL_ACCIDENT_PASSENGER"
+        ]
+      },
+      "description": "Covered peril codes per AAUI standard policy wording."
+    },
+    "standardExclusions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "enum": [
+          "OVERLOADING",
+          "MECHANICAL_BREAKDOWN",
+          "DUI",
+          "INTENTIONAL_DAMAGE",
+          "TIRE_ONLY",
+          "RACING",
+          "WAR_TERRORISM",
+          "NUCLEAR"
+        ]
+      },
+      "description": "Standard exclusion codes per AAUI motor policy wording."
+    },
+    "deductibleAmount": {
+      "type": "number"
+    },
+    "addOnOptions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/AddOnOption" }
+    },
+    "discounts": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/DiscountOption" }
+    }
+  },
+  "$defs": {
+    "RateRange": {
+      "title": "RateRange",
+      "type": "object",
+      "required": ["min", "max"],
+      "properties": {
+        "min": { "type": "number" },
+        "max": { "type": "number" }
+      }
+    },
+    "AddOnOption": {
+      "title": "AddOnOption",
+      "type": "object",
+      "required": ["code", "name", "additionalPremiumRate"],
+      "properties": {
+        "code": { "type": "string" },
+        "name": { "type": "string" },
+        "additionalPremiumRate": { "type": "number" }
+      }
+    },
+    "DiscountOption": {
+      "title": "DiscountOption",
+      "type": "object",
+      "required": ["type", "discountPercent"],
+      "properties": {
+        "type": { "type": "string" },
+        "discountPercent": { "type": "number" }
+      }
+    }
+  }
+}

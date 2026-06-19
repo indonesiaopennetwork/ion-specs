@@ -1,0 +1,41 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@protected": true,
+    "ion": "https://schema.ion.id/finance/insurance-performance/v1#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "schema": "https://schema.org/",
+    "PolicyPerformance": "ion:PolicyPerformance",
+    "policyState": {
+      "@id": "ion:policyState",
+      "@type": "xsd:string"
+    },
+    "coveragePeriodStart": {
+      "@id": "ion:coveragePeriodStart",
+      "@type": "xsd:date"
+    },
+    "coveragePeriodEnd": {
+      "@id": "ion:coveragePeriodEnd",
+      "@type": "xsd:date"
+    },
+    "nextRenewalDueDate": {
+      "@id": "ion:nextRenewalDueDate",
+      "@type": "xsd:date"
+    },
+    "claimCount": {
+      "@id": "ion:claimCount",
+      "@type": "xsd:integer"
+    },
+    "ncdPercentage": {
+      "@id": "ion:ncdPercentage",
+      "@type": "xsd:decimal"
+    },
+    "remainingSumInsuredIDR": {
+      "@id": "ion:remainingSumInsuredIDR",
+      "@type": "xsd:decimal"
+    }
+  }
+}

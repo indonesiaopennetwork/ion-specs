@@ -1,0 +1,282 @@
+{
+  "_meta": {
+    "description": "Motor insurance publish_catalog — insurer BPP publishes motor vehicle insurance products. Example: PT Asuransi Maju Tbk publishing comprehensive and TPL coverage for Zone 3 (DKI Jakarta).",
+    "pattern": "motor-insurance",
+    "step": "publish_catalog",
+    "sent_by": "BPP",
+    "received_by": "ION Catalog Service",
+    "schemaPacks": [
+      "finance/insurance-resource/v1",
+      "finance/insurance-offer/v1"
+    ]
+  },
+  "context": {
+    "domain": "ion:finance",
+    "action": "catalog_publish",
+    "version": "2.0.0",
+    "bapId": "buyerapp.ion.id",
+    "bapUri": "https://buyerapp.ion.id/beckn",
+    "bppId": "asuransimaju.ion.id",
+    "bppUri": "https://asuransimaju.ion.id/beckn",
+    "networkId": "ion.id",
+    "transactionId": "b3e12f7a-9cd5-4a81-b023-fc74e1d2ae09",
+    "messageId": "msg-ins-catalog-publish-001",
+    "timestamp": "2026-06-18T09:00:00.000+07:00",
+    "ttl": "PT30S",
+    "location": {
+      "city": {
+        "code": "std:3171"
+      },
+      "country": {
+        "code": "IDN"
+      }
+    },
+    "schemaContext": [
+      "https://schema.ion.id/finance/insurance-resource/v1/context.jsonld",
+      "https://schema.ion.id/finance/insurance-offer/v1/context.jsonld"
+    ]
+  },
+  "message": {
+    "catalog": {
+      "provider": {
+        "id": "PROV-ASURANSI-MAJU-001",
+        "descriptor": {
+          "name": "PT Asuransi Maju Tbk",
+          "shortDesc": "Perusahaan asuransi umum berizin OJK. Menyediakan asuransi kendaraan bermotor, properti, dan kebakaran.",
+          "longDesc": "PT Asuransi Maju Tbk adalah perusahaan asuransi umum yang telah beroperasi sejak 1985 dan memiliki izin usaha dari OJK (Otoritas Jasa Keuangan). Produk unggulan mencakup asuransi kendaraan bermotor komprehensif dan TLO/TPL yang sesuai dengan regulasi OJK SE-06/D.05/2013."
+        },
+        "providerAttributes": {
+          "ojkLicenseNumber": "KEP-112/KM.10/1985",
+          "ojkLicenseType": "ASURANSI_UMUM",
+          "companyRegistrationNumber": "AHU-0032451.AH.01.01.2005",
+          "nibNumber": "1234567890123",
+          "ojkIknbLicense": "S-1045/NB.11/2020",
+          "claimsRatioPercent": 62.4,
+          "solvencyMarginPercent": 125.8
+        },
+        "availableAt": [
+          {
+            "id": "LOC-JAKARTA-HO",
+            "descriptor": {
+              "name": "Kantor Pusat Jakarta"
+            },
+            "address": {
+              "door": "Lantai 12",
+              "building": "Gedung Menara Sudirman",
+              "street": "Jl. Jend. Sudirman Kav. 60",
+              "city": "Jakarta Selatan",
+              "state": "DKI Jakarta",
+              "country": "IDN",
+              "areaCode": "12190"
+            },
+            "gps": "-6.2241,106.8074"
+          }
+        ]
+      },
+      "resources": [
+        {
+          "id": "RES-MOTOR-COMP-Z3-4W",
+          "descriptor": {
+            "name": "Asuransi Mobil Komprehensif — Zone 3",
+            "shortDesc": "Perlindungan menyeluruh untuk kendaraan roda empat. Covers kecelakaan, pencurian, kebakaran, dan tanggung gugat pihak ketiga.",
+            "longDesc": "Asuransi kendaraan bermotor komprehensif (All Risk) untuk kendaraan roda empat non-niaga dengan premi sesuai tarif OJK Zone 3 (DKI Jakarta, Banten, Jawa Barat). Nilai pertanggungan (IDV) ditetapkan berdasarkan nilai pasar kendaraan dikurangi penyusutan sesuai OJK SE-06/D.05/2013."
+          },
+          "category": {
+            "id": "motor-four-wheeler",
+            "descriptor": {
+              "name": "Kendaraan Roda Empat"
+            }
+          },
+          "resourceAttributes": {
+            "@context": "https://schema.ion.id/finance/insurance-resource/v1/context.jsonld",
+            "@type": "ion:InsuranceProduct",
+            "productType": "MOTOR_COMPREHENSIVE",
+            "vehicleType": "FOUR_WHEELER",
+            "tariffZone": "ZONE_3",
+            "ojkProductCode": "AMJ-COMP-4W-Z3-2026",
+            "ojkLicenseNumber": "KEP-112/KM.10/1985",
+            "premiumRateRange": {
+              "min": 1.05,
+              "max": 1.20
+            },
+            "coverageInclusions": [
+              "PARTIAL_LOSS",
+              "TOTAL_LOSS",
+              "THEFT",
+              "FIRE",
+              "THIRD_PARTY_LIABILITY",
+              "NATURAL_DISASTER",
+              "ROADSIDE_ASSISTANCE"
+            ],
+            "standardExclusions": [
+              "OVERLOADING",
+              "MECHANICAL_BREAKDOWN",
+              "DUI",
+              "INTENTIONAL_DAMAGE",
+              "TIRE_ONLY",
+              "RACING"
+            ],
+            "deductibleAmount": 300000,
+            "addOnOptions": [
+              {
+                "code": "ADD-ZERO-DEP",
+                "name": "Zero Depreciation Cover",
+                "additionalPremiumRate": 0.15
+              },
+              {
+                "code": "ADD-RSA",
+                "name": "Roadside Assistance 24 Jam",
+                "additionalPremiumRate": 0.05
+              },
+              {
+                "code": "ADD-PA-DRIVER",
+                "name": "Personal Accident — Pengemudi",
+                "additionalPremiumRate": 0.08
+              },
+              {
+                "code": "ADD-PA-PASSENGER",
+                "name": "Personal Accident — Penumpang (maks 5 orang)",
+                "additionalPremiumRate": 0.12
+              },
+              {
+                "code": "ADD-NATURAL-DISASTER",
+                "name": "Perluasan Bencana Alam (banjir, gempa, tsunami)",
+                "additionalPremiumRate": 0.10
+              }
+            ],
+            "discounts": [
+              { "type": "NCD_1_YEAR", "discountPercent": 5.0 },
+              { "type": "NCD_2_YEAR", "discountPercent": 10.0 },
+              { "type": "NCD_3_YEAR", "discountPercent": 15.0 },
+              { "type": "NCD_4_YEAR", "discountPercent": 20.0 },
+              { "type": "NCD_5_YEAR_PLUS", "discountPercent": 25.0 }
+            ]
+          }
+        },
+        {
+          "id": "RES-MOTOR-TPL-Z3-4W",
+          "descriptor": {
+            "name": "Asuransi Mobil TLO (Total Loss Only) — Zone 3",
+            "shortDesc": "Perlindungan untuk kehilangan total kendaraan roda empat akibat pencurian atau kerusakan total (kerugian ≥75% nilai kendaraan).",
+            "longDesc": "Asuransi kendaraan bermotor Total Loss Only (TLO) untuk kendaraan roda empat non-niaga. Memberikan ganti rugi apabila kendaraan hilang karena pencurian atau mengalami kerusakan total, sesuai tarif OJK Zone 3."
+          },
+          "category": {
+            "id": "motor-four-wheeler",
+            "descriptor": {
+              "name": "Kendaraan Roda Empat"
+            }
+          },
+          "resourceAttributes": {
+            "@context": "https://schema.ion.id/finance/insurance-resource/v1/context.jsonld",
+            "@type": "ion:InsuranceProduct",
+            "productType": "MOTOR_THIRD_PARTY",
+            "vehicleType": "FOUR_WHEELER",
+            "tariffZone": "ZONE_3",
+            "ojkProductCode": "AMJ-TPL-4W-Z3-2026",
+            "ojkLicenseNumber": "KEP-112/KM.10/1985",
+            "premiumRateRange": {
+              "min": 0.20,
+              "max": 0.69
+            },
+            "coverageInclusions": [
+              "TOTAL_LOSS",
+              "THEFT",
+              "THIRD_PARTY_LIABILITY"
+            ],
+            "standardExclusions": [
+              "OVERLOADING",
+              "MECHANICAL_BREAKDOWN",
+              "DUI",
+              "INTENTIONAL_DAMAGE",
+              "RACING"
+            ],
+            "deductibleAmount": 0,
+            "addOnOptions": [
+              {
+                "code": "ADD-NATURAL-DISASTER",
+                "name": "Perluasan Bencana Alam",
+                "additionalPremiumRate": 0.10
+              },
+              {
+                "code": "ADD-RSA",
+                "name": "Roadside Assistance 24 Jam",
+                "additionalPremiumRate": 0.05
+              }
+            ],
+            "discounts": [
+              { "type": "NCD_1_YEAR", "discountPercent": 5.0 },
+              { "type": "NCD_2_YEAR", "discountPercent": 10.0 },
+              { "type": "NCD_3_YEAR", "discountPercent": 15.0 },
+              { "type": "NCD_4_YEAR", "discountPercent": 20.0 },
+              { "type": "NCD_5_YEAR_PLUS", "discountPercent": 25.0 }
+            ]
+          }
+        }
+      ],
+      "offers": [
+        {
+          "id": "OFFER-MOTOR-COMP-Z3-4W-001",
+          "resourceIds": [
+            "RES-MOTOR-COMP-Z3-4W"
+          ],
+          "offerAttributes": {
+            "@context": "https://schema.ion.id/finance/insurance-offer/v1/context.jsonld",
+            "@type": "ion:PolicyQuote",
+            "inclusions": [
+              "PARTIAL_LOSS",
+              "TOTAL_LOSS",
+              "THEFT",
+              "FIRE",
+              "THIRD_PARTY_LIABILITY",
+              "NATURAL_DISASTER",
+              "ROADSIDE_ASSISTANCE"
+            ],
+            "specialExclusions": [
+              "Kendaraan dengan modifikasi struktural tidak terdaftar di STNK"
+            ],
+            "requiredDocuments": [
+              "KTP / e-KTP pengemudi utama",
+              "STNK yang masih berlaku",
+              "SIM A yang masih berlaku",
+              "Foto kendaraan 4 sisi (depan, belakang, kiri, kanan)",
+              "NPWP (untuk tertanggung perseorangan, jika premi >Rp 5.000.000)"
+            ],
+            "claimPolicy": "ion://policy/insurance/claim.motor.fnol-24h",
+            "cancellationPolicy": "ion://policy/insurance/cancellation.motor.prorata",
+            "renewalPolicy": "ion://policy/insurance/renewal.motor.30d-notice",
+            "endorsementPolicy": "ion://policy/insurance/endorsement.motor.standard",
+            "grievanceSlaPolicy": "ion://policy/insurance/grievance-sla.ojk.pojk23-2023"
+          }
+        },
+        {
+          "id": "OFFER-MOTOR-TPL-Z3-4W-001",
+          "resourceIds": [
+            "RES-MOTOR-TPL-Z3-4W"
+          ],
+          "offerAttributes": {
+            "@context": "https://schema.ion.id/finance/insurance-offer/v1/context.jsonld",
+            "@type": "ion:PolicyQuote",
+            "inclusions": [
+              "TOTAL_LOSS",
+              "THEFT",
+              "THIRD_PARTY_LIABILITY"
+            ],
+            "specialExclusions": [
+              "Kerusakan parsial di bawah ambang batas TLO (75% nilai kendaraan)"
+            ],
+            "requiredDocuments": [
+              "KTP / e-KTP pemilik kendaraan",
+              "STNK yang masih berlaku",
+              "Foto kendaraan 4 sisi (depan, belakang, kiri, kanan)"
+            ],
+            "claimPolicy": "ion://policy/insurance/claim.motor.fnol-24h",
+            "cancellationPolicy": "ion://policy/insurance/cancellation.motor.prorata",
+            "renewalPolicy": "ion://policy/insurance/renewal.motor.30d-notice",
+            "endorsementPolicy": "ion://policy/insurance/endorsement.motor.standard",
+            "grievanceSlaPolicy": "ion://policy/insurance/grievance-sla.ojk.pojk23-2023"
+          }
+        }
+      ]
+    }
+  }
+}

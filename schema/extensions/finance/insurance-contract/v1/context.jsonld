@@ -1,0 +1,79 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@protected": true,
+    "ion": "https://schema.ion.id/finance/insurance-contract/v1#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "schema": "https://schema.org/",
+    "InsurancePolicy": "ion:InsurancePolicy",
+    "BeneficiaryDetails": "ion:BeneficiaryDetails",
+    "ClaimRecord": "ion:ClaimRecord",
+    "policyNumber": {
+      "@id": "ion:policyNumber",
+      "@type": "xsd:string"
+    },
+    "certificateUrl": {
+      "@id": "ion:certificateUrl",
+      "@type": "@id"
+    },
+    "policyStatus": {
+      "@id": "ion:policyStatus",
+      "@type": "xsd:string"
+    },
+    "coverageStartDate": {
+      "@id": "ion:coverageStartDate",
+      "@type": "xsd:date"
+    },
+    "coverageEndDate": {
+      "@id": "ion:coverageEndDate",
+      "@type": "xsd:date"
+    },
+    "sumInsuredIDR": {
+      "@id": "ion:sumInsuredIDR",
+      "@type": "xsd:decimal"
+    },
+    "actualIDV": {
+      "@id": "ion:actualIDV",
+      "@type": "xsd:decimal"
+    },
+    "policyConsentRef": {
+      "@id": "ion:policyConsentRef",
+      "@type": "xsd:string"
+    },
+    "ojkPolicyReference": {
+      "@id": "ion:ojkPolicyReference",
+      "@type": "xsd:string"
+    },
+    "beneficiaryDetails": {
+      "@id": "ion:beneficiaryDetails",
+      "@type": "@id"
+    },
+    "claimsHistory": {
+      "@id": "ion:claimsHistory",
+      "@container": "@list"
+    },
+    "claimReference": {
+      "@id": "ion:claimReference",
+      "@type": "xsd:string"
+    },
+    "incidentDate": {
+      "@id": "ion:incidentDate",
+      "@type": "xsd:date"
+    },
+    "claimType": {
+      "@id": "ion:claimType",
+      "@type": "xsd:string"
+    },
+    "claimStatus": {
+      "@id": "ion:claimStatus",
+      "@type": "xsd:string"
+    },
+    "settledAmountIDR": {
+      "@id": "ion:settledAmountIDR",
+      "@type": "xsd:decimal"
+    }
+  }
+}

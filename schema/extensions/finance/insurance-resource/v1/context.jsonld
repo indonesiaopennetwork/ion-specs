@@ -1,0 +1,63 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@protected": true,
+    "ion": "https://schema.ion.id/finance/insurance-resource/v1#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "schema": "https://schema.org/",
+    "InsuranceProduct": "ion:InsuranceProduct",
+    "RateRange": "ion:RateRange",
+    "AddOnOption": "ion:AddOnOption",
+    "productType": {
+      "@id": "ion:productType",
+      "@type": "xsd:string"
+    },
+    "vehicleType": {
+      "@id": "ion:vehicleType",
+      "@type": "xsd:string"
+    },
+    "tariffZone": {
+      "@id": "ion:tariffZone",
+      "@type": "xsd:string"
+    },
+    "premiumRateRange": {
+      "@id": "ion:premiumRateRange",
+      "@type": "@id"
+    },
+    "ojkProductCode": {
+      "@id": "ion:ojkProductCode",
+      "@type": "xsd:string"
+    },
+    "ojkLicenseNumber": {
+      "@id": "ion:ojkLicenseNumber",
+      "@type": "xsd:string"
+    },
+    "coverageInclusions": {
+      "@id": "ion:coverageInclusions",
+      "@container": "@list"
+    },
+    "standardExclusions": {
+      "@id": "ion:standardExclusions",
+      "@container": "@list"
+    },
+    "deductibleAmount": {
+      "@id": "ion:deductibleAmount",
+      "@type": "xsd:decimal"
+    },
+    "addOnOptions": {
+      "@id": "ion:addOnOptions",
+      "@container": "@list"
+    },
+    "min": {
+      "@id": "ion:min",
+      "@type": "xsd:decimal"
+    },
+    "max": {
+      "@id": "ion:max",
+      "@type": "xsd:decimal"
+    }
+  }
+}

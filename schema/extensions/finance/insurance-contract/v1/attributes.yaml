@@ -1,0 +1,69 @@
+openapi: "3.1.1"
+info:
+  title: ION Finance Insurance Contract Extension (v1)
+  version: 1.0.0
+  description: |
+    Insurance policy attributes for the Finance domain. Carries the issued
+    policy record after on_confirm. Attaches to: beckn:Contract.contractAttributes
+
+components:
+  schemas:
+    InsurancePolicy:
+      type: object
+      title: InsurancePolicy
+      x-ion-layer: ion
+      x-ion-split-version: "1.0.0"
+      x-beckn-attaches-to: Contract.contractAttributes
+      x-jsonld:
+        '@context': ./context.jsonld
+        '@type': ion:InsurancePolicy
+      additionalProperties: true
+      properties:
+        policyNumber:
+          type: string
+          description: Unique policy number from insurer's PMS
+          example: "POL-AMAJU-2026-00012"
+        certificateUrl:
+          type: string
+          format: uri
+          description: HTTPS URL to digital policy certificate PDF
+        policyStatus:
+          type: string
+          enum: [PENDING_ISSUANCE, ACTIVE, LAPSED, CANCELLED, EXPIRED, CLAIMED, TOTAL_LOSS]
+          default: ACTIVE
+        coverageStartDate:
+          type: string
+          format: date
+          example: "2026-06-18"
+        coverageEndDate:
+          type: string
+          format: date
+          example: "2027-06-17"
+        sumInsuredIDR:
+          type: number
+          description: Maximum sum insured in IDR
+          example: 210000000
+        actualIDV:
+          type: number
+          description: Insured Declared Value agreed at issuance in IDR
+          example: 210000000
+        policyConsentRef:
+          type: string
+          description: SPPA digital consent reference
+        ojkPolicyReference:
+          type: string
+          description: OJK IKNB reference for regulatory reporting
+        claimsHistory:
+          type: array
+          items:
+            type: object
+            properties:
+              claimReference: { type: string }
+              incidentDate: { type: string, format: date }
+              claimType:
+                type: string
+                enum: [ACCIDENT, THEFT, THIRD_PARTY_LIABILITY, FIRE, NATURAL_DISASTER]
+              claimStatus:
+                type: string
+                enum: [FILED, UNDER_SURVEY, APPROVED, REJECTED, SETTLED]
+              settledAmountIDR: { type: number }

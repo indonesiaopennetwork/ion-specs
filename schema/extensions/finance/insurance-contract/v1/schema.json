@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schema.ion.id/finance/insurance-contract/v1/schema.json",
+  "title": "InsurancePolicy",
+  "description": "ION Finance Insurance Contract Extension v1 — issued insurance policy placed in Contract.contractAttributes.",
+  "type": "object",
+  "required": [
+    "@context",
+    "@type",
+    "policyNumber",
+    "certificateUrl",
+    "policyStatus",
+    "coverageStartDate",
+    "coverageEndDate",
+    "sumInsuredIDR",
+    "actualIDV"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "@context": {
+      "type": "string",
+      "const": "https://schema.ion.id/finance/insurance-contract/v1/context.jsonld"
+    },
+    "@type": {
+      "type": "string",
+      "const": "ion:InsurancePolicy"
+    },
+    "policyNumber": {
+      "type": "string",
+      "description": "Unique policy number assigned by the insurer's policy management system."
+    },
+    "certificateUrl": {
+      "type": "string",
+      "format": "uri",
+      "description": "HTTPS URL to the digital policy certificate PDF. Stable for policy period + 10 years."
+    },
+    "policyStatus": {
+      "type": "string",
+      "enum": ["PENDING_ISSUANCE", "ACTIVE", "LAPSED", "CANCELLED", "EXPIRED", "CLAIMED", "TOTAL_LOSS"],
+      "default": "ACTIVE"
+    },
+    "coverageStartDate": {
+      "type": "string",
+      "format": "date"
+    },
+    "coverageEndDate": {
+      "type": "string",
+      "format": "date"
+    },
+    "sumInsuredIDR": {
+      "type": "number",
+      "description": "Maximum sum insured under this policy in IDR."
+    },
+    "actualIDV": {
+      "type": "number",
+      "description": "Insured Declared Value agreed at policy issuance."
+    },
+    "policyConsentRef": {
+      "type": "string",
+      "description": "SPPA (Surat Permintaan Penutupan Asuransi) digital consent reference."
+    },
+    "ojkPolicyReference": {
+      "type": "string",
+      "description": "OJK IKNB policy reference for regulatory reporting."
+    },
+    "beneficiaryDetails": {
+      "$ref": "#/$defs/BeneficiaryDetails"
+    },
+    "claimsHistory": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/ClaimRecord" }
+    },
+    "addOnPolicyCertificateUrls": {
+      "type": "array",
+      "items": { "type": "string", "format": "uri" }
+    }
+  },
+  "$defs": {
+    "BeneficiaryDetails": {
+      "title": "BeneficiaryDetails",
+      "type": "object",
+      "required": ["name", "role"],
+      "properties": {
+        "name": { "type": "string" },
+        "role": { "type": "string", "enum": ["NAMED_BENEFICIARY", "LOSS_PAYEE"] },
+        "institutionId": { "type": "string" }
+      }
+    },
+    "ClaimRecord": {
+      "title": "ClaimRecord",
+      "type": "object",
+      "required": ["claimReference", "incidentDate", "claimType", "claimStatus"],
+      "properties": {
+        "claimReference": { "type": "string" },
+        "incidentDate": { "type": "string", "format": "date" },
+        "claimType": {
+          "type": "string",
+          "enum": ["ACCIDENT", "THEFT", "THIRD_PARTY_LIABILITY", "FIRE", "NATURAL_DISASTER"]
+        },
+        "claimStatus": {
+          "type": "string",
+          "enum": ["FILED", "UNDER_SURVEY", "APPROVED", "REJECTED", "SETTLED"]
+        },
+        "settledAmountIDR": { "type": "number" },
+        "settlementDate": { "type": "string", "format": "date" }
+      }
+    }
+  }
+}

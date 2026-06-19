@@ -1,0 +1,76 @@
+{
+  "@context": {
+    "ion": "https://schema.ion.id/finance/insurance-consideration/v1#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "schema": "https://schema.org/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "owl": "http://www.w3.org/2002/07/owl#"
+  },
+  "@graph": [
+    {
+      "@id": "ion:PremiumConsideration",
+      "@type": "rdfs:Class",
+      "rdfs:label": "PremiumConsideration",
+      "rdfs:comment": "Total premium amounts exchanged at policy issuance. Placed in Beckn Contract.consideration[].considerationAttributes.",
+      "rdfs:subClassOf": { "@id": "schema:MonetaryAmount" }
+    },
+    {
+      "@id": "ion:totalPremiumIDR",
+      "@type": "rdf:Property",
+      "rdfs:label": "totalPremiumIDR",
+      "rdfs:comment": "Total premium payable by policyholder in IDR including base premium, add-ons, fees, and taxes.",
+      "rdfs:domain": { "@id": "ion:PremiumConsideration" },
+      "rdfs:range": { "@id": "xsd:decimal" }
+    },
+    {
+      "@id": "ion:currency",
+      "@type": "rdf:Property",
+      "rdfs:label": "currency",
+      "rdfs:comment": "ISO 4217 currency code. Always IDR for domestic insurance.",
+      "rdfs:domain": { "@id": "ion:PremiumConsideration" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+    {
+      "@id": "ion:paymentFrequency",
+      "@type": "rdf:Property",
+      "rdfs:label": "paymentFrequency",
+      "rdfs:comment": "Premium payment frequency. Values: ANNUAL, SEMI_ANNUAL, QUARTERLY, MONTHLY.",
+      "rdfs:domain": { "@id": "ion:PremiumConsideration" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+    {
+      "@id": "ion:breakup",
+      "@type": "rdf:Property",
+      "rdfs:label": "breakup",
+      "rdfs:comment": "Itemised premium breakdown. Types: BASE_PREMIUM, ADD_ON_PREMIUM, ADMIN_FEE, STAMP_DUTY, TAX_PPN, TAX_PPH, NCD_DISCOUNT, LOADING.",
+      "rdfs:domain": { "@id": "ion:PremiumConsideration" },
+      "rdfs:range": { "@id": "rdf:List" }
+    },
+    {
+      "@id": "ion:PremiumBreakupItem",
+      "@type": "rdfs:Class",
+      "rdfs:label": "PremiumBreakupItem",
+      "rdfs:comment": "A single line item in the premium breakdown.",
+      "rdfs:subClassOf": { "@id": "schema:MonetaryAmount" }
+    },
+    {
+      "@id": "ion:amountIDR",
+      "@type": "rdf:Property",
+      "rdfs:label": "amountIDR",
+      "rdfs:comment": "Amount for this breakup line item in IDR.",
+      "rdfs:domain": { "@id": "ion:PremiumBreakupItem" },
+      "rdfs:range": { "@id": "xsd:decimal" }
+    },
+    {
+      "@id": "ion:ncdDiscountIDR",
+      "@type": "rdf:Property",
+      "rdfs:label": "ncdDiscountIDR",
+      "rdfs:comment": "No Claims Discount amount deducted from base premium in IDR.",
+      "rdfs:domain": { "@id": "ion:PremiumConsideration" },
+      "rdfs:range": { "@id": "xsd:decimal" }
+    }
+  ]
+}

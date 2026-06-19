@@ -1,0 +1,40 @@
+{
+  "id": "ion-finance-insurance-consideration-v1",
+  "version": "1.0.0",
+  "domain": "finance",
+  "type": "AttributePack",
+  "name": "ION Finance Insurance Consideration Extension (v1)",
+  "packSchema": "./schema.json",
+  "jsonldContext": "./context.jsonld",
+  "extends": "beckn:Consideration",
+  "attachmentPoints": {
+    "considerationAttributes": [
+      "PremiumConsideration"
+    ]
+  },
+  "indexing": {
+    "indexable": [
+      { "path": "$.totalPremiumIDR" },
+      { "path": "$.currency" },
+      { "path": "$.paymentFrequency" }
+    ],
+    "filterable": [
+      { "path": "$.paymentFrequency" },
+      { "path": "$.currency" }
+    ],
+    "sortable": [
+      { "path": "$.totalPremiumIDR" }
+    ]
+  },
+  "minimalForDiscovery": [
+    "totalPremiumIDR",
+    "currency",
+    "paymentFrequency",
+    "breakup"
+  ],
+  "context": {
+    "schemaContext": [
+      "https://schema.ion.id/finance/insurance-consideration/v1/context.jsonld"
+    ]
+  }
+}

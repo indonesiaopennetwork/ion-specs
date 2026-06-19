@@ -1,0 +1,499 @@
+id: ion-finance-pattern-motor-insurance-v1
+version: "1.0.0"
+patternName: Motor Insurance
+iri: ion://flow/finance/FIN-03/FNC-insurance/motor-insurance/v1
+sector: ion:finance
+crc: FNC-insurance
+category: FIN-03
+status: draft
+description: >
+  The ION Finance motor-insurance pattern covers all standalone motor vehicle
+  insurance products under FIN-03 Insurance. Product-type differentiation is
+  carried by resourceAttributes.productType. Supported product types:
+  MOTOR_COMPREHENSIVE (all-risk), MOTOR_THIRD_PARTY (TLO), and
+  MOTOR_FIRE_THEFT. Premium is calculated per OJK tariff zones
+  (SE-06/D.05/2013). Policy is issued digitally upon premium payment.
+
+productTypes:
+  MOTOR_COMPREHENSIVE:
+    name: Asuransi Kendaraan Bermotor All-Risk
+    coverage: [PARTIAL_LOSS, TOTAL_LOSS, THIRD_PARTY_LIABILITY]
+    activeVariants: [kyc-verification, underwriting, claim-settlement, policy-renewal, endorsement, cross-cutting]
+  MOTOR_THIRD_PARTY:
+    name: Asuransi Kendaraan Bermotor TLO (Total Loss Only)
+    coverage: [TOTAL_LOSS]
+    totalLossThreshold: "≥75% of IDV"
+    activeVariants: [kyc-verification, underwriting, claim-settlement, policy-renewal, endorsement, cross-cutting]
+  MOTOR_FIRE_THEFT:
+    name: Asuransi Kebakaran dan Pencurian Kendaraan
+    coverage: [FIRE, THEFT]
+    activeVariants: [kyc-verification, underwriting, claim-settlement, policy-renewal, endorsement, cross-cutting]
+
+participants:
+  BAP: Policyholder App Platform — insurance aggregator, bank app, insurer digital channel
+  BPP: Insurer Platform — OJK IKNB-licensed general insurance company (asuransi umum)
+  ION_CATALOG: ION Catalogue Service (insurance product discovery)
+
+regulatoryBasis:
+  - OJK SE-06/D.05/2013  # Motor vehicle insurance premium tariff (zone-based floor/ceiling)
+  - OJK POJK 23/2023     # Consumer protection disclosures — SPPA, ringkasan polis
+  - UU 40/2014           # Perasuransian — product licensing, claim obligations
+  - OJK SP-30/D.05/2020  # eKYC requirements for insurance distribution
+  - POJK 73/POJK.05/2016 # Penyelenggaraan Usaha Perasuransian
+
+phases:
+  phase1:
+    name: Catalog
+    communication: async pub/sub
+    steps:
+      - step: publish_catalog
+        from: BPP
+        to: ION_CATALOG
+        direction: publish
+        description: >
+          Insurer publishes insurance products to the ION catalog. Each resource
+          carries a productType, vehicleType, OJK tariff zone, premium rate range,
+          and OJK license details. Coverage inclusions and standard exclusions must
+          be declared per POJK 23/2023 consumer protection requirements.
+        requiredFields:
+          - context.domain
+          - context.bppId
+          - context.timestamp
+          - message.catalog.provider.id
+          - message.catalog.provider.descriptor.name
+          - message.catalog.provider.providerAttributes.ojkLicenseNumber
+          - message.catalog.provider.providerAttributes.ojkLicenseType
+          - message.catalog.resources[].id
+          - message.catalog.resources[].crc
+          - message.catalog.resources[].resourceAttributes.productType
+          - message.catalog.resources[].resourceAttributes.vehicleType
+          - message.catalog.resources[].resourceAttributes.tariffZone
+          - message.catalog.resources[].resourceAttributes.premiumRateRange.min
+          - message.catalog.resources[].resourceAttributes.premiumRateRange.max
+          - message.catalog.resources[].resourceAttributes.ojkProductCode
+          - message.catalog.offers[].id
+          - message.catalog.offers[].offerAttributes.coverageInclusions[]
+          - message.catalog.offers[].offerAttributes.standardExclusions[]
+          - message.catalog.offers[].offerAttributes.claimPolicy
+          - message.catalog.offers[].offerAttributes.cancellationPolicy
+          - message.catalog.offers[].offerAttributes.renewalPolicy
+          - message.catalog.offers[].offerAttributes.grievancePolicy
+        conditionalFields:
+          - field: message.catalog.resources[].resourceAttributes.addOnOptions[]
+            condition: required if insurer offers optional add-ons (zero depreciation, roadside assistance, etc.)
+          - field: message.catalog.resources[].resourceAttributes.deductibleAmount
+            condition: required if product has a mandatory deductible
+          - field: message.catalog.offers[].offerAttributes.discounts[]
+            condition: required if insurer offers loyalty or multi-policy discounts
+        schemaPacks:
+          core: [identity/v1, payment/v1]
+          finance: [insurance-resource/v1, insurance-offer/v1]
+
+      - step: on_discover
+        from: ION_CATALOG
+        to: BAP
+        direction: push
+        description: Insurance product catalog pushed to BAP. Filtered by vehicle type and tariff zone.
+
+  phase2:
+    name: Transaction
+    communication: direct BAP-BPP
+    steps:
+      - step: search
+        from: BAP
+        to: BPP
+        direction: request
+        description: >
+          BAP searches for insurance products matching policyholder's vehicle type,
+          coverage preference, and tariff zone. No personal PII is sent at this stage.
+        requiredFields:
+          - context.transactionId
+          - context.messageId
+          - context.domain
+          - context.bapId
+          - context.bapUri
+          - context.bppId
+          - context.bppUri
+          - context.timestamp
+          - context.ttl
+          - message.intent.resourceAttributes.productType
+          - message.intent.resourceAttributes.vehicleType
+        conditionalFields:
+          - field: message.intent.offerAttributes.tariffZone
+            condition: optional — narrows results to a specific OJK tariff zone
+          - field: message.intent.offerAttributes.insuredDeclaredValue
+            condition: optional — estimated IDV for indicative premium calculation
+          - field: message.intent.offerAttributes.addOnOptions[]
+            condition: optional — requested optional add-on covers
+
+      - step: on_search
+        from: BPP
+        to: BAP
+        direction: callback
+        description: BPP returns matching insurance products with indicative premium rates.
+        requiredFields:
+          - message.catalog.resources[].id
+          - message.catalog.resources[].crc
+          - message.catalog.resources[].resourceAttributes.productType
+          - message.catalog.resources[].resourceAttributes.tariffZone
+          - message.catalog.resources[].resourceAttributes.premiumRateRange
+          - message.catalog.offers[].id
+          - message.catalog.offers[].offerAttributes.coverageInclusions[]
+
+      - step: select
+        from: BAP
+        to: BPP
+        direction: request
+        description: >
+          BAP selects a specific insurance product and provides vehicle details for
+          a precise premium quote. BPP performs initial underwriting (risk classification,
+          IDV validation, tariff zone assignment) and returns a binding quote valid for
+          quoteValidUntil. Triggers the underwriting variant (sub-branch: risk-classification).
+        requiredFields:
+          - context.transactionId
+          - message.contract.commitments[].offerId
+          - message.contract.contractAttributes.vehicleDetails.make
+          - message.contract.contractAttributes.vehicleDetails.model
+          - message.contract.contractAttributes.vehicleDetails.year
+          - message.contract.contractAttributes.vehicleDetails.vehicleIdNumber
+          - message.contract.contractAttributes.vehicleDetails.licensePlate
+          - message.contract.contractAttributes.vehicleDetails.stnkNumber
+          - message.contract.offerAttributes.insuredDeclaredValue
+        conditionalFields:
+          - field: message.contract.contractAttributes.vehicleDetails.condition
+            condition: required for vehicles ≥ 5 years old — NEW or USED
+          - field: message.contract.offerAttributes.addOnOptions[]
+            condition: if policyholder requests optional add-on covers
+
+      - step: on_select
+        from: BPP
+        to: BAP
+        direction: callback
+        description: >
+          BPP returns a binding premium quote (OJK tariff-compliant), coverage details,
+          required documents, and inspection requirements. Quote is valid until
+          quoteValidUntil. Underwriting sub-branch risk-classification is complete.
+        requiredFields:
+          - message.contract.offerAttributes.approvedIDV
+          - message.contract.offerAttributes.annualPremiumIDR
+          - message.contract.offerAttributes.ojkFinalRatePercent
+          - message.contract.offerAttributes.tariffZone
+          - message.contract.offerAttributes.quoteValidUntil
+          - message.contract.offerAttributes.inclusions[]
+          - message.contract.offerAttributes.specialExclusions[]
+          - message.contract.offerAttributes.requiredDocuments[]
+        conditionalFields:
+          - field: message.contract.offerAttributes.addOnPremiums[]
+            condition: returned if policyholder requested add-on covers
+          - field: message.contract.offerAttributes.deductible
+            condition: always returned for MOTOR_COMPREHENSIVE — standard IDR 300.000 deductible
+          - field: message.contract.offerAttributes.inspectionRequired
+            condition: returned as true for vehicles ≥ 5 years or IDV > IDR 500 juta
+          - field: message.contract.offerAttributes.counterOfferIDV
+            condition: returned if BPP proposes a different IDV than requested
+        schemaPacks:
+          finance: [insurance-resource/v1, insurance-offer/v1]
+
+      - step: init
+        from: BAP
+        to: BPP
+        direction: request
+        description: >
+          BAP submits the full insurance application. Policyholder KYC data,
+          vehicle ownership proof (STNK, BPKB), 6-side vehicle photos for
+          self-inspection, and selected payment method. Triggers kyc-verification
+          variant if policyholder kycStatus ≠ APPROVED. Triggers underwriting
+          sub-branch vehicle-inspection.
+        requiredFields:
+          - message.contract.participants[role=POLICYHOLDER].person.name
+          - message.contract.participants[role=POLICYHOLDER].person.nik
+          - message.contract.participants[role=POLICYHOLDER].person.dateOfBirth
+          - message.contract.participants[role=POLICYHOLDER].person.driverLicenseType
+          - message.contract.participants[role=POLICYHOLDER].contact.phone
+          - message.contract.participants[role=POLICYHOLDER].contact.email
+          - message.contract.participants[role=POLICYHOLDER].address
+          - message.contract.contractAttributes.vehicleDetails.stnkNumber
+          - message.contract.contractAttributes.vehicleDetails.vehiclePhotos[]
+          - message.contract.contractAttributes.inspectionMethod
+          - message.contract.offerAttributes.insuredDeclaredValue
+        conditionalFields:
+          - field: message.contract.participants[role=POLICYHOLDER].npwp
+            condition: required if annual premium > IDR 5 juta (PPh withholding threshold)
+          - field: message.contract.contractAttributes.ekycFormReference
+            condition: required when kycStatus ≠ APPROVED — triggers kyc-verification variant
+          - field: message.contract.contractAttributes.vehicleDetails.bpkbNumber
+            condition: required for MOTOR_COMPREHENSIVE and MOTOR_THIRD_PARTY
+          - field: message.contract.contractAttributes.inspectionSurveyorRef
+            condition: required if BPP mandated surveyor inspection (inspectionRequired = true)
+          - field: message.contract.participants[role=BENEFICIARY]
+            condition: optional — if policyholder designates a named beneficiary (e.g., lender as loss payee for KKB)
+          - field: message.contract.offerAttributes.addOnOptions[]
+            condition: if policyholder selects optional add-ons at init
+        schemaPacks:
+          core: [identity/v1, address/v1, payment/v1]
+          finance: [insurance-participant/v1, insurance-contract/v1]
+
+      - step: on_init
+        from: BPP
+        to: BAP
+        direction: callback
+        description: >
+          BPP returns underwriting result, final premium breakdown, coverage dates,
+          and policy schedule draft URL. KYC and vehicle inspection sub-branches
+          are complete at this step.
+        requiredFields:
+          - message.contract.contractAttributes.underwritingStatus
+          - message.contract.contractAttributes.coverageStartDate
+          - message.contract.contractAttributes.coverageEndDate
+          - message.contract.contractAttributes.policyScheduleDraftUrl
+          - message.contract.considerationAttributes.totalPremiumIDR
+          - message.contract.considerationAttributes.currency
+          - message.contract.considerationAttributes.paymentFrequency
+          - message.contract.considerationAttributes.breakup[]
+        conditionalFields:
+          - field: message.contract.contractAttributes.underwritingRejectionReason
+            condition: returned if underwritingStatus is REJECTED
+          - field: message.contract.contractAttributes.counterOfferIDV
+            condition: if BPP proposes a reduced IDV after inspection
+          - field: message.contract.contractAttributes.ekycStatus
+            condition: returned if kyc-verification variant was active
+          - field: message.contract.considerationAttributes.addOnPremiums[]
+            condition: returned if add-on covers were elected
+        schemaPacks:
+          finance: [insurance-consideration/v1, insurance-performance/v1]
+
+      - step: confirm
+        from: BAP
+        to: BPP
+        direction: request
+        description: >
+          Policyholder accepts the policy terms and pays the premium.
+          Digital consent reference (SPPA signature) is required per POJK 23/2023.
+          Binding insurance contract created on confirm. Cancel is no longer available
+          after this step.
+        requiredFields:
+          - message.contract.participants[role=POLICYHOLDER].id
+          - message.contract.contractAttributes.policyConsentRef
+          - message.contract.contractAttributes.policyConsentSignedAt
+          - message.contract.offerAttributes.insuredDeclaredValue
+          - message.contract.settlements[].settlementAttributes.paymentMethod
+          - message.contract.settlements[].settlementAttributes.paymentRef
+          - message.contract.settlements[].settlementAttributes.amountPaidIDR
+          - message.contract.settlements[].settlementAttributes.paidAt
+
+      - step: on_confirm
+        from: BPP
+        to: BAP
+        direction: callback
+        description: >
+          Insurer issues the policy. Returns policy number, digital certificate URL,
+          confirmed coverage dates, and sum insured. Policy is in force from
+          coverageStartDate.
+        requiredFields:
+          - message.contract.id
+          - message.contract.status
+          - message.contract.contractAttributes.policyNumber
+          - message.contract.contractAttributes.certificateUrl
+          - message.contract.contractAttributes.policyStatus
+          - message.contract.contractAttributes.coverageStartDate
+          - message.contract.contractAttributes.coverageEndDate
+          - message.contract.contractAttributes.sumInsuredIDR
+          - message.contract.performanceAttributes.coveragePeriodStart
+          - message.contract.performanceAttributes.coveragePeriodEnd
+          - message.contract.performanceAttributes.policyState
+          - message.contract.performanceAttributes.nextRenewalDueDate
+        conditionalFields:
+          - field: message.contract.contractAttributes.addOnPolicyCertificateUrls[]
+            condition: if add-on covers were confirmed
+          - field: message.contract.contractAttributes.beneficiaryDetails
+            condition: if a named beneficiary / loss payee was designated
+        schemaPacks:
+          finance: [insurance-contract/v1, insurance-performance/v1, insurance-consideration/v1]
+
+  phase3:
+    name: Fulfilment
+    communication: BPP pushes unsolicited, BAP polls optionally
+    stateMachine: schema/extensions/finance/insurance-performance/v1/states.yaml
+    steps:
+      - step: on_status
+        trigger: ACTIVE
+        from: BPP
+        to: BAP
+        direction: unsolicited
+        description: Policy is in force. Coverage period has begun.
+        requiredFields:
+          - message.contract.status
+          - message.contract.contractAttributes.policyStatus
+          - message.contract.performanceAttributes.policyState
+
+      - step: on_status
+        trigger: CLAIM_FILED
+        from: BPP
+        to: BAP
+        direction: unsolicited
+        description: Insurer acknowledges FNOL (First Notice of Loss) — triggers claim-settlement variant.
+        requiredFields:
+          - message.contract.status
+          - message.contract.contractAttributes.claimReference
+          - message.contract.performanceAttributes.policyState
+
+      - step: on_status
+        trigger: RENEWAL_DUE
+        from: BPP
+        to: BAP
+        direction: unsolicited
+        description: >
+          Renewal notice sent 30 days before policy expiry (T−30 days).
+          Triggers policy-renewal variant.
+        requiredFields:
+          - message.contract.contractAttributes.coverageEndDate
+          - message.contract.performanceAttributes.nextRenewalDueDate
+
+      - step: on_status
+        trigger: EXPIRED
+        from: BPP
+        to: BAP
+        direction: unsolicited
+        description: Policy has reached its coverage end date without renewal. Contract complete.
+        requiredFields:
+          - message.contract.status
+          - message.contract.contractAttributes.policyStatus
+          - message.contract.performanceAttributes.policyState
+
+      - step: on_status
+        trigger: TOTAL_LOSS
+        from: BPP
+        to: BAP
+        direction: unsolicited
+        description: Total loss claim settled — policy is terminated. Contract complete.
+        requiredFields:
+          - message.contract.status
+          - message.contract.contractAttributes.policyStatus
+          - message.contract.contractAttributes.claimSettlementAmount
+
+  phase4:
+    name: Post-Fulfilment
+    communication: direct BAP-BPP
+    steps:
+      - step: rate
+        from: BAP
+        to: BPP
+        direction: request
+        description: Policyholder rates the insurance experience. Only valid after EXPIRED or TOTAL_LOSS.
+        requiredFields:
+          - message.contract.id
+          - message.feedback.rating
+        conditionalFields:
+          - field: message.feedback.comment
+            condition: optional — free-text feedback
+
+      - step: on_rate
+        from: BPP
+        to: BAP
+        direction: callback
+        description: Insurer confirms rating received.
+        requiredFields:
+          - message.contract.id
+
+      - step: reconcile
+        from: BAP
+        to: BPP
+        direction: request
+        description: >
+          BAP initiates financial reconciliation (ION EXTENSION). Covers premium
+          paid, tax deductions, commission, add-on breakup, and claim payouts.
+        requiredFields:
+          - message.contract.id
+          - message.reconciliation.period.from
+          - message.reconciliation.period.to
+
+      - step: on_reconcile
+        from: BPP
+        to: BAP
+        direction: callback
+        description: BPP returns reconciliation statement.
+        requiredFields:
+          - message.contract.id
+          - message.reconciliation.statement.premiumPaidIDR
+          - message.reconciliation.statement.taxDeductedIDR
+          - message.reconciliation.statement.claimsSettledIDR
+
+      - step: support
+        from: BAP
+        to: BPP
+        direction: request
+        description: Customer support channel for enquiries (certificate re-send, claim status, policy details, endorsement requests).
+        requiredFields:
+          - message.contract.id
+          - message.support.enquiryType
+
+      - step: on_support
+        from: BPP
+        to: BAP
+        direction: callback
+        description: Support response callback.
+        requiredFields:
+          - message.support.responseRef
+          - message.support.estimatedResolutionTime
+
+      - step: raise
+        from: BAP
+        to: BPP
+        direction: request
+        description: >
+          Formal dispute escalation to ION network (ION EXTENSION). Covers OJK
+          complaints (5-day acknowledgement, 20-day resolution per POJK 22/2023)
+          and claim disputes.
+        requiredFields:
+          - message.contract.id
+          - message.dispute.type
+          - message.dispute.description
+          - message.dispute.evidenceRef[]
+
+      - step: cancel
+        from: BAP
+        to: BPP
+        direction: request
+        description: >
+          Policy cancellation. Only valid before on_confirm (application stage).
+          After on_confirm, policy can be cancelled via endorsement variant with
+          short-rate premium refund per cancellation policy.
+        requiredFields:
+          - message.contract.id
+          - message.cancellation.reason
+        businessRules:
+          - Before on_confirm — full premium refund if any
+          - After on_confirm — short-rate refund per ion://policy/finance/insurance/cancellation/v1
+
+variantWindows:
+  kyc-verification:
+    earliest: init
+    latest: on_init
+    condition: policyholder participantAttributes.kycStatus != APPROVED
+  underwriting:
+    earliest: select
+    latest: on_init
+    condition: always — risk classification on every quote
+  claim-settlement:
+    earliest: on_confirm
+    latest: "on_status[EXPIRED | TOTAL_LOSS]"
+    condition: triggered by FNOL notification from policyholder
+  policy-renewal:
+    earliest: "on_status[RENEWAL_DUE]"
+    latest: "on_status[RENEWED | EXPIRED]"
+    condition: triggered 30 days before coverageEndDate
+  endorsement:
+    earliest: on_confirm
+    latest: "on_status[EXPIRED]"
+    condition: triggered by policyholder amendment request
+  cross-cutting:
+    earliest: on_confirm
+    latest: contract_COMPLETE
+    condition: always active
+
+policyReferences:
+  - ion://policy/finance/insurance/cancellation/v1
+  - ion://policy/finance/insurance/claim/v1
+  - ion://policy/finance/insurance/renewal/v1
+  - ion://policy/finance/insurance/endorsement/v1
+  - ion://policy/finance/insurance/grievance-sla/v1

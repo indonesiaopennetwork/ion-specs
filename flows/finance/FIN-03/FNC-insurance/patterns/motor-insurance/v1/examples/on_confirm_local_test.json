@@ -1,0 +1,161 @@
+{
+  "_meta": {
+    "description": "LOCAL TEST ONLY — same as on_confirm.json but @context uses relative file paths. Run from ion-sandbox/cmd/schema-validator/.",
+    "pattern": "motor-insurance",
+    "step": "on_confirm",
+    "sent_by": "BPP",
+    "received_by": "BAP",
+    "schemaPacks": [
+      "finance/insurance-participant/v1",
+      "finance/insurance-contract/v1",
+      "finance/insurance-consideration/v1",
+      "finance/insurance-performance/v1"
+    ]
+  },
+  "context": {
+    "domain": "ion:finance",
+    "action": "on_confirm",
+    "version": "2.0.0",
+    "bapId": "buyerapp.ion.id",
+    "bapUri": "https://buyerapp.ion.id/beckn",
+    "bppId": "asuransimaju.ion.id",
+    "bppUri": "https://asuransimaju.ion.id/beckn",
+    "networkId": "ion.id",
+    "transactionId": "c4f7a2b1-88d3-4e5f-9012-ab3c5d6e7f89",
+    "messageId": "msg-ins-on-confirm-001",
+    "timestamp": "2026-06-18T10:20:44.800+07:00",
+    "ttl": "PT30S",
+    "location": {
+      "city": { "code": "std:3171" },
+      "country": { "code": "IDN" }
+    },
+    "schemaContext": [
+      "../../../ion-specs/schema/extensions/finance/insurance-participant/v1/context.jsonld",
+      "../../../ion-specs/schema/extensions/finance/insurance-contract/v1/context.jsonld",
+      "../../../ion-specs/schema/extensions/finance/insurance-consideration/v1/context.jsonld",
+      "../../../ion-specs/schema/extensions/finance/insurance-performance/v1/context.jsonld"
+    ]
+  },
+  "message": {
+    "contract": {
+      "id": "CONTRACT-AMAJU-2026-00012",
+      "status": {
+        "code": "CONFIRMED"
+      },
+      "participants": [
+        {
+          "id": "PART-BUDI-001",
+          "role": "POLICYHOLDER",
+          "person": {
+            "name": "Budi Santoso"
+          },
+          "participantAttributes": {
+            "@context": "../../../ion-specs/schema/extensions/finance/insurance-participant/v1/context.jsonld",
+            "@type": "ion:Policyholder",
+            "nik": "3171012345678901",
+            "driverLicenseType": "SIM_A",
+            "kycStatus": "APPROVED",
+            "kycExpiry": "2028-03-14"
+          }
+        },
+        {
+          "id": "PART-AMAJU-001",
+          "role": "INSURER",
+          "participantAttributes": {
+            "@context": "../../../ion-specs/schema/extensions/finance/insurance-participant/v1/context.jsonld",
+            "@type": "ion:Insurer",
+            "ojkIknbLicense": "S-1045/NB.11/2020",
+            "companyName": "PT Asuransi Maju Tbk"
+          }
+        }
+      ],
+      "commitments": [
+        {
+          "id": "CMT-INS-001",
+          "status": { "descriptor": { "code": "ACTIVE" } },
+          "offer": {
+            "id": "OFFER-MOTOR-COMP-Z3-4W-001",
+            "provider": { "id": "PROV-ASURANSI-MAJU-001", "descriptor": { "name": "PT Asuransi Maju Tbk" } }
+          },
+          "resources": [{ "id": "RES-MOTOR-COMP-Z3-4W" }]
+        }
+      ],
+      "contractAttributes": {
+        "@context": "../../../ion-specs/schema/extensions/finance/insurance-contract/v1/context.jsonld",
+        "@type": "ion:InsurancePolicy",
+        "policyNumber": "POL-AMAJU-2026-00012",
+        "certificateUrl": "https://polis.asuransimaju.id/2026/POL-AMAJU-2026-00012.pdf",
+        "policyStatus": "ACTIVE",
+        "coverageStartDate": "2026-06-19",
+        "coverageEndDate": "2027-06-18",
+        "sumInsuredIDR": 210000000,
+        "actualIDV": 210000000,
+        "policyConsentRef": "SPPA-20260618-BUDI-001",
+        "ojkPolicyReference": "OJK-IKNB-2026-AMJ-00012"
+      },
+      "consideration": [
+        {
+          "id": "CONSID-INS-001",
+          "status": { "code": "ACTIVE" },
+          "considerationAttributes": {
+            "@context": "../../../ion-specs/schema/extensions/finance/insurance-consideration/v1/context.jsonld",
+            "@type": "ion:PremiumConsideration",
+            "totalPremiumIDR": 2345000,
+            "currency": "IDR",
+            "paymentFrequency": "ANNUAL",
+            "breakup": [
+              {
+                "type": "BASE_PREMIUM",
+                "amountIDR": 2310000,
+                "description": "Premi dasar: IDV Rp 210.000.000 × 1.10% (Zone 3 rate)"
+              },
+              {
+                "type": "ADMIN_FEE",
+                "amountIDR": 25000,
+                "description": "Biaya administrasi penerbitan polis"
+              },
+              {
+                "type": "STAMP_DUTY",
+                "amountIDR": 10000,
+                "description": "Bea meterai dokumen polis (PP 86/2021)"
+              }
+            ]
+          }
+        }
+      ],
+      "performance": [
+        {
+          "id": "PERF-INS-001",
+          "commitmentIds": ["CMT-INS-001"],
+          "status": { "code": "ACTIVE" },
+          "performanceAttributes": {
+            "@context": "../../../ion-specs/schema/extensions/finance/insurance-performance/v1/context.jsonld",
+            "@type": "ion:PolicyPerformance",
+            "policyState": "ACTIVE",
+            "coveragePeriodStart": "2026-06-19",
+            "coveragePeriodEnd": "2027-06-18",
+            "nextRenewalDueDate": "2027-05-19",
+            "claimCount": 0,
+            "ncdPercentage": 0,
+            "remainingSumInsuredIDR": 210000000
+          }
+        }
+      ],
+      "settlements": [
+        {
+          "id": "PAY-INS-001",
+          "considerationId": "CONSID-INS-001",
+          "status": "PAID",
+          "settlementAttributes": {
+            "paymentMethod": "VIRTUAL_ACCOUNT",
+            "paymentRef": "VA-BNI-82773012345678",
+            "bankCode": "009",
+            "bankName": "BNI",
+            "amountPaidIDR": 2345000,
+            "paidAt": "2026-06-18T10:20:15.000+07:00"
+          }
+        }
+      ]
+    }
+  }
+}
