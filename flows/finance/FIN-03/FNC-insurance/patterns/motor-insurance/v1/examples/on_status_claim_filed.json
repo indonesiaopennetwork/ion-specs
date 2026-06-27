@@ -1,0 +1,100 @@
+{
+  "_meta": {
+    "description": "Motor insurance on_status[CLAIM_FILED] — Budi's Avanza was rear-ended at Jl. Gatot Subroto on 24 Aug 2026. Partial-loss claim CLM-AMAJU-2026-001 filed. Policy remains active while repair assessment proceeds. Survey assigned to PT Mitra Klaim Nusantara.",
+    "pattern": "motor-insurance",
+    "step": "on_status",
+    "policyStateVariant": "CLAIM_FILED",
+    "sent_by": "BPP",
+    "received_by": "BAP",
+    "eventTimestamp": "2026-08-25T14:35:22.000+07:00",
+    "schemaPacks": [
+      "finance/insurance-contract/v1",
+      "finance/insurance-performance/v1"
+    ]
+  },
+  "context": {
+    "domain": "ion:finance",
+    "action": "on_status",
+    "version": "2.0.0",
+    "bapId": "buyerapp.ion.id",
+    "bapUri": "https://buyerapp.ion.id/beckn",
+    "bppId": "asuransimaju.ion.id",
+    "bppUri": "https://asuransimaju.ion.id/beckn",
+    "networkId": "ion.id",
+    "transactionId": "c4f7a2b1-88d3-4e5f-9012-ab3c5d6e7f89",
+    "messageId": "msg-ins-on-status-claim-filed-001",
+    "timestamp": "2026-08-25T14:35:22.000+07:00",
+    "ttl": "PT30S",
+    "location": {
+      "city": {
+        "code": "std:3171"
+      },
+      "country": {
+        "code": "IDN"
+      }
+    },
+    "schemaContext": [
+      "https://schema.ion.id/finance/insurance-contract/v1/context.jsonld",
+      "https://schema.ion.id/finance/insurance-performance/v1/context.jsonld"
+    ]
+  },
+  "message": {
+    "contract": {
+      "id": "CONTRACT-AMAJU-2026-00012",
+      "status": {
+        "code": "ACTIVE"
+      },
+      "commitments": [
+        {
+          "id": "CMT-INS-001",
+          "status": {
+            "descriptor": {
+              "code": "ACTIVE"
+            }
+          }
+        }
+      ],
+      "contractAttributes": {
+        "@context": "https://schema.ion.id/finance/insurance-contract/v1/context.jsonld",
+        "@type": "ion:InsurancePolicy",
+        "policyNumber": "POL-AMAJU-2026-00012",
+        "policyStatus": "ACTIVE",
+        "coverageStartDate": "2026-06-19",
+        "coverageEndDate": "2027-06-18",
+        "sumInsuredIDR": 210000000,
+        "actualIDV": 210000000,
+        "claimsHistory": [
+          {
+            "claimId": "CLM-AMAJU-2026-001",
+            "incidentType": "PARTIAL_LOSS",
+            "incidentDate": "2026-08-24",
+            "incidentDescription": "Rear-end collision at Jl. Gatot Subroto, Jakarta Selatan",
+            "claimStatus": "UNDER_SURVEY",
+            "estimatedDamageIDR": 3500000,
+            "surveyorName": "PT Mitra Klaim Nusantara",
+            "surveyScheduledAt": "2026-08-26T10:00:00.000+07:00"
+          }
+        ]
+      },
+      "performance": [
+        {
+          "id": "PERF-INS-001",
+          "status": {
+            "code": "CLAIM_FILED"
+          },
+          "performanceAttributes": {
+            "@context": "https://schema.ion.id/finance/insurance-performance/v1/context.jsonld",
+            "@type": "ion:PolicyPerformance",
+            "policyState": "CLAIM_FILED",
+            "coveragePeriodStart": "2026-06-19",
+            "coveragePeriodEnd": "2027-06-18",
+            "nextRenewalDueDate": "2027-05-19",
+            "claimCount": 1,
+            "ncdPercentage": 0,
+            "remainingSumInsuredIDR": 210000000
+          }
+        }
+      ]
+    }
+  }
+}

@@ -505,6 +505,113 @@
       },
       "x-ion-conditional": true,
       "x-ion-condition": "Required when paymentTermsPolicy is schedule-based"
+    },
+    "gift": {
+      "type": "boolean",
+      "description": "Simple gift flag. When true, populate giftingDetails for recipient name, message, and wrap preferences.",
+      "x-ion-conditional": true,
+      "x-ion-condition": "Optional; when true, giftingDetails should be populated"
+    },
+    "cancellationReason": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Structured cancellation reason with machine-readable code and localised description. Set by the requesting party at time of cancel.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique reason identifier. Matches an entry in offer.cancellationAllowedReasons."
+        },
+        "descriptor": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "code": {
+              "type": "string",
+              "description": "Machine-readable reason code.",
+              "example": "BUYER_REQUESTED"
+            },
+            "shortDesc": {
+              "type": "string",
+              "description": "Localised short reason for consumer display.",
+              "example": "Changed my mind"
+            }
+          }
+        }
+      },
+      "x-ion-conditional": true,
+      "x-ion-condition": "Required on /cancel request and on_cancel callback"
+    },
+    "cancellationTags": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Structured metadata bag for the cancellation event. Used in force-cancel (TAT breach) scenarios.",
+      "properties": {
+        "force": {
+          "type": "boolean",
+          "description": "True when BAP is force-cancelling due to BPP TAT breach."
+        },
+        "lastBppInteractionAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of last received BPP message — documents the TAT breach."
+        },
+        "expectedStatusBy": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Datetime by which BPP was expected to send on_status per declared SLA."
+        }
+      },
+      "x-ion-conditional": true,
+      "x-ion-condition": "Required when force-cancelling after BPP TAT breach"
+    },
+    "cancelledCommitmentIds": {
+      "type": "array",
+      "description": "Line IDs from commitments[] that have been individually cancelled in a partial-cancellation flow.",
+      "items": {
+        "type": "string",
+        "description": "lineId from the cancelled commitment"
+      },
+      "x-ion-conditional": true,
+      "x-ion-condition": "Required on partial-cancellation /cancel request"
+    },
+    "subscriptionAction": {
+      "type": "string",
+      "enum": ["PAUSE", "RESUME", "SKIP_NEXT", "MODIFY", "CANCEL"],
+      "description": "Action being applied to a subscription in a lifecycle management /update call.",
+      "x-ion-conditional": true,
+      "x-ion-condition": "Required on /update calls for subscription lifecycle management"
+    },
+    "dunningReminderSequence": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Sequence number of this dunning (payment reminder) attempt for overdue credit orders.",
+      "x-ion-conditional": true,
+      "x-ion-condition": "Required on /update when creditTermsDays > 0 and payment is overdue"
+    },
+    "legalEntityName": {
+      "type": "string",
+      "description": "Registered legal entity name of the buyer organisation for B2B wholesale and business-procurement patterns.",
+      "example": "PT Maju Bersama Indonesia",
+      "x-ion-conditional": true,
+      "x-ion-condition": "Required for B2B wholesale and business-procurement patterns"
+    },
+    "nib": {
+      "type": "string",
+      "pattern": "^[0-9]{13}$",
+      "description": "Nomor Induk Berusaha (Business Registration Number) of the buyer organisation.",
+      "example": "1234567890123",
+      "x-ion-regulatory": "PP 24/2018 tentang Pelayanan Perizinan Berusaha OSS",
+      "x-ion-conditional": true,
+      "x-ion-condition": "Required for B2B wholesale and business-procurement patterns at confirm"
+    },
+    "npwp": {
+      "type": "string",
+      "pattern": "^[0-9]{15,16}$",
+      "description": "NPWP (Nomor Pokok Wajib Pajak) of the buyer. Required when invoicePreferences.invoiceType=TAX_INVOICE.",
+      "example": "123456789012345",
+      "x-ion-regulatory": "UU 36/2008 tentang PPh; PMK 168/PMK.010/2023",
+      "x-ion-conditional": true,
+      "x-ion-condition": "Required when invoiceType=TAX_INVOICE or buyer is a PKP entity"
     }
   },
   "additionalProperties": true,

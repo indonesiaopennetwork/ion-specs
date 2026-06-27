@@ -450,6 +450,73 @@
       "description": "Reason age verification failed at delivery. Performance state should transition to DELIVERY_FAILED with this reason tag, and RTO flow initiates. Buyer may be blocked from future purchases of this category (per platform policy).\n",
       "x-ion-conditional": true,
       "x-ion-condition": "Required when delivery fails due to age verification"
+    },
+    "returnAgentPhone": {
+      "type": "string",
+      "pattern": "^[0-9]{10,13}$",
+      "description": "Indonesian mobile number of the return pickup agent. Companion field to returnAgentName — both are populated when a return pickup agent is assigned.",
+      "x-ion-conditional": true,
+      "x-ion-condition": "Present on return Performance records when agent assigned"
+    },
+    "stops": {
+      "type": "array",
+      "description": "Ordered list of stops for this performance leg. Each stop carries a location and a type (START, END, INTERMEDIATE).",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for this stop within this performance"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["START", "END", "INTERMEDIATE"],
+            "description": "START — pickup/origin point. END — delivery/destination point. INTERMEDIATE — waypoint."
+          },
+          "location": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "address": { "type": "string" },
+              "gps": {
+                "type": "string",
+                "pattern": "^-?[0-9]{1,2}.[0-9]+,-?[0-9]{1,3}.[0-9]+$"
+              },
+              "areaCode": { "type": "string" }
+            }
+          },
+          "instructions": { "type": "string" },
+          "estimatedArrival": { "type": "string", "format": "date-time" },
+          "actualArrival": { "type": "string", "format": "date-time" },
+          "proof": { "type": "string", "format": "uri" }
+        }
+      }
+    },
+    "tags": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Open key-value tag bag on the performance record. Used by patterns to attach structured event metadata. Tag keys use namespace.key format."
+    },
+    "totalCartons": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Total number of physical cartons/boxes in this shipment. Used for multi-carton fulfilments.",
+      "x-ion-conditional": true,
+      "x-ion-condition": "Present when fulfilment has multiple physical cartons"
+    },
+    "totalWeightKg": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Total packed weight of this fulfilment in kilograms. Used for logistics cost audit and insurance valuation.",
+      "x-ion-conditional": true,
+      "x-ion-condition": "Present at PACKED state and later"
+    },
+    "deliveryReceiptRef": {
+      "type": "string",
+      "description": "Reference number from the physical delivery receipt signed by the consumer at handover. Populated at DELIVERED state.",
+      "x-ion-conditional": true,
+      "x-ion-condition": "Present after DELIVERED state when physical receipt was issued"
     }
   },
   "required": [
@@ -483,7 +550,7 @@
       "if": {
         "properties": {
           "ageVerificationRequired": {
-            "const": "true"
+            "const": true
           }
         },
         "required": [
@@ -502,7 +569,12 @@
       "if": {
         "properties": {
           "qcResult": {
-            "const": "QC_FAILED_"
+            "enum": [
+              "QC_FAILED_TAMPERED",
+              "QC_FAILED_MISSING_PARTS",
+              "QC_FAILED_DIFFERENT_ITEM",
+              "QC_FAILED_USED_DAMAGED"
+            ]
           }
         },
         "required": [

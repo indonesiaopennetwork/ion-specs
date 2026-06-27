@@ -1,0 +1,99 @@
+{
+  "@context": {
+    "ion": "https://schema.ion.id/finance/insurance-resource/v1#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "schema": "https://schema.org/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "owl": "http://www.w3.org/2002/07/owl#"
+  },
+  "@graph": [
+    {
+      "@id": "ion:InsuranceProduct",
+      "@type": "rdfs:Class",
+      "rdfs:label": "InsuranceProduct",
+      "rdfs:comment": "Motor vehicle insurance product template published by an OJK IKNB-licensed insurer. Placed in Beckn Resource.resourceAttributes.",
+      "rdfs:subClassOf": { "@id": "schema:InsuranceAgency" }
+    },
+    {
+      "@id": "ion:productType",
+      "@type": "rdf:Property",
+      "rdfs:label": "productType",
+      "rdfs:comment": "Insurance product type. Values: MOTOR_COMPREHENSIVE (all-risk), MOTOR_THIRD_PARTY (TLO), MOTOR_FIRE_THEFT.",
+      "rdfs:domain": { "@id": "ion:InsuranceProduct" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+    {
+      "@id": "ion:vehicleType",
+      "@type": "rdf:Property",
+      "rdfs:label": "vehicleType",
+      "rdfs:comment": "Target vehicle category. Values: TWO_WHEELER, FOUR_WHEELER, COMMERCIAL_VEHICLE.",
+      "rdfs:domain": { "@id": "ion:InsuranceProduct" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+    {
+      "@id": "ion:tariffZone",
+      "@type": "rdf:Property",
+      "rdfs:label": "tariffZone",
+      "rdfs:comment": "OJK premium tariff zone per SE-06/D.05/2013. Determined by vehicle registration domicile. Values: ZONE_1 through ZONE_5.",
+      "rdfs:domain": { "@id": "ion:InsuranceProduct" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+    {
+      "@id": "ion:premiumRateRange",
+      "@type": "rdf:Property",
+      "rdfs:label": "premiumRateRange",
+      "rdfs:comment": "OJK tariff floor/ceiling rate range for this product and zone (% of IDV per annum).",
+      "rdfs:domain": { "@id": "ion:InsuranceProduct" },
+      "rdfs:range": { "@id": "ion:RateRange" }
+    },
+    {
+      "@id": "ion:RateRange",
+      "@type": "rdfs:Class",
+      "rdfs:label": "RateRange",
+      "rdfs:comment": "Minimum and maximum premium rate range per OJK tariff."
+    },
+    {
+      "@id": "ion:ojkProductCode",
+      "@type": "rdf:Property",
+      "rdfs:label": "ojkProductCode",
+      "rdfs:comment": "OJK IKNB product classification code for this insurance product.",
+      "rdfs:domain": { "@id": "ion:InsuranceProduct" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+    {
+      "@id": "ion:ojkLicenseNumber",
+      "@type": "rdf:Property",
+      "rdfs:label": "ojkLicenseNumber",
+      "rdfs:comment": "OJK Nomor Izin Usaha Perasuransian for the insurer publishing this product.",
+      "rdfs:domain": { "@id": "ion:InsuranceProduct" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+    {
+      "@id": "ion:coverageInclusions",
+      "@type": "rdf:Property",
+      "rdfs:label": "coverageInclusions",
+      "rdfs:comment": "List of covered perils and events (e.g., PARTIAL_LOSS, TOTAL_LOSS, THIRD_PARTY_LIABILITY, FIRE, THEFT).",
+      "rdfs:domain": { "@id": "ion:InsuranceProduct" },
+      "rdfs:range": { "@id": "rdf:List" }
+    },
+    {
+      "@id": "ion:standardExclusions",
+      "@type": "rdf:Property",
+      "rdfs:label": "standardExclusions",
+      "rdfs:comment": "Standard policy exclusions per AAUI (Asosiasi Asuransi Umum Indonesia) policy wording.",
+      "rdfs:domain": { "@id": "ion:InsuranceProduct" },
+      "rdfs:range": { "@id": "rdf:List" }
+    },
+    {
+      "@id": "ion:deductibleAmount",
+      "@type": "rdf:Property",
+      "rdfs:label": "deductibleAmount",
+      "rdfs:comment": "Mandatory risiko sendiri (deductible) per claim in IDR.",
+      "rdfs:domain": { "@id": "ion:InsuranceProduct" },
+      "rdfs:range": { "@id": "xsd:decimal" }
+    }
+  ]
+}

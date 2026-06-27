@@ -1,0 +1,129 @@
+id: ion-finance-ins-variant-kyc-verification-v1
+version: "1.0.0"
+variantType: kyc-verification
+sector: ion:finance
+category: FIN-03
+status: draft
+description: >
+  Identity verification sub-flow for insurance policyholders. Adapted from
+  FIN-02 lending kyc-verification for insurance transaction values and OJK
+  insurance eKYC requirements (OJK SP-30/D.05/2020). Lower transaction values
+  allow Tier 1 (dukcapil-only) for basic motor policies. Higher-value policies
+  or named beneficiary designation require Tier 2 or Tier 3.
+
+appliesTo:
+  - FNC-insurance
+
+window:
+  earliest: init
+  latest: on_init
+
+condition: policyholder participantAttributes.kycStatus != APPROVED or kycExpiry is past
+
+subBranches:
+
+  dukcapil-match:
+    id: dukcapil-match
+    description: >
+      NIK, name, and date of birth are matched against Ditjen Dukcapil national
+      population database. Minimum requirement for all insurance tiers.
+    steps:
+      - step: dukcapil-query
+        trigger: init
+        direction: BPP → Dukcapil API
+        inputs:
+          - participants[role=POLICYHOLDER].person.nik
+          - participants[role=POLICYHOLDER].person.name
+          - participants[role=POLICYHOLDER].person.dateOfBirth
+        output:
+          - contractAttributes.dukcapilMatchResult
+          - contractAttributes.dukcapilMatchScore
+
+  liveness-check:
+    id: liveness-check
+    description: >
+      Anti-spoofing liveness detection using OJK-compliant provider (AFTECH
+      white-list). Required for Tier 2 and above.
+    steps:
+      - step: liveness-submission
+        trigger: init
+        from: BAP
+        to: BPP
+        requiredFields:
+          - contractAttributes.ekycFormReference
+          - contractAttributes.livenessVideoRef
+
+  face-match:
+    id: face-match
+    description: >
+      Biometric face comparison between liveness selfie and KTP/e-KTP photo.
+      Required for Tier 3 (high-value policies).
+    steps:
+      - step: face-match-check
+        direction: BPP-internal (biometric provider)
+        inputs:
+          - contractAttributes.livenessVideoRef
+          - contractAttributes.ktpPhotoRef
+        output:
+          - contractAttributes.faceMatchScore
+          - contractAttributes.faceMatchResult
+
+  document-verification:
+    id: document-verification
+    description: >
+      OCR and authenticity checks on KTP, NPWP, and SIM (driver's license).
+      Required for Tier 3 or when premium exceeds IDR 5 juta.
+    steps:
+      - step: document-ocr
+        direction: BPP-internal (OCR provider)
+        inputs:
+          - contractAttributes.ktpDocumentRef
+          - participants[role=POLICYHOLDER].npwp
+          - participants[role=POLICYHOLDER].person.driverLicenseType
+
+  kyc-risk-classification:
+    id: kyc-risk-classification
+    description: >
+      Risk-based KYC tier determination per POJK 13/2018 and OJK SP-30/D.05/2020
+      insurance eKYC requirements.
+    tiers:
+      TIER_1_LOW:
+        maxAnnualPremium: "IDR 10 juta"
+        requiredChecks: [dukcapil-match]
+        selfieRequired: false
+      TIER_2_MEDIUM:
+        maxAnnualPremium: "IDR 50 juta"
+        requiredChecks: [dukcapil-match, liveness-check]
+        selfieRequired: true
+      TIER_3_HIGH:
+        maxAnnualPremium: unlimited
+        requiredChecks: [dukcapil-match, liveness-check, face-match, document-verification]
+        selfieRequired: true
+
+  kyc-result:
+    id: kyc-result
+    description: Final KYC outcome returned in on_init.
+    results:
+      APPROVED: KYC passed — policy issuance can proceed
+      REJECTED: Identity could not be verified — policy cannot be issued
+      MANUAL_REVIEW_REQUIRED: Biometric scores borderline — flagged for human review
+      EXPIRED: kycExpiry has passed — re-verification required
+    steps:
+      - step: kyc-decision
+        trigger: on_init
+        from: BPP
+        to: BAP
+        requiredFields:
+          - contractAttributes.ekycStatus
+        conditionalFields:
+          - field: contractAttributes.ekycRejectionReason
+            condition: required when ekycStatus is REJECTED
+          - field: contractAttributes.ekycExpiry
+            condition: returned when ekycStatus is APPROVED
+
+errors:
+  - ION-FIN-7010  # NIK not found in Dukcapil
+  - ION-FIN-7011  # Name / DOB mismatch against Dukcapil record
+  - ION-FIN-7012  # Liveness check failed (spoofing detected)
+  - ION-FIN-7013  # Face-match score below threshold
+  - ION-FIN-7014  # KYC documents expired or unreadable

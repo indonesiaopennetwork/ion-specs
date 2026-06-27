@@ -1,0 +1,158 @@
+id: ion-finance-variant-underwriting-v1
+version: "1.0.0"
+variantType: underwriting
+sector: ion:finance
+category: FIN-03
+status: draft
+description: >
+  Insurance underwriting sub-flow. Covers vehicle risk classification,
+  IDV (Insured Declared Value) validation, inspection, and final
+  underwriting decision. Equivalent to credit-assessment in FIN-02
+  lending but for insurance risk rather than credit risk. Premium rate
+  is determined per OJK tariff zone (SE-06/D.05/2013).
+
+appliesTo:
+  - FNC-insurance
+
+window:
+  earliest: select
+  latest: on_init
+
+subBranches:
+
+  vehicle-inspection:
+    id: vehicle-inspection
+    description: >
+      OJK-mandated pre-insurance inspection. Ensures vehicle condition matches
+      declared details before policy issuance. Inspection method depends on
+      vehicle age and IDV.
+    inspectionMethods:
+      SELF_INSPECTION:
+        description: Policyholder submits 6-side photos (front, rear, left, right, engine, chassis)
+        applicableFor: Vehicles < 5 years and IDV ≤ IDR 500 juta
+      SURVEYOR_VISIT:
+        description: Insurer assigns a surveyor for physical inspection
+        applicableFor: Vehicles ≥ 5 years or IDV > IDR 500 juta
+      WORKSHOP_INSPECTION:
+        description: Vehicle presented at designated insurer workshop
+        applicableFor: At insurer's discretion or high-risk vehicle types
+    steps:
+      - step: inspection-request
+        trigger: init
+        from: BPP
+        to: BAP
+        requiredFields:
+          - contractAttributes.vehicleDetails.vehiclePhotos[]
+          - contractAttributes.inspectionMethod
+        conditionalFields:
+          - field: contractAttributes.inspectionSurveyorRef
+            condition: required when inspectionMethod is SURVEYOR_VISIT
+          - field: contractAttributes.vehicleDetails.bpkbNumber
+            condition: required for MOTOR_COMPREHENSIVE and MOTOR_THIRD_PARTY
+
+      - step: inspection-result
+        direction: BPP-internal
+        inputs:
+          - contractAttributes.vehicleDetails.vehiclePhotos[]
+          - contractAttributes.vehicleDetails.make
+          - contractAttributes.vehicleDetails.model
+          - contractAttributes.vehicleDetails.year
+          - contractAttributes.vehicleDetails.vehicleIdNumber
+        output:
+          - contractAttributes.inspectionStatus
+          - contractAttributes.inspectionRemarks
+          - contractAttributes.vehicleConditionGrade
+
+  risk-classification:
+    id: risk-classification
+    description: >
+      Insurer classifies vehicle risk and assigns OJK tariff zone to determine
+      the applicable premium rate range. Zone is determined by policyholder's
+      domicile (STNK registration address).
+    tariffZones:
+      ZONE_1:
+        description: Sumatera (excluding Bangka Belitung and Kepulauan Riau)
+        comprehensiveRate: "1.80% – 2.65%"
+        tloRate: "0.80% – 1.20%"
+      ZONE_2:
+        description: DKI Jakarta, Jawa Barat, Banten, Bangka Belitung, Kepulauan Riau
+        comprehensiveRate: "1.05% – 1.78%"
+        tloRate: "0.46% – 0.77%"
+      ZONE_3:
+        description: Jawa Tengah, DI Yogyakarta, Jawa Timur
+        comprehensiveRate: "1.07% – 1.80%"
+        tloRate: "0.47% – 0.79%"
+      ZONE_4:
+        description: Bali, NTB, NTT, Kalimantan, Sulawesi
+        comprehensiveRate: "1.40% – 2.35%"
+        tloRate: "0.60% – 0.99%"
+      ZONE_5:
+        description: Maluku, Papua
+        comprehensiveRate: "1.90% – 2.83%"
+        tloRate: "0.82% – 1.36%"
+    steps:
+      - step: zone-assignment
+        trigger: select
+        direction: BPP-internal
+        inputs:
+          - participants[role=POLICYHOLDER].address
+          - contractAttributes.vehicleDetails.licensePlate
+        output:
+          - offerAttributes.tariffZone
+          - offerAttributes.ojkFinalRatePercent
+
+  idv-validation:
+    id: idv-validation
+    description: >
+      Insurer validates the Insured Declared Value (IDV) declared by the policyholder.
+      IDV = vehicle market price − depreciation per OJK SE-06/D.05/2013 table.
+      Insurer may counter-offer if declared IDV is outside the acceptable range.
+    depreciationSchedule:
+      year_1: "5%"
+      year_2: "10%"
+      year_3: "15%"
+      year_4: "20%"
+      year_5: "25%"
+      above_5: "negotiated with insurer"
+    steps:
+      - step: idv-check
+        trigger: select
+        direction: BPP-internal
+        inputs:
+          - offerAttributes.insuredDeclaredValue
+          - contractAttributes.vehicleDetails.make
+          - contractAttributes.vehicleDetails.model
+          - contractAttributes.vehicleDetails.year
+        output:
+          - offerAttributes.approvedIDV
+          - offerAttributes.counterOfferIDV  # only if IDV is outside acceptable range
+
+  underwriting-result:
+    id: underwriting-result
+    description: >
+      Final aggregation of inspection, zone assignment, and IDV validation.
+      Returns the underwriting decision.
+    results:
+      APPROVED: Underwriting passed — policy can proceed to init/confirm
+      COUNTER_OFFER: IDV or terms adjusted by insurer — policyholder must confirm revised terms
+      REJECTED: Policy cannot be issued (e.g., salvage title, flood-damaged vehicle, excluded use)
+      REFER_TO_UNDERWRITER: Complex risk requiring senior underwriter review (typically 1 business day)
+    steps:
+      - step: underwriting-decision
+        trigger: on_init
+        from: BPP
+        to: BAP
+        requiredFields:
+          - contractAttributes.underwritingStatus
+        conditionalFields:
+          - field: contractAttributes.underwritingRejectionReason
+            condition: required when underwritingStatus is REJECTED
+          - field: contractAttributes.counterOfferIDV
+            condition: required when underwritingStatus is COUNTER_OFFER
+
+errors:
+  - ION-FIN-7001  # Inspection photos insufficient — fewer than 6 required views
+  - ION-FIN-7002  # Vehicle age exceeds maximum insurable age
+  - ION-FIN-7003  # IDV declared below minimum floor (< 50% of market value)
+  - ION-FIN-7004  # Vehicle use type not covered (e.g., racing, hired transport)
+  - ION-FIN-7005  # STNK number mismatch with declared VIN

@@ -1,0 +1,118 @@
+{
+  "@context": {
+    "ion": "https://schema.ion.id/finance/insurance-performance/v1#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "schema": "https://schema.org/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "owl": "http://www.w3.org/2002/07/owl#"
+  },
+  "@graph": [
+    {
+      "@id": "ion:PolicyPerformance",
+      "@type": "rdfs:Class",
+      "rdfs:label": "PolicyPerformance",
+      "rdfs:comment": "Coverage period tracking and policy lifecycle state machine. Placed in Beckn Contract.performance[].performanceAttributes.",
+      "rdfs:subClassOf": { "@id": "schema:Event" }
+    },
+    {
+      "@id": "ion:policyState",
+      "@type": "rdf:Property",
+      "rdfs:label": "policyState",
+      "rdfs:comment": "Current policy lifecycle state. State machine: PENDING_ISSUANCE → ACTIVE → [CLAIM_FILED → CLAIM_SETTLED] → RENEWAL_DUE → [RENEWED | EXPIRED | TOTAL_LOSS | CANCELLED | LAPSED].",
+      "rdfs:domain": { "@id": "ion:PolicyPerformance" },
+      "rdfs:range": { "@id": "xsd:string" }
+    },
+    {
+      "@id": "ion:coveragePeriodStart",
+      "@type": "rdf:Property",
+      "rdfs:label": "coveragePeriodStart",
+      "rdfs:comment": "Date from which insurance coverage is active (ISO 8601 YYYY-MM-DD).",
+      "rdfs:domain": { "@id": "ion:PolicyPerformance" },
+      "rdfs:range": { "@id": "xsd:date" }
+    },
+    {
+      "@id": "ion:coveragePeriodEnd",
+      "@type": "rdf:Property",
+      "rdfs:label": "coveragePeriodEnd",
+      "rdfs:comment": "Date on which coverage expires (ISO 8601 YYYY-MM-DD).",
+      "rdfs:domain": { "@id": "ion:PolicyPerformance" },
+      "rdfs:range": { "@id": "xsd:date" }
+    },
+    {
+      "@id": "ion:nextRenewalDueDate",
+      "@type": "rdf:Property",
+      "rdfs:label": "nextRenewalDueDate",
+      "rdfs:comment": "Date by which renewal must be confirmed (typically coveragePeriodEnd − 30 days). Triggers policy-renewal variant.",
+      "rdfs:domain": { "@id": "ion:PolicyPerformance" },
+      "rdfs:range": { "@id": "xsd:date" }
+    },
+    {
+      "@id": "ion:claimCount",
+      "@type": "rdf:Property",
+      "rdfs:label": "claimCount",
+      "rdfs:comment": "Total number of claims filed during this policy period. Used to determine No Claims Discount at renewal.",
+      "rdfs:domain": { "@id": "ion:PolicyPerformance" },
+      "rdfs:range": { "@id": "xsd:integer" }
+    },
+    {
+      "@id": "ion:ncdPercentage",
+      "@type": "rdf:Property",
+      "rdfs:label": "ncdPercentage",
+      "rdfs:comment": "No Claims Discount percentage earned this period (0–25%). Applied to next renewal premium.",
+      "rdfs:domain": { "@id": "ion:PolicyPerformance" },
+      "rdfs:range": { "@id": "xsd:decimal" }
+    },
+    {
+      "@id": "ion:remainingSumInsuredIDR",
+      "@type": "rdf:Property",
+      "rdfs:label": "remainingSumInsuredIDR",
+      "rdfs:comment": "Remaining sum insured in IDR after settled claims. Equals originalIDV for no-claim policies.",
+      "rdfs:domain": { "@id": "ion:PolicyPerformance" },
+      "rdfs:range": { "@id": "xsd:decimal" }
+    },
+    {
+      "@id": "ion:PolicyState",
+      "@type": ["rdfs:Class", "skos:ConceptScheme"],
+      "rdfs:label": "PolicyState",
+      "rdfs:comment": "Insurance policy lifecycle state taxonomy."
+    },
+    {
+      "@id": "ion:PENDING_ISSUANCE",
+      "@type": "skos:Concept",
+      "skos:prefLabel": "PENDING_ISSUANCE",
+      "skos:broader": { "@id": "ion:PolicyState" },
+      "rdfs:comment": "Premium paid; policy certificate being generated."
+    },
+    {
+      "@id": "ion:STATE_ACTIVE",
+      "@type": "skos:Concept",
+      "skos:prefLabel": "ACTIVE",
+      "skos:broader": { "@id": "ion:PolicyState" },
+      "rdfs:comment": "Coverage in force from coveragePeriodStart."
+    },
+    {
+      "@id": "ion:CLAIM_FILED",
+      "@type": "skos:Concept",
+      "skos:prefLabel": "CLAIM_FILED",
+      "skos:broader": { "@id": "ion:PolicyState" },
+      "rdfs:comment": "FNOL received; claim under assessment. Coverage continues for other incidents."
+    },
+    {
+      "@id": "ion:RENEWAL_DUE",
+      "@type": "skos:Concept",
+      "skos:prefLabel": "RENEWAL_DUE",
+      "skos:broader": { "@id": "ion:PolicyState" },
+      "rdfs:comment": "Renewal notice sent. Coverage still active; policyholder must confirm renewal."
+    },
+    {
+      "@id": "ion:STATE_TOTAL_LOSS",
+      "@type": "skos:Concept",
+      "skos:prefLabel": "TOTAL_LOSS",
+      "skos:broader": { "@id": "ion:PolicyState" },
+      "rdfs:comment": "Total loss claim settled; IDV paid; policy terminated."
+    }
+  ]
+}

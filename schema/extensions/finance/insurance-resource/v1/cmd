@@ -1,0 +1,6 @@
+  go run . \
+    --spec-type file \
+    --spec-location ./testdata/beckn-openapi.yaml \
+    --extended-schema \
+    --payload ../../../ion-specs/flows/finance/FIN-03/FNC-insurance/patterns/motor-insurance/v1/examples/publish_catalog_local_test.json
+

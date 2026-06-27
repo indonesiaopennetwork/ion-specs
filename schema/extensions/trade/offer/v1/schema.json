@@ -670,7 +670,7 @@
       "if": {
         "properties": {
           "availableOnCod": {
-            "const": "true"
+            "const": true
           }
         },
         "required": [
@@ -687,7 +687,7 @@
       "if": {
         "properties": {
           "queueEnabled": {
-            "const": "true"
+            "const": true
           }
         },
         "required": [
@@ -704,7 +704,7 @@
       "if": {
         "properties": {
           "returnable": {
-            "const": "true"
+            "const": true
           }
         },
         "required": [

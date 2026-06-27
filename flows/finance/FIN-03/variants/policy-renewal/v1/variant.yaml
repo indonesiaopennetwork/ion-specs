@@ -1,0 +1,124 @@
+id: ion-finance-variant-policy-renewal-v1
+version: "1.0.0"
+variantType: policy-renewal
+sector: ion:finance
+category: FIN-03
+status: draft
+description: >
+  Annual policy renewal sub-flow. Triggered 30 calendar days before
+  the policy's coverageEndDate. Covers renewal notice, premium re-quote
+  (with updated IDV reflecting depreciation), policyholder acceptance,
+  optional re-underwriting for high-risk profiles, and new policy period
+  issuance. No Claims Discount (NCD / No Claim Bonus) is applied per
+  OJK guidelines if no claims were filed in the expiring period.
+
+appliesTo:
+  - FNC-insurance
+
+window:
+  earliest: "on_status[RENEWAL_DUE]"
+  latest: "on_status[RENEWED | EXPIRED]"
+
+trigger:
+  event: "on_status[RENEWAL_DUE]"
+  timing: "T-30 calendar days before coverageEndDate"
+
+subBranches:
+
+  renewal-notice:
+    id: renewal-notice
+    description: >
+      Insurer sends renewal offer with updated premium, revised IDV (post-depreciation),
+      and No Claims Discount (NCD) if applicable. Renewal quote valid for 30 days.
+    ncdSchedule:
+      year_1_no_claim: "5% NCD"
+      year_2_no_claim: "10% NCD"
+      year_3_no_claim: "15% NCD"
+      year_4_no_claim: "20% NCD"
+      year_5_plus_no_claim: "25% NCD (maximum)"
+      any_year_with_claim: "0% NCD (reset)"
+    steps:
+      - step: renewal-offer
+        trigger: "on_status[RENEWAL_DUE]"
+        from: BPP
+        to: BAP
+        direction: unsolicited
+        requiredFields:
+          - message.renewal.contractId
+          - message.renewal.renewalQuote.newIDV
+          - message.renewal.renewalQuote.renewalPremiumIDR
+          - message.renewal.renewalQuote.ncdApplied
+          - message.renewal.renewalQuote.ncdPercentage
+          - message.renewal.renewalQuote.quoteValidUntil
+          - message.renewal.renewalQuote.newCoverageStartDate
+          - message.renewal.renewalQuote.newCoverageEndDate
+        conditionalFields:
+          - field: message.renewal.renewalQuote.addOnOptions[]
+            condition: returned if prior policy had add-on covers
+
+  renewal-acceptance:
+    id: renewal-acceptance
+    description: >
+      Policyholder accepts or modifies the renewal offer. Coverage type
+      or add-ons may be changed at renewal. IDV may be adjusted (within
+      OJK acceptable range).
+    steps:
+      - step: renewal-confirm
+        from: BAP
+        to: BPP
+        requiredFields:
+          - message.renewal.contractId
+          - message.renewal.acceptance.confirmedIDV
+          - message.renewal.acceptance.paymentMethod
+          - message.renewal.acceptance.paymentRef
+        conditionalFields:
+          - field: message.renewal.acceptance.revisedProductType
+            condition: if policyholder changes coverage type at renewal
+          - field: message.renewal.acceptance.addOnOptions[]
+            condition: if policyholder modifies add-on covers
+
+  renewal-underwriting:
+    id: renewal-underwriting
+    description: >
+      Re-underwriting triggered at renewal for high-risk profiles:
+      vehicles with ≥2 claims in prior period, vehicles now ≥ 5 years old,
+      or major claims (TOTAL_LOSS history).
+    triggerConditions:
+      - "performanceAttributes.claimCount >= 2"
+      - "vehicle.year is now 5 years old"
+      - "prior policy had TOTAL_LOSS claim"
+    steps:
+      - step: renewal-inspection-request
+        from: BPP
+        to: BAP
+        direction: callback
+        description: Insurer requests updated vehicle photos or surveyor inspection.
+        requiredFields:
+          - message.renewal.inspectionRequired
+          - message.renewal.inspectionMethod
+
+  renewal-issuance:
+    id: renewal-issuance
+    description: New policy period issued with updated policy number and certificate.
+    steps:
+      - step: renewal-policy-issued
+        from: BPP
+        to: BAP
+        direction: callback
+        requiredFields:
+          - message.renewal.newPolicyNumber
+          - message.renewal.newCertificateUrl
+          - message.renewal.newCoverageStartDate
+          - message.renewal.newCoverageEndDate
+          - message.renewal.sumInsuredIDR
+        conditionalFields:
+          - field: message.renewal.ncdCertificateUrl
+            condition: if NCD was applied — insurer provides NCD certificate
+
+policyReferences:
+  - ion://policy/finance/insurance/renewal/v1
+
+errors:
+  - ION-FIN-7030  # Renewal payment not received before coverageEndDate (policy lapses)
+  - ION-FIN-7031  # Revised IDV outside acceptable range at renewal
+  - ION-FIN-7032  # Renewal declined — vehicle no longer insurable (write-off, illegal mods)

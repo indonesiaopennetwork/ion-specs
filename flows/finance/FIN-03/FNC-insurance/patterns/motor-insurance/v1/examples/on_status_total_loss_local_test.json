@@ -1,0 +1,85 @@
+{
+  "_meta": {
+    "description": "LOCAL TEST ONLY — same as on_status_total_loss.json but @context uses relative file paths. Run from ion-sandbox/cmd/schema-validator/.",
+    "pattern": "motor-insurance",
+    "step": "on_status",
+    "policyStateVariant": "TOTAL_LOSS",
+    "schemaPacks": [
+      "finance/insurance-contract/v1",
+      "finance/insurance-performance/v1"
+    ]
+  },
+  "context": {
+    "domain": "ion:finance",
+    "action": "on_status",
+    "version": "2.0.0",
+    "bapId": "buyerapp.ion.id",
+    "bapUri": "https://buyerapp.ion.id/beckn",
+    "bppId": "asuransimaju.ion.id",
+    "bppUri": "https://asuransimaju.ion.id/beckn",
+    "networkId": "ion.id",
+    "transactionId": "c4f7a2b1-88d3-4e5f-9012-ab3c5d6e7f89",
+    "messageId": "msg-ins-on-status-total-loss-001",
+    "timestamp": "2027-01-20T11:15:00.000+07:00",
+    "ttl": "PT30S",
+    "location": {
+      "city": { "code": "std:3171" },
+      "country": { "code": "IDN" }
+    },
+    "schemaContext": [
+      "../../../ion-specs/schema/extensions/finance/insurance-contract/v1/context.jsonld",
+      "../../../ion-specs/schema/extensions/finance/insurance-performance/v1/context.jsonld"
+    ]
+  },
+  "message": {
+    "contract": {
+      "id": "CONTRACT-AMAJU-2026-00012",
+      "status": { "code": "TOTAL_LOSS" },
+      "commitments": [
+        { "id": "CMT-INS-001", "status": { "descriptor": { "code": "TOTAL_LOSS" } } }
+      ],
+      "contractAttributes": {
+        "@context": "../../../ion-specs/schema/extensions/finance/insurance-contract/v1/context.jsonld",
+        "@type": "ion:InsurancePolicy",
+        "policyNumber": "POL-AMAJU-2026-00012",
+        "policyStatus": "TOTAL_LOSS",
+        "coverageStartDate": "2026-06-19",
+        "coverageEndDate": "2027-01-15",
+        "sumInsuredIDR": 210000000,
+        "actualIDV": 210000000,
+        "claimsHistory": [
+          {
+            "claimId": "CLM-AMAJU-2027-TL-001",
+            "incidentType": "TOTAL_LOSS",
+            "incidentDate": "2027-01-15",
+            "incidentDescription": "Vehicle fully submerged in Jakarta banjir (flood) event — economic repair not viable",
+            "claimStatus": "APPROVED",
+            "settlementMethod": "CASH_SETTLEMENT",
+            "approvedClaimIDR": 210000000,
+            "salvageTransferredToInsurer": true,
+            "claimSettledAt": "2027-01-20T11:00:00.000+07:00"
+          }
+        ],
+        "earlyTerminationReason": "TOTAL_LOSS",
+        "earlyTerminationDate": "2027-01-15"
+      },
+      "performance": [
+        {
+          "id": "PERF-INS-001",
+          "status": { "code": "TOTAL_LOSS" },
+          "performanceAttributes": {
+            "@context": "../../../ion-specs/schema/extensions/finance/insurance-performance/v1/context.jsonld",
+            "@type": "ion:PolicyPerformance",
+            "policyState": "TOTAL_LOSS",
+            "coveragePeriodStart": "2026-06-19",
+            "coveragePeriodEnd": "2027-01-15",
+            "nextRenewalDueDate": "2027-05-19",
+            "claimCount": 1,
+            "ncdPercentage": 0,
+            "remainingSumInsuredIDR": 0
+          }
+        }
+      ]
+    }
+  }
+}

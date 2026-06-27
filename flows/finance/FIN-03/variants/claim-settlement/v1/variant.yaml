@@ -1,0 +1,181 @@
+id: ion-finance-variant-claim-settlement-v1
+version: "1.0.0"
+variantType: claim-settlement
+sector: ion:finance
+category: FIN-03
+status: draft
+description: >
+  Insurance claim sub-flow. Covers First Notice of Loss (FNOL), surveyor
+  assignment, damage assessment, claim decision, and settlement payment.
+  Applies from on_confirm until policy expires or total loss. Claim types
+  vary by productType: ACCIDENT, THEFT, THIRD_PARTY_LIABILITY, FIRE,
+  NATURAL_DISASTER. Settlement methods: REPAIR (workshop), CASH_SETTLEMENT,
+  or TOTAL_LOSS (indemnity). OJK requires claim acknowledgement within 5
+  calendar days and settlement decision within 30 calendar days
+  (POJK 23/2023).
+
+appliesTo:
+  - FNC-insurance
+
+window:
+  earliest: on_confirm
+  latest: "on_status[EXPIRED | TOTAL_LOSS]"
+
+subBranches:
+
+  claim-notification:
+    id: claim-notification
+    description: >
+      First Notice of Loss (FNOL) — policyholder reports an incident.
+      Insurer logs the claim reference and assigns a claim handler.
+    claimTypes:
+      ACCIDENT:
+        description: Vehicle involved in a collision — partial or total damage
+        evidence: [photos-at-scene, police-report-if-required, STNK-copy, SIM-copy]
+      THEFT:
+        description: Vehicle stolen — total loss presumed until recovered
+        evidence: [police-report-P1, STNK-copy, BPKB-copy, key-surrender]
+        waitingPeriod: "Police report must be minimum 14 days old"
+      THIRD_PARTY_LIABILITY:
+        description: Policyholder caused damage to third party's vehicle or property
+        evidence: [photos, third-party-statement, police-report-if-injury]
+      FIRE:
+        description: Vehicle damaged by fire
+        evidence: [fire-department-report, photos]
+        requiresPoliceReport: false
+      NATURAL_DISASTER:
+        description: Vehicle damaged by flood, earthquake, volcanic ash, etc.
+        evidence: [photos, BPBD-disaster-declaration-if-available]
+    steps:
+      - step: fnol-submission
+        trigger: policyholder reports incident (via BAP)
+        from: BAP
+        to: BPP
+        requiredFields:
+          - message.claim.contractId
+          - message.claim.incidentDate
+          - message.claim.incidentType
+          - message.claim.incidentDescription
+          - message.claim.evidenceRefs[]
+        conditionalFields:
+          - field: message.claim.policeReportRef
+            condition: required for THEFT; required for ACCIDENT if injury or damage > IDR 25 juta
+          - field: message.claim.thirdPartyDetails
+            condition: required for THIRD_PARTY_LIABILITY claims
+
+      - step: claim-acknowledgement
+        from: BPP
+        to: BAP
+        direction: callback
+        description: Insurer acknowledges FNOL within 5 calendar days (POJK 23/2023).
+        requiredFields:
+          - message.claim.claimReference
+          - message.claim.handlerName
+          - message.claim.surveyorAssigned
+          - message.claim.acknowledgementDate
+
+  claim-survey:
+    id: claim-survey
+    description: >
+      Surveyor inspects damaged vehicle and prepares a damage assessment report
+      (berita acara kerusakan) and repair cost estimate.
+    surveyMethods:
+      WORKSHOP_SURVEY:
+        description: Vehicle towed/driven to insurer-designated workshop
+        turnaround: "1–3 business days"
+      FIELD_SURVEY:
+        description: Surveyor visits vehicle location (total loss, unable to drive)
+        turnaround: "1–2 business days after FNOL"
+      PHOTO_SURVEY:
+        description: Remote damage assessment via submitted photos
+        applicableFor: Minor claims < IDR 5 juta estimated damage
+        turnaround: "Same day"
+    steps:
+      - step: survey-assignment
+        direction: BPP-internal
+        output:
+          - claim.surveyorRef
+          - claim.surveyMethod
+          - claim.estimatedSurveyDate
+
+      - step: survey-report
+        direction: BPP-internal (surveyor → BPP)
+        output:
+          - claim.damageAssessmentRef
+          - claim.repairEstimateIDR
+          - claim.totalLossDeclared
+
+  claim-approval:
+    id: claim-approval
+    description: >
+      Insurer approves or rejects the claim based on survey results and policy
+      coverage. Settlement method is determined.
+    settlementMethods:
+      REPAIR:
+        description: Vehicle repaired at insurer-designated workshop; insurer pays workshop directly
+      CASH_SETTLEMENT:
+        description: Insurer pays agreed cash amount to policyholder (non-panel workshop or preference)
+      TOTAL_LOSS:
+        description: Total loss declared (damage ≥ 75% of IDV for TLO; ≥ 75% for comprehensive)
+        procedure: Insurer pays IDV minus salvage value; title transferred to insurer
+    steps:
+      - step: claim-decision
+        from: BPP
+        to: BAP
+        direction: callback
+        description: Insurer returns claim decision within 30 calendar days of FNOL.
+        requiredFields:
+          - message.claim.claimStatus
+          - message.claim.settlementMethod
+          - message.claim.approvedAmountIDR
+        conditionalFields:
+          - field: message.claim.rejectionReason
+            condition: required when claimStatus is REJECTED
+          - field: message.claim.deductibleAppliedIDR
+            condition: always — deductible deducted from settlement
+          - field: message.claim.workshopAssigned
+            condition: required when settlementMethod is REPAIR
+          - field: message.claim.cashSettlementBreakup
+            condition: required when settlementMethod is CASH_SETTLEMENT
+          - field: message.claim.totalLossIdvIDR
+            condition: required when settlementMethod is TOTAL_LOSS
+
+  claim-payment:
+    id: claim-payment
+    description: >
+      Settlement payment executed. For REPAIR, insurer pays workshop directly
+      after repair completion. For CASH_SETTLEMENT, insurer transfers to
+      policyholder's registered bank account. For TOTAL_LOSS, insurer pays
+      policyholder; BPKB and STNK returned to insurer.
+    steps:
+      - step: settlement-payment
+        from: BPP
+        to: BAP
+        direction: callback
+        requiredFields:
+          - message.claim.paymentReference
+          - message.claim.settlementDate
+          - message.claim.settledAmountIDR
+        conditionalFields:
+          - field: message.claim.workshopCompletionRef
+            condition: required for REPAIR settlement
+          - field: message.claim.totalLossTitleTransfer
+            condition: required for TOTAL_LOSS — STNK + BPKB surrender confirmation
+
+      - step: policy-status-update
+        trigger: after claim settlement
+        direction: BPP-internal
+        output:
+          - contractAttributes.policyStatus  # ACTIVE (partial), TOTAL_LOSS, or CLAIMED
+          - performanceAttributes.claimCount
+          - performanceAttributes.policyState
+
+policyReferences:
+  - ion://policy/finance/insurance/claim/v1
+
+errors:
+  - ION-FIN-7020  # FNOL submitted after claim reporting deadline
+  - ION-FIN-7021  # Incident type not covered under policy
+  - ION-FIN-7022  # Claim rejected — fraudulent documentation detected
+  - ION-FIN-7023  # Vehicle use at time of incident excluded (e.g., hired transport)
+  - ION-FIN-7024  # Claim exceeds remaining sum insured

@@ -1,0 +1,164 @@
+{
+  "_meta": {
+    "description": "Motor insurance on_search — BPP returns matching insurance products. Example: PT Asuransi Maju Tbk returning MOTOR_COMPREHENSIVE products for FOUR_WHEELER in Zone 3 matching Budi's search intent.",
+    "pattern": "motor-insurance",
+    "step": "on_search",
+    "sent_by": "BPP",
+    "received_by": "BAP",
+    "becknAction": "OnSearchAction",
+    "schemaPacks": [
+      "finance/insurance-resource/v1",
+      "finance/insurance-offer/v1"
+    ]
+  },
+  "context": {
+    "domain": "ion:finance",
+    "action": "on_search",
+    "version": "2.0.0",
+    "bapId": "buyerapp.ion.id",
+    "bapUri": "https://buyerapp.ion.id/beckn",
+    "bppId": "asuransimaju.ion.id",
+    "bppUri": "https://asuransimaju.ion.id/beckn",
+    "networkId": "ion.id",
+    "transactionId": "c4f7a2b1-88d3-4e5f-9012-ab3c5d6e7f89",
+    "messageId": "msg-ins-on-search-001",
+    "timestamp": "2026-06-18T10:00:01.500+07:00",
+    "ttl": "PT30S",
+    "location": {
+      "city": {
+        "code": "std:3171"
+      },
+      "country": {
+        "code": "IDN"
+      }
+    },
+    "schemaContext": [
+      "https://schema.ion.id/finance/insurance-resource/v1/context.jsonld",
+      "https://schema.ion.id/finance/insurance-offer/v1/context.jsonld"
+    ]
+  },
+  "message": {
+    "catalog": {
+      "provider": {
+        "id": "PROV-ASURANSI-MAJU-001",
+        "descriptor": {
+          "name": "PT Asuransi Maju Tbk"
+        },
+        "providerAttributes": {
+          "ojkLicenseNumber": "KEP-112/KM.10/1985",
+          "ojkLicenseType": "ASURANSI_UMUM",
+          "ojkIknbLicense": "S-1045/NB.11/2020"
+        }
+      },
+      "resources": [
+        {
+          "id": "RES-MOTOR-COMP-Z3-4W",
+          "descriptor": {
+            "name": "Asuransi Mobil Komprehensif — Zone 3",
+            "shortDesc": "Perlindungan menyeluruh untuk kendaraan roda empat. Covers kecelakaan, pencurian, kebakaran, dan tanggung gugat pihak ketiga."
+          },
+          "category": {
+            "id": "motor-four-wheeler",
+            "descriptor": {
+              "name": "Kendaraan Roda Empat"
+            }
+          },
+          "resourceAttributes": {
+            "@context": "https://schema.ion.id/finance/insurance-resource/v1/context.jsonld",
+            "@type": "ion:InsuranceProduct",
+            "productType": "MOTOR_COMPREHENSIVE",
+            "vehicleType": "FOUR_WHEELER",
+            "tariffZone": "ZONE_3",
+            "ojkProductCode": "AMJ-COMP-4W-Z3-2026",
+            "ojkLicenseNumber": "KEP-112/KM.10/1985",
+            "premiumRateRange": {
+              "min": 1.05,
+              "max": 1.20
+            },
+            "coverageInclusions": [
+              "PARTIAL_LOSS",
+              "TOTAL_LOSS",
+              "THEFT",
+              "FIRE",
+              "THIRD_PARTY_LIABILITY",
+              "NATURAL_DISASTER",
+              "ROADSIDE_ASSISTANCE"
+            ],
+            "standardExclusions": [
+              "OVERLOADING",
+              "MECHANICAL_BREAKDOWN",
+              "DUI",
+              "INTENTIONAL_DAMAGE",
+              "TIRE_ONLY",
+              "RACING"
+            ],
+            "deductibleAmount": 300000,
+            "addOnOptions": [
+              {
+                "code": "ADD-ZERO-DEP",
+                "name": "Zero Depreciation Cover",
+                "additionalPremiumRate": 0.15
+              },
+              {
+                "code": "ADD-RSA",
+                "name": "Roadside Assistance 24 Jam",
+                "additionalPremiumRate": 0.05
+              },
+              {
+                "code": "ADD-PA-DRIVER",
+                "name": "Personal Accident — Pengemudi",
+                "additionalPremiumRate": 0.08
+              },
+              {
+                "code": "ADD-PA-PASSENGER",
+                "name": "Personal Accident — Penumpang (maks 5 orang)",
+                "additionalPremiumRate": 0.12
+              },
+              {
+                "code": "ADD-NATURAL-DISASTER",
+                "name": "Perluasan Bencana Alam (banjir, gempa, tsunami)",
+                "additionalPremiumRate": 0.10
+              }
+            ]
+          }
+        }
+      ],
+      "offers": [
+        {
+          "id": "OFFER-MOTOR-COMP-Z3-4W-001",
+          "resourceIds": [
+            "RES-MOTOR-COMP-Z3-4W"
+          ],
+          "offerAttributes": {
+            "@context": "https://schema.ion.id/finance/insurance-offer/v1/context.jsonld",
+            "@type": "ion:PolicyQuote",
+            "inclusions": [
+              "PARTIAL_LOSS",
+              "TOTAL_LOSS",
+              "THEFT",
+              "FIRE",
+              "THIRD_PARTY_LIABILITY",
+              "NATURAL_DISASTER",
+              "ROADSIDE_ASSISTANCE"
+            ],
+            "specialExclusions": [
+              "Kendaraan dengan modifikasi struktural tidak terdaftar di STNK"
+            ],
+            "requiredDocuments": [
+              "KTP / e-KTP pengemudi utama",
+              "STNK yang masih berlaku",
+              "SIM A yang masih berlaku",
+              "Foto kendaraan 4 sisi (depan, belakang, kiri, kanan)",
+              "NPWP (untuk tertanggung perseorangan, jika premi >Rp 5.000.000)"
+            ],
+            "claimPolicy": "ion://policy/insurance/claim.motor.fnol-24h",
+            "cancellationPolicy": "ion://policy/insurance/cancellation.motor.prorata",
+            "renewalPolicy": "ion://policy/insurance/renewal.motor.30d-notice",
+            "endorsementPolicy": "ion://policy/insurance/endorsement.motor.standard",
+            "grievanceSlaPolicy": "ion://policy/insurance/grievance-sla.ojk.pojk23-2023"
+          }
+        }
+      ]
+    }
+  }
+}

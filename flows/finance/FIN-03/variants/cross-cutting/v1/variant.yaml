@@ -1,0 +1,167 @@
+id: ion-finance-ins-variant-cross-cutting-v1
+version: "1.0.0"
+variantType: cross-cutting
+sector: ion:finance
+category: FIN-03
+status: draft
+description: >
+  Always-active operational sub-flow. Activates on on_confirm and remains
+  active throughout the entire policy lifecycle. Covers status polling,
+  customer support, policyholder rating, financial reconciliation
+  (ION extension), and formal dispute escalation (ION extension).
+
+appliesTo:
+  - FNC-insurance
+
+window:
+  earliest: on_confirm
+  latest: contract_COMPLETE
+
+subBranches:
+
+  status:
+    id: status
+    description: >
+      Point-in-time policy state query. BAP can poll for current policy
+      status, coverage details, outstanding premium (instalment policies),
+      and claim history.
+    steps:
+      - step: status-request
+        from: BAP
+        to: BPP
+        requiredFields:
+          - message.contract.id
+      - step: on_status-response
+        from: BPP
+        to: BAP
+        requiredFields:
+          - message.contract.contractAttributes.policyStatus
+          - message.contract.contractAttributes.coverageStartDate
+          - message.contract.contractAttributes.coverageEndDate
+          - message.contract.contractAttributes.sumInsuredIDR
+          - message.contract.performanceAttributes.policyState
+          - message.contract.performanceAttributes.claimCount
+        conditionalFields:
+          - field: message.contract.contractAttributes.claimsHistory[]
+            condition: if claimCount > 0
+
+  support:
+    id: support
+    description: >
+      Customer support channel for policyholder enquiries. Covers certificate
+      re-delivery, claim status updates, endorsement requests, payment
+      confirmation, and general policy queries. OJK requires acknowledgement
+      within 5 working days and resolution within 20 working days (POJK 22/2023).
+    enquiryTypes:
+      CERTIFICATE_RESEND: Re-send policy certificate PDF to registered email
+      CLAIM_STATUS: Status update on an active claim
+      PAYMENT_CONFIRMATION: Confirm premium payment receipt
+      POLICY_DETAILS: Full policy schedule and coverage details
+      ENDORSEMENT_REQUEST: Initiate a mid-policy change (routes to endorsement variant)
+      GENERAL_ENQUIRY: Other policyholder questions
+    steps:
+      - step: support-request
+        from: BAP
+        to: BPP
+        requiredFields:
+          - message.contract.id
+          - message.support.enquiryType
+          - message.support.description
+      - step: on_support
+        from: BPP
+        to: BAP
+        requiredFields:
+          - message.support.ticketRef
+          - message.support.estimatedResolutionDate
+        conditionalFields:
+          - field: message.support.attachmentUrl
+            condition: returned if certificate or document resend was requested
+
+  rate:
+    id: rate
+    description: >
+      Post-lifecycle policyholder rating of the insurance experience.
+      Only valid after policy reaches EXPIRED or TOTAL_LOSS state.
+    steps:
+      - step: rate-request
+        from: BAP
+        to: BPP
+        requiredFields:
+          - message.contract.id
+          - message.feedback.rating
+        conditionalFields:
+          - field: message.feedback.comment
+            condition: optional free-text
+          - field: message.feedback.claimExperienceRating
+            condition: if claimCount > 0 — separate rating for claims handling
+      - step: on_rate
+        from: BPP
+        to: BAP
+        requiredFields:
+          - message.contract.id
+
+  reconcile:
+    id: reconcile
+    description: >
+      Financial reconciliation (ION EXTENSION). Covers full premium lifecycle:
+      premium paid, tax deductions (PPh 22 and/or PPN), broker/agent commission,
+      add-on premiums, claim payouts, refunds. Used by BAP for financial reporting.
+    steps:
+      - step: reconcile-request
+        from: BAP
+        to: BPP
+        requiredFields:
+          - message.contract.id
+          - message.reconciliation.period.from
+          - message.reconciliation.period.to
+      - step: on_reconcile
+        from: BPP
+        to: BAP
+        requiredFields:
+          - message.reconciliation.statement.premiumPaidIDR
+          - message.reconciliation.statement.taxDeductedIDR
+          - message.reconciliation.statement.commissionIDR
+          - message.reconciliation.statement.addOnPremiumsIDR
+          - message.reconciliation.statement.claimsSettledIDR
+          - message.reconciliation.statement.refundsIDR
+          - message.reconciliation.statement.netSettlementIDR
+
+  raise:
+    id: raise
+    description: >
+      Formal dispute escalation to ION network (ION EXTENSION). Covers OJK
+      complaints (5 working-day acknowledgement, 20 working-day resolution per
+      POJK 22/2023), claim disputes, and premium overcharge complaints.
+      Escalates to BPSK (consumer court) or BANI (arbitration) if unresolved.
+    disputeTypes:
+      CLAIM_REJECTION_DISPUTE: Policyholder disputes claim rejection decision
+      PREMIUM_OVERCHARGE: Policyholder disputes premium calculation
+      SETTLEMENT_AMOUNT_DISPUTE: Policyholder disputes approved claim settlement amount
+      POLICY_TERMS_DISPUTE: Dispute over interpretation of policy terms
+      ENDORSEMENT_DISPUTE: Dispute over endorsement calculation or effect
+    steps:
+      - step: raise-request
+        from: BAP
+        to: BPP
+        requiredFields:
+          - message.contract.id
+          - message.dispute.type
+          - message.dispute.description
+          - message.dispute.evidenceRefs[]
+      - step: on_raise
+        from: BPP
+        to: BAP
+        requiredFields:
+          - message.dispute.disputeRef
+          - message.dispute.acknowledgementDate
+          - message.dispute.targetResolutionDate
+      - step: raise_status
+        from: BAP
+        to: BPP
+        description: BAP polls for dispute resolution status.
+      - step: on_raise_status
+        from: BPP
+        to: BAP
+        requiredFields:
+          - message.dispute.currentStatus
+          - message.dispute.resolution

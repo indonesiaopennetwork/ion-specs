@@ -1,0 +1,107 @@
+{
+  "_meta": {
+    "description": "LOCAL TEST ONLY — same as confirm.json but @context uses relative file paths. Run from ion-sandbox/cmd/schema-validator/.",
+    "pattern": "motor-insurance",
+    "step": "confirm",
+    "sent_by": "BAP",
+    "received_by": "BPP",
+    "schemaPacks": [
+      "finance/insurance-participant/v1",
+      "finance/insurance-contract/v1",
+      "finance/insurance-offer/v1"
+    ]
+  },
+  "context": {
+    "domain": "ion:finance",
+    "action": "confirm",
+    "version": "2.0.0",
+    "bapId": "buyerapp.ion.id",
+    "bapUri": "https://buyerapp.ion.id/beckn",
+    "bppId": "asuransimaju.ion.id",
+    "bppUri": "https://asuransimaju.ion.id/beckn",
+    "networkId": "ion.id",
+    "transactionId": "c4f7a2b1-88d3-4e5f-9012-ab3c5d6e7f89",
+    "messageId": "msg-ins-confirm-001",
+    "timestamp": "2026-06-18T10:20:30.000+07:00",
+    "ttl": "PT30S",
+    "location": {
+      "city": { "code": "std:3171" },
+      "country": { "code": "IDN" }
+    },
+    "schemaContext": [
+      "../../../ion-specs/schema/extensions/finance/insurance-participant/v1/context.jsonld",
+      "../../../ion-specs/schema/extensions/finance/insurance-contract/v1/context.jsonld",
+      "../../../ion-specs/schema/extensions/finance/insurance-offer/v1/context.jsonld"
+    ]
+  },
+  "message": {
+    "contract": {
+      "participants": [
+        {
+          "id": "PART-BUDI-001",
+          "role": "POLICYHOLDER",
+          "participantAttributes": {
+            "@context": "../../../ion-specs/schema/extensions/finance/insurance-participant/v1/context.jsonld",
+            "@type": "ion:Policyholder",
+            "nik": "3171012345678901",
+            "driverLicenseType": "SIM_A",
+            "kycStatus": "APPROVED",
+            "kycExpiry": "2028-03-14"
+          }
+        }
+      ],
+      "commitments": [
+        {
+          "id": "CMT-INS-001",
+          "status": { "descriptor": { "code": "DRAFT" } },
+          "offer": {
+            "id": "OFFER-MOTOR-COMP-Z3-4W-001",
+            "provider": { "id": "PROV-ASURANSI-MAJU-001", "descriptor": { "name": "PT Asuransi Maju Tbk" } }
+          },
+          "resources": [{ "id": "RES-MOTOR-COMP-Z3-4W" }]
+        }
+      ],
+      "contractAttributes": {
+        "@context": "../../../ion-specs/schema/extensions/finance/insurance-contract/v1/context.jsonld",
+        "@type": "ion:InsurancePolicy",
+        "policyStatus": "PENDING_ISSUANCE",
+        "policyConsentRef": "SPPA-20260618-BUDI-001",
+        "policyConsentSignedAt": "2026-06-18T10:19:45.000+07:00",
+        "actualIDV": 210000000
+      },
+      "offerAttributes": {
+        "@context": "../../../ion-specs/schema/extensions/finance/insurance-offer/v1/context.jsonld",
+        "@type": "ion:PolicyQuote",
+        "inclusions": [
+          "PARTIAL_LOSS",
+          "TOTAL_LOSS",
+          "THEFT",
+          "FIRE",
+          "THIRD_PARTY_LIABILITY",
+          "NATURAL_DISASTER",
+          "ROADSIDE_ASSISTANCE"
+        ],
+        "insuredDeclaredValue": 210000000,
+        "approvedIDV": 210000000,
+        "annualPremiumIDR": 2310000,
+        "ojkFinalRatePercent": 1.10,
+        "tariffZone": "ZONE_3"
+      },
+      "settlements": [
+        {
+          "id": "PAY-INS-001",
+          "considerationId": "CONSID-INS-001",
+          "status": "COMMITTED",
+          "settlementAttributes": {
+            "paymentMethod": "VIRTUAL_ACCOUNT",
+            "paymentRef": "VA-BNI-82773012345678",
+            "bankCode": "009",
+            "bankName": "BNI",
+            "amountPaidIDR": 2345000,
+            "paidAt": "2026-06-18T10:20:15.000+07:00"
+          }
+        }
+      ]
+    }
+  }
+}

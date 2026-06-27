@@ -60,7 +60,11 @@ components:
         - if:
             properties:
               qcResult:
-                const: QC_FAILED_
+                enum:
+                  - QC_FAILED_TAMPERED
+                  - QC_FAILED_MISSING_PARTS
+                  - QC_FAILED_DIFFERENT_ITEM
+                  - QC_FAILED_USED_DAMAGED
             required:
             - qcResult
           then:

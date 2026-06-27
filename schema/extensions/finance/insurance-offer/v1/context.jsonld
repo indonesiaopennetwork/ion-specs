@@ -1,0 +1,70 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@protected": true,
+    "ion": "https://schema.ion.id/finance/insurance-offer/v1#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "schema": "https://schema.org/",
+    "PolicyQuote": "ion:PolicyQuote",
+    "AddOnPremium": "ion:AddOnPremium",
+    "approvedIDV": {
+      "@id": "ion:approvedIDV",
+      "@type": "xsd:decimal"
+    },
+    "annualPremiumIDR": {
+      "@id": "ion:annualPremiumIDR",
+      "@type": "xsd:decimal"
+    },
+    "ojkFinalRatePercent": {
+      "@id": "ion:ojkFinalRatePercent",
+      "@type": "xsd:decimal"
+    },
+    "tariffZone": {
+      "@id": "ion:tariffZone",
+      "@type": "xsd:string"
+    },
+    "quoteValidUntil": {
+      "@id": "ion:quoteValidUntil",
+      "@type": "xsd:dateTime"
+    },
+    "inclusions": {
+      "@id": "ion:inclusions",
+      "@container": "@list"
+    },
+    "specialExclusions": {
+      "@id": "ion:specialExclusions",
+      "@container": "@list"
+    },
+    "addOnPremiums": {
+      "@id": "ion:addOnPremiums",
+      "@container": "@list"
+    },
+    "deductible": {
+      "@id": "ion:deductible",
+      "@type": "xsd:decimal"
+    },
+    "counterOfferIDV": {
+      "@id": "ion:counterOfferIDV",
+      "@type": "xsd:decimal"
+    },
+    "inspectionRequired": {
+      "@id": "ion:inspectionRequired",
+      "@type": "xsd:boolean"
+    },
+    "requiredDocuments": {
+      "@id": "ion:requiredDocuments",
+      "@container": "@list"
+    },
+    "ncdApplied": {
+      "@id": "ion:ncdApplied",
+      "@type": "xsd:boolean"
+    },
+    "ncdPercentage": {
+      "@id": "ion:ncdPercentage",
+      "@type": "xsd:decimal"
+    }
+  }
+}

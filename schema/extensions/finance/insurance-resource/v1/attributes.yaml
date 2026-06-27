@@ -1,0 +1,90 @@
+openapi: "3.1.1"
+info:
+  title: ION Finance Insurance Resource Extension (v1)
+  version: 1.0.0
+  description: |
+    Insurance product template attributes for the Finance domain. Carries the
+    product definition published by OJK-licensed insurers to the ION catalog.
+    Attaches to: beckn:Resource.resourceAttributes
+
+components:
+  schemas:
+    InsuranceProduct:
+      type: object
+      title: InsuranceProduct
+      x-ion-layer: ion
+      x-ion-split-version: "1.0.0"
+      x-beckn-attaches-to: Resource.resourceAttributes
+      x-jsonld:
+        '@context': ./context.jsonld
+        '@type': ion:InsuranceProduct
+      additionalProperties: true
+      properties:
+        productType:
+          type: string
+          enum: [MOTOR_COMPREHENSIVE, MOTOR_THIRD_PARTY, MOTOR_FIRE_THEFT]
+          description: Insurance product coverage type
+        vehicleType:
+          type: string
+          enum: [TWO_WHEELER, FOUR_WHEELER, COMMERCIAL_VEHICLE]
+        tariffZone:
+          type: string
+          enum: [ZONE_1, ZONE_2, ZONE_3, ZONE_4, ZONE_5]
+          description: OJK premium tariff zone per SE-06/D.05/2013
+        premiumRateRange:
+          type: object
+          properties:
+            min: { type: number }
+            max: { type: number }
+          description: OJK floor/ceiling rate range (% of IDV per annum)
+        ojkProductCode:
+          type: string
+          description: OJK IKNB product classification code
+          example: "AUMK-001"
+        ojkLicenseNumber:
+          type: string
+          description: Nomor Izin Usaha Perasuransian from OJK
+          example: "KEP-1234/KM.13/2023"
+        coverageInclusions:
+          type: array
+          minItems: 1
+          items:
+            type: string
+            enum:
+              - PARTIAL_LOSS
+              - TOTAL_LOSS
+              - THEFT
+              - FIRE
+              - THIRD_PARTY_LIABILITY
+              - NATURAL_DISASTER
+              - ROADSIDE_ASSISTANCE
+              - PERSONAL_ACCIDENT_DRIVER
+              - PERSONAL_ACCIDENT_PASSENGER
+          description: Covered peril codes per AAUI standard motor policy wording
+        standardExclusions:
+          type: array
+          minItems: 1
+          items:
+            type: string
+            enum:
+              - OVERLOADING
+              - MECHANICAL_BREAKDOWN
+              - DUI
+              - INTENTIONAL_DAMAGE
+              - TIRE_ONLY
+              - RACING
+              - WAR_TERRORISM
+              - NUCLEAR
+          description: Standard exclusion codes per AAUI motor policy wording
+        deductibleAmount:
+          type: number
+          description: Mandatory deductible (risiko sendiri) per claim in IDR
+          example: 300000
+        addOnOptions:
+          type: array
+          items:
+            type: object
+            properties:
+              code: { type: string }
+              name: { type: string }
+              additionalPremiumRate: { type: number }

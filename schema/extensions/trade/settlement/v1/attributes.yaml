@@ -32,11 +32,9 @@ components:
       x-ion-split-version: "0.7.0"
       x-recommended-parent: Settlement.settlementAttributes
       additionalProperties: true
-      allOf:
-        # REMOTE upstream (active — used by ONIX at validation time):
-        - $ref: https://raw.githubusercontent.com/beckn/local-retail/main/schema/RetailSettlement/v2.1/attributes.yaml#/components/schemas/RetailSettlement
-        # LOCAL vendored reference copy (for offline review and version drift detection):
-        # - $ref: ../../../../core/v2/api/v2.0.0/vendored/retail-settlement-v2.1.yaml#/components/schemas/RetailSettlement
+      # allOf upstream ref removed: IONTradeSettlement defines all settlement fields
+      # directly with Indonesia-specific enums (QRIS, VIRTUAL_ACCOUNT, etc.) that
+      # conflict with the generic Beckn RetailSettlement method enum (ONLINE, CARD, etc.).
     IONTradeSettlement:
       type: object
       x-ion-layer: ion
@@ -47,7 +45,7 @@ components:
       additionalProperties: true
       x-jsonld:
         '@context': 'https://schema.ion.id/trade/settlement/v1/context.jsonld'
-        '@type': ion:TradeSettlement
+        '@type': ion:IONTradeSettlement
       x-beckn-attaches-to: Settlement.settlementAttributes
       properties:
         method:
@@ -381,4 +379,4 @@ components:
             Free-text reason declared by BPP when reconStatus=DISPUTED.
             Should reference the specific amount or line item being disputed.
           x-ion-condition: Required when reconStatus=DISPUTED
-        x-ion-closed-extensions: false
+      x-ion-closed-extensions: false
