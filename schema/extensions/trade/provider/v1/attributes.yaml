@@ -28,9 +28,9 @@ components:
       additionalProperties: true
       allOf:
         # LOCAL (default — active):
-        - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Provider
+        # - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Provider
         # REMOTE (uncomment to use upstream directly):
-        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Provider
+        - $ref: https://schema.beckn.io/Provider/2.1/attributes.yaml#/components/schemas/Provider
     IONTradeProvider:
       type: object
       x-ion-layer: ion

@@ -138,7 +138,7 @@ components:
               type: boolean
             djpRemittanceReference:
               type: string
-            x-ion-condition: Required when seller is PKP-registered and transaction is taxable
+          x-ion-condition: Required when seller is PKP-registered and transaction is taxable
         ppnExemption:
           type: object
           additionalProperties: false
@@ -278,7 +278,7 @@ components:
             transitClauseExtension:
               type: string
               description: Extension clause for multi-leg coverage gaps (warehouse-to-warehouse)
-            x-ion-condition: Required when transitClauseExtension is needed for multi-leg ocean/air coverage
+          x-ion-condition: Required when transitClauseExtension is needed for multi-leg ocean/air coverage
         disputeReason:
           type: object
           additionalProperties: false
@@ -545,7 +545,7 @@ components:
             exchangeRateUsed:
               type: number
               description: Bea Cukai exchange rate applied
-            x-ion-condition: Required for cross-border (LGC-XB) shipments through Indonesian customs
+          x-ion-condition: Required for cross-border (LGC-XB) shipments through Indonesian customs
         inatradePermits:
           type: array
           description: 'INATRADE (Indonesia National Single Window) permits. Required for regulated categories —

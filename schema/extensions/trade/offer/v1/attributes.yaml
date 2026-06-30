@@ -28,7 +28,7 @@ components:
       additionalProperties: true
       allOf:
         # REMOTE upstream (active — used by ONIX at validation time):
-        - $ref: https://raw.githubusercontent.com/beckn/local-retail/main/schema/RetailOffer/v2.1/attributes.yaml#/components/schemas/RetailOffer
+        - $ref: https://schema.beckn.io/RetailOffer/v2.1/attributes.yaml#/components/schemas/RetailOffer
         # LOCAL vendored reference copy (for offline review and version drift detection):
         # - $ref: ../../../../core/v2/api/v2.0.0/vendored/retail-offer-v2.1.yaml#/components/schemas/RetailOffer
     IONTradeOffer:

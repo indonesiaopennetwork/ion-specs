@@ -443,7 +443,7 @@ components:
                     type: number
                   currency:
                     type: string
-                  x-ion-condition: Required for multi-leg contracts where leg-level billing is tracked
+                x-ion-condition: Required for multi-leg contracts where leg-level billing is tracked
         temperatureReading:
           type: object
           additionalProperties: false
@@ -763,7 +763,7 @@ components:
               - PUSH_ALL_DOWNSTREAM
               - SLA_BREACH_LIKELY
               - SLA_BREACH_CERTAIN
-            x-ion-condition: Required when stateTimingCommitments were declared in the offer
+          x-ion-condition: Required when stateTimingCommitments were declared in the offer
         stateTimingHistory:
           type: array
           description: 'Historical record of state dwell durations. Populated progressively as the performance moves

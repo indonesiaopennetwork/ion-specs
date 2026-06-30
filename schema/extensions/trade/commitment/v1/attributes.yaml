@@ -29,7 +29,7 @@ components:
       additionalProperties: true
       allOf:
         # REMOTE upstream (active — used by ONIX at validation time):
-        # - $ref: https://raw.githubusercontent.com/beckn/local-retail/main/schema/RetailCommitment/v2.1/attributes.yaml#/components/schemas/RetailCommitment
+        - $ref: https://raw.githubusercontent.com/beckn/local-retail/main/schema/RetailCommitment/v2.1/attributes.yaml#/components/schemas/RetailCommitment
         # LOCAL vendored reference copy (for offline review and version drift detection):
         # - $ref: ../../../../core/v2/api/v2.0.0/vendored/retail-commitment-v2.1.yaml#/components/schemas/RetailCommitment
     IONTradeCommitment:
