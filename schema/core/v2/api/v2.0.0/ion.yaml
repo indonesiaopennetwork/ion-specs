@@ -1533,7 +1533,7 @@ servers:
   variables:
     subscriberUrl:
       default: example.ion.id
-      description: Registered subscriber URL of the ION Network participant.
+      # description: Registered subscriber URL of the ION Network participant.
 security: []
 paths:
   /raise:

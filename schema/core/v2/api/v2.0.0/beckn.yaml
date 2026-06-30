@@ -148,7 +148,7 @@ servers:
   variables:
     subscriberUrl:
       default: example.beckn.io
-      description: Network address of the NP, resolved via the subnet registry lookup using the NP's namespace id and networkId.
+      # description: Network address of the NP, resolved via the subnet registry lookup using the NP's namespace id and networkId.
 paths:
   /discover:
     post:

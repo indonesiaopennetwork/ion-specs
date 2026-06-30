@@ -54,8 +54,6 @@ components:
       x-jsonld:
         '@context': 'https://schema.ion.id/hospitality/fnb-delivery/v1/context.jsonld'
         '@type': ion:FnbItem
-      allOf:
-        - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
       properties:
         quantity:
           type: object
@@ -70,8 +68,8 @@ components:
               type: string
               enum: [PORTION, PIECE, CUP, BOWL, PLATE, SET, LITRE, MILLILITRE]
               example:
-            value: 1
-            unit: portion
+                value: 1
+                unit: portion
 
         resourceStructure:
           type: string

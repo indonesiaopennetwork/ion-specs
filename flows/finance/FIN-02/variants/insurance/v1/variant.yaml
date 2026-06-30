@@ -25,7 +25,6 @@ window:
   latest: "on_status[DISBURSED]"
 
 subBranches:
-
   credit-life-insurance:
     id: credit-life-insurance
     appliesTo: [FNC-lending, FNC-lending]
@@ -143,7 +142,7 @@ subBranches:
           - contractAttributes.kebakaranCertificateUrl
 
       - step: annual-kebakaran-renewal
-        trigger: "on_status[KEBAKARAN_RENEWAL_DUE]" (annual)
+        trigger: "on_status[KEBAKARAN_RENEWAL_DUE]"
         description: Fire insurance renewed annually. BPP may auto-renew via bancassurance.
 
   vehicle-insurance:
@@ -171,7 +170,7 @@ subBranches:
           - contractAttributes.vehicleInsuranceLossPayeeClause
 
       - step: annual-vehicle-insurance-renewal
-        trigger: "on_status[VEHICLE_INSURANCE_RENEWAL_DUE]" (annual)
+        trigger: "on_status[VEHICLE_INSURANCE_RENEWAL_DUE]"
         description: BPP ensures continuous coverage. Gap in coverage is a contract breach.
 
   on_init_additions:
