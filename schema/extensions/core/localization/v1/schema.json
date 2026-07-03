@@ -6,24 +6,72 @@
   "description": "Localised text fields for catalog content — name, short description, long description. All three use the LocalisedText pattern. These extend beckn:descriptor fields with proper multilingual support.\n",
   "properties": {
     "name": {
-      "$ref": "#/components/schemas/LocalisedText",
+      "$ref": "#/$defs/LocalisedText",
       "description": "Product or service name as a language object. Supplements Beckn `Descriptor.name` (which carries the default-locale text, normally `id`). Consumers that read only Beckn-native fields see Indonesian; ION-aware consumers read the multilingual map here. \"id\" always mandatory.\n",
       "x-ion-regulatory": "ION Network Policy — Bahasa Indonesia localisation requirement"
     },
     "shortDesc": {
-      "$ref": "#/components/schemas/LocalisedText",
+      "$ref": "#/$defs/LocalisedText",
       "description": "Short description for catalog listings and search results. Max 150 characters per language. Supplements Beckn `Descriptor.shortDesc`. \"id\" mandatory.\n",
       "x-ion-regulatory": "ION Network Policy — bilingual catalog requirement"
     },
     "longDesc": {
-      "$ref": "#/components/schemas/LocalisedText",
+      "$ref": "#/$defs/LocalisedText",
       "description": "Full product description for product detail page. Supplements Beckn `Descriptor.longDesc`. \"id\" mandatory. \"en\" mandatory for cross-border pattern.\n",
       "x-ion-regulatory": "ION Network Policy — Bahasa Indonesia localisation requirement"
     }
   },
-  "required": [
-    "name",
-    "shortDesc"
-  ],
-  "additionalProperties": false
+  "additionalProperties": false,
+  "$defs": {
+    "LocalisedText": {
+      "type": "object",
+      "title": "Localised Text Object",
+      "description": "Language-keyed text object. Keys are ISO 639-1 language codes. \"id\" is always mandatory per ION network policy. \"en\" is mandatory for export commerce (cross-border pattern). Additional languages optional: ms (Malay), zh (Chinese), ar (Arabic), ta (Tamil), ko (Korean), ja (Japanese).\n",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "string"
+      },
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Bahasa Indonesia — always required"
+        },
+        "en": {
+          "type": "string",
+          "description": "English — required for cross-border pattern"
+        },
+        "ms": {
+          "type": "string",
+          "description": "Bahasa Melayu"
+        },
+        "zh": {
+          "type": "string",
+          "description": "Mandarin Chinese (Simplified)"
+        },
+        "ar": {
+          "type": "string",
+          "description": "Arabic"
+        },
+        "ta": {
+          "type": "string",
+          "description": "Tamil"
+        },
+        "ko": {
+          "type": "string",
+          "description": "Korean"
+        },
+        "ja": {
+          "type": "string",
+          "description": "Japanese"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "example": {
+        "id": "Nasi Goreng Spesial",
+        "en": "Special Fried Rice"
+      }
+    }
+  }
 }

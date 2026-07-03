@@ -27,10 +27,7 @@ components:
       x-recommended-parent: Offer.offerAttributes
       additionalProperties: true
       allOf:
-        # REMOTE upstream (active — used by ONIX at validation time):
         - $ref: https://raw.githubusercontent.com/beckn/schemas/main/schema/Logistics/v2.0/attributes.yaml#/components/schemas/Logistics
-        # LOCAL vendored reference copy (for offline review and version drift detection):
-        # - $ref: ../../../../core/v2/api/v2.0.0/vendored/logistics-v2.0.yaml#/components/schemas/Logistics
     IONLogisticsOffer:
       type: object
       x-ion-layer: ion
@@ -576,7 +573,7 @@ components:
             onTimeDefinition:
               type: string
               description: How on-time is computed (e.g. "actualDelivery <= pickupTime + pickupToDelivery")
-            x-ion-condition: Required when stateTimingCommitments is present and overallTAT SLA is declared
+          x-ion-condition: Required when stateTimingCommitments is present and overallTAT SLA is declared
         capacityModel:
           type: string
           enum:

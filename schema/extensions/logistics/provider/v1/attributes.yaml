@@ -27,10 +27,7 @@ components:
       x-recommended-parent: Provider.providerAttributes
       additionalProperties: true
       allOf:
-        # REMOTE upstream (active — used by ONIX at validation time):
         - $ref: https://raw.githubusercontent.com/beckn/schemas/main/schema/LogisticsOperator/v2.0/attributes.yaml#/components/schemas/LogisticsOperator
-        # LOCAL vendored reference copy (for offline review and version drift detection):
-        # - $ref: ../../../../core/v2/api/v2.0.0/vendored/logistics-operator-v2.0.yaml#/components/schemas/LogisticsOperator
     IONLogisticsProvider:
       type: object
       x-ion-layer: ion

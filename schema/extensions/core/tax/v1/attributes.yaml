@@ -33,9 +33,6 @@ components:
             - taxRate
             - taxAmount
             - taxBaseAmount
-        - taxRegime
-        - taxCategory
-        - taxIncluded
       title: Indonesia Tax Detail
       additionalProperties: false
       x-jsonld:

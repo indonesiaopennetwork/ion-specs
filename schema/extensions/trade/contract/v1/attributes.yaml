@@ -28,10 +28,7 @@ components:
       x-recommended-parent: Contract.contractAttributes
       additionalProperties: true
       allOf:
-        # REMOTE upstream (active — used by ONIX at validation time):
         - $ref: https://schema.beckn.io/RetailContract/v2.1/attributes.yaml#/components/schemas/RetailContract
-        # LOCAL vendored reference copy (for offline review and version drift detection):
-        # - $ref: ../../../../core/v2/api/v2.0.0/vendored/retail-contract-v2.1.yaml#/components/schemas/RetailContract
     IONTradeContract:
       type: object
       x-ion-layer: ion
@@ -114,7 +111,7 @@ components:
                 value:
                   type: string
                   description: Tax ID number
-                  example: 1234567890123456
+                  example: "1234567890123456"
               required:
               - scheme
               - value

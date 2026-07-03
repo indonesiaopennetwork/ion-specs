@@ -34,9 +34,9 @@ components:
       additionalProperties: true
       allOf:
         # LOCAL (default — active):
-        - $ref: beckn.yaml#/components/schemas/Attributes
+        # - $ref: beckn.yaml#/components/schemas/Attributes
         # REMOTE (uncomment to use upstream directly):
-        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+        - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
     IONFnbItem:
       type: object
       x-ion-layer: ion
@@ -67,9 +67,9 @@ components:
             unit:
               type: string
               enum: [PORTION, PIECE, CUP, BOWL, PLATE, SET, LITRE, MILLILITRE]
-              example:
-                value: 1
-                unit: portion
+          example:
+            value: 1
+            unit: "PORTION"
 
         resourceStructure:
           type: string

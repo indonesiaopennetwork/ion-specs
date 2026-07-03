@@ -269,7 +269,7 @@ components:
             slikGrade:
               type: string
               description: Collectibility grade from OJK SLIK / iDEB credit bureau check.
-              enum: [1, 2]
+              enum: ["1", "2"]
               example: "1"
       x-ion-closed-extensions: false
 

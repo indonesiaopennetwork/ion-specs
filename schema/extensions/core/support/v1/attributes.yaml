@@ -113,7 +113,7 @@ components:
               properties:
                 phone:
                   type: string
-                  example: 0812345678
+                  example: "0812345678"
                 email:
                   type: string
                   format: email

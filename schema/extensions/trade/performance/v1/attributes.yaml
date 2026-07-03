@@ -27,10 +27,7 @@ components:
       x-recommended-parent: Performance.performanceAttributes
       additionalProperties: true
       allOf:
-        # REMOTE upstream (active — used by ONIX at validation time):
         - $ref: https://schema.beckn.io/RetailPerformance/2.1/attributes.yaml#/components/schemas/RetailPerformance
-        # LOCAL vendored reference copy (for offline review and version drift detection):
-        # - $ref: ../../../../core/v2/api/v2.0.0/vendored/retail-performance-v2.1.yaml#/components/schemas/RetailPerformance
     IONTradePerformance:
       type: object
       x-ion-layer: ion
@@ -191,7 +188,7 @@ components:
           type: string
           pattern: ^[0-9]{10,13}$
           description: Indonesian mobile number, 10-13 digits.
-          example: 08123456789
+          example: "08123456789"
           x-ion-condition: Present when agent is assigned
         agentPhoto:
           type: string
