@@ -27,7 +27,7 @@ components:
       x-recommended-parent: Provider.providerAttributes
       additionalProperties: true
       allOf:
-        - $ref: https://raw.githubusercontent.com/beckn/schemas/main/schema/LogisticsOperator/v2.0/attributes.yaml#/components/schemas/LogisticsOperator
+        - $ref: https://schema.beckn.io/LogisticsOperator/v2.0/attributes.yaml#/components/schemas/LogisticsOperator
     IONLogisticsProvider:
       type: object
       x-ion-layer: ion

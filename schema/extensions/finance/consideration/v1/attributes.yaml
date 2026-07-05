@@ -26,10 +26,7 @@ components:
       x-recommended-parent: Consideration.considerationAttributes
       additionalProperties: true
       allOf:
-        # LOCAL (default — active):
-        - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Consideration
-        # REMOTE (uncomment to use upstream directly):
-        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Consideration
+        - $ref: 'https://schema.beckn.io/Consideration/v2.0/attributes.yaml#/components/schemas/Consideration'
     IONLoanConsideration:
       type: object
       x-ion-layer: ion

@@ -33,7 +33,7 @@ components:
       x-recommended-parent: Offer.offerAttributes
       additionalProperties: true
       allOf:
-        - $ref: https://raw.githubusercontent.com/beckn/local-retail/main/schema/FoodAndBeverageOffer/v2.1/attributes.yaml#/components/schemas/FoodAndBeverageOffer
+        - $ref: https://schema.beckn.io/FoodAndBeverageOffer/2.1/attributes.yaml#/components/schemas/FoodAndBeverageOffer
     IONRestaurantOffer:
       type: object
       x-ion-layer: ion

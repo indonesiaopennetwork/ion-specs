@@ -48,10 +48,7 @@ components:
       x-recommended-parent: Resource.resourceAttributes
       additionalProperties: true
       allOf:
-        # LOCAL (default — active):
-        - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Resource
-        # REMOTE (uncomment to use upstream directly):
-        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Resource
+        - $ref: 'https://schema.beckn.io/Resource/v2.0/attributes.yaml#/components/schemas/Resource'
     IONCreditProduct:
       type: object
       x-ion-layer: ion

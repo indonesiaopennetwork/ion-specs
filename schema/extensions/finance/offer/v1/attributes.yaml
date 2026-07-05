@@ -46,10 +46,7 @@ components:
       x-recommended-parent: Offer.offerAttributes
       additionalProperties: true
       allOf:
-        # LOCAL (default — active):
-        - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Offer
-        # REMOTE (uncomment to use upstream directly):
-        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Offer
+        - $ref: 'https://schema.beckn.io/Offer/v2.0/attributes.yaml#/components/schemas/Offer'
     IONCreditOffer:
       type: object
       additionalProperties: true

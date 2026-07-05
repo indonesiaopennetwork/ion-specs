@@ -33,10 +33,7 @@ components:
       x-recommended-parent: Resource.resourceAttributes
       additionalProperties: true
       allOf:
-        # LOCAL (default — active):
-        # - $ref: beckn.yaml#/components/schemas/Attributes
-        # REMOTE (uncomment to use upstream directly):
-        - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+        - $ref: https://schema.beckn.io/Attributes/2.0/attributes.yaml#/components/schemas/Attributes
     IONFnbItem:
       type: object
       x-ion-layer: ion

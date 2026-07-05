@@ -107,7 +107,7 @@ components:
       - legalEntityName
       - businessType
       allOf:
-      - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+      - $ref: 'https://schema.beckn.io/Attributes/2.0/attributes.yaml#/components/schemas/Attributes'
       - if:
           properties:
             businessType:

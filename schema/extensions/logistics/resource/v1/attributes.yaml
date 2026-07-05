@@ -28,7 +28,7 @@ components:
       x-recommended-parent: Resource.resourceAttributes
       additionalProperties: true
       allOf:
-        - $ref: https://raw.githubusercontent.com/beckn/schemas/main/schema/Shipment/v2.0/attributes.yaml#/components/schemas/Shipment
+        - $ref: https://schema.beckn.io/Shipment/v2.0/attributes.yaml#/components/schemas/Shipment
     IONLogisticsResource:
       type: object
       x-ion-layer: ion

@@ -27,7 +27,7 @@ components:
       x-recommended-parent: Offer.offerAttributes
       additionalProperties: true
       allOf:
-        - $ref: https://raw.githubusercontent.com/beckn/schemas/main/schema/Logistics/v2.0/attributes.yaml#/components/schemas/Logistics
+        - $ref: https://schema.beckn.io/Attributes/2.0/attributes.yaml#/components/schemas/Attributes
     IONLogisticsOffer:
       type: object
       x-ion-layer: ion

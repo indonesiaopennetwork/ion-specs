@@ -28,10 +28,7 @@ components:
       x-recommended-parent: Tracking.trackingAttributes
       additionalProperties: true
       allOf:
-        # LOCAL (default — active):
-        - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Tracking
-        # REMOTE (uncomment to use upstream directly):
-        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Tracking
+        - $ref: 'https://schema.beckn.io/Tracking/v2.0/attributes.yaml#/components/schemas/Tracking'
     IONLogisticsTracking:
       type: object
       x-ion-layer: ion

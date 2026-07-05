@@ -26,10 +26,7 @@ components:
       x-recommended-parent: Participant (direct properties)
       additionalProperties: true
       allOf:
-        # LOCAL (default — active):
-        - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Participant
-        # REMOTE (uncomment to use upstream directly):
-        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Participant
+        - $ref: 'https://schema.beckn.io/Participant/v2.0/attributes.yaml#/components/schemas/Participant'
     IONBorrower:
       type: object
       x-ion-layer: ion

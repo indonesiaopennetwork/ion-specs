@@ -26,10 +26,7 @@ components:
       x-recommended-parent: Contract.contractAttributes
       additionalProperties: true
       allOf:
-        # LOCAL (default — active):
-        - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Contract
-        # REMOTE (uncomment to use upstream directly):
-        # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Contract
+        - $ref: 'https://schema.beckn.io/Contract/v2.0/attributes.yaml#/components/schemas/Contract'
     IONCreditContract:
       type: object
       x-ion-layer: ion

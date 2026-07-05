@@ -27,7 +27,7 @@ components:
       x-recommended-parent: Consideration.considerationAttributes
       additionalProperties: true
       allOf:
-        - $ref: https://raw.githubusercontent.com/beckn/schemas/main/schema/LogisticsFare/v2.0/attributes.yaml#/components/schemas/LogisticsFare
+        - $ref: https://schema.beckn.io/LogisticsFare/v2.0/attributes.yaml#/components/schemas/LogisticsFare
     IONLogisticsConsideration:
       type: object
       x-ion-layer: ion
