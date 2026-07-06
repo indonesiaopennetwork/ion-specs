@@ -179,7 +179,7 @@
                 "format": "date-time"
               },
               "updatedBy": {
-                "$ref": "#/components/schemas/IONSupportTicket/properties/issueActions/properties/ActionParty"
+                "$ref": "#/properties/issueActions/properties/ActionParty"
               }
             },
             "required": [
@@ -212,7 +212,7 @@
                 "format": "date-time"
               },
               "updatedBy": {
-                "$ref": "#/components/schemas/IONSupportTicket/properties/issueActions/properties/ActionParty"
+                "$ref": "#/properties/issueActions/properties/ActionParty"
               },
               "cascadedLevel": {
                 "type": "integer",

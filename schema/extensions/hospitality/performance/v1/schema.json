@@ -7,7 +7,7 @@
   "additionalProperties": true,
   "allOf": [
     {
-      "$ref": "https://schema.beckn.io/core/v2/schema/Attributes.json"
+      "$ref": "https://schema.beckn.io/Attributes/2.0/attributes.yaml#/components/schemas/Attributes"
     }
   ]
 }
