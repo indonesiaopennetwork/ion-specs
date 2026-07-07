@@ -21,6 +21,18 @@
       }
     },
     {
+      "@id": "ion:IONTradeContract",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONTradeContract",
+      "rdfs:comment": "ION-specific layer for trade contract attributes. Extends the network-agnostic TradeContract layer.",
+      "rdfs:subClassOf": {
+        "@id": "ion:TradeContract"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Contract"
+      }
+    },
+    {
       "@id": "ion:fulfillingLocationId",
       "@type": "rdf:Property",
       "rdfs:label": "fulfillingLocationId",

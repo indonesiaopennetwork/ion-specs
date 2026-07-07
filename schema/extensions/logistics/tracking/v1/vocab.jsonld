@@ -19,6 +19,18 @@
       "skos:broader": {
         "@id": "https://spec.beckn.io/vocab/v2.0.0#Tracking"
       }
+    },
+    {
+      "@id": "ion:IONLogisticsTracking",
+      "@type": "rdfs:Class",
+      "rdfs:comment": "ION-specific layer for logistics tracking attributes. Extends the network-agnostic LogisticsTracking layer.",
+      "rdfs:label": "IONLogisticsTracking",
+      "rdfs:subClassOf": {
+        "@id": "ion:LogisticsTracking"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Tracking"
+      }
     }
   ]
 }

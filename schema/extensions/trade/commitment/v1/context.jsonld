@@ -8,8 +8,8 @@
     "lineId": "ion:lineId",
     "resourceId": "ion:resourceId",
     "offerId": "ion:offerId",
-    "quantity": "beckn:quantity",
-    "price": "beckn:price",
+    "quantity": "ion:quantity",
+    "price": "ion:price",
     "customisationSelections": "ion:customisationSelections",
     "specialInstructions": "ion:specialInstructions",
     "@protected": true,
@@ -17,6 +17,9 @@
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "owl": "http://www.w3.org/2002/07/owl#",
-    "TradeCommitment": "ion:TradeCommitment"
+    "Commitment": "beckn:Commitment",
+    "BecknCommitment": "https://spec.beckn.io/vocab/v2.0.0#Commitment",
+    "TradeCommitment": "ion:TradeCommitment",
+    "IONTradeCommitment": "ion:IONTradeCommitment"
   }
 }

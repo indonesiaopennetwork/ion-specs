@@ -20,6 +20,24 @@
       }
     },
     {
+      "@id": "ion:CreditContract",
+      "@type": "rdfs:Class",
+      "rdfs:label": "CreditContract",
+      "rdfs:comment": "Generic credit contract attributes.",
+      "rdfs:subClassOf": {
+        "@id": "ion:LoanAgreement"
+      }
+    },
+    {
+      "@id": "ion:IONCreditContract",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONCreditContract",
+      "rdfs:comment": "ION-specific credit contract attributes.",
+      "rdfs:subClassOf": {
+        "@id": "ion:CreditContract"
+      }
+    },
+    {
       "@id": "ion:contractNumber",
       "@type": "rdf:Property",
       "rdfs:label": "contractNumber",

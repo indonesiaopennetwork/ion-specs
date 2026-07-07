@@ -10,12 +10,24 @@
   },
   "@graph": [
     {
+      "@id": "ion:LogisticsAgent",
+      "@type": "rdfs:Class",
+      "rdfs:label": "LogisticsAgent",
+      "rdfs:comment": "Network-agnostic generic layer for LogisticsAgent. Inherits from Beckn core Attributes.",
+      "rdfs:subClassOf": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Participant"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Participant"
+      }
+    },
+    {
       "@id": "ion:IONLogisticsAgent",
       "@type": "rdfs:Class",
       "rdfs:label": "IONLogisticsAgent",
       "rdfs:comment": "Addendum to core/participant/v1 for logistics-specific participant attributes: PPJK customs-broker licence and Indonesian driver SIM fields.",
       "rdfs:subClassOf": {
-        "@id": "https://spec.beckn.io/vocab/v2.0.0#Participant"
+        "@id": "ion:LogisticsAgent"
       },
       "skos:broader": {
         "@id": "https://spec.beckn.io/vocab/v2.0.0#Participant"

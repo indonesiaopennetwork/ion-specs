@@ -9,6 +9,30 @@
   },
   "@graph": [
     {
+      "@id": "ion:Address",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Address",
+      "rdfs:comment": "Network-agnostic generic layer for Address. Inherits from Beckn core Attributes.",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Address"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Address"
+      }
+    },
+    {
+      "@id": "ion:IONAddress",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONAddress",
+      "rdfs:comment": "ION-specific layer for Indonesian address subdivisions. Extends the network-agnostic Address layer.",
+      "rdfs:subClassOf": {
+        "@id": "ion:Address"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Address"
+      }
+    },
+    {
       "@id": "ion:IONAddressSubdivisions",
       "@type": "rdfs:Class",
       "rdfs:label": "IONAddressSubdivisions",

@@ -1,6 +1,6 @@
 {
   "@context": "https://schema.ion.id/trade/offer/v1/context.jsonld",
-  "@type": "ion:TradeOffer",
+  "@type": "ion:IONTradeOffer",
   "_comment": "Example: F&B offer (food-qsr/delivery) — non-returnable, free cancellation before preparation",
   "cancellationPolicy": "ion://policy/cancel.mto.nofee-before-prepare",
   "cancellationAllowedReasons": [

@@ -1,6 +1,6 @@
 {
   "@context": "https://schema.ion.id/trade/settlement/v1/context.jsonld",
-  "@type": "ion:TradeSettlement",
+  "@type": "ion:IONTradeSettlement",
   "method": "QRIS",
   "paymentRail": "QRIS_DYNAMIC",
   "collectedBy": "BAP",

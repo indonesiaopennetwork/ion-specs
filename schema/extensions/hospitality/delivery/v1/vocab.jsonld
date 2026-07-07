@@ -19,6 +19,24 @@
       }
     },
     {
+      "@id": "ion:HospitalityDelivery",
+      "@type": "rdfs:Class",
+      "rdfs:label": "HospitalityDelivery",
+      "rdfs:comment": "Generic hospitality delivery attributes.",
+      "rdfs:subClassOf": {
+        "@id": "ion:RestaurantMenuItem"
+      }
+    },
+    {
+      "@id": "ion:IONHospitalityDelivery",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONHospitalityDelivery",
+      "rdfs:comment": "ION-specific hospitality delivery attributes.",
+      "rdfs:subClassOf": {
+        "@id": "ion:HospitalityDelivery"
+      }
+    },
+    {
       "@id": "ion:preparationTime",
       "@type": "rdf:Property",
       "rdfs:label": "preparationTime",

@@ -23,6 +23,19 @@
       }
     },
     {
+      "@id": "ion:IONLogisticsOffer",
+      "@type": "rdfs:Class",
+      "rdfs:comment": "ION-specific layer for logistics offer attributes. Extends the network-agnostic LogisticsOffer layer.",
+      "rdfs:label": "IONLogisticsOffer",
+      "rdfs:isDefinedBy": "https://schema.ion.id/logistics/v1/",
+      "rdfs:subClassOf": {
+        "@id": "ion:LogisticsOffer"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Offer"
+      }
+    },
+    {
       "@id": "ion:serviceLevel",
       "@type": "rdfs:Property",
       "rdfs:domain": {

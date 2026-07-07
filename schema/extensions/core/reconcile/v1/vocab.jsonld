@@ -9,12 +9,36 @@
   },
   "@graph": [
     {
+      "@id": "ion:Reconciliation",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Reconciliation",
+      "rdfs:comment": "Network-agnostic generic layer for Reconciliation. Inherits from Beckn core Attributes.",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Settlement"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Settlement"
+      }
+    },
+    {
+      "@id": "ion:IONReconcile",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONReconcile",
+      "rdfs:comment": "ION-specific layer for reconciliation attributes. Extends the network-agnostic Reconciliation layer.",
+      "rdfs:subClassOf": {
+        "@id": "ion:Reconciliation"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Settlement"
+      }
+    },
+    {
       "@id": "ion:IONReconciliation",
       "@type": "rdfs:Class",
       "rdfs:label": "IONReconciliation",
       "rdfs:comment": "IONReconciliation",
       "rdfs:subClassOf": {
-        "@id": "beckn:Settlement"
+        "@id": "ion:IONReconcile"
       },
       "skos:broader": {
         "@id": "https://spec.beckn.io/vocab/v2.0.0#Settlement"

@@ -9,6 +9,17 @@
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "schema": "https://schema.org/",
     "PolicyPerformance": "ion:PolicyPerformance",
+    "PolicyState": "ion:PolicyState",
+    "PENDING_ISSUANCE": "ion:PENDING_ISSUANCE",
+    "STATE_ACTIVE": "ion:STATE_ACTIVE",
+    "CLAIM_FILED": "ion:CLAIM_FILED",
+    "RENEWAL_DUE": "ion:RENEWAL_DUE",
+    "STATE_TOTAL_LOSS": "ion:STATE_TOTAL_LOSS",
+    "SchemaEvent": "schema:Event",
+    "string": "xsd:string",
+    "date": "xsd:date",
+    "integer": "xsd:integer",
+    "decimal": "xsd:decimal",
     "policyState": {
       "@id": "ion:policyState",
       "@type": "xsd:string"

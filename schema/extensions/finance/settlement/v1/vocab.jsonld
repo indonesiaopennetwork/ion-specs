@@ -12,13 +12,24 @@
   "@graph": [
     {
       "@id": "ion:AmortisationRow",
-      "rdf:type": "rdfs:Class",
+      "@type": "rdfs:Class",
       "rdfs:comment": "One installment row in a loan amortisation schedule.",
       "rdfs:subClassOf": {
         "@id": "schema:RepaymentSpecification"
       },
       "skos:broader": {
         "@id": "https://spec.beckn.io/vocab/v2.0.0#Settlement"
+      }
+    },
+    {
+      "@id": "ion:IONAmortisationRow",
+      "@type": "rdfs:Class",
+      "rdfs:comment": "ION-specific amortisation row attributes.",
+      "rdfs:subClassOf": {
+        "@id": "ion:AmortisationRow"
+      },
+      "skos:broader": {
+        "@id": "ion:AmortisationRow"
       }
     },
     {

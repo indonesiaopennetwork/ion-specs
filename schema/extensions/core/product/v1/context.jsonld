@@ -5,6 +5,8 @@
     "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
     "schema": "https://schema.org/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "Resource": "beckn:Resource",
+    "BecknResource": "beckn:Resource",
     "halalStatus": "ion:halalStatus",
     "halalCertNumber": "ion:halalCertNumber",
     "bpomRegNumber": "ion:bpomRegNumber",

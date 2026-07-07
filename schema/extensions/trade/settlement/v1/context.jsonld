@@ -19,6 +19,9 @@
     "refundAmount": "ion:refundAmount",
     "refundMethod": "ion:refundMethod",
     "refundTimeline": "ion:refundTimeline",
-    "additionalChargeAmount": "ion:additionalChargeAmount"
+    "additionalChargeAmount": "ion:additionalChargeAmount",
+    "Settlement": "https://spec.beckn.io/vocab/v2.0.0#Settlement",
+    "TradeSettlement": "ion:TradeSettlement",
+    "IONTradeSettlement": "ion:IONTradeSettlement"
   }
 }

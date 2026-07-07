@@ -21,6 +21,18 @@
       }
     },
     {
+      "@id": "ion:IONTradeConsideration",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONTradeConsideration",
+      "rdfs:comment": "ION-specific layer for trade consideration attributes. Extends the network-agnostic TradeConsideration layer.",
+      "rdfs:subClassOf": {
+        "@id": "ion:TradeConsideration"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Consideration"
+      }
+    },
+    {
       "@id": "ion:ppnRate",
       "@type": "rdf:Property",
       "rdfs:label": "ppnRate",

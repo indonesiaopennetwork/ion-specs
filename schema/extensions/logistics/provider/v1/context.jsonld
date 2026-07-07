@@ -32,6 +32,7 @@
     "providerCategory": "ion:providerCategory",
     "rateCardEffectiveFrom": "ion:rateCardEffectiveFrom",
     "rateCardEffectiveUntil": "ion:rateCardEffectiveUntil",
+    "selectRequired": "ion:selectRequired",
     "siupNumber": "ion:siupNumber",
     "spinesSupported": "ion:spinesSupported",
     "warehouseLocations": "ion:warehouseLocations",
@@ -40,6 +41,11 @@
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "owl": "http://www.w3.org/2002/07/owl#",
-    "schema": "https://schema.org/"
+    "schema": "https://schema.org/",
+    "LogisticsProvider": "ion:LogisticsProvider",
+    "IONLogisticsProvider": "ion:IONLogisticsProvider",
+    "BecknProvider": "https://spec.beckn.io/vocab/v2.0.0#Provider",
+    "xsdString": "xsd:string",
+    "xsdBoolean": "xsd:boolean"
   }
 }

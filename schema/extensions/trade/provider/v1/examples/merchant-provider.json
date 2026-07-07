@@ -1,6 +1,6 @@
 {
   "@context": "https://schema.ion.id/trade/provider/v1/context.jsonld",
-  "@type": "ion:TradeProvider",
+  "@type": "ion:IONTradeProvider",
   "storeStatus": "OPEN",
   "invoicingModel": "PER_ORDER",
   "kycStatus": "APPROVED",

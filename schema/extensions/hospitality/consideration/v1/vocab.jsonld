@@ -18,6 +18,18 @@
       "skos:broader": {
         "@id": "beckn:Attributes"
       }
+    },
+    {
+      "@id": "ion:IONHospitalityConsideration",
+      "@type": "rdfs:Class",
+      "rdfs:subClassOf": {
+        "@id": "ion:HospitalityConsideration"
+      },
+      "rdfs:label": "IONHospitalityConsideration",
+      "rdfs:comment": "ION-specific hospitality consideration attributes.",
+      "skos:broader": {
+        "@id": "ion:HospitalityConsideration"
+      }
     }
   ]
 }

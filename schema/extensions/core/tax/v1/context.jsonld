@@ -5,6 +5,7 @@
     "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
     "schema": "https://schema.org/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "BecknConsideration": "https://spec.beckn.io/vocab/v2.0.0#Consideration",
     "taxRegime": "ion:taxRegime",
     "taxCategory": "ion:taxCategory",
     "taxRate": "ion:taxRate",

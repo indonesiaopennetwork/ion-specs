@@ -21,6 +21,18 @@
       }
     },
     {
+      "@id": "ion:IONTradePerformance",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONTradePerformance",
+      "rdfs:comment": "ION-specific layer for trade performance attributes. Extends the network-agnostic TradePerformance layer.",
+      "rdfs:subClassOf": {
+        "@id": "ion:TradePerformance"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Performance"
+      }
+    },
+    {
       "@id": "ion:performanceMode",
       "@type": "rdf:Property",
       "rdfs:label": "performanceMode",

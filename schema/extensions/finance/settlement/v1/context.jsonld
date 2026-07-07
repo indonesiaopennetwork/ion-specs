@@ -9,6 +9,9 @@
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "schema": "https://schema.org/",
     "AmortisationRow": "ion:AmortisationRow",
+    "IONAmortisationRow": "ion:IONAmortisationRow",
+    "SchemaRepaymentSpecification": "schema:RepaymentSpecification",
+    "BecknSettlement": "https://spec.beckn.io/vocab/v2.0.0#Settlement",
     "installmentNumber": {
       "@id": "ion:installmentNumber",
       "@type": "xsd:integer"

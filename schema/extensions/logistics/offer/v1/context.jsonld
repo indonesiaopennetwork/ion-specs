@@ -73,6 +73,13 @@
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "owl": "http://www.w3.org/2002/07/owl#",
-    "schema": "https://schema.org/"
+    "schema": "https://schema.org/",
+    "LogisticsOffer": "ion:LogisticsOffer",
+    "IONLogisticsOffer": "ion:IONLogisticsOffer",
+    "BecknOffer": "https://spec.beckn.io/vocab/v2.0.0#Offer",
+    "xsdString": "xsd:string",
+    "xsdBoolean": "xsd:boolean",
+    "xsdDuration": "xsd:duration",
+    "xsdAnyURI": "xsd:anyURI"
   }
 }

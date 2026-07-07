@@ -9,12 +9,24 @@
   },
   "@graph": [
     {
+      "@id": "ion:Rating",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Rating",
+      "rdfs:comment": "Network-agnostic generic layer for Rating. Inherits from Beckn core Attributes.",
+      "rdfs:subClassOf": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#RatingInput"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#RatingInput"
+      }
+    },
+    {
       "@id": "ion:IONRating",
       "@type": "rdfs:Class",
       "rdfs:label": "IONRating",
       "rdfs:comment": "IONRating",
       "rdfs:subClassOf": {
-        "@id": "https://spec.beckn.io/vocab/v2.0.0#RatingInput"
+        "@id": "ion:Rating"
       },
       "skos:broader": {
         "@id": "https://spec.beckn.io/vocab/v2.0.0#RatingInput"

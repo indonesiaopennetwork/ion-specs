@@ -11,6 +11,16 @@
     "InsurancePolicy": "ion:InsurancePolicy",
     "BeneficiaryDetails": "ion:BeneficiaryDetails",
     "ClaimRecord": "ion:ClaimRecord",
+    "PolicyStatus": "ion:PolicyStatus",
+    "ACTIVE": "ion:ACTIVE",
+    "TOTAL_LOSS": "ion:TOTAL_LOSS",
+    "EXPIRED": "ion:EXPIRED",
+    "SchemaInsurancePolicy": "schema:InsurancePolicy",
+    "SchemaEvent": "schema:Event",
+    "string": "xsd:string",
+    "anyURI": "xsd:anyURI",
+    "date": "xsd:date",
+    "decimal": "xsd:decimal",
     "policyNumber": {
       "@id": "ion:policyNumber",
       "@type": "xsd:string"

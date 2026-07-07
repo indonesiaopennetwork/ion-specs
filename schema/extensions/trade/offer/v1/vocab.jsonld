@@ -21,6 +21,18 @@
       }
     },
     {
+      "@id": "ion:IONTradeOffer",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONTradeOffer",
+      "rdfs:comment": "ION-specific layer for trade offer attributes. Extends the network-agnostic TradeOffer layer.",
+      "rdfs:subClassOf": {
+        "@id": "ion:TradeOffer"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Offer"
+      }
+    },
+    {
       "@id": "ion:cancellationPolicy",
       "@type": "rdf:Property",
       "rdfs:label": "cancellationPolicy",

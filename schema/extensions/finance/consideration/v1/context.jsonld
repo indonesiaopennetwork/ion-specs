@@ -9,6 +9,9 @@
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "schema": "https://schema.org/",
     "LoanConsideration": "ion:LoanConsideration",
+    "IONLoanConsideration": "ion:IONLoanConsideration",
+    "SchemaMonetaryAmount": "schema:MonetaryAmount",
+    "BecknConsideration": "https://spec.beckn.io/vocab/v2.0.0#Consideration",
     "approvedPrincipal": {
       "@id": "ion:approvedPrincipal",
       "@type": "xsd:decimal"

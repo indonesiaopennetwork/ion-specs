@@ -10,6 +10,10 @@
     "schema": "https://schema.org/",
     "Policyholder": "ion:Policyholder",
     "Insurer": "ion:Insurer",
+    "SchemaPerson": "schema:Person",
+    "SchemaInsuranceAgency": "schema:InsuranceAgency",
+    "string": "xsd:string",
+    "date": "xsd:date",
     "nik": {
       "@id": "ion:nik",
       "@type": "xsd:string"

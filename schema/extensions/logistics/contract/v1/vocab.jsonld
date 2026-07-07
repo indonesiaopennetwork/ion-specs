@@ -21,6 +21,19 @@
       "skos:broader": {
         "@id": "https://spec.beckn.io/vocab/v2.0.0#Contract"
       }
+    },
+    {
+      "@id": "ion:IONLogisticsContract",
+      "@type": "rdfs:Class",
+      "rdfs:comment": "ION-specific layer for logistics contract attributes. Extends the network-agnostic LogisticsContract layer.",
+      "rdfs:label": "IONLogisticsContract",
+      "rdfs:isDefinedBy": "https://schema.ion.id/logistics/v1/",
+      "rdfs:subClassOf": {
+        "@id": "ion:LogisticsContract"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Contract"
+      }
     }
   ]
 }

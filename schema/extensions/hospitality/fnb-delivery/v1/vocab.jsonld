@@ -22,6 +22,18 @@
       }
     },
     {
+      "@id": "ion:IONFnbItem",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONFnbItem",
+      "rdfs:comment": "ION-specific food and beverage delivery item attributes.",
+      "rdfs:subClassOf": {
+        "@id": "ion:FnbItem"
+      },
+      "skos:broader": {
+        "@id": "ion:FnbItem"
+      }
+    },
+    {
       "@id": "ion:preparationTime",
       "@type": "rdf:Property",
       "rdfs:label": "preparationTime",

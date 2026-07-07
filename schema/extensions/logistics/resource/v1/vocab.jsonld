@@ -21,6 +21,19 @@
       "skos:broader": {
         "@id": "https://spec.beckn.io/vocab/v2.0.0#Resource"
       }
+    },
+    {
+      "@id": "ion:IONLogisticsResource",
+      "@type": "rdfs:Class",
+      "rdfs:comment": "ION-specific layer for logistics resource attributes. Extends the network-agnostic LogisticsResource layer.",
+      "rdfs:label": "IONLogisticsResource",
+      "rdfs:isDefinedBy": "https://schema.ion.id/logistics/v1/",
+      "rdfs:subClassOf": {
+        "@id": "ion:LogisticsResource"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Resource"
+      }
     }
   ]
 }

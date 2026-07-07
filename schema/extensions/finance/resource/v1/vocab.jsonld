@@ -23,6 +23,15 @@
       }
     },
     {
+      "@id": "ion:IONCreditProduct",
+      "@type": "rdfs:Class",
+      "rdfs:subClassOf": {
+        "@id": "ion:CreditProduct"
+      },
+      "rdfs:label": "IONCreditProduct",
+      "rdfs:comment": "ION-specific credit product attributes."
+    },
+    {
       "@id": "ion:ProductIdentity",
       "@type": "rdfs:Class",
       "rdfs:label": "ProductIdentity",

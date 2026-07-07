@@ -10,6 +10,8 @@
     "owl": "http://www.w3.org/2002/07/owl#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "schema": "https://schema.org/",
+    "Resource": "beckn:Resource",
+    "SchemaMenuItem": "schema:MenuItem",
     "MenuItem": "ion:MenuItem",
     "IONMenuItem": "ion:IONMenuItem",
     "quantity": "ion:quantity",

@@ -9,12 +9,24 @@
   },
   "@graph": [
     {
+      "@id": "ion:Support",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Support",
+      "rdfs:comment": "Network-agnostic generic layer for Support. Inherits from Beckn core Attributes.",
+      "rdfs:subClassOf": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Support"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Support"
+      }
+    },
+    {
       "@id": "ion:IONSupportTicket",
       "@type": "rdfs:Class",
       "rdfs:label": "IONSupportTicket",
       "rdfs:comment": "IONSupportTicket",
       "rdfs:subClassOf": {
-        "@id": "https://spec.beckn.io/vocab/v2.0.0#Support"
+        "@id": "ion:Support"
       },
       "skos:broader": {
         "@id": "https://spec.beckn.io/vocab/v2.0.0#Support"

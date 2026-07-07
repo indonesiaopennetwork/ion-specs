@@ -12,13 +12,24 @@
   "@graph": [
     {
       "@id": "ion:LoanConsideration",
-      "rdf:type": "rdfs:Class",
+      "@type": "rdfs:Class",
       "rdfs:comment": "Principal and fee amounts exchanged under the credit contract.",
       "rdfs:subClassOf": {
         "@id": "schema:MonetaryAmount"
       },
       "skos:broader": {
         "@id": "https://spec.beckn.io/vocab/v2.0.0#Consideration"
+      }
+    },
+    {
+      "@id": "ion:IONLoanConsideration",
+      "@type": "rdfs:Class",
+      "rdfs:comment": "ION-specific loan consideration attributes.",
+      "rdfs:subClassOf": {
+        "@id": "ion:LoanConsideration"
+      },
+      "skos:broader": {
+        "@id": "ion:LoanConsideration"
       }
     },
     {

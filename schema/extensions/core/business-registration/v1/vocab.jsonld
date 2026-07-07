@@ -9,12 +9,24 @@
   },
   "@graph": [
     {
+      "@id": "ion:BusinessRegistration",
+      "@type": "rdfs:Class",
+      "rdfs:label": "BusinessRegistration",
+      "rdfs:comment": "Network-agnostic generic layer for BusinessRegistration. Inherits from Beckn core Attributes.",
+      "rdfs:subClassOf": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Participant"
+      },
+      "skos:broader": {
+        "@id": "beckn:Provider"
+      }
+    },
+    {
       "@id": "ion:IONBusinessRegistration",
       "@type": "rdfs:Class",
       "rdfs:label": "IONBusinessRegistration",
       "rdfs:comment": "IONBusinessRegistration",
       "rdfs:subClassOf": {
-        "@id": "https://spec.beckn.io/vocab/v2.0.0#Participant"
+        "@id": "ion:BusinessRegistration"
       },
       "skos:broader": {
         "@id": "beckn:Provider"

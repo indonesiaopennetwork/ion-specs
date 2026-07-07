@@ -11,6 +11,8 @@
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "owl": "http://www.w3.org/2002/07/owl#",
     "LocalisedText": "ion:LocalisedText",
+    "Resource": "beckn:Resource",
+    "RetailResource": "https://schema.beckn.io/RetailResource",
     "TradeResource": "ion:TradeResource",
     "IONTradeResource": "ion:IONTradeResource",
     "name": "ion:name",

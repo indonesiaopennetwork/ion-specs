@@ -12,7 +12,7 @@
   "@graph": [
     {
       "@id": "ion:Borrower",
-      "rdf:type": "rdfs:Class",
+      "@type": "rdfs:Class",
       "rdfs:comment": "Individual borrower identity on a credit contract.",
       "rdfs:subClassOf": {
         "@id": "schema:Person"
@@ -22,8 +22,19 @@
       }
     },
     {
+      "@id": "ion:IONBorrower",
+      "@type": "rdfs:Class",
+      "rdfs:comment": "ION-specific borrower identity attributes.",
+      "rdfs:subClassOf": {
+        "@id": "ion:Borrower"
+      },
+      "skos:broader": {
+        "@id": "ion:Borrower"
+      }
+    },
+    {
       "@id": "ion:Lender",
-      "rdf:type": "rdfs:Class",
+      "@type": "rdfs:Class",
       "rdfs:comment": "Lending institution party on a credit contract.",
       "rdfs:subClassOf": {
         "@id": "schema:FinancialService"

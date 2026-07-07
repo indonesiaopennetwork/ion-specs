@@ -18,6 +18,18 @@
       "skos:broader": {
         "@id": "beckn:Attributes"
       }
+    },
+    {
+      "@id": "ion:IONRestaurantCommitment",
+      "@type": "rdfs:Class",
+      "rdfs:subClassOf": {
+        "@id": "ion:RestaurantCommitment"
+      },
+      "rdfs:label": "IONRestaurantCommitment",
+      "rdfs:comment": "ION-specific hospitality restaurant commitment attributes.",
+      "skos:broader": {
+        "@id": "ion:RestaurantCommitment"
+      }
     }
   ]
 }

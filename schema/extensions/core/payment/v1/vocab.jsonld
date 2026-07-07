@@ -9,6 +9,30 @@
   },
   "@graph": [
     {
+      "@id": "ion:Payment",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Payment",
+      "rdfs:comment": "Network-agnostic generic layer for Payment. Inherits from Beckn core Attributes.",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Settlement"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Settlement"
+      }
+    },
+    {
+      "@id": "ion:IONPayment",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONPayment",
+      "rdfs:comment": "ION-specific layer for Indonesian payment declarations. Extends the network-agnostic Payment layer.",
+      "rdfs:subClassOf": {
+        "@id": "ion:Payment"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Settlement"
+      }
+    },
+    {
       "@id": "ion:PaymentDeclaration",
       "@type": "rdfs:Class",
       "rdfs:label": "PaymentDeclaration",
@@ -409,6 +433,54 @@
       "@type": "rdf:Property",
       "rdfs:label": "gatewayRef",
       "rdfs:comment": "Payment gateway transaction reference ID"
+    },
+    {
+      "@id": "ion:CreditTerms",
+      "@type": "rdfs:Class",
+      "rdfs:label": "CreditTerms",
+      "rdfs:comment": "Credit-based payment terms for deferred-payment scenarios.",
+      "rdfs:subClassOf": {
+        "@id": "ion:IONPayment"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Settlement"
+      }
+    },
+    {
+      "@id": "ion:Refund",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Refund",
+      "rdfs:comment": "Refund record attached to a payment declaration when a settlement is fully or partially refunded.",
+      "rdfs:subClassOf": {
+        "@id": "ion:IONPayment"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Settlement"
+      }
+    },
+    {
+      "@id": "ion:InvoiceReference",
+      "@type": "rdfs:Class",
+      "rdfs:label": "InvoiceReference",
+      "rdfs:comment": "Invoice document references for proforma and commercial invoices associated with a payment.",
+      "rdfs:subClassOf": {
+        "@id": "ion:IONPayment"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Settlement"
+      }
+    },
+    {
+      "@id": "ion:ProcessingFee",
+      "@type": "rdfs:Class",
+      "rdfs:label": "ProcessingFee",
+      "rdfs:comment": "Per-transaction processing fee charged by the payment gateway or collecting party.",
+      "rdfs:subClassOf": {
+        "@id": "ion:IONPayment"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Settlement"
+      }
     }
   ]
 }

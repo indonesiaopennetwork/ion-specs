@@ -21,6 +21,18 @@
       }
     },
     {
+      "@id": "ion:IONTradeProvider",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONTradeProvider",
+      "rdfs:comment": "ION-specific layer for trade provider attributes. Extends the network-agnostic TradeProvider layer.",
+      "rdfs:subClassOf": {
+        "@id": "ion:TradeProvider"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Provider"
+      }
+    },
+    {
       "@id": "ion:invoicingModel",
       "@type": "rdf:Property",
       "rdfs:label": "invoicingModel",

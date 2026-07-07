@@ -11,6 +11,10 @@
     "PremiumConsideration": "ion:PremiumConsideration",
     "PremiumBreakupItem": "ion:PremiumBreakupItem",
     "AddOnPremiumItem": "ion:AddOnPremiumItem",
+    "SchemaMonetaryAmount": "schema:MonetaryAmount",
+    "List": "rdf:List",
+    "decimal": "xsd:decimal",
+    "string": "xsd:string",
     "totalPremiumIDR": {
       "@id": "ion:totalPremiumIDR",
       "@type": "xsd:decimal"

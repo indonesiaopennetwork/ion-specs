@@ -5,9 +5,10 @@
     "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
     "schema": "https://schema.org/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "BecknSupport": "https://spec.beckn.io/vocab/v2.0.0#Support",
     "IONSupportTicket": "ion:IONSupportTicket",
     "bpskReference": "ion:bpskReference",
-    "category": "beckn:category",
+    "category": "ion:category",
     "complainantInfo": "ion:complainantInfo",
     "createdAt": "ion:createdAt",
     "description": "ion:description",
@@ -16,9 +17,10 @@
     "escalationTimestamp": "ion:escalationTimestamp",
     "expectedResolutionTime": "ion:expectedResolutionTime",
     "expectedResponseTime": "ion:expectedResponseTime",
-    "id": "@id",
+    "id": "ion:id",
     "issueActions": "ion:issueActions",
     "kominfoReference": "ion:kominfoReference",
+    "orderId": "ion:orderId",
     "rating": "ion:rating",
     "resolution": "ion:resolution",
     "severity": "ion:severity",
@@ -30,6 +32,7 @@
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
     "skos": "http://www.w3.org/2004/02/skos/core#",
-    "owl": "http://www.w3.org/2002/07/owl#"
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "Support": "ion:Support"
   }
 }

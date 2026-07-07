@@ -11,6 +11,10 @@
     "InsuranceProduct": "ion:InsuranceProduct",
     "RateRange": "ion:RateRange",
     "AddOnOption": "ion:AddOnOption",
+    "SchemaInsuranceAgency": "schema:InsuranceAgency",
+    "List": "rdf:List",
+    "string": "xsd:string",
+    "decimal": "xsd:decimal",
     "productType": {
       "@id": "ion:productType",
       "@type": "xsd:string"

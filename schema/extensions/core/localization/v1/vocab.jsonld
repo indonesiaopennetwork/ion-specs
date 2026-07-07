@@ -81,6 +81,18 @@
       }
     },
     {
+      "@id": "ion:IonLocalization",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IonLocalization",
+      "rdfs:comment": "Network-level locale settings for an ION network participant, including default locale, timezone, currency, and display format preferences.",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Descriptor"
+      },
+      "skos:broader": {
+        "@id": "beckn:Descriptor"
+      }
+    },
+    {
       "@id": "ion:name",
       "@type": "rdf:Property",
       "rdfs:label": "name",

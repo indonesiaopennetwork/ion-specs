@@ -9,11 +9,19 @@
   },
   "@graph": [
     {
+      "@id": "ion:TradeSettlement",
+      "@type": "rdfs:Class",
+      "rdfs:label": "TradeSettlement",
+      "rdfs:comment": "Network-agnostic generic layer for TradeSettlement. Inherits from Beckn core Attributes.",
+      "rdfs:subClassOf": { "@id": "https://spec.beckn.io/vocab/v2.0.0#Settlement" },
+      "skos:broader": { "@id": "https://spec.beckn.io/vocab/v2.0.0#Settlement" }
+    },
+    {
       "@id": "ion:IONTradeSettlement",
       "@type": "rdfs:Class",
       "rdfs:label": "IONTradeSettlement",
       "rdfs:comment": "Trade sector settlement attributes. Payment method, status, instrument detail, and refund lifecycle.",
-      "rdfs:subClassOf": { "@id": "https://spec.beckn.io/vocab/v2.0.0#Settlement" },
+      "rdfs:subClassOf": { "@id": "ion:TradeSettlement" },
       "skos:broader": { "@id": "https://spec.beckn.io/vocab/v2.0.0#Settlement" }
     }
   ]

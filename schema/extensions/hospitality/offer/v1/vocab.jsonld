@@ -18,6 +18,18 @@
       "skos:broader": {
         "@id": "beckn:Attributes"
       }
+    },
+    {
+      "@id": "ion:IONRestaurantOffer",
+      "@type": "rdfs:Class",
+      "rdfs:subClassOf": {
+        "@id": "ion:RestaurantOffer"
+      },
+      "rdfs:label": "IONRestaurantOffer",
+      "rdfs:comment": "ION-specific hospitality restaurant offer attributes.",
+      "skos:broader": {
+        "@id": "ion:RestaurantOffer"
+      }
     }
   ]
 }

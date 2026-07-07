@@ -71,6 +71,9 @@
     "estimatedResolutionEta": "ion:estimatedResolutionEta",
     "affectedRegion": "ion:affectedRegion",
     "expectedResolutionDate": "ion:expectedResolutionDate",
-    "reassignmentPlan": "ion:reassignmentPlan"
+    "reassignmentPlan": "ion:reassignmentPlan",
+    "LogisticsContract": "ion:LogisticsContract",
+    "IONLogisticsContract": "ion:IONLogisticsContract",
+    "BecknContract": "https://spec.beckn.io/vocab/v2.0.0#Contract"
   }
 }

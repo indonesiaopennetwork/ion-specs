@@ -21,6 +21,19 @@
       "skos:broader": {
         "@id": "https://spec.beckn.io/vocab/v2.0.0#Consideration"
       }
+    },
+    {
+      "@id": "ion:IONLogisticsConsideration",
+      "@type": "rdfs:Class",
+      "rdfs:comment": "ION-specific layer for logistics consideration attributes. Extends the network-agnostic LogisticsConsideration layer.",
+      "rdfs:label": "IONLogisticsConsideration",
+      "rdfs:isDefinedBy": "https://schema.ion.id/logistics/v1/",
+      "rdfs:subClassOf": {
+        "@id": "ion:LogisticsConsideration"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Consideration"
+      }
     }
   ]
 }

@@ -5,6 +5,8 @@
     "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
     "schema": "https://schema.org/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "BecknProvider": "beckn:Provider",
+    "Provider": "beckn:Provider",
     "npwp": "ion:npwp",
     "nib": "ion:nib",
     "nikNumber": "ion:nikNumber",

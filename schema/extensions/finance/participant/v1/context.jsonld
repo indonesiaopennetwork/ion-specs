@@ -9,7 +9,11 @@
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "schema": "https://schema.org/",
     "Borrower": "ion:Borrower",
+    "IONBorrower": "ion:IONBorrower",
     "Lender": "ion:Lender",
+    "SchemaPerson": "schema:Person",
+    "SchemaFinancialService": "schema:FinancialService",
+    "BecknParticipant": "https://spec.beckn.io/vocab/v2.0.0#Participant",
     "fullName": {
       "@id": "ion:fullName",
       "@type": "xsd:string"

@@ -4,7 +4,7 @@
   "commitmentInstances": [
     {
       "@context": "https://schema.ion.id/extensions/trade/commitment/v1/context.jsonld",
-      "@type": "ion:TradeCommitment",
+      "@type": "ion:IONTradeCommitment",
       "lineId": "L01",
       "resourceId": "var_pep_med_classic",
       "offerId": "OFFER-PIZZA-001",
@@ -20,7 +20,7 @@
     },
     {
       "@context": "https://schema.ion.id/extensions/trade/commitment/v1/context.jsonld",
-      "@type": "ion:TradeCommitment",
+      "@type": "ion:IONTradeCommitment",
       "lineId": "L02",
       "resourceId": "var_gbread_regular",
       "offerId": "OFFER-SIDES-001",

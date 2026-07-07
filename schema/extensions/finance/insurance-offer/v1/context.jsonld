@@ -10,6 +10,10 @@
     "schema": "https://schema.org/",
     "PolicyQuote": "ion:PolicyQuote",
     "AddOnPremium": "ion:AddOnPremium",
+    "SchemaMonetaryAmount": "schema:MonetaryAmount",
+    "decimal": "xsd:decimal",
+    "dateTime": "xsd:dateTime",
+    "boolean": "xsd:boolean",
     "approvedIDV": {
       "@id": "ion:approvedIDV",
       "@type": "xsd:decimal"

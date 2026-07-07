@@ -20,6 +20,24 @@
       "rdfs:comment": "Per-applicant credit offer with exact approved values. Placed in Beckn Offer.offerAttributes within Contract.commitments[].offer returned in on_select. Offer.validity.endDate mirrors domain validUntil; offerStatus carries the OJK credit decision (separate from Beckn Commitment.status)."
     },
     {
+      "@id": "ion:CreditOffer",
+      "@type": "rdfs:Class",
+      "rdfs:subClassOf": {
+        "@id": "ion:CreditApproval"
+      },
+      "rdfs:label": "CreditOffer",
+      "rdfs:comment": "Generic credit offer attributes."
+    },
+    {
+      "@id": "ion:IONCreditOffer",
+      "@type": "rdfs:Class",
+      "rdfs:subClassOf": {
+        "@id": "ion:CreditOffer"
+      },
+      "rdfs:label": "IONCreditOffer",
+      "rdfs:comment": "ION-specific credit offer attributes."
+    },
+    {
       "@id": "ion:EffectiveRate",
       "@type": "rdfs:Class",
       "rdfs:label": "EffectiveRate",

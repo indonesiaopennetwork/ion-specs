@@ -9,12 +9,24 @@
   },
   "@graph": [
     {
+      "@id": "ion:ProductCompliance",
+      "@type": "rdfs:Class",
+      "rdfs:label": "ProductCompliance",
+      "rdfs:comment": "Network-agnostic generic layer for ProductCompliance. Inherits from Beckn core Attributes.",
+      "rdfs:subClassOf": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Resource"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Resource"
+      }
+    },
+    {
       "@id": "ion:IONProductCompliance",
       "@type": "rdfs:Class",
       "rdfs:label": "IONProductCompliance",
       "rdfs:comment": "IONProductCompliance",
       "rdfs:subClassOf": {
-        "@id": "https://spec.beckn.io/vocab/v2.0.0#Resource"
+        "@id": "ion:ProductCompliance"
       },
       "skos:broader": {
         "@id": "https://spec.beckn.io/vocab/v2.0.0#Resource"
