@@ -59,13 +59,6 @@ components:
             '
           example: FC-SBY-01
           x-ion-condition: Present when provider has multiple fulfilment centres
-        buyerInstructions:
-          type: string
-          description: 'Free-text delivery instructions from buyer. e.g. "Leave at door", "Call before arriving",
-            "Do not ring bell after 9pm".
-
-            '
-          example: Titipkan ke satpam jika tidak ada di rumah.
         deliveryPreferences:
           type: object
           additionalProperties: false

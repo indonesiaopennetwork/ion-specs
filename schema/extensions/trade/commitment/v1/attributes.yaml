@@ -42,79 +42,6 @@ components:
         '@type': ion:IONTradeCommitment
       x-beckn-attaches-to: Commitment.commitmentAttributes
       properties:
-        lineId:
-          type: string
-          description: 'Unique identifier for this commitment line within the contract. Assigned by BAP at select.
-            Persists through the contract lifecycle. Used to reference specific lines in updates, cancellations,
-            returns.
-
-            '
-          example: L01
-        resourceId:
-          type: string
-          description: 'ID of the resource being committed. References beckn:Resource.id from the catalog. For VARIANT
-            resources, this is the specific variant ID, not the parent.
-
-            '
-          example: ITEM-001
-        offerId:
-          type: string
-          description: 'ID of the offer under which this resource is being committed. References beckn:Offer.id
-            from the catalog.
-
-            '
-          example: OFFER-001
-        quantity:
-          type: object
-          additionalProperties: false
-          description: Quantity of this resource being committed.
-          properties:
-            count:
-              type: integer
-              minimum: 1
-              description: Unit count for discrete items
-              example: 2
-            measure:
-              type: object
-              additionalProperties: false
-              description: Weight or volume measure for continuous items
-              properties:
-                unit:
-                  type: string
-                  enum:
-                  - GRAM
-                  - KILOGRAM
-                  - LITRE
-                  - MILLILITRE
-                  - PIECE
-                  - DOZEN
-                  - METER
-                value:
-                  type: number
-                  minimum: 0
-              required:
-              - unit
-              - value
-        price:
-          type: object
-          additionalProperties: false
-          description: 'Locked price for this commitment line as agreed at select. Price is fixed at on_select and
-            does not change unless a mid-transaction-changes variant is triggered.
-
-            '
-          properties:
-            value:
-              type: string
-              description: IDR amount as string decimal
-              example: '89000'
-            currency:
-              type: string
-              const: IDR
-              default: IDR
-          required:
-          - value
-          - currency
-          x-ion-condition: Set by BPP at on_select
         customisationSelections:
           type: array
           description: 'Buyer''s selections from customisationGroups for COMPOSED and WITH_EXTRAS resources. One
@@ -149,14 +76,6 @@ components:
             - groupId
             - optionId
           x-ion-condition: Required for COMPOSED and WITH_EXTRAS resources
-        specialInstructions:
-          type: string
-          description: 'Per-line buyer note. e.g. "Extra crispy base", "No onion", "Gift wrap this item separately".
-            Visible to seller at fulfilment.
-
-            '
-          maxLength: 500
-          example: Tanpa bawang, tolong pedas ekstra.
       # NETWORK POLICY NOTE (GAP 32 / NFH-012 CON-012-18):
       # Shared schemas MUST NOT declare mandatory fields.
       # The following fields were required in v0.6.0 and are now

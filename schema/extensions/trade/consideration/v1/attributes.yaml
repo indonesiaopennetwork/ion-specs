@@ -167,18 +167,6 @@ components:
 
             '
           example: ITEM
-        totalAmount:
-          type: number
-          description: 'Total amount for this consideration in IDR. For the final consideration record, this is
-            the net payable amount after all discounts and taxes.
-
-            '
-          example: 89000
-        currency:
-          type: string
-          const: IDR
-          description: Always IDR for domestic ION transactions.
-          default: IDR
       # NETWORK POLICY NOTE (GAP 32 / NFH-012 CON-012-18):
       # Shared schemas MUST NOT declare mandatory fields.
       # The following fields were required in v0.6.0 and are now

@@ -103,29 +103,6 @@ components:
           example:
           - DELIVERY
           - SELF_PICKUP
-        sla:
-          type: object
-          additionalProperties: false
-          description: Service Level Agreement for fulfilment timing.
-          required:
-          - unitBasis
-          properties:
-            min:
-              type: string
-              description: Minimum fulfilment time ISO 8601 duration
-              example: PT30M
-            max:
-              type: string
-              description: Maximum fulfilment time ISO 8601 duration
-              example: PT90M
-            unitBasis:
-              type: string
-              enum:
-              - ORDER_CONFIRMATION
-              - SHIPMENT
-              - PAYMENT_RECEIPT
-              description: Event from which SLA countdown starts.
-              example: ORDER_CONFIRMATION
         handling:
           type: array
           items:

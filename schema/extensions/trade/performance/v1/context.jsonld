@@ -7,7 +7,6 @@
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "performanceMode": "ion:performanceMode",
     "supportedPerformanceModes": "ion:supportedPerformanceModes",
-    "sla": "ion:sla",
     "handling": "ion:handling",
     "readyToShip": "ion:readyToShip",
     "awbNumber": "ion:awbNumber",
