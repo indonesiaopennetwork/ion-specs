@@ -57,6 +57,36 @@
       "rdfs:comment": "Weekly operating schedule as a typed array. Each entry covers one timing type for a day range. Types: ORDER (when orders accepted), DELIVERY (delivery window), SELF_PICKUP (pickup window), PREPARATION (kitchen active hours).\n"
     },
     {
+      "@id": "ion:type",
+      "@type": "rdf:Property",
+      "rdfs:label": "type",
+      "rdfs:comment": "Operating-hours timing type: ORDER, DELIVERY, SELF_PICKUP, or PREPARATION."
+    },
+    {
+      "@id": "ion:dayFrom",
+      "@type": "rdf:Property",
+      "rdfs:label": "dayFrom",
+      "rdfs:comment": "Day of week on which the operating-hours range starts, where 1 is Monday and 7 is Sunday."
+    },
+    {
+      "@id": "ion:dayTo",
+      "@type": "rdf:Property",
+      "rdfs:label": "dayTo",
+      "rdfs:comment": "Day of week on which the operating-hours range ends, where 1 is Monday and 7 is Sunday. Must be greater than or equal to dayFrom."
+    },
+    {
+      "@id": "ion:timeFrom",
+      "@type": "rdf:Property",
+      "rdfs:label": "timeFrom",
+      "rdfs:comment": "Start time in 24-hour HHMM format, for example 1000."
+    },
+    {
+      "@id": "ion:timeTo",
+      "@type": "rdf:Property",
+      "rdfs:label": "timeTo",
+      "rdfs:comment": "End time in 24-hour HHMM format, for example 2200; 0000 means midnight."
+    },
+    {
       "@id": "ion:holidayCalendar",
       "@type": "rdf:Property",
       "rdfs:label": "holidayCalendar",
@@ -73,6 +103,18 @@
       "@type": "rdf:Property",
       "rdfs:label": "serviceabilityByCategory",
       "rdfs:comment": "Per-category serviceability polygon overrides. When a provider serves different delivery zones for different categories (e.g. a larger radius for grocery vs a smaller one for hot food).\n"
+    },
+    {
+      "@id": "ion:categoryId",
+      "@type": "rdf:Property",
+      "rdfs:label": "categoryId",
+      "rdfs:comment": "ION category code e.g. food-qsr, grocery"
+    },
+    {
+      "@id": "ion:geo",
+      "@type": "rdf:Property",
+      "rdfs:label": "geo",
+      "rdfs:comment": "GeoJSON Polygon defining the delivery zone."
     },
     {
       "@id": "ion:averagePreparationTime",
@@ -169,6 +211,36 @@
       "@type": "rdf:Property",
       "rdfs:label": "categoryLicenses",
       "rdfs:comment": "Category-specific operating licenses beyond NIB/NPWP. Examples: SIA for alcohol, SIKA for meat, Izin PBF for pharmacy, Izin Edar BPOM for cosmetics. Required for the corresponding providerCategory.\n"
+    },
+    {
+      "@id": "ion:licenseType",
+      "@type": "rdf:Property",
+      "rdfs:label": "licenseType",
+      "rdfs:comment": "Type of category-specific operating license."
+    },
+    {
+      "@id": "ion:licenseNumber",
+      "@type": "rdf:Property",
+      "rdfs:label": "licenseNumber",
+      "rdfs:comment": "Identifier assigned to the category-specific operating license."
+    },
+    {
+      "@id": "ion:validUntil",
+      "@type": "rdf:Property",
+      "rdfs:label": "validUntil",
+      "rdfs:comment": "Date until which the category-specific operating license is valid."
+    },
+    {
+      "@id": "ion:issuingAuthority",
+      "@type": "rdf:Property",
+      "rdfs:label": "issuingAuthority",
+      "rdfs:comment": "Authority that issued the category-specific operating license."
+    },
+    {
+      "@id": "ion:evidenceUrl",
+      "@type": "rdf:Property",
+      "rdfs:label": "evidenceUrl",
+      "rdfs:comment": "URI referencing evidence for the category-specific operating license."
     }
   ]
 }
