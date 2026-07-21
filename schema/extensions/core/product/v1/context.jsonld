@@ -2,7 +2,7 @@
   "@context": {
     "@version": 1.1,
     "ion": "https://schema.ion.id/core/product/v1#",
-    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "beckn": "https://schema.beckn.io/",
     "schema": "https://schema.org/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "Resource": "beckn:Resource",

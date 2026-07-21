@@ -2,7 +2,7 @@
   "@context": {
     "@version": 1.1,
     "ion": "https://schema.ion.id/logistics/v1/",
-    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "beckn": "https://schema.beckn.io/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "agentAssignmentModel": "ion:agentAssignmentModel",
     "apiRateLimitPerSecond": "ion:apiRateLimitPerSecond",

@@ -5,7 +5,7 @@
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "ion": "https://schema.ion.id/finance/settlement/v1#",
     "schema": "https://schema.org/",
-    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "beckn": "https://schema.beckn.io/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "owl": "http://www.w3.org/2002/07/owl#"
   },
