@@ -5,7 +5,6 @@
     "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
     "schema": "https://schema.org/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
-    "customisationSelections": "ion:customisationSelections",
     "@protected": true,
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
@@ -14,6 +13,12 @@
     "Commitment": "beckn:Commitment",
     "BecknCommitment": "https://spec.beckn.io/vocab/v2.0.0#Commitment",
     "TradeCommitment": "ion:TradeCommitment",
-    "IONTradeCommitment": "ion:IONTradeCommitment"
+    "IONTradeCommitment": "ion:IONTradeCommitment",
+    "customisationSelections": "ion:customisationSelections",
+    "groupId": "ion:groupId",
+    "optionId": "ion:optionId",
+    "priceDelta": "ion:priceDelta",
+    "type": "ion:type",
+    "value": "ion:value"
   }
 }

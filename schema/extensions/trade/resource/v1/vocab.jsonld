@@ -234,6 +234,528 @@
       "rdfs:domain": {
         "@id": "ion:IONTradeResource"
       }
+    },
+    {
+      "@id": "ion:activeIngredients",
+      "@type": "rdf:Property",
+      "rdfs:label": "activeIngredients",
+      "rdfs:comment": "Property activeIngredients."
+    },
+    {
+      "@id": "ion:additives",
+      "@type": "rdf:Property",
+      "rdfs:label": "additives",
+      "rdfs:comment": "Property additives."
+    },
+    {
+      "@id": "ion:additivesInfo",
+      "@type": "rdf:Property",
+      "rdfs:label": "additivesInfo",
+      "rdfs:comment": "Property additivesInfo."
+    },
+    {
+      "@id": "ion:ageRestricted",
+      "@type": "rdf:Property",
+      "rdfs:label": "ageRestricted",
+      "rdfs:comment": "Whether product requires age verification at purchase"
+    },
+    {
+      "@id": "ion:allergens",
+      "@type": "rdf:Property",
+      "rdfs:label": "allergens",
+      "rdfs:comment": "Property allergens."
+    },
+    {
+      "@id": "ion:backImage",
+      "@type": "rdf:Property",
+      "rdfs:label": "backImage",
+      "rdfs:comment": "Back-of-pack statutory requirements image"
+    },
+    {
+      "@id": "ion:brandOwnerBpomLicenseNo",
+      "@type": "rdf:Property",
+      "rdfs:label": "brandOwnerBpomLicenseNo",
+      "rdfs:comment": "Property brandOwnerBpomLicenseNo."
+    },
+    {
+      "@id": "ion:cancellable",
+      "@type": "rdf:Property",
+      "rdfs:label": "cancellable",
+      "rdfs:comment": "Whether cancellation is possible before delivery"
+    },
+    {
+      "@id": "ion:certBody",
+      "@type": "rdf:Property",
+      "rdfs:label": "certBody",
+      "rdfs:comment": "Property certBody."
+    },
+    {
+      "@id": "ion:certNumber",
+      "@type": "rdf:Property",
+      "rdfs:label": "certNumber",
+      "rdfs:comment": "Property certNumber."
+    },
+    {
+      "@id": "ion:classification",
+      "@type": "rdf:Property",
+      "rdfs:label": "classification",
+      "rdfs:comment": "Property classification."
+    },
+    {
+      "@id": "ion:coldChainRequired",
+      "@type": "rdf:Property",
+      "rdfs:label": "coldChainRequired",
+      "rdfs:comment": "Property coldChainRequired."
+    },
+    {
+      "@id": "ion:compatibleWith",
+      "@type": "rdf:Property",
+      "rdfs:label": "compatibleWith",
+      "rdfs:comment": "Property compatibleWith."
+    },
+    {
+      "@id": "ion:connectivity",
+      "@type": "rdf:Property",
+      "rdfs:label": "connectivity",
+      "rdfs:comment": "Property connectivity."
+    },
+    {
+      "@id": "ion:conscious",
+      "@type": "rdf:Property",
+      "rdfs:label": "conscious",
+      "rdfs:comment": "Property conscious."
+    },
+    {
+      "@id": "ion:credentials",
+      "@type": "rdf:Property",
+      "rdfs:label": "credentials",
+      "rdfs:comment": "Property credentials."
+    },
+    {
+      "@id": "ion:cuisineType",
+      "@type": "rdf:Property",
+      "rdfs:label": "cuisineType",
+      "rdfs:comment": "Property cuisineType."
+    },
+    {
+      "@id": "ion:currency",
+      "@type": "rdf:Property",
+      "rdfs:label": "currency",
+      "rdfs:comment": "Property currency."
+    },
+    {
+      "@id": "ion:deliveryMethod",
+      "@type": "rdf:Property",
+      "rdfs:label": "deliveryMethod",
+      "rdfs:comment": "PUSH_TO_TARGET: delivered directly to consumer account (pulsa to phone number, PLN token to meter, in-game currency to game account). CODE_TO_BUYER: redemption code sent to buyer to redeem later. ACCOUNT_CREDIT: credited to buyer's wallet/account. QR_VOUCHER: scannable QR redeemable at merchant."
+    },
+    {
+      "@id": "ion:denomination",
+      "@type": "rdf:Property",
+      "rdfs:label": "denomination",
+      "rdfs:comment": "Voucher/top-up denomination"
+    },
+    {
+      "@id": "ion:digitalCategory",
+      "@type": "rdf:Property",
+      "rdfs:label": "digitalCategory",
+      "rdfs:comment": "Type of digital good. MOBILE_PULSA/DATA covered by Indonesian operator regulations; GAME_VOUCHER includes Mobile Legends, Free Fire, Valorant, Genshin currencies; STREAMING_VOUCHER for Netflix/Disney+ Hotstar/Spotify access codes."
+    },
+    {
+      "@id": "ion:dosageForm",
+      "@type": "rdf:Property",
+      "rdfs:label": "dosageForm",
+      "rdfs:comment": "Property dosageForm."
+    },
+    {
+      "@id": "ion:duration",
+      "@type": "rdf:Property",
+      "rdfs:label": "duration",
+      "rdfs:comment": "ISO 8601 duration. Minimum P1Y for electronics."
+    },
+    {
+      "@id": "ion:en",
+      "@type": "rdf:Property",
+      "rdfs:label": "en",
+      "rdfs:comment": "English text"
+    },
+    {
+      "@id": "ion:energyRating",
+      "@type": "rdf:Property",
+      "rdfs:label": "energyRating",
+      "rdfs:comment": "BSN energy efficiency star rating"
+    },
+    {
+      "@id": "ion:expiryAfterPurchase",
+      "@type": "rdf:Property",
+      "rdfs:label": "expiryAfterPurchase",
+      "rdfs:comment": "ISO 8601 duration — how long the voucher is valid from purchase"
+    },
+    {
+      "@id": "ion:fabric",
+      "@type": "rdf:Property",
+      "rdfs:label": "fabric",
+      "rdfs:comment": "Property fabric."
+    },
+    {
+      "@id": "ion:fabricComposition",
+      "@type": "rdf:Property",
+      "rdfs:label": "fabricComposition",
+      "rdfs:comment": "Property fabricComposition."
+    },
+    {
+      "@id": "ion:foodRegulatoryDeclaration",
+      "@type": "rdf:Property",
+      "rdfs:label": "foodRegulatoryDeclaration",
+      "rdfs:comment": "Property foodRegulatoryDeclaration."
+    },
+    {
+      "@id": "ion:formulation",
+      "@type": "rdf:Property",
+      "rdfs:label": "formulation",
+      "rdfs:comment": "Property formulation."
+    },
+    {
+      "@id": "ion:freshProduce",
+      "@type": "rdf:Property",
+      "rdfs:label": "freshProduce",
+      "rdfs:comment": "Property freshProduce."
+    },
+    {
+      "@id": "ion:gender",
+      "@type": "rdf:Property",
+      "rdfs:label": "gender",
+      "rdfs:comment": "Property gender."
+    },
+    {
+      "@id": "ion:hairType",
+      "@type": "rdf:Property",
+      "rdfs:label": "hairType",
+      "rdfs:comment": "Property hairType."
+    },
+    {
+      "@id": "ion:harvestDate",
+      "@type": "rdf:Property",
+      "rdfs:label": "harvestDate",
+      "rdfs:comment": "Property harvestDate."
+    },
+    {
+      "@id": "ion:id",
+      "@type": "rdf:Property",
+      "rdfs:label": "id",
+      "rdfs:comment": "Bahasa Indonesia text"
+    },
+    {
+      "@id": "ion:imageUrl",
+      "@type": "rdf:Property",
+      "rdfs:label": "imageUrl",
+      "rdfs:comment": "Property imageUrl."
+    },
+    {
+      "@id": "ion:importerBpomLicenseNo",
+      "@type": "rdf:Property",
+      "rdfs:label": "importerBpomLicenseNo",
+      "rdfs:comment": "Property importerBpomLicenseNo."
+    },
+    {
+      "@id": "ion:indoorOnly",
+      "@type": "rdf:Property",
+      "rdfs:label": "indoorOnly",
+      "rdfs:comment": "Property indoorOnly."
+    },
+    {
+      "@id": "ion:ingredientsInfo",
+      "@type": "rdf:Property",
+      "rdfs:label": "ingredientsInfo",
+      "rdfs:comment": "Property ingredientsInfo."
+    },
+    {
+      "@id": "ion:instructions",
+      "@type": "rdf:Property",
+      "rdfs:label": "instructions",
+      "rdfs:comment": "Property instructions."
+    },
+    {
+      "@id": "ion:issuer",
+      "@type": "rdf:Property",
+      "rdfs:label": "issuer",
+      "rdfs:comment": "Property issuer."
+    },
+    {
+      "@id": "ion:mfgLicenseNo",
+      "@type": "rdf:Property",
+      "rdfs:label": "mfgLicenseNo",
+      "rdfs:comment": "Property mfgLicenseNo."
+    },
+    {
+      "@id": "ion:netQuantityDeclaration",
+      "@type": "rdf:Property",
+      "rdfs:label": "netQuantityDeclaration",
+      "rdfs:comment": "Property netQuantityDeclaration."
+    },
+    {
+      "@id": "ion:notes",
+      "@type": "rdf:Property",
+      "rdfs:label": "notes",
+      "rdfs:comment": "Property notes."
+    },
+    {
+      "@id": "ion:nutrient",
+      "@type": "rdf:Property",
+      "rdfs:label": "nutrient",
+      "rdfs:comment": "Property nutrient."
+    },
+    {
+      "@id": "ion:nutrition",
+      "@type": "rdf:Property",
+      "rdfs:label": "nutrition",
+      "rdfs:comment": "Property nutrition."
+    },
+    {
+      "@id": "ion:nutritionalInfo",
+      "@type": "rdf:Property",
+      "rdfs:label": "nutritionalInfo",
+      "rdfs:comment": "Property nutritionalInfo."
+    },
+    {
+      "@id": "ion:operatorOrIssuer",
+      "@type": "rdf:Property",
+      "rdfs:label": "operatorOrIssuer",
+      "rdfs:comment": "Issuing operator or brand. For MOBILE_PULSA: TELKOMSEL, XL, INDOSAT, TRI, SMARTFREN. For ELECTRICITY_TOKEN: PLN. For GAME_VOUCHER: Moonton, Garena, Riot, etc."
+    },
+    {
+      "@id": "ion:operatorValidationRequired",
+      "@type": "rdf:Property",
+      "rdfs:label": "operatorValidationRequired",
+      "rdfs:comment": "Whether BPP must verify target exists before accepting (e.g. mobile number inquiry)"
+    },
+    {
+      "@id": "ion:organicCertification",
+      "@type": "rdf:Property",
+      "rdfs:label": "organicCertification",
+      "rdfs:comment": "Property organicCertification."
+    },
+    {
+      "@id": "ion:osType",
+      "@type": "rdf:Property",
+      "rdfs:label": "osType",
+      "rdfs:comment": "Property osType."
+    },
+    {
+      "@id": "ion:pesticideDeclaration",
+      "@type": "rdf:Property",
+      "rdfs:label": "pesticideDeclaration",
+      "rdfs:comment": "Property pesticideDeclaration."
+    },
+    {
+      "@id": "ion:preference",
+      "@type": "rdf:Property",
+      "rdfs:label": "preference",
+      "rdfs:comment": "Property preference."
+    },
+    {
+      "@id": "ion:prescriptionRequired",
+      "@type": "rdf:Property",
+      "rdfs:label": "prescriptionRequired",
+      "rdfs:comment": "Property prescriptionRequired."
+    },
+    {
+      "@id": "ion:produceGrade",
+      "@type": "rdf:Property",
+      "rdfs:label": "produceGrade",
+      "rdfs:comment": "Property produceGrade."
+    },
+    {
+      "@id": "ion:providedBySeller",
+      "@type": "rdf:Property",
+      "rdfs:label": "providedBySeller",
+      "rdfs:comment": "Property providedBySeller."
+    },
+    {
+      "@id": "ion:redemptionCode",
+      "@type": "rdf:Property",
+      "rdfs:label": "redemptionCode",
+      "rdfs:comment": "Redemption code or voucher code. Returned in on_status[DELIVERED] for CODE_TO_BUYER delivery. Must be encrypted in transit."
+    },
+    {
+      "@id": "ion:redemptionUrl",
+      "@type": "rdf:Property",
+      "rdfs:label": "redemptionUrl",
+      "rdfs:comment": "URL for redemption (streaming service activation, game code page)"
+    },
+    {
+      "@id": "ion:refundable",
+      "@type": "rdf:Property",
+      "rdfs:label": "refundable",
+      "rdfs:comment": "Whether the digital good is refundable. Most pulsa/top-up is non-refundable once delivered to target. Vouchers may be refundable if unredeemed."
+    },
+    {
+      "@id": "ion:registrations",
+      "@type": "rdf:Property",
+      "rdfs:label": "registrations",
+      "rdfs:comment": "Property registrations."
+    },
+    {
+      "@id": "ion:resourceStructure",
+      "@type": "rdf:Property",
+      "rdfs:label": "resourceStructure",
+      "rdfs:comment": "PLAIN: single SKU, no choices. VARIANT: one of several pre-defined options of a parent. WITH_EXTRAS: base item with optional add-ons. COMPOSED: base with mandatory and optional customisation groups. BUNDLE: composite of multiple component resources (see bundleComposition)."
+    },
+    {
+      "@id": "ion:role",
+      "@type": "rdf:Property",
+      "rdfs:label": "role",
+      "rdfs:comment": "Property role."
+    },
+    {
+      "@id": "ion:scheme",
+      "@type": "rdf:Property",
+      "rdfs:label": "scheme",
+      "rdfs:comment": "Property scheme."
+    },
+    {
+      "@id": "ion:sequence",
+      "@type": "rdf:Property",
+      "rdfs:label": "sequence",
+      "rdfs:comment": "Property sequence."
+    },
+    {
+      "@id": "ion:serviceCenter",
+      "@type": "rdf:Property",
+      "rdfs:label": "serviceCenter",
+      "rdfs:comment": "Property serviceCenter."
+    },
+    {
+      "@id": "ion:shelfLife",
+      "@type": "rdf:Property",
+      "rdfs:label": "shelfLife",
+      "rdfs:comment": "ISO 8601 duration"
+    },
+    {
+      "@id": "ion:size",
+      "@type": "rdf:Property",
+      "rdfs:label": "size",
+      "rdfs:comment": "Property size."
+    },
+    {
+      "@id": "ion:sizeChart",
+      "@type": "rdf:Property",
+      "rdfs:label": "sizeChart",
+      "rdfs:comment": "Property sizeChart."
+    },
+    {
+      "@id": "ion:skinType",
+      "@type": "rdf:Property",
+      "rdfs:label": "skinType",
+      "rdfs:comment": "Property skinType."
+    },
+    {
+      "@id": "ion:spf",
+      "@type": "rdf:Property",
+      "rdfs:label": "spf",
+      "rdfs:comment": "Property spf."
+    },
+    {
+      "@id": "ion:spiceLevel",
+      "@type": "rdf:Property",
+      "rdfs:label": "spiceLevel",
+      "rdfs:comment": "Property spiceLevel."
+    },
+    {
+      "@id": "ion:storage",
+      "@type": "rdf:Property",
+      "rdfs:label": "storage",
+      "rdfs:comment": "Property storage."
+    },
+    {
+      "@id": "ion:strength",
+      "@type": "rdf:Property",
+      "rdfs:label": "strength",
+      "rdfs:comment": "Property strength."
+    },
+    {
+      "@id": "ion:target",
+      "@type": "rdf:Property",
+      "rdfs:label": "target",
+      "rdfs:comment": "Target identifier for delivery"
+    },
+    {
+      "@id": "ion:terms",
+      "@type": "rdf:Property",
+      "rdfs:label": "terms",
+      "rdfs:comment": "Property terms."
+    },
+    {
+      "@id": "ion:type",
+      "@type": "rdf:Property",
+      "rdfs:label": "type",
+      "rdfs:comment": "Property type."
+    },
+    {
+      "@id": "ion:unit",
+      "@type": "rdf:Property",
+      "rdfs:label": "unit",
+      "rdfs:comment": "Property unit."
+    },
+    {
+      "@id": "ion:unitCode",
+      "@type": "rdf:Property",
+      "rdfs:label": "unitCode",
+      "rdfs:comment": "Property unitCode."
+    },
+    {
+      "@id": "ion:unitOfMeasure",
+      "@type": "rdf:Property",
+      "rdfs:label": "unitOfMeasure",
+      "rdfs:comment": "Property unitOfMeasure."
+    },
+    {
+      "@id": "ion:unitQuantity",
+      "@type": "rdf:Property",
+      "rdfs:label": "unitQuantity",
+      "rdfs:comment": "Property unitQuantity."
+    },
+    {
+      "@id": "ion:uri",
+      "@type": "rdf:Property",
+      "rdfs:label": "uri",
+      "rdfs:comment": "Property uri."
+    },
+    {
+      "@id": "ion:url",
+      "@type": "rdf:Property",
+      "rdfs:label": "url",
+      "rdfs:comment": "Property url."
+    },
+    {
+      "@id": "ion:validUntil",
+      "@type": "rdf:Property",
+      "rdfs:label": "validUntil",
+      "rdfs:comment": "Property validUntil."
+    },
+    {
+      "@id": "ion:value",
+      "@type": "rdf:Property",
+      "rdfs:label": "value",
+      "rdfs:comment": "Property value."
+    },
+    {
+      "@id": "ion:voltage",
+      "@type": "rdf:Property",
+      "rdfs:label": "voltage",
+      "rdfs:comment": "Property voltage."
+    },
+    {
+      "@id": "ion:volume",
+      "@type": "rdf:Property",
+      "rdfs:label": "volume",
+      "rdfs:comment": "Property volume."
+    },
+    {
+      "@id": "ion:wattage",
+      "@type": "rdf:Property",
+      "rdfs:label": "wattage",
+      "rdfs:comment": "Power consumption watts"
     }
   ]
 }

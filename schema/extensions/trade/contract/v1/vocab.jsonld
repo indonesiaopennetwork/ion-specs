@@ -39,12 +39,6 @@
       "rdfs:comment": "ID of the specific fulfilment centre that will fulfil this order. Populated by BPP at on_confirm after internal FC selection. Present when provider has multiple FC locations.\n"
     },
     {
-      "@id": "ion:buyerInstructions",
-      "@type": "rdf:Property",
-      "rdfs:label": "buyerInstructions",
-      "rdfs:comment": "Free-text delivery instructions from buyer. e.g. \"Leave at door\", \"Call before arriving\", \"Do not ring bell after 9pm\".\n"
-    },
-    {
       "@id": "ion:deliveryPreferences",
       "@type": "rdf:Property",
       "rdfs:label": "deliveryPreferences",
@@ -181,6 +175,384 @@
       "@type": "rdf:Property",
       "rdfs:label": "paymentSchedule",
       "rdfs:comment": "Multi-milestone payment schedule for partial-payment offers (down-payment + balance, milestone-based for services, etc.). Used when paymentTermsPolicy references a schedule-based IRI. Single-payment orders do not require this field. Contract moves to COMPLETE only when all milestones are PAID.\n"
+    },
+    {
+      "@id": "ion:accountName",
+      "@type": "rdf:Property",
+      "rdfs:label": "accountName",
+      "rdfs:comment": "Property accountName."
+    },
+    {
+      "@id": "ion:accountNumber",
+      "@type": "rdf:Property",
+      "rdfs:label": "accountNumber",
+      "rdfs:comment": "Property accountNumber."
+    },
+    {
+      "@id": "ion:affiliateId",
+      "@type": "rdf:Property",
+      "rdfs:label": "affiliateId",
+      "rdfs:comment": "Affiliate subscriber ID when sourceChannel=AFFILIATE_LINK"
+    },
+    {
+      "@id": "ion:amount",
+      "@type": "rdf:Property",
+      "rdfs:label": "amount",
+      "rdfs:comment": "IDR amount due at this milestone"
+    },
+    {
+      "@id": "ion:bankAccount",
+      "@type": "rdf:Property",
+      "rdfs:label": "bankAccount",
+      "rdfs:comment": "Required when method=BANK_TRANSFER"
+    },
+    {
+      "@id": "ion:bankCode",
+      "@type": "rdf:Property",
+      "rdfs:label": "bankCode",
+      "rdfs:comment": "Property bankCode."
+    },
+    {
+      "@id": "ion:cancellationReason",
+      "@type": "rdf:Property",
+      "rdfs:label": "cancellationReason",
+      "rdfs:comment": "Structured cancellation reason with machine-readable code and localised description. Set by the requesting party at time of cancel."
+    },
+    {
+      "@id": "ion:cancellationTags",
+      "@type": "rdf:Property",
+      "rdfs:label": "cancellationTags",
+      "rdfs:comment": "Structured metadata bag for the cancellation event. Used in force-cancel (TAT breach) scenarios."
+    },
+    {
+      "@id": "ion:cancelledCommitmentIds",
+      "@type": "rdf:Property",
+      "rdfs:label": "cancelledCommitmentIds",
+      "rdfs:comment": "Line IDs from commitments[] that have been individually cancelled in a partial-cancellation flow."
+    },
+    {
+      "@id": "ion:code",
+      "@type": "rdf:Property",
+      "rdfs:label": "code",
+      "rdfs:comment": "Machine-readable reason code."
+    },
+    {
+      "@id": "ion:currency",
+      "@type": "rdf:Property",
+      "rdfs:label": "currency",
+      "rdfs:comment": "Property currency."
+    },
+    {
+      "@id": "ion:descriptor",
+      "@type": "rdf:Property",
+      "rdfs:label": "descriptor",
+      "rdfs:comment": "Property descriptor."
+    },
+    {
+      "@id": "ion:dueAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "dueAt",
+      "rdfs:comment": "Absolute datetime when payment is due"
+    },
+    {
+      "@id": "ion:dunningReminderSequence",
+      "@type": "rdf:Property",
+      "rdfs:label": "dunningReminderSequence",
+      "rdfs:comment": "Sequence number of this dunning (payment reminder) attempt for overdue credit orders."
+    },
+    {
+      "@id": "ion:end",
+      "@type": "rdf:Property",
+      "rdfs:label": "end",
+      "rdfs:comment": "Property end."
+    },
+    {
+      "@id": "ion:expectedStatusBy",
+      "@type": "rdf:Property",
+      "rdfs:label": "expectedStatusBy",
+      "rdfs:comment": "Datetime by which BPP was expected to send on_status per declared SLA."
+    },
+    {
+      "@id": "ion:force",
+      "@type": "rdf:Property",
+      "rdfs:label": "force",
+      "rdfs:comment": "True when BAP is force-cancelling due to BPP TAT breach."
+    },
+    {
+      "@id": "ion:gatewayRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "gatewayRef",
+      "rdfs:comment": "Gateway transaction reference for this milestone"
+    },
+    {
+      "@id": "ion:gift",
+      "@type": "rdf:Property",
+      "rdfs:label": "gift",
+      "rdfs:comment": "Simple gift flag. When true, populate giftingDetails for recipient name, message, and wrap preferences."
+    },
+    {
+      "@id": "ion:giftMessage",
+      "@type": "rdf:Property",
+      "rdfs:label": "giftMessage",
+      "rdfs:comment": "Message printed on gift card / packing slip"
+    },
+    {
+      "@id": "ion:giftWrapOfferId",
+      "@type": "rdf:Property",
+      "rdfs:label": "giftWrapOfferId",
+      "rdfs:comment": "Reference to the gift-wrap offer in consideration breakup"
+    },
+    {
+      "@id": "ion:graceDays",
+      "@type": "rdf:Property",
+      "rdfs:label": "graceDays",
+      "rdfs:comment": "Grace period before status becomes OVERDUE"
+    },
+    {
+      "@id": "ion:groupBuyActivated",
+      "@type": "rdf:Property",
+      "rdfs:label": "groupBuyActivated",
+      "rdfs:comment": "Whether group-buy discount has been unlocked"
+    },
+    {
+      "@id": "ion:groupBuyId",
+      "@type": "rdf:Property",
+      "rdfs:label": "groupBuyId",
+      "rdfs:comment": "Group-buy session ID when sourceChannel=GROUP_BUY"
+    },
+    {
+      "@id": "ion:groupBuyMinParticipants",
+      "@type": "rdf:Property",
+      "rdfs:label": "groupBuyMinParticipants",
+      "rdfs:comment": "Minimum participants needed for group discount to activate"
+    },
+    {
+      "@id": "ion:hideSenderInfo",
+      "@type": "rdf:Property",
+      "rdfs:label": "hideSenderInfo",
+      "rdfs:comment": "Anonymous gift — omit buyer details from all visible surfaces"
+    },
+    {
+      "@id": "ion:id",
+      "@type": "rdf:Property",
+      "rdfs:label": "id",
+      "rdfs:comment": "Item ID or consideration ID this adjustment applies to"
+    },
+    {
+      "@id": "ion:invoiceType",
+      "@type": "rdf:Property",
+      "rdfs:label": "invoiceType",
+      "rdfs:comment": "RECEIPT: simple receipt, no tax identity required. TAX_INVOICE: Faktur Pajak, requires PKP seller and NPWP buyer. EINVOICE: e-Faktur via DJP system. SURAT_TAGIHAN: PKP seller to non-PKP buyer — commercial invoice, no input-tax claim rights. KOMERSIAL_INVOICE: cross-border commercial invoice, bilingual layout."
+    },
+    {
+      "@id": "ion:isGift",
+      "@type": "rdf:Property",
+      "rdfs:label": "isGift",
+      "rdfs:comment": "Property isGift."
+    },
+    {
+      "@id": "ion:lastBppInteractionAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "lastBppInteractionAt",
+      "rdfs:comment": "Timestamp of last received BPP message — documents the TAT breach."
+    },
+    {
+      "@id": "ion:legalEntityName",
+      "@type": "rdf:Property",
+      "rdfs:label": "legalEntityName",
+      "rdfs:comment": "Registered legal entity name of the buyer organisation for B2B wholesale and business-procurement patterns."
+    },
+    {
+      "@id": "ion:liveSessionId",
+      "@type": "rdf:Property",
+      "rdfs:label": "liveSessionId",
+      "rdfs:comment": "Live session identifier when sourceChannel=LIVE_STREAM"
+    },
+    {
+      "@id": "ion:loyaltyMultiplier",
+      "@type": "rdf:Property",
+      "rdfs:label": "loyaltyMultiplier",
+      "rdfs:comment": "Bonus multiplier when redeeming to loyalty points e.g. 1.1 = 10% bonus"
+    },
+    {
+      "@id": "ion:method",
+      "@type": "rdf:Property",
+      "rdfs:label": "method",
+      "rdfs:comment": "Property method."
+    },
+    {
+      "@id": "ion:milestone",
+      "@type": "rdf:Property",
+      "rdfs:label": "milestone",
+      "rdfs:comment": "Event that triggers this payment"
+    },
+    {
+      "@id": "ion:milestoneLabel",
+      "@type": "rdf:Property",
+      "rdfs:label": "milestoneLabel",
+      "rdfs:comment": "Human-readable milestone label (e.g. \"30% down-payment\")"
+    },
+    {
+      "@id": "ion:nib",
+      "@type": "rdf:Property",
+      "rdfs:label": "nib",
+      "rdfs:comment": "Nomor Induk Berusaha (Business Registration Number) of the buyer organisation."
+    },
+    {
+      "@id": "ion:npwp",
+      "@type": "rdf:Property",
+      "rdfs:label": "npwp",
+      "rdfs:comment": "NPWP (Nomor Pokok Wajib Pajak) of the buyer. Required when invoicePreferences.invoiceType=TAX_INVOICE."
+    },
+    {
+      "@id": "ion:ottContentId",
+      "@type": "rdf:Property",
+      "rdfs:label": "ottContentId",
+      "rdfs:comment": "OTT platform's content ID (movie, episode, match) where item was shown"
+    },
+    {
+      "@id": "ion:ottPlatform",
+      "@type": "rdf:Property",
+      "rdfs:label": "ottPlatform",
+      "rdfs:comment": "OTT platform where shoppable content was served (for OTT_EMBEDDED)"
+    },
+    {
+      "@id": "ion:ottTimestampSeconds",
+      "@type": "rdf:Property",
+      "rdfs:label": "ottTimestampSeconds",
+      "rdfs:comment": "Playback position in seconds when product was presented"
+    },
+    {
+      "@id": "ion:paidAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "paidAt",
+      "rdfs:comment": "Property paidAt."
+    },
+    {
+      "@id": "ion:paymentMethod",
+      "@type": "rdf:Property",
+      "rdfs:label": "paymentMethod",
+      "rdfs:comment": "Method used for this specific milestone (may differ across milestones)"
+    },
+    {
+      "@id": "ion:preferredPerformanceMode",
+      "@type": "rdf:Property",
+      "rdfs:label": "preferredPerformanceMode",
+      "rdfs:comment": "Property preferredPerformanceMode."
+    },
+    {
+      "@id": "ion:preferredTimeSlot",
+      "@type": "rdf:Property",
+      "rdfs:label": "preferredTimeSlot",
+      "rdfs:comment": "Buyer's preferred delivery time window."
+    },
+    {
+      "@id": "ion:priceDisplayOnPackage",
+      "@type": "rdf:Property",
+      "rdfs:label": "priceDisplayOnPackage",
+      "rdfs:comment": "Whether to show prices on packing slip"
+    },
+    {
+      "@id": "ion:productPinnedAtMinute",
+      "@type": "rdf:Property",
+      "rdfs:label": "productPinnedAtMinute",
+      "rdfs:comment": "Minutes into the live session when this product was pinned/featured"
+    },
+    {
+      "@id": "ion:reason",
+      "@type": "rdf:Property",
+      "rdfs:label": "reason",
+      "rdfs:comment": "Human-readable reason for this adjustment"
+    },
+    {
+      "@id": "ion:recipientName",
+      "@type": "rdf:Property",
+      "rdfs:label": "recipientName",
+      "rdfs:comment": "Property recipientName."
+    },
+    {
+      "@id": "ion:recipientPhone",
+      "@type": "rdf:Property",
+      "rdfs:label": "recipientPhone",
+      "rdfs:comment": "Property recipientPhone."
+    },
+    {
+      "@id": "ion:scheme",
+      "@type": "rdf:Property",
+      "rdfs:label": "scheme",
+      "rdfs:comment": "NPWP for businesses, NIK for individuals"
+    },
+    {
+      "@id": "ion:shortDesc",
+      "@type": "rdf:Property",
+      "rdfs:label": "shortDesc",
+      "rdfs:comment": "Localised short reason for consumer display."
+    },
+    {
+      "@id": "ion:shortVideoId",
+      "@type": "rdf:Property",
+      "rdfs:label": "shortVideoId",
+      "rdfs:comment": "Short-video/reel ID when sourceChannel=SHORT_VIDEO"
+    },
+    {
+      "@id": "ion:sourceChannel",
+      "@type": "rdf:Property",
+      "rdfs:label": "sourceChannel",
+      "rdfs:comment": "Entry point for the order. OTT_EMBEDDED = order placed from within video streaming app (Netflix, Vidio, Disney+ Hotstar shoppable content)."
+    },
+    {
+      "@id": "ion:start",
+      "@type": "rdf:Property",
+      "rdfs:label": "start",
+      "rdfs:comment": "Property start."
+    },
+    {
+      "@id": "ion:status",
+      "@type": "rdf:Property",
+      "rdfs:label": "status",
+      "rdfs:comment": "Property status."
+    },
+    {
+      "@id": "ion:streamerCommissionPercent",
+      "@type": "rdf:Property",
+      "rdfs:label": "streamerCommissionPercent",
+      "rdfs:comment": "Streamer's commission as fraction of item value"
+    },
+    {
+      "@id": "ion:streamerId",
+      "@type": "rdf:Property",
+      "rdfs:label": "streamerId",
+      "rdfs:comment": "Creator/streamer subscriber ID for revenue attribution. Streamer may earn commission separately from BPP/BAP."
+    },
+    {
+      "@id": "ion:subscriptionAction",
+      "@type": "rdf:Property",
+      "rdfs:label": "subscriptionAction",
+      "rdfs:comment": "Action being applied to a subscription in a lifecycle management /update call."
+    },
+    {
+      "@id": "ion:taxId",
+      "@type": "rdf:Property",
+      "rdfs:label": "taxId",
+      "rdfs:comment": "Property taxId."
+    },
+    {
+      "@id": "ion:type",
+      "@type": "rdf:Property",
+      "rdfs:label": "type",
+      "rdfs:comment": "Property type."
+    },
+    {
+      "@id": "ion:value",
+      "@type": "rdf:Property",
+      "rdfs:label": "value",
+      "rdfs:comment": "Tax ID number"
+    },
+    {
+      "@id": "ion:walletId",
+      "@type": "rdf:Property",
+      "rdfs:label": "walletId",
+      "rdfs:comment": "Required when method=PLATFORM_WALLET"
     }
   ]
 }

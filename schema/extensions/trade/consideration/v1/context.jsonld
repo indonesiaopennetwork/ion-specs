@@ -5,6 +5,7 @@
     "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
     "schema": "https://schema.org/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "breakup": "ion:breakup",
     "ppnRate": "ion:ppnRate",
     "ppnbmRate": "ion:ppnbmRate",
     "discountType": "ion:discountType",

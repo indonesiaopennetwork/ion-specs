@@ -22,6 +22,26 @@
     "additionalChargeAmount": "ion:additionalChargeAmount",
     "Settlement": "https://spec.beckn.io/vocab/v2.0.0#Settlement",
     "TradeSettlement": "ion:TradeSettlement",
-    "IONTradeSettlement": "ion:IONTradeSettlement"
+    "IONTradeSettlement": "ion:IONTradeSettlement",
+    "adjustments": "ion:adjustments",
+    "amounts": "ion:amounts",
+    "baseContractAmount": "ion:baseContractAmount",
+    "buyerFinderFeeAmount": "ion:buyerFinderFeeAmount",
+    "contractId": "ion:contractId",
+    "deepLink": "ion:deepLink",
+    "disputeReason": "ion:disputeReason",
+    "expiresAt": "ion:expiresAt",
+    "gatewayRef": "ion:gatewayRef",
+    "netSettlementAmount": "ion:netSettlementAmount",
+    "paidAt": "ion:paidAt",
+    "paymentLink": "ion:paymentLink",
+    "qrisString": "ion:qrisString",
+    "reason": "ion:reason",
+    "reconId": "ion:reconId",
+    "reconStatus": "ion:reconStatus",
+    "settlementBasis": "ion:settlementBasis",
+    "type": "ion:type",
+    "vaBankCode": "ion:vaBankCode",
+    "vaNumber": "ion:vaNumber"
   }
 }

@@ -32,36 +32,6 @@
         "SELF_PICKUP"
       ]
     },
-    "sla": {
-      "type": "object",
-      "additionalProperties": false,
-      "description": "Service Level Agreement for fulfilment timing.",
-      "required": [
-        "unitBasis"
-      ],
-      "properties": {
-        "min": {
-          "type": "string",
-          "description": "Minimum fulfilment time ISO 8601 duration",
-          "example": "PT30M"
-        },
-        "max": {
-          "type": "string",
-          "description": "Maximum fulfilment time ISO 8601 duration",
-          "example": "PT90M"
-        },
-        "unitBasis": {
-          "type": "string",
-          "enum": [
-            "ORDER_CONFIRMATION",
-            "SHIPMENT",
-            "PAYMENT_RECEIPT"
-          ],
-          "description": "Event from which SLA countdown starts.",
-          "example": "ORDER_CONFIRMATION"
-        }
-      }
-    },
     "handling": {
       "type": "array",
       "items": {
@@ -483,7 +453,10 @@
                 "type": "string",
                 "pattern": "^-?[0-9]{1,2}.[0-9]+,-?[0-9]{1,3}.[0-9]+$"
               },
-              "areaCode": { "type": "string" }
+              "areaCode": { "type": "string" },
+              "ionAddressAttributes": {
+                "$ref": "../../../../extensions/core/address/v1/attributes.yaml#/components/schemas/IONAddress"
+              }
             }
           },
           "instructions": { "type": "string" },
@@ -521,8 +494,7 @@
   },
   "required": [
     "performanceMode",
-    "supportedPerformanceModes",
-    "sla"
+    "supportedPerformanceModes"
   ],
   "additionalProperties": true,
   "allOf": [

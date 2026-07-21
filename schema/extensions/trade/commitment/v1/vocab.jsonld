@@ -33,34 +33,16 @@
       }
     },
     {
-      "@id": "ion:lineId",
+      "@id": "ion:groupId",
       "@type": "rdf:Property",
-      "rdfs:label": "lineId",
-      "rdfs:comment": "Unique identifier for this commitment line within the contract. Assigned by BAP at select. Persists through the contract lifecycle. Used to reference specific lines in updates, cancellations, returns.\n"
+      "rdfs:label": "groupId",
+      "rdfs:comment": "ID of the customisationGroup selected"
     },
     {
-      "@id": "ion:resourceId",
+      "@id": "ion:optionId",
       "@type": "rdf:Property",
-      "rdfs:label": "resourceId",
-      "rdfs:comment": "ID of the resource being committed. References beckn:Resource.id from the catalog. For VARIANT resources, this is the specific variant ID, not the parent.\n"
-    },
-    {
-      "@id": "ion:offerId",
-      "@type": "rdf:Property",
-      "rdfs:label": "offerId",
-      "rdfs:comment": "ID of the offer under which this resource is being committed. References beckn:Offer.id from the catalog.\n"
-    },
-    {
-      "@id": "ion:quantity",
-      "@type": "rdf:Property",
-      "rdfs:label": "quantity",
-      "rdfs:comment": "Quantity of this resource being committed."
-    },
-    {
-      "@id": "ion:price",
-      "@type": "rdf:Property",
-      "rdfs:label": "price",
-      "rdfs:comment": "Locked price for this commitment line as agreed at select. Price is fixed at on_select and does not change unless a price adjustment branch is triggered.\n"
+      "rdfs:label": "optionId",
+      "rdfs:comment": "ID of the option selected within the group"
     },
     {
       "@id": "ion:customisationSelections",
@@ -69,10 +51,22 @@
       "rdfs:comment": "Buyer's selections from customisationGroups for COMPOSED and WITH_EXTRAS resources. One entry per group selected.\n"
     },
     {
-      "@id": "ion:specialInstructions",
+      "@id": "ion:priceDelta",
       "@type": "rdf:Property",
-      "rdfs:label": "specialInstructions",
-      "rdfs:comment": "Per-line buyer note. e.g. \"Extra crispy base\", \"No onion\", \"Gift wrap this item separately\". Visible to seller at fulfilment.\n"
+      "rdfs:label": "priceDelta",
+      "rdfs:comment": "Price delta applied by this selection."
+    },
+    {
+      "@id": "ion:type",
+      "@type": "rdf:Property",
+      "rdfs:label": "type",
+      "rdfs:comment": "Price delta type: FIXED or PERCENT."
+    },
+    {
+      "@id": "ion:value",
+      "@type": "rdf:Property",
+      "rdfs:label": "value",
+      "rdfs:comment": "Numeric value of the price delta."
     }
   ]
 }

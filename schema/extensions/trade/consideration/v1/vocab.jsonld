@@ -33,6 +33,12 @@
       }
     },
     {
+      "@id": "ion:breakup",
+      "@type": "rdf:Property",
+      "rdfs:label": "breakup",
+      "rdfs:comment": "Pattern alias for the array of Consideration objects in Contract.considerations[]."
+    },
+    {
       "@id": "ion:ppnRate",
       "@type": "rdf:Property",
       "rdfs:label": "ppnRate",
@@ -61,18 +67,6 @@
       "@type": "rdf:Property",
       "rdfs:label": "breakupLineType",
       "rdfs:comment": "Canonical type for this consideration breakup line. ITEM: per-item price line. DELIVERY: shipping/delivery charge. TAX: PPN tax line. TAX_PPNBM: luxury goods tax line. HANDLING: special handling surcharge (cold chain, oversized). PACKAGING: gift or special packaging charge. INSURANCE: shipping insurance. PROVIDER_BENEFIT: seller-funded discount. BUYER_BENEFIT: BAP-funded discount or cashback. COD_FEE: cash on delivery handling fee. TRADE_IN: trade-in deduction value. LOYALTY_REDEEM: loyalty points redemption. FINANCE_CHARGE: BNPL or credit interest charge. GIFT_WRAP: gift wrapping fee. PLATFORM_FEE: ION network participant fee."
-    },
-    {
-      "@id": "ion:totalAmount",
-      "@type": "rdf:Property",
-      "rdfs:label": "totalAmount",
-      "rdfs:comment": "Total amount for this consideration in IDR. For the final consideration record, this is the net payable amount after all discounts and taxes.\n"
-    },
-    {
-      "@id": "ion:currency",
-      "@type": "rdf:Property",
-      "rdfs:label": "currency",
-      "rdfs:comment": "Always IDR for domestic ION transactions."
     }
   ]
 }

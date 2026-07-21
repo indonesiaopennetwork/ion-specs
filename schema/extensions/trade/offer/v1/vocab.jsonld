@@ -325,6 +325,162 @@
       "@type": "rdf:Property",
       "rdfs:label": "customTermsAddendum",
       "rdfs:comment": "Free-text addendum for edge cases (e.g. watchmaker offering lifetime service). Supplements the declared policy IRIs but cannot contradict them. If addendum contradicts base policy, base policy wins and addendum is informational only. BAP displays addendum below the structured policy terms.\n"
+    },
+    {
+      "@id": "ion:brandSubsidy",
+      "@type": "rdf:Property",
+      "rdfs:label": "brandSubsidy",
+      "rdfs:comment": "Property brandSubsidy."
+    },
+    {
+      "@id": "ion:cannotCombineWith",
+      "@type": "rdf:Property",
+      "rdfs:label": "cannotCombineWith",
+      "rdfs:comment": "Offer IDs with which this offer cannot be combined."
+    },
+    {
+      "@id": "ion:count",
+      "@type": "rdf:Property",
+      "rdfs:label": "count",
+      "rdfs:comment": "Property count."
+    },
+    {
+      "@id": "ion:eligibilityNote",
+      "@type": "rdf:Property",
+      "rdfs:label": "eligibilityNote",
+      "rdfs:comment": "Optional human-readable explanation"
+    },
+    {
+      "@id": "ion:excludedCategories",
+      "@type": "rdf:Property",
+      "rdfs:label": "excludedCategories",
+      "rdfs:comment": "Category codes excluded from this method"
+    },
+    {
+      "@id": "ion:maxAmount",
+      "@type": "rdf:Property",
+      "rdfs:label": "maxAmount",
+      "rdfs:comment": "Maximum order value in IDR (BI cap for QRIS is 10M)"
+    },
+    {
+      "@id": "ion:maxDiscountWhenStacked",
+      "@type": "rdf:Property",
+      "rdfs:label": "maxDiscountWhenStacked",
+      "rdfs:comment": "Cap on total discount when multiple offers stack (IDR)."
+    },
+    {
+      "@id": "ion:maxKg",
+      "@type": "rdf:Property",
+      "rdfs:label": "maxKg",
+      "rdfs:comment": "Property maxKg."
+    },
+    {
+      "@id": "ion:measure",
+      "@type": "rdf:Property",
+      "rdfs:label": "measure",
+      "rdfs:comment": "Property measure."
+    },
+    {
+      "@id": "ion:method",
+      "@type": "rdf:Property",
+      "rdfs:label": "method",
+      "rdfs:comment": "Property method."
+    },
+    {
+      "@id": "ion:minAmount",
+      "@type": "rdf:Property",
+      "rdfs:label": "minAmount",
+      "rdfs:comment": "Minimum order value in IDR for this method to be eligible"
+    },
+    {
+      "@id": "ion:minKg",
+      "@type": "rdf:Property",
+      "rdfs:label": "minKg",
+      "rdfs:comment": "Property minKg."
+    },
+    {
+      "@id": "ion:mustCombineWith",
+      "@type": "rdf:Property",
+      "rdfs:label": "mustCombineWith",
+      "rdfs:comment": "Offer IDs that must also be applied for this offer to activate."
+    },
+    {
+      "@id": "ion:phaseLabel",
+      "@type": "rdf:Property",
+      "rdfs:label": "phaseLabel",
+      "rdfs:comment": "Human label e.g. \"Jam pertama harga hemat\""
+    },
+    {
+      "@id": "ion:platformSubsidy",
+      "@type": "rdf:Property",
+      "rdfs:label": "platformSubsidy",
+      "rdfs:comment": "Property platformSubsidy."
+    },
+    {
+      "@id": "ion:priceIDR",
+      "@type": "rdf:Property",
+      "rdfs:label": "priceIDR",
+      "rdfs:comment": "Property priceIDR."
+    },
+    {
+      "@id": "ion:priceValue",
+      "@type": "rdf:Property",
+      "rdfs:label": "priceValue",
+      "rdfs:comment": "IDR amount valid in this window"
+    },
+    {
+      "@id": "ion:requiredBnplProvider",
+      "@type": "rdf:Property",
+      "rdfs:label": "requiredBnplProvider",
+      "rdfs:comment": "Specific BNPL providers allowed (when method=BNPL)"
+    },
+    {
+      "@id": "ion:requiresAddressVerification",
+      "@type": "rdf:Property",
+      "rdfs:label": "requiresAddressVerification",
+      "rdfs:comment": "Whether buyer must have a verified delivery address"
+    },
+    {
+      "@id": "ion:requiresBuyerTier",
+      "@type": "rdf:Property",
+      "rdfs:label": "requiresBuyerTier",
+      "rdfs:comment": "Buyer tier(s) eligible for this method"
+    },
+    {
+      "@id": "ion:requiresPhoneVerification",
+      "@type": "rdf:Property",
+      "rdfs:label": "requiresPhoneVerification",
+      "rdfs:comment": "Property requiresPhoneVerification."
+    },
+    {
+      "@id": "ion:sellerSubsidy",
+      "@type": "rdf:Property",
+      "rdfs:label": "sellerSubsidy",
+      "rdfs:comment": "Property sellerSubsidy."
+    },
+    {
+      "@id": "ion:unit",
+      "@type": "rdf:Property",
+      "rdfs:label": "unit",
+      "rdfs:comment": "Property unit."
+    },
+    {
+      "@id": "ion:validFrom",
+      "@type": "rdf:Property",
+      "rdfs:label": "validFrom",
+      "rdfs:comment": "Property validFrom."
+    },
+    {
+      "@id": "ion:validUntil",
+      "@type": "rdf:Property",
+      "rdfs:label": "validUntil",
+      "rdfs:comment": "Property validUntil."
+    },
+    {
+      "@id": "ion:value",
+      "@type": "rdf:Property",
+      "rdfs:label": "value",
+      "rdfs:comment": "Property value."
     }
   ]
 }

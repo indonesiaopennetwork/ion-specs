@@ -13,16 +13,216 @@
       "@type": "rdfs:Class",
       "rdfs:label": "TradeSettlement",
       "rdfs:comment": "Network-agnostic generic layer for TradeSettlement. Inherits from Beckn core Attributes.",
-      "rdfs:subClassOf": { "@id": "https://spec.beckn.io/vocab/v2.0.0#Settlement" },
-      "skos:broader": { "@id": "https://spec.beckn.io/vocab/v2.0.0#Settlement" }
+      "rdfs:subClassOf": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Settlement"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Settlement"
+      }
     },
     {
       "@id": "ion:IONTradeSettlement",
       "@type": "rdfs:Class",
       "rdfs:label": "IONTradeSettlement",
       "rdfs:comment": "Trade sector settlement attributes. Payment method, status, instrument detail, and refund lifecycle.",
-      "rdfs:subClassOf": { "@id": "ion:TradeSettlement" },
-      "skos:broader": { "@id": "https://spec.beckn.io/vocab/v2.0.0#Settlement" }
+      "rdfs:subClassOf": {
+        "@id": "ion:TradeSettlement"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Settlement"
+      }
+    },
+    {
+      "@id": "ion:additionalChargeAmount",
+      "@type": "rdf:Property",
+      "rdfs:label": "additionalChargeAmount",
+      "rdfs:comment": "Additional charge for exchange or modification when replacement has a higher price."
+    },
+    {
+      "@id": "ion:adjustments",
+      "@type": "rdf:Property",
+      "rdfs:label": "adjustments",
+      "rdfs:comment": "Adjustments applied to the base contract amount during reconciliation."
+    },
+    {
+      "@id": "ion:amount",
+      "@type": "rdf:Property",
+      "rdfs:label": "amount",
+      "rdfs:comment": "Total settlement amount in IDR."
+    },
+    {
+      "@id": "ion:amounts",
+      "@type": "rdf:Property",
+      "rdfs:label": "amounts",
+      "rdfs:comment": "Structured amount breakdown for reconciliation."
+    },
+    {
+      "@id": "ion:baseContractAmount",
+      "@type": "rdf:Property",
+      "rdfs:label": "baseContractAmount",
+      "rdfs:comment": "Property baseContractAmount."
+    },
+    {
+      "@id": "ion:buyerFinderFeeAmount",
+      "@type": "rdf:Property",
+      "rdfs:label": "buyerFinderFeeAmount",
+      "rdfs:comment": "Property buyerFinderFeeAmount."
+    },
+    {
+      "@id": "ion:collectedBy",
+      "@type": "rdf:Property",
+      "rdfs:label": "collectedBy",
+      "rdfs:comment": "Which party collects the payment."
+    },
+    {
+      "@id": "ion:contractId",
+      "@type": "rdf:Property",
+      "rdfs:label": "contractId",
+      "rdfs:comment": "Back-reference to the Contract ID this settlement belongs to."
+    },
+    {
+      "@id": "ion:currency",
+      "@type": "rdf:Property",
+      "rdfs:label": "currency",
+      "rdfs:comment": "Property currency."
+    },
+    {
+      "@id": "ion:deepLink",
+      "@type": "rdf:Property",
+      "rdfs:label": "deepLink",
+      "rdfs:comment": "Property deepLink."
+    },
+    {
+      "@id": "ion:disputeReason",
+      "@type": "rdf:Property",
+      "rdfs:label": "disputeReason",
+      "rdfs:comment": "Free-text reason declared by BPP when reconStatus=DISPUTED."
+    },
+    {
+      "@id": "ion:expiresAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "expiresAt",
+      "rdfs:comment": "Property expiresAt."
+    },
+    {
+      "@id": "ion:gatewayRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "gatewayRef",
+      "rdfs:comment": "Property gatewayRef."
+    },
+    {
+      "@id": "ion:method",
+      "@type": "rdf:Property",
+      "rdfs:label": "method",
+      "rdfs:comment": "Payment method declared by BAP at init."
+    },
+    {
+      "@id": "ion:methodDetail",
+      "@type": "rdf:Property",
+      "rdfs:label": "methodDetail",
+      "rdfs:comment": "Payment instrument detail for consumer presentation. Populated by BPP at on_init."
+    },
+    {
+      "@id": "ion:netSettlementAmount",
+      "@type": "rdf:Property",
+      "rdfs:label": "netSettlementAmount",
+      "rdfs:comment": "Property netSettlementAmount."
+    },
+    {
+      "@id": "ion:paidAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "paidAt",
+      "rdfs:comment": "Property paidAt."
+    },
+    {
+      "@id": "ion:paymentLink",
+      "@type": "rdf:Property",
+      "rdfs:label": "paymentLink",
+      "rdfs:comment": "Property paymentLink."
+    },
+    {
+      "@id": "ion:paymentRail",
+      "@type": "rdf:Property",
+      "rdfs:label": "paymentRail",
+      "rdfs:comment": "Specific payment rail within the method."
+    },
+    {
+      "@id": "ion:qrisString",
+      "@type": "rdf:Property",
+      "rdfs:label": "qrisString",
+      "rdfs:comment": "Property qrisString."
+    },
+    {
+      "@id": "ion:reason",
+      "@type": "rdf:Property",
+      "rdfs:label": "reason",
+      "rdfs:comment": "Property reason."
+    },
+    {
+      "@id": "ion:reconId",
+      "@type": "rdf:Property",
+      "rdfs:label": "reconId",
+      "rdfs:comment": "Reconciliation record identifier linking this settlement to an IONReconcile record."
+    },
+    {
+      "@id": "ion:reconStatus",
+      "@type": "rdf:Property",
+      "rdfs:label": "reconStatus",
+      "rdfs:comment": "Current reconciliation status."
+    },
+    {
+      "@id": "ion:refundAmount",
+      "@type": "rdf:Property",
+      "rdfs:label": "refundAmount",
+      "rdfs:comment": "Refund amount in IDR."
+    },
+    {
+      "@id": "ion:refundMethod",
+      "@type": "rdf:Property",
+      "rdfs:label": "refundMethod",
+      "rdfs:comment": "Where the refund will be credited."
+    },
+    {
+      "@id": "ion:refundTimeline",
+      "@type": "rdf:Property",
+      "rdfs:label": "refundTimeline",
+      "rdfs:comment": "Human-readable refund processing timeline (ISO 8601 duration e.g. P3D)."
+    },
+    {
+      "@id": "ion:settlementBasis",
+      "@type": "rdf:Property",
+      "rdfs:label": "settlementBasis",
+      "rdfs:comment": "The event that triggers settlement between BAP and BPP."
+    },
+    {
+      "@id": "ion:status",
+      "@type": "rdf:Property",
+      "rdfs:label": "status",
+      "rdfs:comment": "Current payment status."
+    },
+    {
+      "@id": "ion:timing",
+      "@type": "rdf:Property",
+      "rdfs:label": "timing",
+      "rdfs:comment": "When payment is collected."
+    },
+    {
+      "@id": "ion:type",
+      "@type": "rdf:Property",
+      "rdfs:label": "type",
+      "rdfs:comment": "Property type."
+    },
+    {
+      "@id": "ion:vaBankCode",
+      "@type": "rdf:Property",
+      "rdfs:label": "vaBankCode",
+      "rdfs:comment": "Property vaBankCode."
+    },
+    {
+      "@id": "ion:vaNumber",
+      "@type": "rdf:Property",
+      "rdfs:label": "vaNumber",
+      "rdfs:comment": "Property vaNumber."
     }
   ]
 }

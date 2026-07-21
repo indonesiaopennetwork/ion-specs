@@ -4,6 +4,17 @@
   "title": "TradeConsideration",
   "type": "object",
   "properties": {
+    "breakup": {
+      "type": "array",
+      "description": "PATTERN ALIAS — not a wire field. Resolves to Contract.considerations[].",
+      "x-ion-alias": true,
+      "x-ion-alias-resolves-to": "Contract.considerations[]",
+      "items": {
+        "type": "object",
+        "description": "One consideration line — alias for a Consideration object",
+        "additionalProperties": true
+      }
+    },
     "ppnRate": {
       "type": "number",
       "minimum": 0,
@@ -78,23 +89,10 @@
       ],
       "description": "Canonical type for this consideration breakup line. ITEM: per-item price line. DELIVERY: shipping/delivery charge. TAX: PPN tax line. TAX_PPNBM: luxury goods tax line. HANDLING: special handling surcharge (cold chain, oversized). PACKAGING: gift or special packaging charge. INSURANCE: shipping insurance. PROVIDER_BENEFIT: seller-funded discount. BUYER_BENEFIT: BAP-funded discount or cashback. COD_FEE: cash on delivery handling fee. TRADE_IN: trade-in deduction value. LOYALTY_REDEEM: loyalty points redemption. FINANCE_CHARGE: BNPL or credit interest charge. GIFT_WRAP: gift wrapping fee. PLATFORM_FEE: ION network participant fee.\n",
       "example": "ITEM"
-    },
-    "totalAmount": {
-      "type": "number",
-      "description": "Total amount for this consideration in IDR. For the final consideration record, this is the net payable amount after all discounts and taxes.\n",
-      "example": 89000
-    },
-    "currency": {
-      "type": "string",
-      "const": "IDR",
-      "description": "Always IDR for domestic ION transactions.",
-      "default": "IDR"
     }
   },
   "required": [
-    "breakupLineType",
-    "totalAmount",
-    "currency"
+    "breakupLineType"
   ],
   "additionalProperties": true,
   "allOf": [

@@ -45,12 +45,6 @@
       "rdfs:comment": "All performance modes supported by this provider for this offer. Declared in on_select. Buyer selects mode at init.\n"
     },
     {
-      "@id": "ion:sla",
-      "@type": "rdf:Property",
-      "rdfs:label": "sla",
-      "rdfs:comment": "Service Level Agreement for fulfilment timing."
-    },
-    {
       "@id": "ion:handling",
       "@type": "rdf:Property",
       "rdfs:label": "handling",
@@ -108,7 +102,7 @@
       "@id": "ion:deliveryProofUrl",
       "@type": "rdf:Property",
       "rdfs:label": "deliveryProofUrl",
-      "rdfs:comment": "URL to photo proof of delivery \u2014 package at door or consumer signature. Added at DELIVERED state.\n"
+      "rdfs:comment": "URL to photo proof of delivery — package at door or consumer signature. Added at DELIVERED state.\n"
     },
     {
       "@id": "ion:selfPickupCode",
@@ -138,7 +132,7 @@
       "@id": "ion:realTimeGps",
       "@type": "rdf:Property",
       "rdfs:label": "realTimeGps",
-      "rdfs:comment": "Current GPS position of delivery agent. Updated via /track API. Not persisted \u2014 real-time only.\n"
+      "rdfs:comment": "Current GPS position of delivery agent. Updated via /track API. Not persisted — real-time only.\n"
     },
     {
       "@id": "ion:lspSubscriberId",
@@ -150,19 +144,19 @@
       "@id": "ion:shippingInsurance",
       "@type": "rdf:Property",
       "rdfs:label": "shippingInsurance",
-      "rdfs:comment": "Insurance declaration for high-value shipments. Mandatory for items above IDR 5,000,000 on all major marketplaces. Affects RTO refund calculations \u2014 claim filed against insurance policy when applicable.\n"
+      "rdfs:comment": "Insurance declaration for high-value shipments. Mandatory for items above IDR 5,000,000 on all major marketplaces. Affects RTO refund calculations — claim filed against insurance policy when applicable.\n"
     },
     {
       "@id": "ion:agentId",
       "@type": "rdf:Property",
       "rdfs:label": "agentId",
-      "rdfs:comment": "Platform-issued agent ID that consumer can verify against BPP app or logistics app. More trustworthy than name alone \u2014 prevents impersonation scams.\n"
+      "rdfs:comment": "Platform-issued agent ID that consumer can verify against BPP app or logistics app. More trustworthy than name alone — prevents impersonation scams.\n"
     },
     {
       "@id": "ion:agentVehicleType",
       "@type": "rdf:Property",
       "rdfs:label": "agentVehicleType",
-      "rdfs:comment": "Agent vehicle type \u2014 affects delivery ETA and corporate policy"
+      "rdfs:comment": "Agent vehicle type — affects delivery ETA and corporate policy"
     },
     {
       "@id": "ion:agentPlateNumber",
@@ -186,7 +180,7 @@
       "@id": "ion:qcResult",
       "@type": "rdf:Property",
       "rdfs:label": "qcResult",
-      "rdfs:comment": "Quality inspection result when return package is received by seller. Determines refund amount \u2014 full for QC_PASSED, partial for QC_PARTIAL, zero for QC_FAILED_* variants (dispute-prone).\n"
+      "rdfs:comment": "Quality inspection result when return package is received by seller. Determines refund amount — full for QC_PASSED, partial for QC_PARTIAL, zero for QC_FAILED_* variants (dispute-prone).\n"
     },
     {
       "@id": "ion:qcNotes",
@@ -253,6 +247,216 @@
       "@type": "rdf:Property",
       "rdfs:label": "ageVerificationFailedReason",
       "rdfs:comment": "Reason age verification failed at delivery. Performance state should transition to DELIVERY_FAILED with this reason tag, and RTO flow initiates. Buyer may be blocked from future purchases of this category (per platform policy).\n"
+    },
+    {
+      "@id": "ion:accuracy",
+      "@type": "rdf:Property",
+      "rdfs:label": "accuracy",
+      "rdfs:comment": "Position accuracy in metres"
+    },
+    {
+      "@id": "ion:actualArrival",
+      "@type": "rdf:Property",
+      "rdfs:label": "actualArrival",
+      "rdfs:comment": "Property actualArrival."
+    },
+    {
+      "@id": "ion:address",
+      "@type": "rdf:Property",
+      "rdfs:label": "address",
+      "rdfs:comment": "Property address."
+    },
+    {
+      "@id": "ion:areaCode",
+      "@type": "rdf:Property",
+      "rdfs:label": "areaCode",
+      "rdfs:comment": "Property areaCode."
+    },
+    {
+      "@id": "ion:available",
+      "@type": "rdf:Property",
+      "rdfs:label": "available",
+      "rdfs:comment": "Whether seller can schedule installation for this order."
+    },
+    {
+      "@id": "ion:breachDurationSeconds",
+      "@type": "rdf:Property",
+      "rdfs:label": "breachDurationSeconds",
+      "rdfs:comment": "Property breachDurationSeconds."
+    },
+    {
+      "@id": "ion:breachedAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "breachedAt",
+      "rdfs:comment": "Property breachedAt."
+    },
+    {
+      "@id": "ion:claimProcedureUrl",
+      "@type": "rdf:Property",
+      "rdfs:label": "claimProcedureUrl",
+      "rdfs:comment": "URL to claim filing procedure for this policy"
+    },
+    {
+      "@id": "ion:coverageAmount",
+      "@type": "rdf:Property",
+      "rdfs:label": "coverageAmount",
+      "rdfs:comment": "Maximum coverage in IDR"
+    },
+    {
+      "@id": "ion:deliveryReceiptRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "deliveryReceiptRef",
+      "rdfs:comment": "Reference number from the physical delivery receipt signed by the consumer at handover. Populated at DELIVERED state."
+    },
+    {
+      "@id": "ion:estimatedArrival",
+      "@type": "rdf:Property",
+      "rdfs:label": "estimatedArrival",
+      "rdfs:comment": "Property estimatedArrival."
+    },
+    {
+      "@id": "ion:expectedBy",
+      "@type": "rdf:Property",
+      "rdfs:label": "expectedBy",
+      "rdfs:comment": "Property expectedBy."
+    },
+    {
+      "@id": "ion:gps",
+      "@type": "rdf:Property",
+      "rdfs:label": "gps",
+      "rdfs:comment": "Property gps."
+    },
+    {
+      "@id": "ion:id",
+      "@type": "rdf:Property",
+      "rdfs:label": "id",
+      "rdfs:comment": "Unique identifier for this stop within this performance"
+    },
+    {
+      "@id": "ion:instructions",
+      "@type": "rdf:Property",
+      "rdfs:label": "instructions",
+      "rdfs:comment": "Property instructions."
+    },
+    {
+      "@id": "ion:ionAddressAttributes",
+      "@type": "rdf:Property",
+      "rdfs:label": "ionAddressAttributes",
+      "rdfs:comment": "Property ionAddressAttributes."
+    },
+    {
+      "@id": "ion:latitude",
+      "@type": "rdf:Property",
+      "rdfs:label": "latitude",
+      "rdfs:comment": "Property latitude."
+    },
+    {
+      "@id": "ion:location",
+      "@type": "rdf:Property",
+      "rdfs:label": "location",
+      "rdfs:comment": "Property location."
+    },
+    {
+      "@id": "ion:longitude",
+      "@type": "rdf:Property",
+      "rdfs:label": "longitude",
+      "rdfs:comment": "Property longitude."
+    },
+    {
+      "@id": "ion:mandatory",
+      "@type": "rdf:Property",
+      "rdfs:label": "mandatory",
+      "rdfs:comment": "Whether insurance is legally or operationally required."
+    },
+    {
+      "@id": "ion:notes",
+      "@type": "rdf:Property",
+      "rdfs:label": "notes",
+      "rdfs:comment": "Instructions for consumer regarding installation."
+    },
+    {
+      "@id": "ion:paidBy",
+      "@type": "rdf:Property",
+      "rdfs:label": "paidBy",
+      "rdfs:comment": "Who bears the insurance premium cost"
+    },
+    {
+      "@id": "ion:policyNumber",
+      "@type": "rdf:Property",
+      "rdfs:label": "policyNumber",
+      "rdfs:comment": "Policy reference assigned by insurance provider"
+    },
+    {
+      "@id": "ion:premium",
+      "@type": "rdf:Property",
+      "rdfs:label": "premium",
+      "rdfs:comment": "Insurance premium in IDR — appears in consideration breakup"
+    },
+    {
+      "@id": "ion:proof",
+      "@type": "rdf:Property",
+      "rdfs:label": "proof",
+      "rdfs:comment": "Property proof."
+    },
+    {
+      "@id": "ion:provider",
+      "@type": "rdf:Property",
+      "rdfs:label": "provider",
+      "rdfs:comment": "Insurance provider name"
+    },
+    {
+      "@id": "ion:returnAgentPhone",
+      "@type": "rdf:Property",
+      "rdfs:label": "returnAgentPhone",
+      "rdfs:comment": "Indonesian mobile number of the return pickup agent. Companion field to returnAgentName — both are populated when a return pickup agent is assigned."
+    },
+    {
+      "@id": "ion:scheduledDate",
+      "@type": "rdf:Property",
+      "rdfs:label": "scheduledDate",
+      "rdfs:comment": "Confirmed installation appointment datetime with timezone."
+    },
+    {
+      "@id": "ion:stops",
+      "@type": "rdf:Property",
+      "rdfs:label": "stops",
+      "rdfs:comment": "Ordered list of stops for this performance leg. Each stop carries a location and a type (START, END, INTERMEDIATE)."
+    },
+    {
+      "@id": "ion:tags",
+      "@type": "rdf:Property",
+      "rdfs:label": "tags",
+      "rdfs:comment": "Open key-value tag bag on the performance record. Used by patterns to attach structured event metadata. Tag keys use namespace.key format."
+    },
+    {
+      "@id": "ion:tatType",
+      "@type": "rdf:Property",
+      "rdfs:label": "tatType",
+      "rdfs:comment": "Property tatType."
+    },
+    {
+      "@id": "ion:timestamp",
+      "@type": "rdf:Property",
+      "rdfs:label": "timestamp",
+      "rdfs:comment": "Property timestamp."
+    },
+    {
+      "@id": "ion:totalCartons",
+      "@type": "rdf:Property",
+      "rdfs:label": "totalCartons",
+      "rdfs:comment": "Total number of physical cartons/boxes in this shipment. Used for multi-carton fulfilments."
+    },
+    {
+      "@id": "ion:totalWeightKg",
+      "@type": "rdf:Property",
+      "rdfs:label": "totalWeightKg",
+      "rdfs:comment": "Total packed weight of this fulfilment in kilograms. Used for logistics cost audit and insurance valuation."
+    },
+    {
+      "@id": "ion:type",
+      "@type": "rdf:Property",
+      "rdfs:label": "type",
+      "rdfs:comment": "START — pickup/origin point. END — delivery/destination point. INTERMEDIATE — waypoint."
     }
   ]
 }
