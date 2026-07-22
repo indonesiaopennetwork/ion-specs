@@ -170,7 +170,6 @@
       inactive, meter number not found, game user ID does not exist.
 
       '
-  affected_field: message.contract.commitments[].resources[].resourceAttributes.digital.target
   affected_apis:
   - select
   schema_ref: schema/extensions/trade/resource/v1

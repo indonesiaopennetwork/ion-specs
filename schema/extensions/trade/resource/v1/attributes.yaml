@@ -19,7 +19,7 @@ info:
        pharmacy, installation, usage, warranty.
 
     3. IONTradeResource (this file, ION layer) — Indonesia-specific fields:
-       crc, regulatory, regionOfOrigin, geographicIndicationCert, digital, dataResidency.
+       crc, regulatory, regionOfOrigin, digital, dataResidency.
 
     Availability model: stock count is NEVER transmitted. Only availability signal.
   version: 1.0.0
@@ -80,6 +80,33 @@ components:
       allOf:
         - $ref: https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource
       properties:
+        # Inherited properties repeated as refs so this pack's standalone JSON-LD
+        # context and vocabulary can declare their upstream-owned terms.
+        ageRestricted:
+          $ref: https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/ageRestricted
+
+        foodRegulatoryDeclaration:
+          allOf:
+            - $ref: https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/foodRegulatoryDeclaration
+            - type: object
+              properties:
+                additives:
+                  $ref: https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/foodRegulatoryDeclaration/properties/additives
+
+        credentials:
+          allOf:
+            - $ref: https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/credentials
+            - type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    $ref: https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/credentials/items/properties/type
+                  uri:
+                    $ref: https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/credentials/items/properties/uri
+                  issuer:
+                    $ref: https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/credentials/items/properties/issuer
+
         menuCategory:
           type: object
           additionalProperties: false
@@ -332,6 +359,10 @@ components:
                 - $ref: https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
                 - type: object
                   properties:
+                    unitCode:
+                      $ref: https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity/properties/unitCode
+                    unitQuantity:
+                      $ref: https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity/properties/unitQuantity
                     unitText:
                       $ref: https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity/properties/unitText
               description: Declared net quantity of the fresh produce.
@@ -409,7 +440,7 @@ components:
               example: ["220V outlet", "36-inch doorway"]
 
         warranty:
-          # Retained locally for ION annotations; its data shape is owned by Beckn.
+          # NOTE Retained locally for ION annotations; its data shape is owned by Beckn.
           allOf:
             - $ref: https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/warranty
             - type: object
@@ -431,7 +462,7 @@ components:
 
         This layer carries only fields that are specific to Indonesia: the ION
         Catalogue Resource Category (CRC) taxonomy code, Indonesian regulatory
-        registrations (BPOM, MUI, SNI, POSTEL), geographic indication certification
+        registrations (BPOM, MUI, SNI, POSTEL), geographic indication provenance
         under Indonesian IP law, digital goods categories specific to Indonesian
         operators (Telkomsel pulsa, PLN tokens, BPJS payments), and data residency
         requirements under the Indonesian PDP Law (UU 27/2022).
@@ -445,41 +476,11 @@ components:
         '@type': ion:IONTradeResource
       allOf:
         - $ref: '#/components/schemas/TradeResource'
-        # Conditional validation rules — applied when specific field values are present
-        - if:
-            properties:
-              resourceStructure:
-                enum: [VARIANT]
-            required: [resourceStructure]
-          then:
-            required: [parentResourceId, isDefaultVariant, variantGroup]
-        - if:
-            properties:
-              resourceStructure:
-                enum: [COMPOSED, WITH_EXTRAS]
-            required: [resourceStructure]
-          then:
-            required: [customisationGroups]
-        - if:
-            properties:
-              ageRestricted:
-                const: true
-            required: [ageRestricted]
-          then:
-            required: [minAge]
-        - if:
-            properties:
-              regionOfOrigin:
-                minLength: 1
-            required: [regionOfOrigin]
-          then:
-            required: [geographicIndicationCert]
-      # NETWORK POLICY NOTE (NFH-012 CON-012-18):
-      # Shared schemas MUST NOT declare mandatory fields at the top level.
-      # Fields previously required (quantity, resourceStructure, resourceTangibility,
-      # images, logisticsServiceType, availability, ageRestricted, countryOfOrigin)
-      # are enforced via ION network policy (x-ion-crc-rules, x-ion-conditional-rules
-      # in ion.yaml) rather than this shared schema.
+        # NOTE Conditional validation rules have been removed. They were
+        # If resourceStructure is [VARIANT] then [parentResourceId,isDefaultVariant,variantGroup] are required
+        # If resourceStructure is [COMPOSED, WITH_EXTRAS] then [customizationGroups] is required
+        # If ageRestricted is true, then [minAge] is required
+        # If regionOfOrigin is present, then [geographicIndicaitonCert] is required
       properties:
         crc:
           type: string
@@ -504,6 +505,7 @@ components:
             KEMENKES health product registration, and SIUP business licence references.
             All registration schemes are governed by Indonesian regulatory authorities.
           properties:
+            # NOTE Is SIUP product specific or business license. Do we need it here.
             registrations:
               type: array
               items:
@@ -537,27 +539,6 @@ components:
                   validUntil:
                     type: string
                     format: date
-            foodRegulatoryDeclaration:
-              type: object
-              additionalProperties: false
-              description: >
-                Food regulatory declarations required for packaged food products
-                in Indonesia. Covers nutritional information, additives, ingredients,
-                and BPOM licence numbers for brand owners, importers, and manufacturers.
-              properties:
-                nutritionalInfo:
-                  type: string
-                  example: Energi 350 kkal per 100g; Protein 10g; Lemak Total 5g
-                additivesInfo:
-                  type: string
-                ingredientsInfo:
-                  type: string
-                brandOwnerBpomLicenseNo:
-                  type: string
-                importerBpomLicenseNo:
-                  type: string
-                mfgLicenseNo:
-                  type: string
             nutrition:
               type: array
               description: >
@@ -573,47 +554,11 @@ components:
                     type: string
                     example: Protein
                   value:
-                    type: object
-                    additionalProperties: false
-                    required: [unitCode, unitQuantity]
-                    properties:
-                      unitCode:
-                        type: string
-                        enum: [G, MG, MCG, KCAL, KJ, IU, PERCENT]
-                      unitQuantity:
-                        type: number
-            additives:
-              type: array
-              items:
-                type: object
-                additionalProperties: false
-                properties:
-                  type:
-                    type: string
-                    enum: [CONTAINS, FREE_FROM]
-                  value:
-                    type: string
-            credentials:
-              type: array
-              description: >
-                Verifiable credentials for this resource. Links to publicly
-                verifiable certification documents (halal certificates, organic
-                certificates, SNI compliance documents).
-              items:
-                type: object
-                additionalProperties: false
-                required: [type, uri]
-                properties:
-                  type:
-                    type: string
-                  uri:
-                    type: string
-                    format: uri
-                  issuer:
-                    type: string
-                  validUntil:
-                    type: string
-                    format: date
+                    allOf:
+                      - $ref: https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+                    description: Measured amount of the nutrient.
+            # NOTE: Removed additives. Use RetailResource.foodRegulatoryDeclaration.additives
+            # NOTE: Removed credentials
             backImage:
               type: string
               format: uri
@@ -627,20 +572,12 @@ components:
           description: >
             ISO 3166-2 sub-national region code for geographic indication products.
             Required when the product claims origin-protected status under Indonesian
-            geographical indication law (e.g. Kopi Gayo from Aceh: IDN-AC, Beras
-            Cianjur from West Java: IDN-JB). Must be accompanied by
-            geographicIndicationCert when declared.
-          example: IDN-AC
+            geographical indication law (e.g. Kopi Gayo from Aceh: ID-AC, Beras
+            Cianjur from West Java: ID-JB). Supporting geographic-indication
+            evidence should be supplied through the inherited credentials property.
+          example: ID-AC
           x-ion-regulatory: UU 20/2016 tentang Merek dan Indikasi Geografis
           x-ion-condition: Required when product claims Geographic Indication status
-
-        geographicIndicationCert:
-          type: string
-          description: >
-            Geographic Indication certificate number issued by DJKI (Direktorat
-            Jenderal Kekayaan Intelektual — Directorate General of Intellectual
-            Property). Required when regionOfOrigin is declared for GI products.
-          x-ion-condition: Required when regionOfOrigin is declared for GI products
 
         digital:
           type: object
@@ -654,6 +591,7 @@ components:
             (PBB), BPJS health insurance payments, and e-wallet top-ups. Game voucher
             categories cover popular titles in the Indonesian market (Mobile Legends,
             Free Fire, Valorant, Genshin Impact).
+          # NOTE: Check if PDAM_BILL and WATER_BILL are the same
           properties:
             digitalCategory:
               type: string
@@ -682,22 +620,12 @@ components:
                 Garena, Riot, miHoYo etc.
               example: TELKOMSEL
             denomination:
-              type: object
-              additionalProperties: false
-              description: Voucher or top-up denomination value and unit.
-              required: [value, unit]
-              properties:
-                value:
-                  type: number
-                currency:
-                  type: string
-                  default: IDR
-                unit:
-                  type: string
-                  enum: [IDR, MB, GB, MINUTES, DIAMONDS, COINS, OTHER]
-                  description: >
-                    IDR for money-based denominations; MB/GB for data packages;
-                    DIAMONDS/COINS for in-game currency.
+              allOf:
+                - $ref: https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+              description: Voucher or top-up denomination.
+              example:
+                unitQuantity: 50000
+                unitCode: IDR
             deliveryMethod:
               type: string
               enum: [PUSH_TO_TARGET, CODE_TO_BUYER, ACCOUNT_CREDIT, QR_VOUCHER]
@@ -707,27 +635,6 @@ components:
                 account). CODE_TO_BUYER: redemption code sent to buyer for later
                 use. ACCOUNT_CREDIT: credited to buyer wallet or account.
                 QR_VOUCHER: scannable QR redeemable at merchant point.
-            target:
-              type: object
-              additionalProperties: false
-              description: Target identifier for digital delivery.
-              properties:
-                type:
-                  type: string
-                  enum: [MOBILE_NUMBER, CUSTOMER_ID, ACCOUNT_ID, EMAIL,
-                         METER_NUMBER, GAME_USER_ID]
-                value:
-                  type: string
-                operatorValidationRequired:
-                  type: boolean
-                  description: >
-                    Whether BPP must verify the target exists before accepting
-                    the order (e.g. mobile number inquiry to operator).
-            redemptionCode:
-              type: string
-              description: >
-                Redemption code or voucher code. Returned in on_status[DELIVERED]
-                for CODE_TO_BUYER delivery method. Must be encrypted in transit.
             redemptionUrl:
               type: string
               format: uri
@@ -748,6 +655,7 @@ components:
               type: boolean
               default: false
               description: Whether cancellation is possible before delivery is initiated.
+          # NOTE: Digital flow uses resourceStructure and not resourceTangibility
           x-ion-condition: >
             Required when resourceTangibility IN
             [DIGITAL_VOUCHER, DIGITAL_TOP_UP, DIGITAL_SUBSCRIPTION]

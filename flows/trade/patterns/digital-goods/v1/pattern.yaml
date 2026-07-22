@@ -68,8 +68,6 @@ phases:
           - message.contract.participants[role=PROVIDER].id
           - message.contract.commitments[].id
           - message.contract.commitments[].resources[].quantity.count
-          - message.contract.commitments[].resources[].resourceAttributes.digital.target.type
-          - message.contract.commitments[].resources[].resourceAttributes.digital.target.value
 
       - step: on_select
         from: BPP
@@ -81,9 +79,6 @@ phases:
         requiredFields:
           - message.contract.consideration.considerationAttributes.breakup[]
           - message.contract.consideration.considerationAttributes.totalAmount
-        conditionalFields:
-          - field: message.contract.commitments[].resources[].resourceAttributes.digital.targetValidation.status  # condition: when operatorValidationRequired=true
-          - field: message.contract.commitments[].resources[].resourceAttributes.digital.targetValidation.customerName  # condition: for pulsa/bill pay where operator returns account holder name
         errors:
           - ION-3018  # Digital target invalid or inactive
 
@@ -146,7 +141,6 @@ phases:
           - message.contract.performance[].status.descriptor.code  # value: DELIVERED
           - message.contract.status  # value: COMPLETE
         conditionalFields:
-          - field: message.contract.commitments[].resources[].resourceAttributes.digital.redemptionCode  # condition: when deliveryMethod=CODE_TO_BUYER
           - field: message.contract.commitments[].resources[].resourceAttributes.digital.redemptionUrl  # condition: for streaming/game/subscription vouchers
           - field: message.contract.commitments[].resources[].resourceAttributes.digital.operatorRef  # condition: operator's delivery reference for audit
 

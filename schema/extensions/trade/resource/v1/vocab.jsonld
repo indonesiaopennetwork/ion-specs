@@ -192,16 +192,7 @@
       "@id": "ion:regionOfOrigin",
       "@type": "rdf:Property",
       "rdfs:label": "regionOfOrigin",
-      "rdfs:comment": "ISO 3166-2 sub-national region code for geographic indication products under UU 20/2016 tentang Merek dan Indikasi Geografis. Required when a product claims origin-protected status (e.g. Kopi Gayo IDN-AC, Beras Cianjur IDN-JB).",
-      "rdfs:domain": {
-        "@id": "ion:IONTradeResource"
-      }
-    },
-    {
-      "@id": "ion:geographicIndicationCert",
-      "@type": "rdf:Property",
-      "rdfs:label": "geographicIndicationCert",
-      "rdfs:comment": "Geographic Indication certificate number issued by DJKI (Direktorat Jenderal Kekayaan Intelektual). Required when regionOfOrigin is declared for GI-protected products.",
+      "rdfs:comment": "ISO 3166-2 sub-national region code for geographic indication products under UU 20/2016 tentang Merek dan Indikasi Geografis. Supporting evidence is supplied through the inherited credentials property.",
       "rdfs:domain": {
         "@id": "ion:IONTradeResource"
       }
@@ -237,19 +228,13 @@
       "rdfs:comment": "Name of an active pharmaceutical ingredient."
     },
     {
-      "@id": "ion:additives",
+      "@id": "rcra:additives",
       "@type": "rdf:Property",
       "rdfs:label": "additives",
       "rdfs:comment": "Property additives."
     },
     {
-      "@id": "ion:additivesInfo",
-      "@type": "rdf:Property",
-      "rdfs:label": "additivesInfo",
-      "rdfs:comment": "Property additivesInfo."
-    },
-    {
-      "@id": "ion:ageRestricted",
+      "@id": "rcra:ageRestricted",
       "@type": "rdf:Property",
       "rdfs:label": "ageRestricted",
       "rdfs:comment": "Whether product requires age verification at purchase"
@@ -265,12 +250,6 @@
       "@type": "rdf:Property",
       "rdfs:label": "backImage",
       "rdfs:comment": "Back-of-pack statutory requirements image"
-    },
-    {
-      "@id": "ion:brandOwnerBpomLicenseNo",
-      "@type": "rdf:Property",
-      "rdfs:label": "brandOwnerBpomLicenseNo",
-      "rdfs:comment": "Property brandOwnerBpomLicenseNo."
     },
     {
       "@id": "ion:cancellable",
@@ -309,7 +288,7 @@
       "rdfs:comment": "Property conscious."
     },
     {
-      "@id": "ion:credentials",
+      "@id": "rcra:credentials",
       "@type": "rdf:Property",
       "rdfs:label": "credentials",
       "rdfs:comment": "Property credentials."
@@ -321,12 +300,6 @@
       "rdfs:comment": "Property cuisineType."
     },
     {
-      "@id": "ion:currency",
-      "@type": "rdf:Property",
-      "rdfs:label": "currency",
-      "rdfs:comment": "Property currency."
-    },
-    {
       "@id": "ion:deliveryMethod",
       "@type": "rdf:Property",
       "rdfs:label": "deliveryMethod",
@@ -336,7 +309,10 @@
       "@id": "ion:denomination",
       "@type": "rdf:Property",
       "rdfs:label": "denomination",
-      "rdfs:comment": "Voucher/top-up denomination"
+      "rdfs:comment": "Voucher or top-up denomination, expressed using the canonical Quantity schema.",
+      "rdfs:range": {
+        "@id": "schema:QuantitativeValue"
+      }
     },
     {
       "@id": "ion:digitalCategory",
@@ -387,7 +363,7 @@
       "rdfs:comment": "Property fabricComposition."
     },
     {
-      "@id": "ion:foodRegulatoryDeclaration",
+      "@id": "rcra:foodRegulatoryDeclaration",
       "@type": "rdf:Property",
       "rdfs:label": "foodRegulatoryDeclaration",
       "rdfs:comment": "Property foodRegulatoryDeclaration."
@@ -435,22 +411,10 @@
       "rdfs:comment": "Property imageUrl."
     },
     {
-      "@id": "ion:importerBpomLicenseNo",
-      "@type": "rdf:Property",
-      "rdfs:label": "importerBpomLicenseNo",
-      "rdfs:comment": "Property importerBpomLicenseNo."
-    },
-    {
       "@id": "ion:indoorOnly",
       "@type": "rdf:Property",
       "rdfs:label": "indoorOnly",
       "rdfs:comment": "Property indoorOnly."
-    },
-    {
-      "@id": "ion:ingredientsInfo",
-      "@type": "rdf:Property",
-      "rdfs:label": "ingredientsInfo",
-      "rdfs:comment": "Property ingredientsInfo."
     },
     {
       "@id": "ion:instructions",
@@ -459,16 +423,10 @@
       "rdfs:comment": "Property instructions."
     },
     {
-      "@id": "ion:issuer",
+      "@id": "rcra:credentialIssuer",
       "@type": "rdf:Property",
       "rdfs:label": "issuer",
       "rdfs:comment": "Property issuer."
-    },
-    {
-      "@id": "ion:mfgLicenseNo",
-      "@type": "rdf:Property",
-      "rdfs:label": "mfgLicenseNo",
-      "rdfs:comment": "Property mfgLicenseNo."
     },
     {
       "@id": "ion:netQuantityDeclaration",
@@ -492,25 +450,13 @@
       "@id": "ion:nutrition",
       "@type": "rdf:Property",
       "rdfs:label": "nutrition",
-      "rdfs:comment": "Property nutrition."
-    },
-    {
-      "@id": "ion:nutritionalInfo",
-      "@type": "rdf:Property",
-      "rdfs:label": "nutritionalInfo",
-      "rdfs:comment": "Property nutritionalInfo."
+      "rdfs:comment": "Structured nutritional information whose nutrient values are expressed using the canonical Quantity schema."
     },
     {
       "@id": "ion:operatorOrIssuer",
       "@type": "rdf:Property",
       "rdfs:label": "operatorOrIssuer",
       "rdfs:comment": "Issuing operator or brand. For MOBILE_PULSA: TELKOMSEL, XL, INDOSAT, TRI, SMARTFREN. For ELECTRICITY_TOKEN: PLN. For GAME_VOUCHER: Moonton, Garena, Riot, etc."
-    },
-    {
-      "@id": "ion:operatorValidationRequired",
-      "@type": "rdf:Property",
-      "rdfs:label": "operatorValidationRequired",
-      "rdfs:comment": "Whether BPP must verify target exists before accepting (e.g. mobile number inquiry)"
     },
     {
       "@id": "ion:osType",
@@ -549,12 +495,6 @@
       "rdfs:comment": "Property providedBySeller."
     },
     {
-      "@id": "ion:redemptionCode",
-      "@type": "rdf:Property",
-      "rdfs:label": "redemptionCode",
-      "rdfs:comment": "Redemption code or voucher code. Returned in on_status[DELIVERED] for CODE_TO_BUYER delivery. Must be encrypted in transit."
-    },
-    {
       "@id": "ion:redemptionUrl",
       "@type": "rdf:Property",
       "rdfs:label": "redemptionUrl",
@@ -571,12 +511,6 @@
       "@type": "rdf:Property",
       "rdfs:label": "registrations",
       "rdfs:comment": "Property registrations."
-    },
-    {
-      "@id": "ion:resourceStructure",
-      "@type": "rdf:Property",
-      "rdfs:label": "resourceStructure",
-      "rdfs:comment": "PLAIN: single SKU, no choices. VARIANT: one of several pre-defined options of a parent. WITH_EXTRAS: base item with optional add-ons. COMPOSED: base with mandatory and optional customisation groups. BUNDLE: composite of multiple component resources (see bundleComposition)."
     },
     {
       "@id": "ion:role",
@@ -648,31 +582,19 @@
       }
     },
     {
-      "@id": "ion:target",
-      "@type": "rdf:Property",
-      "rdfs:label": "target",
-      "rdfs:comment": "Target identifier for delivery"
-    },
-    {
       "@id": "rcra:warrantyTerms",
       "@type": "rdf:Property",
       "rdfs:label": "terms",
       "rdfs:comment": "Property terms."
     },
     {
-      "@id": "ion:type",
+      "@id": "rcra:credentialType",
       "@type": "rdf:Property",
       "rdfs:label": "type",
       "rdfs:comment": "Property type."
     },
     {
-      "@id": "ion:unit",
-      "@type": "rdf:Property",
-      "rdfs:label": "unit",
-      "rdfs:comment": "Property unit."
-    },
-    {
-      "@id": "ion:unitCode",
+      "@id": "schema:unitCode",
       "@type": "rdf:Property",
       "rdfs:label": "unitCode",
       "rdfs:comment": "Property unitCode."
@@ -684,7 +606,7 @@
       "rdfs:comment": "Property unitOfMeasure."
     },
     {
-      "@id": "ion:unitQuantity",
+      "@id": "schema:Number",
       "@type": "rdf:Property",
       "rdfs:label": "unitQuantity",
       "rdfs:comment": "Property unitQuantity."
@@ -696,7 +618,7 @@
       "rdfs:comment": "Human-readable unit expression used by the canonical Quantity schema."
     },
     {
-      "@id": "ion:uri",
+      "@id": "rcra:credentialUri",
       "@type": "rdf:Property",
       "rdfs:label": "uri",
       "rdfs:comment": "Property uri."

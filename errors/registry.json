@@ -1071,7 +1071,6 @@
       "description": {
         "en": "Operator/issuer validation failed for digital goods target. Mobile number inactive, meter number not found, game user ID does not exist.\n"
       },
-      "affected_field": "message.contract.commitments[].resources[].resourceAttributes.digital.target",
       "affected_apis": [
         "select"
       ],

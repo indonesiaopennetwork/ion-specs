@@ -7,43 +7,83 @@
   "$defs": {
     "LocalisedText": {
       "type": "object",
-      "description": "Multilingual text object. Keys are BCP-47 language codes (e.g. 'id', 'en'). At least one language key required.",
+      "title": "LocalisedText",
+      "description": "Language-keyed text object for multilingual content. The 'id' key carries Bahasa Indonesia text and is always required. The 'en' key carries English text and is required for cross-border patterns.\n",
+      "additionalProperties": true,
+      "required": [
+        "id"
+      ],
       "properties": {
         "id": {
           "type": "string",
-          "description": "Bahasa Indonesia text"
+          "description": "Bahasa Indonesia text value."
         },
         "en": {
           "type": "string",
-          "description": "English text"
+          "description": "English text value. Required for cross-border pattern."
         }
-      },
-      "additionalProperties": {
-        "type": "string"
-      },
-      "minProperties": 1
+      }
     },
     "TradeResource": {
       "type": "object",
       "title": "TradeResource",
-      "description": "Network-agnostic generic layer for trade sector resources. Carries only fields meaningful across any Beckn network. Indonesia-specific regulatory and compliance fields are in IONTradeResource.",
+      "description": "Network-agnostic generic layer for trade sector resources on ION. Inherits from RetailResource v2.1 (schema.beckn.io) via allOf, which provides the core retail fields (resourceStructure, variants, images, availability, physical, packaged goods, age restriction, country of origin, etc.).\nThis layer adds fields that are useful for retail networks in general but are not yet in the upstream RetailResource: localised name and description, food and beverage attributes, fashion, electronics, beauty, agritech, pharmacy, installation, usage, and warranty sub-objects.\nThe ION-specific layer (IONTradeResource) extends this via allOf and adds Indonesia-specific regulatory and compliance fields.\n",
+      "x-ion-layer": "generic",
+      "x-ion-split-version": "0.7.0",
+      "x-recommended-parent": "Resource.resourceAttributes",
       "additionalProperties": true,
+      "allOf": [
+        {
+          "$ref": "https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource"
+        }
+      ],
       "properties": {
-        "resourceStructure": {
-          "type": "string",
-          "enum": [
-            "PLAIN",
-            "VARIANT",
-            "WITH_EXTRAS",
-            "COMPOSED",
-            "BUNDLE"
-          ],
-          "description": "PLAIN: single SKU, no choices. VARIANT: one of several pre-defined options of a parent. WITH_EXTRAS: base item with optional add-ons. COMPOSED: base with mandatory and optional customisation groups. BUNDLE: composite of multiple component resources (see bundleComposition).\n",
-          "example": "COMPOSED"
+        "ageRestricted": {
+          "$ref": "https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/ageRestricted"
+        },
+        "foodRegulatoryDeclaration": {
+          "allOf": [
+            {
+              "$ref": "https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/foodRegulatoryDeclaration"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "additives": {
+                  "$ref": "https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/foodRegulatoryDeclaration/properties/additives"
+                }
+              }
+            }
+          ]
+        },
+        "credentials": {
+          "allOf": [
+            {
+              "$ref": "https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/credentials"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "$ref": "https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/credentials/items/properties/type"
+                  },
+                  "uri": {
+                    "$ref": "https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/credentials/items/properties/uri"
+                  },
+                  "issuer": {
+                    "$ref": "https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/credentials/items/properties/issuer"
+                  }
+                }
+              }
+            }
+          ]
         },
         "menuCategory": {
           "type": "object",
           "additionalProperties": false,
+          "description": "Menu or category section this resource belongs to. Used by food service and marketplace providers to group resources for display. Drives display order and grouping in BAP interfaces.\n",
           "required": [
             "id",
             "name"
@@ -53,198 +93,31 @@
               "type": "string"
             },
             "name": {
-              "$ref": "#/$defs/LocalisedText"
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
             },
             "sequence": {
-              "type": "integer"
+              "type": "integer",
+              "description": "Display order of this category relative to others."
             },
             "imageUrl": {
               "type": "string",
               "format": "uri"
             }
           },
-          "x-ion-conditional": true,
           "x-ion-condition": "Required for food and beverage providers"
         },
         "preparationTime": {
           "type": "string",
-          "description": "ISO 8601 duration. Time from order confirm to item ready.",
+          "format": "duration",
+          "description": "ISO 8601 duration. Time from order confirmation to item ready for pickup or dispatch. Used for SLA computation and estimated delivery time display to the consumer. Applicable to made-to-order food, custom-built products, and services with lead times.\n",
           "example": "PT20M",
-          "x-ion-conditional": true,
           "x-ion-condition": "Required for food, beverage and made-to-order items"
         },
-        "regulatory": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "registrations": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "additionalProperties": false,
-                "properties": {
-                  "scheme": {
-                    "type": "string",
-                    "enum": [
-                      "BPOM_MD",
-                      "BPOM_ML",
-                      "BPOM_TR",
-                      "MUI_HALAL",
-                      "SNI",
-                      "SP_PIRT",
-                      "KEMENKES",
-                      "SIUP"
-                    ]
-                  },
-                  "id": {
-                    "type": "string"
-                  },
-                  "role": {
-                    "type": "string",
-                    "enum": [
-                      "BRAND_OWNER",
-                      "MANUFACTURER",
-                      "IMPORTER",
-                      "PACKER"
-                    ]
-                  },
-                  "url": {
-                    "type": "string",
-                    "format": "uri"
-                  },
-                  "validUntil": {
-                    "type": "string",
-                    "format": "date"
-                  }
-                },
-                "required": [
-                  "scheme",
-                  "id"
-                ]
-              }
-            },
-            "foodRegulatoryDeclaration": {
-              "type": "object",
-              "additionalProperties": false,
-              "properties": {
-                "nutritionalInfo": {
-                  "type": "string",
-                  "example": "Energi 350 kkal per 100g; Protein 10g; Lemak Total 5g"
-                },
-                "additivesInfo": {
-                  "type": "string"
-                },
-                "ingredientsInfo": {
-                  "type": "string"
-                },
-                "brandOwnerBpomLicenseNo": {
-                  "type": "string"
-                },
-                "importerBpomLicenseNo": {
-                  "type": "string"
-                },
-                "mfgLicenseNo": {
-                  "type": "string"
-                }
-              }
-            },
-            "nutrition": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "additionalProperties": false,
-                "properties": {
-                  "nutrient": {
-                    "type": "string",
-                    "example": "Protein"
-                  },
-                  "value": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "required": [
-                      "unitCode",
-                      "unitQuantity"
-                    ],
-                    "properties": {
-                      "unitCode": {
-                        "type": "string",
-                        "enum": [
-                          "G",
-                          "MG",
-                          "MCG",
-                          "KCAL",
-                          "KJ",
-                          "IU",
-                          "PERCENT"
-                        ]
-                      },
-                      "unitQuantity": {
-                        "type": "number"
-                      }
-                    }
-                  }
-                },
-                "required": [
-                  "nutrient",
-                  "value"
-                ]
-              }
-            },
-            "additives": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "additionalProperties": false,
-                "properties": {
-                  "type": {
-                    "type": "string",
-                    "enum": [
-                      "CONTAINS",
-                      "FREE_FROM"
-                    ]
-                  },
-                  "value": {
-                    "type": "string"
-                  }
-                }
-              }
-            },
-            "credentials": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "additionalProperties": false,
-                "properties": {
-                  "type": {
-                    "type": "string"
-                  },
-                  "uri": {
-                    "type": "string",
-                    "format": "uri"
-                  },
-                  "issuer": {
-                    "type": "string"
-                  },
-                  "validUntil": {
-                    "type": "string",
-                    "format": "date"
-                  }
-                },
-                "required": [
-                  "type",
-                  "uri"
-                ]
-              }
-            },
-            "backImage": {
-              "type": "string",
-              "format": "uri",
-              "description": "Back-of-pack statutory requirements image"
-            }
-          }
-        },
         "food": {
-          "description": "Packaged food product attributes for filtering and regulatory compliance. Use for FMCG packaged food, grocery products, bottled beverages, packaged meal kits, snacks, and confectionery sold from warehouse stock. Do not use for restaurant or cloud kitchen menu items — those use MenuItem in the Hospitality sector (hospitality/menu-item/v1). Detailed nutritional information and ingredient lists belong in Descriptor.longDesc for agent readability.",
+          "description": "Packaged food product attributes for filtering and regulatory compliance. Use for FMCG packaged food, grocery products, bottled beverages, packaged meal kits, snacks, and confectionery sold from warehouse stock. Do not use for restaurant or cloud kitchen menu items — those use MenuItem in the Hospitality sector (hospitality/menu-item/v1). Detailed nutritional information and ingredient lists belong in Descriptor.longDesc for agent readability.\n",
           "allOf": [
             {
               "$ref": "https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/food"
@@ -281,7 +154,7 @@
                 },
                 "spiceLevel": {
                   "type": "string",
-                  "description": "Spiciness level of the food item. Free-text to accommodate regional descriptors (e.g. 'Pedas Sedang', 'Level 3', 'Extra Hot').",
+                  "description": "Spiciness level of the food item. Free-text to accommodate regional descriptors (e.g. \"Pedas Sedang\", \"Level 3\", \"Extra Hot\").\n",
                   "x-ion-suggested-values": [
                     "NONE",
                     "LOW",
@@ -317,12 +190,12 @@
             }
           ],
           "unevaluatedProperties": false,
-          "x-ion-conditional": true,
           "x-ion-condition": "Required for food and beverage resources"
         },
         "preparation": {
           "type": "object",
           "additionalProperties": false,
+          "description": "Preparation, storage, and shelf-life instructions for the resource. Applicable to food, beverage, perishable, and made-to-order products. Detailed cooking instructions and usage guides belong in Descriptor.longDesc.\n",
           "properties": {
             "instructions": {
               "type": "string",
@@ -335,16 +208,16 @@
             "shelfLife": {
               "type": "string",
               "format": "duration",
-              "description": "ISO 8601 duration",
+              "description": "ISO 8601 duration from production date.",
               "example": "PT2H"
             }
           },
-          "x-ion-conditional": true,
           "x-ion-condition": "Required for food, beverage and perishable products"
         },
         "fashion": {
           "type": "object",
           "additionalProperties": false,
+          "description": "Fashion and apparel attributes for filtering and size guidance. Structured fields are limited to values that participate in deterministic filtering (gender, size) or regulatory compliance (fabricComposition under SNI). Descriptive attributes such as fitType, sleeveType, collarType, occasion, pattern, and careInstructions belong in Descriptor.longDesc as natural-language prose — AI agents extract richer meaning from prose than from closed enums.\n",
           "properties": {
             "gender": {
               "type": "string",
@@ -374,16 +247,13 @@
               "x-ion-regulatory": "PerBSN SNI 0055:2009"
             }
           },
-          "x-ion-conditional": true,
           "x-ion-condition": "Required for fashion and apparel products"
         },
         "electronics": {
           "type": "object",
           "additionalProperties": false,
+          "description": "Consumer electronics technical specifications for filtering and comparison. Structured fields are limited to values used in deterministic filtering (osType, connectivity) or regulatory compliance (energyRating, wattage). Descriptive specifications such as RAM, ROM, screen size, camera resolution, CPU, and battery capacity belong in Descriptor.longDesc — multimodal agents extract these from linked product datasheets and images in Descriptor.docs[] and Descriptor.mediaFile[] with higher fidelity than typed fields.\n",
           "properties": {
-            "storage": {
-              "type": "integer"
-            },
             "osType": {
               "type": "string",
               "enum": [
@@ -414,31 +284,47 @@
                   "SUB6_5G",
                   "4G_LTE",
                   "3G",
-                  "IR_BLASTER"
+                  "IR_BLASTER",
+                  "OTHER"
                 ]
               }
             },
             "wattage": {
-              "type": "integer",
-              "description": "Power consumption watts"
+              "allOf": [
+                {
+                  "$ref": "https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity"
+                }
+              ],
+              "example": {
+                "unitQuantity": 45,
+                "unitText": "W"
+              }
             },
             "voltage": {
-              "type": "string",
-              "example": "220V"
+              "allOf": [
+                {
+                  "$ref": "https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity"
+                }
+              ],
+              "example": {
+                "minQuantity": 100,
+                "maxQuantity": 240,
+                "unitText": "V"
+              }
             },
             "energyRating": {
               "type": "integer",
               "minimum": 1,
               "maximum": 5,
-              "description": "BSN energy efficiency star rating"
+              "description": "Energy efficiency star rating."
             }
           },
-          "x-ion-conditional": true,
           "x-ion-condition": "Required for electronics and appliance products"
         },
         "beauty": {
           "type": "object",
           "additionalProperties": false,
+          "description": "Beauty and personal care product attributes for filtering and regulatory compliance. concern and ingredient are descriptive fields — include them in Descriptor.longDesc for richer agent-readable content. Structured fields below are for filtering and compliance.\n",
           "properties": {
             "conscious": {
               "type": "array",
@@ -528,13 +414,13 @@
               ]
             }
           },
-          "x-ion-conditional": true,
+          "x-ion-regulatory": "PerBPOM 23/2019 tentang Persyaratan Teknis Kosmetika",
           "x-ion-condition": "Required for beauty and personal care products"
         },
         "agritech": {
           "type": "object",
           "additionalProperties": false,
-          "description": "Agricultural and fresh produce attributes. Covers harvest dates, produce grade, pesticide declarations, and unit of measure for weight-sold products. Represent organic certification through regulatory.credentials.",
+          "description": "Agricultural and fresh produce attributes. Covers harvest dates, produce grade, pesticide declarations, and unit of measure for weight-sold products. Represent organic certification through regulatory.credentials.\n",
           "properties": {
             "harvestDate": {
               "type": "string",
@@ -575,6 +461,12 @@
                 {
                   "type": "object",
                   "properties": {
+                    "unitCode": {
+                      "$ref": "https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity/properties/unitCode"
+                    },
+                    "unitQuantity": {
+                      "$ref": "https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity/properties/unitQuantity"
+                    },
                     "unitText": {
                       "$ref": "https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity/properties/unitText"
                     }
@@ -588,19 +480,19 @@
               }
             }
           },
-          "x-ion-conditional": true,
           "x-ion-condition": "Required for agritech and fresh produce"
         },
         "pharmacy": {
           "type": "object",
           "additionalProperties": false,
+          "description": "Pharmaceutical and over-the-counter medicine attributes. Covers prescription requirements, dosage form, active ingredients, and cold chain requirements. Applicable to prescription drugs, OTC medicines, and medical devices sold through ION.\n",
           "properties": {
             "prescriptionRequired": {
               "type": "boolean"
             },
             "dosageForm": {
               "type": "string",
-              "description": "Pharmaceutical dosage form. Suggested values cover common forms; other values are permitted as pharmaceutical forms evolve.",
+              "description": "Pharmaceutical dosage form. Suggested values cover common forms; other values are permitted as pharmaceutical forms evolve.\n",
               "x-ion-suggested-values": [
                 "TABLET",
                 "CAPSULE",
@@ -642,12 +534,12 @@
             }
           },
           "x-ion-regulatory": "PerBPOM Nomor 4 Tahun 2018",
-          "x-ion-conditional": true,
           "x-ion-condition": "Required for pharmaceutical and OTC medicine"
         },
         "installation": {
           "type": "object",
           "additionalProperties": false,
+          "description": "Installation service information for products that require professional setup. Applicable to large appliances, heavy furniture, HVAC systems, and any product where the seller offers or requires installation.\n",
           "properties": {
             "providedBySeller": {
               "type": "boolean"
@@ -657,12 +549,12 @@
               "example": "Memerlukan instalasi profesional. Membutuhkan arus 220V khusus."
             }
           },
-          "x-ion-conditional": true,
           "x-ion-condition": "Required for appliances and furniture needing installation"
         },
         "usage": {
           "type": "object",
           "additionalProperties": false,
+          "description": "Usage constraints and compatibility information for the resource. Covers indoor/outdoor restrictions and compatibility with other products or infrastructure requirements.\n",
           "properties": {
             "indoorOnly": {
               "type": "boolean"
@@ -697,33 +589,134 @@
             }
           ],
           "x-ion-regulatory": "UU 8/1999 tentang Perlindungan Konsumen Pasal 25; PP 36/2023",
-          "x-ion-conditional": true,
           "x-ion-condition": "Required for electronics, appliances, consumer durables"
+        }
+      }
+    },
+    "IONTradeResource": {
+      "type": "object",
+      "title": "IONTradeResource",
+      "description": "ION Trade sector resource attributes. Indonesia-specific extension layer for trade resources. Inherits all fields from TradeResource (generic layer) and RetailResource (upstream Beckn domain schema) via the allOf chain.\nThis layer carries only fields that are specific to Indonesia: the ION Catalogue Resource Category (CRC) taxonomy code, Indonesian regulatory registrations (BPOM, MUI, SNI, POSTEL), geographic indication provenance under Indonesian IP law, digital goods categories specific to Indonesian operators (Telkomsel pulsa, PLN tokens, BPJS payments), and data residency requirements under the Indonesian PDP Law (UU 27/2022).\n",
+      "x-ion-layer": "ion",
+      "x-ion-split-version": "0.7.0",
+      "additionalProperties": true,
+      "x-ion-closed-extensions": false,
+      "x-beckn-attaches-to": "Resource.resourceAttributes",
+      "x-jsonld": {
+        "@context": "https://schema.ion.id/trade/resource/v1/context.jsonld",
+        "@type": "ion:IONTradeResource"
+      },
+      "allOf": [
+        {
+          "$ref": "#/$defs/TradeResource"
+        }
+      ],
+      "properties": {
+        "crc": {
+          "type": "string",
+          "description": "ION Catalogue Resource Category code classifying this resource within the ION item taxonomy. Determines which attribute sub-objects are mandatory at catalog/publish time and signals to CNs how to present and discover the resource. Values from x-ion-crc-registry in ion.yaml (e.g. TRC-fashion, TRC-electronics, HSC-restaurant-ordering). Optional now — will become required in a future version once CRC enforcement is fully activated in ONIX.\n",
+          "example": "TRC-fashion",
+          "x-ion-enforcement": "optional-now-required-later"
         },
-        "ageRestricted": {
-          "type": "boolean",
-          "description": "Whether product requires age verification at purchase",
-          "default": false
+        "regulatory": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Indonesian regulatory registrations and food safety declarations for the resource. Covers BPOM (food, medicine, cosmetics), MUI halal certification, SNI standards compliance, SP-PIRT for home-industry food, KEMENKES health product registration, and SIUP business licence references. All registration schemes are governed by Indonesian regulatory authorities.\n",
+          "properties": {
+            "registrations": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "scheme",
+                  "id"
+                ],
+                "properties": {
+                  "scheme": {
+                    "type": "string",
+                    "enum": [
+                      "BPOM_MD",
+                      "BPOM_ML",
+                      "BPOM_TR",
+                      "MUI_HALAL",
+                      "SNI",
+                      "SP_PIRT",
+                      "KEMENKES",
+                      "SIUP"
+                    ],
+                    "description": "BPOM_MD: domestic food/medicine/cosmetic BPOM registration. BPOM_ML: imported product BPOM registration. BPOM_TR: traditional medicine BPOM registration. MUI_HALAL: MUI halal certification. SNI: Standar Nasional Indonesia certification. SP_PIRT: home-industry food production permit (Sertifikat Produksi Pangan IRT). KEMENKES: health product registration from Ministry of Health. SIUP: business trading licence reference.\n"
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "Registration or certificate number."
+                  },
+                  "role": {
+                    "type": "string",
+                    "enum": [
+                      "BRAND_OWNER",
+                      "MANUFACTURER",
+                      "IMPORTER",
+                      "PACKER"
+                    ]
+                  },
+                  "url": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "URL to publicly verify the registration."
+                  },
+                  "validUntil": {
+                    "type": "string",
+                    "format": "date"
+                  }
+                }
+              }
+            },
+            "nutrition": {
+              "type": "array",
+              "description": "Structured nutritional information per serving or per 100g. Used for regulatory compliance display and consumer filtering (e.g. low-calorie, high-protein product discovery).\n",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "nutrient",
+                  "value"
+                ],
+                "properties": {
+                  "nutrient": {
+                    "type": "string",
+                    "example": "Protein"
+                  },
+                  "value": {
+                    "allOf": [
+                      {
+                        "$ref": "https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity"
+                      }
+                    ],
+                    "description": "Measured amount of the nutrient."
+                  }
+                }
+              }
+            },
+            "backImage": {
+              "type": "string",
+              "format": "uri",
+              "description": "Back-of-pack statutory label image URL. Required for products subject to PerBPOM 31/2018 label display requirements.\n"
+            }
+          }
         },
         "regionOfOrigin": {
           "type": "string",
-          "pattern": "^[A-Z]{3}-[A-Z0-9]{1,3}$",
-          "description": "ISO 3166-2 sub-national region code for geographic indication. Required when product claims origin-protected status (Kopi Gayo from Aceh IDN-AC, Beras Cianjur from West Java IDN-JB).\n",
-          "example": "IDN-AC",
+          "pattern": "^[A-Z]{2,3}-[A-Z0-9]{1,3}$",
+          "description": "ISO 3166-2 sub-national region code for geographic indication products. Required when the product claims origin-protected status under Indonesian geographical indication law (e.g. Kopi Gayo from Aceh: ID-AC, Beras Cianjur from West Java: ID-JB). Supporting geographic-indication evidence should be supplied through the inherited credentials property.\n",
+          "example": "ID-AC",
           "x-ion-regulatory": "UU 20/2016 tentang Merek dan Indikasi Geografis",
-          "x-ion-conditional": true,
           "x-ion-condition": "Required when product claims Geographic Indication status"
-        },
-        "geographicIndicationCert": {
-          "type": "string",
-          "description": "Geographic Indication certificate number from DJKI (Direktorat Jenderal Kekayaan Intelektual).\n",
-          "x-ion-conditional": true,
-          "x-ion-condition": "Required when regionOfOrigin is declared for GI products"
         },
         "digital": {
           "type": "object",
           "additionalProperties": false,
-          "description": "Digital goods attributes. Required for DIGITAL_VOUCHER, DIGITAL_TOP_UP, and DIGITAL_SUBSCRIPTION resource types.\n",
+          "description": "Digital goods attributes specific to Indonesian digital commerce. Required when resourceTangibility is DIGITAL_VOUCHER, DIGITAL_TOP_UP, or DIGITAL_SUBSCRIPTION. Covers Indonesian-specific digital product categories: mobile pulsa and data packages (Telkomsel, XL, Indosat, Tri, Smartfren), electricity tokens (PLN), water bills (PDAM), tax payments (PBB), BPJS health insurance payments, and e-wallet top-ups. Game voucher categories cover popular titles in the Indonesian market (Mobile Legends, Free Fire, Valorant, Genshin Impact).\n",
           "properties": {
             "digitalCategory": {
               "type": "string",
@@ -744,44 +737,24 @@
                 "TRANSPORT_VOUCHER",
                 "EDUCATION_VOUCHER",
                 "OTHER"
-              ],
-              "description": "Type of digital good. MOBILE_PULSA/DATA covered by Indonesian operator regulations; GAME_VOUCHER includes Mobile Legends, Free Fire, Valorant, Genshin currencies; STREAMING_VOUCHER for Netflix/Disney+ Hotstar/Spotify access codes.\n"
+              ]
             },
             "operatorOrIssuer": {
               "type": "string",
-              "description": "Issuing operator or brand. For MOBILE_PULSA: TELKOMSEL, XL, INDOSAT, TRI, SMARTFREN. For ELECTRICITY_TOKEN: PLN. For GAME_VOUCHER: Moonton, Garena, Riot, etc.\n",
+              "description": "Issuing operator or brand. For MOBILE_PULSA: TELKOMSEL, XL, INDOSAT, TRI, SMARTFREN. For ELECTRICITY_TOKEN: PLN. For GAME_VOUCHER: Moonton, Garena, Riot, miHoYo etc.\n",
               "example": "TELKOMSEL"
             },
             "denomination": {
-              "type": "object",
-              "additionalProperties": false,
-              "description": "Voucher/top-up denomination",
-              "properties": {
-                "value": {
-                  "type": "number"
-                },
-                "currency": {
-                  "type": "string",
-                  "default": "IDR"
-                },
-                "unit": {
-                  "type": "string",
-                  "enum": [
-                    "IDR",
-                    "MB",
-                    "GB",
-                    "MINUTES",
-                    "DIAMONDS",
-                    "COINS",
-                    "OTHER"
-                  ],
-                  "description": "IDR for money-based; MB/GB for data; DIAMONDS/COINS for in-game"
+              "allOf": [
+                {
+                  "$ref": "https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity"
                 }
-              },
-              "required": [
-                "value",
-                "unit"
-              ]
+              ],
+              "description": "Voucher or top-up denomination.",
+              "example": {
+                "unitQuantity": 50000,
+                "unitCode": "IDR"
+              }
             },
             "deliveryMethod": {
               "type": "string",
@@ -791,60 +764,30 @@
                 "ACCOUNT_CREDIT",
                 "QR_VOUCHER"
               ],
-              "description": "PUSH_TO_TARGET: delivered directly to consumer account (pulsa to phone number, PLN token to meter, in-game currency to game account). CODE_TO_BUYER: redemption code sent to buyer to redeem later. ACCOUNT_CREDIT: credited to buyer's wallet/account. QR_VOUCHER: scannable QR redeemable at merchant.\n"
-            },
-            "target": {
-              "type": "object",
-              "additionalProperties": false,
-              "description": "Target identifier for delivery",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "enum": [
-                    "MOBILE_NUMBER",
-                    "CUSTOMER_ID",
-                    "ACCOUNT_ID",
-                    "EMAIL",
-                    "METER_NUMBER",
-                    "GAME_USER_ID"
-                  ]
-                },
-                "value": {
-                  "type": "string"
-                },
-                "operatorValidationRequired": {
-                  "type": "boolean",
-                  "description": "Whether BPP must verify target exists before accepting (e.g. mobile number inquiry)"
-                }
-              }
-            },
-            "redemptionCode": {
-              "type": "string",
-              "description": "Redemption code or voucher code. Returned in on_status[DELIVERED] for CODE_TO_BUYER delivery. Must be encrypted in transit.\n"
+              "description": "PUSH_TO_TARGET: delivered directly to consumer account (pulsa to phone number, PLN token to meter number, in-game currency to game account). CODE_TO_BUYER: redemption code sent to buyer for later use. ACCOUNT_CREDIT: credited to buyer wallet or account. QR_VOUCHER: scannable QR redeemable at merchant point.\n"
             },
             "redemptionUrl": {
               "type": "string",
               "format": "uri",
-              "description": "URL for redemption (streaming service activation, game code page)"
+              "description": "URL for redemption (streaming service activation, game code page)."
             },
             "expiryAfterPurchase": {
               "type": "string",
-              "description": "ISO 8601 duration — how long the voucher is valid from purchase",
+              "description": "ISO 8601 duration — how long the voucher is valid from purchase date.\n",
               "example": "P30D"
             },
             "refundable": {
               "type": "boolean",
               "default": false,
-              "description": "Whether the digital good is refundable. Most pulsa/top-up is non-refundable once delivered to target. Vouchers may be refundable if unredeemed.\n"
+              "description": "Whether the digital good is refundable. Most pulsa and top-up products are non-refundable once delivered to the target. Vouchers may be refundable if unredeemed.\n"
             },
             "cancellable": {
               "type": "boolean",
               "default": false,
-              "description": "Whether cancellation is possible before delivery"
+              "description": "Whether cancellation is possible before delivery is initiated."
             }
           },
-          "x-ion-conditional": true,
-          "x-ion-condition": "Required when resourceTangibility IN [DIGITAL_VOUCHER, DIGITAL_TOP_UP, DIGITAL_SUBSCRIPTION]"
+          "x-ion-condition": "Required when resourceTangibility IN [DIGITAL_VOUCHER, DIGITAL_TOP_UP, DIGITAL_SUBSCRIPTION]\n"
         },
         "dataResidency": {
           "type": "string",
@@ -852,105 +795,12 @@
             "DOMESTIC_ONLY",
             "INTERNATIONAL_ALLOWED"
           ],
-          "description": "Data residency requirement for this resource. DOMESTIC_ONLY means all PII and transaction data must be processed and stored within Indonesia; BAPs with foreign data processing must skip or refuse transactions for this resource. Required for pharmacy, health data, financial services, and regulated biometric categories.\n",
+          "description": "Data residency requirement for this resource under Indonesian Personal Data Protection Law (UU 27/2022 tentang Pelindungan Data Pribadi). DOMESTIC_ONLY means all PII and transaction data associated with this resource must be processed and stored within Indonesia. BAPs with foreign data processing infrastructure must refuse transactions for DOMESTIC_ONLY resources. Required for pharmacy, health data, financial services, and regulated biometric product categories.\n",
           "example": "DOMESTIC_ONLY",
           "x-ion-regulatory": "UU 27/2022 tentang Pelindungan Data Pribadi (PDP Law)",
-          "x-ion-conditional": true,
-          "x-ion-condition": "Required for pharmacy, health-data, financial-services categories"
+          "x-ion-condition": "Required for pharmacy, health-data, and financial-services categories\n"
         }
-      },
-      "allOf": [
-        {
-          "$ref": "https://schema.beckn.io/Attributes/2.0/attributes.yaml#/components/schemas/Attributes"
-        },
-        {
-          "if": {
-            "properties": {
-              "resourceStructure": {
-                "enum": [
-                  "VARIANT"
-                ]
-              }
-            },
-            "required": [
-              "resourceStructure"
-            ]
-          },
-          "then": {
-            "required": []
-          }
-        },
-        {
-          "if": {
-            "properties": {
-              "resourceStructure": {
-                "enum": [
-                  "COMPOSED",
-                  "WITH_EXTRAS"
-                ]
-              }
-            },
-            "required": [
-              "resourceStructure"
-            ]
-          },
-          "then": {
-            "required": []
-          }
-        },
-        {
-          "if": {
-            "properties": {
-              "ageRestricted": {
-                "const": true
-              }
-            },
-            "required": [
-              "ageRestricted"
-            ]
-          },
-          "then": {
-            "required": []
-          }
-        },
-        {
-          "if": {
-            "properties": {
-              "resourceStructure": {
-                "const": "VARIANT"
-              }
-            },
-            "required": [
-              "resourceStructure"
-            ]
-          },
-          "then": {
-            "required": []
-          }
-        }
-      ]
-    },
-    "IONTradeResource": {
-      "type": "object",
-      "title": "IONTradeResource",
-      "description": "ION-specific extension of TradeResource. Adds Indonesian regulatory, compliance, and sector-specific fields. The crc field determines which sub-objects are required at publish time per x-ion-crc-rules.",
-      "additionalProperties": true,
-      "allOf": [
-        {
-          "$ref": "#/$defs/TradeResource"
-        },
-        {
-          "type": "object",
-          "properties": {
-            "crc": {
-              "type": "string",
-              "description": "Catalogue Resource Category code. Determines mandatory attribute sub-objects at catalog/publish time.",
-              "example": "TRC-fashion",
-              "x-ion-enforcement": "optional-now-required-later"
-            }
-          }
-        }
-      ]
+      }
     }
   }
 }

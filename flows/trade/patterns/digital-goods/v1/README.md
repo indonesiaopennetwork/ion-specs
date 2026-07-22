@@ -10,13 +10,13 @@ Pulsa, data packages, electricity tokens (PLN), utility bill payments (water, PD
 - `DIGITAL_TOP_UP` — pulsa, data, electricity tokens, bill payments
 - `DIGITAL_SUBSCRIPTION` — streaming service access, time-bound subscriptions
 
-Each resource carries a `digital` sub-object with denomination, target type, delivery method, and category-specific fields.
+Each resource carries a `digital` sub-object with denomination, delivery method, and category-specific fields.
 
 ## Key differences from B2C-SF
 
 - **No shipping.** No fulfilment location, no logistics provider, no AWB, no delivery agent.
 - **Fast fulfilment.** Digital fulfilment typically completes in seconds. State machine is `digital` — PENDING_OPERATOR → DELIVERED or DELIVERY_FAILED.
-- **Target identifier mandatory.** Mobile number for pulsa, meter number for PLN, game user ID for game currency. Declared in `digital.target`.
+- **Delivery identifier is transaction data.** A mobile number, meter number, or game user ID is supplied during the contracting flow rather than published as a resource attribute.
 - **Operator validation.** For pulsa and bill pay, BPP validates target before accepting (operator inquiry returns customer name for confirmation).
 - **Typically non-refundable after delivery.** Pulsa delivered to phone cannot be recalled. Vouchers may be refundable if unredeemed.
 - **Cancellation window very narrow.** Only possible before operator call is made.
@@ -73,4 +73,3 @@ BPP declares correct `ppnRate` per item based on category.
 > **The `pattern.yaml` in this directory is your primary implementation reference.** It lists every field ONIX validates at each API step — use it as your implementation checklist alongside this README. If ONIX rejects a message, look up the step in `pattern.yaml` first.
 
 Variant field requirements are declared in each variant's `variant.yaml` and are additive on top of this pattern's requirements.
-

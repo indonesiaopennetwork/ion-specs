@@ -9750,24 +9750,9 @@ components:
                     type: string
                     example: Protein
                   value:
-                    type: object
-                    additionalProperties: false
-                    required:
-                    - unitCode
-                    - unitQuantity
-                    properties:
-                      unitCode:
-                        type: string
-                        enum:
-                        - G
-                        - MG
-                        - MCG
-                        - KCAL
-                        - KJ
-                        - IU
-                        - PERCENT
-                      unitQuantity:
-                        type: number
+                    allOf:
+                    - $ref: https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+                    description: Measured amount of the nutrient.
                 required:
                 - nutrient
                 - value
@@ -10455,20 +10440,14 @@ components:
           type: string
           pattern: ^[A-Z]{3}-[A-Z0-9]{1,3}$
           description: 'ISO 3166-2 sub-national region code for geographic indication. Required when product claims origin-protected
-            status (Kopi Gayo from Aceh IDN-AC, Beras Cianjur from West Java IDN-JB).
+            status (Kopi Gayo from Aceh IDN-AC, Beras Cianjur from West Java IDN-JB). Supporting evidence should be supplied
+            through the inherited credentials property.
 
             '
           example: IDN-AC
           x-ion-regulatory: UU 20/2016 tentang Merek dan Indikasi Geografis
           x-ion-conditional: true
           x-ion-condition: Required when product claims Geographic Indication status
-        geographicIndicationCert:
-          type: string
-          description: 'Geographic Indication certificate number from DJKI (Direktorat Jenderal Kekayaan Intelektual).
-
-            '
-          x-ion-conditional: true
-          x-ion-condition: Required when regionOfOrigin is declared for GI products
         digital:
           type: object
           additionalProperties: false
@@ -10509,29 +10488,12 @@ components:
                 '
               example: TELKOMSEL
             denomination:
-              type: object
-              additionalProperties: false
-              description: Voucher/top-up denomination
-              properties:
-                value:
-                  type: number
-                currency:
-                  type: string
-                  default: IDR
-                unit:
-                  type: string
-                  enum:
-                  - IDR
-                  - MB
-                  - GB
-                  - MINUTES
-                  - DIAMONDS
-                  - COINS
-                  - OTHER
-                  description: IDR for money-based; MB/GB for data; DIAMONDS/COINS for in-game
-              required:
-              - value
-              - unit
+              allOf:
+              - $ref: https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+              description: Voucher or top-up denomination.
+              example:
+                unitQuantity: 50000
+                unitCode: IDR
             deliveryMethod:
               type: string
               enum:
@@ -10542,31 +10504,6 @@ components:
               description: 'PUSH_TO_TARGET: delivered directly to consumer account (pulsa to phone number, PLN token to meter,
                 in-game currency to game account). CODE_TO_BUYER: redemption code sent to buyer to redeem later. ACCOUNT_CREDIT:
                 credited to buyer''s wallet/account. QR_VOUCHER: scannable QR redeemable at merchant.
-
-                '
-            target:
-              type: object
-              additionalProperties: false
-              description: Target identifier for delivery
-              properties:
-                type:
-                  type: string
-                  enum:
-                  - MOBILE_NUMBER
-                  - CUSTOMER_ID
-                  - ACCOUNT_ID
-                  - EMAIL
-                  - METER_NUMBER
-                  - GAME_USER_ID
-                value:
-                  type: string
-                operatorValidationRequired:
-                  type: boolean
-                  description: Whether BPP must verify target exists before accepting (e.g. mobile number inquiry)
-            redemptionCode:
-              type: string
-              description: 'Redemption code or voucher code. Returned in on_status[DELIVERED] for CODE_TO_BUYER delivery.
-                Must be encrypted in transit.
 
                 '
             redemptionUrl:
