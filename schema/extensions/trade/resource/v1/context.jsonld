@@ -16,7 +16,6 @@
     "TradeResource": "ion:TradeResource",
     "IONTradeResource": "ion:IONTradeResource",
     "name": "ion:name",
-    "shortDesc": "ion:shortDesc",
     "menuCategory": "ion:menuCategory",
     "preparationTime": "ion:preparationTime",
     "food": "ion:food",

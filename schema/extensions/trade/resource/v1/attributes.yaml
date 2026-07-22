@@ -80,28 +80,6 @@ components:
       allOf:
         - $ref: https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource
       properties:
-        name:
-          type: object
-          additionalProperties:
-            type: string
-          description: >
-            Display name of the resource. Language-keyed localised text object.
-            Minimum: name.id (Bahasa Indonesia). name.en required for cross-border
-            pattern. Rendered as the product title in consumer-facing CN interfaces.
-          x-ion-condition: Required at catalog/publish for all resource types
-
-        shortDesc:
-          type: object
-          additionalProperties:
-            type: string
-          description: >
-            Short product description. Language-keyed localised text object.
-            Maximum 280 characters per language value. Used in search results,
-            product cards, and push notification previews. Longer descriptive
-            content including specs, features, and care instructions belongs
-            in Descriptor.longDesc.
-          x-ion-condition: Required at catalog/publish for all resource types
-
         menuCategory:
           type: object
           additionalProperties: false

@@ -41,15 +41,6 @@
           "description": "PLAIN: single SKU, no choices. VARIANT: one of several pre-defined options of a parent. WITH_EXTRAS: base item with optional add-ons. COMPOSED: base with mandatory and optional customisation groups. BUNDLE: composite of multiple component resources (see bundleComposition).\n",
           "example": "COMPOSED"
         },
-        "shortDesc": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          },
-          "description": "Short product description. Language-keyed localised text object. Maximum 280 characters per language value. Used in search results, product cards, and push notification previews. Longer descriptive content including specs, features, and care instructions belongs in Descriptor.longDesc.",
-          "x-ion-conditional": true,
-          "x-ion-condition": "Required at catalog/publish for all resource types"
-        },
         "menuCategory": {
           "type": "object",
           "additionalProperties": false,

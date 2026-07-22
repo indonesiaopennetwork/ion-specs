@@ -62,18 +62,6 @@
       }
     },
     {
-      "@id": "ion:shortDesc",
-      "@type": "rdf:Property",
-      "rdfs:label": "shortDesc",
-      "rdfs:comment": "Short product description as a localised text object. Maximum 280 characters per language value. Used in search results, product cards, and push notification previews.",
-      "rdfs:domain": {
-        "@id": "ion:TradeResource"
-      },
-      "rdfs:range": {
-        "@id": "ion:LocalisedText"
-      }
-    },
-    {
       "@id": "ion:menuCategory",
       "@type": "rdf:Property",
       "rdfs:label": "menuCategory",
