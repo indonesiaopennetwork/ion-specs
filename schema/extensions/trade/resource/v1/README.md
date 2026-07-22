@@ -62,7 +62,7 @@ Which fields within this pack are mandatory depends on the CRC (Catalogue Resour
 
 - `TRC-fashion` — `fashion.gender`, `fashion.size`, `fashion.fabric`, `fashion.fabricComposition` become required
 - `TRC-food-bev` — `food.*` block and `packaged.*` block become required
-- `TRC-electronics` — `electronics.connectivity[]` and `electronics.warrantyMonths` become required
+- `TRC-electronics` — `electronics.connectivity[]` and `warranty` become required
 
 Run `python tools/ion_required_fields.py --sector trade --pattern <your-pattern> --crc <your-crc>` to see the full list for your category, or check `ion.yaml → x-ion-crc-rules` directly. Do not maintain a static list — CRCs are added as sectors mature.
 

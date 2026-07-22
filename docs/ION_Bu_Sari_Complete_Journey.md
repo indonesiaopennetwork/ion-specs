@@ -195,8 +195,15 @@ Dinda publishes 5 items via `POST /catalog/publish`. Each resource has its `reso
     "pharmacy": {
       "prescriptionRequired": false,
       "dosageForm": "TABLET",
-      "strength": "500 mg",
-      "activeIngredients": ["Parasetamol"],
+      "activeIngredients": [
+        {
+          "ingredient": "Parasetamol",
+          "strength": {
+            "unitQuantity": 500,
+            "unitText": "mg/tablet"
+          }
+        }
+      ],
       "coldChainRequired": false
     }
   }
@@ -270,8 +277,15 @@ Dinda publishes 5 items via `POST /catalog/publish`. Each resource has its `reso
     "pharmacy": {
       "prescriptionRequired": true,
       "dosageForm": "CAPSULE",
-      "strength": "500 mg",
-      "activeIngredients": ["Amoksisilin trihidrat"],
+      "activeIngredients": [
+        {
+          "ingredient": "Amoksisilin trihidrat",
+          "strength": {
+            "unitQuantity": 500,
+            "unitText": "mg/capsule"
+          }
+        }
+      ],
       "coldChainRequired": false
     }
   }
@@ -349,8 +363,15 @@ Dinda publishes 5 items via `POST /catalog/publish`. Each resource has its `reso
     "pharmacy": {
       "prescriptionRequired": true,
       "dosageForm": "TABLET",
-      "strength": "500 mg",
-      "activeIngredients": ["Metformin hidroklorida"],
+      "activeIngredients": [
+        {
+          "ingredient": "Metformin hidroklorida",
+          "strength": {
+            "unitQuantity": 500,
+            "unitText": "mg/tablet"
+          }
+        }
+      ],
       "coldChainRequired": false
     }
   }
@@ -426,7 +447,7 @@ Dinda publishes 5 items via `POST /catalog/publish`. Each resource has its `reso
     },
 
     "food": {
-      "classification": "HALAL",
+      "classification": ["HALAL"],
       "allergens": []
     }
   }
@@ -536,7 +557,7 @@ Dinda publishes 5 items via `POST /catalog/publish`. Each resource has its `reso
     },
 
     "food": {
-      "classification": "HALAL",
+      "classification": ["HALAL"],
       "allergens": ["DAIRY", "SOY"],
       "freshProduce": null
     }

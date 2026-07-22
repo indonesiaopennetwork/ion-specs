@@ -61,25 +61,26 @@
     ]
   },
   "food": {
-    "classification": "HALAL",
+    "classification": ["HALAL"],
     "allergens": [],
     "freshProduce": {
-      "netQuantityDeclaration": "5 kg per karung",
+      "netQuantityDeclaration": {
+        "unitQuantity": 5,
+        "unitText": "kg"
+      },
       "harvestDate": "2026-03-15"
     }
   },
   "agritech": {
     "harvestDate": "2026-03-15",
-    "produceGrade": "GRADE_A",
-    "pesticideDeclaration": "ORGANIC_CERTIFIED",
-    "organicCertification": {
-      "certBody": "Lembaga Sertifikasi Organik Seloliman",
-      "certNumber": "LSO-2026-001"
+    "produceGrade": {
+      "scheme": "SNI 6128:2020",
+      "value": "GRADE_A"
     },
-    "mandiReferencePrice": 14000,
+    "pesticideDeclaration": "ORGANIC_CERTIFIED",
     "unitOfMeasure": {
-      "unit": "KILOGRAM",
-      "value": 5
+      "unitQuantity": 5,
+      "unitText": "kg"
     }
   },
   "itemRating": 4.7

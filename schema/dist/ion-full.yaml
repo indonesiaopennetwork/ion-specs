@@ -10198,7 +10198,10 @@ components:
               type: boolean
             dosageForm:
               type: string
-              enum:
+              description: >
+                Pharmaceutical dosage form. Suggested values cover common forms;
+                other values are permitted as pharmaceutical forms evolve.
+              x-ion-suggested-values:
               - TABLET
               - CAPSULE
               - SYRUP
@@ -10208,13 +10211,21 @@ components:
               - INHALER
               - SUPPOSITORY
               - PATCH
-            strength:
-              type: string
-              example: 500 mg
+              example: TABLET
             activeIngredients:
               type: array
               items:
-                type: string
+                type: object
+                additionalProperties: false
+                required:
+                - ingredient
+                properties:
+                  ingredient:
+                    type: string
+                  strength:
+                    allOf:
+                    - $ref: https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+                    description: Strength of this active ingredient.
             coldChainRequired:
               type: boolean
           x-ion-regulatory: PerBPOM Nomor 4 Tahun 2018

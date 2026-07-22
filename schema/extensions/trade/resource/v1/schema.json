@@ -244,68 +244,79 @@
           }
         },
         "food": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "classification": {
-              "type": "string",
-              "enum": [
-                "VEG",
-                "NON_VEG",
-                "HALAL",
-                "EGG"
-              ],
-              "example": "HALAL"
+          "description": "Packaged food product attributes for filtering and regulatory compliance. Use for FMCG packaged food, grocery products, bottled beverages, packaged meal kits, snacks, and confectionery sold from warehouse stock. Do not use for restaurant or cloud kitchen menu items — those use MenuItem in the Hospitality sector (hospitality/menu-item/v1). Detailed nutritional information and ingredient lists belong in Descriptor.longDesc for agent readability.",
+          "allOf": [
+            {
+              "$ref": "https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/food"
             },
-            "allergens": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "enum": [
-                  "GLUTEN",
-                  "NUTS",
-                  "DAIRY",
-                  "EGGS",
-                  "SOY",
-                  "SHELLFISH",
-                  "FISH",
-                  "SESAME",
-                  "SULPHITES",
-                  "CELERY",
-                  "MUSTARD",
-                  "LUPIN"
-                ]
-              }
-            },
-            "cuisineType": {
-              "type": "string",
-              "example": "Padang"
-            },
-            "spiceLevel": {
-              "type": "string",
-              "enum": [
-                "NONE",
-                "LOW",
-                "MEDIUM",
-                "HIGH",
-                "EXTRA_HOT"
-              ]
-            },
-            "freshProduce": {
+            {
               "type": "object",
-              "additionalProperties": false,
               "properties": {
-                "netQuantityDeclaration": {
-                  "type": "string",
-                  "example": "1 kg"
+                "classification": {
+                  "$ref": "https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/food/properties/classification"
                 },
-                "harvestDate": {
+                "allergens": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "GLUTEN",
+                      "NUTS",
+                      "DAIRY",
+                      "EGGS",
+                      "SOY",
+                      "SHELLFISH",
+                      "FISH",
+                      "SESAME",
+                      "SULPHITES",
+                      "CELERY",
+                      "MUSTARD",
+                      "LUPIN"
+                    ]
+                  }
+                },
+                "cuisineType": {
                   "type": "string",
-                  "format": "date"
+                  "example": "Padang"
+                },
+                "spiceLevel": {
+                  "type": "string",
+                  "description": "Spiciness level of the food item. Free-text to accommodate regional descriptors (e.g. 'Pedas Sedang', 'Level 3', 'Extra Hot').",
+                  "x-ion-suggested-values": [
+                    "NONE",
+                    "LOW",
+                    "MEDIUM",
+                    "HIGH",
+                    "EXTRA_HOT"
+                  ],
+                  "example": "MEDIUM"
+                },
+                "freshProduce": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "netQuantityDeclaration": {
+                      "allOf": [
+                        {
+                          "$ref": "https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity"
+                        }
+                      ],
+                      "description": "Declared net quantity of the fresh produce.",
+                      "example": {
+                        "unitQuantity": 1,
+                        "unitText": "kg"
+                      }
+                    },
+                    "harvestDate": {
+                      "type": "string",
+                      "format": "date"
+                    }
+                  }
                 }
               }
             }
-          },
+          ],
+          "unevaluatedProperties": false,
           "x-ion-conditional": true,
           "x-ion-condition": "Required for food and beverage resources"
         },
@@ -323,6 +334,7 @@
             },
             "shelfLife": {
               "type": "string",
+              "format": "duration",
               "description": "ISO 8601 duration",
               "example": "PT2H"
             }
@@ -429,24 +441,32 @@
           "additionalProperties": false,
           "properties": {
             "conscious": {
-              "type": "string",
-              "enum": [
-                "NATURAL",
-                "ORGANIC",
-                "VEGAN",
-                "CRUELTY_FREE",
-                "HALAL_COSMETICS"
-              ]
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "enum": [
+                  "NATURAL",
+                  "ORGANIC",
+                  "VEGAN",
+                  "CRUELTY_FREE",
+                  "HALAL_COSMETICS"
+                ]
+              }
             },
             "preference": {
-              "type": "string",
-              "enum": [
-                "HERBAL",
-                "AYURVEDIC",
-                "CHEMICAL_FREE",
-                "FRAGRANCE_FREE",
-                "ALCOHOL_FREE"
-              ]
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "enum": [
+                  "HERBAL",
+                  "AYURVEDIC",
+                  "CHEMICAL_FREE",
+                  "FRAGRANCE_FREE",
+                  "ALCOHOL_FREE"
+                ]
+              }
             },
             "formulation": {
               "type": "string",
@@ -464,31 +484,39 @@
               ]
             },
             "skinType": {
-              "type": "string",
-              "enum": [
-                "ALL",
-                "NORMAL",
-                "OILY",
-                "DRY",
-                "COMBINATION",
-                "SENSITIVE"
-              ]
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "enum": [
+                  "ALL",
+                  "NORMAL",
+                  "OILY",
+                  "DRY",
+                  "COMBINATION",
+                  "SENSITIVE"
+                ]
+              }
             },
             "hairType": {
-              "type": "string",
-              "enum": [
-                "ALL",
-                "NORMAL",
-                "OILY",
-                "DRY",
-                "DAMAGED",
-                "CURLY",
-                "STRAIGHT"
-              ]
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "enum": [
+                  "ALL",
+                  "NORMAL",
+                  "OILY",
+                  "DRY",
+                  "DAMAGED",
+                  "CURLY",
+                  "STRAIGHT"
+                ]
+              }
             },
             "spf": {
               "type": "integer",
-              "minimum": 0,
+              "minimum": 1,
               "example": 50
             },
             "gender": {
@@ -498,45 +526,37 @@
                 "FEMALE",
                 "UNISEX"
               ]
-            },
-            "volume": {
-              "type": "object",
-              "additionalProperties": false,
-              "properties": {
-                "value": {
-                  "type": "number"
-                },
-                "unit": {
-                  "type": "string",
-                  "enum": [
-                    "ML",
-                    "G",
-                    "OZ"
-                  ]
-                }
-              }
             }
           },
-          "x-ion-regulatory": "PerBPOM 23/2019 tentang Persyaratan Teknis Kosmetika",
           "x-ion-conditional": true,
           "x-ion-condition": "Required for beauty and personal care products"
         },
         "agritech": {
           "type": "object",
           "additionalProperties": false,
+          "description": "Agricultural and fresh produce attributes. Covers harvest dates, produce grade, pesticide declarations, and unit of measure for weight-sold products. Represent organic certification through regulatory.credentials.",
           "properties": {
             "harvestDate": {
               "type": "string",
               "format": "date"
             },
             "produceGrade": {
-              "type": "string",
-              "enum": [
-                "PREMIUM",
-                "GRADE_A",
-                "GRADE_B",
-                "GRADE_C"
-              ]
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "scheme",
+                "value"
+              ],
+              "properties": {
+                "scheme": {
+                  "type": "string",
+                  "description": "Grading standard or authority under which the grade is assigned."
+                },
+                "value": {
+                  "type": "string",
+                  "example": "GRADE_A"
+                }
+              }
             },
             "pesticideDeclaration": {
               "type": "string",
@@ -547,44 +567,25 @@
                 "ORGANIC_CERTIFIED"
               ]
             },
-            "organicCertification": {
-              "type": "object",
-              "additionalProperties": false,
-              "properties": {
-                "certBody": {
-                  "type": "string",
-                  "example": "Lembaga Sertifikasi Organik Seloliman"
-                },
-                "certNumber": {
-                  "type": "string"
-                }
-              }
-            },
             "unitOfMeasure": {
-              "type": "object",
-              "additionalProperties": false,
-              "properties": {
-                "unit": {
-                  "type": "string",
-                  "enum": [
-                    "GRAM",
-                    "KILOGRAM",
-                    "LITRE",
-                    "MILLILITRE",
-                    "PIECE",
-                    "DOZEN",
-                    "BUNCH",
-                    "IKAT"
-                  ]
+              "allOf": [
+                {
+                  "$ref": "https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity"
                 },
-                "value": {
-                  "type": "number"
+                {
+                  "type": "object",
+                  "properties": {
+                    "unitText": {
+                      "$ref": "https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity/properties/unitText"
+                    }
+                  }
                 }
-              },
-              "required": [
-                "unit",
-                "value"
-              ]
+              ],
+              "description": "Declared net quantity of the fresh produce.",
+              "example": {
+                "unitQuantity": 1,
+                "unitText": "kg"
+              }
             }
           },
           "x-ion-conditional": true,
@@ -599,7 +600,8 @@
             },
             "dosageForm": {
               "type": "string",
-              "enum": [
+              "description": "Pharmaceutical dosage form. Suggested values cover common forms; other values are permitted as pharmaceutical forms evolve.",
+              "x-ion-suggested-values": [
                 "TABLET",
                 "CAPSULE",
                 "SYRUP",
@@ -609,16 +611,30 @@
                 "INHALER",
                 "SUPPOSITORY",
                 "PATCH"
-              ]
-            },
-            "strength": {
-              "type": "string",
-              "example": "500 mg"
+              ],
+              "example": "TABLET"
             },
             "activeIngredients": {
               "type": "array",
               "items": {
-                "type": "string"
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "ingredient"
+                ],
+                "properties": {
+                  "ingredient": {
+                    "type": "string"
+                  },
+                  "strength": {
+                    "allOf": [
+                      {
+                        "$ref": "https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity"
+                      }
+                    ],
+                    "description": "Strength of this active ingredient."
+                  }
+                }
               }
             },
             "coldChainRequired": {
@@ -664,31 +680,22 @@
           }
         },
         "warranty": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "duration": {
-              "type": "string",
-              "description": "ISO 8601 duration. Minimum P1Y for electronics.",
-              "example": "P2Y"
+          "allOf": [
+            {
+              "$ref": "https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/warranty"
             },
-            "type": {
-              "type": "string",
-              "enum": [
-                "MANUFACTURER",
-                "SELLER",
-                "EXTENDED",
-                "NONE"
-              ]
-            },
-            "terms": {
-              "type": "string",
-              "example": "Garansi resmi 2 tahun. Tidak mencakup kerusakan fisik dan air."
-            },
-            "serviceCenter": {
-              "type": "string"
+            {
+              "type": "object",
+              "properties": {
+                "duration": {
+                  "$ref": "https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/warranty/properties/duration"
+                },
+                "terms": {
+                  "$ref": "https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/warranty/properties/terms"
+                }
+              }
             }
-          },
+          ],
           "x-ion-regulatory": "UU 8/1999 tentang Perlindungan Konsumen Pasal 25; PP 36/2023",
           "x-ion-conditional": true,
           "x-ion-condition": "Required for electronics, appliances, consumer durables"

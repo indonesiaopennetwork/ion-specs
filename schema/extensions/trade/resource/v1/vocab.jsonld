@@ -5,6 +5,7 @@
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "beckn": "https://schema.beckn.io/",
+    "rcra": "https://schema.beckn.io/RetailResource#",
     "schema": "https://schema.org/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "owl": "http://www.w3.org/2002/07/owl#"
@@ -80,7 +81,7 @@
       }
     },
     {
-      "@id": "ion:food",
+      "@id": "rcra:food",
       "@type": "rdf:Property",
       "rdfs:label": "food",
       "rdfs:comment": "Packaged food product attributes for filtering and regulatory compliance. Covers dietary classification, allergens, cuisine type, and spice level. Used for FMCG packaged food and grocery products sold from warehouse stock.",
@@ -137,7 +138,7 @@
       "@id": "ion:pharmacy",
       "@type": "rdf:Property",
       "rdfs:label": "pharmacy",
-      "rdfs:comment": "Pharmaceutical and OTC medicine attributes under PerBPOM Nomor 4 Tahun 2018. Covers prescription requirements, dosage form, strength, active ingredients, and cold chain requirements.",
+      "rdfs:comment": "Pharmaceutical and OTC medicine attributes under PerBPOM Nomor 4 Tahun 2018. Covers prescription requirements, dosage form, active ingredients with per-ingredient strength, and cold chain requirements.",
       "rdfs:domain": {
         "@id": "ion:TradeResource"
       }
@@ -161,10 +162,10 @@
       }
     },
     {
-      "@id": "ion:warranty",
+      "@id": "rcra:warranty",
       "@type": "rdf:Property",
       "rdfs:label": "warranty",
-      "rdfs:comment": "Warranty terms for the resource. Covers manufacturer warranty, seller warranty, and extended warranty with duration, type, and service centre.",
+      "rdfs:comment": "Warranty terms for the resource. Covers manufacturer warranty, seller warranty, and extended warranty with duration, type, and terms.",
       "rdfs:domain": {
         "@id": "ion:TradeResource"
       }
@@ -227,7 +228,13 @@
       "@id": "ion:activeIngredients",
       "@type": "rdf:Property",
       "rdfs:label": "activeIngredients",
-      "rdfs:comment": "Property activeIngredients."
+      "rdfs:comment": "Active ingredients in a pharmaceutical product. Each entry identifies the ingredient by name and may declare its strength using the canonical Quantity schema."
+    },
+    {
+      "@id": "ion:ingredient",
+      "@type": "rdf:Property",
+      "rdfs:label": "ingredient",
+      "rdfs:comment": "Name of an active pharmaceutical ingredient."
     },
     {
       "@id": "ion:additives",
@@ -272,19 +279,7 @@
       "rdfs:comment": "Whether cancellation is possible before delivery"
     },
     {
-      "@id": "ion:certBody",
-      "@type": "rdf:Property",
-      "rdfs:label": "certBody",
-      "rdfs:comment": "Property certBody."
-    },
-    {
-      "@id": "ion:certNumber",
-      "@type": "rdf:Property",
-      "rdfs:label": "certNumber",
-      "rdfs:comment": "Property certNumber."
-    },
-    {
-      "@id": "ion:classification",
+      "@id": "rcra:foodClassification",
       "@type": "rdf:Property",
       "rdfs:label": "classification",
       "rdfs:comment": "Property classification."
@@ -353,10 +348,10 @@
       "@id": "ion:dosageForm",
       "@type": "rdf:Property",
       "rdfs:label": "dosageForm",
-      "rdfs:comment": "Property dosageForm."
+      "rdfs:comment": "Open pharmaceutical dosage-form value. Common suggested values include TABLET, CAPSULE, SYRUP, INJECTION, OINTMENT, DROPS, INHALER, SUPPOSITORY, and PATCH."
     },
     {
-      "@id": "ion:duration",
+      "@id": "rcra:warrantyDuration",
       "@type": "rdf:Property",
       "rdfs:label": "duration",
       "rdfs:comment": "ISO 8601 duration. Minimum P1Y for electronics."
@@ -518,12 +513,6 @@
       "rdfs:comment": "Whether BPP must verify target exists before accepting (e.g. mobile number inquiry)"
     },
     {
-      "@id": "ion:organicCertification",
-      "@type": "rdf:Property",
-      "rdfs:label": "organicCertification",
-      "rdfs:comment": "Property organicCertification."
-    },
-    {
       "@id": "ion:osType",
       "@type": "rdf:Property",
       "rdfs:label": "osType",
@@ -608,12 +597,6 @@
       "rdfs:comment": "Property sequence."
     },
     {
-      "@id": "ion:serviceCenter",
-      "@type": "rdf:Property",
-      "rdfs:label": "serviceCenter",
-      "rdfs:comment": "Property serviceCenter."
-    },
-    {
       "@id": "ion:shelfLife",
       "@type": "rdf:Property",
       "rdfs:label": "shelfLife",
@@ -659,7 +642,10 @@
       "@id": "ion:strength",
       "@type": "rdf:Property",
       "rdfs:label": "strength",
-      "rdfs:comment": "Property strength."
+      "rdfs:comment": "Strength of an individual active ingredient, expressed using the canonical Quantity schema.",
+      "rdfs:range": {
+        "@id": "schema:QuantitativeValue"
+      }
     },
     {
       "@id": "ion:target",
@@ -668,7 +654,7 @@
       "rdfs:comment": "Target identifier for delivery"
     },
     {
-      "@id": "ion:terms",
+      "@id": "rcra:warrantyTerms",
       "@type": "rdf:Property",
       "rdfs:label": "terms",
       "rdfs:comment": "Property terms."
@@ -704,6 +690,12 @@
       "rdfs:comment": "Property unitQuantity."
     },
     {
+      "@id": "schema:unitText",
+      "@type": "rdf:Property",
+      "rdfs:label": "unitText",
+      "rdfs:comment": "Human-readable unit expression used by the canonical Quantity schema."
+    },
+    {
       "@id": "ion:uri",
       "@type": "rdf:Property",
       "rdfs:label": "uri",
@@ -732,12 +724,6 @@
       "@type": "rdf:Property",
       "rdfs:label": "voltage",
       "rdfs:comment": "Property voltage."
-    },
-    {
-      "@id": "ion:volume",
-      "@type": "rdf:Property",
-      "rdfs:label": "volume",
-      "rdfs:comment": "Property volume."
     },
     {
       "@id": "ion:wattage",
