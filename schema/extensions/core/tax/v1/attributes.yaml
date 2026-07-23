@@ -1,10 +1,12 @@
 openapi: 3.1.1
 info:
-  title: ION Tax Extension (v1)
-  description: 'Indonesian tax calculation and compliance. Covers PPN, PPnBM, PPh, and tax exemption regimes. Applies
-    to all ION sectors. Attaches to: beckn:Consideration.considerationAttributes
-
-    '
+  title: ION Tax Detail Extension (v1)
+  description: >
+    Indonesia-specific classification and compliance semantics for a tax
+    component in RetailConsideration.breakup[]. Extends the inherited
+    taxDetail object; the containing breakup item carries the calculated tax
+    amount. Attaches to:
+    beckn:Consideration.considerationAttributes.breakup[].taxDetail
   version: 1.0.0
   license:
     name: Apache-2.0
@@ -16,29 +18,18 @@ components:
   schemas:
     IONTaxDetail:
       type: object
+      title: IONTaxDetail
+      description: >
+        Indonesia-specific extension of the RetailConsideration v2.1 taxDetail
+        object. Inherits rate, included, and taxableBase. The containing
+        breakup item's amount is the calculated tax amount.
       x-ion-layer: ion
       x-ion-split-version: "0.7.0"
+      x-recommended-parent: Consideration.considerationAttributes.breakup[].taxDetail
+      x-beckn-attaches-to: Consideration.considerationAttributes.breakup[].taxDetail
+      additionalProperties: true
       allOf:
-        - $ref: '#/components/schemas/IONTaxDetail'
-        - if:
-            properties:
-              taxRegime:
-                not:
-                  enum:
-                  - EXEMPT
-            required:
-            - taxRegime
-          then:
-            required:
-            - taxRate
-            - taxAmount
-            - taxBaseAmount
-      title: Indonesia Tax Detail
-      additionalProperties: false
-      x-jsonld:
-        '@context': 'https://schema.ion.id/core/tax/v1/context.jsonld'
-        '@type': ion:TaxDetail
-      x-beckn-attaches-to: Consideration.considerationAttributes
+        - $ref: https://schema.beckn.io/RetailConsideration/v2.1/attributes.yaml#/components/schemas/RetailConsideration/properties/breakup/items/properties/taxDetail
       properties:
         taxRegime:
           type: string
@@ -49,12 +40,11 @@ components:
           - PPH23
           - PPN_FINAL
           - EXEMPT
-          description: 'PPN: Pajak Pertambahan Nilai (VAT), standard 11%. PPNBM: Pajak Penjualan atas Barang Mewah
-            (luxury goods tax). PPH22: Income tax on import/certain transactions. PPH23: Withholding tax on services.
-            PPN_FINAL: Final PPN for specific categories (e.g. certain construction). EXEMPT: No tax applicable
-            (basic foods, books, health services).
-
-            '
+          description: >
+            Indonesian tax regime applied by this tax breakup entry. PPN is
+            value-added tax; PPNBM is luxury-goods sales tax; PPH22 and PPH23
+            are withholding regimes; PPN_FINAL is final VAT for applicable
+            categories; EXEMPT identifies a non-taxable transaction.
           example: PPN
           x-ion-regulatory: UU 7/2021 tentang Harmonisasi Peraturan Perpajakan (HPP)
         taxCategory:
@@ -63,47 +53,25 @@ components:
           - BKP
           - JKP
           - NON_BKP
-          description: 'BKP: Barang Kena Pajak — taxable goods. JKP: Jasa Kena Pajak — taxable services. NON_BKP:
-            Non-taxable goods or services.
-
-            '
+          description: >
+            Indonesian taxable-supply classification. BKP identifies taxable
+            goods, JKP identifies taxable services, and NON_BKP identifies
+            goods or services outside those taxable categories.
           example: BKP
           x-ion-regulatory: UU 8/1983 tentang PPN Pasal 4
-        taxRate:
-          type: number
-          minimum: 0
-          maximum: 1
-          description: 'Tax rate as decimal fraction. The applicable rate MUST be sourced from current Indonesian
-            tax regulation (DJP / PMK), not hardcoded. For reference, PPN standard is currently 0.11 (11%) per PMK
-            131/2024; PPnBM rates vary by category — see DJP schedule. This field documents the rate actually
-            charged on this transaction.
-
-            '
-          example: 0.11
-          x-ion-condition: Required when taxRegime is not EXEMPT
-        taxAmount:
-          type: number
-          description: Calculated tax amount in IDR
-          example: 9900
-          x-ion-condition: Required when taxRegime is not EXEMPT
-        taxIncluded:
-          type: boolean
-          description: 'Whether the tax amount is already included in the item price (tax-inclusive pricing) or
-            added on top (tax-exclusive).
-
-            '
-          example: true
         eFakturRef:
-          type: string
-          nullable: true
-          description: 'e-Invoice reference (Faktur Pajak) number from DJP e-Faktur system. Format: XXX.XXX-YY.XXXXXXXX
-            where XXX is kode faktur. Only applicable for PKP sellers.
-
-            '
+          type:
+          - string
+          - 'null'
+          description: >
+            DJP e-Faktur reference for the tax entry, when an electronic Faktur
+            Pajak has been issued. Format: XXX.XXX-YY.XXXXXXXX.
           example: 010.000-26.00000001
           x-ion-regulatory: PMK 168/PMK.010/2023 tentang Faktur Pajak
-        taxBaseAmount:
-          type: number
-          description: The amount on which tax is calculated (before tax)
-          example: 90000
-          x-ion-condition: Required for proper tax computation trail
+      # rate replaces the removed taxRate and ppnRate/ppnbmRate properties.
+      # included replaces the removed taxIncluded property.
+      # taxableBase replaces the removed taxBaseAmount property.
+      # breakup[].amount replaces the removed taxAmount property.
+      # x-ion-condition: Required when taxRegime is not EXEMPT
+      # x-ion-condition: Required for proper tax computation trail
+      x-ion-closed-extensions: false

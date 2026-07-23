@@ -1,6 +1,7 @@
 # ION Tax Extension — Overview
 
-Indonesian tax regimes and calculation fields for consideration breakup lines.
+Indonesian classification and compliance fields for the inherited
+`RetailConsideration.breakup[].taxDetail` object.
 
 ## Tax regimes
 - **PPN**: standard VAT on all BKP (taxable goods). Current standard rate is 11% (PMK 131/2024 under UU 7/2021 HPP) — implementations MUST source the applicable rate from current DJP/PMK regulation, not hardcode it.
@@ -12,5 +13,9 @@ Indonesian tax regimes and calculation fields for consideration breakup lines.
 ## Faktur Pajak
 PKP sellers must issue a Faktur Pajak (e-Invoice) for each B2B transaction. The `eFakturRef` field carries the DJP-issued reference number. Format: `XXX.XXX-YY.XXXXXXXX`.
 
-## taxIncluded
-When `true`, the item price already includes PPN. BAP displays the tax-inclusive price. Breakup still shows the tax component separately for transparency.
+## Inherited calculation fields
+
+Use `rate`, `included`, and `taxableBase` from RetailConsideration v2.1.
+The containing breakup entry's `amount` carries the calculated tax amount.
+The former parallel fields `taxRate`, `taxIncluded`, `taxBaseAmount`, and
+`taxAmount` are no longer part of this pack.

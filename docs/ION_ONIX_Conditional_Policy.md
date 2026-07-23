@@ -98,20 +98,16 @@ deny[msg] {
 ```rego
 package ion.onix.conditional.core.tax
 
-# Tax reference required when not exempt
+# Tax rate required when not exempt
 # x-ion-condition: Required when taxRegime is not EXEMPT
 deny[msg] {
-  t := input.considerationAttributes
-  t.taxRegime != "EXEMPT"
-  not t.taxReferenceNumber
-  msg := "considerationAttributes.taxReferenceNumber is required when taxRegime is not EXEMPT"
-}
-
-deny[msg] {
-  t := input.considerationAttributes
-  t.taxRegime != "EXEMPT"
-  not t.ppnRate
-  msg := "considerationAttributes.ppnRate is required when taxRegime is not EXEMPT"
+  some i
+  line := input.considerationAttributes.breakup[i]
+  line.type == "TAX"
+  detail := line.taxDetail
+  detail.taxRegime != "EXEMPT"
+  not detail.rate
+  msg := "considerationAttributes.breakup[].taxDetail.rate is required when taxRegime is not EXEMPT"
 }
 ```
 

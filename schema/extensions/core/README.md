@@ -26,7 +26,7 @@ These packs apply to every ION sector — Trade, Mobility, Tourism, Finance, Hea
 | `address/v1` | `beckn:Address` | Indonesian address hierarchy below city level: provinsiCode (34 BPS provinces), kabupatenCode, kelurahan, kecamatan, RT, RW |
 | `identity/v1` | `Provider.providerAttributes`, `Contract.contractAttributes` | NPWP (16-digit), NIB (13-digit), NIK, PKP status (VAT registration), legal entity name, business type |
 | `payment/v1` | `Settlement.settlementAttributes` | PaymentDeclaration wrapper + typed method objects: QRIS, VirtualAccount, EWallet (10 providers), CashOnDelivery, BankTransfer, BISettlement (BI_FAST/RTGS/SKN), BNPL, CardPayment |
-| `tax/v1` | `Consideration.considerationAttributes` | Tax regime (PPN/PPnBM/PPh22/PPh23/EXEMPT), tax category (BKP/JKP/NON_BKP), rate, amount, taxIncluded, eFakturRef |
+| `tax/v1` | `Consideration.considerationAttributes.breakup[].taxDetail` | Indonesia tax regime and category, plus e-Faktur reference; extends inherited rate, included, and taxableBase |
 | `localization/v1` | `Resource.resourceAttributes`, `Provider.descriptor` | LocalisedText pattern — name/shortDesc/longDesc as `{ id, en, ... }` keyed by ISO 639-1 |
 | `product/v1` | `Resource.resourceAttributes` | Halal status + MUI cert number, BPOM registration, SNI certificate, SP-PIRT, age restriction |
 | `support/v1` | `beckn:Support` | Consumer complaint ticket: category, sub-category, complainant info, description, issueActions (complainant + respondent trail), resolution, escalation level |

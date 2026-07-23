@@ -42,7 +42,8 @@ Digital goods often have specific tax treatment:
 - **Vouchers and gift cards**: PPN on issuance, not on redemption
 - **Cross-border streaming (Netflix)**: PPN PMSE applies (PMK 48/2020)
 
-BPP declares correct `ppnRate` per item based on category.
+The Provider Node declares the applicable PPN rate in
+`breakup[].taxDetail.rate` and identifies it with `taxRegime: PPN`.
 
 ## Regulatory
 - **UU 36/1999 tentang Telekomunikasi** — pulsa and mobile data regulated under telecoms law

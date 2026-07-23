@@ -75,7 +75,7 @@ All `$ref` links in `ion.yaml` point to the local `beckn.yaml`. No external URLs
 | `core/rating/v1` | RatingInput.target.targetAttributes | Rating category (PROVIDER/ITEM/FULFILLMENT/AGENT), value 1–5, photo/video reviews, verified purchase, seller response |
 | `core/reconcile/v1` | Settlement.settlementAttributes | reconId, settlement basis, amounts (base/finderFee/withholding), adjustments, tax withholdings (PPh22/PPh23/PPN), COD remittance batch, batch reconcile, clawbacks |
 | `core/support/v1` | Support.channels[*] | Consumer complaint: category, complainant info, issue action trail (complainant + respondent), escalation levels (SELLER→BPSK→KOMINFO→ION) |
-| `core/tax/v1` | Consideration.considerationAttributes | Tax regime (PPN/PPnBM/PPh22/PPh23/EXEMPT), tax category (BKP/JKP/NON_BKP), rate, amount, taxIncluded, eFakturRef, taxBaseAmount |
+| `core/tax/v1` | Consideration.considerationAttributes.breakup[].taxDetail | Indonesia tax regime/category and e-Faktur reference; inherits rate, included, and taxableBase from RetailConsideration |
 
 **Trade packs (L5) — 7 packs:**
 

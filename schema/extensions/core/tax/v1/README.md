@@ -1,11 +1,23 @@
 # ion-core/tax/v1
 
-Indonesian tax detail — PPN, PPnBM, PPh regimes. BKP/JKP/NON_BKP classification.
+Indonesia-specific extension of the tax detail carried by each tax entry in
+`RetailConsideration.breakup[]`.
 
 ## Attaches to
-`beckn:Consideration.considerationAttributes`
+`beckn:Consideration.considerationAttributes.breakup[].taxDetail`
 
 See `attributes.yaml` for complete field definitions.
+
+## Canonical monetary fields
+
+The generic monetary fields are inherited from RetailConsideration v2.1:
+
+- `rate` — applicable tax rate as a decimal fraction
+- `included` — whether tax is included in the price
+- `taxableBase` — amount to which the rate applies
+
+The containing breakup entry's `amount` is the calculated tax amount.
+`IONTaxDetail` adds only `taxRegime`, `taxCategory`, and `eFakturRef`.
 
 ## Network-required fields
 
@@ -22,7 +34,8 @@ Mandatoriness is enforced by ONIX — these fields are not marked `required:` in
 
 ## Common rejection reasons
 
-Missing `taxRegime` → `ION-8xxx`. See `errors/README.md` for the full error code reference.
+Missing `taxRegime` where required by ION policy → `ION-8xxx`. See
+`errors/README.md` for the full error code reference.
 
 ## Changelog
 

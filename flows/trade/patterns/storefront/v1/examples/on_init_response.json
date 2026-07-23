@@ -66,37 +66,33 @@
         {
           "id": "CONSID-001",
           "considerationAttributes": {
-            "@context": "https://schema.ion.id/extensions/trade/consideration/v1/context.jsonld",
+            "@context": "https://schema.ion.id/trade/consideration/v1/context.jsonld",
             "@type": "ion:IONTradeConsideration",
             "totalAmount": 9435,
             "currency": "IDR",
             "breakup": [
               {
                 "title": "Panadol 500mg Strip 4",
-                "breakupLineType": "ITEM",
                 "commitmentId": "L01",
-                "totalAmount": 8500,
-                "currency": "IDR",
                 "amount": 8500,
                 "type": "BASE_PRICE"
               },
               {
                 "title": "Ongkos Kirim",
-                "breakupLineType": "DELIVERY",
-                "totalAmount": 0,
-                "currency": "IDR",
                 "amount": 0,
                 "type": "DELIVERY_CHARGE"
               },
               {
                 "title": "PPN 11%",
-                "breakupLineType": "TAX",
-                "ppnRate": 0.11,
-                "taxBaseAmount": 8500,
-                "totalAmount": 935,
-                "currency": "IDR",
                 "amount": 935,
-                "type": "TAX"
+                "type": "TAX",
+                "taxDetail": {
+                  "rate": 0.11,
+                  "included": false,
+                  "taxableBase": 8500,
+                  "taxRegime": "PPN",
+                  "taxCategory": "BKP"
+                }
               }
             ]
           }

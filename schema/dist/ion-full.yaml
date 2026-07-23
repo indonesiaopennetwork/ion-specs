@@ -6803,11 +6803,16 @@ components:
         doc: 'JSON Schema discriminator: an array element matches this schema iff its @type property equals expectedValue.'
     IONTaxDetail:
       type: object
-      title: Indonesia Tax Detail
-      additionalProperties: false
-      x-jsonld:
-        '@context': ./context.jsonld
-        '@type': ion:TaxDetail
+      title: IONTaxDetail
+      description: >
+        Indonesia-specific extension of RetailConsideration v2.1
+        breakup[].taxDetail. Inherits rate, included, and taxableBase; the
+        containing breakup item's amount is the calculated tax amount.
+      additionalProperties: true
+      x-recommended-parent: Consideration.considerationAttributes.breakup[].taxDetail
+      x-beckn-attaches-to: Consideration.considerationAttributes.breakup[].taxDetail
+      allOf:
+      - $ref: https://schema.beckn.io/RetailConsideration/v2.1/attributes.yaml#/components/schemas/RetailConsideration/properties/breakup/items/properties/taxDetail
       properties:
         taxRegime:
           type: string
@@ -6818,12 +6823,7 @@ components:
           - PPH23
           - PPN_FINAL
           - EXEMPT
-          description: 'PPN: Pajak Pertambahan Nilai (VAT), standard 11%. PPNBM: Pajak Penjualan atas Barang Mewah (luxury
-            goods tax). PPH22: Income tax on import/certain transactions. PPH23: Withholding tax on services. PPN_FINAL: Final
-            PPN for specific categories (e.g. certain construction). EXEMPT: No tax applicable (basic foods, books, health
-            services).
-
-            '
+          description: Indonesian tax regime applied by this tax breakup entry.
           example: PPN
           x-ion-regulatory: UU 7/2021 tentang Harmonisasi Peraturan Perpajakan (HPP)
         taxCategory:
@@ -6832,70 +6832,20 @@ components:
           - BKP
           - JKP
           - NON_BKP
-          description: 'BKP: Barang Kena Pajak — taxable goods. JKP: Jasa Kena Pajak — taxable services. NON_BKP: Non-taxable
-            goods or services.
-
-            '
+          description: Indonesian taxable-supply classification.
           example: BKP
           x-ion-regulatory: UU 8/1983 tentang PPN Pasal 4
-        taxRate:
-          type: number
-          minimum: 0
-          maximum: 1
-          description: 'Tax rate as decimal fraction. The applicable rate MUST be sourced from current Indonesian tax regulation
-            (DJP / PMK), not hardcoded. For reference, PPN standard is currently 0.11 (11%) per PMK 131/2024; PPnBM rates
-            vary by category (typical range 0.10 to 0.75). This field documents the rate actually charged on this transaction.
-
-            '
-          example: 0.11
-          x-ion-conditional: true
-          x-ion-condition: Required when taxRegime is not EXEMPT
-        taxAmount:
-          type: number
-          description: Calculated tax amount in IDR
-          example: 9900
-          x-ion-conditional: true
-          x-ion-condition: Required when taxRegime is not EXEMPT
-        taxIncluded:
-          type: boolean
-          description: 'Whether the tax amount is already included in the item price (tax-inclusive pricing) or added on top
-            (tax-exclusive).
-
-            '
-          example: true
         eFakturRef:
-          type: string
-          nullable: true
-          description: 'e-Invoice reference (Faktur Pajak) number from DJP e-Faktur system. Format: XXX.XXX-YY.XXXXXXXX where
-            XXX is kode faktur. Only applicable for PKP sellers.
-
-            '
+          type:
+          - string
+          - 'null'
+          description: DJP e-Faktur reference for the tax entry, when issued.
           example: 010.000-26.00000001
           x-ion-regulatory: PMK 168/PMK.010/2023 tentang Faktur Pajak
-        taxBaseAmount:
-          type: number
-          description: The amount on which tax is calculated (before tax)
-          example: 90000
-          x-ion-conditional: true
-          x-ion-condition: Required for proper tax computation trail
-      allOf:
-      - if:
-          properties:
-            taxRegime:
-              not:
-                enum:
-                - EXEMPT
-          required:
-          - taxRegime
-        then:
-          required:
-          - taxRate
-          - taxAmount
-          - taxBaseAmount
-      required:
-      - taxRegime
-      - taxCategory
-      - taxIncluded
+      # rate, included, and taxableBase are inherited.
+      # The containing breakup item's amount is the calculated tax amount.
+      # x-ion-condition: Required when taxRegime is not EXEMPT
+      x-ion-closed-extensions: false
     TradeCommitment:
       type: object
       title: Trade Commitment Attributes
@@ -6931,122 +6881,29 @@ components:
       - $ref: https://schema.beckn.io/RetailCommitment/v2.1/attributes.yaml#/components/schemas/RetailCommitment
     TradeConsideration:
       type: object
-      title: Trade Consideration Attributes
+      title: TradeConsideration
+      description: >
+        Effective trade consideration validator. Inherits RetailConsideration
+        v2.1 and refines breakup[].taxDetail with IONTaxDetail.
       additionalProperties: true
       x-jsonld:
         '@context': ./context.jsonld
         '@type': ion:TradeConsideration
       x-beckn-attaches-to: Consideration.considerationAttributes
-      properties:
-        ppnRate:
-          type: number
-          minimum: 0
-          maximum: 1
-          description: 'PPN (Pajak Pertambahan Nilai) rate applied to this consideration line. The applicable rate MUST be
-            sourced from current Indonesian tax regulation (DJP / PMK), not hardcoded. Current PPN standard is 0.11 (11%)
-            per PMK 131/2024 under UU 7/2021 HPP; some categories (basic foods, books, health services) have reduced or zero
-            rates.
-
-            '
-          example: 0.11
-          x-ion-regulatory: UU 7/2021 HPP; PMK 131/2024 (or current applicable PMK)
-          x-ion-conditional: true
-          x-ion-condition: Required on TAX consideration lines
-        ppnbmRate:
-          type: number
-          minimum: 0
-          maximum: 1
-          description: 'PPnBM (Pajak Penjualan atas Barang Mewah) rate for luxury goods. Applied in addition to PPN. Applicable
-            rate MUST be sourced from current regulation (rates vary by luxury category — check DJP for the applicable schedule
-            under PMK 141/2021 and later).
-
-            '
-          example: 0.2
-          x-ion-regulatory: UU 42/2009 tentang PPN dan PPnBM; current applicable PMK
-          x-ion-conditional: true
-          x-ion-condition: Required on PPNBM consideration lines for luxury goods
-        discountType:
-          type: string
-          enum:
-          - PERCENT
-          - FIXED
-          description: 'Whether the discount is a percentage of item price or a fixed IDR amount. Used on PROVIDER_BENEFIT
-            and BUYER_BENEFIT consideration lines.
-
-            '
-          example: PERCENT
-          x-ion-conditional: true
-          x-ion-condition: Required on discount consideration lines
-        discountValue:
-          type: string
-          description: 'Value of the discount. If discountType=PERCENT, this is a decimal e.g. 0.10 for 10%. If discountType=FIXED,
-            this is an IDR amount.
-
-            '
-          example: '0.10'
-          x-ion-conditional: true
-          x-ion-condition: Required when discountType is declared
-        breakupLineType:
-          type: string
-          enum:
-          - ITEM
-          - DELIVERY
-          - TAX
-          - TAX_PPNBM
-          - HANDLING
-          - PACKAGING
-          - INSURANCE
-          - SHIPPING_INSURANCE
-          - PROVIDER_BENEFIT
-          - BUYER_BENEFIT
-          - PLATFORM_VOUCHER
-          - SELLER_VOUCHER
-          - PAYMENT_VOUCHER
-          - SHIPPING_VOUCHER
-          - CASHBACK_VOUCHER
-          - BRAND_VOUCHER
-          - COD_FEE
-          - TRADE_IN
-          - LOYALTY_REDEEM
-          - FINANCE_CHARGE
-          - GIFT_WRAP
-          - PLATFORM_FEE
-          - STREAMER_COMMISSION
-          - AFFILIATE_COMMISSION
-          - SLA_PENALTY
-          - CANCELLATION_FEE
-          - RESTOCKING_FEE
-          - PPH_WITHHOLDING
-          - PPN_REMIT_PMSE
-          - PAYMENT_MILESTONE
-          description: 'Canonical type for this consideration breakup line. ITEM: per-item price line. DELIVERY: shipping/delivery
-            charge. TAX: PPN tax line. TAX_PPNBM: luxury goods tax line. HANDLING: special handling surcharge (cold chain,
-            oversized). PACKAGING: gift or special packaging charge. INSURANCE: shipping insurance. PROVIDER_BENEFIT: seller-funded
-            discount. BUYER_BENEFIT: BAP-funded discount or cashback. COD_FEE: cash on delivery handling fee. TRADE_IN: trade-in
-            deduction value. LOYALTY_REDEEM: loyalty points redemption. FINANCE_CHARGE: BNPL or credit interest charge. GIFT_WRAP:
-            gift wrapping fee. PLATFORM_FEE: ION network participant fee.
-
-            '
-          example: ITEM
-        totalAmount:
-          type: number
-          description: 'Total amount for this consideration in IDR. For the final consideration record, this is the net payable
-            amount after all discounts and taxes.
-
-            '
-          example: 89000
-        currency:
-          type: string
-          const: IDR
-          description: Always IDR for domestic ION transactions.
-          default: IDR
-      required:
-      - breakupLineType
-      - totalAmount
-      - currency
-      x-ion-closed-extensions: false
       allOf:
-      - $ref: '#/components/schemas/Attributes'
+      - $ref: https://schema.beckn.io/RetailConsideration/v2.1/attributes.yaml#/components/schemas/RetailConsideration
+      properties:
+        breakup:
+          type: array
+          items:
+            allOf:
+            - $ref: https://schema.beckn.io/RetailConsideration/v2.1/attributes.yaml#/components/schemas/RetailConsideration/properties/breakup/items
+            - type: object
+              properties:
+                taxDetail:
+                  allOf:
+                  - $ref: '#/components/schemas/IONTaxDetail'
+      x-ion-closed-extensions: false
     TradeContract:
       type: object
       title: Trade Contract Attributes

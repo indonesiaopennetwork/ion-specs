@@ -742,23 +742,24 @@ BPP returns quote. 2 × Panadol + delivery:
       ],
       "considerations": [
         {
-          "id": "CON-ITEM",
+          "id": "CON-TOTAL",
           "considerationAttributes": {
             "@context": "https://schema.ion.id/trade/consideration/v1/context.jsonld",
-            "@type": "ion:TradeConsideration",
-            "breakupLineType": "ITEM",
-            "totalAmount": 24000,
-            "currency": "IDR"
-          }
-        },
-        {
-          "id": "CON-DELIVERY",
-          "considerationAttributes": {
-            "@context": "https://schema.ion.id/trade/consideration/v1/context.jsonld",
-            "@type": "ion:TradeConsideration",
-            "breakupLineType": "DELIVERY",
-            "totalAmount": 12000,
-            "currency": "IDR"
+            "@type": "ion:IONTradeConsideration",
+            "totalAmount": 36000,
+            "currency": "IDR",
+            "breakup": [
+              {
+                "type": "BASE_PRICE",
+                "title": "Panadol 500mg x2",
+                "amount": 24000
+              },
+              {
+                "type": "DELIVERY_CHARGE",
+                "title": "Delivery",
+                "amount": 12000
+              }
+            ]
           }
         }
       ]

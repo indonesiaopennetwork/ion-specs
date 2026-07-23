@@ -213,7 +213,7 @@ subBranches:
         conditionalFields:
           - field: message.contract.performance[].performanceAttributes.tags.exchange_item.priceDelta
             condition: confirmed delta
-          - field: message.contract.consideration.considerationAttributes.breakup[breakupLineType=ITEM]
+          - field: message.contract.consideration.considerationAttributes.breakup[type=BASE_PRICE]
             condition: "updated if priceDelta != 0"
           - field: message.contract.performance[].performanceAttributes.tags.rejection_reason
             condition: if EXCHANGE_VARIANT_REJECTED

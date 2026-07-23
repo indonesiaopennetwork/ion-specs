@@ -143,7 +143,7 @@ contractAttributeAdditions:
   purchaseOrderReference: REQUIRED
 
 considerationAdditions:
-  breakupLineType:
+  breakup[].type:
     FINANCE_CHARGE: interest on BNPL credit tenure
   pphWithholding:
     note: PPh23 withheld by buyer for services components if applicable (rate per current PMK)

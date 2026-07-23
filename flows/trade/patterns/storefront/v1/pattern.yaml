@@ -129,7 +129,7 @@ phases:
           - message.contract.performance[].performanceAttributes.supportedPerformanceModes
           - message.contract.performance[].performanceAttributes.sla
         conditionalFields:
-          - field: message.contract.consideration.considerationAttributes.breakup[].considerationAttributes.ppnRate
+          - field: message.contract.consideration.considerationAttributes.breakup[].taxDetail.rate
             condition: required on TAX breakup lines
           - field: message.contract.performance[].performanceAttributes.handling[]
             condition: required for cold-chain or fragile items

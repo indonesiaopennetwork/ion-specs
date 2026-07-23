@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "domain": "ion-core",
   "name": "ION Tax Extension (v1)",
-  "description": "Indonesian tax regimes — PPN, PPnBM, PPh, EXEMPT. BKP/JKP/NON_BKP classification.",
+  "description": "Indonesia-specific classification and compliance fields for RetailConsideration breakup[].taxDetail.",
   "packSchema": "./schema.json",
   "jsonldContext": "./context.jsonld",
   "attachmentPoints": {
-    "considerationAttributes": [
+    "considerationAttributes.breakup[].taxDetail": [
       "IONTaxDetail"
     ]
   },

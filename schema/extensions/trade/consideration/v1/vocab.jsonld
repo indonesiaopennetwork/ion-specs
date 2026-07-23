@@ -1,9 +1,11 @@
 {
   "@context": {
     "ion": "https://schema.ion.id/trade/consideration/v1#",
+    "iontax": "https://schema.ion.id/core/tax/v1#",
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
     "beckn": "https://schema.beckn.io/",
+    "rccna": "https://schema.beckn.io/RetailConsideration#",
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "owl": "http://www.w3.org/2002/07/owl#"
   },
@@ -12,61 +14,37 @@
       "@id": "ion:TradeConsideration",
       "@type": "rdfs:Class",
       "rdfs:label": "TradeConsideration",
-      "rdfs:comment": "TradeConsideration",
+      "rdfs:comment": "Network-agnostic trade consideration layer. Inherits the monetary consideration model from RetailConsideration v2.1 without adding properties.",
       "rdfs:subClassOf": {
-        "@id": "beckn:Consideration"
+        "@id": "rccna:RetailConsideration"
       },
       "skos:broader": {
-        "@id": "https://spec.beckn.io/vocab/v2.0.0#Consideration"
+        "@id": "beckn:Consideration"
       }
     },
     {
       "@id": "ion:IONTradeConsideration",
       "@type": "rdfs:Class",
       "rdfs:label": "IONTradeConsideration",
-      "rdfs:comment": "ION-specific layer for trade consideration attributes. Extends the network-agnostic TradeConsideration layer.",
+      "rdfs:comment": "ION-specific extension point for trade consideration attributes. Extends the network-agnostic TradeConsideration layer.",
       "rdfs:subClassOf": {
         "@id": "ion:TradeConsideration"
       },
       "skos:broader": {
-        "@id": "https://spec.beckn.io/vocab/v2.0.0#Consideration"
+        "@id": "ion:TradeConsideration"
       }
     },
     {
-      "@id": "ion:breakup",
+      "@id": "rccna:breakup",
       "@type": "rdf:Property",
       "rdfs:label": "breakup",
-      "rdfs:comment": "Pattern alias for the array of Consideration objects in Contract.considerations[]."
+      "rdfs:comment": "Retail consideration price breakup refined by this vocabulary."
     },
     {
-      "@id": "ion:ppnRate",
+      "@id": "rccna:taxDetail",
       "@type": "rdf:Property",
-      "rdfs:label": "ppnRate",
-      "rdfs:comment": "PPN (Pajak Pertambahan Nilai) rate applied to this consideration line. The applicable rate MUST be sourced from current Indonesian tax regulation (DJP / PMK), not hardcoded. Current PPN standard is 0.11 (11%) per PMK 131/2024 under UU 7/2021 HPP; some categories (basic foods, books, health services) have reduced or zero rates."
-    },
-    {
-      "@id": "ion:ppnbmRate",
-      "@type": "rdf:Property",
-      "rdfs:label": "ppnbmRate",
-      "rdfs:comment": "PPnBM (Pajak Penjualan atas Barang Mewah) rate for luxury goods. Applied in addition to PPN. Applicable rate MUST be sourced from current regulation (rates vary by luxury category \u2014 check DJP for the applicable schedule under PMK 141/2021 and later)."
-    },
-    {
-      "@id": "ion:discountType",
-      "@type": "rdf:Property",
-      "rdfs:label": "discountType",
-      "rdfs:comment": "Whether the discount is a percentage of item price or a fixed IDR amount. Used on PROVIDER_BENEFIT and BUYER_BENEFIT consideration lines.\n"
-    },
-    {
-      "@id": "ion:discountValue",
-      "@type": "rdf:Property",
-      "rdfs:label": "discountValue",
-      "rdfs:comment": "Value of the discount. If discountType=PERCENT, this is a decimal e.g. 0.10 for 10%. If discountType=FIXED, this is an IDR amount.\n"
-    },
-    {
-      "@id": "ion:breakupLineType",
-      "@type": "rdf:Property",
-      "rdfs:label": "breakupLineType",
-      "rdfs:comment": "Canonical type for this consideration breakup line. ITEM: per-item price line. DELIVERY: shipping/delivery charge. TAX: PPN tax line. TAX_PPNBM: luxury goods tax line. HANDLING: special handling surcharge (cold chain, oversized). PACKAGING: gift or special packaging charge. INSURANCE: shipping insurance. PROVIDER_BENEFIT: seller-funded discount. BUYER_BENEFIT: BAP-funded discount or cashback. COD_FEE: cash on delivery handling fee. TRADE_IN: trade-in deduction value. LOYALTY_REDEEM: loyalty points redemption. FINANCE_CHARGE: BNPL or credit interest charge. GIFT_WRAP: gift wrapping fee. PLATFORM_FEE: ION network participant fee."
+      "rdfs:label": "taxDetail",
+      "rdfs:comment": "Tax detail associated with a consideration breakup entry."
     }
   ]
 }

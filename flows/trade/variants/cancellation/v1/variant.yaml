@@ -58,7 +58,7 @@ subBranches:
           - field: message.contract.settlements[].settlementAttributes.refundAmount
           - field: message.contract.settlements[].settlementAttributes.refundMethod
           - field: message.contract.settlements[].settlementAttributes.refundTimeline
-          - field: message.contract.consideration.considerationAttributes.breakup[breakupLineType=CANCELLATION_FEE]
+          - field: message.contract.consideration.considerationAttributes.breakup[type=CANCELLATION_FEE]
 
   cancel-full-seller:
     id: cancel-full-seller

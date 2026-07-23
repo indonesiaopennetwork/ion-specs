@@ -68,7 +68,7 @@ subBranches:
         direction: callback
         conditionalFields:
           - field: message.contract.performance[].stops[].location
-          - field: message.contract.consideration.considerationAttributes.breakup[breakupLineType=DELIVERY]
+          - field: message.contract.consideration.considerationAttributes.breakup[type=DELIVERY_CHARGE]
           - field: message.contract.tags.address_change_rejected
           - field: message.contract.tags.address_change_rejected_reason
     schemaPacks:

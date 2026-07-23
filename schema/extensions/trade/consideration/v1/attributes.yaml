@@ -2,22 +2,10 @@ openapi: 3.1.1
 info:
   title: ION Trade Consideration Extension (v1)
   description: >
-    Trade sector consideration attributes. Price breakdown line item types,
-    PPN/PPnBM tax rates, discount declarations, and promotion mechanics.
+    Trade sector consideration attributes. Inherits the monetary amount,
+    payment method, breakup, voucher, and loyalty-point structures defined by
+    RetailConsideration v2.1 and provides an ION-specific extension point.
     Attaches to: beckn:Consideration.considerationAttributes
-
-    BREAKUP MODEL NOTE: ION uses one Consideration object per price line,
-    typed by breakupLineType. Patterns and variants reference this as
-    considerationAttributes.breakup[] — this refers to the CONTRACT-LEVEL
-    array of Consideration objects (Contract.considerations[]), not a nested
-    field on a single Consideration. Each element in considerations[] attaches
-    one IONTradeConsideration schema with its breakupLineType declaring the
-    line type (ITEM, DELIVERY, TAX, etc.). This is the correct ION v2.0 model.
-    Do NOT introduce a breakup[] array field on IONTradeConsideration itself.
-    Price breakdown line item types, PPN/PPnBM tax rates, discount
-    declarations, and promotion mechanics. Attaches to: beckn:Consideration.considerationAttributes
-
-    '
   version: 1.0.0
   license:
     name: Apache-2.0
@@ -31,23 +19,34 @@ components:
       type: object
       title: TradeConsideration
       description: >
-        Network-agnostic generic layer for TradeConsideration. Inherits from Beckn core Attributes.
+        Network-agnostic generic layer for TradeConsideration. Inherits from
+        RetailConsideration v2.1.
         Downstream ION-specific layer (IONTradeConsideration) extends this schema via allOf.
-        This layer carries only fields that are meaningful across any Beckn network — 
-        no Indonesia-specific regulatory or compliance fields.
+        This layer introduces no additional properties because the inherited
+        schema already defines the generic retail consideration model.
       x-ion-layer: generic
       x-ion-split-version: "0.7.0"
       x-recommended-parent: Consideration.considerationAttributes
       additionalProperties: true
       allOf:
         - $ref: https://schema.beckn.io/RetailConsideration/v2.1/attributes.yaml#/components/schemas/RetailConsideration
+      properties: {}
+      # Monetary breakup, payment methods, total amount, applied vouchers,
+      # and loyalty points are inherited from RetailConsideration v2.1.
+      # Realized discounts use breakup[].type: DISCOUNT and breakup[].amount;
+      # voucher attribution uses appliedVouchers[]. Promotion calculation
+      # mechanics belong to the Offer rather than the Consideration.
     IONTradeConsideration:
       type: object
       x-ion-layer: ion
       x-ion-split-version: "0.7.0"
       allOf:
         - $ref: '#/components/schemas/TradeConsideration'
-      title: TradeConsideration
+      title: IONTradeConsideration
+      description: >
+        ION-specific extension point for TradeConsideration. Indonesia-specific
+        tax regimes are defined by the shared IONTaxDetail schema rather than
+        repeated as trade-sector rate properties.
       additionalProperties: true
       x-jsonld:
         '@context': 'https://schema.ion.id/trade/consideration/v1/context.jsonld'
@@ -57,120 +56,24 @@ components:
         breakup:
           type: array
           description: >
-            PATTERN ALIAS — not a wire field. Patterns and variants reference
-            considerationAttributes.breakup[] as shorthand for the array of
-            Consideration objects in Contract.considerations[], each typed by
-            breakupLineType on their IONTradeConsideration schema.
-
-            Wire model: each element of Contract.considerations[] is one
-            Consideration object with one IONTradeConsideration attached via
-            considerationAttributes. breakupLineType on each object declares
-            the line type (ITEM, DELIVERY, TAX, etc.).
-
-            Pattern filter syntax: breakup[breakupLineType=DELIVERY] means
-            "the Consideration object in considerations[] where
-            considerationAttributes.breakupLineType = DELIVERY".
-
-            Do NOT send a breakup[] array on the wire. This field declaration
-            exists only so pattern/variant validators can resolve the alias.
-          x-ion-alias: true
-          x-ion-alias-resolves-to: Contract.considerations[]
+            Inherited RetailConsideration price breakup, refined so each
+            taxDetail object may carry IONTaxDetail classification and
+            compliance fields.
           items:
-            type: object
-            description: One consideration line — alias for a Consideration object
-            additionalProperties: true
-
-        ppnRate:
-          type: number
-          minimum: 0
-          maximum: 1
-          description: 'PPN (Pajak Pertambahan Nilai) rate applied to this consideration line. The applicable rate
-            MUST be sourced from current Indonesian tax regulation (DJP / PMK), not hardcoded. Current PPN standard
-            is declared by applicable PMK (see x-ion-regulatory annotation); some categories (basic foods, books, health services)
-            have reduced or zero rates.
-
-            '
-          example: 0.11
-          x-ion-regulatory: UU 7/2021 HPP; PMK 131/2024 (or current applicable PMK)
-          x-ion-condition: Required on TAX consideration lines
-        ppnbmRate:
-          type: number
-          minimum: 0
-          maximum: 1
-          description: 'PPnBM (Pajak Penjualan atas Barang Mewah) rate for luxury goods. Applied in addition to
-            PPN. Applicable rate MUST be sourced from current regulation (rates vary by luxury category — check
-            DJP for the applicable schedule — see x-ion-regulatory annotation).
-
-            '
-          example: 0.2
-          x-ion-regulatory: UU 42/2009 tentang PPN dan PPnBM; current applicable PMK
-          x-ion-condition: Required on PPNBM consideration lines for luxury goods
-        discountType:
-          type: string
-          enum:
-          - PERCENT
-          - FIXED
-          description: 'Whether the discount is a percentage of item price or a fixed IDR amount. Used on PROVIDER_BENEFIT
-            and BUYER_BENEFIT consideration lines.
-
-            '
-          example: PERCENT
-          x-ion-condition: Required on discount consideration lines
-        discountValue:
-          type: string
-          description: 'Value of the discount. If discountType=PERCENT, this is a decimal e.g. 0.10 for 10%. If
-            discountType=FIXED, this is an IDR amount.
-
-            '
-          example: '0.10'
-          x-ion-condition: Required when discountType is declared
-        breakupLineType:
-          type: string
-          enum:
-          - ITEM
-          - DELIVERY
-          - TAX
-          - TAX_PPNBM
-          - HANDLING
-          - PACKAGING
-          - INSURANCE
-          - SHIPPING_INSURANCE
-          - PROVIDER_BENEFIT
-          - BUYER_BENEFIT
-          - PLATFORM_VOUCHER
-          - SELLER_VOUCHER
-          - PAYMENT_VOUCHER
-          - SHIPPING_VOUCHER
-          - CASHBACK_VOUCHER
-          - BRAND_VOUCHER
-          - COD_FEE
-          - TRADE_IN
-          - LOYALTY_REDEEM
-          - FINANCE_CHARGE
-          - GIFT_WRAP
-          - PLATFORM_FEE
-          - STREAMER_COMMISSION
-          - AFFILIATE_COMMISSION
-          - SLA_PENALTY
-          - CANCELLATION_FEE
-          - RESTOCKING_FEE
-          - PPH_WITHHOLDING
-          - PPN_REMIT_PMSE
-          - PAYMENT_MILESTONE
-          description: 'Canonical type for this consideration breakup line. ITEM: per-item price line. DELIVERY:
-            shipping/delivery charge. TAX: PPN tax line. TAX_PPNBM: luxury goods tax line. HANDLING: special handling
-            surcharge (cold chain, oversized). PACKAGING: gift or special packaging charge. INSURANCE: shipping
-            insurance. PROVIDER_BENEFIT: seller-funded discount. BUYER_BENEFIT: BAP-funded discount or cashback.
-            COD_FEE: cash on delivery handling fee. TRADE_IN: trade-in deduction value. LOYALTY_REDEEM: loyalty
-            points redemption. FINANCE_CHARGE: BNPL or credit interest charge. GIFT_WRAP: gift wrapping fee. PLATFORM_FEE:
-            ION network participant fee.
-
-            '
-          example: ITEM
-      # NETWORK POLICY NOTE (GAP 32 / NFH-012 CON-012-18):
-      # Shared schemas MUST NOT declare mandatory fields.
-      # The following fields were required in v0.6.0 and are now
-      # enforced via ION network policy (x-ion-crc-rules,
-      # x-ion-conditional-rules) rather than the shared schema:
-      # breakupLineType, totalAmount, currency
+            allOf:
+              - $ref: https://schema.beckn.io/RetailConsideration/v2.1/attributes.yaml#/components/schemas/RetailConsideration/properties/breakup/items
+              - type: object
+                properties:
+                  taxDetail:
+                    allOf:
+                      - $ref: ../../../../extensions/core/tax/v1/attributes.yaml#/components/schemas/IONTaxDetail
+      # Tax amounts and rates use inherited breakup[].taxDetail fields.
+      # Removed duplicate ppnRate property; regulatory annotation retained:
+      # x-ion-regulatory: UU 7/2021 HPP; PMK 131/2024 (or current applicable PMK)
+      # x-ion-condition: Required on TAX consideration lines
+      # Removed duplicate ppnbmRate property; regulatory annotation retained:
+      # x-ion-regulatory: UU 42/2009 tentang PPN dan PPnBM; current applicable PMK
+      # x-ion-condition: Required on PPNBM consideration lines for luxury goods
+      # RetailConsideration v2.1 requires currency and totalAmount. These
+      # inherited requirements cannot be relaxed by this allOf extension.
       x-ion-closed-extensions: false

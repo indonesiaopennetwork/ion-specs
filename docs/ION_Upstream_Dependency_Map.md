@@ -67,7 +67,8 @@ The local vendored copy is for offline review and version drift detection only.
 | `TradeResource` | `IONTradeResource` | `RetailResource` | v2.1 | `vendored/` | `retail-resource-v2.1.yaml` | TBC — populate after fetch |
 | `TradeOffer` | `IONTradeOffer` | `RetailOffer` | v2.1 | `vendored/` | `retail-offer-v2.1.yaml` | TBC — populate after fetch |
 | `TradeCommitment` | `IONTradeCommitment` | `RetailCommitment` | v2.1 | `vendored/` | `retail-commitment-v2.1.yaml` | TBC — populate after fetch |
-| `TradeConsideration` | `IONTradeConsideration` | `RetailConsideration` | v2.1 | `vendored/` | `retail-consideration-v2.1.yaml` | TBC — populate after fetch |
+| `TradeConsideration` | `IONTradeConsideration` | `RetailConsideration` | v2.1 | `vendored/` | `retail-consideration-v2.1.yaml` | `paymentMethods`, `currency`, `breakup`, `totalAmount`, `codAmount`, `appliedVouchers`, `loyaltyPointsApplied` |
+| `RetailConsideration taxDetail` | `IONTaxDetail` | `RetailConsideration.breakup[].taxDetail` | v2.1 | `vendored/` | `retail-consideration-v2.1.yaml` | `rate`, `included`, `taxableBase` |
 | `TradeContract` | `IONTradeContract` | `RetailContract` | v2.1 | `vendored/` | `retail-contract-v2.1.yaml` | TBC — populate after fetch |
 | `TradePerformance` | `IONTradePerformance` | `RetailPerformance` | v2.1 | `vendored/` | `retail-performance-v2.1.yaml` | TBC — populate after fetch |
 | `LogisticsResource` | `IONLogisticsResource` | `Shipment` | v2.0 | `vendored/` | `shipment-v2.0.yaml` | TBC — populate after fetch |
@@ -88,7 +89,6 @@ These have no Beckn parent. No `allOf` to an upstream. No vendored file. Governe
 |---|---|
 | `IONTicket` | `core/raise` |
 | `IONSupportTicket` | `core/support` |
-| `IONTaxDetail` | `core/tax` |
 | `IonLocalization` | `core/localization` |
 | `IONCatalogLocalization` | `core/localization` |
 | `TradePerformanceStates` | `trade/performance-states` |

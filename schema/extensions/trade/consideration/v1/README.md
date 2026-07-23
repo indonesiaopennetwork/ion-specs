@@ -1,6 +1,6 @@
 # trade/consideration/v1
 
-Price breakup line types — ITEM, DELIVERY, TAX, PPNBM, PROVIDER_BENEFIT, COD_FEE etc.
+Retail monetary consideration with ION tax-detail refinement.
 
 ## Attaches to
 `beckn:Consideration.considerationAttributes`
@@ -9,12 +9,13 @@ See `attributes.yaml` for complete field definitions.
 
 ## Network-required fields
 
-The following fields are always required for this pack by ION network policy (`ion.yaml → x-ion-field-requirements.alwaysRequired`):
+RetailConsideration v2.1 requires:
 
-- `ppnRate`
-- `totalPrice`
+- `currency`
+- `totalAmount`
 
-Mandatoriness is enforced by ONIX — these fields are not marked `required:` in the schema itself (mandatoriness lives in network policy, not the schema).
+Each inherited `taxDetail` requires `rate`. ION policy determines when
+`taxRegime` and `taxCategory` are required.
 
 ## Per-step required fields
 
@@ -26,7 +27,8 @@ The `flows/trade/patterns/storefront/v1/pattern.yaml` lists every field ONIX val
 
 ## Common rejection reasons
 
-Missing `ppnRate` → `ION-8xxx`. Invalid `discountType` → `ION-3xxx`. See `errors/README.md` for the full error code reference.
+Missing `taxDetail.rate` or an invalid ION `taxRegime` may be rejected. See
+`errors/README.md` for the full error code reference.
 
 ## Changelog
 

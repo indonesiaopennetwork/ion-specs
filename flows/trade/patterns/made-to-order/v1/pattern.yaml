@@ -138,7 +138,7 @@ phases:
           - message.contract.performance[].performanceAttributes.performanceMode
           - message.contract.performance[].performanceAttributes.sla
         conditionalFields:
-          - field: message.contract.consideration.considerationAttributes.breakup[].considerationAttributes.ppnRate
+          - field: message.contract.consideration.considerationAttributes.breakup[].taxDetail.rate
         schemaPacks:
           trade: [consideration/v1, performance/v1]
           core: [tax/v1]

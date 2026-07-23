@@ -3,64 +3,56 @@
     "ion": "https://schema.ion.id/core/tax/v1#",
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
-    "beckn": "https://schema.beckn.io/",
+    "rccna": "https://schema.beckn.io/RetailConsideration#",
     "skos": "http://www.w3.org/2004/02/skos/core#",
-    "owl": "http://www.w3.org/2002/07/owl#"
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
   },
   "@graph": [
     {
       "@id": "ion:IONTaxDetail",
       "@type": "rdfs:Class",
       "rdfs:label": "IONTaxDetail",
-      "rdfs:comment": "IONTaxDetail",
-      "rdfs:subClassOf": {
-        "@id": "https://spec.beckn.io/vocab/v2.0.0#Consideration"
-      },
+      "rdfs:comment": "Indonesia-specific classification and compliance semantics for the taxDetail object of a RetailConsideration breakup item.",
       "skos:broader": {
-        "@id": "https://spec.beckn.io/vocab/v2.0.0#Consideration"
+        "@id": "rccna:RetailConsideration"
       }
     },
     {
       "@id": "ion:taxRegime",
       "@type": "rdf:Property",
       "rdfs:label": "taxRegime",
-      "rdfs:comment": "PPN: Pajak Pertambahan Nilai (VAT). PPNBM: Pajak Penjualan atas Barang Mewah (luxury goods tax). PPH22: Income tax on import/certain transactions. PPH23: Withholding tax on services. PPN_FINAL: Final PPN for specific categories (e.g. certain construction). EXEMPT: No tax applicable. Applicable rates MUST be sourced from current DJP/PMK regulation, not hardcoded."
+      "rdfs:comment": "Indonesian tax regime applied by this tax breakup entry.",
+      "rdfs:domain": {
+        "@id": "ion:IONTaxDetail"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
     },
     {
       "@id": "ion:taxCategory",
       "@type": "rdf:Property",
       "rdfs:label": "taxCategory",
-      "rdfs:comment": "BKP: Barang Kena Pajak \u2014 taxable goods. JKP: Jasa Kena Pajak \u2014 taxable services. NON_BKP: Non-taxable goods or services.\n"
-    },
-    {
-      "@id": "ion:taxRate",
-      "@type": "rdf:Property",
-      "rdfs:label": "taxRate",
-      "rdfs:comment": "Tax rate as decimal fraction. The applicable rate MUST be sourced from current Indonesian tax regulation (DJP / PMK), not hardcoded. For reference, PPN standard is currently 0.11 (11%) per PMK 131/2024; PPnBM rates vary by category (typical range 0.10 to 0.75). This field documents the rate actually charged on this transaction."
-    },
-    {
-      "@id": "ion:taxAmount",
-      "@type": "rdf:Property",
-      "rdfs:label": "taxAmount",
-      "rdfs:comment": "Calculated tax amount in IDR"
-    },
-    {
-      "@id": "ion:taxIncluded",
-      "@type": "rdf:Property",
-      "rdfs:label": "taxIncluded",
-      "rdfs:comment": "Whether the tax amount is already included in the item price (tax-inclusive pricing) or added on top (tax-exclusive).\n"
+      "rdfs:comment": "Indonesian taxable-supply classification: BKP, JKP, or NON_BKP.",
+      "rdfs:domain": {
+        "@id": "ion:IONTaxDetail"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
     },
     {
       "@id": "ion:eFakturRef",
       "@type": "rdf:Property",
       "rdfs:label": "eFakturRef",
-      "rdfs:comment": "e-Invoice reference (Faktur Pajak) number from DJP e-Faktur system. Format: XXX.XXX-YY.XXXXXXXX where XXX is kode faktur. Only applicable for PKP sellers.\n"
-    },
-    {
-      "@id": "ion:taxBaseAmount",
-      "@type": "rdf:Property",
-      "rdfs:label": "taxBaseAmount",
-      "rdfs:comment": "The amount on which tax is calculated (before tax)"
+      "rdfs:comment": "DJP e-Faktur reference for the tax entry, when issued.",
+      "rdfs:domain": {
+        "@id": "ion:IONTaxDetail"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
     }
   ]
 }

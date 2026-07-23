@@ -136,38 +136,34 @@
             "code": "ACTIVE"
           },
           "considerationAttributes": {
-            "@context": "https://schema.ion.id/extensions/trade/consideration/v1/context.jsonld",
+            "@context": "https://schema.ion.id/trade/consideration/v1/context.jsonld",
             "@type": "ion:IONTradeConsideration",
             "totalAmount": 98900,
             "currency": "IDR",
             "breakup": [
               {
                 "title": "Pepperoni Pizza Large",
-                "breakupLineType": "ITEM",
                 "commitmentId": "L01",
                 "resourceId": "PIZZA-PEPPERONI-LARGE",
-                "totalAmount": 89000,
-                "currency": "IDR",
                 "amount": 89000,
                 "type": "BASE_PRICE"
               },
               {
                 "title": "Biaya Pengiriman",
-                "breakupLineType": "DELIVERY",
-                "totalAmount": 0,
-                "currency": "IDR",
                 "amount": 0,
                 "type": "DELIVERY_CHARGE"
               },
               {
                 "title": "PPN 11%",
-                "breakupLineType": "TAX",
-                "ppnRate": 0.11,
-                "taxBaseAmount": 89000,
-                "totalAmount": 9900,
-                "currency": "IDR",
                 "amount": 9900,
-                "type": "TAX"
+                "type": "TAX",
+                "taxDetail": {
+                  "rate": 0.11,
+                  "included": false,
+                  "taxableBase": 89000,
+                  "taxRegime": "PPN",
+                  "taxCategory": "BKP"
+                }
               }
             ]
           }

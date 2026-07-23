@@ -1,103 +1,69 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://schema.ion.id/trade/consideration/v1",
-  "title": "TradeConsideration",
+  "title": "ION Trade Consideration Schema Pack v1",
+  "description": "JSON Schema 2020-12 mirror of the trade/consideration/v1 OpenAPI schema pack. The root resolves to IONTradeConsideration; TradeConsideration provides the network-agnostic layer inherited from RetailConsideration v2.1.",
   "type": "object",
-  "properties": {
-    "breakup": {
-      "type": "array",
-      "description": "PATTERN ALIAS — not a wire field. Resolves to Contract.considerations[].",
-      "x-ion-alias": true,
-      "x-ion-alias-resolves-to": "Contract.considerations[]",
-      "items": {
-        "type": "object",
-        "description": "One consideration line — alias for a Consideration object",
-        "additionalProperties": true
-      }
-    },
-    "ppnRate": {
-      "type": "number",
-      "minimum": 0,
-      "maximum": 1,
-      "description": "PPN (Pajak Pertambahan Nilai) rate applied to this consideration line. The applicable rate MUST be sourced from current Indonesian tax regulation (DJP / PMK), not hardcoded. Current PPN standard is 0.11 (11%) per PMK 131/2024 under UU 7/2021 HPP; some categories (basic foods, books, health services) have reduced or zero rates.\n",
-      "example": 0.11,
-      "x-ion-regulatory": "UU 7/2021 HPP; PMK 131/2024 (or current applicable PMK)",
-      "x-ion-conditional": true,
-      "x-ion-condition": "Required on TAX consideration lines"
-    },
-    "ppnbmRate": {
-      "type": "number",
-      "minimum": 0,
-      "maximum": 1,
-      "description": "PPnBM (Pajak Penjualan atas Barang Mewah) rate for luxury goods. Applied in addition to PPN. Applicable rate MUST be sourced from current regulation (rates vary by luxury category — check DJP for the applicable schedule under PMK 141/2021 and later).\n",
-      "example": 0.2,
-      "x-ion-regulatory": "UU 42/2009 tentang PPN dan PPnBM; current applicable PMK",
-      "x-ion-conditional": true,
-      "x-ion-condition": "Required on PPNBM consideration lines for luxury goods"
-    },
-    "discountType": {
-      "type": "string",
-      "enum": [
-        "PERCENT",
-        "FIXED"
+  "$ref": "#/$defs/IONTradeConsideration",
+  "$defs": {
+    "TradeConsideration": {
+      "type": "object",
+      "title": "TradeConsideration",
+      "description": "Network-agnostic generic layer for TradeConsideration. Inherits RetailConsideration v2.1 without adding properties.",
+      "x-ion-layer": "generic",
+      "x-ion-split-version": "0.7.0",
+      "x-recommended-parent": "Consideration.considerationAttributes",
+      "additionalProperties": true,
+      "allOf": [
+        {
+          "$ref": "https://schema.beckn.io/RetailConsideration/v2.1/attributes.yaml#/components/schemas/RetailConsideration"
+        }
       ],
-      "description": "Whether the discount is a percentage of item price or a fixed IDR amount. Used on PROVIDER_BENEFIT and BUYER_BENEFIT consideration lines.\n",
-      "example": "PERCENT",
-      "x-ion-conditional": true,
-      "x-ion-condition": "Required on discount consideration lines"
+      "properties": {}
     },
-    "discountValue": {
-      "type": "string",
-      "description": "Value of the discount. If discountType=PERCENT, this is a decimal e.g. 0.10 for 10%. If discountType=FIXED, this is an IDR amount.\n",
-      "example": "0.10",
-      "x-ion-conditional": true,
-      "x-ion-condition": "Required when discountType is declared"
-    },
-    "breakupLineType": {
-      "type": "string",
-      "enum": [
-        "ITEM",
-        "DELIVERY",
-        "TAX",
-        "TAX_PPNBM",
-        "HANDLING",
-        "PACKAGING",
-        "INSURANCE",
-        "SHIPPING_INSURANCE",
-        "PROVIDER_BENEFIT",
-        "BUYER_BENEFIT",
-        "PLATFORM_VOUCHER",
-        "SELLER_VOUCHER",
-        "PAYMENT_VOUCHER",
-        "SHIPPING_VOUCHER",
-        "CASHBACK_VOUCHER",
-        "BRAND_VOUCHER",
-        "COD_FEE",
-        "TRADE_IN",
-        "LOYALTY_REDEEM",
-        "FINANCE_CHARGE",
-        "GIFT_WRAP",
-        "PLATFORM_FEE",
-        "STREAMER_COMMISSION",
-        "AFFILIATE_COMMISSION",
-        "SLA_PENALTY",
-        "CANCELLATION_FEE",
-        "RESTOCKING_FEE",
-        "PPH_WITHHOLDING",
-        "PPN_REMIT_PMSE",
-        "PAYMENT_MILESTONE"
+    "IONTradeConsideration": {
+      "type": "object",
+      "title": "IONTradeConsideration",
+      "description": "ION-specific extension of TradeConsideration. Refines inherited breakup taxDetail objects with the shared IONTaxDetail schema.",
+      "x-ion-layer": "ion",
+      "x-ion-split-version": "0.7.0",
+      "allOf": [
+        {
+          "$ref": "#/$defs/TradeConsideration"
+        }
       ],
-      "description": "Canonical type for this consideration breakup line. ITEM: per-item price line. DELIVERY: shipping/delivery charge. TAX: PPN tax line. TAX_PPNBM: luxury goods tax line. HANDLING: special handling surcharge (cold chain, oversized). PACKAGING: gift or special packaging charge. INSURANCE: shipping insurance. PROVIDER_BENEFIT: seller-funded discount. BUYER_BENEFIT: BAP-funded discount or cashback. COD_FEE: cash on delivery handling fee. TRADE_IN: trade-in deduction value. LOYALTY_REDEEM: loyalty points redemption. FINANCE_CHARGE: BNPL or credit interest charge. GIFT_WRAP: gift wrapping fee. PLATFORM_FEE: ION network participant fee.\n",
-      "example": "ITEM"
+      "additionalProperties": true,
+      "x-jsonld": {
+        "@context": "https://schema.ion.id/trade/consideration/v1/context.jsonld",
+        "@type": "ion:IONTradeConsideration"
+      },
+      "x-beckn-attaches-to": "Consideration.considerationAttributes",
+      "properties": {
+        "breakup": {
+          "type": "array",
+          "description": "Inherited RetailConsideration price breakup, refined so each taxDetail object may carry IONTaxDetail classification and compliance fields.\n",
+          "items": {
+            "allOf": [
+              {
+                "$ref": "https://schema.beckn.io/RetailConsideration/v2.1/attributes.yaml#/components/schemas/RetailConsideration/properties/breakup/items"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "taxDetail": {
+                    "allOf": [
+                      {
+                        "$ref": "https://schema.ion.id/extensions/core/tax/v1/schema.json"
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "x-ion-closed-extensions": false
     }
-  },
-  "required": [
-    "breakupLineType"
-  ],
-  "additionalProperties": true,
-  "allOf": [
-    {
-      "$ref": "https://schema.beckn.io/Attributes/2.0/attributes.yaml#/components/schemas/Attributes"
-    }
-  ]
+  }
 }
