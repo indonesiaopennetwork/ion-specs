@@ -68,7 +68,7 @@ subBranches:
         direction: callback
         conditionalFields:
           - field: message.contract.performance[].performanceAttributes.stops[].location
-          - field: message.contract.consideration.considerationAttributes.breakup[type=DELIVERY_CHARGE]
+          - field: message.contract.consideration[].considerationAttributes.breakup[type=DELIVERY_CHARGE]
           - field: message.contract.tags.address_change_rejected
           - field: message.contract.tags.address_change_rejected_reason
     schemaPacks:
@@ -153,7 +153,7 @@ subBranches:
         to: BAP
         direction: callback
         conditionalFields:
-          - field: message.contract.contractAttributes.fakturPajakReference
+          - field: message.contract.consideration[].considerationAttributes.breakup[].taxDetail.eFakturRef
           - field: message.contract.tags.invoice_amendment_rejected
     schemaPacks:
       core: [business-registration/v1]
@@ -170,25 +170,24 @@ subBranches:
       BPP sends an unsolicited on_update to adjust the confirmed quote.
       Triggers include: partial return settled, cancelled items, delivery
       charge correction, loyalty redemption applied late.
-      Quote trail records every adjustment for reconciliation.
+      Consideration breakup records the revised monetary obligations.
     steps:
       - step: on_update
         from: BPP
         to: BAP
         direction: unsolicited
         requiredFields:
-          - message.contract.consideration.considerationAttributes.breakup[]
-          - message.contract.contractAttributes.quoteTrail[]
+          - message.contract.consideration[].considerationAttributes.breakup[]
         conditionalFields:
           - field: message.contract.settlements[].settlementAttributes.refund.refundAmount
-          - field: message.contract.consideration.considerationAttributes.breakup[]
+          - field: message.contract.consideration[].considerationAttributes.breakup[]
             condition: when the adjustment creates an additional charge
         businessRules:
           - BAP must re-confirm with consumer if adjustment is a new charge > 0
           - Refund adjustments do not require consumer re-confirmation
-          - All adjustments accumulate in quoteTrail[] for reconciliation
+          - Settlement and reconciliation records preserve discharged and agreed adjustment history
     schemaPacks:
-      trade: [contract/v1, consideration/v1]
+      trade: [consideration/v1]
 
   ready-to-ship:
     id: ready-to-ship

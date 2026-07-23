@@ -213,7 +213,7 @@ subBranches:
         conditionalFields:
           - field: message.contract.performance[].performanceAttributes.tags.exchange_item.priceDelta
             condition: confirmed delta
-          - field: message.contract.consideration.considerationAttributes.breakup[type=BASE_PRICE]
+          - field: message.contract.consideration[].considerationAttributes.breakup[type=BASE_PRICE]
             condition: "updated if priceDelta != 0"
           - field: message.contract.performance[].performanceAttributes.tags.rejection_reason
             condition: if EXCHANGE_VARIANT_REJECTED
@@ -240,7 +240,7 @@ subBranches:
           - message.contract.performance[].status.descriptor.code  # value: EXCHANGE_VARIANT_COMPLETED
           - message.contract.performance[].performanceAttributes.deliveryProofUrl  # photo of swap evidence
         conditionalFields:
-          - field: message.contract.consideration.considerationAttributes.breakup[]
+          - field: message.contract.consideration[].considerationAttributes.breakup[]
             condition: "when priceDelta > 0"
           - field: message.contract.settlements[].settlementAttributes.refund.refundAmount
             condition: when priceDelta < 0
@@ -316,8 +316,8 @@ subBranches:
         requiredFields:
           - message.contract.performance[].status.descriptor.code  # enum: "[RETURN_APPROVED, RETURN_REJECTED]"
         conditionalFields:
-          - field: message.contract.contractAttributes.quoteTrail[]
-            note: entries for the returned line price deductions
+          - field: message.contract.consideration[].considerationAttributes.breakup[]
+            note: revised monetary obligations for returned lines
     businessRules:
       - Remaining items continue in DELIVERED state — order status stays ACTIVE until QC
       - Refund/replacement applies to returned lines only

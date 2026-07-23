@@ -25,11 +25,11 @@
   description:
     en: NPWP must be exactly 16 digits (new format post-2024). Old 15-digit format
       is not accepted.
-  affected_field: contractAttributes.npwp
+  affected_field: contractAttributes.buyerBusinessRegistration.npwp
   affected_apis:
   - confirm
   - on_confirm
-  schema_ref: schema/extensions/core/identity/v1
+  schema_ref: schema/extensions/core/business-registration/v1
   flow_ref: null
   resolution:
     en: Use the 16-digit NPWP format as per PMK 136/2023. Do not include dots or dashes.

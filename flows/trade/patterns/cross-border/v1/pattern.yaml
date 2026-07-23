@@ -32,7 +32,7 @@ localizationRequirements:
 
 regulatoryRequirements:
   hsnCode: REQUIRED for all items (customs classification)
-  beaCukaiReference: required at on_confirm (contractAttributes.beaCukaiReference)
+  customsDeclaration: carried by the associated ION Logistics Contract
   exportDeclaration: PEB (Pemberitahuan Ekspor Barang) — Bea Cukai form
   phytosanitaryCert: required for agritech exports to certain countries
   exportLicense: certain categories require KEMENDAG export license
@@ -66,7 +66,7 @@ phases:
           Seller returns quote with international shipping options.
           Incoterms declared (FOB, CIF, EXW, DAP).
         requiredFields:
-          - message.contract.consideration.considerationAttributes.breakup[]
+          - message.contract.consideration[].considerationAttributes.breakup[]
           - message.contract.performance[].performanceAttributes.sla
           - message.contract.tags.xb.incoterms  # values="[FOB, CIF, EXW, DAP, DDP]"
           - message.contract.tags.xb.port_of_loading
@@ -94,15 +94,16 @@ phases:
         description: Buyer confirms. Triggers export documentation preparation.
         requiredFields:
           - message.contract.settlements[].settlementAttributes.status
-          - message.contract.contractAttributes.npwp
-          - message.contract.contractAttributes.nib
+          - message.contract.contractAttributes.buyerBusinessRegistration.npwp
+          - message.contract.contractAttributes.buyerBusinessRegistration.nib
 
       - step: on_confirm
         description: Seller confirms. Begins export documentation and customs.
         requiredFields:
           - message.contract.id
-          - message.contract.contractAttributes.beaCukaiReference
           - message.contract.tags.xb.peb_reference  # note=Pemberitahuan Ekspor Barang — export customs declaration
+        businessRules:
+          - Indonesian customs declaration details are carried by the associated IONLogisticsContract.beaCukaiDeclaration
 
   phase3:
     name: Export Fulfilment

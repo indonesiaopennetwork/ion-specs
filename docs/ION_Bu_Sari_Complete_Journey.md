@@ -793,8 +793,7 @@ Ibu Rina proceeds through init (provides address) and confirms. Payment via QRIS
     "status": "ACTIVE",
     "contractAttributes": {
       "@context": "https://schema.ion.id/trade/contract/v1/context.jsonld",
-      "@type": "ion:TradeContract",
-      "fulfillingLocationId": "LOC-KEMANG-47"
+      "@type": "ion:IONTradeContract"
     },
     "performance": [
       {
@@ -802,7 +801,8 @@ Ibu Rina proceeds through init (provides address) and confirms. Payment via QRIS
         "status": { "code": "ACCEPTED" },
         "performanceAttributes": {
           "@context": "https://schema.ion.id/trade/performance/v1/context.jsonld",
-          "@type": "ion:TradePerformance",
+          "@type": "ion:IONTradePerformance",
+          "fulfillingLocationId": "LOC-KEMANG-47",
           "performanceMode": "DELIVERY",
           "supportedPerformanceModes": ["DELIVERY", "SELF_PICKUP"],
           "sla": {
@@ -826,7 +826,7 @@ Ibu Rina proceeds through init (provides address) and confirms. Payment via QRIS
   "performance": [{
     "status": { "code": "OUT_FOR_DELIVERY" },
     "performanceAttributes": {
-      "@type": "ion:TradePerformance",
+      "@type": "ion:IONTradePerformance",
       "performanceMode": "DELIVERY",
       "supportedPerformanceModes": ["DELIVERY"],
       "sla": { "min": "PT30M", "max": "PT90M", "unitBasis": "ORDER_CONFIRMATION" },
@@ -855,7 +855,7 @@ Delivery confirmed. No OTP required for OTC medicine — standard delivery.
   "performance": [{
     "status": { "code": "DELIVERED" },
     "performanceAttributes": {
-      "@type": "ion:TradePerformance",
+      "@type": "ion:IONTradePerformance",
       "performanceMode": "DELIVERY",
       "supportedPerformanceModes": ["DELIVERY"],
       "sla": { "min": "PT30M", "max": "PT90M", "unitBasis": "ORDER_CONFIRMATION" },
@@ -888,7 +888,7 @@ BPP generates a delivery OTP at confirm time:
       "id": "PERF-002",
       "status": { "code": "ACCEPTED" },
       "performanceAttributes": {
-        "@type": "ion:TradePerformance",
+        "@type": "ion:IONTradePerformance",
         "performanceMode": "DELIVERY",
         "supportedPerformanceModes": ["DELIVERY"],
         "sla": {
@@ -914,7 +914,7 @@ Agent arrives at the door. Agent shows ID, Pak Budi shows OTP "482930" on his ph
   "performance": [{
     "status": { "code": "OUT_FOR_DELIVERY" },
     "performanceAttributes": {
-      "@type": "ion:TradePerformance",
+      "@type": "ion:IONTradePerformance",
       "performanceMode": "DELIVERY",
       "supportedPerformanceModes": ["DELIVERY"],
       "sla": { "min": "PT30M", "max": "PT2H", "unitBasis": "ORDER_CONFIRMATION" },
@@ -941,7 +941,7 @@ Agent confirms OTP match. Amoxicillin handed over. Proof of delivery captured.
   "performance": [{
     "status": { "code": "DELIVERED" },
     "performanceAttributes": {
-      "@type": "ion:TradePerformance",
+      "@type": "ion:IONTradePerformance",
       "performanceMode": "DELIVERY",
       "supportedPerformanceModes": ["DELIVERY"],
       "sla": { "min": "PT30M", "max": "PT2H", "unitBasis": "ORDER_CONFIRMATION" },
@@ -972,9 +972,11 @@ Pak Ahmad sets up his monthly Metformin subscription.
     "contract": {
       "contractAttributes": {
         "@context": "https://schema.ion.id/trade/contract/v1/context.jsonld",
-        "@type": "ion:TradeContract",
-        "subscriptionBillingCycle": "MONTHLY",
-        "subscriptionNextBillingDate": "2026-05-19T00:00:00+07:00"
+        "@type": "ion:IONTradeContract",
+        "subscription": {
+          "billingCycle": "MONTHLY",
+          "nextBillingAt": "2026-05-19T00:00:00+07:00"
+        }
       }
     }
   }
@@ -989,16 +991,18 @@ Pak Ahmad sets up his monthly Metformin subscription.
     "id": "ORD-2026-SUB-MET-001",
     "status": "ACTIVE",
     "contractAttributes": {
-      "@type": "ion:TradeContract",
-      "subscriptionBillingCycle": "MONTHLY",
-      "subscriptionNextBillingDate": "2026-05-19T00:00:00+07:00",
-      "fulfillingLocationId": "LOC-KEMANG-47"
+      "@type": "ion:IONTradeContract",
+      "subscription": {
+        "billingCycle": "MONTHLY",
+        "nextBillingAt": "2026-05-19T00:00:00+07:00"
+      }
     },
     "performance": [{
       "id": "PERF-SUB-001",
       "status": { "code": "ACCEPTED" },
       "performanceAttributes": {
-        "@type": "ion:TradePerformance",
+        "@type": "ion:IONTradePerformance",
+        "fulfillingLocationId": "LOC-KEMANG-47",
         "performanceMode": "DELIVERY",
         "supportedPerformanceModes": ["DELIVERY"],
         "sla": {
@@ -1018,7 +1022,8 @@ Pak Ahmad sets up his monthly Metformin subscription.
 2. BAP auto-charges Pak Ahmad's registered payment method
 3. Fresh OTP generated for each delivery
 4. Metformin delivered with OTP verification at door every cycle
-5. If Pak Ahmad wants to pause: `subscriptionPauseType: PAUSED_UNTIL_DATE`
+5. If Pak Ahmad wants to pause: set `subscription.status` to `PAUSED` and
+   provide `subscription.pausedUntil` for a time-bounded pause
 
 ---
 

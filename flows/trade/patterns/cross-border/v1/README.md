@@ -16,7 +16,7 @@ Plus additional XB states: CUSTOMS_CLEARED_EXPORT, IN_TRANSIT_INTERNATIONAL, CUS
 - `countryOfOrigin` required (already in resource/v1)
 - `logisticsServiceType`: INTERNATIONAL_AIR or INTERNATIONAL_OCEAN
 - Incoterms declared at on_select: FOB, CIF, EXW, DAP, DDP
-- `beaCukaiReference` in contractAttributes at on_confirm
+- Indonesian customs declaration details are carried by the associated `IONLogisticsContract.beaCukaiDeclaration`
 - `peb_reference` (Pemberitahuan Ekspor Barang) — Bea Cukai export declaration
 - Payment: SWIFT or Letter of Credit for international; IDR settlement for domestic leg
 - Documents: Commercial Invoice, Packing List, PEB, Certificate of Origin, Phytosanitary Cert
@@ -45,4 +45,3 @@ Plus additional XB states: CUSTOMS_CLEARED_EXPORT, IN_TRANSIT_INTERNATIONAL, CUS
 > **The `pattern.yaml` in this directory is your primary implementation reference.** It lists every field ONIX validates at each API step — use it as your implementation checklist alongside this README. If ONIX rejects a message, look up the step in `pattern.yaml` first.
 
 Variant field requirements are declared in each variant's `variant.yaml` and are additive on top of this pattern's requirements.
-

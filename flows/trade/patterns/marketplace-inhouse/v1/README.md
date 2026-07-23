@@ -12,7 +12,7 @@ The marketplace IS the BPP. Brands supply stock on consignment or 1P. The market
 
 ## Key differences from B2C-SF
 - `invoicing.model = CENTRAL` — marketplace invoices, not individual brand
-- `fulfillingLocationId` = marketplace FC ID (fast assignment at on_confirm)
+- `performanceAttributes.fulfillingLocationId` = marketplace FC ID (fast assignment at on_confirm)
 - Marketplace SLA guarantees apply — faster and more reliable than 3P
 - Returns handled by marketplace FC
 - Brand payout is handled by marketplace's internal financial system — not via ION reconcile

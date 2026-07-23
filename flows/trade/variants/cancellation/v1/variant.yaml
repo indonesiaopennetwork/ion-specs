@@ -32,10 +32,9 @@ subBranches:
         direction: request
         requiredFields:
           - message.contract.id
-          - message.contract.contractAttributes.cancellationReason.id
-          - message.contract.contractAttributes.cancellationReason.descriptor.code
+          - message.contract.contractAttributes.cancellation.reason.code
         conditionalFields:
-          - field: message.contract.contractAttributes.cancellationReason.descriptor.shortDesc
+          - field: message.contract.contractAttributes.cancellation.reason.shortDesc
         businessRules:
           - reason.descriptor.code must be in offer.offerAttributes.policies.cancellation.allowedReasons
           - if current state is in offer.cancellationFeeApplicableStates, cancellationFee applies
@@ -53,12 +52,12 @@ subBranches:
           Refund declared for prepaid orders.
         requiredFields:
           - message.contract.status
-          - message.contract.contractAttributes.cancellationReasonCode
+          - message.contract.contractAttributes.cancellation.reason.code
         conditionalFields:
           - field: message.contract.settlements[].settlementAttributes.refund.refundAmount
           - field: message.contract.settlements[].settlementAttributes.refund.refundMethod
           - field: message.contract.settlements[].settlementAttributes.refund.refundTimeline
-          - field: message.contract.consideration.considerationAttributes.breakup[type=CANCELLATION_FEE]
+          - field: message.contract.consideration[].considerationAttributes.breakup[type=CANCELLATION_FEE]
 
   cancel-full-seller:
     id: cancel-full-seller
@@ -79,8 +78,7 @@ subBranches:
           after on_confirm. No /cancel request from BAP precedes this.
         requiredFields:
           - message.contract.status
-          - message.contract.contractAttributes.cancellationReasonCode
-          - message.contract.contractAttributes.cancellationReason.descriptor.code
+          - message.contract.contractAttributes.cancellation.reason.code
         conditionalFields:
           - field: message.contract.settlements[].settlementAttributes.refund.refundAmount
           - field: message.contract.settlements[].settlementAttributes.refund.refundMethod
@@ -98,11 +96,12 @@ subBranches:
       latest: on_status[DISPATCHED]
     description: >
       Individual line(s) in a multi-item order are cancelled, while remaining
-      lines continue to fulfilment. Requires offer.partialCancellationAllowed=true.
+      lines continue to fulfilment. The selected Offer cancellation policy must
+      permit cancellation of the affected commitments.
       Quote trail is updated for the cancelled lines. Separate refund for
       cancelled lines only.
     prerequisite:
-      - contractAttributes.partialCancellationAllowed must be true
+      - Selected Offer cancellation policy must permit partial cancellation
       - Order must have more than one commitment line
     steps:
       - step: cancel
@@ -112,11 +111,10 @@ subBranches:
         description: BAP sends /cancel with specific lineIds to cancel.
         requiredFields:
           - message.contract.id
-          - message.contract.contractAttributes.cancellationReason.id
-          - message.contract.contractAttributes.cancellationReason.descriptor.code
-          - message.contract.contractAttributes.cancelledCommitmentIds[]
+          - message.contract.contractAttributes.cancellation.reason.code
+          - message.contract.contractAttributes.cancellation.commitmentIds[]
         businessRules:
-          - message.contract.contractAttributes.cancelledCommitmentIds[] must reference existing commitment lineIds
+          - message.contract.contractAttributes.cancellation.commitmentIds[] must reference existing core Commitment IDs
           - Remaining items continue — no full cancellation implied
 
       - step: on_cancel
@@ -129,7 +127,7 @@ subBranches:
         requiredFields:
           - message.contract.status
           - message.contract.commitments[]
-          - message.contract.contractAttributes.quoteTrail[]
+          - message.contract.consideration[].considerationAttributes.breakup[]
         conditionalFields:
           - field: message.contract.settlements[].settlementAttributes.refund.refundAmount
           - field: message.contract.settlements[].settlementAttributes.refund.refundTimeline
@@ -156,11 +154,10 @@ subBranches:
           BPP interaction to document the TAT breach.
         requiredFields:
           - message.contract.id
-          - message.contract.contractAttributes.cancellationReason.id
-          - message.contract.contractAttributes.cancellationReason.descriptor.code
-          - message.contract.contractAttributes.cancellationTags.force
-          - message.contract.contractAttributes.cancellationTags.lastBppInteractionAt
-          - message.contract.contractAttributes.cancellationTags.expectedStatusBy
+          - message.contract.contractAttributes.cancellation.reason.code
+          - message.contract.contractAttributes.cancellation.forced
+          - message.contract.contractAttributes.cancellation.lastProviderInteractionAt
+          - message.contract.contractAttributes.cancellation.expectedStatusBy
 
       - step: on_cancel
         stepContext: "if BPP responds"

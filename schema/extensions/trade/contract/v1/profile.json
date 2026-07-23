@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "domain": "trade",
   "name": "ION Trade Contract Extension (v1)",
-  "description": "Order-level contract fields \u2014 fulfilling location, buyer instructions, gift, credit terms, subscription.",
+  "description": "Contract-level purchase-order, parent, cancellation, subscription, source, gift, invoice, and buyer-registration attributes.",
   "packSchema": "./schema.json",
   "jsonldContext": "./context.jsonld",
   "attachmentPoints": {
@@ -14,14 +14,35 @@
   "extends": "beckn:Contract",
   "type": "AttributePack",
   "indexing": {
-    "indexable": [],
-    "filterable": [],
-    "sortable": []
+    "indexable": [
+      {
+        "path": "$.purchaseOrderReference"
+      },
+      {
+        "path": "$.parentContractId"
+      },
+      {
+        "path": "$.source.channel"
+      }
+    ],
+    "filterable": [
+      {
+        "path": "$.subscription.status"
+      },
+      {
+        "path": "$.source.channel"
+      },
+      {
+        "path": "$.invoicePreferences.invoiceType"
+      }
+    ],
+    "sortable": [
+      {
+        "path": "$.subscription.nextBillingAt"
+      }
+    ]
   },
-  "minimalForDiscovery": [
-    "fulfillingLocationId",
-    "deliveryPreferences"
-  ],
+  "minimalForDiscovery": [],
   "x-ion-layer": {
     "generic": "TradeContract",
     "ion": "IONTradeContract",

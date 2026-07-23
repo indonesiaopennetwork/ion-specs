@@ -133,12 +133,12 @@ phases:
         requiredFields:
           - message.contract.participants[role=PROVIDER].id
           - message.contract.commitments[].id
-          - message.contract.consideration.considerationAttributes.breakup[]
-          - message.contract.consideration.considerationAttributes.totalAmount
+          - message.contract.consideration[].considerationAttributes.breakup[]
+          - message.contract.consideration[].considerationAttributes.totalAmount
           - message.contract.performance[].performanceAttributes.performanceMode
           - message.contract.performance[].performanceAttributes.sla
         conditionalFields:
-          - field: message.contract.consideration.considerationAttributes.breakup[].taxDetail.rate
+          - field: message.contract.consideration[].considerationAttributes.breakup[].taxDetail.rate
         schemaPacks:
           trade: [consideration/v1, performance/v1]
           core: [tax/v1]
@@ -177,8 +177,8 @@ phases:
         description: Payment instructions returned. Quote confirmed.
         requiredFields:
           - message.contract.settlements[].settlementAttributes.methodDetail
-          - message.contract.consideration.considerationAttributes.breakup[]
-          - message.contract.consideration.considerationAttributes.totalAmount
+          - message.contract.consideration[].considerationAttributes.breakup[]
+          - message.contract.consideration[].considerationAttributes.totalAmount
         schemaPacks:
           core: [payment/v1]
 
@@ -193,8 +193,8 @@ phases:
           - message.contract.participants[role=BUYER]
           - message.contract.performance[]
           - message.contract.settlements[].settlementAttributes.status
-          - message.contract.contractAttributes.npwp
-          - message.contract.contractAttributes.nib
+          - message.contract.contractAttributes.buyerBusinessRegistration.npwp
+          - message.contract.contractAttributes.buyerBusinessRegistration.nib
 
       - step: on_confirm
         from: BPP

@@ -1,104 +1,110 @@
 {
   "@context": {
     "@version": 1.1,
-    "ion": "https://schema.ion.id/trade/contract/v1#",
-    "beckn": "https://schema.beckn.io/",
-    "schema": "https://schema.org/",
-    "xsd": "http://www.w3.org/2001/XMLSchema#",
-    "fulfillingLocationId": "ion:fulfillingLocationId",
-    "deliveryPreferences": "ion:deliveryPreferences",
-    "invoicePreferences": "ion:invoicePreferences",
-    "fakturPajakReference": "ion:fakturPajakReference",
-    "purchaseOrderReference": "ion:purchaseOrderReference",
-    "cancellationReasonCode": "ion:cancellationReasonCode",
-    "quoteTrail": "ion:quoteTrail",
-    "partialCancellationAllowed": "ion:partialCancellationAllowed",
-    "disputeWindowDays": "ion:disputeWindowDays",
-    "creditTermsDays": "ion:creditTermsDays",
-    "paymentDueDate": "ion:paymentDueDate",
-    "subscriptionBillingCycle": "ion:subscriptionBillingCycle",
-    "subscriptionNextBillingDate": "ion:subscriptionNextBillingDate",
-    "linkedContractId": "ion:linkedContractId",
-    "codAmount": "ion:codAmount",
-    "beaCukaiReference": "ion:beaCukaiReference",
-    "liveCommerceContext": "ion:liveCommerceContext",
-    "refundDestination": "ion:refundDestination",
-    "subscriptionTrialDays": "ion:subscriptionTrialDays",
-    "subscriptionPauseType": "ion:subscriptionPauseType",
-    "subscriptionPauseUntil": "ion:subscriptionPauseUntil",
-    "giftingDetails": "ion:giftingDetails",
-    "paymentSchedule": "ion:paymentSchedule",
     "@protected": true,
+    "ion": "https://schema.ion.id/trade/contract/v1#",
+    "ionid": "https://schema.ion.id/core/identity/v1#",
+    "rcca": "https://schema.beckn.io/RetailContract#",
+    "beckn": "https://schema.beckn.io/",
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "owl": "http://www.w3.org/2002/07/owl#",
     "Contract": "beckn:Contract",
-    "BecknContract": "https://spec.beckn.io/vocab/v2.0.0#Contract",
+    "RetailContract": "rcca:RetailContract",
     "TradeContract": "ion:TradeContract",
     "IONTradeContract": "ion:IONTradeContract",
-    "accountName": "ion:accountName",
-    "accountNumber": "ion:accountNumber",
-    "affiliateId": "ion:affiliateId",
-    "amount": "ion:amount",
-    "bankAccount": "ion:bankAccount",
-    "bankCode": "ion:bankCode",
-    "cancellationReason": "ion:cancellationReason",
-    "cancellationTags": "ion:cancellationTags",
-    "cancelledCommitmentIds": "ion:cancelledCommitmentIds",
-    "code": "ion:code",
-    "currency": "ion:currency",
-    "descriptor": "ion:descriptor",
-    "dueAt": "ion:dueAt",
-    "dunningReminderSequence": "ion:dunningReminderSequence",
-    "end": "ion:end",
-    "expectedStatusBy": "ion:expectedStatusBy",
-    "force": "ion:force",
-    "gatewayRef": "ion:gatewayRef",
-    "gift": "ion:gift",
-    "giftMessage": "ion:giftMessage",
-    "giftWrapOfferId": "ion:giftWrapOfferId",
-    "graceDays": "ion:graceDays",
-    "groupBuyActivated": "ion:groupBuyActivated",
-    "groupBuyId": "ion:groupBuyId",
-    "groupBuyMinParticipants": "ion:groupBuyMinParticipants",
-    "hideSenderInfo": "ion:hideSenderInfo",
-    "id": "ion:id",
-    "invoiceType": "ion:invoiceType",
-    "isGift": "ion:isGift",
-    "lastBppInteractionAt": "ion:lastBppInteractionAt",
-    "legalEntityName": "ion:legalEntityName",
-    "liveSessionId": "ion:liveSessionId",
-    "loyaltyMultiplier": "ion:loyaltyMultiplier",
-    "method": "ion:method",
-    "milestone": "ion:milestone",
-    "milestoneLabel": "ion:milestoneLabel",
-    "nib": "ion:nib",
-    "npwp": "ion:npwp",
-    "ottContentId": "ion:ottContentId",
-    "ottPlatform": "ion:ottPlatform",
-    "ottTimestampSeconds": "ion:ottTimestampSeconds",
-    "paidAt": "ion:paidAt",
-    "paymentMethod": "ion:paymentMethod",
-    "preferredPerformanceMode": "ion:preferredPerformanceMode",
-    "preferredTimeSlot": "ion:preferredTimeSlot",
-    "priceDisplayOnPackage": "ion:priceDisplayOnPackage",
-    "productPinnedAtMinute": "ion:productPinnedAtMinute",
+    "quoteReference": "rcca:quoteReference",
+    "buyerInstructions": "rcca:buyerInstructions",
+    "deliveryPreferences": {
+      "@id": "rcca:deliveryPreferences",
+      "@context": {
+        "leaveAtDoor": "rcca:leaveAtDoor",
+        "contactless": "rcca:contactless",
+        "preferredTimeSlot": {
+          "@id": "rcca:preferredTimeSlot",
+          "@context": {
+            "start": "rcca:timeSlotStart",
+            "end": "rcca:timeSlotEnd"
+          }
+        }
+      }
+    },
+    "loyalty": {
+      "@id": "rcca:loyalty",
+      "@context": {
+        "programId": "rcca:loyaltyProgramId",
+        "pointsRedeemed": "rcca:pointsRedeemed"
+      }
+    },
+    "purchaseOrderReference": "ion:purchaseOrderReference",
+    "parentContractId": "ion:parentContractId",
     "reason": "ion:reason",
+    "commitmentIds": "ion:commitmentIds",
+    "forced": "ion:forced",
+    "lastProviderInteractionAt": "ion:lastProviderInteractionAt",
+    "expectedStatusBy": "ion:expectedStatusBy",
+    "billingCycle": "ion:billingCycle",
+    "trialDays": "ion:trialDays",
+    "status": "ion:status",
+    "pausedUntil": "ion:pausedUntil",
+    "nextBillingAt": "ion:nextBillingAt",
+    "sessionId": "ion:sessionId",
+    "creatorId": "ion:creatorId",
+    "affiliateId": "ion:affiliateId",
+    "platform": "ion:platform",
+    "contentId": "ion:contentId",
+    "contentTimestampSeconds": "ion:contentTimestampSeconds",
+    "groupBuyId": "ion:groupBuyId",
     "recipientName": "ion:recipientName",
     "recipientPhone": "ion:recipientPhone",
-    "scheme": "ion:scheme",
-    "shortDesc": "ion:shortDesc",
-    "shortVideoId": "ion:shortVideoId",
-    "sourceChannel": "ion:sourceChannel",
-    "start": "ion:start",
-    "status": "ion:status",
-    "streamerCommissionPercent": "ion:streamerCommissionPercent",
-    "streamerId": "ion:streamerId",
-    "subscriptionAction": "ion:subscriptionAction",
-    "taxId": "ion:taxId",
-    "type": "ion:type",
-    "value": "ion:value",
-    "walletId": "ion:walletId"
+    "hideSenderInfo": "ion:hideSenderInfo",
+    "showPrice": "ion:showPrice",
+    "invoiceType": "ion:invoiceType",
+    "cancellation": "ion:cancellation",
+    "subscription": "ion:subscription",
+    "source": {
+      "@id": "rcca:source",
+      "@context": {
+        "channel": "rcca:sourceChannel",
+        "campaignId": "rcca:campaignId"
+      }
+    },
+    "gift": {
+      "@id": "rcca:gift",
+      "@context": {
+        "isGift": "rcca:isGift",
+        "message": "rcca:giftMessage",
+        "wrap": "rcca:giftWrap"
+      }
+    },
+    "invoicePreferences": {
+      "@id": "rcca:invoicePreferences",
+      "@context": {
+        "taxId": {
+          "@id": "rcca:taxId",
+          "@context": {
+            "scheme": "rcca:taxIdScheme",
+            "country": "rcca:taxIdCountry",
+            "value": "rcca:taxIdValue"
+          }
+        },
+        "companyName": "rcca:invoiceCompanyName",
+        "email": "rcca:invoiceEmail"
+      }
+    },
+    "buyerBusinessRegistration": {
+      "@id": "ion:buyerBusinessRegistration",
+      "@context": {
+        "npwp": "ionid:npwp",
+        "nib": "ionid:nib",
+        "nikNumber": "ionid:nikNumber",
+        "pkpStatus": "ionid:pkpStatus",
+        "legalEntityName": "ionid:legalEntityName",
+        "businessType": "ionid:businessType",
+        "siupNumber": "ionid:siupNumber",
+        "spPIRTNumber": "ionid:spPIRTNumber"
+      }
+    }
   }
 }

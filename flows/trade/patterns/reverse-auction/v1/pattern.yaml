@@ -97,8 +97,8 @@ phases:
         requiredFields:
           - message.contract.settlements[].settlementAttributes.status
           - message.contract.contractAttributes.purchaseOrderReference
-          - message.contract.contractAttributes.npwp
-          - message.contract.contractAttributes.nib
+          - message.contract.contractAttributes.buyerBusinessRegistration.npwp
+          - message.contract.contractAttributes.buyerBusinessRegistration.nib
         conditionalFields:
           - field: message.contract.tags.procurement.sp_reference  # condition: for government procurement (B2G pattern)
 

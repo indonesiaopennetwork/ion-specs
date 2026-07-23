@@ -1424,12 +1424,12 @@ x-ion-profile:
         - trigger: IONParticipant.role = DRIVER
           requiredIn: IONLogisticsAgent
           fields: [driverLicenceCategory, driverLicenceNumber]
-        - trigger: IONPayment.paymentRail = COD
-          requiredIn: IONTradeContract
+        - trigger: PaymentDeclaration.paymentRail = COD
+          requiredIn: TradeConsideration
           fields: [codAmount]
         - trigger: IONBusinessRegistration.pkpStatus = PKP
-          requiredIn: IONTradeContract
-          fields: [fakturPajakReference]
+          requiredIn: IONTaxDetail
+          fields: [eFakturRef]
   x-ion-policy-registry:
     description: 'ION Policy Terms Registry. Policy IRIs are the authoritative source of policy semantics across the network.
       Each offer declares IRIs; ION Central resolves to the terms document and enforces at every API boundary.
@@ -1518,18 +1518,18 @@ x-ion-conditional-rules:
     triggerField: role
     triggerValue: CUSTOMS_BROKER
     condition: Required when role=CUSTOMS_BROKER
-  - schema: TradeContract
+  - schema: TradeConsideration
     field: codAmount
     triggerSchema: PaymentDeclaration
     triggerField: paymentRail
     triggerValue: COD
     condition: Required when paymentRail=COD
-  - schema: TradeContract
-    field: fakturPajakReference
+  - schema: IONTaxDetail
+    field: eFakturRef
     triggerSchema: IONBusinessRegistration
     triggerField: pkpStatus
     triggerValue: PKP
-    condition: Required for PKP sellers (identity.pkpStatus=PKP) when invoiceType=TAX_INVOICE
+    condition: Required for PKP sellers when invoiceType=TAX_INVOICE
 servers:
 - url: https://{subscriberUrl}
   description: ION Network participant base URL. {subscriberUrl} is the registered FQDN of the BAP/BPP per the ION Registry
@@ -3956,7 +3956,7 @@ components:
           minimum: 0
           description: Amount to settle to affiliate for affiliate-sourced orders.
           x-ion-conditional: true
-          x-ion-condition: Required when contract.liveCommerceContext.sourceChannel=AFFILIATE_LINK
+          x-ion-condition: Required when contract.source.affiliateId is present
         isBatch:
           type: boolean
           description: 'Whether this reconcile covers multiple contracts as a batch. Marketplace scale requires batched settlement
@@ -4610,478 +4610,144 @@ components:
     TradeContract:
       type: object
       title: Trade Contract Attributes
+      description: Effective ION trade Contract attributes. Inherits RetailContract v2.1,
+        adds network-neutral TradeContract fields, and includes the ION invoice and Indonesian
+        buyer-registration refinements.
+      x-ion-layer: ion
+      x-ion-split-version: 0.7.0
+      x-recommended-parent: Contract.contractAttributes
       additionalProperties: true
-      x-jsonld:
-        '@context': ./context.jsonld
-        '@type': ion:TradeContract
-      x-beckn-attaches-to: Contract.contractAttributes
+      allOf:
+      - $ref: https://schema.beckn.io/RetailContract/v2.1/attributes.yaml#/components/schemas/RetailContract
       properties:
-        fulfillingLocationId:
-          type: string
-          description: 'ID of the specific fulfilment centre that will fulfil this order. Populated by BPP at on_confirm after
-            internal FC selection. Present when provider has multiple FC locations.
-
-            '
-          example: FC-SBY-01
-          x-ion-conditional: true
-          x-ion-condition: Present when provider has multiple fulfilment centres
-        buyerInstructions:
-          type: string
-          description: 'Free-text delivery instructions from buyer. e.g. "Leave at door", "Call before arriving", "Do not
-            ring bell after 9pm".
-
-            '
-          example: Titipkan ke satpam jika tidak ada di rumah.
-        deliveryPreferences:
-          type: object
-          additionalProperties: false
-          properties:
-            preferredTimeSlot:
-              type: object
-              additionalProperties: false
-              description: Buyer's preferred delivery time window.
-              properties:
-                start:
-                  type: string
-                  format: date-time
-                  example: 2026-04-03 09:00:00+07:00
-                end:
-                  type: string
-                  format: date-time
-                  example: 2026-04-03 13:00:00+07:00
-              required:
-              - start
-              - end
-            preferredPerformanceMode:
-              type: string
-              enum:
-              - DELIVERY
-              - SELF_PICKUP
-              - DINE_IN
-              - CURBSIDE
-        invoicePreferences:
-          type: object
-          additionalProperties: false
-          description: Buyer's invoice type and tax identity declaration.
-          properties:
-            taxId:
-              type: object
-              additionalProperties: false
-              properties:
-                scheme:
-                  type: string
-                  enum:
-                  - NPWP
-                  - NIK
-                  description: NPWP for businesses, NIK for individuals
-                value:
-                  type: string
-                  description: Tax ID number
-                  example: 1234567890123456
-              required:
-              - scheme
-              - value
-            invoiceType:
-              type: string
-              enum:
-              - RECEIPT
-              - TAX_INVOICE
-              - EINVOICE
-              - SURAT_TAGIHAN
-              - KOMERSIAL_INVOICE
-              description: 'RECEIPT: simple receipt, no tax identity required. TAX_INVOICE: Faktur Pajak, requires PKP seller
-                and NPWP buyer. EINVOICE: e-Faktur via DJP system. SURAT_TAGIHAN: PKP seller to non-PKP buyer — commercial
-                invoice, no input-tax claim rights. KOMERSIAL_INVOICE: cross-border commercial invoice, bilingual layout.
-
-                '
-              example: TAX_INVOICE
-        fakturPajakReference:
-          type: string
-          description: 'Faktur Pajak (e-Invoice) reference number assigned by BPP after contract confirm for PKP sellers.
-            16-digit DJP format.
-
-            '
-          example: 010.000-26.00000001
-          x-ion-regulatory: PMK 168/PMK.010/2023 tentang Faktur Pajak
-          x-ion-condition: Required for PKP sellers (identity.pkpStatus=PKP) when invoiceType=TAX_INVOICE
-          x-ion-cross-schema-condition: true
         purchaseOrderReference:
           type: string
-          description: 'Buyer''s Purchase Order number for B2B wholesale transactions. Allows buyer to link ION contract to
-            their internal PO system.
-
-            '
+          description: Buyer-issued purchase-order reference, distinct from the inherited
+            seller quoteReference.
           example: PO-2026-00456
-          x-ion-conditional: true
-          x-ion-condition: Required for B2B wholesale commerce patterns
-        cancellationReasonCode:
-          type: string
-          description: 'Standardised cancellation reason code when contract is cancelled. Set by BPP on contract at time of
-            cancellation.
-
-            '
-          enum:
-          - BUYER_REQUESTED
-          - SELLER_INITIATED
-          - ITEM_UNAVAILABLE
-          - PAYMENT_FAILED
-          - FRAUD_SUSPECTED
-          - REGULATORY_HOLD
-          - LOGISTICS_FAILURE
-          - FORCE_CANCEL_TAT_BREACH
-          x-ion-conditional: true
-          x-ion-condition: Required when contract status is CANCELLED
-        quoteTrail:
-          type: array
-          description: 'Trail of quote changes for mid-transaction-changes variant. Each entry records a delta to the original
-            confirmed quote.
-
-            '
-          items:
-            type: object
-            additionalProperties: false
-            properties:
-              type:
-                type: string
-                enum:
-                - item
-                - tax
-                - delivery
-                - discount
-                - refund
-                - adjustment
-              id:
-                type: string
-                description: Item ID or consideration ID this adjustment applies to
-              currency:
-                type: string
-                const: IDR
-              value:
-                type: string
-                description: Signed IDR amount. Negative for deductions, positive for additions.
-                example: '-5000'
-              reason:
-                type: string
-                description: Human-readable reason for this adjustment
-            required:
-            - type
-            - id
-            - currency
-            - value
-        partialCancellationAllowed:
-          type: boolean
-          description: Whether individual items in a multi-item order can be cancelled.
-          default: false
-        disputeWindowDays:
-          type: integer
-          minimum: 0
-          description: 'Number of days after delivery within which buyer may raise a dispute. Defaults to ION network policy
-            if not declared.
-
-            '
-          example: 7
-        creditTermsDays:
-          type: integer
-          minimum: 0
-          description: 'Number of days credit extended to the buyer from delivery date. 0 = prepaid. Common values: 7, 14,
-            30, 45, 60, 90.
-
-            '
-          example: 30
-          x-ion-conditional: true
-          x-ion-condition: Required for business-procurement (business-credit variant) commerce pattern
-        paymentDueDate:
-          type: string
-          format: date-time
-          description: 'Absolute datetime by which payment must be made for credit orders. Computed from delivery date + creditTermsDays.
-
-            '
-          example: 2026-05-19 23:59:59+07:00
-          x-ion-conditional: true
-          x-ion-condition: Required when creditTermsDays > 0
-        subscriptionBillingCycle:
-          type: string
-          enum:
-          - WEEKLY
-          - FORTNIGHTLY
-          - MONTHLY
-          - QUARTERLY
-          - ANNUAL
-          description: Billing cycle for subscription commerce pattern.
-          example: MONTHLY
-          x-ion-conditional: true
-          x-ion-condition: Required for subscription commerce pattern
-        subscriptionNextBillingDate:
-          type: string
-          format: date-time
-          description: 'Date-time of next billing event. Updated by BPP after each successful billing.
-
-            '
-          example: 2026-05-19 00:00:00+07:00
-          x-ion-conditional: true
-          x-ion-condition: Required for subscription commerce pattern
-        linkedContractId:
-          type: string
-          description: 'Reference to the Trade Contract this Logistics Contract serves. Enables ION Central to trace causal
-            relationship between trade and logistics transactions.
-
-            '
-          example: TRD-2026-00012345
-          x-ion-conditional: true
-          x-ion-condition: Required on all Logistics Contracts linked to a Trade fulfilment
-        codAmount:
-          type: string
-          description: 'Total cash amount to be collected from consumer at delivery for COD orders. String decimal in IDR.
-
-            '
-          example: '150000'
-          x-ion-condition: Required when paymentRail=COD
-          x-ion-cross-schema-condition: true
-        beaCukaiReference:
-          type: string
-          description: 'Indonesian Customs (Bea Cukai) clearance reference number. Required for all international inbound
-            shipments.
-
-            '
-          example: BC-2026-001234567
-          x-ion-regulatory: UU 17/2006 tentang Kepabeanan; PMK 199/PMK.010/2019
-          x-ion-conditional: true
-          x-ion-condition: Required for INTERNATIONAL_AIR and INTERNATIONAL_OCEAN logistics
-        liveCommerceContext:
+        parentContractId:
+          allOf:
+          - $ref: beckn.yaml#/components/schemas/Contract/properties/id
+          description: Identifier of the parent Contract when this Contract is a child
+            transaction.
+        cancellation:
           type: object
           additionalProperties: false
-          description: 'Context for orders placed via live commerce or social commerce (TikTok Shop, Shopee Live, Tokopedia
-            Play, OTT-embedded commerce). Required for live-commerce pattern. Enables revenue attribution to streamer/affiliate
-            and platform-specific settlement.
-
-            '
+          description: Cancellation request or outcome recorded on this Contract.
           properties:
-            sourceChannel:
+            reason:
+              allOf:
+              - $ref: beckn.yaml#/components/schemas/Descriptor
+              description: Machine- and human-readable cancellation reason.
+            commitmentIds:
+              type: array
+              uniqueItems: true
+              description: Core Commitment IDs affected by a partial cancellation.
+              items:
+                $ref: beckn.yaml#/components/schemas/Commitment/properties/id
+            forced:
+              type: boolean
+              description: True when cancellation is forced because the provider missed
+                the applicable SLA.
+            lastProviderInteractionAt:
+              type: string
+              format: date-time
+            expectedStatusBy:
+              type: string
+              format: date-time
+        subscription:
+          type: object
+          additionalProperties: false
+          description: Contract-level terms and current state for a recurring trade subscription.
+          properties:
+            billingCycle:
               type: string
               enum:
-              - LIVE_STREAM
-              - SHORT_VIDEO
-              - OTT_EMBEDDED
-              - SOCIAL_POST
-              - AFFILIATE_LINK
-              - GROUP_BUY
-              - SHOPPABLE_AD
-              description: 'Entry point for the order. OTT_EMBEDDED = order placed from within video streaming app (Netflix,
-                Vidio, Disney+ Hotstar shoppable content).
-
-                '
-            liveSessionId:
-              type: string
-              description: Live session identifier when sourceChannel=LIVE_STREAM
-              example: SHP-LIVE-2026-0419-8837
-            streamerId:
-              type: string
-              description: 'Creator/streamer subscriber ID for revenue attribution. Streamer may earn commission separately
-                from BPP/BAP.
-
-                '
-              example: streamer.ion.id/budi-gadget
-            streamerCommissionPercent:
-              type: number
-              minimum: 0
-              maximum: 1
-              description: Streamer's commission as fraction of item value
-              example: 0.05
-            productPinnedAtMinute:
+              - WEEKLY
+              - FORTNIGHTLY
+              - MONTHLY
+              - QUARTERLY
+              - ANNUAL
+            trialDays:
               type: integer
               minimum: 0
-              description: Minutes into the live session when this product was pinned/featured
-            ottPlatform:
+            status:
               type: string
               enum:
-              - VIDIO
-              - NETFLIX
-              - DISNEY_PLUS_HOTSTAR
-              - IFLIX
-              - VIU
-              - GENFLIX
-              - WETV
-              - YOUTUBE
-              - OTHER
-              description: OTT platform where shoppable content was served (for OTT_EMBEDDED)
-            ottContentId:
+              - ACTIVE
+              - PAUSED
+              - CANCELLED
+            pausedUntil:
               type: string
-              description: OTT platform's content ID (movie, episode, match) where item was shown
-              example: VIDIO-MATCH-PERSIJA-PERSIB-2026-04-19
-            ottTimestampSeconds:
-              type: integer
-              description: Playback position in seconds when product was presented
-            shortVideoId:
+              format: date-time
+            nextBillingAt:
               type: string
-              description: Short-video/reel ID when sourceChannel=SHORT_VIDEO
-            affiliateId:
-              type: string
-              description: Affiliate subscriber ID when sourceChannel=AFFILIATE_LINK
-            groupBuyId:
-              type: string
-              description: Group-buy session ID when sourceChannel=GROUP_BUY
-            groupBuyMinParticipants:
-              type: integer
-              description: Minimum participants needed for group discount to activate
-            groupBuyActivated:
-              type: boolean
-              description: Whether group-buy discount has been unlocked
-          x-ion-conditional: true
-          x-ion-condition: Required for live-commerce pattern; optional otherwise
-        refundDestination:
-          type: object
-          additionalProperties: false
-          description: 'Where refund will be credited. When buyer does not specify, default is ORIGINAL_PAYMENT_METHOD. Platform
-            wallets often faster; store credit used for partial refunds and goodwill.
-
-            '
-          required:
-          - method
-          properties:
-            method:
-              type: string
-              enum:
-              - ORIGINAL_PAYMENT_METHOD
-              - PLATFORM_WALLET
-              - BANK_TRANSFER
-              - LOYALTY_POINTS
-              - STORE_CREDIT
-              - VOUCHER
-            walletId:
-              type: string
-              description: Required when method=PLATFORM_WALLET
-            bankAccount:
-              type: object
-              additionalProperties: false
-              properties:
-                bankCode:
-                  type: string
-                accountNumber:
-                  type: string
-                accountName:
-                  type: string
-              description: Required when method=BANK_TRANSFER
-            loyaltyMultiplier:
-              type: number
-              description: Bonus multiplier when redeeming to loyalty points e.g. 1.1 = 10% bonus
-        subscriptionTrialDays:
-          type: integer
-          minimum: 0
-          description: First N days free. Billing starts on day N+1.
-        subscriptionPauseType:
-          type: string
-          enum:
-          - ACTIVE
-          - PAUSED_UNTIL_DATE
-          - PAUSED_INDEFINITE
-          description: Current pause state for subscription orders
-        subscriptionPauseUntil:
-          type: string
-          format: date-time
-          description: Date to automatically resume. Required when pauseType=PAUSED_UNTIL_DATE
-          x-ion-condition: Required when subscriptionPauseType=PAUSED_UNTIL_DATE
-        giftingDetails:
-          type: object
-          additionalProperties: false
-          description: Structured gifting details replacing the simple gift flag.
-          properties:
-            isGift:
-              type: boolean
-            recipientName:
-              type: string
-            recipientPhone:
-              type: string
-            giftMessage:
-              type: string
-              maxLength: 280
-              description: Message printed on gift card / packing slip
-            hideSenderInfo:
-              type: boolean
-              default: false
-              description: Anonymous gift — omit buyer details from all visible surfaces
-            priceDisplayOnPackage:
-              type: boolean
-              default: false
-              description: Whether to show prices on packing slip
-            giftWrapOfferId:
-              type: string
-              description: Reference to the gift-wrap offer in consideration breakup
-        paymentSchedule:
-          type: array
-          description: 'Multi-milestone payment schedule for partial-payment offers (down-payment + balance, milestone-based
-            for services, etc.). Used when offer policies.paymentTerms.policyRef references a schedule-based IRI. Single-payment orders do not
-            require this field. Contract moves to COMPLETE only when all milestones are PAID.
-
-            '
-          items:
-            type: object
-            additionalProperties: false
+              format: date-time
+        source:
+          allOf:
+          - $ref: https://schema.beckn.io/RetailContract/v2.1/attributes.yaml#/components/schemas/RetailContract/properties/source
+          - type: object
+            description: Inherited source enriched with channel-neutral attribution.
             properties:
-              milestone:
+              sessionId:
                 type: string
-                enum:
-                - AT_CONFIRM
-                - ON_DISPATCH
-                - ON_DELIVERY
-                - POST_DELIVERY
-                - ON_MILESTONE_EVENT
-                description: Event that triggers this payment
-              milestoneLabel:
+              creatorId:
                 type: string
-                description: Human-readable milestone label (e.g. "30% down-payment")
-              amount:
-                type: number
-                description: IDR amount due at this milestone
-              currency:
+              affiliateId:
                 type: string
-                const: IDR
-                default: IDR
-              dueAt:
+              platform:
                 type: string
-                format: date-time
-                description: Absolute datetime when payment is due
-              status:
+              contentId:
                 type: string
-                enum:
-                - PENDING
-                - PAID
-                - OVERDUE
-                - WAIVED
-                - FAILED
-              paidAt:
-                type: string
-                format: date-time
-              paymentMethod:
-                type: string
-                description: Method used for this specific milestone (may differ across milestones)
-              gatewayRef:
-                type: string
-                description: Gateway transaction reference for this milestone
-              graceDays:
+              contentTimestampSeconds:
                 type: integer
                 minimum: 0
-                description: Grace period before status becomes OVERDUE
-            required:
-            - milestone
-            - amount
-            - dueAt
-            - status
-          x-ion-conditional: true
-          x-ion-condition: Required when offer policies.paymentTerms.policyRef is schedule-based
-      allOf:
-      # LOCAL (default — active):
-      # REMOTE (uncomment to use upstream directly):
-      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
-      - if:
-          properties:
-            subscriptionPauseType:
-              const: PAUSED_UNTIL_DATE
-          required:
-          - subscriptionPauseType
-        then:
-          required:
-          - subscriptionPauseUntil
+              groupBuyId:
+                type: string
+        gift:
+          allOf:
+          - $ref: https://schema.beckn.io/RetailContract/v2.1/attributes.yaml#/components/schemas/RetailContract/properties/gift
+          - type: object
+            description: Inherited gifting preferences enriched with recipient and presentation
+              details.
+            properties:
+              recipientName:
+                type: string
+              recipientPhone:
+                type: string
+              hideSenderInfo:
+                type: boolean
+                default: false
+              showPrice:
+                type: boolean
+                default: false
+        invoicePreferences:
+          allOf:
+          - $ref: https://schema.beckn.io/RetailContract/v2.1/attributes.yaml#/components/schemas/RetailContract/properties/invoicePreferences
+          - type: object
+            description: Inherited invoice preferences enriched with the requested ION
+              invoice-document type.
+            properties:
+              invoiceType:
+                type: string
+                enum:
+                - RECEIPT
+                - TAX_INVOICE
+                - EINVOICE
+                - SURAT_TAGIHAN
+                - COMMERCIAL_INVOICE
+                x-ion-regulatory: PMK 168/PMK.010/2023 tentang Faktur Pajak
+        buyerBusinessRegistration:
+          allOf:
+          - $ref: "#/components/schemas/IONBusinessRegistration"
+          description: Verified Indonesian business registration of the buying organisation.
       x-ion-closed-extensions: false
+      x-jsonld:
+        '@context': https://schema.ion.id/trade/contract/v1/context.jsonld
+        '@type': ion:IONTradeContract
+      x-beckn-attaches-to: Contract.contractAttributes
+      x-ion-split-note: Effective aggregate of TradeContract and IONTradeContract; the
+        authoritative extension pack keeps the generic and ION-specific layers separate.
     TradeOffer:
       type: object
       title: Trade Offer Attributes
@@ -5585,6 +5251,15 @@ components:
         '@type': ion:TradePerformance
       x-beckn-attaches-to: Performance.performanceAttributes
       properties:
+        fulfillingLocationId:
+          type: string
+          description: >
+            Identifier of the Provider operating location from which this
+            Performance is fulfilled. This belongs to the execution unit,
+            allowing separate performances in one Contract to originate from
+            different locations.
+          example: FC-SBY-01
+          # x-ion-condition: Present when the provider selects a fulfilment location
         performanceMode:
           type: string
           enum:

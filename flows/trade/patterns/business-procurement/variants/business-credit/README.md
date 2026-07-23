@@ -11,8 +11,8 @@ Delivery follows standard states. Credit collection (Phase 4) runs post-DELIVERE
 B2B-PP — all B2B-PP fields apply. Credit adds:
 
 ## Key additions
-- `creditTermsDays`: NET 7, NET 14, NET 30, NET 45, NET 60, NET 90
-- `paymentDueDate`: computed as delivery date + creditTermsDays; locked at confirm
+- `settlementAttributes.creditTerms.creditTermsDays`: NET 7, NET 14, NET 30, NET 45, NET 60, NET 90
+- `settlementAttributes.creditTerms.paymentDueDate`: computed from the governing credit terms and locked for the payment obligation
 - `settlementBasis: AFTER_PAYMENT_DUE_DATE`
 - Payment timing: POST_FULFILLMENT (not ON_ORDER as in B2B-PP)
 - Dunning flow: BPP sends on_update reminders at T-7, T-3, T-1 before due date

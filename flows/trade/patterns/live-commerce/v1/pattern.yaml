@@ -32,7 +32,7 @@ extendsFrom: flows/trade/spines/storefront/v1/spine.yaml
 keyDifferences_vs_B2C_SF:
   - Offer has validity.startDate and validity.endDate enforced — live-window-only availability
   - reservationWindowSeconds typically very short (60-180s) due to flash nature
-  - contractAttributes.liveCommerceContext required — source channel attribution
+  - contractAttributes.source required — source channel attribution
   - streamer/affiliate commission declared in consideration breakup
   - Settlement includes STREAMER_COMMISSION / AFFILIATE_COMMISSION line
   - Group-buy variant: contract not confirmed until minimum participants reached
@@ -69,7 +69,7 @@ phases:
         to: BPP
         description: >
           Buyer selects during live stream / OTT shoppable moment / short video.
-          BAP must populate liveCommerceContext at select time so BPP can
+          BAP must populate source at select time so BPP can
           compute correct commissions and validate session still active.
         requiredFields:
           - context.transactionId
@@ -78,16 +78,17 @@ phases:
           - message.contract.commitments[].id
           - message.contract.commitments[].resources[].quantity.count
           - message.contract.performance[].performanceAttributes.performanceMode
-          - message.contract.contractAttributes.liveCommerceContext.sourceChannel
+          - message.contract.contractAttributes.source.channel
         conditionalFields:
-          - field: message.contract.contractAttributes.liveCommerceContext.liveSessionId  # condition: when sourceChannel=LIVE_STREAM
-          - field: message.contract.contractAttributes.liveCommerceContext.streamerId  # condition: when sourceChannel IN [LIVE_STREAM, SHORT_VIDEO, AFFILIATE_LINK]
-          - field: message.contract.contractAttributes.liveCommerceContext.ottPlatform  # condition: when sourceChannel=OTT_EMBEDDED
-          - field: message.contract.contractAttributes.liveCommerceContext.ottContentId  # condition: when sourceChannel=OTT_EMBEDDED
-          - field: message.contract.contractAttributes.liveCommerceContext.groupBuyId  # condition: when sourceChannel=GROUP_BUY
+          - field: message.contract.contractAttributes.source.sessionId  # condition: for a live session
+          - field: message.contract.contractAttributes.source.creatorId  # condition: for creator-attributed commerce
+          - field: message.contract.contractAttributes.source.affiliateId  # condition: for affiliate commerce
+          - field: message.contract.contractAttributes.source.platform  # condition: when content is hosted by a third-party platform
+          - field: message.contract.contractAttributes.source.contentId  # condition: for content-attributed commerce
+          - field: message.contract.contractAttributes.source.groupBuyId  # condition: for a group buy
         businessRules:
           - BPP validates that current time is within offer.offerAttributes.validity.startDate to offer.offerAttributes.validity.endDate
-          - BPP validates session liveSessionId is still ACTIVE
+          - BPP validates that source.sessionId still identifies an ACTIVE session
           - For OTT_EMBEDDED: BPP may accept orders after broadcast if offer.offerAttributes.validity.endDate permits
 
       - step: on_select
@@ -98,14 +99,13 @@ phases:
           stock cap and queue position if applicable. Short
           reservationWindowSeconds - consumer must proceed quickly.
         requiredFields:
-          - message.contract.consideration.considerationAttributes.breakup[]
+          - message.contract.consideration[].considerationAttributes.breakup[]
           - message.contract.performance[].performanceAttributes.sla
         conditionalFields:
-          - field: message.contract.consideration.considerationAttributes.breakup[breakupLineType=STREAMER_COMMISSION]  # condition: when contract has streamerId
-          - field: message.contract.consideration.considerationAttributes.breakup[breakupLineType=AFFILIATE_COMMISSION]  # condition: when sourceChannel=AFFILIATE_LINK
+          - field: message.contract.consideration[].considerationAttributes.breakup[breakupLineType=STREAMER_COMMISSION]  # condition: when source.creatorId is present
+          - field: message.contract.consideration[].considerationAttributes.breakup[breakupLineType=AFFILIATE_COMMISSION]  # condition: when source.affiliateId is present
           - field: message.contract.commitments[].offer.offerAttributes.queuePosition  # condition: when queueEnabled=true
           - field: message.contract.commitments[].offer.offerAttributes.estimatedWaitSeconds  # condition: when queuePosition is present
-          - field: message.contract.contractAttributes.liveCommerceContext.groupBuyActivated  # condition: when sourceChannel=GROUP_BUY
         errors:
           - ION-3015  # OFFER_STOCK_CAP_REACHED
           - ION-3017  # LIVE_SESSION_ENDED
@@ -119,7 +119,7 @@ phases:
           - message.contract.settlements[].settlementAttributes.method
           - message.contract.settlements[].settlementAttributes.paymentRail
           - message.contract.settlements[].settlementAttributes.collectedBy
-          - message.contract.contractAttributes.liveCommerceContext
+          - message.contract.contractAttributes.source
 
       - step: on_init  # note: Identical to storefront on_init. Reservation window enforces urgency.
 
@@ -132,9 +132,9 @@ phases:
           a pending commitment; final confirm fires when minimum participants reached.
         requiredFields:
           - message.contract.settlements[].settlementAttributes.status
-          - message.contract.contractAttributes.npwp
-          - message.contract.contractAttributes.nib
-          - message.contract.contractAttributes.liveCommerceContext
+          - message.contract.contractAttributes.buyerBusinessRegistration.npwp
+          - message.contract.contractAttributes.buyerBusinessRegistration.nib
+          - message.contract.contractAttributes.source
 
       - step: on_confirm
         from: BPP
@@ -143,9 +143,7 @@ phases:
         requiredFields:
           - message.contract.id
           - message.contract.status
-          - message.contract.contractAttributes.fulfillingLocationId
-        conditionalFields:
-          - field: message.contract.contractAttributes.liveCommerceContext.groupBuyActivated  # condition: updated when min participants reached
+          - message.contract.performance[].performanceAttributes.fulfillingLocationId
 
   phase3:
     name: Fulfilment

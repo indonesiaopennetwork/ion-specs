@@ -76,7 +76,7 @@ phases:
         to: Marketplace_BAP
         requiredFields:
           - message.contract.id
-          - message.contract.contractAttributes.fulfillingLocationId
+          - message.contract.performance[].performanceAttributes.fulfillingLocationId
 
   phase3:
     name: Fulfilment

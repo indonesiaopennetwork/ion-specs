@@ -12,13 +12,13 @@ description: >
   B2B wholesale with deferred payment. Buyer receives goods first, pays within
   agreed credit terms (NET 7, NET 14, NET 30, NET 45, NET 60, NET 90).
   May also use embedded BNPL financing (Kredivo Business, Akulaku for Merchant).
-  Key additions to B2B-PP: creditTermsDays, paymentDueDate, credit facility
+  Key additions to B2B-PP: IONPayment credit terms on Settlement records and credit facility
   management, dunning flow, PPh23 withholding on services.
 
 deltaFrom_B2B_PP:
   - payment.timing: ON_FULFILLMENT or POST_FULFILLMENT (not ON_ORDER)
-  - contractAttributes.creditTermsDays: REQUIRED
-  - contractAttributes.paymentDueDate: REQUIRED (delivery + creditTermsDays)
+  - settlementAttributes.creditTerms.creditTermsDays: REQUIRED
+  - settlementAttributes.creditTerms.paymentDueDate: REQUIRED
   - settlement.settlementBasis: AFTER_PAYMENT_DUE_DATE (not AFTER_DELIVERY)
   - Dunning flow: BPP sends payment reminders via on_update before due date
   - Late payment penalty: declared in offer considerationAttributes
@@ -46,7 +46,7 @@ phases:
         to: BAP
         description: BPP confirms credit eligibility and returns quote with payment terms.
         requiredFields:
-          - message.contract.consideration.considerationAttributes.breakup[]
+          - message.contract.consideration[].considerationAttributes.breakup[]
           - message.contract.tags.credit.approved_tenure_days
           - message.contract.tags.credit.credit_limit
           - message.contract.tags.credit.payment_due_date
@@ -60,7 +60,7 @@ phases:
         requiredFields:
           - message.contract.settlements[].settlementAttributes.method
           - message.contract.settlements[].settlementAttributes.timing
-          - message.contract.contractAttributes.creditTermsDays
+          - message.contract.settlements[].settlementAttributes.creditTerms.creditTermsDays
           - message.contract.contractAttributes.purchaseOrderReference
           - message.contract.contractAttributes.invoicePreferences.taxId.value
 
@@ -69,8 +69,8 @@ phases:
         to: BAP
         description: Confirms credit terms. No immediate payment instruction needed.
         requiredFields:
-          - message.contract.contractAttributes.creditTermsDays
-          - message.contract.contractAttributes.paymentDueDate
+          - message.contract.settlements[].settlementAttributes.creditTerms.creditTermsDays
+          - message.contract.settlements[].settlementAttributes.creditTerms.paymentDueDate
 
       - step: confirm
         from: BAP
@@ -78,10 +78,10 @@ phases:
         description: Buyer confirms. Payment status=PENDING (to be paid by due date).
         requiredFields:
           - message.contract.settlements[].settlementAttributes.status
-          - message.contract.contractAttributes.creditTermsDays
-          - message.contract.contractAttributes.paymentDueDate
-          - message.contract.contractAttributes.npwp
-          - message.contract.contractAttributes.nib
+          - message.contract.settlements[].settlementAttributes.creditTerms.creditTermsDays
+          - message.contract.settlements[].settlementAttributes.creditTerms.paymentDueDate
+          - message.contract.contractAttributes.buyerBusinessRegistration.npwp
+          - message.contract.contractAttributes.buyerBusinessRegistration.nib
 
       - step: on_confirm
         from: BPP
@@ -89,10 +89,10 @@ phases:
         description: Order confirmed on credit. Due date locked in contract.
         requiredFields:
           - message.contract.id
-          - message.contract.contractAttributes.creditTermsDays
-          - message.contract.contractAttributes.paymentDueDate
+          - message.contract.settlements[].settlementAttributes.creditTerms.creditTermsDays
+          - message.contract.settlements[].settlementAttributes.creditTerms.paymentDueDate
         conditionalFields:
-          - field: message.contract.contractAttributes.fakturPajakReference
+          - field: message.contract.consideration[].considerationAttributes.breakup[].taxDetail.eFakturRef
             condition: PKP seller, TAX_INVOICE
 
   phase3:
@@ -112,11 +112,10 @@ phases:
         direction: unsolicited
         description: >
           BPP sends payment reminders before due date.
-          T-7, T-3, T-1 before paymentDueDate.
+          T-7, T-3, T-1 before the payment due date.
         requiredFields:
-          - message.contract.contractAttributes.paymentDueDate
+          - message.contract.settlements[].settlementAttributes.creditTerms.paymentDueDate
           - message.contract.settlements[].status
-          - message.contract.contractAttributes.dunningReminderSequence
 
       - step: update
         stepContext: "payment_confirmation"
@@ -138,9 +137,11 @@ phases:
 settlementBasis: AFTER_PAYMENT_DUE_DATE
 
 contractAttributeAdditions:
-  creditTermsDays: REQUIRED
-  paymentDueDate: REQUIRED
   purchaseOrderReference: REQUIRED
+
+paymentAdditions:
+  creditTerms.creditTermsDays: REQUIRED
+  creditTerms.paymentDueDate: REQUIRED
 
 considerationAdditions:
   breakup[].type:

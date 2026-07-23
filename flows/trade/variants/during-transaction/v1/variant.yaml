@@ -155,7 +155,7 @@ subBranches:
         from: BPP
         to: BAP
         requiredFields:
-          - message.contract.contractAttributes.codAmount
+          - message.contract.consideration[].considerationAttributes.codAmount
       - step: confirm
         from: BAP
         to: BPP
@@ -169,7 +169,7 @@ subBranches:
           - message.contract.settlements[].settlementAttributes.status
           - message.contract.settlements[].settlementAttributes.paidAt
     businessRules:
-      - codAmount is the exact amount the delivery agent must collect
+      - considerationAttributes.codAmount is the exact amount the delivery agent must collect
       - BAP settles to BPP via reconcile after return window closes
       - COD not available if offer.offerAttributes.paymentConstraints.codAvailable=false
     schemaPacks:
@@ -196,7 +196,7 @@ subBranches:
         from: BPP
         to: BAP
         requiredFields:
-          - message.contract.contractAttributes.codAmount
+          - message.contract.consideration[].considerationAttributes.codAmount
       - step: confirm
         from: BAP
         to: BPP
@@ -245,7 +245,7 @@ subBranches:
           - message.contract.performance[]
           - message.contract.performance[].id
           - message.contract.performance[].performanceAttributes.sla
-          - message.contract.consideration.considerationAttributes.breakup[]
+          - message.contract.consideration[].considerationAttributes.breakup[]
       - step: init
         from: BAP
         to: BPP
@@ -254,7 +254,7 @@ subBranches:
           - message.contract.performance[].performanceAttributes.stops[]
     businessRules:
       - Each fulfillment has its own cancellation window
-      - Partial cancellation of one fulfillment is allowed if partialCancellationAllowed=true
+      - Partial cancellation is governed by the selected Offer cancellation policy
       - Each fulfillment generates its own performance state updates
       - Quote breakup must have separate DELIVERY line per fulfillment ID
     schemaPacks:
@@ -300,7 +300,8 @@ subBranches:
       ION transaction between BPP (acting as BAP in the logistics flow)
       and the LSP (BPP in the logistics flow).
       The BAP is not involved in the logistics transaction.
-      The link is maintained via contractAttributes.linkedContractId.
+      The Logistics Contract references the Trade Contract through
+      LogisticsContract.parentContractReference.
     steps:
       - step: on_confirm
         stepContext: "trade"
@@ -308,14 +309,14 @@ subBranches:
         to: BAP
         description: Trade contract confirmed. BPP then independently initiates logistics.
         requiredFields:
-          - message.contract.contractAttributes.fulfillingLocationId
+          - message.contract.performance[].performanceAttributes.fulfillingLocationId
       - step: logistics_sequence
         stepContext: "select → on_select → init → on_init → confirm → on_confirm (separate logistics transaction)"
         participants:
           initiator: BPP (acting as BAP in logistics flow)
           responder: LSP (BPP in logistics flow)
         linkedVia:
-          - trade.contractAttributes.linkedContractId
+          - logistics.contractAttributes.parentContractReference
           - performance.logisticsProviderId
     businessRules:
       - Logistics transaction uses ION Logistics sector (Sector F)
@@ -367,8 +368,7 @@ subBranches:
           This is a signal only — BPP may have already rolled back.
         requiredFields:
           - message.contract.id
-          - message.contract.contractAttributes.cancellationReason.id
-          - message.contract.contractAttributes.cancellationReason.descriptor.code
+          - message.contract.contractAttributes.cancellation.reason.code
       - step: on_cancel
         from: BPP
         to: BAP
@@ -406,7 +406,7 @@ subBranches:
         to: BPP
         description: BAP sends /cancel to formally close the transaction.
         requiredFields:
-          - message.contract.contractAttributes.cancellationReason.id
+          - message.contract.contractAttributes.cancellation.reason.code
     businessRules:
       - BPP must release reserved inventory immediately on NACK
       - BAP must refund consumer if payment was collected

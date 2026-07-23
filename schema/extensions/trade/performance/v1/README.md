@@ -1,7 +1,8 @@
 # trade/performance/v1
 
-Fulfilment execution attributes — selected mode, shipment identifier, assigned
-agent, return QC details, SLA breaches, verification outcome, and package facts.
+Fulfilment execution attributes — selected origin, mode, shipment identifier,
+assigned agent, return QC details, SLA breaches, verification outcome, and
+package facts.
 
 ## Attaches to
 `beckn:Performance.performanceAttributes`
@@ -14,6 +15,10 @@ agent, return QC details, SLA breaches, verification outcome, and package facts.
 | SERVICE | Provider performs a service |
 | DINE_IN | For restaurant orders consumed on premises |
 | CURBSIDE | Buyer drives to pickup, seller brings to car |
+
+`fulfillingLocationId` identifies the Provider operating location selected for
+this Performance. It is performance-level because one Contract may be fulfilled
+through multiple execution units and locations.
 
 ## State machine reference
 States are defined in `schema/extensions/trade/performance-states/v1/states.yaml`.

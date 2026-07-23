@@ -140,5 +140,5 @@ subBranches:
           - field: message.contract.performance[].performanceAttributes.agentName
         businessRules:
           - Re-attempt only available before package reaches seller FC
-          - Additional delivery charge may apply — declared in quoteTrail[]
+          - Additional delivery charge may apply — declared in Consideration breakup
           - Buyer may update delivery address before re-attempt (use update-delivery-address branch)

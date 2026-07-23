@@ -104,8 +104,10 @@
       "contractAttributes": {
         "@context": "https://schema.ion.id/extensions/trade/contract/v1/context.jsonld",
         "@type": "ion:IONTradeContract",
-        "npwp": "123456789012345",
-        "nib": "1234567890123"
+        "buyerBusinessRegistration": {
+          "npwp": "1234567890123456",
+          "nib": "1234567890123"
+        }
       }
     }
   }

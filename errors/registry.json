@@ -357,13 +357,13 @@
       "http_status": 402,
       "category": "transaction",
       "title": {
-        "id": "Milestone pembayaran gagal atau jatuh tempo",
-        "en": "Payment schedule milestone failed or overdue"
+        "id": "Pembayaran gagal atau jatuh tempo",
+        "en": "Payment failed or overdue"
       },
       "description": {
-        "en": "A scheduled payment milestone (down-payment, balance, etc.) failed to collect or is past dueAt + graceDays. Contract cannot progress until milestone is resolved.\n"
+        "en": "A buyer-facing payment represented by a Contract Settlement failed to collect or remains unpaid after settlementAttributes.creditTerms.paymentDueDate. Contract progression may be blocked until the payment is resolved.\n"
       },
-      "affected_field": "message.contract.contractAttributes.paymentSchedule[].status",
+      "affected_field": "message.contract.settlements[].settlementAttributes.status",
       "affected_apis": [
         "confirm",
         "on_status"
@@ -371,7 +371,7 @@
       "schema_ref": "schema/core/v2/api/v2.0.0/beckn.yaml#Contract",
       "flow_ref": null,
       "resolution": {
-        "en": "Retry collection via /init with fresh payment method, or cancel with appropriate reason."
+        "en": "Retry collection with a fresh payment method, update the Settlement payment status when resolved, or cancel with an appropriate reason."
       }
     },
     {
@@ -818,12 +818,12 @@
       "description": {
         "en": "NPWP must be exactly 16 digits (new format post-2024). Old 15-digit format is not accepted."
       },
-      "affected_field": "contractAttributes.npwp",
+      "affected_field": "contractAttributes.buyerBusinessRegistration.npwp",
       "affected_apis": [
         "confirm",
         "on_confirm"
       ],
-      "schema_ref": "schema/extensions/core/identity/v1",
+      "schema_ref": "schema/extensions/core/business-registration/v1",
       "flow_ref": null,
       "resolution": {
         "en": "Use the 16-digit NPWP format as per PMK 136/2023. Do not include dots or dashes."

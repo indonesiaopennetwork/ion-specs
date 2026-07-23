@@ -24,7 +24,7 @@ Delay notification:
   BPP → /on_update (fulfillment.tags.delay_reason, new estimatedDeliveryTime)
 
 Price adjustment:
-  BPP → /on_update (quote.breakup[] with changes, contractAttributes.quoteTrail[])
+  BPP → /on_update (considerationAttributes.breakup[] with the revised monetary obligations)
 ```
 
 ## How variant fields layer

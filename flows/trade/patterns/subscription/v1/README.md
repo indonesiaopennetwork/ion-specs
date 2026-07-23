@@ -6,8 +6,8 @@ Recurring purchases on a defined billing cycle. Mandate setup at first confirm; 
 Grocery subscriptions, packaged meal kit delivery, supplements, dairy, water delivery, pet food, FMCGorder
 
 ## Key additions to B2C-SF
-- `subscriptionBillingCycle`: WEEKLY / FORTNIGHTLY / MONTHLY / QUARTERLY / ANNUAL
-- `subscriptionNextBillingDate`: updated after each successful billing
+- `subscription.billingCycle`: WEEKLY / FORTNIGHTLY / MONTHLY / QUARTERLY / ANNUAL
+- `subscription.nextBillingAt`: updated after each successful billing
 - Mandate setup at on_init (UPI Autopay or e-mandate deep link)
 - Lifecycle management via /update: PAUSE, SKIP, MODIFY_QUANTITY, RESUME
 - Cancellation applies to future cycles; in-progress delivery completes normally
@@ -52,4 +52,3 @@ Applies per delivery cycle. Each recurring delivery is a fresh standard run.
 > **The `pattern.yaml` in this directory is your primary implementation reference.** It lists every field ONIX validates at each API step — use it as your implementation checklist alongside this README. If ONIX rejects a message, look up the step in `pattern.yaml` first.
 
 Variant field requirements are declared in each variant's `variant.yaml` and are additive on top of this pattern's requirements.
-

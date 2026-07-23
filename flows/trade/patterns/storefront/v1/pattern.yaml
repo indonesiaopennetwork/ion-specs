@@ -123,13 +123,13 @@ phases:
         requiredFields:
           - message.contract.participants[role=PROVIDER].id
           - message.contract.commitments[].id
-          - message.contract.consideration.considerationAttributes.breakup[]
-          - message.contract.consideration.considerationAttributes.totalAmount
+          - message.contract.consideration[].considerationAttributes.breakup[]
+          - message.contract.consideration[].considerationAttributes.totalAmount
           - message.contract.performance[].performanceAttributes.performanceMode
           - message.contract.performance[].performanceAttributes.supportedPerformanceModes
           - message.contract.performance[].performanceAttributes.sla
         conditionalFields:
-          - field: message.contract.consideration.considerationAttributes.breakup[].taxDetail.rate
+          - field: message.contract.consideration[].considerationAttributes.breakup[].taxDetail.rate
             condition: required on TAX breakup lines
           - field: message.contract.performance[].performanceAttributes.handling[]
             condition: required for cold-chain or fragile items
@@ -175,8 +175,8 @@ phases:
         description: BPP returns payment instructions. Final quote confirmed.
         requiredFields:
           - message.contract.settlements[].settlementAttributes.methodDetail
-          - message.contract.consideration.considerationAttributes.breakup[]
-          - message.contract.consideration.considerationAttributes.totalAmount
+          - message.contract.consideration[].considerationAttributes.breakup[]
+          - message.contract.consideration[].considerationAttributes.totalAmount
           - message.contract.settlements[].settlementAttributes.amount
           - message.contract.settlements[].settlementAttributes.currency
         conditionalFields:
@@ -201,8 +201,8 @@ phases:
           - message.contract.performance[]
           - message.contract.settlements[].settlementAttributes.status
           - message.contract.settlements[].settlementAttributes.method
-          - message.contract.contractAttributes.npwp
-          - message.contract.contractAttributes.nib
+          - message.contract.contractAttributes.buyerBusinessRegistration.npwp
+          - message.contract.contractAttributes.buyerBusinessRegistration.nib
 
       - step: on_confirm
         from: BPP
@@ -215,13 +215,13 @@ phases:
           - message.contract.performance[].id
           - message.contract.performance[].status.descriptor.code
           - message.contract.settlements[].settlementAttributes.status
-          - message.contract.contractAttributes.fulfillingLocationId
+          - message.contract.performance[].performanceAttributes.fulfillingLocationId
         conditionalFields:
           - field: message.contract.performance[].performanceAttributes.deliveryOtp
             condition: if proofOfDeliveryType=OTP
           - field: message.contract.performance[].performanceAttributes.selfPickupCode
             condition: if performanceMode=SELF_PICKUP
-          - field: message.contract.contractAttributes.subscriptionBillingCycle
+          - field: message.contract.contractAttributes.subscription.billingCycle
             condition: for B2C-SUB commerce pattern
         schemaPacks:
           core: [payment/v1, reconcile/v1]

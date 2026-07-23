@@ -34,6 +34,16 @@ components:
       # proofOfDelivery, deliveryOtp, selfPickupCode, and
       # installationScheduling are inherited from RetailPerformance 2.1.
       properties:
+        fulfillingLocationId:
+          type: string
+          description: >
+            Identifier of the Provider operating location from which this
+            Performance is fulfilled. It applies to this execution unit rather
+            than the Contract as a whole, allowing different performances in
+            one Contract to originate from different locations.
+          example: FC-SBY-01
+          # x-ion-condition: Present when the provider selects a fulfilment location
+
         performanceMode:
           type: string
           enum:

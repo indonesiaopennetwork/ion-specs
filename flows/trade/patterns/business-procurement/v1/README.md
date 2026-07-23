@@ -10,9 +10,9 @@ FMCG distribution, electronics wholesale, agritech bulk, fashion wholesale, B2B 
 - Bulk pricing tiers in on_select breakup
 - `purchaseOrderReference` required at init (SP / SPK / PO number)
 - `invoicePreferences.invoiceType = TAX_INVOICE` standard; requires PKP seller + NPWP buyer
-- `fakturPajakReference` assigned by BPP at on_confirm for PKP sellers
+- `breakup[].taxDetail.eFakturRef` assigned by BPP when a Faktur Pajak is issued
 - Payment rails: RTGS / BI_FAST preferred over QRIS
-- `partialCancellationAllowed` recommended true for multi-line orders
+- Partial cancellation is governed by the selected Offer policy and identifies affected `cancellation.commitmentIds`
 - Delivery receipt: Surat Jalan / Delivery Order reference at DELIVERED
 
 ## State machine
@@ -43,4 +43,3 @@ FMCG distribution, electronics wholesale, agritech bulk, fashion wholesale, B2B 
 > **The `pattern.yaml` in this directory is your primary implementation reference.** It lists every field ONIX validates at each API step — use it as your implementation checklist alongside this README. If ONIX rejects a message, look up the step in `pattern.yaml` first.
 
 Variant field requirements are declared in each variant's `variant.yaml` and are additive on top of this pattern's requirements.
-

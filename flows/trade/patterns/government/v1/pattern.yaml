@@ -91,15 +91,15 @@ phases:
 
       - step: confirm
         requiredFields:
-          - message.contract.contractAttributes.npwp
-          - message.contract.contractAttributes.nib
+          - message.contract.contractAttributes.buyerBusinessRegistration.npwp
+          - message.contract.contractAttributes.buyerBusinessRegistration.nib
           - message.contract.tags.b2g.sp_reference
           - message.contract.tags.b2g.dipa_reference
         paymentNote: Government payment is POST_FULFILLMENT via SP2D after BAST signing
 
       - step: on_confirm
         additionalFields:
-          - field: message.contract.contractAttributes.fakturPajakReference
+          - field: message.contract.consideration[].considerationAttributes.breakup[].taxDetail.eFakturRef
             note: PKP seller must issue Faktur Pajak for government purchases
           - field: message.contract.tags.b2g.tkdn_declaration_url
             note: TKDN self-declaration URL or certificate

@@ -19,6 +19,11 @@
         }
       ],
       "properties": {
+        "fulfillingLocationId": {
+          "type": "string",
+          "description": "Identifier of the Provider operating location from which this Performance is fulfilled.",
+          "example": "FC-SBY-01"
+        },
         "performanceMode": {
           "type": "string",
           "enum": [

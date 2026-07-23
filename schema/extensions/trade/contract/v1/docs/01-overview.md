@@ -1,23 +1,29 @@
 # Trade Contract Extension — Overview
 
-Order-level fields locked at `on_confirm`. These persist through the full contract lifecycle.
+`TradeContract` carries terms and state that govern the trade Contract as a
+whole. Execution, monetary obligations, payment events, tax entries, and
+logistics declarations remain on their respective Contract subobjects.
 
 ## Schema layers
 
-The pack exposes two compositional layers:
+- `RetailContract v2.1` supplies quote, buyer instruction, delivery preference,
+  gift, invoice preference, loyalty, and source structures.
+- `TradeContract` adds purchase-order, parent-contract, cancellation, and
+  subscription concepts, and refines inherited source and gift structures.
+- `IONTradeContract` adds ION invoice-document type and composes verified
+  Indonesian buyer business registration.
 
-- `TradeContract` defines network-neutral trade contract properties.
-- `IONTradeContract` extends it with Indonesian invoicing, customs, and
-  business/tax identity properties.
+## Lifecycle
 
-## Fields set at init (buyer-declared)
-`invoicePreferences`, `deliveryPreferences`, `gift`, `purchaseOrderReference`, `buyerInstructions`
+- Buyer preferences and attribution normally enter during select or init.
+- Provider-confirmed Contract state is returned through on_init/on_confirm.
+- Cancellation and subscription state may be updated through the applicable
+  update or cancel lifecycle.
+- Monetary or execution changes update Consideration, Settlement, Payment, or
+  Performance rather than being copied into Contract attributes.
 
-## Fields set at on_confirm (BPP-assigned)
-`fulfillingLocationId`, `fakturPajakReference`
+## Audit and history
 
-## quoteTrail
-Every post-confirm price change adds an entry to `quoteTrail[]`. This provides an auditable trail for reconciliation — the final settlement amount can always be derived from the original quote plus all trail entries.
-
-## Subscription fields
-`subscriptionBillingCycle` and `subscriptionNextBillingDate` are only populated for subscription pattern. `subscriptionNextBillingDate` is updated by BPP after each successful billing event.
+The Contract carries current agreed state. Monetary history is represented by
+Consideration and Settlement records and reconciliation details by
+`IONReconcile`; the former `quoteTrail` duplicate is not retained.

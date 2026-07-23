@@ -1,53 +1,86 @@
-# trade/contract/v1
+# ION Trade Contract Extension — v1
 
-Order-level contract attributes — buyer instructions, gift, invoice preferences, credit terms, subscription.
+**Schemas:** `TradeContract` and `IONTradeContract`
 
-## Attaches to
-`beckn:Contract.contractAttributes`
+**Attaches to:** `Contract.contractAttributes`
 
-See `attributes.yaml` for complete field definitions.
+## Purpose
 
-## Layer split
+Carries trade-specific terms and state that apply to the Contract as a whole.
+`TradeContract` inherits `RetailContract v2.1`; `IONTradeContract` adds only
+Indonesian invoice-type and buyer-business-registration refinements.
 
-`IONTradeContract` extends `TradeContract` through `allOf`.
+## Inherited fields
 
-- `TradeContract` contains 27 network-neutral trade concepts, including
-  fulfilment preferences, purchase orders, cancellation metadata, credit and
-  subscription terms, gifting, live-commerce attribution, refunds, and payment
-  schedules.
-- `IONTradeContract` contains five Indonesia-specific properties:
-  `invoicePreferences`, `fakturPajakReference`, `beaCukaiReference`, `nib`, and
-  `npwp`.
+RetailContract supplies:
 
-This phase only assigns existing properties to their semantic layer. Property
-shape and naming cleanup is handled separately.
+- `quoteReference`
+- `buyerInstructions`
+- `deliveryPreferences`
+- `gift`
+- `invoicePreferences`
+- `loyalty`
+- `source`
 
-## Network-required fields
+Local refinements extend inherited `gift` and `source` without replacing their
+upstream structures. `IONTradeContract.invoicePreferences` similarly retains
+inherited tax ID, company name, and email properties.
 
-The following fields are always required for this pack by ION network policy (`ion.yaml → x-ion-field-requirements.alwaysRequired`):
+## TradeContract fields
 
-- `fulfillingLocationId`
+| Field | Purpose |
+|---|---|
+| `purchaseOrderReference` | Buyer-issued procurement reference |
+| `parentContractId` | Parent Contract for a child trade transaction |
+| `cancellation` | Reason, affected commitments, and forced-cancellation evidence |
+| `subscription` | Recurring-contract terms and current lifecycle state |
+| `source` | Inherited source with creator/content/affiliate attribution |
+| `gift` | Inherited gifting preferences with recipient details |
 
-Mandatoriness is enforced by ONIX — these fields are not marked `required:` in the schema itself (mandatoriness lives in network policy, not the schema).
+## IONTradeContract fields
+
+| Field | Purpose |
+|---|---|
+| `invoicePreferences.invoiceType` | Requested ION invoice-document type |
+| `buyerBusinessRegistration` | Composed Indonesian buyer registration |
+
+Use inherited `invoicePreferences.taxId` for an invoice tax identifier:
+
+```json
+{
+  "scheme": "NPWP",
+  "country": "ID",
+  "value": "1234567890123456"
+}
+```
+
+## Ownership boundaries
+
+- Fulfilment centre selection belongs to `TradePerformance`.
+- Credit terms, payment due dates, and payment declarations belong to
+  `IONPayment` on `Settlement.settlementAttributes`.
+- COD and price changes belong to `TradeConsideration`.
+- Payment events belong to core Settlement records.
+- Cancellation and dispute eligibility remain Offer policy.
+- Faktur Pajak references belong to `IONTaxDetail.eFakturRef`.
+- Customs declarations belong to the associated `IONLogisticsContract`.
+- Detailed reconciliation belongs to `IONReconcile`.
 
 ## Conditional requirements
 
-- If `paymentRail=COD`: **codAmount becomes required on this contract**. Source: `ion.yaml → x-ion-conditional-rules`.
+Conditional mandatoriness is enforced by ION network policy rather than this
+shared schema. Important policy conditions include:
 
-## Per-step required fields
-
-The `flows/trade/patterns/storefront/v1/pattern.yaml` lists every field ONIX validates at each API step for your commerce flow — use it as your implementation checklist. If ONIX rejects a message, check your step's `requiredFields` list in that file first.
-
-## Used in
-
-`flows/trade/README.md — used in all trade patterns`
-
-## Common rejection reasons
-
-Missing `fulfillingLocationId` → `ION-3xxx`. COD: missing `codAmount` → `ION-3xxx`. See `errors/README.md` for the full error code reference.
+- procurement may require `purchaseOrderReference`;
+- partial cancellation requires `cancellation.commitmentIds`;
+- forced cancellation requires supporting timestamps;
+- subscription patterns require `subscription.billingCycle`;
+- applicable B2B patterns require `buyerBusinessRegistration`;
+- tax-invoice requests require an appropriate inherited `taxId`.
 
 ## Changelog
 
 | Version | Date | Summary |
 |---|---|---|
 | v1 | 2026-06-02 | Initial release |
+| v1 cleanup | 2026-07-23 | Aligned with RetailContract and relocated component-owned fields |

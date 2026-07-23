@@ -66,9 +66,9 @@ phases:
           Marketplace returns quote with marketplace SLA.
           Faster SLA than independent seller — marketplace FC is pre-stocked.
         requiredFields:
-          - message.contract.consideration.considerationAttributes.breakup[]
+          - message.contract.consideration[].considerationAttributes.breakup[]
           - message.contract.performance[].performanceAttributes.sla
-          - message.contract.contractAttributes.fulfillingLocationId
+          - message.contract.performance[].performanceAttributes.fulfillingLocationId
 
       - step: init
         note: Same as storefront init. Marketplace BAP or consumer-facing BAP sends.
@@ -87,7 +87,7 @@ phases:
           fulfillmentLocationId = marketplace FC ID.
         requiredFields:
           - message.contract.id
-          - message.contract.contractAttributes.fulfillingLocationId
+          - message.contract.performance[].performanceAttributes.fulfillingLocationId
           - message.contract.performance[].performanceAttributes.sla
 
   phase3:

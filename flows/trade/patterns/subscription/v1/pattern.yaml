@@ -26,9 +26,9 @@ deltaFrom_B2C_SF:
   - context.action:
       adds: [subscribe, on_subscribe, subscription_status, on_subscription_status]
   - contractAttributes:
-      subscriptionBillingCycle: REQUIRED
-      subscriptionNextBillingDate: REQUIRED
-      linkedSubscriptionId: tracks parent subscription across billing cycles
+      subscription.billingCycle: REQUIRED
+      subscription.nextBillingAt: REQUIRED
+      parentContractId: tracks parent subscription across billing cycles
 
 phases:
   phase1:
@@ -62,8 +62,8 @@ phases:
         to: BAP
         description: BPP confirms subscription pricing and first delivery quote.
         requiredFields:
-          - message.contract.consideration.considerationAttributes.breakup[]
-          - message.contract.consideration.considerationAttributes.totalAmount
+          - message.contract.consideration[].considerationAttributes.breakup[]
+          - message.contract.consideration[].considerationAttributes.totalAmount
           - message.contract.tags.subscription.next_billing_date
           - message.contract.tags.subscription.billing_cycle
 
@@ -74,7 +74,7 @@ phases:
           - message.contract.performance[].performanceAttributes.stops[].location
           - message.contract.settlements[].settlementAttributes.method
           - message.contract.settlements[].settlementAttributes.collectedBy
-          - message.contract.contractAttributes.subscriptionBillingCycle
+          - message.contract.contractAttributes.subscription.billingCycle
 
       - step: on_init
         from: BPP
@@ -92,9 +92,9 @@ phases:
         description: Buyer confirms subscription. Mandate activated.
         requiredFields:
           - message.contract.settlements[].settlementAttributes.status
-          - message.contract.contractAttributes.subscriptionBillingCycle
-          - message.contract.contractAttributes.npwp
-          - message.contract.contractAttributes.nib
+          - message.contract.contractAttributes.subscription.billingCycle
+          - message.contract.contractAttributes.buyerBusinessRegistration.npwp
+          - message.contract.contractAttributes.buyerBusinessRegistration.nib
 
       - step: on_confirm
         from: BPP
@@ -103,8 +103,8 @@ phases:
         requiredFields:
           - message.contract.id
           - message.contract.status
-          - message.contract.contractAttributes.subscriptionBillingCycle
-          - message.contract.contractAttributes.subscriptionNextBillingDate
+          - message.contract.contractAttributes.subscription.billingCycle
+          - message.contract.contractAttributes.subscription.nextBillingAt
 
   phase3:
     name: Recurring Fulfilment
@@ -126,8 +126,8 @@ phases:
         description: Buyer pauses subscription for N billing cycles.
         requiredFields:
           - message.contract.id
-          - message.contract.contractAttributes.subscriptionAction  # enum: PAUSE|RESUME|SKIP_NEXT|MODIFY|CANCEL
-          - message.contract.contractAttributes.subscriptionPauseUntil
+          - message.contract.contractAttributes.subscription.status  # value=PAUSED
+          - message.contract.contractAttributes.subscription.pausedUntil
 
       - step: update
         stepContext: "SKIP"
@@ -136,8 +136,7 @@ phases:
         description: Buyer skips the next delivery cycle.
         requiredFields:
           - message.contract.id
-          - message.contract.contractAttributes.subscriptionAction
-          - message.update.target.order.subscription.skip_count
+          - message.contract.contractAttributes.subscription.nextBillingAt
 
       - step: update
         stepContext: "MODIFY_QUANTITY"
@@ -147,13 +146,15 @@ phases:
         requiredFields:
           - message.contract.id
           - message.contract.commitments[].resources[].quantity.count
-          - message.contract.contractAttributes.subscriptionBillingCycle
+          - message.contract.contractAttributes.subscription.billingCycle
 
       - step: update
         stepContext: "RESUME"
         from: BAP
         to: BPP
         description: Buyer resumes a paused subscription.
+        requiredFields:
+          - message.contract.contractAttributes.subscription.status  # value=ACTIVE
 
       - step: cancel
         stepContext: "SUBSCRIPTION"
@@ -162,7 +163,7 @@ phases:
         description: Buyer cancels recurring subscription entirely.
         requiredFields:
           - message.contract.id
-          - message.contract.contractAttributes.cancellationReason.id
+          - message.contract.contractAttributes.cancellation.reason.code
         businessRules:
           - Cancellation applies to future cycles only
           - Current in-progress delivery completes normally
@@ -181,6 +182,6 @@ variantWindows:
     latest: subscription_TERMINATED
 
 contractAttributeAdditions:
-  subscriptionBillingCycle: REQUIRED
-  subscriptionNextBillingDate: REQUIRED
-  linkedContractId: links each delivery contract to parent subscription
+  subscription.billingCycle: REQUIRED
+  subscription.nextBillingAt: REQUIRED
+  parentContractId: links each delivery contract to its parent subscription

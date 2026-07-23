@@ -181,6 +181,7 @@
           "performanceAttributes": {
             "@context": "https://schema.ion.id/extensions/trade/performance/v1/context.jsonld",
             "@type": "ion:IONTradePerformance",
+            "fulfillingLocationId": "FC-DOMINOS-SUDIRMAN-001",
             "performanceMode": "DELIVERY",
             "sla": {
               "min": "PT30M",
@@ -246,9 +247,10 @@
       "contractAttributes": {
         "@context": "https://schema.ion.id/extensions/trade/contract/v1/context.jsonld",
         "@type": "ion:IONTradeContract",
-        "fulfillingLocationId": "FC-DOMINOS-SUDIRMAN-001",
-        "npwp": "1234567890123456",
-        "nib": "1234567890123",
+        "buyerBusinessRegistration": {
+          "npwp": "1234567890123456",
+          "nib": "1234567890123"
+        },
         "invoicePreferences": {
           "invoiceType": "RECEIPT"
         },

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "domain": "trade",
   "name": "ION Trade Performance Extension (v1)",
-  "description": "Fulfilment execution \u2014 selected mode, tracking, agent, return QC, SLA breaches, verification, and package facts.",
+  "description": "Fulfilment execution \u2014 origin location, selected mode, tracking, agent, return QC, SLA breaches, verification, and package facts.",
   "packSchema": "./schema.json",
   "jsonldContext": "./context.jsonld",
   "attachmentPoints": {
@@ -20,7 +20,7 @@
         "path": "$.performanceMode"
       },
       {
-        "path": "$.sla"
+        "path": "$.fulfillingLocationId"
       }
     ],
     "filterable": [
@@ -28,14 +28,13 @@
         "path": "$.performanceMode"
       },
       {
-        "path": "$.sla"
+        "path": "$.fulfillingLocationId"
       }
     ],
     "sortable": []
   },
   "minimalForDiscovery": [
-    "performanceMode",
-    "sla"
+    "performanceMode"
   ],
   "x-ion-layer": {
     "generic": "TradePerformance",

@@ -8,7 +8,7 @@ Covers all cancellation scenarios for an active (confirmed) order.
 |---|---|---|---|
 | cancel-full-buyer | on_confirm → on_status[DELIVERED] | BAP | Reason must be in `policies.cancellation.allowedReasons`. Fee applies if state ≥ `cancellationFeeApplicableStates`. |
 | cancel-full-seller | on_confirm → on_status[DISPATCHED] | BPP (unsolicited) | Seller-initiated — no fee to buyer. Full refund mandatory for prepaid. Reason code required. |
-| cancel-partial-fulfillment | on_confirm → on_status[DISPATCHED] | Either | Only valid if `partialCancellationAllowed = true`. Quote trail updated for cancelled lines. |
+| cancel-partial-fulfillment | on_confirm → on_status[DISPATCHED] | Either | Governed by the selected Offer cancellation policy; affected Commitment IDs are carried in `cancellation.commitmentIds`. |
 | technical-cancellation-force | on_confirm → on_status[DELIVERED] | BAP | BAP sends cancel with `force = yes` after BPP fails to respond within TAT. Code = 999. Triggers raise to ION. |
 
 ## Refund rules

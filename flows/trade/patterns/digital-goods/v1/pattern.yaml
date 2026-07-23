@@ -77,8 +77,8 @@ phases:
           For operator-validated products (pulsa), BPP may verify target
           is active and customer name matches before accepting.
         requiredFields:
-          - message.contract.consideration.considerationAttributes.breakup[]
-          - message.contract.consideration.considerationAttributes.totalAmount
+          - message.contract.consideration[].considerationAttributes.breakup[]
+          - message.contract.consideration[].considerationAttributes.totalAmount
         errors:
           - ION-3018  # Digital target invalid or inactive
 
@@ -103,8 +103,8 @@ phases:
         description: Binding commit. Payment confirmed.
         requiredFields:
           - message.contract.settlements[].settlementAttributes.status
-          - message.contract.contractAttributes.npwp
-          - message.contract.contractAttributes.nib
+          - message.contract.contractAttributes.buyerBusinessRegistration.npwp
+          - message.contract.contractAttributes.buyerBusinessRegistration.nib
 
       - step: on_confirm
         from: BPP
