@@ -1,10 +1,39 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://schema.ion.id/trade/settlement/v1/schema.json",
-  "title": "IONTradeSettlement",
-  "description": "Trade sector settlement and payment declaration attributes. Attaches to beckn:Settlement.settlementAttributes.",
+  "title": "ION Trade Settlement Schema Pack v1",
+  "description": "JSON Schema 2020-12 mirror of the trade/settlement/v1 OpenAPI schema pack. The root resolves to IONTradeSettlement; TradeSettlement is the generic base layer.",
   "type": "object",
-  "properties": {
+  "$ref": "#/$defs/IONTradeSettlement",
+  "$defs": {
+    "TradeSettlement": {
+      "type": "object",
+      "title": "TradeSettlement",
+      "description": "Network-agnostic generic layer for trade settlement attributes. Property ownership will be reviewed during the generic cleanup phase.",
+      "x-ion-layer": "generic",
+      "x-ion-split-version": "0.7.0",
+      "x-recommended-parent": "Settlement.settlementAttributes",
+      "additionalProperties": true,
+      "properties": {}
+    },
+    "IONTradeSettlement": {
+      "type": "object",
+      "title": "IONTradeSettlement",
+      "description": "ION-specific trade settlement layer. Property ownership will be reviewed during the ION cleanup phase.",
+      "x-ion-layer": "ion",
+      "x-ion-split-version": "0.7.0",
+      "allOf": [
+        {
+          "$ref": "#/$defs/TradeSettlement"
+        }
+      ],
+      "additionalProperties": true,
+      "x-jsonld": {
+        "@context": "https://schema.ion.id/trade/settlement/v1/context.jsonld",
+        "@type": "ion:IONTradeSettlement"
+      },
+      "x-beckn-attaches-to": "Settlement.settlementAttributes",
+      "properties": {
     "method": {
       "type": "string",
       "enum": [
@@ -132,6 +161,7 @@
       "type": "string",
       "description": "Free-text reason declared by BPP when reconStatus=DISPUTED."
     }
-  },
-  "additionalProperties": true
+      }
+    }
+  }
 }

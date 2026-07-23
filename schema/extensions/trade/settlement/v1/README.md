@@ -1,12 +1,16 @@
 # ION Trade Settlement Extension — v1
 
-**Schema:** `IONTradeSettlement`  
+**Schemas:** `TradeSettlement` (generic) and `IONTradeSettlement` (ION-specific)
 **Attaches to:** `Settlement.settlementAttributes`  
 **Sector:** Trade  
 
 ## Purpose
 
 Carries the payment method declaration, instrument detail, and refund lifecycle for each settlement record in a trade transaction. One `Settlement` object per payment event in `Contract.settlements[]`.
+
+`IONTradeSettlement` extends `TradeSettlement` through `allOf`. The current
+property placement is preserved during the structural split; generic and
+ION-specific property ownership is reviewed in the subsequent cleanup phases.
 
 ## Key fields
 

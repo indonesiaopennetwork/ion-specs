@@ -35,13 +35,18 @@ components:
       # allOf upstream ref removed: IONTradeSettlement defines all settlement fields
       # directly with Indonesia-specific enums (QRIS, VIRTUAL_ACCOUNT, etc.) that
       # conflict with the generic Beckn RetailSettlement method enum (ONLINE, CARD, etc.).
+      properties: {}
     IONTradeSettlement:
       type: object
       x-ion-layer: ion
       x-ion-split-version: "0.7.0"
       allOf:
         - $ref: '#/components/schemas/TradeSettlement'
-      title: TradeSettlement
+      title: IONTradeSettlement
+      description: >
+        ION-specific trade settlement layer. This structurally extends
+        TradeSettlement; property ownership will be reviewed in the subsequent
+        generic and ION cleanup phases.
       additionalProperties: true
       x-jsonld:
         '@context': 'https://schema.ion.id/trade/settlement/v1/context.jsonld'
