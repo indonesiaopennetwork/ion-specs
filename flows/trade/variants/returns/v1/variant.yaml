@@ -9,12 +9,12 @@ sector: ion:trade
 status: ready
 description: >
   Six sub-branches for post-delivery return flows. All require
-  offer.returnable=true and must be initiated within offer.returnWindow.
+  offer.offerAttributes.policies.returns.allowed=true and must be initiated within offer.returnWindow.
   Resolution paths: refund, replacement, or exchange.
   Refund is always a sub-step — never a standalone flow.
 
 prerequisite:
-  - offer.returnable must be true
+  - offer.offerAttributes.policies.returns.allowed must be true
   - Current datetime within offer.returnWindow from DELIVERED timestamp
   - Reason must be in offer.returnAllowedReasons
   - DEFECTIVE and DAMAGED_IN_TRANSIT are always valid per UU 8/1999
@@ -44,7 +44,7 @@ subBranches:
         conditionalFields:
           - field: message.contract.performance[].performanceAttributes.tags.return_evidence[]
         errors:
-          - ION-5003  # Return not permitted (returnable=false)
+          - ION-5003  # Return not permitted (policies.returns.allowed=false)
           - ION-5004  # Return window expired
 
       - step: on_update
@@ -53,7 +53,7 @@ subBranches:
         direction: callback
         description: >
           BPP approves or rejects the return request. If approved and
-          sellerPickupReturn=true, return agent is assigned.
+          policies.returns.method=SELLER_PICKUP, return agent is assigned.
         requiredFields:
           - message.contract.performance[].status.descriptor.code
         conditionalFields:
@@ -184,7 +184,7 @@ subBranches:
     prerequisite:
       - Replacement must be same parentResourceId (or same canonicalId)
       - Replacement variant must be IN_STOCK at the serving FC
-      - Offer.returnPolicy must permit SIZE_MISMATCH / COLOR_MISMATCH
+      - Offer.policies.returns.policyRef must permit SIZE_MISMATCH / COLOR_MISMATCH
     steps:
       - step: update
         from: BAP
@@ -201,7 +201,7 @@ subBranches:
           - field: message.contract.performance[].performanceAttributes.tags.exchange_item.priceDelta
             condition: signed IDR — 0 when same price
           - field: message.contract.performance[].performanceAttributes.tags.return_evidence
-            condition: per offer.returnEvidenceRequirement
+            condition: per offer.offerAttributes.policies.returns.evidenceRequirement
 
       - step: on_update
         from: BPP
@@ -308,7 +308,7 @@ subBranches:
           - message.contract.performance[].performanceAttributes.tags.return_reason.code  # tags is open key-value map
         conditionalFields:
           - field: message.contract.performance[].performanceAttributes.tags.return_evidence[]
-            condition: per offer.returnEvidenceRequirement
+            condition: per offer.offerAttributes.policies.returns.evidenceRequirement
       - step: on_update
         from: BPP
         to: BAP

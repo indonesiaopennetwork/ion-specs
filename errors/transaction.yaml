@@ -58,15 +58,15 @@
     en: Payment method not available for this product
   description:
     en: The selected payment method is not eligible for this offer. e.g. COD not available
-      (availableOnCod=false) or BNPL not in paymentMethodEligibility.
-  affected_field: offerAttributes.availableOnCod
+      (paymentConstraints.codAvailable=false) or BNPL not in paymentMethodEligibility.
+  affected_field: offerAttributes.paymentConstraints.codAvailable
   affected_apis:
   - init
   - on_init
   schema_ref: schema/core/v2/api/v2.0.0/beckn.yaml#Offer
   flow_ref: null
   resolution:
-    en: Check availableOnCod and paymentMethodEligibility from the offer before presenting
+    en: Check paymentConstraints.codAvailable and paymentMethodEligibility from the offer before presenting
       payment options to consumer.
 - code: ION-3013
   http_status: 410
@@ -111,7 +111,7 @@
     id: COD tidak tersedia untuk pembeli
     en: COD not eligible for this buyer
   description:
-    en: 'Offer supports COD (availableOnCod=true) but the specific buyer has been
+    en: 'Offer supports COD (paymentConstraints.codAvailable=true) but the specific buyer has been
       declined COD — new buyer, previous COD failure, address not verified, amount
       exceeds limit, or high-risk category.
 

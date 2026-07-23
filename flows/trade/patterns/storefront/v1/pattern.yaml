@@ -53,13 +53,13 @@ phases:
           - message.catalog.resources[].resourceAttributes.minAge
           - message.catalog.offers[].id
           - message.catalog.offers[].price
-          - message.catalog.offers[].offerAttributes.cancellationPolicy
-          - message.catalog.offers[].offerAttributes.returnable
-          - message.catalog.offers[].offerAttributes.returnPolicy
-          - message.catalog.offers[].offerAttributes.warrantyPolicy
-          - message.catalog.offers[].offerAttributes.disputePolicy
+          - message.catalog.offers[].offerAttributes.policies.cancellation.policyRef
+          - message.catalog.offers[].offerAttributes.policies.returns.allowed
+          - message.catalog.offers[].offerAttributes.policies.returns.policyRef
+          - message.catalog.offers[].offerAttributes.policies.warranty.policyRef
+          - message.catalog.offers[].offerAttributes.policies.dispute.policyRef
           - message.catalog.offers[].offerAttributes.timeToShip
-          - message.catalog.offers[].offerAttributes.availableOnCod
+          - message.catalog.offers[].offerAttributes.paymentConstraints.codAvailable
           - message.catalog.offers[].offerAttributes.contactDetailsConsumerCare
           - message.catalog.offers[].offerAttributes.displayLanguage[]
         conditionalFields:

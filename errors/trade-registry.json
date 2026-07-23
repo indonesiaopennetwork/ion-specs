@@ -38,9 +38,9 @@
         "en": "Invalid policy IRI at catalog publish"
       },
       "description": {
-        "en": "Offer declared a policy IRI that is not present in the ION Policy Terms Registry. Every offer.returnPolicy / cancellationPolicy / warrantyPolicy / disputePolicy / grievanceSlaPolicy / paymentTermsPolicy must be a ratified IRI from policies/registry.json.\n"
+        "en": "Offer declared a policy IRI that is not present in the ION Policy Terms Registry. Every offer.policies.returns.policyRef / policies.cancellation.policyRef / policies.warranty.policyRef / policies.dispute.policyRef / policies.grievanceSla.policyRef / policies.paymentTerms.policyRef must be a ratified IRI from policies/registry.json.\n"
       },
-      "affected_field": "offerAttributes.returnPolicy|cancellationPolicy|warrantyPolicy|disputePolicy|grievanceSlaPolicy|paymentTermsPolicy",
+      "affected_field": "offerAttributes.policies.returns.policyRef|policies.cancellation.policyRef|policies.warranty.policyRef|policies.dispute.policyRef|policies.grievanceSla.policyRef|policies.paymentTerms.policyRef",
       "affected_apis": [
         "publish_catalog"
       ],
@@ -63,7 +63,7 @@
       "description": {
         "en": "Offer declared a policy IRI that has been deprecated. The terms document's deprecatedAt field is populated; use the supersededBy IRI instead. Deprecated IRIs remain readable for existing contracts but cannot be used on new catalog publishes.\n"
       },
-      "affected_field": "offerAttributes.returnPolicy|cancellationPolicy|warrantyPolicy|disputePolicy|grievanceSlaPolicy|paymentTermsPolicy",
+      "affected_field": "offerAttributes.policies.returns.policyRef|policies.cancellation.policyRef|policies.warranty.policyRef|policies.dispute.policyRef|policies.grievanceSla.policyRef|policies.paymentTerms.policyRef",
       "affected_apis": [
         "publish_catalog"
       ],
@@ -153,9 +153,9 @@
         "en": "Live session ended"
       },
       "description": {
-        "en": "Offer is bound to a live session that has ended. Current time is past offer.endAt. Applies to live-commerce pattern.\n"
+        "en": "Offer is bound to a live session that has ended. Current time is past offer.offerAttributes.validity.endDate. Applies to live-commerce pattern.\n"
       },
-      "affected_field": "message.catalog.offers[].offerAttributes.endAt",
+      "affected_field": "message.catalog.offers[].offerAttributes.validity.endDate",
       "affected_apis": [
         "select",
         "init",
@@ -247,16 +247,16 @@
         "en": "Return not permitted for this product"
       },
       "description": {
-        "en": "The offer has returnable=false. Return cannot be initiated for this product category."
+        "en": "The offer has policies.returns.allowed=false. Return cannot be initiated for this product category."
       },
-      "affected_field": "offerAttributes.returnable",
+      "affected_field": "offerAttributes.policies.returns.allowed",
       "affected_apis": [
         "update"
       ],
       "schema_ref": "schema/extensions/trade/offer/v1",
       "flow_ref": "flows/trade/variants/returns/v1",
       "resolution": {
-        "en": "Check returnable flag before showing return option in BAP UI. Do not present return option if returnable=false."
+        "en": "Check policies.returns.allowed flag before showing return option in BAP UI. Do not present return option if policies.returns.allowed=false."
       },
       "legacy_code": "ION-5003",
       "sector": "trade"
@@ -272,14 +272,14 @@
       "description": {
         "en": "The return initiation request was made after the returnWindow duration has elapsed from the DELIVERED timestamp."
       },
-      "affected_field": "offerAttributes.returnPolicy",
+      "affected_field": "offerAttributes.policies.returns.policyRef",
       "affected_apis": [
         "update"
       ],
       "schema_ref": "schema/extensions/trade/offer/v1",
       "flow_ref": "flows/trade/variants/returns/v1",
       "resolution": {
-        "en": "The returnPolicy IRI defines the returnWindowDays. Calculate return deadline as deliveredAt + returnWindowDays. Only show return option within this window."
+        "en": "The policies.returns.policyRef IRI defines the returnWindowDays. Calculate return deadline as deliveredAt + returnWindowDays. Only show return option within this window."
       },
       "legacy_code": "ION-5004",
       "sector": "trade"
@@ -293,7 +293,7 @@
         "en": "Return evidence insufficient"
       },
       "description": {
-        "en": "Return request does not meet the evidence requirement declared in offer.returnEvidenceRequirement. Missing required photos or video.\n"
+        "en": "Return request does not meet the evidence requirement declared in offer.offerAttributes.policies.returns.evidenceRequirement. Missing required photos or video.\n"
       },
       "affected_field": "message.contract.performance[].performanceAttributes.tags.return_evidence",
       "affected_apis": [
@@ -302,7 +302,7 @@
       "schema_ref": "schema/extensions/trade/offer/v1",
       "flow_ref": "flows/trade/variants/returns/v1",
       "resolution": {
-        "en": "Request additional evidence from consumer per returnEvidenceRequirement."
+        "en": "Request additional evidence from consumer per policies.returns.evidenceRequirement."
       },
       "legacy_code": "ION-5005",
       "sector": "trade"

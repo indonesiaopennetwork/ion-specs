@@ -19,7 +19,7 @@ description: >
   (2) Cancellation window closes when PREPARING state fires.
   (3) averagePreparationTime required on provider.
   (4) preparationTime required per resource.
-  (5) cancellationPolicy must be cancel.mto.nofee.before_prepare.
+  (5) policies.cancellation.policyRef must be cancel.mto.nofee.before_prepare.
 
 applicableCategories:
   - custom-bakery        # packaged cakes, cookies ordered to spec — NOT restaurant meals
@@ -69,14 +69,14 @@ phases:
           - message.catalog.resources[].resourceAttributes.food.classification  # packaged food classification — NOT restaurant fnb
           - message.catalog.offers[].id
           - message.catalog.offers[].price
-          - message.catalog.offers[].offerAttributes.cancellationPolicy
-          - message.catalog.offers[].offerAttributes.cancellationPolicy
-          - message.catalog.offers[].offerAttributes.returnable
-          - message.catalog.offers[].offerAttributes.returnPolicy
-          - message.catalog.offers[].offerAttributes.warrantyPolicy
-          - message.catalog.offers[].offerAttributes.disputePolicy
+          - message.catalog.offers[].offerAttributes.policies.cancellation.policyRef
+          - message.catalog.offers[].offerAttributes.policies.cancellation.policyRef
+          - message.catalog.offers[].offerAttributes.policies.returns.allowed
+          - message.catalog.offers[].offerAttributes.policies.returns.policyRef
+          - message.catalog.offers[].offerAttributes.policies.warranty.policyRef
+          - message.catalog.offers[].offerAttributes.policies.dispute.policyRef
           - message.catalog.offers[].offerAttributes.timeToShip
-          - message.catalog.offers[].offerAttributes.availableOnCod
+          - message.catalog.offers[].offerAttributes.paymentConstraints.codAvailable
           - message.catalog.offers[].offerAttributes.contactDetailsConsumerCare
           - message.catalog.offers[].offerAttributes.displayLanguage[]
         conditionalFields:
@@ -286,7 +286,7 @@ phases:
           - field: message.contract.performance[].performanceAttributes.deliveryProofUrl
           - field: message.contract.performance[].performanceAttributes.deliveryOtp
 
-cancellationPolicy:
+policies.cancellation.policyRef:
   note: >
     MTO cancellation differs from storefront.
     Before PREPARING state: free cancellation, no fee, order is accepted.

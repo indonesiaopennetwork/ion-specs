@@ -50,7 +50,7 @@ phases:
           - message.catalog.resources[].resourceAttributes.digital.operatorOrIssuer
           - message.catalog.resources[].resourceAttributes.digital.denomination
           - message.catalog.resources[].resourceAttributes.digital.deliveryMethod
-          - message.catalog.offers[].offerAttributes.returnable  # note: typically false for digital goods
+          - message.catalog.offers[].offerAttributes.policies.returns.allowed  # note: typically false for digital goods
 
   phase2:
     name: Transaction

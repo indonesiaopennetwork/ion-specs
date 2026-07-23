@@ -41,8 +41,8 @@ Step: publish_catalog
   [crc:TRC-fashion] fashion.fabric              (ion.yaml → x-ion-crc-rules)
   [discovery]       images                      (profile.json → minimalForDiscovery)
   [discovery]       availability                (profile.json → minimalForDiscovery)
-  [pattern]         cancellationPolicy          (pattern.yaml → requiredFields)
-  [pattern]         returnPolicy                (pattern.yaml → requiredFields)
+  [pattern]         policies.cancellation.policyRef          (pattern.yaml → requiredFields)
+  [pattern]         policies.returns.policyRef                (pattern.yaml → requiredFields)
 ```
 
 Fields marked `← not in pattern.yaml` are enforced by ION network policy but not declared in the pattern — you will only discover these from the tool or from `ion.yaml → x-ion-field-requirements` directly.

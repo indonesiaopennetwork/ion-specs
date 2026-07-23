@@ -379,7 +379,7 @@ Dinda publishes 5 items via `POST /catalog/publish`. Each resource has its `reso
 ```
 
 **CDS validation result:** ✓ ACCEPTED  
-**Subscription offer attached separately** — offer declares `paymentTermsPolicy: ion://policy/payment-terms.subscription.monthly_autopay`
+**Subscription offer attached separately** — offer declares `policies.paymentTerms.policyRef: ion://policy/payment-terms.subscription.monthly_autopay`
 
 ---
 
@@ -582,49 +582,49 @@ Each resource gets an `Offer` with `offerAttributes`. Here's how they differ:
 
 ```
 Panadol (OTC — Over the Counter, no prescription needed):
-  cancellationPolicy: ion://policy/cancel.prepacked.free
-  returnable: false
-  returnPolicy: ion://policy/return.pharmacy.nonreturnable
-  warrantyPolicy: ion://policy/warranty.standard.none
-  availableOnCod: true
-  paymentTermsPolicy: ion://policy/payment-terms.upfront.full
+  policies.cancellation.policyRef: ion://policy/cancel.prepacked.free
+  policies.returns.allowed: false
+  policies.returns.policyRef: ion://policy/return.pharmacy.nonreturnable
+  policies.warranty.policyRef: ion://policy/warranty.standard.none
+  paymentConstraints.codAvailable: true
+  policies.paymentTerms.policyRef: ion://policy/payment-terms.upfront.full
 
 Amoxicillin (Prescription — requires valid prescription):
-  cancellationPolicy: ion://policy/cancel.standard.none
-  returnable: false
-  returnPolicy: ion://policy/return.pharmacy.nonreturnable
-  warrantyPolicy: ion://policy/warranty.standard.none
-  availableOnCod: false        ← COD not permitted for prescription medicine
+  policies.cancellation.policyRef: ion://policy/cancel.standard.none
+  policies.returns.allowed: false
+  policies.returns.policyRef: ion://policy/return.pharmacy.nonreturnable
+  policies.warranty.policyRef: ion://policy/warranty.standard.none
+  paymentConstraints.codAvailable: false        ← COD not permitted for prescription medicine
   proofOfDeliveryType: OTP     ← OTP at door required
-  paymentTermsPolicy: ion://policy/payment-terms.upfront.full
+  policies.paymentTerms.policyRef: ion://policy/payment-terms.upfront.full
 
 Metformin (Subscription — monthly recurring delivery):
-  cancellationPolicy: ion://policy/cancel.subscription.prorated-midcycle
-  returnable: false
-  returnPolicy: ion://policy/return.pharmacy.nonreturnable
-  warrantyPolicy: ion://policy/warranty.standard.none
-  availableOnCod: false
+  policies.cancellation.policyRef: ion://policy/cancel.subscription.prorated-midcycle
+  policies.returns.allowed: false
+  policies.returns.policyRef: ion://policy/return.pharmacy.nonreturnable
+  policies.warranty.policyRef: ion://policy/warranty.standard.none
+  paymentConstraints.codAvailable: false
   proofOfDeliveryType: OTP
-  paymentTermsPolicy: ion://policy/payment-terms.subscription.monthly_autopay
+  policies.paymentTerms.policyRef: ion://policy/payment-terms.subscription.monthly_autopay
 
 Aqua (Water):
-  cancellationPolicy: ion://policy/cancel.prepacked.free
-  returnable: false
-  returnPolicy: ion://policy/return.grocery.sameday-defect-only
-  warrantyPolicy: ion://policy/warranty.standard.none
-  availableOnCod: true
-  paymentTermsPolicy: ion://policy/payment-terms.upfront.full
+  policies.cancellation.policyRef: ion://policy/cancel.prepacked.free
+  policies.returns.allowed: false
+  policies.returns.policyRef: ion://policy/return.grocery.sameday-defect-only
+  policies.warranty.policyRef: ion://policy/warranty.standard.none
+  paymentConstraints.codAvailable: true
+  policies.paymentTerms.policyRef: ion://policy/payment-terms.upfront.full
 
 ON Whey Protein:
-  cancellationPolicy: ion://policy/cancel.prepacked.free
-  returnable: true
-  returnPolicy: ion://policy/return.standard.7d-sellerpays
-  sellerPickupReturn: true
-  warrantyPolicy: ion://policy/warranty.standard.none
-  availableOnCod: true
-  returnEvidenceRequirement: PHOTO_REQUIRED
-  returnEvidenceMinPhotos: 2
-  paymentTermsPolicy: ion://policy/payment-terms.upfront.full
+  policies.cancellation.policyRef: ion://policy/cancel.prepacked.free
+  policies.returns.allowed: true
+  policies.returns.policyRef: ion://policy/return.standard.7d-sellerpays
+  policies.returns.method: SELLER_PICKUP
+  policies.warranty.policyRef: ion://policy/warranty.standard.none
+  paymentConstraints.codAvailable: true
+  policies.returns.evidenceRequirement: PHOTO_REQUIRED
+  policies.returns.evidenceMinPhotos: 2
+  policies.paymentTerms.policyRef: ion://policy/payment-terms.upfront.full
 ```
 
 ---

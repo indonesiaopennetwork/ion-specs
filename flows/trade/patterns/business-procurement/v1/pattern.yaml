@@ -24,7 +24,7 @@ applicableCategories:
   - automotive-parts
 
 keyDifferences:
-  - MOQ enforced at select — offer.minimumOrderQuantity required
+  - MOQ enforced at select — offer.offerAttributes.minOrderQuantity required
   - Bulk pricing tiers — multiple offers with quantity thresholds
   - Purchase order reference — contractAttributes.purchaseOrderReference required
   - Faktur Pajak mandatory for PKP sellers/buyers
@@ -36,7 +36,7 @@ keyDifferences:
 phases:
   phase1:
     name: Catalog
-    note: Same as storefront publish_catalog. Offer carries minimumOrderQuantity.
+    note: Same as storefront publish_catalog. Offer inherits minOrderQuantity from RetailOffer.
 
   phase2:
     name: Quotation and Transaction
@@ -58,7 +58,7 @@ phases:
           - message.contract.commitments[].resources[].quantity.count
           - message.contract.performance[].performanceAttributes.performanceMode
         businessRules:
-          - quantity.count must be >= offer.minimumOrderQuantity.count for each line
+          - quantity.count must be >= offer.offerAttributes.minOrderQuantity for each line
           - BPP returns tiered pricing in on_select breakup
         errors:
           - ION-3005  # Quantity below MOQ
@@ -172,6 +172,6 @@ additionalContractFields:
   fakturPajakReference: populated by BPP at on_confirm for PKP sellers
 
 additionalOfferFields:
-  minimumOrderQuantity: REQUIRED
+  minOrderQuantity: REQUIRED
   weightSlabs: optional for logistics pricing
   contactDetailsConsumerCare: required per UU 8/1999 (applies to B2B buyers too)

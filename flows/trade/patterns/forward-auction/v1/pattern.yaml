@@ -26,8 +26,8 @@ auctionMechanism:
   type: English auction (ascending price)
   bidIncrement: declared in offer — minimum increment above current highest bid
   reservePrice: optional — seller's minimum acceptable price
-  auctionWindow: startAt and endAt declared in offer
-  winnerDetermination: highest bid at auctionWindow.endAt
+  auctionWindow: validity.startDate and validity.endDate declared in offer
+  winnerDetermination: highest bid at offer.offerAttributes.validity.endDate
 
 phases:
   phase1:
@@ -41,13 +41,13 @@ phases:
           Seller publishes auction lot. Offer structure differs from standard:
           price = starting bid (not fixed price).
           offerType=AUCTION declared in offerAttributes.
-          startAt and endAt define the bidding window.
+          validity.startDate and validity.endDate define the bidding window.
         requiredFields:
           - message.catalog.resources[].id
           - message.catalog.resources[].resourceAttributes.images[]
           - message.catalog.offers[].price  # note=Starting bid price in IDR
-          - message.catalog.offers[].offerAttributes.startAt
-          - message.catalog.offers[].offerAttributes.endAt
+          - message.catalog.offers[].offerAttributes.validity.startDate
+          - message.catalog.offers[].offerAttributes.validity.endDate
           - message.catalog.offers[].offerAttributes.offerType  # value=AUCTION
           - message.catalog.offers[].tags.auction.min_bid_increment
           - message.catalog.offers[].tags.auction.reserve_price_set  # note=boolean — whether reserve price exists (amount not disclosed)
@@ -71,7 +71,7 @@ phases:
         businessRules:
           - bid_amount must be >= current_highest_bid + min_bid_increment
           - bid_amount must be >= offer.price (starting bid)
-          - Bid only valid within offer.startAt to offer.endAt window
+          - Bid only valid within offer.offerAttributes.validity.startDate to offer.offerAttributes.validity.endDate window
 
       - step: on_select
         stepContext: "bid acknowledgment"

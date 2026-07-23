@@ -313,12 +313,19 @@ Sellers declare policy intent using IRIs — compact identifiers that resolve to
 ```yaml
 # Example: a trade offer's policy declarations
 offerAttributes:
-  returnPolicy:       ion://policy/return.standard.7d-sellerpays
-  cancellationPolicy: ion://policy/cancel.prepacked.free
-  warrantyPolicy:     ion://policy/warranty.manufacturer.1y-distance-service
-  disputePolicy:      ion://policy/dispute.consumer.bpsk
-  grievanceSlaPolicy: ion://policy/grievance-sla.consumer.standard
-  paymentTermsPolicy: ion://policy/payment-terms.upfront.full
+  policies:
+    returns:
+      policyRef: ion://policy/return.standard.7d-sellerpays
+    cancellation:
+      policyRef: ion://policy/cancel.prepacked.free
+    warranty:
+      policyRef: ion://policy/warranty.manufacturer.1y-distance-service
+    dispute:
+      policyRef: ion://policy/dispute.consumer.bpsk
+    grievanceSla:
+      policyRef: ion://policy/grievance-sla.consumer.standard
+    paymentTerms:
+      policyRef: ion://policy/payment-terms.upfront.full
 ```
 
 Each IRI resolves to a YAML document in `policies/` that defines the window, fee structure, and enforcement behaviour. ION Central rejects catalogs with unknown IRIs and rejects runtime actions that violate declared terms.

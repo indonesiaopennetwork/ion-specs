@@ -444,7 +444,7 @@ components:
         paymentSchedule:
           type: array
           description: 'Multi-milestone payment schedule for partial-payment offers (down-payment + balance, milestone-based
-            for services, etc.). Used when paymentTermsPolicy references a schedule-based IRI. Single-payment orders
+            for services, etc.). Used when policies.paymentTerms.policyRef references a schedule-based IRI. Single-payment orders
             do not require this field. Contract moves to COMPLETE only when all milestones are PAID.
 
             '
@@ -501,7 +501,7 @@ components:
             - amount
             - dueAt
             - status
-          x-ion-condition: Required when paymentTermsPolicy is schedule-based
+          x-ion-condition: Required when policies.paymentTerms.policyRef is schedule-based
         cancellationReason:
           type: object
           additionalProperties: false
@@ -513,14 +513,14 @@ components:
           properties:
             id:
               type: string
-              description: Unique reason identifier. Matches an entry in offer.cancellationAllowedReasons.
+              description: Unique reason identifier. Matches an entry in offer.offerAttributes.policies.cancellation.allowedReasons.
             descriptor:
               type: object
               additionalProperties: false
               properties:
                 code:
                   type: string
-                  description: Machine-readable reason code. Must be in offer.cancellationAllowedReasons.
+                  description: Machine-readable reason code. Must be in offer.offerAttributes.policies.cancellation.allowedReasons.
                   example: BUYER_REQUESTED
                 shortDesc:
                   type: string

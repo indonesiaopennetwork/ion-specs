@@ -6,7 +6,7 @@ English ascending auction. Seller sets starting price; buyers bid up. Highest bi
 Agritech produce lots (coffee, cocoa, mangoes), collectibles, excess inventory clearance, used electronics, art
 
 ## Mechanism
-- Offer carries `offerType = AUCTION`, `startAt`, `endAt`, `min_bid_increment`, `reserve_price_set`
+- Offer carries `offerType = AUCTION`, `validity.startDate`, `validity.endDate`, `min_bid_increment`, `reserve_price_set`
 - `/select` = bid submission (bid amount in offer.price)
 - `on_select` acknowledges: LEADING / OUTBID / REJECTED
 - BPP sends unsolicited `on_select` when bidder is outbid

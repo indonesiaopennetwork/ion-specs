@@ -23,7 +23,7 @@ subBranches:
       latest: on_status[DELIVERED]
     description: >
       Buyer requests full order cancellation. Reason must be in
-      offer.cancellationAllowedReasons. A cancellation fee applies if the
+      offer.offerAttributes.policies.cancellation.allowedReasons. A cancellation fee applies if the
       current performance state is in offer.cancellationFeeApplicableStates.
     steps:
       - step: cancel
@@ -37,12 +37,12 @@ subBranches:
         conditionalFields:
           - field: message.contract.contractAttributes.cancellationReason.descriptor.shortDesc
         businessRules:
-          - reason.descriptor.code must be in offer.cancellationAllowedReasons
+          - reason.descriptor.code must be in offer.offerAttributes.policies.cancellation.allowedReasons
           - if current state is in offer.cancellationFeeApplicableStates, cancellationFee applies
           - if current state is DISPATCHED or later, buyer cannot cancel — window is closed
         errors:
           - ION-5001  # Cancellation not allowed after current state
-          - ION-5002  # Reason not in cancellationAllowedReasons
+          - ION-5002  # Reason not in policies.cancellation.allowedReasons
 
       - step: on_cancel
         from: BPP

@@ -6,8 +6,8 @@ Post-delivery return flows. Includes return pickup, delivery back to seller, rep
 
 | Branch | Window | Description |
 |---|---|---|
-| return-initiated | on_status[DELIVERED] → return window expiry | Buyer raises return request. Reason must be in return policy IRI (`returnPolicy`). Evidence photos optional. |
-| return-picked-up | after return-initiated | Seller arranges pickup (if `sellerPickupReturn = true`). Agent assigned. Return tracking begins. |
+| return-initiated | on_status[DELIVERED] → return window expiry | Buyer raises return request. Reason must be in return policy IRI (`policies.returns.policyRef`). Evidence photos optional. |
+| return-picked-up | after return-initiated | Seller arranges pickup (if `policies.returns.method = SELLER_PICKUP`). Agent assigned. Return tracking begins. |
 | return-delivered | after return-picked-up | Return received by seller. Quality check. Refund or replacement triggered. |
 | replacement | after return-initiated | Seller sends replacement item instead of refund. Uses REPLACEMENT state machine. |
 | exchange | after return-initiated | Return pickup + new forward delivery in one coordinated flow. |

@@ -2,7 +2,7 @@
 
 See `spine.yaml` for the full step-by-step sequence. Key phases:
 
-1. **Live session starts.** BPP publishes incremental catalog update binding offers to the live session (`startAt`, `endAt`, short `reservationWindowSeconds`).
+1. **Live session starts.** BPP publishes incremental catalog update binding offers to the live session (`validity.startDate`, `validity.endDate`, short `reservationWindowSeconds`).
 2. **Consumer discovers during session.** BAP surfaces the live session; consumer taps a featured product.
 3. **Select with attribution.** BAP sends `/select` including `liveCommerceContext` (source channel, streamer ID, OTT content ref, etc.).
 4. **On_select with commission.** BPP returns quote including `STREAMER_COMMISSION` / `AFFILIATE_COMMISSION` breakup line. If queue is enabled, returns queue position.

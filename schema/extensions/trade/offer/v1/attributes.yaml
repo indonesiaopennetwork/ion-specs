@@ -18,158 +18,82 @@ components:
       type: object
       title: TradeOffer
       description: >
-        Network-agnostic generic layer for TradeOffer. Inherits from Beckn core Attributes.
+        Network-agnostic generic layer for TradeOffer. Inherits from RetailOffer v2.1.
         Downstream ION-specific layer (IONTradeOffer) extends this schema via allOf.
-        This layer carries only fields that are meaningful across any Beckn network — 
-        no Indonesia-specific regulatory or compliance fields.
+        This layer carries fields whose underlying concepts are meaningful across trade
+        networks; definitions will be reviewed against RetailOffer in the cleanup pass.
       x-ion-layer: generic
       x-ion-split-version: "0.7.0"
       x-recommended-parent: Offer.offerAttributes
       additionalProperties: true
       allOf:
         - $ref: https://schema.beckn.io/RetailOffer/v2.1/attributes.yaml#/components/schemas/RetailOffer
-    IONTradeOffer:
-      type: object
-      x-ion-layer: ion
-      x-ion-split-version: "0.7.0"
-      allOf:
-        - $ref: '#/components/schemas/TradeOffer'
-        - if:
-            properties:
-              returnable:
-                const: true
-            required:
-            - returnable
-          then:
-            required:
-            - returnPolicy
-            - sellerPickupReturn
-        - if:
-            properties:
-              availableOnCod:
-                const: true
-            required:
-            - availableOnCod
-          then:
-            required:
-            - codEligibilityForBuyer
-        - if:
-            properties:
-              queueEnabled:
-                const: true
-            required:
-            - queueEnabled
-          then:
-            required:
-            - queuePosition
-        - if:
-            properties:
-              returnable:
-                const: true
-            required:
-            - returnable
-          then:
-            required:
-            - returnEvidenceRequirement
-      title: TradeOffer
-      additionalProperties: true
-      x-jsonld:
-        '@context': 'https://schema.ion.id/trade/offer/v1/context.jsonld'
-        '@type': ion:IONTradeOffer
-      x-beckn-attaches-to: Offer.offerAttributes
       properties:
-        cancellationPolicy:
-          type: string
-          format: iri
-          x-ion-policy-registry: https://registry.ion.id/policies
-          description: 'ION standard cancellation policy IRI. cancel.prepacked.free: buyer may cancel before packed
-            at no fee. cancel.mto.nofee.before_prepare: MTO, free cancellation before preparation starts. cancel.none:
-            no cancellation permitted after confirm.
-
-            '
-          example: ion://policy/cancel.prepacked.free
-          x-ion-regulatory: UU 8/1999 Pasal 19
-        cancellationAllowedReasons:
-          type: array
-          items:
-            type: string
-            enum:
-            - CHANGE_OF_MIND
-            - WRONG_ITEM_ORDERED
-            - ORDERED_WRONG_VARIANT
-            - FOUND_BETTER_PRICE
-            - DELIVERY_TOO_LONG
-            - INCORRECT_ADDRESS
-            - DUPLICATE_ORDER
-            - PAYMENT_METHOD_CHANGE
-            - ITEM_NO_LONGER_NEEDED
-            - SELLER_UNRESPONSIVE
-            - BUYER_FRAUD_SUSPECTED
-            - QUALITY_ISSUE_AT_PREVIEW
-          description: 'Seller-declared reasons for which buyer cancellation is accepted. Only meaningful when cancellationPolicy
-            is not cancel.none.
-
-            '
-          example:
-          - CHANGE_OF_MIND
-          - WRONG_ITEM_ORDERED
-          x-ion-condition: Required when cancellationPolicy is not cancel.none
-        returnable:
-          type: boolean
-          description: 'Whether the product can be returned after delivery. False for perishables, personalised
-            items, digital goods, and hygiene products unless defective.
-
-            '
-          example: true
-          x-ion-regulatory: UU 8/1999 tentang Perlindungan Konsumen
-        returnPolicy:
-          type: string
-          format: iri
-          x-ion-policy-registry: https://registry.ion.id/policies
-          description: 'ION standard return policy IRI. Encodes window duration and who pays return shipping.
-
-            '
-          example: ion://policy/return.standard.7d-sellerpays
-          x-ion-regulatory: UU 8/1999 Pasal 25; Permendag 19/M-DAG/PER/5/2009
-        sellerPickupReturn:
-          type: boolean
-          description: 'Whether the seller arranges pickup for returns (true) or consumer must arrange their own
-            return shipping (false).
-
-            '
-          example: true
-          x-ion-condition: Required when returnable is true
-        warrantyPolicy:
-          type: string
-          format: iri
-          x-ion-policy-registry: https://registry.ion.id/policies
-          description: ION standard warranty policy IRI.
-          example: ion://policy/warranty.manufacturer.1y-distance-service
-          x-ion-regulatory: UU 8/1999 Pasal 25; PP 36/2023
-        disputePolicy:
-          type: string
-          format: iri
-          x-ion-policy-registry: https://registry.ion.id/policies
-          description: 'ION standard dispute resolution policy IRI. dispute.consumer.bpsk: B2C — BPSK (Badan Penyelesaian
-            Sengketa Konsumen). dispute.commercial.bani: B2B — BANI arbitration. dispute.commercial.odr: Online
-            Dispute Resolution via ION platform.
-
-            '
-          example: ion://policy/dispute.consumer.bpsk
-          x-ion-regulatory: UU 8/1999 Pasal 45; UU 30/1999 tentang Arbitrase
+        policies:
+          allOf:
+            - $ref: https://schema.beckn.io/RetailOffer/v2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies
+            - type: object
+              properties:
+                cancellation:
+                  allOf:
+                    - $ref: https://schema.beckn.io/RetailOffer/v2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/cancellation
+                    - type: object
+                      properties:
+                        allowedReasons:
+                          type: array
+                          items:
+                            type: string
+                            enum:
+                            - CHANGE_OF_MIND
+                            - WRONG_ITEM_ORDERED
+                            - ORDERED_WRONG_VARIANT
+                            - FOUND_BETTER_PRICE
+                            - DELIVERY_TOO_LONG
+                            - INCORRECT_ADDRESS
+                            - DUPLICATE_ORDER
+                            - PAYMENT_METHOD_CHANGE
+                            - ITEM_NO_LONGER_NEEDED
+                            - SELLER_UNRESPONSIVE
+                            - BUYER_FRAUD_SUSPECTED
+                            - QUALITY_ISSUE_AT_PREVIEW
+                          description: Seller-declared reasons for which cancellation is accepted when the inherited cancellation policy allows cancellation.
+                          example:
+                          - CHANGE_OF_MIND
+                          - WRONG_ITEM_ORDERED
+                          # x-ion-condition: Required when policies.cancellation.allowed is true
+                returns:
+                  allOf:
+                    - $ref: https://schema.beckn.io/RetailOffer/v2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/returns
+                    - type: object
+                      properties:
+                        evidenceRequirement:
+                          type: string
+                          enum:
+                          - NONE
+                          - PHOTO_OPTIONAL
+                          - PHOTO_REQUIRED
+                          - VIDEO_UNBOXING_REQUIRED
+                          - VIDEO_UNBOXING_AND_PHOTO
+                          - PHYSICAL_INSPECTION
+                          description: >
+                            Evidence required from buyer when initiating a return.
+                            VIDEO_UNBOXING_REQUIRED is standard for high-value electronics.
+                            PHYSICAL_INSPECTION is used for high-value items (>IDR 10M) where
+                            seller sends an inspector before accepting the return.
+                          example: PHOTO_REQUIRED
+                        evidenceMinPhotos:
+                          type: integer
+                          minimum: 1
+                          maximum: 10
+                          description: Minimum number of evidence photos required.
+                          # x-ion-condition: Required when policies.returns.evidenceRequirement includes PHOTO
         timeToShip:
           type: string
+          format: duration
           description: 'Time from order confirm to when seller hands package to logistics. ISO 8601 duration.
 
             '
           example: PT2H
-        availableOnCod:
-          type: boolean
-          description: 'Whether Cash on Delivery is available for this product. Some categories cannot be sold on
-            COD (prescription medicine, alcohol, tobacco, items above IDR 5,000,000).
-
-            '
-          example: true
         selfPickupOtp:
           type: boolean
           description: 'Whether OTP verification is required when consumer picks up order. If true, BPP generates
@@ -191,89 +115,14 @@ components:
           description: Type of delivery confirmation proof required.
           example: OTP
         contactDetailsConsumerCare:
-          type: string
-          description: 'Consumer care contact in comma-separated format: name, email, phone. Displayed to consumer
-            for post-purchase support queries.
-
-            '
-          example: Customer Service,cs@toko.com,08001234567
+          allOf:
+            - $ref: https://schema.beckn.io/Contact/2.0#/components/schemas/Contact
+          description: Structured consumer-care contact displayed for pre- and post-purchase support.
+          example:
+            name: Customer Service
+            email: cs@toko.com
+            phone: '08001234567'
           x-ion-regulatory: UU 8/1999 tentang Perlindungan Konsumen Pasal 7
-        displayLanguage:
-          type: array
-          items:
-            type: string
-            enum:
-            - id
-            - en
-            - ms
-            - zh
-            - ar
-            - ta
-            - ko
-            - ja
-          description: 'Languages in which this offer''s catalog content is available. "id" always present. "en"
-            required for cross-border commerce pattern.
-
-            '
-          example:
-          - id
-          - en
-          x-ion-regulatory: ION Network Policy — language completeness validation
-        minimumOrderQuantity:
-          type: object
-          additionalProperties: false
-          properties:
-            count:
-              type: integer
-              minimum: 1
-            measure:
-              type: object
-              additionalProperties: false
-              properties:
-                unit:
-                  type: string
-                  enum:
-                  - GRAM
-                  - KILOGRAM
-                  - LITRE
-                  - MILLILITRE
-                  - PIECE
-                  - DOZEN
-                value:
-                  type: number
-          description: 'Minimum quantity for B2B wholesale. count for unit-based, measure for weight/volume-based
-            products.
-
-            '
-          example:
-            count: 10
-          x-ion-condition: Required for B2B wholesale commerce pattern
-        weightSlabs:
-          type: array
-          description: Weight-based pricing tiers for catalogued logistics offers.
-          items:
-            type: object
-            additionalProperties: false
-            properties:
-              minKg:
-                type: number
-                minimum: 0
-              maxKg:
-                type: number
-              priceIDR:
-                type: integer
-            required:
-            - minKg
-            - maxKg
-            - priceIDR
-          example:
-          - minKg: 0
-            maxKg: 5
-            priceIDR: 15000
-          - minKg: 5
-            maxKg: 10
-            priceIDR: 25000
-          x-ion-condition: Required for catalogued domestic logistics patterns
         offerType:
           type: string
           enum:
@@ -284,7 +133,9 @@ components:
           - CASHBACK
           - FREE_DELIVERY
           - VOUCHER
-          description: Type of commercial offer.
+          - AUCTION
+          - FLASH_SALE
+          description: Commercial offer mechanic. AUCTION identifies bid-based offers; FLASH_SALE identifies time- or quantity-limited sale events.
           example: DISCOUNT
         priceModel:
           type: string
@@ -306,10 +157,6 @@ components:
           type: string
           description: Voucher or promo code to activate offer.
           example: HEMAT50
-        stackable:
-          type: boolean
-          description: Whether this offer can be combined with other active offers.
-          default: false
         usageLimitPerUser:
           type: integer
           minimum: 1
@@ -325,73 +172,6 @@ components:
           - VERIFIED_SELLER
           description: Segment of customers eligible for this offer.
           example: ALL
-        paymentMethodEligibility:
-          type: array
-          description: 'Structured payment method eligibility. Each entry declares minAmount/maxAmount constraints,
-            required buyer tier, excluded categories. BAP checks buyer context + order amount against every entry;
-            applies only those that pass all constraints. Empty array means all methods eligible.
-
-            '
-          items:
-            type: object
-            additionalProperties: false
-            properties:
-              method:
-                type: string
-                enum:
-                - QRIS
-                - VIRTUAL_ACCOUNT
-                - EWALLET
-                - COD
-                - BANK_TRANSFER
-                - BI_FAST
-                - RTGS
-                - SKN
-                - BNPL
-                - CREDIT_CARD
-                - DEBIT_CARD
-                - DIRECT_DEBIT
-                - CREDIT_FACILITY
-                - ESCROW
-              minAmount:
-                type: number
-                description: Minimum order value in IDR for this method to be eligible
-              maxAmount:
-                type: number
-                description: Maximum order value in IDR (BI cap for QRIS is 10M)
-              requiresBuyerTier:
-                type: array
-                items:
-                  type: string
-                  enum:
-                  - NEW
-                  - STANDARD
-                  - VERIFIED
-                  - PREMIUM
-                  - VIP
-                description: Buyer tier(s) eligible for this method
-              requiresAddressVerification:
-                type: boolean
-                description: Whether buyer must have a verified delivery address
-                default: false
-              requiresPhoneVerification:
-                type: boolean
-                default: false
-              excludedCategories:
-                type: array
-                items:
-                  type: string
-                description: Category codes excluded from this method
-              requiredBnplProvider:
-                type: array
-                items:
-                  type: string
-                description: Specific BNPL providers allowed (when method=BNPL)
-              eligibilityNote:
-                type: string
-                description: Optional human-readable explanation
-            required:
-            - method
         subsidyBreakup:
           type: object
           additionalProperties: false
@@ -406,31 +186,9 @@ components:
             brandSubsidy:
               type: number
               minimum: 0
-        startAt:
-          type: string
-          format: date-time
-          description: When this promotional offer becomes active.
-        endAt:
-          type: string
-          format: date-time
-          description: When this promotional offer expires.
-        priceValidFrom:
-          type: string
-          format: date-time
-          description: 'Start of price validity window. Distinct from startAt (offer availability window) — price
-            may change mid-campaign while offer remains active. Catalog TTL for offers with active priceChangeSchedule
-            SHOULD be <=30 seconds to avoid stale-price surfacing on browsing surfaces.
-
-            '
-        priceValidUntil:
-          type: string
-          format: date-time
-          description: End of price validity window.
         priceChangeSchedule:
           type: array
-          description: 'Full price change timeline for a campaign. BAPs MUST render countdown UI and compute correct
-            price at transaction time. Each entry defines a price valid for a window; entries MUST NOT overlap.
-            Sorted ascending by validFrom.
+          description: 'Price validity timeline for a campaign. Use one entry for a single price window and multiple entries when the price changes during the campaign. BAPs MUST render countdown UI and compute the correct price at transaction time. Entries MUST NOT overlap and must be sorted ascending by validFrom.
 
             '
           items:
@@ -481,13 +239,6 @@ components:
 
             '
           example: 2
-        isFlashSale:
-          type: boolean
-          description: 'Signals this offer is a flash sale. BAP surfaces urgency UI; reservationWindowSeconds SHOULD
-            be short (60-180s).
-
-            '
-          default: false
         queueEnabled:
           type: boolean
           description: 'Whether BPP uses a queue/throttle mechanism when demand exceeds supply. When true, on_select
@@ -506,7 +257,7 @@ components:
           type: integer
           minimum: 0
           description: Estimated wait time before this consumer reaches front of queue.
-          x-ion-condition: Returned in on_select when queuePosition is present
+          # x-ion-condition: Returned in on_select when queuePosition is present
         stackingGroup:
           type: string
           enum:
@@ -517,8 +268,7 @@ components:
           - SHIPPING
           - CASHBACK
           description: 'Voucher stacking group. Vouchers from different groups stack by default. Within a single
-            group only one voucher can apply per order unless stackingRules override. Replaces the ambiguous stackable
-            flag.
+            group only one voucher can apply per order unless stackingRules override.
 
             '
         stackingRules:
@@ -545,7 +295,7 @@ components:
         codEligibilityForBuyer:
           type: boolean
           description: 'BPP-evaluated COD eligibility for the specific buyer in this transaction. Returned in on_select.
-            Distinct from availableOnCod which is offer-level availability. Allows BPP to decline COD for new buyers,
+            Distinct from paymentConstraints.codAvailable which is offer-level availability. Allows BPP to decline COD for new buyers,
             previous COD failures, high-value items exceeding buyer''s verified tier, etc.
 
             '
@@ -561,68 +311,12 @@ components:
           - HIGH_RISK_CATEGORY
           - OTP_VERIFICATION_REQUIRED
           description: Reason for the codEligibilityForBuyer decision.
-          x-ion-condition: Required when codEligibilityForBuyer is declared
-        returnEvidenceRequirement:
+          # x-ion-condition: Required when codEligibilityForBuyer is declared
+        handlingTime:
           type: string
-          enum:
-          - NONE
-          - PHOTO_OPTIONAL
-          - PHOTO_REQUIRED
-          - VIDEO_UNBOXING_REQUIRED
-          - VIDEO_UNBOXING_AND_PHOTO
-          - PHYSICAL_INSPECTION
-          description: 'Evidence required from buyer when initiating a return. VIDEO_UNBOXING_REQUIRED is standard
-            for high-value electronics. PHYSICAL_INSPECTION is used for high-value items (>IDR 10M) where seller
-            sends inspector before accepting return.
-
-            '
-          example: PHOTO_REQUIRED
-        returnEvidenceMinPhotos:
-          type: integer
-          minimum: 1
-          maximum: 10
-          description: Minimum number of evidence photos required.
-          x-ion-condition: Required when returnEvidenceRequirement includes PHOTO
-        handlingTimeHours:
-          type: integer
-          minimum: 0
-          description: 'Hours from order confirm to package ready for logistics. Replaces QSR-only averagePreparationTime
-            for non-food sellers. Used for custom-print, made-to-measure, pre-order merchandise.
-
-            '
-          example: 72
-        grievanceSlaPolicy:
-          type: string
-          format: iri
-          x-ion-policy-registry: https://registry.ion.id/policies
-          description: 'ION Grievance SLA policy IRI. Declares response time, resolution time, escalation path,
-            and penalty consequences when SLA is breached. Subject to marketplace minimum (grievance.sla.standard)
-            for B2C; marketplace-operated BAPs may enforce stricter policies on their sellers. ION timer auto-escalates
-            when SLAs are breached — no manual action needed.
-
-            '
-          example: ion://policy/grievance-sla.consumer.standard
-          x-ion-regulatory: UU 8/1999 Pasal 45; Permendag 50/2020 Pasal 6
-        paymentTermsPolicy:
-          type: string
-          format: iri
-          x-ion-policy-registry: https://registry.ion.id/policies
-          description: 'Payment terms policy IRI. Declares when payment is collected, which methods are accepted,
-            whether deposit or credit terms apply, and what the late-payment penalty is if applicable. Must be compatible
-            with the order''s paymentRail and collectedBy.
-
-            '
-          example: ion://policy/payment-terms.upfront.full
-          x-ion-regulatory: UU 7/2021 HPP; OJK POJK terkait metode pembayaran
-        penaltyPolicy:
-          type: string
-          description: 'Penalty policy IRI. Normally inferred from seller''s onboarding tier (Standard/Mall/Premium)
-            and other declared policies (return, cancellation, grievance-sla). May be declared explicitly for per-offer
-            overrides. Sellers cannot select a penalty policy weaker than their tier minimum.
-
-            '
-          example: ion://policy/penalty.seller-sla-breach.standard
-          x-ion-condition: Auto-derived from tier + other policies; declare only for explicit override
+          format: duration
+          description: Time from order confirmation until the package is ready for logistics. Used for custom-print, made-to-measure, and pre-order merchandise.
+          example: PT72H
         customTermsAddendum:
           type: string
           maxLength: 1000
@@ -633,4 +327,196 @@ components:
             '
           example: Garansi seumur hidup untuk mekanisme jam tangan mewah (terms & conditions apply - see seller
             page).
+    IONTradeOffer:
+      type: object
+      x-ion-layer: ion
+      x-ion-split-version: "0.7.0"
+      allOf:
+        - $ref: '#/components/schemas/TradeOffer'
+      title: TradeOffer
+      additionalProperties: true
+      x-jsonld:
+        '@context': 'https://schema.ion.id/trade/offer/v1/context.jsonld'
+        '@type': ion:IONTradeOffer
+      x-beckn-attaches-to: Offer.offerAttributes
+      properties:
+        policies:
+          type: object
+          properties:
+            cancellation:
+              type: object
+              properties:
+                policyRef:
+                  allOf:
+                    - $ref: https://schema.beckn.io/RetailOffer/v2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/cancellation/properties/policyRef
+                  description: ION-registered cancellation policy URI.
+                  example: ion://policy/cancel.prepacked.free
+                  x-ion-policy-registry: https://registry.ion.id/policies
+                  x-ion-regulatory: UU 8/1999 Pasal 19
+
+            returns:
+              type: object
+              properties:
+                policyRef:
+                  allOf:
+                    - $ref: https://schema.beckn.io/RetailOffer/v2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/returns/properties/policyRef
+                  description: ION-registered returns policy URI.
+                  example: ion://policy/return.standard.7d-sellerpays
+                  x-ion-policy-registry: https://registry.ion.id/policies
+                  x-ion-regulatory: UU 8/1999 Pasal 25; Permendag 19/M-DAG/PER/5/2009
+
+            warranty:
+              type: object
+              properties:
+                policyRef:
+                  allOf:
+                    - $ref: https://schema.beckn.io/RetailOffer/v2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/warranty/properties/policyRef
+                  description: ION-registered warranty policy URI.
+                  example: ion://policy/warranty.manufacturer.1y-distance-service
+                  x-ion-policy-registry: https://registry.ion.id/policies
+                  x-ion-regulatory: UU 8/1999 Pasal 25; PP 36/2023
+
+            dispute:
+              type: object
+              properties:
+                policyRef:
+                  type: string
+                  format: uri
+                  description: ION-registered dispute-resolution policy URI.
+                  example: ion://policy/dispute.consumer.bpsk
+                  x-ion-policy-registry: https://registry.ion.id/policies
+                  x-ion-regulatory: UU 8/1999 Pasal 45; UU 30/1999 tentang Arbitrase
+            grievanceSla:
+              type: object
+              properties:
+                policyRef:
+                  type: string
+                  format: uri
+                  description: ION-registered grievance SLA policy URI.
+                  example: ion://policy/grievance-sla.consumer.standard
+                  x-ion-policy-registry: https://registry.ion.id/policies
+                  x-ion-regulatory: UU 8/1999 Pasal 45; Permendag 50/2020 Pasal 6
+            paymentTerms:
+              type: object
+              properties:
+                policyRef:
+                  type: string
+                  format: uri
+                  description: ION-registered payment-terms policy URI.
+                  example: ion://policy/payment-terms.upfront.full
+                  x-ion-policy-registry: https://registry.ion.id/policies
+                  x-ion-regulatory: UU 7/2021 HPP; OJK POJK terkait metode pembayaran
+            penalty:
+              type: object
+              properties:
+                policyRef:
+                  type: string
+                  format: uri
+                  description: Optional ION-registered per-offer penalty-policy override. It cannot be weaker than the seller-tier minimum.
+                  example: ion://policy/penalty.seller-sla-breach.standard
+                  x-ion-policy-registry: https://registry.ion.id/policies
+                  # x-ion-condition: Auto-derived from seller tier and other policies; declare only for an explicit override
+
+        displayLanguage:
+          type: array
+          minItems: 1
+          uniqueItems: true
+          items:
+            type: string
+            enum:
+            - id
+            - en
+            - ms
+            - zh
+            - ar
+            - ta
+            - ko
+            - ja
+          description: Languages in which this offer's catalog content is available.
+          example:
+          - id
+          - en
+          x-ion-regulatory: ION Network Policy — language completeness validation
+          # x-ion-condition: Must include id; cross-border offers must also include en
+        weightSlabs:
+          type: array
+          description: Weight-based pricing tiers for catalogued logistics offers.
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              minKg:
+                type: number
+                minimum: 0
+              maxKg:
+                type: number
+              priceIDR:
+                type: integer
+            required:
+            - minKg
+            - maxKg
+            - priceIDR
+          example:
+          - minKg: 0
+            maxKg: 5
+            priceIDR: 15000
+          - minKg: 5
+            maxKg: 10
+            priceIDR: 25000
+          # x-ion-condition: Required for catalogued domestic logistics patterns
+        paymentMethodEligibility:
+          type: array
+          description: Structured ION payment-method restrictions applied in addition to inherited acceptedPaymentMethod.
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              method:
+                $ref: '../../../../extensions/core/payment/v1/attributes.yaml#/components/schemas/IONPayment/properties/method'
+              minAmount:
+                type: number
+                minimum: 0
+                description: Minimum order value in IDR for this method to be eligible.
+              maxAmount:
+                type: number
+                minimum: 0
+                description: Maximum order value in IDR for this method to be eligible.
+              requiresBuyerTier:
+                type: array
+                uniqueItems: true
+                items:
+                  type: string
+                  enum:
+                  - NEW
+                  - STANDARD
+                  - VERIFIED
+                  - PREMIUM
+                  - VIP
+                description: Buyer tiers eligible for this method.
+              requiresAddressVerification:
+                type: boolean
+                description: Whether the buyer must have a verified delivery address.
+                default: false
+              requiresPhoneVerification:
+                type: boolean
+                description: Whether the buyer must have a verified phone number.
+                default: false
+              excludedCategories:
+                type: array
+                uniqueItems: true
+                items:
+                  type: string
+                description: Category codes excluded from this method.
+              requiredBnplProvider:
+                type: array
+                uniqueItems: true
+                items:
+                  type: string
+                description: BNPL providers accepted when method is BNPL.
+                # x-ion-condition: Applicable only when method is BNPL
+              eligibilityNote:
+                type: string
+                description: Optional human-readable explanation.
+            required:
+            - method
       x-ion-closed-extensions: false

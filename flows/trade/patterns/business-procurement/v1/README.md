@@ -6,7 +6,7 @@ Business buyer purchases wholesale from distributor or brand. Payment upfront.
 FMCG distribution, electronics wholesale, agritech bulk, fashion wholesale, B2B pharmaceutical
 
 ## Key differences from B2C-SF
-- MOQ enforced: `offer.minimumOrderQuantity` required; select rejects below MOQ
+- MOQ enforced: `offer.offerAttributes.minOrderQuantity` required; select rejects below MOQ
 - Bulk pricing tiers in on_select breakup
 - `purchaseOrderReference` required at init (SP / SPK / PO number)
 - `invoicePreferences.invoiceType = TAX_INVOICE` standard; requires PKP seller + NPWP buyer

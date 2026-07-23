@@ -9,12 +9,19 @@ terms document that defines exactly what the policy means and how it is enforced
 
 ```yaml
 offerAttributes:
-  returnPolicy:       ion://policy/return.standard.7d-sellerpays
-  cancellationPolicy: ion://policy/cancel.prepacked.free
-  warrantyPolicy:     ion://policy/warranty.standard.none
-  disputePolicy:      ion://policy/dispute.consumer.bpsk
-  grievanceSlaPolicy: ion://policy/grievance-sla.consumer.standard
-  paymentTermsPolicy: ion://policy/payment-terms.upfront.full
+  policies:
+    returns:
+      policyRef: ion://policy/return.standard.7d-sellerpays
+    cancellation:
+      policyRef: ion://policy/cancel.prepacked.free
+    warranty:
+      policyRef: ion://policy/warranty.standard.none
+    dispute:
+      policyRef: ion://policy/dispute.consumer.bpsk
+    grievanceSla:
+      policyRef: ion://policy/grievance-sla.consumer.standard
+    paymentTerms:
+      policyRef: ion://policy/payment-terms.upfront.full
 ```
 
 ## IRI naming scheme

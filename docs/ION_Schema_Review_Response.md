@@ -201,21 +201,23 @@ Both pass the guide's test: removing their structured fields would break the set
 
 ### M5 — Policy IRIs as closed enum values ✅ FIXED
 
-**Observation:** `cancellationPolicies` and 5 other policy fields in `trade/offer/v1` used closed enums of `ion://policy/` IRI strings — adding a new policy required a schema version bump.
+**Observation:** the flat policy fields in `trade/offer/v1` used closed enums of `ion://policy/` IRI strings — adding a new policy required a schema version bump.
 
 **Fix:** Closed enums removed from all 6 fields. Replaced with open IRI pattern:
 
 ```yaml
-cancellationPolicy:
-  type: string
-  format: iri
-  x-ion-policy-registry: https://registry.ion.id/policies
-  description: IRI reference to an ION-registered cancellation policy document.
+policies:
+  cancellation:
+    policyRef:
+      type: string
+      format: uri
+      x-ion-policy-registry: https://registry.ion.id/policies
+      description: URI reference to an ION-registered cancellation policy document.
 ```
 
 The policy registry governs valid values. New policies require no schema change.
 
-**Verification:** 0 `enum: - ion://policy/` patterns remain. `format: iri` present on all 6 fields.
+**Verification:** 0 `enum: - ion://policy/` patterns remain. `format: uri` used by all locally added policyRef fields.
 
 ---
 

@@ -5,6 +5,10 @@ Terms of sale — cancellation, returns, warranties, COD, promotions.
 ## Attaches to
 `beckn:Offer.offerAttributes`
 
+## Schema layers
+
+`TradeOffer` inherits from upstream `RetailOffer/v2.1` and carries 27 local network-agnostic offer properties. `IONTradeOffer` inherits from `TradeOffer` and carries 4 local ION-specific properties: policy overlays, payment eligibility, language policy, and domestic-logistics weight slabs. The root of `schema.json` resolves to `IONTradeOffer`.
+
 ## Policy IRIs
 ION uses IRI-encoded policy identifiers for canonical terms:
 
@@ -32,16 +36,16 @@ ION uses IRI-encoded policy identifiers for canonical terms:
 
 The following fields are always required for this pack by ION network policy (`ion.yaml → x-ion-field-requirements.alwaysRequired`):
 
-- `cancellationPolicy`
-- `returnPolicy`
-- `warrantyPolicy`
-- `disputePolicy`
-- `grievanceSlaPolicy`
-- `paymentTermsPolicy`
-- `cancellable`
-- `returnable`
+- `policies.cancellation.policyRef`
+- `policies.returns.policyRef`
+- `policies.warranty.policyRef`
+- `policies.dispute.policyRef`
+- `policies.grievanceSla.policyRef`
+- `policies.paymentTerms.policyRef`
+- `policies.cancellation.allowed` (inherited from RetailOffer)
+- `policies.returns.allowed` (inherited from RetailOffer)
 - `contactDetailsConsumerCare`
-- `availableOnCod`
+- `paymentConstraints.codAvailable` (inherited from RetailOffer)
 - `timeToShip`
 
 Mandatoriness is enforced by ONIX — these fields are not marked `required:` in the schema itself (mandatoriness lives in network policy, not the schema).

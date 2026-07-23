@@ -27,7 +27,7 @@ Phase 3  BPP → on_status [PACKED]
 All branches available. See `flows/trade/README.md` for the complete branch map.
 
 ## Key fields introduced
-`resourceStructure`, `resourceTangibility`, `availability.status` (signal only — no stock count), `cancellationPolicy`, `returnPolicy`, `warrantyPolicy`, `disputePolicy`, `provinsiCode`, `deliveryOtp`, `fulfillingLocationId`
+`resourceStructure`, `resourceTangibility`, `availability.status` (signal only — no stock count), `policies.cancellation.policyRef`, `policies.returns.policyRef`, `policies.warranty.policyRef`, `policies.dispute.policyRef`, `provinsiCode`, `deliveryOtp`, `fulfillingLocationId`
 
 ## Schema packs
 

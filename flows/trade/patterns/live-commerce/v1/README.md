@@ -17,7 +17,7 @@ Fashion, Beauty, Electronics, FMCG, Home & Kitchen, Agritech. (Restaurant food o
 ## Key differences from B2C-SF
 
 - **Source attribution mandatory.** `contractAttributes.liveCommerceContext` required at select, carries source channel, streamer ID, OTT content reference, group-buy session ID.
-- **Time-bounded offers.** Offer `startAt` and `endAt` strictly enforced — BPP returns ION-3010 for out-of-window orders.
+- **Time-bounded offers.** Offer `validity.startDate` and `validity.endDate` strictly enforced — BPP returns ION-3010 for out-of-window orders.
 - **Short reservation window.** `reservationWindowSeconds` typically 60-180s for flash-style live drops. BAP must show urgency UI.
 - **Queue mechanics.** When `queueEnabled=true`, BPP returns `queuePosition` and `estimatedWaitSeconds` in on_select for high-demand drops.
 - **Stock caps.** `totalStockCap` and `perUserQuantityCap` enforced atomically; ION-3008 returned when exceeded.
@@ -41,7 +41,7 @@ The OTT platform acts as a BAP surface (may be the same legal BAP as a marketpla
 Standard delivery from DISPATCHED onwards. For group-buy, `PLANNED` may extend while awaiting minimum participants.
 
 ## Applicable branches
-All branches available. Flash-sale cancellation is typically not permitted after confirm — enforced by offer's cancellationPolicy.
+All branches available. Flash-sale cancellation is typically not permitted after confirm — enforced by offer's policies.cancellation.policyRef.
 
 ## Regulatory
 - **Kemendag Permen 31/2023** — social commerce must operate as e-commerce. ION Live Commerce is a compliant e-commerce flow; the `sourceChannel` field records the origin for transparency without making it a social media transaction.

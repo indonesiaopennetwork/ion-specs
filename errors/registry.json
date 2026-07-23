@@ -275,9 +275,9 @@
         "en": "Payment method not available for this product"
       },
       "description": {
-        "en": "The selected payment method is not eligible for this offer. e.g. COD not available (availableOnCod=false) or BNPL not in paymentMethodEligibility."
+        "en": "The selected payment method is not eligible for this offer. e.g. COD not available (paymentConstraints.codAvailable=false) or BNPL not in paymentMethodEligibility."
       },
-      "affected_field": "offerAttributes.availableOnCod",
+      "affected_field": "offerAttributes.paymentConstraints.codAvailable",
       "affected_apis": [
         "init",
         "on_init"
@@ -285,7 +285,7 @@
       "schema_ref": "schema/core/v2/api/v2.0.0/beckn.yaml#Offer",
       "flow_ref": null,
       "resolution": {
-        "en": "Check availableOnCod and paymentMethodEligibility from the offer before presenting payment options to consumer."
+        "en": "Check paymentConstraints.codAvailable and paymentMethodEligibility from the offer before presenting payment options to consumer."
       }
     },
     {
@@ -339,7 +339,7 @@
         "en": "COD not eligible for this buyer"
       },
       "description": {
-        "en": "Offer supports COD (availableOnCod=true) but the specific buyer has been declined COD — new buyer, previous COD failure, address not verified, amount exceeds limit, or high-risk category.\n"
+        "en": "Offer supports COD (paymentConstraints.codAvailable=true) but the specific buyer has been declined COD — new buyer, previous COD failure, address not verified, amount exceeds limit, or high-risk category.\n"
       },
       "affected_field": "message.contract.commitments[].offer.codEligibilityForBuyer",
       "affected_apis": [
@@ -454,9 +454,9 @@
         "en": "Cancellation not allowed after current state"
       },
       "description": {
-        "en": "Buyer attempted to cancel after the performance state has passed the cancellation window declared in the offer's cancellationPolicy."
+        "en": "Buyer attempted to cancel after the performance state has passed the cancellation window declared in the offer's policies.cancellation.policyRef."
       },
-      "affected_field": "offerAttributes.cancellationPolicy",
+      "affected_field": "offerAttributes.policies.cancellation.policyRef",
       "affected_apis": [
         "cancel",
         "on_cancel"
@@ -476,16 +476,16 @@
         "en": "Cancellation reason not accepted by seller"
       },
       "description": {
-        "en": "The cancellation reason code sent is not in the seller's declared cancellationAllowedReasons list."
+        "en": "The cancellation reason code sent is not in the seller's declared policies.cancellation.allowedReasons list."
       },
-      "affected_field": "offerAttributes.cancellationAllowedReasons",
+      "affected_field": "offerAttributes.policies.cancellation.allowedReasons",
       "affected_apis": [
         "cancel"
       ],
       "schema_ref": "schema/core/v2/api/v2.0.0/beckn.yaml#Offer",
       "flow_ref": null,
       "resolution": {
-        "en": "Only send cancellation reasons that are in the offer's cancellationAllowedReasons. Display these reasons to consumer in the cancellation flow."
+        "en": "Only send cancellation reasons that are in the offer's policies.cancellation.allowedReasons. Display these reasons to consumer in the cancellation flow."
       }
     },
     {
@@ -517,7 +517,7 @@
         "en": "Action not permitted by declared policy"
       },
       "description": {
-        "en": "Request attempted an action outside the bounds of the declared policy IRI. Examples: cancelling past cancellationWindowCloses state, returning outside returnWindowDays (from returnPolicy IRI), requesting refund when refundAfterQC=false before QC. ION resolves the policy IRI and applies the terms document as enforcement.\n"
+        "en": "Request attempted an action outside the bounds of the declared policy IRI. Examples: cancelling past cancellationWindowCloses state, returning outside returnWindowDays (from policies.returns.policyRef IRI), requesting refund when refundAfterQC=false before QC. ION resolves the policy IRI and applies the terms document as enforcement.\n"
       },
       "affected_field": "offerAttributes.{policy}",
       "affected_apis": [
@@ -929,9 +929,9 @@
         "en": "Invalid policy IRI at catalog publish"
       },
       "description": {
-        "en": "Offer declared a policy IRI that is not present in the ION Policy Terms Registry. Every offer.returnPolicy / cancellationPolicy / warrantyPolicy / disputePolicy / grievanceSlaPolicy / paymentTermsPolicy must be a ratified IRI from policies/registry.json.\n"
+        "en": "Offer declared a policy IRI that is not present in the ION Policy Terms Registry. Every offer.policies.returns.policyRef / policies.cancellation.policyRef / policies.warranty.policyRef / policies.dispute.policyRef / policies.grievanceSla.policyRef / policies.paymentTerms.policyRef must be a ratified IRI from policies/registry.json.\n"
       },
-      "affected_field": "offerAttributes.returnPolicy|cancellationPolicy|warrantyPolicy|disputePolicy|grievanceSlaPolicy|paymentTermsPolicy",
+      "affected_field": "offerAttributes.policies.returns.policyRef|policies.cancellation.policyRef|policies.warranty.policyRef|policies.dispute.policyRef|policies.grievanceSla.policyRef|policies.paymentTerms.policyRef",
       "affected_apis": [
         "publish_catalog"
       ],
@@ -954,7 +954,7 @@
       "description": {
         "en": "Offer declared a policy IRI that has been deprecated. The terms document's deprecatedAt field is populated; use the supersededBy IRI instead. Deprecated IRIs remain readable for existing contracts but cannot be used on new catalog publishes.\n"
       },
-      "affected_field": "offerAttributes.returnPolicy|cancellationPolicy|warrantyPolicy|disputePolicy|grievanceSlaPolicy|paymentTermsPolicy",
+      "affected_field": "offerAttributes.policies.returns.policyRef|policies.cancellation.policyRef|policies.warranty.policyRef|policies.dispute.policyRef|policies.grievanceSla.policyRef|policies.paymentTerms.policyRef",
       "affected_apis": [
         "publish_catalog"
       ],
@@ -1044,9 +1044,9 @@
         "en": "Live session ended"
       },
       "description": {
-        "en": "Offer is bound to a live session that has ended. Current time is past offer.endAt. Applies to live-commerce pattern.\n"
+        "en": "Offer is bound to a live session that has ended. Current time is past offer.offerAttributes.validity.endDate. Applies to live-commerce pattern.\n"
       },
-      "affected_field": "message.catalog.offers[].offerAttributes.endAt",
+      "affected_field": "message.catalog.offers[].offerAttributes.validity.endDate",
       "affected_apis": [
         "select",
         "init",
@@ -1138,16 +1138,16 @@
         "en": "Return not permitted for this product"
       },
       "description": {
-        "en": "The offer has returnable=false. Return cannot be initiated for this product category."
+        "en": "The offer has policies.returns.allowed=false. Return cannot be initiated for this product category."
       },
-      "affected_field": "offerAttributes.returnable",
+      "affected_field": "offerAttributes.policies.returns.allowed",
       "affected_apis": [
         "update"
       ],
       "schema_ref": "schema/extensions/trade/offer/v1",
       "flow_ref": "flows/trade/variants/returns/v1",
       "resolution": {
-        "en": "Check returnable flag before showing return option in BAP UI. Do not present return option if returnable=false."
+        "en": "Check policies.returns.allowed flag before showing return option in BAP UI. Do not present return option if policies.returns.allowed=false."
       },
       "legacy_code": "ION-5003",
       "sector": "trade"
@@ -1163,14 +1163,14 @@
       "description": {
         "en": "The return initiation request was made after the returnWindow duration has elapsed from the DELIVERED timestamp."
       },
-      "affected_field": "offerAttributes.returnPolicy",
+      "affected_field": "offerAttributes.policies.returns.policyRef",
       "affected_apis": [
         "update"
       ],
       "schema_ref": "schema/extensions/trade/offer/v1",
       "flow_ref": "flows/trade/variants/returns/v1",
       "resolution": {
-        "en": "The returnPolicy IRI defines the returnWindowDays. Calculate return deadline as deliveredAt + returnWindowDays. Only show return option within this window."
+        "en": "The policies.returns.policyRef IRI defines the returnWindowDays. Calculate return deadline as deliveredAt + returnWindowDays. Only show return option within this window."
       },
       "legacy_code": "ION-5004",
       "sector": "trade"
@@ -1184,7 +1184,7 @@
         "en": "Return evidence insufficient"
       },
       "description": {
-        "en": "Return request does not meet the evidence requirement declared in offer.returnEvidenceRequirement. Missing required photos or video.\n"
+        "en": "Return request does not meet the evidence requirement declared in offer.offerAttributes.policies.returns.evidenceRequirement. Missing required photos or video.\n"
       },
       "affected_field": "message.contract.performance[].performanceAttributes.tags.return_evidence",
       "affected_apis": [
@@ -1193,7 +1193,7 @@
       "schema_ref": "schema/extensions/trade/offer/v1",
       "flow_ref": "flows/trade/variants/returns/v1",
       "resolution": {
-        "en": "Request additional evidence from consumer per returnEvidenceRequirement."
+        "en": "Request additional evidence from consumer per policies.returns.evidenceRequirement."
       },
       "legacy_code": "ION-5005",
       "sector": "trade"

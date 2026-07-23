@@ -171,7 +171,7 @@ subBranches:
     businessRules:
       - codAmount is the exact amount the delivery agent must collect
       - BAP settles to BPP via reconcile after return window closes
-      - COD not available if offer.availableOnCod=false
+      - COD not available if offer.offerAttributes.paymentConstraints.codAvailable=false
     schemaPacks:
       trade: [contract/v1]
       core: [payment/v1]

@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "description": "Storefront publish_catalog \u2014 BPP publishes a physical goods catalog. Example: Apotek Sehat Mandiri pharmacy publishing Panadol (TRC-health-beauty).",
+    "description": "Storefront publish_catalog — BPP publishes a physical goods catalog. Example: Apotek Sehat Mandiri pharmacy publishing Panadol (TRC-health-beauty).",
     "pattern": "storefront",
     "step": "publish_catalog",
     "sent_by": "BPP",
@@ -150,16 +150,36 @@
           "offerAttributes": {
             "@context": "https://schema.ion.id/extensions/trade/offer/v1/context.jsonld",
             "@type": "ion:IONTradeOffer",
-            "cancellationPolicy": "ion://policy/cancel.prepacked.free",
-            "returnPolicy": "ion://policy/return.standard.7d-sellerpays",
-            "warrantyPolicy": "ion://policy/warranty.standard.none",
-            "disputePolicy": "ion://policy/dispute.consumer.bpsk",
-            "grievanceSlaPolicy": "ion://policy/grievance-sla.consumer.standard",
-            "paymentTermsPolicy": "ion://policy/payment-terms.upfront.full",
-            "returnable": false,
+            "policies": {
+              "returns": {
+                "allowed": false,
+                "policyRef": "ion://policy/return.standard.7d-sellerpays"
+              },
+              "cancellation": {
+                "policyRef": "ion://policy/cancel.prepacked.free"
+              },
+              "warranty": {
+                "policyRef": "ion://policy/warranty.standard.none"
+              },
+              "dispute": {
+                "policyRef": "ion://policy/dispute.consumer.bpsk"
+              },
+              "grievanceSla": {
+                "policyRef": "ion://policy/grievance-sla.consumer.standard"
+              },
+              "paymentTerms": {
+                "policyRef": "ion://policy/payment-terms.upfront.full"
+              }
+            },
             "timeToShip": "PT2H",
-            "availableOnCod": true,
-            "contactDetailsConsumerCare": "Customer Service,cs@apotek-sehat.id,+6221-5555-1234",
+            "paymentConstraints": {
+              "codAvailable": true
+            },
+            "contactDetailsConsumerCare": {
+              "name": "Customer Service",
+              "email": "cs@apotek-sehat.id",
+              "phone": "+6221-5555-1234"
+            },
             "displayLanguage": [
               "id"
             ]

@@ -23,8 +23,8 @@ Field labels: `[network-policy]` = ion.yaml x-ion-field-requirements | `[crc:X]`
 | `regulatory.halalStatus` | `[crc:TRC-food-bev]` | Must match top-level halalStatus |
 | `images` | `[discovery]` | Missing → resource not indexed |
 | `availability` | `[discovery]` | Missing → resource not indexed |
-| `cancellationPolicy` | `[pattern]` | Must be a valid policy IRI |
-| `returnPolicy` | `[pattern]` | Must be a valid policy IRI |
+| `policies.cancellation.policyRef` | `[pattern]` | Must be a valid policy IRI |
+| `policies.returns.policyRef` | `[pattern]` | Must be a valid policy IRI |
 | `contactDetailsConsumerCare` | `[pattern]` | |
 
 *Remaining steps follow the same pattern as TRC-fashion — see that sample for the full step list.*

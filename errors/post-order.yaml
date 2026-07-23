@@ -6,8 +6,8 @@
     en: Cancellation not allowed after current state
   description:
     en: Buyer attempted to cancel after the performance state has passed the cancellation
-      window declared in the offer's cancellationPolicy.
-  affected_field: offerAttributes.cancellationPolicy
+      window declared in the offer's policies.cancellation.policyRef.
+  affected_field: offerAttributes.policies.cancellation.policyRef
   affected_apis:
   - cancel
   - on_cancel
@@ -23,15 +23,15 @@
     id: Alasan pembatalan tidak valid
     en: Cancellation reason not accepted by seller
   description:
-    en: The cancellation reason code sent is not in the seller's declared cancellationAllowedReasons
+    en: The cancellation reason code sent is not in the seller's declared policies.cancellation.allowedReasons
       list.
-  affected_field: offerAttributes.cancellationAllowedReasons
+  affected_field: offerAttributes.policies.cancellation.allowedReasons
   affected_apis:
   - cancel
   schema_ref: schema/core/v2/api/v2.0.0/beckn.yaml#Offer
   flow_ref: null
   resolution:
-    en: Only send cancellation reasons that are in the offer's cancellationAllowedReasons.
+    en: Only send cancellation reasons that are in the offer's policies.cancellation.allowedReasons.
       Display these reasons to consumer in the cancellation flow.
 - code: ION-5007
   http_status: 403
@@ -59,7 +59,7 @@
   description:
     en: 'Request attempted an action outside the bounds of the declared policy IRI.
       Examples: cancelling past cancellationWindowCloses state, returning outside
-      returnWindowDays (from returnPolicy IRI), requesting refund when refundAfterQC=false
+      returnWindowDays (from policies.returns.policyRef IRI), requesting refund when refundAfterQC=false
       before QC. ION resolves the policy IRI and applies the terms document as enforcement.
 
       '

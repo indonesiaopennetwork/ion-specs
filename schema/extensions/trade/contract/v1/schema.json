@@ -429,7 +429,7 @@
     },
     "paymentSchedule": {
       "type": "array",
-      "description": "Multi-milestone payment schedule for partial-payment offers (down-payment + balance, milestone-based for services, etc.). Used when paymentTermsPolicy references a schedule-based IRI. Single-payment orders do not require this field. Contract moves to COMPLETE only when all milestones are PAID.\n",
+      "description": "Multi-milestone payment schedule for partial-payment offers (down-payment + balance, milestone-based for services, etc.). Used when policies.paymentTerms.policyRef references a schedule-based IRI. Single-payment orders do not require this field. Contract moves to COMPLETE only when all milestones are PAID.\n",
       "items": {
         "type": "object",
         "additionalProperties": false,
@@ -499,7 +499,7 @@
         ]
       },
       "x-ion-conditional": true,
-      "x-ion-condition": "Required when paymentTermsPolicy is schedule-based"
+      "x-ion-condition": "Required when policies.paymentTerms.policyRef is schedule-based"
     },
     "gift": {
       "type": "boolean",
@@ -514,7 +514,7 @@
       "properties": {
         "id": {
           "type": "string",
-          "description": "Unique reason identifier. Matches an entry in offer.cancellationAllowedReasons."
+          "description": "Unique reason identifier. Matches an entry in offer.offerAttributes.policies.cancellation.allowedReasons."
         },
         "descriptor": {
           "type": "object",

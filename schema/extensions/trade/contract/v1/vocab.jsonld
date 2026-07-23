@@ -174,7 +174,7 @@
       "@id": "ion:paymentSchedule",
       "@type": "rdf:Property",
       "rdfs:label": "paymentSchedule",
-      "rdfs:comment": "Multi-milestone payment schedule for partial-payment offers (down-payment + balance, milestone-based for services, etc.). Used when paymentTermsPolicy references a schedule-based IRI. Single-payment orders do not require this field. Contract moves to COMPLETE only when all milestones are PAID.\n"
+      "rdfs:comment": "Multi-milestone payment schedule for partial-payment offers (down-payment + balance, milestone-based for services, etc.). Used when policies.paymentTerms.policyRef references a schedule-based IRI. Single-payment orders do not require this field. Contract moves to COMPLETE only when all milestones are PAID.\n"
     },
     {
       "@id": "ion:accountName",

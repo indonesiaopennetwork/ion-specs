@@ -162,13 +162,13 @@ deny[msg] {
 ```rego
 package ion.onix.conditional.trade.offer
 
-# Return policy details required when item is returnable
-# x-ion-condition: Required when returnable is true
+# Return policy details required when inherited RetailOffer returns are allowed
+# ONIX policy condition: Required when policies.returns.allowed is true
 deny[msg] {
   o := input.offerAttributes
-  o.returnable == true
-  not o.returnPolicy
-  msg := "offerAttributes.returnPolicy is required when returnable is true"
+  o.policies.returns.allowed == true
+  not o.policies.returns.policyRef
+  msg := "offerAttributes.policies.returns.policyRef is required when policies.returns.allowed is true"
 }
 
 # Warranty details required when warranty is declared
@@ -176,8 +176,8 @@ deny[msg] {
 deny[msg] {
   o := input.offerAttributes
   o.warrantyType != "NONE"
-  not o.warrantyPolicy
-  msg := "offerAttributes.warrantyPolicy is required when warrantyType is not NONE"
+  not o.policies.warranty.policyRef
+  msg := "offerAttributes.policies.warranty.policyRef is required when warrantyType is not NONE"
 }
 ```
 

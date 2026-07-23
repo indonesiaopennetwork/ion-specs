@@ -30,7 +30,7 @@ applicableCategories:
 extendsFrom: flows/trade/spines/storefront/v1/spine.yaml
 
 keyDifferences_vs_B2C_SF:
-  - Offer has startAt and endAt enforced — live-window-only availability
+  - Offer has validity.startDate and validity.endDate enforced — live-window-only availability
   - reservationWindowSeconds typically very short (60-180s) due to flash nature
   - contractAttributes.liveCommerceContext required — source channel attribution
   - streamer/affiliate commission declared in consideration breakup
@@ -46,18 +46,18 @@ phases:
     description: >
       Providers pre-publish live-commerce-eligible offers with session binding.
       At session start, BPP publishes an incremental catalog update with the
-      live session context. At session end, offers auto-expire via endAt.
+      live session context. At session end, offers auto-expire via validity.endDate.
     steps:
       - step: publish_catalog
         from: BPP
         to: ION_CATALOG
         requiredFields:
           - message.catalog.provider.providerAttributes.liveCommerceEnabled  # value: true
-          - message.catalog.offers[].offerAttributes.startAt
-          - message.catalog.offers[].offerAttributes.endAt
+          - message.catalog.offers[].offerAttributes.validity.startDate
+          - message.catalog.offers[].offerAttributes.validity.endDate
           - message.catalog.offers[].offerAttributes.reservationWindowSeconds
         conditionalFields:
-          - field: message.catalog.offers[].offerAttributes.isFlashSale  # condition: for time-limited exclusive live offers
+          - field: message.catalog.offers[].offerAttributes.offerType  # value=FLASH_SALE for time-limited exclusive live offers
           - field: message.catalog.offers[].offerAttributes.totalStockCap  # condition: for quantity-capped flash offers
           - field: message.catalog.offers[].offerAttributes.queueEnabled  # condition: for high-demand live drops
 
@@ -86,9 +86,9 @@ phases:
           - field: message.contract.contractAttributes.liveCommerceContext.ottContentId  # condition: when sourceChannel=OTT_EMBEDDED
           - field: message.contract.contractAttributes.liveCommerceContext.groupBuyId  # condition: when sourceChannel=GROUP_BUY
         businessRules:
-          - BPP validates that current time is within offer.startAt to endAt
+          - BPP validates that current time is within offer.offerAttributes.validity.startDate to offer.offerAttributes.validity.endDate
           - BPP validates session liveSessionId is still ACTIVE
-          - For OTT_EMBEDDED: BPP may accept orders after broadcast if offer.endAt permits
+          - For OTT_EMBEDDED: BPP may accept orders after broadcast if offer.offerAttributes.validity.endDate permits
 
       - step: on_select
         from: BPP

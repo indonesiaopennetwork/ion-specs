@@ -24,12 +24,12 @@ Fields marked `← not in pattern.yaml` are enforced by ION network policy but n
 | `fashion.fabricComposition` | `[crc:TRC-fashion]` | Required for SNI compliance |
 | `images` | `[discovery]` | Missing → resource not indexed |
 | `availability` | `[discovery]` | Missing → resource not indexed |
-| `cancellationPolicy` | `[pattern]` | Must be a valid policy IRI |
-| `returnPolicy` | `[pattern]` | Must be a valid policy IRI |
-| `warrantyPolicy` | `[pattern]` | Must be a valid policy IRI |
-| `disputePolicy` | `[pattern]` | Must be a valid policy IRI |
-| `grievanceSlaPolicy` | `[pattern]` | Must be a valid policy IRI |
-| `paymentTermsPolicy` | `[pattern]` | Must be a valid policy IRI |
+| `policies.cancellation.policyRef` | `[pattern]` | Must be a valid policy IRI |
+| `policies.returns.policyRef` | `[pattern]` | Must be a valid policy IRI |
+| `policies.warranty.policyRef` | `[pattern]` | Must be a valid policy IRI |
+| `policies.dispute.policyRef` | `[pattern]` | Must be a valid policy IRI |
+| `policies.grievanceSla.policyRef` | `[pattern]` | Must be a valid policy IRI |
+| `policies.paymentTerms.policyRef` | `[pattern]` | Must be a valid policy IRI |
 | `contactDetailsConsumerCare` | `[pattern]` | UU 8/1999 — always required |
 
 ## Step: select / on_select
