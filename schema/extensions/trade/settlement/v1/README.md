@@ -1,64 +1,81 @@
 # ION Trade Settlement Extension — v1
 
-**Schemas:** `TradeSettlement` (generic) and `IONTradeSettlement` (ION-specific)
-**Attaches to:** `Settlement.settlementAttributes`  
-**Sector:** Trade  
+**Schemas:** `TradeSettlement` and `IONTradeSettlement`
+
+**Attaches to:** `Settlement.settlementAttributes`
+
+**Sector:** Trade
 
 ## Purpose
 
-Carries the payment method declaration, instrument detail, and refund lifecycle for each settlement record in a trade transaction. One `Settlement` object per payment event in `Contract.settlements[]`.
+Represents the discharge of a trade consideration. `TradeSettlement` inherits
+the canonical `RetailSettlement v2.1` shape, and `IONTradeSettlement` provides
+an ION-specific extension point without repeating inherited fields.
 
-`IONTradeSettlement` extends `TradeSettlement` through `allOf`. The current
-property placement is preserved during the structural split; generic and
-ION-specific property ownership is reviewed in the subsequent cleanup phases.
+The inherited schema defines:
 
-## Key fields
+| Field | Meaning |
+|---|---|
+| `method` | High-level settlement discharge method |
+| `paymentRail` | Canonical or market-specific settlement rail |
+| `gateway` | Gateway name, transaction identifier, and optional URL |
+| `settledAt` | Time at which settlement completed |
+| `settledAmount` | Amount discharged by this settlement |
+| `currency` | ISO 4217 currency |
+| `refund` | Structured refund record |
+| `adjustments` | Post-transaction settlement adjustments |
+| `reconciliationId` | Cross-party reconciliation identifier |
+| `reconciliationStatus` | Reconciliation lifecycle state |
 
-| Field | Stage | Notes |
+RetailSettlement requires `method`, `settledAt`, `settledAmount`, and
+`currency`. These inherited requirements cannot be relaxed through `allOf`.
+
+## Method and rail
+
+Use the inherited high-level method together with `paymentRail`:
+
+| Payment scenario | `method` | `paymentRail` |
 |---|---|---|
-| `method` | init (BAP) | Payment method: QRIS, VIRTUAL_ACCOUNT, EWALLET, COD, etc. |
-| `paymentRail` | init (BAP) | Specific rail: GOPAY, QRIS_DYNAMIC, VA_BCA, etc. |
-| `collectedBy` | init (BAP) | BAP or BPP — determines settlement direction |
-| `timing` | init (BAP) | PRE_ORDER, ON_CONFIRM, ON_DELIVERY, POST_DELIVERY |
-| `status` | confirm (BAP/BPP) | NOT_PAID → PAID → REFUNDED lifecycle |
-| `currency` | always | IDR (const) |
-| `methodDetail` | on_init (BPP) | QRIS string, VA number, e-wallet deep link |
-| `refundAmount` | on_cancel / on_update | Refund for cancellation or return resolution |
-| `refundMethod` | on_cancel / on_update | Where refund is credited |
-| `refundTimeline` | on_cancel / on_update | ISO 8601 duration e.g. P3D |
+| QRIS | `QR_CODE` | `QRIS` |
+| GoPay or OVO | `DIGITAL_WALLET` | `GOPAY` or `OVO` |
+| Virtual account | `BANK_TRANSFER` | `VA_BCA`, `VA_BNI`, etc. |
+| Card | `CARD` | `VISA`, `MASTERCARD`, etc. |
+| Cash on delivery collection | `COD_COLLECTION` | `COD` |
+| BNPL merchant payout | `BNPL_SETTLEMENT` | Market-specific BNPL rail |
 
-## Network policy
+`paymentRail` accepts canonical global rails and market-specific values using
+`UPPERCASE_UNDERSCORE`. ION does not close this field because government,
+cross-border, and domestic flows require rails such as `RTGS`, `SKN`, `SWIFT`,
+`QRIS`, and `BI_FAST`.
 
-`method`, `collectedBy`, `timing`, `status`, `currency` are always required on every ION trade settlement record. Enforced via `x-ion-field-requirements.alwaysRequired` in ion.yaml.
+## Related attribute packs
 
-## Relationship to core/payment/v1
+- `core/payment/v1` owns buyer-facing payment declaration fields such as
+  collector, collection timing, payment status, and typed instrument details.
+- `core/reconcile/v1` owns reconciliation calculations, settlement basis,
+  disputes, tax withholding, and detailed reconciliation adjustments.
+- `trade/consideration/v1` owns monetary obligations and price changes,
+  including additional charges created by an exchange or contract update.
 
-`core/payment/v1` is the ION payment METHOD registry — it defines the structured sub-objects for each payment method (QRIS, VirtualAccount, EWallet, etc.) including instrument-level fields. `trade/settlement/v1` is the per-transaction settlement DECLARATION — it references method types by string and carries the runtime status and refund lifecycle. Use both together.
+Those concerns are not repeated in `IONTradeSettlement`.
+
+The two structured refund records serve different stages:
+
+- A completed `IONTradeSettlement` uses the inherited
+  `refund.amount`, `refund.method`, `refund.timelineDays`, and `refund.status`.
+- A buyer-facing `IONPayment` declaration uses
+  `refund.refundAmount`, `refund.refundMethod`, `refund.refundTimeline`,
+  and its payment-specific refund metadata.
+
+## Currency policy
+
+Domestic ION transactions normally settle in IDR. This is network policy rather
+than a schema `const`, because cross-border trade must remain capable of using
+another ISO 4217 currency.
 
 ## Changelog
 
 | Version | Date | Summary |
 |---|---|---|
 | v1 | 2026-06-02 | Initial release |
-
-## Network-required fields
-
-Enforced by ONIX at `confirm` and `on_confirm`:
-
-| Field | Condition |
-|---|---|
-| `method` | Always required |
-| `paymentRail` | Always required |
-| `collectedBy` | Always required |
-
-For the full step-by-step list: `python tools/ion_required_fields.py --sector trade --pattern storefront --crc TRC-fashion`
-
-## Used in
-
-`flows/trade/README.md` — all trade patterns (storefront, made-to-order, subscription)
-
-## Common rejection reasons
-
-- `method` not in the declared payment method set for the network → `ION-A6xxx`.
-- `paymentRail` and `method` combination not supported → `ION-A6xxx`. E.g. `method: QRIS` requires `paymentRail: QRIS`.
-- `collectedBy` value is neither `BAP` nor `BPP` → `ION-A8xxx`.
+| v1 cleanup | 2026-07-23 | Inherited RetailSettlement v2.1 and removed duplicate payment and reconciliation fields |

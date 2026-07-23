@@ -7,6 +7,21 @@ Order-level contract attributes — buyer instructions, gift, invoice preference
 
 See `attributes.yaml` for complete field definitions.
 
+## Layer split
+
+`IONTradeContract` extends `TradeContract` through `allOf`.
+
+- `TradeContract` contains 27 network-neutral trade concepts, including
+  fulfilment preferences, purchase orders, cancellation metadata, credit and
+  subscription terms, gifting, live-commerce attribution, refunds, and payment
+  schedules.
+- `IONTradeContract` contains five Indonesia-specific properties:
+  `invoicePreferences`, `fakturPajakReference`, `beaCukaiReference`, `nib`, and
+  `npwp`.
+
+This phase only assigns existing properties to their semantic layer. Property
+shape and naming cleanup is handled separately.
+
 ## Network-required fields
 
 The following fields are always required for this pack by ION network policy (`ion.yaml → x-ion-field-requirements.alwaysRequired`):

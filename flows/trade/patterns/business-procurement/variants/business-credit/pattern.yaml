@@ -126,7 +126,7 @@ phases:
         requiredFields:
           - message.contract.id
           - message.contract.settlements[].settlementAttributes.status
-          - message.contract.settlements[].settlementAttributes.methodDetail[].biRef
+          - message.contract.settlements[].settlementAttributes.methodDetail.biRef
           - message.contract.settlements[].settlementAttributes.paidAt
 
       - step: on_update

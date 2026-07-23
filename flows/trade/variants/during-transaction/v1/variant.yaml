@@ -75,7 +75,7 @@ subBranches:
           consumer using on_init payment details.
         requiredFields:
           - message.contract.settlements[].settlementAttributes.status
-          - message.contract.settlements[].settlementAttributes.methodDetail[]
+          - message.contract.settlements[].settlementAttributes.methodDetail
       - step: confirm
         from: BAP
         to: BPP

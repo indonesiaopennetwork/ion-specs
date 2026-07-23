@@ -20,7 +20,7 @@ Delivery failed. Package returns to seller origin. Three possible outcomes.
 BPP → /on_status (RTO_INITIATED, rtoReason: undeliverable/refused/otp_failed)
 BPP → /on_status (RTO_IN_TRANSIT)
 BPP → /on_status (RTO_DELIVERED or RTO_DISPOSED)
-BPP → /on_update (refundAmount — for prepaid orders)
+BPP → /on_update (refund.refundAmount — for prepaid orders)
 ```
 
 ## State machine

@@ -1,25 +1,61 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://schema.ion.id/trade/settlement/v1/schema.json",
+  "$id": "https://schema.ion.id/trade/settlement/v1",
   "title": "ION Trade Settlement Schema Pack v1",
-  "description": "JSON Schema 2020-12 mirror of the trade/settlement/v1 OpenAPI schema pack. The root resolves to IONTradeSettlement; TradeSettlement is the generic base layer.",
+  "description": "JSON Schema 2020-12 mirror of the trade/settlement/v1 OpenAPI schema pack. The root resolves to IONTradeSettlement; TradeSettlement inherits RetailSettlement v2.1.",
   "type": "object",
   "$ref": "#/$defs/IONTradeSettlement",
   "$defs": {
     "TradeSettlement": {
       "type": "object",
       "title": "TradeSettlement",
-      "description": "Network-agnostic generic layer for trade settlement attributes. Property ownership will be reviewed during the generic cleanup phase.",
+      "description": "Network-agnostic trade settlement layer. Inherits RetailSettlement v2.1 and exposes its fields through property-level references so the local JSON Schema and JSON-LD artifacts remain aligned.",
       "x-ion-layer": "generic",
       "x-ion-split-version": "0.7.0",
       "x-recommended-parent": "Settlement.settlementAttributes",
       "additionalProperties": true,
-      "properties": {}
+      "allOf": [
+        {
+          "$ref": "https://schema.beckn.io/RetailSettlement/v2.1/attributes.yaml#/components/schemas/RetailSettlement"
+        }
+      ],
+      "properties": {
+        "gateway": {
+          "$ref": "https://schema.beckn.io/RetailSettlement/v2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/gateway"
+        },
+        "method": {
+          "$ref": "https://schema.beckn.io/RetailSettlement/v2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/method"
+        },
+        "paymentRail": {
+          "$ref": "https://schema.beckn.io/RetailSettlement/v2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/paymentRail"
+        },
+        "settledAt": {
+          "$ref": "https://schema.beckn.io/RetailSettlement/v2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/settledAt"
+        },
+        "settledAmount": {
+          "$ref": "https://schema.beckn.io/RetailSettlement/v2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/settledAmount"
+        },
+        "currency": {
+          "$ref": "https://schema.beckn.io/RetailSettlement/v2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/currency"
+        },
+        "refund": {
+          "$ref": "https://schema.beckn.io/RetailSettlement/v2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/refund"
+        },
+        "adjustments": {
+          "$ref": "https://schema.beckn.io/RetailSettlement/v2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/adjustments"
+        },
+        "reconciliationId": {
+          "$ref": "https://schema.beckn.io/RetailSettlement/v2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/reconciliationId"
+        },
+        "reconciliationStatus": {
+          "$ref": "https://schema.beckn.io/RetailSettlement/v2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/reconciliationStatus"
+        }
+      }
     },
     "IONTradeSettlement": {
       "type": "object",
       "title": "IONTradeSettlement",
-      "description": "ION-specific trade settlement layer. Property ownership will be reviewed during the ION cleanup phase.",
+      "description": "ION-specific extension point for TradeSettlement. Domestic currency constraints belong to ION network policy so cross-border settlement remains expressible.",
       "x-ion-layer": "ion",
       "x-ion-split-version": "0.7.0",
       "allOf": [
@@ -33,135 +69,8 @@
         "@type": "ion:IONTradeSettlement"
       },
       "x-beckn-attaches-to": "Settlement.settlementAttributes",
-      "properties": {
-    "method": {
-      "type": "string",
-      "enum": [
-        "QRIS", "VIRTUAL_ACCOUNT", "EWALLET", "BANK_TRANSFER",
-        "CREDIT_CARD", "DEBIT_CARD", "COD", "BNPL", "PAYLATER",
-        "STORE_CREDIT", "LOYALTY_POINTS", "PAYMENT_LINK"
-      ],
-      "description": "Payment method declared by BAP at init."
-    },
-    "paymentRail": {
-      "type": "string",
-      "enum": [
-        "QRIS_STATIC", "QRIS_DYNAMIC", "QRIS_CPM",
-        "VA_BCA", "VA_BNI", "VA_BRI", "VA_MANDIRI", "VA_CIMB", "VA_PERMATA", "VA_DANA",
-        "GOPAY", "OVO", "DANA", "SHOPEEPAY", "LINKAJA",
-        "KREDIVO", "AKULAKU", "SPAYLATER", "COD"
-      ],
-      "description": "Specific payment rail within the method."
-    },
-    "collectedBy": {
-      "type": "string",
-      "enum": ["BAP", "BPP"],
-      "description": "Which party collects the payment."
-    },
-    "timing": {
-      "type": "string",
-      "enum": ["PRE_ORDER", "ON_CONFIRM", "ON_DELIVERY", "POST_DELIVERY", "SUBSCRIPTION_CYCLE"],
-      "description": "When payment is collected."
-    },
-    "status": {
-      "type": "string",
-      "enum": [
-        "NOT_PAID", "INITIATED", "PROCESSING", "PAID", "FAILED",
-        "CANCELLED", "REFUND_INITIATED", "REFUNDED", "PARTIALLY_REFUNDED"
-      ],
-      "description": "Current payment status."
-    },
-    "currency": { "type": "string", "const": "IDR", "default": "IDR" },
-    "amount": { "type": "number", "minimum": 0, "description": "Total settlement amount in IDR." },
-    "methodDetail": {
-      "type": "object",
-      "additionalProperties": true,
-      "description": "Payment instrument detail for consumer presentation. Populated by BPP at on_init.",
-      "properties": {
-        "qrisString":   { "type": "string" },
-        "vaNumber":     { "type": "string" },
-        "vaBankCode":   { "type": "string" },
-        "deepLink":     { "type": "string", "format": "uri" },
-        "paymentLink":  { "type": "string", "format": "uri" },
-        "expiresAt":    { "type": "string", "format": "date-time" },
-        "gatewayRef":   { "type": "string" },
-        "paidAt":       { "type": "string", "format": "date-time" }
-      }
-    },
-    "gatewayRef": {
-      "type": "string",
-      "description": "Payment gateway transaction reference. Surfaced at top level for direct pattern access."
-    },
-    "paidAt": {
-      "type": "string",
-      "format": "date-time",
-      "description": "Timestamp when payment was confirmed as received by the payment gateway."
-    },
-    "refundAmount":          { "type": "number", "minimum": 0, "description": "Refund amount in IDR." },
-    "refundMethod": {
-      "type": "string",
-      "enum": [
-        "ORIGINAL_PAYMENT_METHOD", "PLATFORM_WALLET", "BANK_TRANSFER",
-        "STORE_CREDIT", "LOYALTY_POINTS", "VOUCHER"
-      ],
-      "description": "Where the refund will be credited."
-    },
-    "refundTimeline":        { "type": "string", "description": "Human-readable refund processing timeline (ISO 8601 duration e.g. P3D)." },
-    "additionalChargeAmount":{ "type": "number", "description": "Additional charge for exchange or modification when replacement has a higher price." },
-    "reconId": {
-      "type": "string",
-      "description": "Reconciliation record identifier linking this settlement to an IONReconcile record."
-    },
-    "contractId": {
-      "type": "string",
-      "description": "Back-reference to the Contract ID this settlement belongs to."
-    },
-    "amounts": {
-      "type": "object",
-      "additionalProperties": false,
-      "description": "Structured amount breakdown for reconciliation.",
-      "properties": {
-        "baseContractAmount":    { "type": "number" },
-        "buyerFinderFeeAmount":  { "type": "number" },
-        "netSettlementAmount":   { "type": "number" },
-        "currency":              { "type": "string", "const": "IDR", "default": "IDR" }
-      }
-    },
-    "settlementBasis": {
-      "type": "string",
-      "enum": ["COLLECTION", "DELIVERY", "RETURN_RESOLVED", "CUSTOM"],
-      "description": "The event that triggers settlement between BAP and BPP."
-    },
-    "adjustments": {
-      "type": "array",
-      "description": "Adjustments applied to the base contract amount during reconciliation.",
-      "items": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "type": {
-            "type": "string",
-            "enum": [
-              "CANCELLATION_FEE", "RETURN_DEDUCTION", "SLA_PENALTY",
-              "PLATFORM_GOODWILL", "INSURANCE_CLAIM", "TAX_ADJUSTMENT"
-            ]
-          },
-          "amount": { "type": "number", "description": "Signed IDR amount. Positive=charge to BPP, Negative=credit to BPP." },
-          "reason": { "type": "string" }
-        },
-        "required": ["type", "amount"]
-      }
-    },
-    "reconStatus": {
-      "type": "string",
-      "enum": ["PENDING", "AGREED", "DISPUTED"],
-      "description": "Current reconciliation status."
-    },
-    "disputeReason": {
-      "type": "string",
-      "description": "Free-text reason declared by BPP when reconStatus=DISPUTED."
-    }
-      }
+      "properties": {},
+      "x-ion-closed-extensions": false
     }
   }
 }

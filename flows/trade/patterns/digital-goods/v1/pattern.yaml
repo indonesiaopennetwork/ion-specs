@@ -153,7 +153,7 @@ phases:
         requiredFields:
           - message.contract.performance[].status.descriptor.code  # value: DELIVERY_FAILED
           - message.contract.performance[].performanceAttributes.tags.failure_reason
-          - message.contract.settlements[].settlementAttributes.refundAmount  # note: full refund triggered
+          - message.contract.settlements[].settlementAttributes.refund.refundAmount  # note: full refund triggered
 
 variantWindows:
   cancellation:

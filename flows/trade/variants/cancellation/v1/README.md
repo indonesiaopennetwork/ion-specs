@@ -15,13 +15,13 @@ Covers all cancellation scenarios for an active (confirmed) order.
 - Refund is always a **sub-step** inside a cancellation — never standalone
 - Prepaid orders: full refund on seller-initiated cancel; partial refund if fee applies on buyer-initiated
 - COD orders: no refund needed (payment not collected)
-- Refund timeline: declared in `payment.refundTimeline` at on_cancel
+- Refund timeline: declared in `settlementAttributes.refund.refundTimeline` at on_cancel
 
 ## API sequence
 ```
 cancel-full-buyer:
   BAP → /cancel (reason_code, optional: force=yes)
-  BPP → /on_cancel (status=CANCELLED, refundAmount, cancellationFee if applicable)
+  BPP → /on_cancel (status=CANCELLED, refund.refundAmount, cancellationFee if applicable)
 
 cancel-full-seller (unsolicited):
   BPP → /on_cancel (status=CANCELLED, reason_code, full refund declared)

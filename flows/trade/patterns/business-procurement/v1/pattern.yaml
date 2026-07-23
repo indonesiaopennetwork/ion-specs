@@ -98,7 +98,7 @@ phases:
         to: BAP
         description: Payment instructions for B2B rails. RTGS/BI_FAST account details.
         requiredFields:
-          - message.contract.settlements[].settlementAttributes.methodDetail[]
+          - message.contract.settlements[].settlementAttributes.methodDetail
           - message.contract.consideration.considerationAttributes.totalAmount
         schemaPacks:
           core: [payment/v1]

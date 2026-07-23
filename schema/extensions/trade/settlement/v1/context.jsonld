@@ -3,45 +3,53 @@
     "@version": 1.1,
     "@protected": true,
     "ion": "https://schema.ion.id/trade/settlement/v1#",
+    "rcsa": "https://schema.beckn.io/RetailSettlement#",
     "beckn": "https://schema.beckn.io/",
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "owl": "http://www.w3.org/2002/07/owl#",
-    "method": "ion:method",
-    "paymentRail": "ion:paymentRail",
-    "collectedBy": "ion:collectedBy",
-    "timing": "ion:timing",
-    "status": "ion:status",
-    "currency": "ion:currency",
-    "amount": "ion:amount",
-    "methodDetail": "ion:methodDetail",
-    "refundAmount": "ion:refundAmount",
-    "refundMethod": "ion:refundMethod",
-    "refundTimeline": "ion:refundTimeline",
-    "additionalChargeAmount": "ion:additionalChargeAmount",
-    "Settlement": "https://spec.beckn.io/vocab/v2.0.0#Settlement",
+    "Settlement": "beckn:Settlement",
+    "RetailSettlement": "rcsa:RetailSettlement",
     "TradeSettlement": "ion:TradeSettlement",
     "IONTradeSettlement": "ion:IONTradeSettlement",
-    "adjustments": "ion:adjustments",
-    "amounts": "ion:amounts",
-    "baseContractAmount": "ion:baseContractAmount",
-    "buyerFinderFeeAmount": "ion:buyerFinderFeeAmount",
-    "contractId": "ion:contractId",
-    "deepLink": "ion:deepLink",
-    "disputeReason": "ion:disputeReason",
-    "expiresAt": "ion:expiresAt",
-    "gatewayRef": "ion:gatewayRef",
-    "netSettlementAmount": "ion:netSettlementAmount",
-    "paidAt": "ion:paidAt",
-    "paymentLink": "ion:paymentLink",
-    "qrisString": "ion:qrisString",
-    "reason": "ion:reason",
-    "reconId": "ion:reconId",
-    "reconStatus": "ion:reconStatus",
-    "settlementBasis": "ion:settlementBasis",
-    "type": "ion:type",
-    "vaBankCode": "ion:vaBankCode",
-    "vaNumber": "ion:vaNumber"
+    "gateway": {
+      "@id": "rcsa:gateway",
+      "@context": {
+        "name": "rcsa:gatewayName",
+        "transactionId": "rcsa:gatewayTransactionId",
+        "url": {
+          "@id": "rcsa:gatewayUrl",
+          "@type": "@id"
+        }
+      }
+    },
+    "method": {
+      "@id": "rcsa:method",
+      "@protected": false
+    },
+    "paymentRail": "rcsa:paymentRail",
+    "settledAt": "rcsa:settledAt",
+    "settledAmount": "rcsa:settledAmount",
+    "currency": "rcsa:currency",
+    "refund": {
+      "@id": "rcsa:refund",
+      "@context": {
+        "amount": "rcsa:refundAmount",
+        "method": "rcsa:refundMethod",
+        "timelineDays": "rcsa:refundTimelineDays",
+        "status": "rcsa:refundStatus"
+      }
+    },
+    "adjustments": {
+      "@id": "rcsa:adjustments",
+      "@context": {
+        "type": "rcsa:adjustmentType",
+        "amount": "rcsa:adjustmentAmount",
+        "description": "rcsa:adjustmentDescription"
+      }
+    },
+    "reconciliationId": "rcsa:reconciliationId",
+    "reconciliationStatus": "rcsa:reconciliationStatus"
   }
 }

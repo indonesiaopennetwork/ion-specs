@@ -30,7 +30,7 @@ return-picked-up:
 
 return-delivered:
   BPP → /on_status (RETURN_DELIVERED)
-  BPP → /on_update (refundAmount, refundMethod) or /on_update (replacement dispatched)
+  BPP → /on_update (refund.refundAmount, refund.refundMethod) or /on_update (replacement dispatched)
 ```
 
 ## State machine

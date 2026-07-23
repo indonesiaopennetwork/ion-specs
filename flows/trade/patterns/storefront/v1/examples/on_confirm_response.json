@@ -235,7 +235,7 @@
             "method": "QRIS",
             "collectedBy": "BAP",
             "timing": "ON_ORDER",
-            "paymentStatus": "PAID",
+            "status": "PAID",
             "amount": 98900,
             "currency": "IDR",
             "paidAt": "2026-04-19T10:30:58.000+07:00",

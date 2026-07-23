@@ -2,6 +2,14 @@
 
 Order-level fields locked at `on_confirm`. These persist through the full contract lifecycle.
 
+## Schema layers
+
+The pack exposes two compositional layers:
+
+- `TradeContract` defines network-neutral trade contract properties.
+- `IONTradeContract` extends it with Indonesian invoicing, customs, and
+  business/tax identity properties.
+
 ## Fields set at init (buyer-declared)
 `invoicePreferences`, `deliveryPreferences`, `gift`, `purchaseOrderReference`, `buyerInstructions`
 

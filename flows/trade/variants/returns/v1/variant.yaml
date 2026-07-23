@@ -97,9 +97,9 @@ subBranches:
         requiredFields:
           - message.contract.performance[].status.descriptor.code
         conditionalFields:
-          - field: message.contract.settlements[].settlementAttributes.refundAmount
-          - field: message.contract.settlements[].settlementAttributes.refundMethod
-          - field: message.contract.settlements[].settlementAttributes.refundTimeline
+          - field: message.contract.settlements[].settlementAttributes.refund.refundAmount
+          - field: message.contract.settlements[].settlementAttributes.refund.refundMethod
+          - field: message.contract.settlements[].settlementAttributes.refund.refundTimeline
     businessRules:
       - Refund amount may be partial if item returned in damaged condition
       - BPP must process refund within refundTimeline declared
@@ -240,9 +240,9 @@ subBranches:
           - message.contract.performance[].status.descriptor.code  # value: EXCHANGE_VARIANT_COMPLETED
           - message.contract.performance[].performanceAttributes.deliveryProofUrl  # photo of swap evidence
         conditionalFields:
-          - field: message.contract.settlements[].settlementAttributes.additionalChargeAmount
+          - field: message.contract.consideration.considerationAttributes.breakup[]
             condition: "when priceDelta > 0"
-          - field: message.contract.settlements[].settlementAttributes.refundAmount
+          - field: message.contract.settlements[].settlementAttributes.refund.refundAmount
             condition: when priceDelta < 0
 
     businessRules:
@@ -344,7 +344,7 @@ subBranches:
             condition: required when returnQcResult is not ACCEPTED
           - field: message.contract.performance[].performanceAttributes.returnQcDetails.evidence[]
             condition: required for REJECTED or PARTIAL
-          - field: message.contract.settlements[].settlementAttributes.refundAmount
+          - field: message.contract.settlements[].settlementAttributes.refund.refundAmount
             condition: "per QC result — full for QC_PASSED, partial for QC_PARTIAL, none for QC_FAILED"
     businessRules:
       - ACCEPTED → full refund per original payment amount

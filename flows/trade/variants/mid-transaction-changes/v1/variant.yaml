@@ -180,8 +180,9 @@ subBranches:
           - message.contract.consideration.considerationAttributes.breakup[]
           - message.contract.contractAttributes.quoteTrail[]
         conditionalFields:
-          - field: message.contract.settlements[].settlementAttributes.refundAmount
-          - field: message.contract.settlements[].settlementAttributes.additionalChargeAmount
+          - field: message.contract.settlements[].settlementAttributes.refund.refundAmount
+          - field: message.contract.consideration.considerationAttributes.breakup[]
+            condition: when the adjustment creates an additional charge
         businessRules:
           - BAP must re-confirm with consumer if adjustment is a new charge > 0
           - Refund adjustments do not require consumer re-confirmation

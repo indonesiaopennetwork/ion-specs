@@ -17,7 +17,7 @@ triggerConditions:
       type: FIXED
       amount: 0
 
-appliedVia: payment.refundAmount
+appliedVia: payment.refund.refundAmount
 settledTo: SELLER
 collectedBy: ION_CENTRAL
 

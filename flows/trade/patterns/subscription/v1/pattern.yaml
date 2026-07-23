@@ -81,7 +81,7 @@ phases:
         to: BAP
         description: Payment mandate instructions. For auto-debit — UPI Autopay or e-mandate.
         requiredFields:
-          - message.contract.settlements[].settlementAttributes.methodDetail[]
+          - message.contract.settlements[].settlementAttributes.methodDetail
           - message.contract.tags.subscription.mandate_type
         conditionalFields:
           - field: message.contract.tags.subscription.mandate_url  # condition: if payment requires e-mandate setup

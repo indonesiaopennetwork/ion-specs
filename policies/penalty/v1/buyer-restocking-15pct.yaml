@@ -17,7 +17,7 @@ triggerConditions:
       type: PERCENTAGE
       value: 0.15
 
-appliedVia: payment.refundAmount
+appliedVia: payment.refund.refundAmount
 settledTo: SELLER
 collectedBy: ION_CENTRAL
 

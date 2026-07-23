@@ -87,7 +87,7 @@ phases:
       - step: on_init
         description: Seller returns payment instructions — typically SWIFT or letter of credit.
         requiredFields:
-          - message.contract.settlements[].settlementAttributes.methodDetail[]
+          - message.contract.settlements[].settlementAttributes.methodDetail
           - message.contract.tags.xb.commercial_invoice_number
 
       - step: confirm

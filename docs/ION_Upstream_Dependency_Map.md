@@ -57,7 +57,7 @@ The local vendored copy is for offline review and version drift detection only.
 | `Reconciliation` | `IONReconcile` | `Settlement` | v2.0 | `beckn.yaml` | — | `Settlement`, `Attributes` |
 | `Support` | `IONSupportTicket` | `Support` | v2.0 | `beckn.yaml` | — | `Support` |
 | `TradeProvider` | `IONTradeProvider` | `Provider` | v2.1 | `beckn.yaml` | — | `Provider`, `Descriptor`, `Location`, `Attributes` |
-| `TradeSettlement` | `IONTradeSettlement` | `RetailSettlement` | v2.1 | `vendored/` | `retail-settlement-v2.1.yaml` | TBC — populate after fetch |
+| `TradeSettlement` | `IONTradeSettlement` | `RetailSettlement` | v2.1 | `vendored/` | `retail-settlement-v2.1.yaml` | `gateway`, `method`, `paymentRail`, `settledAt`, `settledAmount`, `currency`, `refund`, `adjustments`, `reconciliationId`, `reconciliationStatus` |
 | `LogisticsAgent` | `IONLogisticsAgent` | `Participant` | v2.0 | `beckn.yaml` | — | `Participant`, `Descriptor` |
 | `LogisticsCommitment` | `IONLogisticsCommitment` | `Commitment` | v2.0 | `beckn.yaml` | — | `Commitment`, `Attributes` |
 | `LogisticsContract` | `IONLogisticsContract` | `Contract` | v2.0 | `beckn.yaml` | — | `Contract`, `Descriptor`, `Attributes` |

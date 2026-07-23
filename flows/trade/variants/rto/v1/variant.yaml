@@ -71,9 +71,9 @@ subBranches:
           Refund declared for prepaid orders. Sent immediately after
           RTO_DELIVERED confirmation. COD orders skip this step.
         conditionalFields:
-          - field: message.contract.settlements[].settlementAttributes.refundAmount
-          - field: message.contract.settlements[].settlementAttributes.refundMethod
-          - field: message.contract.settlements[].settlementAttributes.refundTimeline
+          - field: message.contract.settlements[].settlementAttributes.refund.refundAmount
+          - field: message.contract.settlements[].settlementAttributes.refund.refundMethod
+          - field: message.contract.settlements[].settlementAttributes.refund.refundTimeline
         businessRules:
           - Prepaid: full refund mandatory, no deduction unless consumer refused delivery
           - COD: no money was collected, no refund needed
@@ -104,9 +104,9 @@ subBranches:
         direction: unsolicited
         description: Refund declared for prepaid orders. Same as RTO-delivered.
         conditionalFields:
-          - field: message.contract.settlements[].settlementAttributes.refundAmount
-          - field: message.contract.settlements[].settlementAttributes.refundMethod
-          - field: message.contract.settlements[].settlementAttributes.refundTimeline
+          - field: message.contract.settlements[].settlementAttributes.refund.refundAmount
+          - field: message.contract.settlements[].settlementAttributes.refund.refundMethod
+          - field: message.contract.settlements[].settlementAttributes.refund.refundTimeline
         businessRules:
           - Disposal is seller's decision — does not affect consumer's right to refund
           - Seller bears disposal cost and inventory loss

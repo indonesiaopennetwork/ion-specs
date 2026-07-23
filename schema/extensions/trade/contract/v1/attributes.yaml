@@ -29,12 +29,6 @@ components:
       additionalProperties: true
       allOf:
         - $ref: https://schema.beckn.io/RetailContract/v2.1/attributes.yaml#/components/schemas/RetailContract
-    IONTradeContract:
-      type: object
-      x-ion-layer: ion
-      x-ion-split-version: "0.7.0"
-      allOf:
-        - $ref: '#/components/schemas/TradeContract'
         - if:
             properties:
               subscriptionPauseType:
@@ -44,12 +38,6 @@ components:
           then:
             required:
             - subscriptionPauseUntil
-      title: TradeContract
-      additionalProperties: true
-      x-jsonld:
-        '@context': 'https://schema.ion.id/trade/contract/v1/context.jsonld'
-        '@type': ion:IONTradeContract
-      x-beckn-attaches-to: Contract.contractAttributes
       properties:
         fulfillingLocationId:
           type: string
@@ -86,53 +74,6 @@ components:
                 - SELF_PICKUP
                 - DINE_IN
                 - CURBSIDE
-        invoicePreferences:
-          type: object
-          additionalProperties: false
-          description: Buyer's invoice type and tax identity declaration.
-          properties:
-            taxId:
-              type: object
-              additionalProperties: false
-              properties:
-                scheme:
-                  type: string
-                  enum:
-                    - NPWP
-                    - NIK
-                  description: NPWP for businesses, NIK for individuals
-                value:
-                  type: string
-                  description: Tax ID number
-                  example: "1234567890123456"
-              required:
-              - scheme
-              - value
-            invoiceType:
-              type: string
-              enum:
-                - RECEIPT
-                - TAX_INVOICE
-                - EINVOICE
-                - SURAT_TAGIHAN
-                - KOMERSIAL_INVOICE
-              description: 'RECEIPT: simple receipt, no tax identity required. TAX_INVOICE: Faktur Pajak, requires
-                PKP seller and NPWP buyer. EINVOICE: e-Faktur via DJP system. SURAT_TAGIHAN: PKP seller to non-PKP
-                buyer — commercial invoice, no input-tax claim rights. KOMERSIAL_INVOICE: cross-border commercial
-                invoice, bilingual layout.
-
-                '
-              example: TAX_INVOICE
-        fakturPajakReference:
-          type: string
-          description: 'Faktur Pajak (e-Invoice) reference number assigned by BPP after contract confirm for PKP
-            sellers. 16-digit DJP format.
-
-            '
-          example: 010.000-26.00000001
-          x-ion-regulatory: PMK 168/PMK.010/2023 tentang Faktur Pajak
-          x-ion-cross-schema-condition: true
-          x-ion-condition: Required for PKP sellers (identity.pkpStatus=PKP) when invoiceType=TAX_INVOICE
         purchaseOrderReference:
           type: string
           description: 'Buyer''s Purchase Order number for B2B wholesale transactions. Allows buyer to link ION
@@ -260,15 +201,6 @@ components:
           example: '150000'
           x-ion-cross-schema-condition: true
           x-ion-condition: Required when paymentRail=COD
-        beaCukaiReference:
-          type: string
-          description: 'Indonesian Customs (Bea Cukai) clearance reference number. Required for all international
-            inbound shipments.
-
-            '
-          example: BC-2026-001234567
-          x-ion-regulatory: UU 17/2006 tentang Kepabeanan; PMK 199/PMK.010/2019
-          x-ion-condition: Required for INTERNATIONAL_AIR and INTERNATIONAL_OCEAN logistics
         liveCommerceContext:
           type: object
           additionalProperties: false
@@ -591,6 +523,75 @@ components:
           example: PT Maju Bersama Indonesia
           x-ion-condition: Required for B2B wholesale and business-procurement patterns
 
+    IONTradeContract:
+      type: object
+      x-ion-layer: ion
+      x-ion-split-version: "0.7.0"
+      allOf:
+        - $ref: '#/components/schemas/TradeContract'
+      title: IONTradeContract
+      additionalProperties: true
+      x-jsonld:
+        '@context': 'https://schema.ion.id/trade/contract/v1/context.jsonld'
+        '@type': ion:IONTradeContract
+      x-beckn-attaches-to: Contract.contractAttributes
+      properties:
+        invoicePreferences:
+          type: object
+          additionalProperties: false
+          description: Buyer's invoice type and tax identity declaration.
+          properties:
+            taxId:
+              type: object
+              additionalProperties: false
+              properties:
+                scheme:
+                  type: string
+                  enum:
+                    - NPWP
+                    - NIK
+                  description: NPWP for businesses, NIK for individuals
+                value:
+                  type: string
+                  description: Tax ID number
+                  example: "1234567890123456"
+              required:
+              - scheme
+              - value
+            invoiceType:
+              type: string
+              enum:
+                - RECEIPT
+                - TAX_INVOICE
+                - EINVOICE
+                - SURAT_TAGIHAN
+                - KOMERSIAL_INVOICE
+              description: 'RECEIPT: simple receipt, no tax identity required. TAX_INVOICE: Faktur Pajak, requires
+                PKP seller and NPWP buyer. EINVOICE: e-Faktur via DJP system. SURAT_TAGIHAN: PKP seller to non-PKP
+                buyer — commercial invoice, no input-tax claim rights. KOMERSIAL_INVOICE: cross-border commercial
+                invoice, bilingual layout.
+
+                '
+              example: TAX_INVOICE
+        fakturPajakReference:
+          type: string
+          description: 'Faktur Pajak (e-Invoice) reference number assigned by BPP after contract confirm for PKP
+            sellers. 16-digit DJP format.
+
+            '
+          example: 010.000-26.00000001
+          x-ion-regulatory: PMK 168/PMK.010/2023 tentang Faktur Pajak
+          x-ion-cross-schema-condition: true
+          x-ion-condition: Required for PKP sellers (identity.pkpStatus=PKP) when invoiceType=TAX_INVOICE
+        beaCukaiReference:
+          type: string
+          description: 'Indonesian Customs (Bea Cukai) clearance reference number. Required for all international
+            inbound shipments.
+
+            '
+          example: BC-2026-001234567
+          x-ion-regulatory: UU 17/2006 tentang Kepabeanan; PMK 199/PMK.010/2019
+          x-ion-condition: Required for INTERNATIONAL_AIR and INTERNATIONAL_OCEAN logistics
         nib:
           type: string
           description: >

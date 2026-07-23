@@ -176,7 +176,7 @@ phases:
         direction: callback
         description: Payment instructions returned. Quote confirmed.
         requiredFields:
-          - message.contract.settlements[].settlementAttributes.methodDetail[]
+          - message.contract.settlements[].settlementAttributes.methodDetail
           - message.contract.consideration.considerationAttributes.breakup[]
           - message.contract.consideration.considerationAttributes.totalAmount
         schemaPacks:

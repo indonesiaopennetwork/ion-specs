@@ -55,9 +55,9 @@ subBranches:
           - message.contract.status
           - message.contract.contractAttributes.cancellationReasonCode
         conditionalFields:
-          - field: message.contract.settlements[].settlementAttributes.refundAmount
-          - field: message.contract.settlements[].settlementAttributes.refundMethod
-          - field: message.contract.settlements[].settlementAttributes.refundTimeline
+          - field: message.contract.settlements[].settlementAttributes.refund.refundAmount
+          - field: message.contract.settlements[].settlementAttributes.refund.refundMethod
+          - field: message.contract.settlements[].settlementAttributes.refund.refundTimeline
           - field: message.contract.consideration.considerationAttributes.breakup[type=CANCELLATION_FEE]
 
   cancel-full-seller:
@@ -82,9 +82,9 @@ subBranches:
           - message.contract.contractAttributes.cancellationReasonCode
           - message.contract.contractAttributes.cancellationReason.descriptor.code
         conditionalFields:
-          - field: message.contract.settlements[].settlementAttributes.refundAmount
-          - field: message.contract.settlements[].settlementAttributes.refundMethod
-          - field: message.contract.settlements[].settlementAttributes.refundTimeline
+          - field: message.contract.settlements[].settlementAttributes.refund.refundAmount
+          - field: message.contract.settlements[].settlementAttributes.refund.refundMethod
+          - field: message.contract.settlements[].settlementAttributes.refund.refundTimeline
         businessRules:
           - No fee to buyer under any circumstances
           - Full refund mandatory if payment was prepaid
@@ -131,8 +131,8 @@ subBranches:
           - message.contract.commitments[]
           - message.contract.contractAttributes.quoteTrail[]
         conditionalFields:
-          - field: message.contract.settlements[].settlementAttributes.refundAmount
-          - field: message.contract.settlements[].settlementAttributes.refundTimeline
+          - field: message.contract.settlements[].settlementAttributes.refund.refundAmount
+          - field: message.contract.settlements[].settlementAttributes.refund.refundTimeline
 
   technical-cancellation-force:
     id: technical-cancellation-force
@@ -171,7 +171,7 @@ subBranches:
         requiredFields:
           - message.contract.status
         conditionalFields:
-          - field: message.contract.settlements[].settlementAttributes.refundAmount
+          - field: message.contract.settlements[].settlementAttributes.refund.refundAmount
 
       - step: raise
         stepContext: "concurrent — mandatory"
@@ -195,9 +195,10 @@ subBranches:
 subFlowNote: >
   Refund is always a sub-step within cancel-full-buyer, cancel-full-seller,
   or cancel-partial-fulfillment. It is never a standalone flow or API call.
-  Refund fields are declared inside on_cancel: refundAmount, refundMethod,
-  refundTimeline. The actual money movement is handled by the payment rail
+  Refund fields are declared inside the PaymentDeclaration refund object:
+  refundAmount, refundMethod, and refundTimeline. The actual money movement is handled by the payment rail
   outside of ION.
 
 schemaPacks:
-  trade: [contract/v1, settlement/v1]
+  core: [payment/v1]
+  trade: [contract/v1]

@@ -1,17 +1,16 @@
 {
   "@context": "https://schema.ion.id/trade/settlement/v1/context.jsonld",
   "@type": "ion:IONTradeSettlement",
-  "method": "QRIS",
-  "paymentRail": "QRIS_DYNAMIC",
-  "collectedBy": "BAP",
-  "timing": "PRE_ORDER",
-  "status": "PAID",
+  "gateway": {
+    "name": "MIDTRANS",
+    "transactionId": "PG-TXN-2026-00123456",
+    "url": "https://payments.example.id/transactions/PG-TXN-2026-00123456"
+  },
+  "method": "QR_CODE",
+  "paymentRail": "QRIS",
+  "settledAt": "2026-04-19T14:32:11+07:00",
+  "settledAmount": 150000,
   "currency": "IDR",
-  "amount": 150000,
-  "methodDetail": {
-    "qrisString": "00020101021226...",
-    "expiresAt": "2026-04-19T15:00:00+07:00",
-    "gatewayRef": "PG-TXN-2026-00123456",
-    "paidAt": "2026-04-19T14:32:11+07:00"
-  }
+  "reconciliationId": "RECON-2026-TRD-00012345",
+  "reconciliationStatus": "PENDING"
 }
