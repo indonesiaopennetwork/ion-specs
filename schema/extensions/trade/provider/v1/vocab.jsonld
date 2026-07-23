@@ -4,243 +4,257 @@
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
     "beckn": "https://schema.beckn.io/",
-    "skos": "http://www.w3.org/2004/02/skos/core#",
-    "owl": "http://www.w3.org/2002/07/owl#"
+    "skos": "http://www.w3.org/2004/02/skos/core#"
   },
   "@graph": [
     {
       "@id": "ion:TradeProvider",
       "@type": "rdfs:Class",
       "rdfs:label": "TradeProvider",
-      "rdfs:comment": "TradeProvider",
+      "rdfs:comment": "Network-agnostic trade attributes carried by Provider.providerAttributes.",
       "rdfs:subClassOf": {
-        "@id": "beckn:Provider"
+        "@id": "beckn:Attributes"
       },
       "skos:broader": {
-        "@id": "https://spec.beckn.io/vocab/v2.0.0#Provider"
+        "@id": "beckn:Provider"
       }
     },
     {
       "@id": "ion:IONTradeProvider",
       "@type": "rdfs:Class",
       "rdfs:label": "IONTradeProvider",
-      "rdfs:comment": "ION-specific layer for trade provider attributes. Extends the network-agnostic TradeProvider layer.",
+      "rdfs:comment": "Indonesia- and ION-specific extension of TradeProvider.",
       "rdfs:subClassOf": {
         "@id": "ion:TradeProvider"
-      },
-      "skos:broader": {
-        "@id": "https://spec.beckn.io/vocab/v2.0.0#Provider"
       }
     },
     {
-      "@id": "ion:invoicingModel",
+      "@id": "ion:invoicing",
       "@type": "rdf:Property",
-      "rdfs:label": "invoicingModel",
-      "rdfs:comment": "Whether the brand invoices centrally (one NPWP for all fulfilment centres) or each fulfilment centre invoices separately. CENTRAL: single legal entity invoices for all outlets. PER_FULFILMENT_CENTRE: each FC has own NPWP and invoices independently.\n"
+      "rdfs:label": "invoicing",
+      "rdfs:comment": "Provider-level invoicing arrangement."
     },
     {
-      "@id": "ion:invoicingEntity",
+      "@id": "ion:model",
       "@type": "rdf:Property",
-      "rdfs:label": "invoicingEntity",
-      "rdfs:comment": "Legal entity name of the invoicing entity when invoicingModel is CENTRAL. This is the brand's registered legal entity — not the store name.\n"
+      "rdfs:label": "model",
+      "rdfs:comment": "Model governing the invoicing arrangement."
     },
     {
-      "@id": "ion:storeStatus",
+      "@id": "ion:entityId",
       "@type": "rdf:Property",
-      "rdfs:label": "storeStatus",
-      "rdfs:comment": "Operational status of this provider location. OPEN: accepting orders normally. TEMPORARILY_CLOSED: closed for a defined period (temporaryClosureEnd required). DISABLED: permanently closed or suspended.\n"
+      "rdfs:label": "entityId",
+      "rdfs:comment": "Identifier of the entity responsible for issuing invoices."
+    },
+    {
+      "@id": "ion:operationalStatus",
+      "@type": "rdf:Property",
+      "rdfs:label": "operationalStatus",
+      "rdfs:comment": "Current catalog-visible operating state of the provider."
+    },
+    {
+      "@id": "ion:status",
+      "@type": "rdf:Property",
+      "rdfs:label": "status",
+      "rdfs:comment": "Status within the enclosing provider fact."
+    },
+    {
+      "@id": "ion:until",
+      "@type": "rdf:Property",
+      "rdfs:label": "until",
+      "rdfs:comment": "Expected end of a temporary operating state."
     },
     {
       "@id": "ion:operatingHours",
       "@type": "rdf:Property",
       "rdfs:label": "operatingHours",
-      "rdfs:comment": "Weekly operating schedule as a typed array. Each entry covers one timing type for a day range. Types: ORDER (when orders accepted), DELIVERY (delivery window), SELF_PICKUP (pickup window), PREPARATION (kitchen active hours).\n"
+      "rdfs:comment": "Recurring weekly operating windows."
+    },
+    {
+      "@id": "ion:locationId",
+      "@type": "rdf:Property",
+      "rdfs:label": "locationId",
+      "rdfs:comment": "Identifier of a Provider.availableAt location."
     },
     {
       "@id": "ion:type",
       "@type": "rdf:Property",
       "rdfs:label": "type",
-      "rdfs:comment": "Operating-hours timing type: ORDER, DELIVERY, SELF_PICKUP, or PREPARATION."
+      "rdfs:comment": "Type of operating window."
     },
     {
       "@id": "ion:dayFrom",
       "@type": "rdf:Property",
       "rdfs:label": "dayFrom",
-      "rdfs:comment": "Day of week on which the operating-hours range starts, where 1 is Monday and 7 is Sunday."
+      "rdfs:comment": "First applicable day of the week."
     },
     {
       "@id": "ion:dayTo",
       "@type": "rdf:Property",
       "rdfs:label": "dayTo",
-      "rdfs:comment": "Day of week on which the operating-hours range ends, where 1 is Monday and 7 is Sunday. Must be greater than or equal to dayFrom."
+      "rdfs:comment": "Last applicable day of the week."
     },
     {
-      "@id": "ion:timeFrom",
+      "@id": "ion:startTime",
       "@type": "rdf:Property",
-      "rdfs:label": "timeFrom",
-      "rdfs:comment": "Start time in 24-hour HHMM format, for example 1000."
+      "rdfs:label": "startTime",
+      "rdfs:comment": "Start time of an operating window."
     },
     {
-      "@id": "ion:timeTo",
+      "@id": "ion:endTime",
       "@type": "rdf:Property",
-      "rdfs:label": "timeTo",
-      "rdfs:comment": "End time in 24-hour HHMM format, for example 2200; 0000 means midnight."
+      "rdfs:label": "endTime",
+      "rdfs:comment": "End time of an operating window."
     },
     {
-      "@id": "ion:holidayCalendar",
+      "@id": "ion:closures",
       "@type": "rdf:Property",
-      "rdfs:label": "holidayCalendar",
-      "rdfs:comment": "Future-dated holiday dates on which this location will not accept or fulfil orders. ISO 8601 date format. Empty array if no planned closures.\n"
+      "rdfs:label": "closures",
+      "rdfs:comment": "Exceptional dates on which the provider or location is closed."
     },
     {
-      "@id": "ion:temporaryClosureEnd",
+      "@id": "ion:date",
       "@type": "rdf:Property",
-      "rdfs:label": "temporaryClosureEnd",
-      "rdfs:comment": "ISO 8601 datetime when temporary closure ends. Required when storeStatus is TEMPORARILY_CLOSED. Timezone must be included.\n"
+      "rdfs:label": "date",
+      "rdfs:comment": "Calendar date of a closure."
     },
     {
       "@id": "ion:serviceabilityByCategory",
       "@type": "rdf:Property",
       "rdfs:label": "serviceabilityByCategory",
-      "rdfs:comment": "Per-category serviceability polygon overrides. When a provider serves different delivery zones for different categories (e.g. a larger radius for grocery vs a smaller one for hot food).\n"
+      "rdfs:comment": "Provider-level geographic serviceability override for a category."
+    },
+    {
+      "@id": "beckn:geo",
+      "@type": "rdf:Property",
+      "rdfs:label": "geo",
+      "rdfs:comment": "Geographic serviceability geometry for a provider category."
     },
     {
       "@id": "ion:categoryId",
       "@type": "rdf:Property",
       "rdfs:label": "categoryId",
-      "rdfs:comment": "ION category code e.g. food-qsr, grocery"
-    },
-    {
-      "@id": "ion:geo",
-      "@type": "rdf:Property",
-      "rdfs:label": "geo",
-      "rdfs:comment": "GeoJSON Polygon defining the delivery zone."
+      "rdfs:comment": "Identifier of an applicable trade category."
     },
     {
       "@id": "ion:averagePreparationTime",
       "@type": "rdf:Property",
       "rdfs:label": "averagePreparationTime",
-      "rdfs:comment": "Average time for this provider to prepare an order. ISO 8601 duration. Used for ETA estimation."
+      "rdfs:comment": "Provider-level average preparation duration."
     },
     {
-      "@id": "ion:providerCategory",
+      "@id": "ion:providerCategories",
       "@type": "rdf:Property",
-      "rdfs:label": "providerCategory",
-      "rdfs:comment": "Category of this provider location. Used by BAP for display, filtering, and UI rendering decisions.\n"
+      "rdfs:label": "providerCategories",
+      "rdfs:comment": "Category identifiers in which the provider operates."
     },
     {
-      "@id": "ion:nibRegistered",
+      "@id": "ion:logistics",
       "@type": "rdf:Property",
-      "rdfs:label": "nibRegistered",
-      "rdfs:comment": "Whether this provider has a valid active NIB registered with OSS (Online Single Submission). ION Central validates NIB at onboarding. Must be true for all active providers.\n"
+      "rdfs:label": "logistics",
+      "rdfs:comment": "Provider-level logistics arrangement and preference."
     },
     {
-      "@id": "ion:trustedSellerBadge",
+      "@id": "ion:preferredProviderId",
       "@type": "rdf:Property",
-      "rdfs:label": "trustedSellerBadge",
-      "rdfs:comment": "Whether this provider has earned ION Trusted Seller status. Awarded by ION Central based on transaction volume, rating, and compliance record. Cannot be self-declared.\n"
+      "rdfs:label": "preferredProviderId",
+      "rdfs:comment": "Identifier of the preferred logistics provider."
     },
     {
-      "@id": "ion:handlingTimeMinutes",
+      "@id": "ion:managedByMarketplace",
       "@type": "rdf:Property",
-      "rdfs:label": "handlingTimeMinutes",
-      "rdfs:comment": "Time in minutes from order confirm to package ready for logistics. More precise than averagePreparationTime. Used for SLA computation.\n"
+      "rdfs:label": "managedByMarketplace",
+      "rdfs:comment": "Whether the marketplace normally orchestrates logistics."
     },
     {
-      "@id": "ion:preferredLogisticsProvider",
+      "@id": "ion:commerceChannels",
       "@type": "rdf:Property",
-      "rdfs:label": "preferredLogisticsProvider",
-      "rdfs:comment": "Preferred on-network logistics provider subscriber ID for this seller's shipments. When marketplaceManagedLogistics=true, this should be the marketplace's logistics arm (e.g. lsp.spx.ion.id).\n"
+      "rdfs:label": "commerceChannels",
+      "rdfs:comment": "Optional commerce channels supported by the provider."
     },
     {
-      "@id": "ion:marketplaceManagedLogistics",
+      "@id": "ion:supported",
       "@type": "rdf:Property",
-      "rdfs:label": "marketplaceManagedLogistics",
-      "rdfs:comment": "Whether this provider's fulfilments use marketplace-managed logistics (Shopee Xpress, Tokopedia TokoCabang, Amazon MFN) rather than seller-selected LSP. Affects who orchestrates the on-network logistics transaction.\n"
+      "rdfs:label": "supported",
+      "rdfs:comment": "Supported channel identifiers."
     },
     {
-      "@id": "ion:liveCommerceEnabled",
+      "@id": "ion:authorizedStreamerIds",
       "@type": "rdf:Property",
-      "rdfs:label": "liveCommerceEnabled",
-      "rdfs:comment": "Whether this provider supports live commerce (Shopee Live, Tokopedia Play, TikTok Shop-style sessions). Providers with this enabled may use the B2C-LIVE spine.\n"
+      "rdfs:label": "authorizedStreamerIds",
+      "rdfs:comment": "Participant identifiers authorized for live-commerce sessions."
     },
     {
-      "@id": "ion:liveCommerceStreamers",
+      "@id": "ion:verification",
       "@type": "rdf:Property",
-      "rdfs:label": "liveCommerceStreamers",
-      "rdfs:comment": "Subscriber IDs of authorised streamers who can feature this provider's products in live sessions. Commission and settlement is pre-agreed off-network.\n"
-    },
-    {
-      "@id": "ion:ottPartnerEnabled",
-      "@type": "rdf:Property",
-      "rdfs:label": "ottPartnerEnabled",
-      "rdfs:comment": "Whether this provider allows its catalog to be surfaced through OTT-embedded shoppable content (Vidio, Netflix, Disney+ Hotstar in-video shopping). Requires separate off-network agreement with OTT partner.\n"
-    },
-    {
-      "@id": "ion:kycStatus",
-      "@type": "rdf:Property",
-      "rdfs:label": "kycStatus",
-      "rdfs:comment": "Current KYC status of this provider with the BPP platform. Only APPROVED and APPROVED_WITH_CAVEATS providers may publish catalogs. EXPIRED providers must renew before next catalog. SUSPENDED signals temporary enforcement action — spec processors must pause active transactions.\n"
-    },
-    {
-      "@id": "ion:kycLevel",
-      "@type": "rdf:Property",
-      "rdfs:label": "kycLevel",
-      "rdfs:comment": "KYC depth. Determines maximum transaction value, allowed payment methods, eligibility for Mall/Premium tiers. BASIC: NIB + NPWP only. Max per-order IDR 5M. STANDARD: BASIC + bank account verification + phone. Max per-order IDR 50M. ENHANCED: STANDARD + beneficial ownership + director ID verified. Max per-order IDR 500M. ENTERPRISE: ENHANCED + AML screen + compliance officer named. No cap."
-    },
-    {
-      "@id": "ion:kycValidUntil",
-      "@type": "rdf:Property",
-      "rdfs:label": "kycValidUntil",
-      "rdfs:comment": "Expiry date of current KYC certification. Providers MUST renew before this date. BPPs MUST block publish_catalog after expiry.\n"
-    },
-    {
-      "@id": "ion:kycEvidenceRef",
-      "@type": "rdf:Property",
-      "rdfs:label": "kycEvidenceRef",
-      "rdfs:comment": "Opaque reference to KYC evidence bundle (encrypted off-network). Used by ION Central when audit required. Not a URL — internal ref.\n"
-    },
-    {
-      "@id": "ion:kycCaveats",
-      "@type": "rdf:Property",
-      "rdfs:label": "kycCaveats",
-      "rdfs:comment": "When kycStatus is APPROVED_WITH_CAVEATS, these describe the outstanding items. Each caveat has a deadline (tracked off-catalog); failure to clear results in SUSPENDED status.\n"
-    },
-    {
-      "@id": "ion:categoryLicenses",
-      "@type": "rdf:Property",
-      "rdfs:label": "categoryLicenses",
-      "rdfs:comment": "Category-specific operating licenses beyond NIB/NPWP. Examples: SIA for alcohol, SIKA for meat, Izin PBF for pharmacy, Izin Edar BPOM for cosmetics. Required for the corresponding providerCategory.\n"
-    },
-    {
-      "@id": "ion:licenseType",
-      "@type": "rdf:Property",
-      "rdfs:label": "licenseType",
-      "rdfs:comment": "Type of category-specific operating license."
-    },
-    {
-      "@id": "ion:licenseNumber",
-      "@type": "rdf:Property",
-      "rdfs:label": "licenseNumber",
-      "rdfs:comment": "Identifier assigned to the category-specific operating license."
+      "rdfs:label": "verification",
+      "rdfs:comment": "Catalog-visible provider verification summary."
     },
     {
       "@id": "ion:validUntil",
       "@type": "rdf:Property",
       "rdfs:label": "validUntil",
-      "rdfs:comment": "Date until which the category-specific operating license is valid."
+      "rdfs:comment": "Date until which verification or a licence remains valid."
+    },
+    {
+      "@id": "ion:caveats",
+      "@type": "rdf:Property",
+      "rdfs:label": "caveats",
+      "rdfs:comment": "Outstanding caveats on provider verification."
+    },
+    {
+      "@id": "ion:businessRegistration",
+      "@type": "rdf:Property",
+      "rdfs:label": "businessRegistration",
+      "rdfs:comment": "Indonesian business identity composed from IONBusinessRegistration."
+    },
+    {
+      "@id": "ion:trustMarks",
+      "@type": "rdf:Property",
+      "rdfs:label": "trustMarks",
+      "rdfs:comment": "Signed or otherwise verifiable trust marks awarded to the provider."
+    },
+    {
+      "@id": "ion:level",
+      "@type": "rdf:Property",
+      "rdfs:label": "level",
+      "rdfs:comment": "ION provider-verification tier."
+    },
+    {
+      "@id": "ion:categoryLicenses",
+      "@type": "rdf:Property",
+      "rdfs:label": "categoryLicenses",
+      "rdfs:comment": "Indonesian category-specific operating licences."
+    },
+    {
+      "@id": "ion:categoryIds",
+      "@type": "rdf:Property",
+      "rdfs:label": "categoryIds",
+      "rdfs:comment": "Provider category identifiers to which a licence applies."
+    },
+    {
+      "@id": "ion:licenseType",
+      "@type": "rdf:Property",
+      "rdfs:label": "licenseType",
+      "rdfs:comment": "Type of category licence."
+    },
+    {
+      "@id": "ion:licenseNumber",
+      "@type": "rdf:Property",
+      "rdfs:label": "licenseNumber",
+      "rdfs:comment": "Identifier assigned to a category licence."
     },
     {
       "@id": "ion:issuingAuthority",
       "@type": "rdf:Property",
       "rdfs:label": "issuingAuthority",
-      "rdfs:comment": "Authority that issued the category-specific operating license."
+      "rdfs:comment": "Authority that issued the category licence."
     },
     {
-      "@id": "ion:evidenceUrl",
+      "@id": "ion:evidence",
       "@type": "rdf:Property",
-      "rdfs:label": "evidenceUrl",
-      "rdfs:comment": "URI referencing evidence for the category-specific operating license."
+      "rdfs:label": "evidence",
+      "rdfs:comment": "Documentary evidence for the category licence."
     }
   ]
 }

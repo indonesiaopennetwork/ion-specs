@@ -65,7 +65,7 @@ npwp:
 
 **Verification:** 0 schema-level unconditional `required[]` blocks in any pack.
 
-> **Reviewer note on `if/then/else`:** The review did not cite `if/then/else` as a violation, and correctly so. JSON Schema `if/then/else` inside an `allOf` block is the standard structural mechanism for same-object conditional requirements (e.g. `storeStatus=TEMPORARILY_CLOSED` → `temporaryClosureEnd` required). These are retained where the condition is fully expressible as a `const`/`enum` check on a field within the same schema object. They do not violate CON-012-18 — the guide prohibits *unconditional* top-level `required[]`, not conditional ones.
+> **Reviewer note on `if/then/else`:** The review did not cite `if/then/else` as a violation. Same-object conditional requirements are nevertheless now expressed through ION network policy rather than shared extension schemas; for example, `operationalStatus.status=TEMPORARILY_CLOSED` requires `operationalStatus.until` through policy.
 
 ---
 
@@ -241,7 +241,7 @@ codPolicy:
 
 nibNumber:
   type: string
-  x-ion-condition: Required when nibRegistered is true (PP 5/2021 OSS-RBA)
+  x-ion-condition: Required when businessRegistration.nib is present (PP 5/2021 OSS-RBA)
 
 halalCertNumber:
   type: string
@@ -302,10 +302,10 @@ Any conformant JSON-LD processor can now resolve and verify every `ion:` CURIE.
 
 **Fix:** 3 duplicate blocks removed. The `trade/provider/v1` schema now contains exactly 4 unique `if/then` conditions with no overlapping targets:
 
-1. `storeStatus = TEMPORARILY_CLOSED` → `temporaryClosureEnd` required
-2. `invoicingModel = CENTRAL` → `invoicingEntity` required
-3. `kycStatus = APPROVED_WITH_CAVEATS` → `kycCaveats` required
-4. `providerCategory = PHARMACY` → `categoryLicenses` required
+1. `operationalStatus.status = TEMPORARILY_CLOSED` → `operationalStatus.until` required
+2. `invoicing.model = CENTRAL` → `invoicing.entityId` required
+3. `verification.status = APPROVED_WITH_CAVEATS` → `verification.caveats` required
+4. `providerCategories` contains `PHARMACY` → `categoryLicenses` required
 
 **Verification:** 4 `if/then` blocks in `trade/provider/v1` — confirmed by automated count.
 

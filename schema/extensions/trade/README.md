@@ -13,7 +13,7 @@ Trade sector schema extensions. These packs apply to all Trade sector transactio
 
 | Pack | Attaches to | What it covers |
 |---|---|---|
-| `provider/v1` | `beckn:Provider.providerAttributes` | storeStatus, operatingHours, holidayCalendar, serviceabilityByCategory, averagePreparationTime, providerCategory, nibRegistered, invoicingModel |
+| `provider/v1` | `beckn:Provider.providerAttributes` | operational status, operating hours and closures, category serviceability, preparation time, invoicing, logistics, commerce channels, verification, and ION provider credentials |
 | `resource/v1` | `beckn:Resource.resourceAttributes` | Full TradeResource — identity, physical, packaged goods, regulatory, food, fashion, electronics, beauty, agritech, installation, usage, warranty, availability, catalog structure (variants, customisation groups) |
 | `offer/v1` | `beckn:Offer.offerAttributes` | cancellation and return policies, timeToShip, inherited RetailOffer return/COD/MOQ/validity terms, self-pickup, promotions, weight slabs |
 | `consideration/v1` | `beckn:Consideration.considerationAttributes` | Retail monetary consideration and breakup, with nested IONTaxDetail refinement |

@@ -2,11 +2,24 @@
 
 Seller operational state and configuration. Published in catalog; used for discovery filtering and UI rendering.
 
-## storeStatus
-`TEMPORARILY_CLOSED` requires `temporaryClosureEnd`. BAP should suppress ordering UI and display the closure end time to consumer.
+## operationalStatus
+`TEMPORARILY_CLOSED` requires `operationalStatus.until` under ION policy. A
+consumer application should suppress ordering and show the expected reopening
+time when it is available.
 
 ## operatingHours
-Typed array — different hours for ORDER acceptance, DELIVERY, SELF_PICKUP, and PREPARATION (kitchen hours). BAP uses ORDER hours to gate the checkout flow; DELIVERY hours for delivery slot selection.
+Typed array for ORDER, DELIVERY, SELF_PICKUP, and PREPARATION windows.
+`locationId` optionally scopes a window to one `Provider.availableAt` location.
+Times use RFC 3339 `time` values.
 
-## invoicingModel
-`CENTRAL`: one legal entity invoices for all outlets (e.g., a national chain). `PER_FULFILMENT_CENTRE`: each FC invoices independently (e.g., franchise model where each franchisee is a separate tax entity).
+## invoicing
+`CENTRAL` uses the entity referenced by `invoicing.entityId`.
+`PER_FULFILMENT_CENTRE` allows each fulfilment centre to invoice independently.
+
+## verification
+Only the catalog-visible verification status, validity, and caveats are
+published. Sensitive KYC evidence is retained off-network.
+
+ION adds `verification.level`. The provider's actual Indonesian identity is
+composed under `businessRegistration`; trust awards are represented by
+verifiable `trustMarks[]` documents.

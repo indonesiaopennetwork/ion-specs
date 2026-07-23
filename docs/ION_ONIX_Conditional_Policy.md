@@ -182,40 +182,40 @@ deny[msg] {
 ```rego
 package ion.onix.conditional.trade.provider
 
-# Temporary closure end date required when store is temporarily closed
-# x-ion-condition: Required when storeStatus is TEMPORARILY_CLOSED
+# Temporary closure end date required when provider is temporarily closed
+# x-ion-condition: Required when operationalStatus.status is TEMPORARILY_CLOSED
 deny[msg] {
   p := input.providerAttributes
-  p.storeStatus == "TEMPORARILY_CLOSED"
-  not p.temporaryClosureEnd
-  msg := "providerAttributes.temporaryClosureEnd is required when storeStatus is TEMPORARILY_CLOSED"
+  p.operationalStatus.status == "TEMPORARILY_CLOSED"
+  not p.operationalStatus.until
+  msg := "providerAttributes.operationalStatus.until is required when operationalStatus.status is TEMPORARILY_CLOSED"
 }
 
 # Invoicing entity required for centralised invoicing
-# x-ion-condition: Required when invoicingModel is CENTRAL
+# x-ion-condition: Required when invoicing.model is CENTRAL
 deny[msg] {
   p := input.providerAttributes
-  p.invoicingModel == "CENTRAL"
-  not p.invoicingEntity
-  msg := "providerAttributes.invoicingEntity is required when invoicingModel is CENTRAL"
+  p.invoicing.model == "CENTRAL"
+  not p.invoicing.entityId
+  msg := "providerAttributes.invoicing.entityId is required when invoicing.model is CENTRAL"
 }
 
 # KYC caveats required when approval has caveats
-# x-ion-condition: Required when kycStatus is APPROVED_WITH_CAVEATS
+# x-ion-condition: Required when verification.status is APPROVED_WITH_CAVEATS
 deny[msg] {
   p := input.providerAttributes
-  p.kycStatus == "APPROVED_WITH_CAVEATS"
-  not p.kycCaveats
-  msg := "providerAttributes.kycCaveats is required when kycStatus is APPROVED_WITH_CAVEATS"
+  p.verification.status == "APPROVED_WITH_CAVEATS"
+  not p.verification.caveats
+  msg := "providerAttributes.verification.caveats is required when verification.status is APPROVED_WITH_CAVEATS"
 }
 
 # Category licences required for regulated categories
 # x-ion-condition: Required for regulated categories (pharmacy, alcohol, tobacco, meat)
 deny[msg] {
   p := input.providerAttributes
-  p.providerCategory == "PHARMACY"
+  p.providerCategories[_] == "PHARMACY"
   not p.categoryLicenses
-  msg := "providerAttributes.categoryLicenses is required for PHARMACY category (PP 5/2021; PerBPOM)"
+  msg := "providerAttributes.categoryLicenses is required when providerCategories includes PHARMACY (PP 5/2021; PerBPOM)"
 }
 ```
 

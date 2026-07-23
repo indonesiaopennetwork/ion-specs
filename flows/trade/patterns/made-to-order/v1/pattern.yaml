@@ -49,11 +49,11 @@ phases:
           - context.timestamp
           - message.catalog.provider.id
           - message.catalog.provider.descriptor.name
-          - message.catalog.provider.providerAttributes.storeStatus
+          - message.catalog.provider.providerAttributes.operationalStatus.status
           - message.catalog.provider.providerAttributes.operatingHours[]
-          - message.catalog.provider.providerAttributes.providerCategory
-          - message.catalog.provider.providerAttributes.nibRegistered
-          - message.catalog.provider.providerAttributes.invoicingModel
+          - message.catalog.provider.providerAttributes.providerCategories[]
+          - message.catalog.provider.providerAttributes.businessRegistration.nib
+          - message.catalog.provider.providerAttributes.invoicing.model
           - message.catalog.provider.providerAttributes.averagePreparationTime
           - message.catalog.provider.availableAt[].gps
           - message.catalog.resources[].id

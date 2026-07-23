@@ -52,7 +52,7 @@ phases:
         from: BPP
         to: ION_CATALOG
         requiredFields:
-          - message.catalog.provider.providerAttributes.liveCommerceEnabled  # value: true
+          - message.catalog.provider.providerAttributes.commerceChannels.supported[]  # includes LIVE_COMMERCE
           - message.catalog.offers[].offerAttributes.validity.startDate
           - message.catalog.offers[].offerAttributes.validity.endDate
           - message.catalog.offers[].offerAttributes.reservationWindowSeconds

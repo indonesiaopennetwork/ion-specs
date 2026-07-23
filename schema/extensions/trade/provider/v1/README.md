@@ -1,6 +1,7 @@
 # trade/provider/v1
 
-Trade sector seller operational attributes — store status, operating hours, serviceability, invoicing.
+Trade-sector provider attributes covering operational availability, operating
+hours, serviceability, invoicing, logistics, commerce channels, and verification.
 
 ## Attaches to
 `beckn:Provider.providerAttributes`
@@ -11,10 +12,21 @@ See `attributes.yaml` for complete field definitions.
 
 The following fields are always required for this pack by ION network policy (`ion.yaml → x-ion-field-requirements.alwaysRequired`):
 
-- `storeStatus`
-- `nibRegistered`
+- `operationalStatus.status`
+- `businessRegistration.nib`
 
 Mandatoriness is enforced by ONIX — these fields are not marked `required:` in the schema itself (mandatoriness lives in network policy, not the schema).
+
+## ION-specific refinements
+
+- `businessRegistration` composes `IONBusinessRegistration`; the actual `nib`
+  replaces the former registration boolean.
+- `trustMarks[]` contains signed or verifiable Beckn Documents instead of a
+  self-declared trusted-seller flag.
+- `verification.level` adds the ION verification tier to the generic
+  verification summary.
+- `categoryLicenses[]` records category scope, licence identifiers, validity,
+  issuer, and typed documentary evidence.
 
 ## Per-step required fields
 
@@ -26,7 +38,7 @@ The `flows/trade/patterns/storefront/v1/pattern.yaml` lists every field ONIX val
 
 ## Common rejection reasons
 
-Invalid `storeStatus` → `ION-8xxx`. See `errors/README.md` for the full error code reference.
+Invalid `operationalStatus.status` → `ION-8xxx`. See `errors/README.md` for the full error code reference.
 
 ## Changelog
 

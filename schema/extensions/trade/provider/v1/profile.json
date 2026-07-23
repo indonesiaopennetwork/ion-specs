@@ -16,26 +16,26 @@
   "indexing": {
     "indexable": [
       {
-        "path": "$.invoicingModel"
+        "path": "$.invoicing.model"
       },
       {
-        "path": "$.storeStatus"
+        "path": "$.operationalStatus.status"
       }
     ],
     "filterable": [
       {
-        "path": "$.invoicingModel"
+        "path": "$.invoicing.model"
       },
       {
-        "path": "$.storeStatus"
+        "path": "$.operationalStatus.status"
       }
     ],
     "sortable": []
   },
   "minimalForDiscovery": [
-    "invoicingModel",
-    "storeStatus",
-    "nibRegistered"
+    "invoicing.model",
+    "operationalStatus.status",
+    "businessRegistration.nib"
   ],
   "x-ion-layer": {
     "generic": "TradeProvider",

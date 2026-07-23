@@ -76,42 +76,54 @@ Dinda fills in the store's operational details. These travel in `Provider.provid
 ```json
 {
   "@context": "https://schema.ion.id/trade/provider/v1/context.jsonld",
-  "@type": "ion:TradeProvider",
+  "@type": "ion:IONTradeProvider",
 
-  "invoicingModel": "CENTRAL",
-  "invoicingEntity": "Usaha Dagang Sehat Mandiri",  // Trading Business Sehat Mandiri
+  "invoicing": {
+    "model": "CENTRAL",
+    "entityId": "PROV-APOTEK-SEHAT-001"
+  },
 
-  "storeStatus": "OPEN",
+  "operationalStatus": {
+    "status": "OPEN"
+  },
 
   "operatingHours": [
     {
       "type": "ORDER",
       "dayFrom": 1,
       "dayTo": 6,
-      "timeFrom": "0800",
-      "timeTo": "2100"
+      "startTime": "08:00:00+07:00",
+      "endTime": "21:00:00+07:00"
     },
     {
       "type": "ORDER",
       "dayFrom": 7,
       "dayTo": 7,
-      "timeFrom": "0900",
-      "timeTo": "1800"
+      "startTime": "09:00:00+07:00",
+      "endTime": "18:00:00+07:00"
     }
   ],
 
-  "holidayCalendar": ["2026-08-17", "2026-12-25"],
+  "closures": [
+    { "date": "2026-08-17" },
+    { "date": "2026-12-25" }
+  ],
 
-  "providerCategory": "PHARMACY",
+  "providerCategories": ["PHARMACY"],
 
-  "nibRegistered": true,
+  "businessRegistration": {
+    "nib": "1234567890123"
+  },
 
-  "kycStatus": "APPROVED",
-  "kycLevel": "STANDARD",
-  "kycValidUntil": "2028-04-01",
+  "verification": {
+    "status": "APPROVED",
+    "validUntil": "2028-04-01",
+    "level": "STANDARD"
+  },
 
   "categoryLicenses": [
     {
+      "categoryIds": ["PHARMACY"],
       "licenseType": "PBF_PHARMACY",
       "licenseNumber": "PBF-DKI-2024-004892",
       "validUntil": "2027-06-30",
@@ -119,7 +131,7 @@ Dinda fills in the store's operational details. These travel in `Provider.provid
     }
   ],
 
-  "handlingTimeMinutes": 15
+  "averagePreparationTime": "PT15M"
 }
 ```
 

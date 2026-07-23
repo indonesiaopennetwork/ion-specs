@@ -146,18 +146,18 @@
         "en": "Seller KYC expired or suspended"
       },
       "description": {
-        "en": "Provider attempting catalog publish or transaction has kycStatus of EXPIRED, SUSPENDED, or REJECTED. Catalog publish and new transactions blocked until KYC is renewed/restored.\n"
+        "en": "Provider attempting catalog publish or transaction has verification.status of EXPIRED, SUSPENDED, or REJECTED. Catalog publish and new transactions blocked until KYC is renewed/restored.\n"
       },
-      "affected_field": "message.catalog.provider.providerAttributes.kycStatus",
+      "affected_field": "message.catalog.provider.providerAttributes.verification.status",
       "affected_apis": [
         "publish_catalog",
         "select",
         "init",
         "confirm"
       ],
-      "schema_ref": "schema/extensions/core/business-registration/v1",
+      "schema_ref": "schema/extensions/trade/provider/v1",
       "resolution": {
-        "en": "Provider must complete KYC renewal. New transactions blocked until kycStatus is APPROVED."
+        "en": "Provider must complete KYC renewal. New transactions blocked until verification.status is APPROVED."
       }
     },
     {

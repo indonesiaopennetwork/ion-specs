@@ -21,20 +21,20 @@
     id: KYC penjual kedaluwarsa atau ditangguhkan
     en: Seller KYC expired or suspended
   description:
-    en: 'Provider attempting catalog publish or transaction has kycStatus of EXPIRED,
+    en: 'Provider attempting catalog publish or transaction has verification.status of EXPIRED,
       SUSPENDED, or REJECTED. Catalog publish and new transactions blocked until KYC
       is renewed/restored.
 
       '
-  affected_field: message.catalog.provider.providerAttributes.kycStatus
+  affected_field: message.catalog.provider.providerAttributes.verification.status
   affected_apis:
   - publish_catalog
   - select
   - init
   - confirm
-  schema_ref: schema/extensions/core/business-registration/v1
+  schema_ref: schema/extensions/trade/provider/v1
   resolution:
-    en: Provider must complete KYC renewal. New transactions blocked until kycStatus
+    en: Provider must complete KYC renewal. New transactions blocked until verification.status
       is APPROVED.
 - code: ION-2004
   http_status: 451

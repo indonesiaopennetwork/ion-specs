@@ -1,10 +1,11 @@
 openapi: 3.1.1
 info:
   title: ION Trade Provider Extension (v1)
-  description: 'Trade sector provider/seller operational attributes. Covers store status, operating hours, serviceability,
-    invoicing model, and category. Attaches to: beckn:Provider.providerAttributes
-
-    '
+  description: >
+    Trade-sector provider attributes covering operational availability,
+    invoicing, category serviceability, preparation, logistics arrangements,
+    commerce channels, and provider verification. Attaches to
+    beckn:Provider.providerAttributes.
   version: 1.0.0
   license:
     name: Apache-2.0
@@ -12,372 +13,320 @@ info:
   contact:
     name: ION Network
     url: https://schema.ion.id
+
 components:
   schemas:
     TradeProvider:
       type: object
       title: TradeProvider
       description: >
-        Network-agnostic generic layer for TradeProvider. Inherits from Beckn core Attributes.
-        Downstream ION-specific layer (IONTradeProvider) extends this schema via allOf.
-        This layer carries only fields that are meaningful across any Beckn network — 
-        no Indonesia-specific regulatory or compliance fields.
+        Network-agnostic trade-provider attributes. This schema is placed inside
+        Provider.providerAttributes and therefore extends Beckn Attributes,
+        rather than the reserved Beckn Provider object itself.
       x-ion-layer: generic
       x-ion-split-version: "0.7.0"
       x-recommended-parent: Provider.providerAttributes
       additionalProperties: true
       allOf:
-        - $ref: https://schema.beckn.io/Provider/2.1/attributes.yaml#/components/schemas/Provider
-    IONTradeProvider:
-      type: object
-      x-ion-layer: ion
-      x-ion-split-version: "0.7.0"
-      allOf:
-        - $ref: '#/components/schemas/TradeProvider'
-        - if:
-            properties:
-              storeStatus:
-                const: TEMPORARILY_CLOSED
-            required:
-            - storeStatus
-          then:
-            required:
-            - temporaryClosureEnd
-        - if:
-            properties:
-              invoicingModel:
-                const: CENTRAL
-            required:
-            - invoicingModel
-          then:
-            required:
-            - invoicingEntity
-        - if:
-            properties:
-              kycStatus:
-                const: APPROVED_WITH_CAVEATS
-            required:
-            - kycStatus
-          then:
-            required:
-            - kycCaveats
-        - if:
-            properties:
-              providerCategory:
-                enum:
-                - PHARMACY
-            required:
-            - providerCategory
-          then:
-            required:
-            - categoryLicenses
-        # NETWORK POLICY NOTE (GAP 32 / NFH-012 CON-012-18):
-        # Shared schemas MUST NOT declare mandatory fields.
-        # The following fields were required in v0.6.0 and are now
-        # enforced via ION network policy (x-ion-crc-rules,
-        # x-ion-conditional-rules) rather than the shared schema:
-        # invoicingModel, storeStatus, operatingHours, holidayCalendar, providerCategory, nibRegistered, kycStatus, kycLevel, kycValidUntil
-      title: TradeProvider
-      additionalProperties: true
-      x-jsonld:
-        '@context': 'https://schema.ion.id/trade/provider/v1/context.jsonld'
-        '@type': ion:IONTradeProvider
-      x-beckn-attaches-to: Provider.providerAttributes
+        - $ref: https://schema.beckn.io/Attributes/2.0/attributes.yaml#/components/schemas/Attributes
       properties:
-        invoicingModel:
-          type: string
-          enum:
-          - CENTRAL
-          - PER_FULFILMENT_CENTRE
-          description: 'Whether the brand invoices centrally (one NPWP for all fulfilment centres) or each fulfilment
-            centre invoices separately. CENTRAL: single legal entity invoices for all outlets. PER_FULFILMENT_CENTRE:
-            each FC has own NPWP and invoices independently.
+        invoicing:
+          type: object
+          additionalProperties: false
+          description: >
+            Provider-level invoicing arrangement. Transaction-specific invoice
+            details remain on the Contract and Consideration.
+          properties:
+            model:
+              type: string
+              enum:
+                - CENTRAL
+                - PER_FULFILMENT_CENTRE
+              description: >
+                CENTRAL uses one invoicing entity across the provider.
+                PER_FULFILMENT_CENTRE allows each fulfilment centre to invoice
+                through its own entity.
+              x-ion-regulatory: UU 6/1983 tentang Ketentuan Umum Perpajakan — NPWP obligation per taxable entity
+            entityId:
+              type: string
+              description: >
+                Identifier of the Participant or Provider that issues invoices
+                when the model is CENTRAL.
+              x-ion-regulatory: PMK 168/PMK.010/2023 tentang Faktur Pajak
+          # x-ion-condition: entityId is required by network policy when model is CENTRAL
 
-            '
-          example: CENTRAL
-          x-ion-regulatory: UU 6/1983 tentang Ketentuan Umum Perpajakan — NPWP obligation per taxable entity
-        invoicingEntity:
-          type: string
-          description: 'Legal entity name of the invoicing entity when invoicingModel is CENTRAL. This is the brand''s
-            registered legal entity — not the store name.
+        operationalStatus:
+          type: object
+          additionalProperties: false
+          description: Current catalog-visible operating state of the provider.
+          properties:
+            status:
+              type: string
+              enum:
+                - OPEN
+                - TEMPORARILY_CLOSED
+                - DISABLED
+            until:
+              type: string
+              format: date-time
+              description: Expected end of a temporary closure.
+          # x-ion-condition: until is required by network policy when status is TEMPORARILY_CLOSED
 
-            '
-          example: PT Paragon Technology and Innovation
-          x-ion-regulatory: PMK 168/PMK.010/2023 tentang Faktur Pajak
-        storeStatus:
-          type: string
-          enum:
-          - OPEN
-          - TEMPORARILY_CLOSED
-          - DISABLED
-          description: 'Operational status of this provider location. OPEN: accepting orders normally. TEMPORARILY_CLOSED:
-            closed for a defined period (temporaryClosureEnd required). DISABLED: permanently closed or suspended.
-
-            '
-          example: OPEN
         operatingHours:
           type: array
-          description: 'Weekly operating schedule as a typed array. Each entry covers one timing type for a day
-            range. Types: ORDER (when orders accepted), DELIVERY (delivery window), SELF_PICKUP (pickup window),
-            PREPARATION (kitchen active hours).
-
-            '
+          description: >
+            Recurring weekly operating windows. A locationId scopes the window
+            to a Provider.availableAt location; when omitted, it applies to the
+            provider as a whole.
           items:
             type: object
             additionalProperties: false
             properties:
+              locationId:
+                type: string
+                description: Identifier of the applicable Provider.availableAt location.
               type:
                 type: string
                 enum:
-                - ORDER
-                - DELIVERY
-                - SELF_PICKUP
-                - PREPARATION
+                  - ORDER
+                  - DELIVERY
+                  - SELF_PICKUP
+                  - PREPARATION
               dayFrom:
                 type: integer
                 minimum: 1
                 maximum: 7
-                description: Day of week, 1=Monday, 7=Sunday
+                description: Day of week, where 1 is Monday and 7 is Sunday.
               dayTo:
                 type: integer
                 minimum: 1
                 maximum: 7
-                description: Day of week, 1=Monday, 7=Sunday. Must be >= dayFrom.
-              timeFrom:
+                description: Last applicable day, where 1 is Monday and 7 is Sunday.
+              startTime:
                 type: string
-                pattern: ^[0-9]{4}$
-                description: 24-hour format HHMM e.g. 1000
-              timeTo:
+                format: time
+              endTime:
                 type: string
-                pattern: ^[0-9]{4}$
-                description: 24-hour format HHMM e.g. 2200. 0000 means midnight.
-            required:
-            - type
-            - dayFrom
-            - dayTo
-            - timeFrom
-            - timeTo
-          example:
-          - type: ORDER
-            dayFrom: 1
-            dayTo: 7
-            timeFrom: '1000'
-            timeTo: '2200'
-        holidayCalendar:
+                format: time
+
+        closures:
           type: array
+          description: >
+            Exceptional dates on which the provider or a specific operating
+            location is closed.
           items:
-            type: string
-            format: date
-          description: 'Future-dated holiday dates on which this location will not accept or fulfil orders. ISO
-            8601 date format. Empty array if no planned closures.
+            type: object
+            additionalProperties: false
+            properties:
+              date:
+                type: string
+                format: date
+              locationId:
+                type: string
+                description: >
+                  Identifier of the applicable Provider.availableAt location.
+                  When omitted, the closure applies provider-wide.
 
-            '
-          example:
-          - 2026-08-17
-          - 2026-12-25
-          - 2027-01-01
-        temporaryClosureEnd:
-          type: string
-          format: date-time
-          description: 'ISO 8601 datetime when temporary closure ends. Required when storeStatus is TEMPORARILY_CLOSED.
-            Timezone must be included.
-
-            '
-          example: 2026-04-19 23:59:00+07:00
         serviceabilityByCategory:
           type: array
-          description: 'Per-category serviceability polygon overrides. When a provider serves different delivery
-            zones for different categories (e.g. a larger radius for grocery vs a smaller one for hot food).
-
-            '
+          description: >
+            Provider-level geographic serviceability overrides for a category.
+            Offer- or Resource-specific serviceability takes precedence.
           items:
             type: object
             additionalProperties: false
             properties:
               categoryId:
                 type: string
-                description: ION category code e.g. food-qsr, grocery
-                example: food-qsr
+                description: Identifier of the applicable trade category.
+              locationId:
+                type: string
+                description: Optional origin location to which this area applies.
               geo:
-                type: object
-                additionalProperties: true
-                description: GeoJSON Polygon defining delivery zone
-                x-format: GeoJSONGeometry (RFC 7946)
-            required:
-            - categoryId
-            - geo
+                $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/GeoJSONGeometry
+
         averagePreparationTime:
           type: string
-          description: 'Average time from order confirm to item ready for logistics pickup at this location. ISO
-            8601 duration. Used by BAP to compute estimated delivery time. Provider-level default; per-item preparationTime
-            in resource/v1 overrides this.
-
-            '
+          format: duration
+          description: >
+            Provider-level average duration from confirmation until a resource
+            is ready for pickup or delivery. A Resource-specific preparation
+            duration takes precedence.
           example: PT25M
-          x-ion-condition: Required for food-qsr and quick-commerce providers
-        providerCategory:
-          type: string
-          enum:
-          - RESTAURANT
-          - CLOUD_KITCHEN
-          - GROCERY
-          - PHARMACY
-          - FASHION
-          - ELECTRONICS
-          - BEAUTY
-          - FMCG
-          - AGRITECH
-          - B2B_DISTRIBUTOR
-          - QUICK_COMMERCE
-          - HOME_AND_KITCHEN
-          - PET_SUPPLIES
-          - BOOKS_STATIONERY
-          - TOYS_GAMES
-          - SPORTS_OUTDOORS
-          - AUTOMOTIVE_PARTS
-          description: 'Category of this provider location. Used by BAP for display, filtering, and UI rendering
-            decisions.
+          # x-ion-condition: Required by network policy for categories that prepare resources on demand
 
-            '
-          example: RESTAURANT
-        nibRegistered:
-          type: boolean
-          description: 'Whether this provider has a valid active NIB registered with OSS (Online Single Submission).
-            ION Central validates NIB at onboarding. Must be true for all active providers.
-
-            '
-          example: true
-          x-ion-regulatory: PP 5/2021 tentang Penyelenggaraan Perizinan Berusaha Berbasis Risiko
-        trustedSellerBadge:
-          type: boolean
-          description: 'Whether this provider has earned ION Trusted Seller status. Awarded by ION Central based
-            on transaction volume, rating, and compliance record. Cannot be self-declared.
-
-            '
-          example: false
-        handlingTimeMinutes:
-          type: integer
-          minimum: 0
-          description: 'Time in minutes from order confirm to package ready for logistics. More precise than averagePreparationTime.
-            Used for SLA computation.
-
-            '
-          example: 30
-        preferredLogisticsProvider:
-          type: string
-          description: 'Preferred on-network logistics provider subscriber ID for this seller''s shipments. When
-            marketplaceManagedLogistics=true, this should be the marketplace''s logistics arm (e.g. lsp.spx.ion.id).
-
-            '
-          example: lsp.spx.ion.id
-        marketplaceManagedLogistics:
-          type: boolean
-          description: 'Whether this provider''s fulfilments use marketplace-managed logistics (Shopee Xpress, Tokopedia
-            TokoCabang, Amazon MFN) rather than seller-selected LSP. Affects who orchestrates the on-network logistics
-            transaction.
-
-            '
-          default: false
-        liveCommerceEnabled:
-          type: boolean
-          description: 'Whether this provider supports live commerce (Shopee Live, Tokopedia Play, TikTok Shop-style
-            sessions). Providers with this enabled may use the live-commerce pattern.
-
-            '
-          default: false
-        liveCommerceStreamers:
+        providerCategories:
           type: array
+          uniqueItems: true
+          description: >
+            Categories in which the provider operates. Values are category
+            identifiers governed by the applicable trade taxonomy rather than
+            a closed schema enum.
           items:
             type: string
-          description: 'Subscriber IDs of authorised streamers who can feature this provider''s products in live
-            sessions. Commission and settlement is pre-agreed off-network.
+          x-ion-suggested-values:
+            - RESTAURANT
+            - CLOUD_KITCHEN
+            - GROCERY
+            - PHARMACY
+            - FASHION
+            - ELECTRONICS
+            - BEAUTY
+            - FMCG
+            - AGRITECH
+            - B2B_DISTRIBUTOR
+            - QUICK_COMMERCE
+            - HOME_AND_KITCHEN
+            - PET_SUPPLIES
+            - BOOKS_STATIONERY
+            - TOYS_GAMES
+            - SPORTS_OUTDOORS
+            - AUTOMOTIVE_PARTS
 
-            '
-        ottPartnerEnabled:
-          type: boolean
-          description: 'Whether this provider allows its catalog to be surfaced through OTT-embedded shoppable content
-            (Vidio, Netflix, Disney+ Hotstar in-video shopping). Requires separate off-network agreement with OTT
-            partner.
+        logistics:
+          type: object
+          additionalProperties: false
+          description: Provider-level logistics arrangement and preference.
+          properties:
+            preferredProviderId:
+              type: string
+              description: Identifier of the preferred logistics provider.
+            managedByMarketplace:
+              type: boolean
+              description: >
+                Whether the marketplace, rather than the seller, normally
+                orchestrates logistics for this provider.
 
-            '
-          default: false
-        kycStatus:
-          type: string
-          enum:
-          - PENDING
-          - APPROVED
-          - APPROVED_WITH_CAVEATS
-          - REJECTED
-          - SUSPENDED
-          - EXPIRED
-          description: 'Current KYC status of this provider with the BPP platform. Only APPROVED and APPROVED_WITH_CAVEATS
-            providers may publish catalogs. EXPIRED providers must renew before next catalog. SUSPENDED signals
-            temporary enforcement action — spec processors must pause active transactions.
+        commerceChannels:
+          type: object
+          additionalProperties: false
+          description: Optional commerce channels supported by the provider.
+          properties:
+            supported:
+              type: array
+              uniqueItems: true
+              items:
+                type: string
+                enum:
+                  - LIVE_COMMERCE
+                  - OTT_EMBEDDED_COMMERCE
+            authorizedStreamerIds:
+              type: array
+              uniqueItems: true
+              description: >
+                Participant identifiers authorized to feature this provider's
+                resources in live-commerce sessions.
+              items:
+                type: string
 
-            '
-          example: APPROVED
-        kycLevel:
-          type: string
-          enum:
-          - BASIC
-          - STANDARD
-          - ENHANCED
-          - ENTERPRISE
-          description: 'KYC depth. Determines maximum transaction value, allowed payment methods, eligibility for
-            Mall/Premium tiers. BASIC: NIB + NPWP only. Max per-order IDR 5M. STANDARD: BASIC + bank account verification
-            + phone. Max per-order IDR 50M. ENHANCED: STANDARD + beneficial ownership + director ID verified. Max
-            per-order IDR 500M. ENTERPRISE: ENHANCED + AML screen + compliance officer named. No cap.
+        verification:
+          type: object
+          additionalProperties: false
+          description: >
+            Catalog-visible summary of provider verification performed by the
+            Provider Node. Sensitive evidence is not transmitted in the catalog.
+          properties:
+            status:
+              type: string
+              enum:
+                - PENDING
+                - APPROVED
+                - APPROVED_WITH_CAVEATS
+                - REJECTED
+                - SUSPENDED
+                - EXPIRED
+            validUntil:
+              type: string
+              format: date
+            caveats:
+              type: array
+              uniqueItems: true
+              items:
+                type: string
+                enum:
+                  - PENDING_BENEFICIAL_OWNERSHIP
+                  - PENDING_AML_SCREEN
+                  - PENDING_CATEGORY_LICENSE
+                  - PENDING_FINAL_VERIFICATION
+                  - PROBATIONARY_PERIOD
+          # x-ion-condition: caveats are required by network policy when status is APPROVED_WITH_CAVEATS
 
-            '
-          example: STANDARD
-        kycValidUntil:
-          type: string
-          format: date
-          description: 'Expiry date of current KYC certification. Providers MUST renew before this date. BPPs MUST
-            block publish_catalog after expiry.
+      x-ion-closed-extensions: false
 
-            '
-          example: 2027-04-19
-        kycEvidenceRef:
-          type: string
-          description: 'Opaque reference to KYC evidence bundle (encrypted off-network). Used by ION Central when
-            audit required. Not a URL — internal ref.
+    IONTradeProvider:
+      type: object
+      title: IONTradeProvider
+      description: >
+        Indonesia- and ION-specific extension of TradeProvider. Its properties
+        will be reviewed separately.
+      x-ion-layer: ion
+      x-ion-split-version: "0.7.0"
+      allOf:
+        - $ref: '#/components/schemas/TradeProvider'
+      additionalProperties: true
+      x-jsonld:
+        '@context': 'https://schema.ion.id/trade/provider/v1/context.jsonld'
+        '@type': ion:IONTradeProvider
+      x-beckn-attaches-to: Provider.providerAttributes
+      properties:
+        businessRegistration:
+          $ref: ../../../../extensions/core/business-registration/v1/attributes.yaml#/components/schemas/IONBusinessRegistration
+          description: >
+            Indonesian business identity for the provider. The presence and
+            validity of the actual nib value replaces the former
+            nibRegistered boolean.
 
-            '
-        kycCaveats:
+        trustMarks:
           type: array
+          description: >
+            Signed or otherwise verifiable trust marks awarded to the provider,
+            including an ION Trusted Seller credential. A provider must not
+            assert trust through an unverified boolean.
           items:
-            type: string
-            enum:
-            - PENDING_BENEFICIAL_OWNERSHIP
-            - PENDING_AML_SCREEN
-            - PENDING_CATEGORY_LICENSE
-            - PENDING_FINAL_VERIFICATION
-            - PROBATIONARY_PERIOD
-          description: 'When kycStatus is APPROVED_WITH_CAVEATS, these describe the outstanding items. Each caveat
-            has a deadline (tracked off-catalog); failure to clear results in SUSPENDED status.
+            $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Document
 
-            '
+        verification:
+          allOf:
+            - $ref: '#/components/schemas/TradeProvider/properties/verification'
+            - type: object
+              properties:
+                level:
+                  type: string
+                  enum:
+                    - BASIC
+                    - STANDARD
+                    - ENHANCED
+                    - ENTERPRISE
+                  description: >
+                    ION provider-verification tier. The criteria and transaction
+                    limits associated with each tier are ION network policy.
+                  example: STANDARD
+
         categoryLicenses:
           type: array
-          description: 'Category-specific operating licenses beyond NIB/NPWP. Examples: SIA for alcohol, SIKA for
-            meat, Izin PBF for pharmacy, Izin Edar BPOM for cosmetics. Required for the corresponding providerCategory.
-
-            '
+          description: >
+            Indonesian operating licences applicable to one or more provider
+            categories. Licence types are governed by ION policy so new
+            regulatory codes do not require a schema revision.
           items:
             type: object
             additionalProperties: false
             properties:
+              categoryIds:
+                type: array
+                uniqueItems: true
+                items:
+                  type: string
               licenseType:
                 type: string
-                enum:
-                - SIA_ALCOHOL
-                - SIKA_MEAT
-                - PBF_PHARMACY
-                - BPOM_COSMETICS
-                - BPOM_FOOD
-                - SIUP_HEAVY
-                - OTHER
+                x-ion-suggested-values:
+                  - SIA_ALCOHOL
+                  - SIKA_MEAT
+                  - PBF_PHARMACY
+                  - BPOM_COSMETICS
+                  - BPOM_FOOD
+                  - SIUP_HEAVY
+                  - OTHER
               licenseNumber:
                 type: string
               validUntil:
@@ -386,13 +335,13 @@ components:
               issuingAuthority:
                 type: string
                 example: BPOM
-              evidenceUrl:
-                type: string
-                format: uri
-            required:
-            - licenseType
-            - licenseNumber
-            - validUntil
+              evidence:
+                $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Document
           x-ion-regulatory: PP 5/2021; PerBPOM various
-          x-ion-condition: Required for regulated categories (pharmacy, alcohol, tobacco, meat)
+          # x-ion-condition: Required by network policy for regulated categories
+
+      # NETWORK POLICY NOTE (GAP 32 / NFH-012 CON-012-18):
+      # Shared schemas do not declare mandatory ION fields. Requirements for
+      # operationalStatus, invoicing, verification, businessRegistration,
+      # and categoryLicenses are enforced through ION policy.
       x-ion-closed-extensions: false

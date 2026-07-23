@@ -52,28 +52,39 @@
         "providerAttributes": {
           "@context": "https://schema.ion.id/extensions/trade/provider/v1/context.jsonld",
           "@type": "ion:IONTradeProvider",
-          "storeStatus": "OPEN",
+          "operationalStatus": {
+            "status": "OPEN"
+          },
           "operatingHours": [
             {
               "type": "ORDER",
               "dayFrom": 1,
               "dayTo": 6,
-              "timeFrom": "0800",
-              "timeTo": "2100"
+              "startTime": "08:00:00+07:00",
+              "endTime": "21:00:00+07:00"
             },
             {
               "type": "ORDER",
               "dayFrom": 7,
               "dayTo": 7,
-              "timeFrom": "0900",
-              "timeTo": "1800"
+              "startTime": "09:00:00+07:00",
+              "endTime": "18:00:00+07:00"
             }
           ],
-          "providerCategory": "FMCG",
-          "nibRegistered": true,
-          "invoicingModel": "CENTRAL",
-          "kycStatus": "APPROVED",
-          "kycLevel": "STANDARD"
+          "providerCategories": [
+            "FMCG"
+          ],
+          "businessRegistration": {
+            "nib": "1234567890123"
+          },
+          "invoicing": {
+            "model": "CENTRAL",
+            "entityId": "PROV-APOTEK-SEHAT-001"
+          },
+          "verification": {
+            "status": "APPROVED",
+            "level": "STANDARD"
+          }
         },
         "availableAt": [
           {

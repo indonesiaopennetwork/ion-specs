@@ -46,8 +46,8 @@ phases:
         to: ION_CATALOG
         note: >
           Same structure as storefront catalog. provider.id = brand store ID.
-          provider.providerAttributes.invoicingModel = CENTRAL (marketplace invoices).
-          providerCategory determined by brand's product category.
+          provider.providerAttributes.invoicing.model = CENTRAL (marketplace invoices).
+          providerCategories are determined by the brand's product categories.
           FC geo polygon = marketplace's own fulfilment centre serviceability.
 
   phase2:
@@ -57,7 +57,7 @@ phases:
       - step: select
         from: BAP
         to: Marketplace_BPP
-        note: Identical to storefront select. providerAttributes.invoicingModel=CENTRAL.
+        note: Identical to storefront select. providerAttributes.invoicing.model=CENTRAL.
 
       - step: on_select
         from: Marketplace_BPP

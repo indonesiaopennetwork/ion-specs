@@ -397,7 +397,9 @@ def make_scaffold(step_name: str, step_data: dict, cfg: dict, ion_data: dict) ->
                         "storeStatus": "OPEN",
                         "operatingHours": [{"day": "<MON>", "open": "09:00", "close": "21:00"}],
                         "providerCategory": "<MERCHANT>",
-                        "nibRegistered": True,
+                        "businessRegistration": {
+                            "nib": "1234567890123",
+                        },
                         "invoicingModel": "<PLATFORM_INVOICE>",
                     },
                     "availableAt": [{"gps": "<lat,lng>"}],

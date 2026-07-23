@@ -11,7 +11,7 @@ Consumer → Marketplace BAP
 The marketplace IS the BPP. Brands supply stock on consignment or 1P. The marketplace picks, packs, and ships.
 
 ## Key differences from B2C-SF
-- `invoicingModel = CENTRAL` — marketplace invoices, not individual brand
+- `invoicing.model = CENTRAL` — marketplace invoices, not individual brand
 - `fulfillingLocationId` = marketplace FC ID (fast assignment at on_confirm)
 - Marketplace SLA guarantees apply — faster and more reliable than 3P
 - Returns handled by marketplace FC
@@ -43,4 +43,3 @@ The marketplace IS the BPP. Brands supply stock on consignment or 1P. The market
 > **The `pattern.yaml` in this directory is your primary implementation reference.** It lists every field ONIX validates at each API step — use it as your implementation checklist alongside this README. If ONIX rejects a message, look up the step in `pattern.yaml` first.
 
 Variant field requirements are declared in each variant's `variant.yaml` and are additive on top of this pattern's requirements.
-
