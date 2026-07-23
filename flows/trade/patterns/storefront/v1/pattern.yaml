@@ -112,7 +112,7 @@ phases:
           - message.contract.commitments[].resources[].quantity.count
           - message.contract.performance[].performanceAttributes.performanceMode
         conditionalFields:
-          - field: message.contract.commitments[].commitmentAttributes.customisationSelections
+          - field: message.contract.commitments[].commitmentAttributes.selectedCustomizations
             condition: required for COMPOSED and WITH_EXTRAS resources
 
       - step: on_select

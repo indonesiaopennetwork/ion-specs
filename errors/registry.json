@@ -977,7 +977,7 @@
       "description": {
         "en": "A COMPOSED resource has one or more groups with selectionType=SINGLE_REQUIRED. The select payload is missing a selection for at least one mandatory group."
       },
-      "affected_field": "message.contract.commitments[].commitmentAttributes.customisationSelections",
+      "affected_field": "message.contract.commitments[].commitmentAttributes.selectedCustomizations",
       "affected_apis": [
         "select"
       ],
@@ -1000,7 +1000,7 @@
       "description": {
         "en": "A customisation optionId sent in /select does not exist in the catalog for the referenced groupId."
       },
-      "affected_field": "message.contract.commitments[].commitmentAttributes.customisationSelections[].option_id",
+      "affected_field": "message.contract.commitments[].commitmentAttributes.selectedCustomizations[].optionId",
       "affected_apis": [
         "select"
       ],
@@ -1117,7 +1117,7 @@
       "description": {
         "en": "Consumer selected a combination of axis values that is either not permitted by explicitCombinations or has available=false on an axis value. Applies when resource declares variantMatrix.\n"
       },
-      "affected_field": "message.contract.commitments[].commitmentAttributes.customisationSelections",
+      "affected_field": "message.contract.commitments[].commitmentAttributes.selectedCustomizations",
       "affected_apis": [
         "select"
       ],

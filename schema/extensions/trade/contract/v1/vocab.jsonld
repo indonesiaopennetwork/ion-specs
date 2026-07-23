@@ -81,12 +81,6 @@
       "rdfs:comment": "Whether individual items in a multi-item order can be cancelled."
     },
     {
-      "@id": "ion:replacementPreferred",
-      "@type": "rdf:Property",
-      "rdfs:label": "replacementPreferred",
-      "rdfs:comment": "Whether buyer prefers replacement over refund in case of defective or wrong item. Declared at confirm.\n"
-    },
-    {
       "@id": "ion:disputeWindowDays",
       "@type": "rdf:Property",
       "rdfs:label": "disputeWindowDays",

@@ -6899,135 +6899,36 @@ components:
     TradeCommitment:
       type: object
       title: Trade Commitment Attributes
+      description: >
+        Merged validator view of the trade commitment extension. Inherits the
+        canonical RetailCommitment v2.1 fields and adds the generic
+        replacementPreferred field. The authoritative extension pack retains
+        IONTradeCommitment as a separate ION-specific extension point.
       additionalProperties: true
       x-jsonld:
         '@context': ./context.jsonld
         '@type': ion:TradeCommitment
       x-beckn-attaches-to: Commitment.commitmentAttributes
+      x-ion-layer: generic
+      x-ion-split-note: >
+        The aggregate keeps the effective merged commitment schema under
+        TradeCommitment for validator convenience. The authoritative extension
+        pack defines TradeCommitment as the generic layer and
+        IONTradeCommitment as the ION-specific layer.
       properties:
-        lineId:
-          type: string
-          description: 'Unique identifier for this commitment line within the contract. Assigned by BAP at select. Persists
-            through the contract lifecycle. Used to reference specific lines in updates, cancellations, returns.
-
-            '
-          example: L01
-        resourceId:
-          type: string
-          description: 'ID of the resource being committed. References beckn:Resource.id from the catalog. For VARIANT resources,
-            this is the specific variant ID, not the parent.
-
-            '
-          example: ITEM-001
-        offerId:
-          type: string
-          description: 'ID of the offer under which this resource is being committed. References beckn:Offer.id from the catalog.
-
-            '
-          example: OFFER-001
-        quantity:
-          type: object
-          additionalProperties: false
-          description: Quantity of this resource being committed.
-          properties:
-            count:
-              type: integer
-              minimum: 1
-              description: Unit count for discrete items
-              example: 2
-            measure:
-              type: object
-              additionalProperties: false
-              description: Weight or volume measure for continuous items
-              properties:
-                unit:
-                  type: string
-                  enum:
-                  - GRAM
-                  - KILOGRAM
-                  - LITRE
-                  - MILLILITRE
-                  - PIECE
-                  - DOZEN
-                  - METER
-                value:
-                  type: number
-                  minimum: 0
-              required:
-              - unit
-              - value
-        price:
-          type: object
-          additionalProperties: false
-          description: 'Locked price for this commitment line as agreed at select. Price is fixed at on_select and does not
-            change unless a mid-transaction-changes variant is triggered.
-
-            '
-          properties:
-            value:
-              type: string
-              description: IDR amount as string decimal
-              example: '89000'
-            currency:
-              type: string
-              const: IDR
-              default: IDR
-          required:
-          - value
-          - currency
-          x-ion-conditional: true
-          x-ion-condition: Set by BPP at on_select
-        customisationSelections:
-          type: array
-          description: 'Buyer''s selections from customisationGroups for COMPOSED and WITH_EXTRAS resources. One entry per
-            group selected.
-
-            '
-          items:
-            type: object
-            additionalProperties: false
-            properties:
-              groupId:
-                type: string
-                description: ID of the customisationGroup selected from
-                example: CG-SIZE
-              optionId:
-                type: string
-                description: ID of the option selected within the group
-                example: OPT-LARGE
-              priceDelta:
-                type: object
-                additionalProperties: false
-                description: Price delta applied by this selection
-                properties:
-                  type:
-                    type: string
-                    enum:
-                    - FIXED
-                    - PERCENT
-                  value:
-                    type: number
-            required:
-            - groupId
-            - optionId
-          x-ion-conditional: true
-          x-ion-condition: Required for COMPOSED and WITH_EXTRAS resources
-        specialInstructions:
-          type: string
-          description: 'Per-line buyer note. e.g. "Extra crispy base", "No onion", "Gift wrap this item separately". Visible
-            to seller at fulfilment.
-
-            '
-          maxLength: 500
-          example: Tanpa bawang, tolong pedas ekstra.
-      required:
-      - lineId
-      - resourceId
-      - offerId
-      - quantity
+        replacementPreferred:
+          type: boolean
+          description: >
+            Whether the buyer prefers replacement over refund for this committed
+            line if the supplied resource is defective, incorrect, or otherwise
+            eligible for remediation.
+          default: false
+      # selectedCustomizations is inherited from RetailCommitment v2.1.
+      # x-ion-condition: Required for COMPOSED and WITH_EXTRAS resources
       x-ion-closed-extensions: false
       allOf:
       - $ref: '#/components/schemas/Attributes'
+      - $ref: https://schema.beckn.io/RetailCommitment/v2.1/attributes.yaml#/components/schemas/RetailCommitment
     TradeConsideration:
       type: object
       title: Trade Consideration Attributes
@@ -7310,12 +7211,6 @@ components:
         partialCancellationAllowed:
           type: boolean
           description: Whether individual items in a multi-item order can be cancelled.
-          default: false
-        replacementPreferred:
-          type: boolean
-          description: 'Whether buyer prefers replacement over refund in case of defective or wrong item. Declared at confirm.
-
-            '
           default: false
         disputeWindowDays:
           type: integer

@@ -87,7 +87,7 @@
   description:
     en: A COMPOSED resource has one or more groups with selectionType=SINGLE_REQUIRED.
       The select payload is missing a selection for at least one mandatory group.
-  affected_field: message.contract.commitments[].commitmentAttributes.customisationSelections
+  affected_field: message.contract.commitments[].commitmentAttributes.selectedCustomizations
   affected_apis:
   - select
   schema_ref: schema/extensions/trade/resource/v1
@@ -107,7 +107,7 @@
   description:
     en: A customisation optionId sent in /select does not exist in the catalog for
       the referenced groupId.
-  affected_field: message.contract.commitments[].commitmentAttributes.customisationSelections[].option_id
+  affected_field: message.contract.commitments[].commitmentAttributes.selectedCustomizations[].optionId
   affected_apis:
   - select
   schema_ref: schema/extensions/trade/resource/v1
@@ -212,7 +212,7 @@
       resource declares variantMatrix.
 
       '
-  affected_field: message.contract.commitments[].commitmentAttributes.customisationSelections
+  affected_field: message.contract.commitments[].commitmentAttributes.selectedCustomizations
   affected_apis:
   - select
   schema_ref: schema/extensions/trade/resource/v1

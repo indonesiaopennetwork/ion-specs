@@ -169,11 +169,6 @@
       "description": "Whether individual items in a multi-item order can be cancelled.",
       "default": false
     },
-    "replacementPreferred": {
-      "type": "boolean",
-      "description": "Whether buyer prefers replacement over refund in case of defective or wrong item. Declared at confirm.\n",
-      "default": false
-    },
     "disputeWindowDays": {
       "type": "integer",
       "minimum": 0,

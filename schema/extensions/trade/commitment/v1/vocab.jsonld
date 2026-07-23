@@ -4,6 +4,7 @@
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
     "beckn": "https://schema.beckn.io/",
+    "rccma": "https://schema.beckn.io/RetailCommitment#",
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "owl": "http://www.w3.org/2002/07/owl#"
   },
@@ -12,9 +13,9 @@
       "@id": "ion:TradeCommitment",
       "@type": "rdfs:Class",
       "rdfs:label": "TradeCommitment",
-      "rdfs:comment": "Network-agnostic generic layer for TradeCommitment. Inherits from Beckn core Attributes.",
+      "rdfs:comment": "Network-agnostic generic layer for trade commitment attributes. Extends RetailCommitment v2.1 with line-specific trade semantics.",
       "rdfs:subClassOf": {
-        "@id": "beckn:Commitment"
+        "@id": "rccma:RetailCommitment"
       },
       "skos:broader": {
         "@id": "beckn:Commitment"
@@ -24,49 +25,25 @@
       "@id": "ion:IONTradeCommitment",
       "@type": "rdfs:Class",
       "rdfs:label": "IONTradeCommitment",
-      "rdfs:comment": "IONTradeCommitment",
+      "rdfs:comment": "ION-specific extension point for trade commitment attributes. Extends the network-agnostic TradeCommitment layer.",
       "rdfs:subClassOf": {
         "@id": "ion:TradeCommitment"
       },
       "skos:broader": {
-        "@id": "beckn:Commitment"
+        "@id": "ion:TradeCommitment"
       }
     },
     {
-      "@id": "ion:groupId",
+      "@id": "ion:replacementPreferred",
       "@type": "rdf:Property",
-      "rdfs:label": "groupId",
-      "rdfs:comment": "ID of the customisationGroup selected"
-    },
-    {
-      "@id": "ion:optionId",
-      "@type": "rdf:Property",
-      "rdfs:label": "optionId",
-      "rdfs:comment": "ID of the option selected within the group"
-    },
-    {
-      "@id": "ion:customisationSelections",
-      "@type": "rdf:Property",
-      "rdfs:label": "customisationSelections",
-      "rdfs:comment": "Buyer's selections from customisationGroups for COMPOSED and WITH_EXTRAS resources. One entry per group selected.\n"
-    },
-    {
-      "@id": "ion:priceDelta",
-      "@type": "rdf:Property",
-      "rdfs:label": "priceDelta",
-      "rdfs:comment": "Price delta applied by this selection."
-    },
-    {
-      "@id": "ion:type",
-      "@type": "rdf:Property",
-      "rdfs:label": "type",
-      "rdfs:comment": "Price delta type: FIXED or PERCENT."
-    },
-    {
-      "@id": "ion:value",
-      "@type": "rdf:Property",
-      "rdfs:label": "value",
-      "rdfs:comment": "Numeric value of the price delta."
+      "rdfs:label": "replacementPreferred",
+      "rdfs:comment": "Whether the buyer prefers replacement over refund for this committed line when remediation is available.",
+      "rdfs:domain": {
+        "@id": "ion:TradeCommitment"
+      },
+      "rdfs:range": {
+        "@id": "http://www.w3.org/2001/XMLSchema#boolean"
+      }
     }
   ]
 }

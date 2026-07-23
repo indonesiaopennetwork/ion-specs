@@ -19,7 +19,7 @@ Trade sector schema extensions. These packs apply to all Trade sector transactio
 | `consideration/v1` | `beckn:Consideration.considerationAttributes` | ppnRate, ppnbmRate, discountType, discountValue, breakup line types, promotion mechanics |
 | `performance/v1` | `beckn:Performance.performanceAttributes` | readyToShip, awbNumber, agent details, trackingUrl, deliveryOtp, deliveryProof, SLA, handling, installationScheduling, performanceMode |
 | `contract/v1` | `beckn:Contract.contractAttributes` | fulfillingLocationId, creditTermsDays, paymentDueDate, subscriptionBillingCycle, buyerInstructions, gift, deliveryPreferences, invoicePreferences, Faktur Pajak reference |
-| `commitment/v1` | `beckn:Commitment.commitmentAttributes` | lineId, resourceId, offerId, quantity, price, customisationSelections, specialInstructions |
+| `commitment/v1` | `beckn:Commitment.commitmentAttributes` | inherited RetailCommitment line, resource, offer, quantity, price, selected customizations and instructions; line-specific replacement preference |
 | `performance-states/v1` | (canonical enum, not a pack) | Standard, MTO, self-pickup, return, replacement, RTO state machines |
 
 ## Resource availability model

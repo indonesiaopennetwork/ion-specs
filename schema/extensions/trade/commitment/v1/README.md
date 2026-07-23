@@ -1,22 +1,25 @@
 # trade/commitment/v1
 
-Per-line item — resource, offer, quantity, locked price, customisation selections, special instructions.
+Per-line trade attributes extending RetailCommitment v2.1. The upstream schema supplies line, resource, offer, quantity, committed-price, selected-customization, add-on, and special-instruction fields. This pack adds line-specific replacement preference and an ION extension point.
 
 ## Attaches to
 `beckn:Commitment.commitmentAttributes`
 
 See `attributes.yaml` for complete field definitions.
 
-## Network-required fields
+## Required fields
 
-The following fields are always required for this pack by ION network policy (`ion.yaml → x-ion-field-requirements.alwaysRequired`):
+RetailCommitment v2.1 requires these inherited attributes:
 
 - `lineId`
 - `resourceId`
-- `offerId`
 - `quantity`
 
-Mandatoriness is enforced by ONIX — these fields are not marked `required:` in the schema itself (mandatoriness lives in network policy, not the schema).
+ION network policy additionally requires inherited `offerId`.
+
+These compatibility attributes overlap the current core locations
+`Commitment.id`, `Commitment.resources[]`, and `Commitment.offer`. The overlap
+comes from RetailCommitment v2.1 and cannot be removed by this child schema.
 
 ## Per-step required fields
 
@@ -28,7 +31,9 @@ The `flows/trade/patterns/storefront/v1/pattern.yaml` lists every field ONIX val
 
 ## Common rejection reasons
 
-Missing `lineId` → `ION-8xxx`. Missing `quantity` → `ION-3xxx`. See `errors/README.md` for the full error code reference.
+Missing an inherited or network-required commitment field is rejected according
+to the active ONIX validation profile. See `errors/README.md` for the error code
+reference.
 
 ## Changelog
 

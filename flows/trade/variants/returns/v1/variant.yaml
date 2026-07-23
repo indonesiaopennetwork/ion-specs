@@ -112,7 +112,7 @@ subBranches:
       latest: unbounded
     description: >
       Seller dispatches a replacement item instead of refund. Initiated
-      when contractAttributes.replacementPreferred=true or buyer explicitly
+      when a commitment's commitmentAttributes.replacementPreferred=true or the buyer explicitly
       requests replacement at return-initiated step.
     performanceStateMachine: schema/extensions/trade/performance-states/v1/states.yaml#replacement
     steps:

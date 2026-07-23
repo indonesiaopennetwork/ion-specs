@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "domain": "trade",
   "name": "ION Trade Commitment Extension (v1)",
-  "description": "Per-line item details \u2014 resource, offer, quantity, price, customisations, instructions.",
+  "description": "Per-line trade attributes inherited from RetailCommitment v2.1, with line-specific replacement preference and an ION extension point.",
   "packSchema": "./schema.json",
   "jsonldContext": "./context.jsonld",
   "attachmentPoints": {

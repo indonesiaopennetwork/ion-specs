@@ -13,7 +13,6 @@
     "cancellationReasonCode": "ion:cancellationReasonCode",
     "quoteTrail": "ion:quoteTrail",
     "partialCancellationAllowed": "ion:partialCancellationAllowed",
-    "replacementPreferred": "ion:replacementPreferred",
     "disputeWindowDays": "ion:disputeWindowDays",
     "creditTermsDays": "ion:creditTermsDays",
     "paymentDueDate": "ion:paymentDueDate",
