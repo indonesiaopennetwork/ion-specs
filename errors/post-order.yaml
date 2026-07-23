@@ -104,7 +104,7 @@
       Delivery fails; RTO initiates.
 
       '
-  affected_field: message.contract.performance[].performanceAttributes.ageVerificationFailedReason
+  affected_field: message.contract.performance[].performanceAttributes.ageVerification.failureReason
   affected_apis:
   - on_status
   schema_ref: schema/core/v2/api/v2.0.0/beckn.yaml#Performance

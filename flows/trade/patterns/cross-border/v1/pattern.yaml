@@ -77,8 +77,8 @@ phases:
         to: BPP
         description: International buyer provides delivery country, import details.
         requiredFields:
-          - message.contract.performance[].stops[].location.address
-          - message.contract.performance[].stops[].location.country
+          - message.contract.performance[].performanceAttributes.stops[].location.address
+          - message.contract.performance[].performanceAttributes.stops[].location.address.addressCountry
           - message.contract.settlements[].settlementAttributes.paymentRail  # note=SWIFT for international; or IDR settlement via agreed channel
           - message.contract.tags.xb.importer_of_record
           - message.contract.tags.xb.import_license_number  # condition=required for regulated categories in destination country
@@ -122,7 +122,7 @@ phases:
       - step: on_status
         stepContext: "DISPATCHED"
         additionalFields:
-          - field: message.contract.performance[].performanceAttributes.awbNumber
+          - field: message.contract.performance[].performanceAttributes.trackingNumber
             note: International AWB (IATA) or Bill of Lading (ocean)
           - message.contract.tags.xb.vessel_or_flight
           - message.contract.tags.xb.estimated_arrival_port

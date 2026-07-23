@@ -193,9 +193,20 @@
               {
                 "type": "END",
                 "location": {
-                  "gps": "-6.2271,106.8070",
-                  "address": "No. 45, Gedung Sudirman Plaza, Jl. Jend. Sudirman, Jakarta Selatan",
-                  "areaCode": "12190",
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      106.807,
+                      -6.2271
+                    ]
+                  },
+                  "address": {
+                    "streetAddress": "No. 45, Gedung Sudirman Plaza, Jl. Jend. Sudirman",
+                    "addressLocality": "Jakarta Selatan",
+                    "addressRegion": "DKI Jakarta",
+                    "postalCode": "12190",
+                    "addressCountry": "ID"
+                  },
                   "ionAddressAttributes": {
                     "provinsiCode": "BPS-31",
                     "kabupatenCode": "3171",

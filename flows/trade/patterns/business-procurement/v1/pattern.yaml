@@ -80,7 +80,7 @@ phases:
         to: BPP
         description: Buyer provides delivery address, NPWP, invoice type preference.
         requiredFields:
-          - message.contract.performance[].stops[].location
+          - message.contract.performance[].performanceAttributes.stops[].location
           - message.contract.settlements[].settlementAttributes.method
           - message.contract.settlements[].settlementAttributes.paymentRail
           - message.contract.contractAttributes.purchaseOrderReference
@@ -137,8 +137,8 @@ phases:
         stepContext: "PACKED"
         description: Multiple items packed, possibly across several cartons.
         additionalFields:
-          - message.contract.performance[].performanceAttributes.totalCartons
-          - message.contract.performance[].performanceAttributes.totalWeightKg
+          - message.contract.performance[].performanceAttributes.packageCount
+          - message.contract.performance[].performanceAttributes.totalWeight
       - step: on_status
         stepContext: "DISPATCHED"
         description: Bulk shipment dispatched with AWB and B2B logistics provider.
@@ -146,7 +146,7 @@ phases:
         stepContext: "DELIVERED"
         description: Buyer signs delivery receipt (Surat Jalan). Contract COMPLETE.
         additionalFields:
-          - field: message.contract.performance[].performanceAttributes.deliveryReceiptRef
+          - field: message.contract.performance[].performanceAttributes.deliveryReceiptId
             note: Surat Jalan / Delivery Order reference number
 
 variantWindows:

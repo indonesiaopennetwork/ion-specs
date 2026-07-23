@@ -287,11 +287,12 @@
     id: QC pengembalian gagal
     en: Return QC failed
   description:
-    en: 'Return item QC inspection failed — tampered, missing parts, different item,
-      used or damaged. Refund amount reduced or refused per seller policy.
+    en: 'The inherited returnQcResult reports REJECTED. Detailed findings and
+      evidence may be provided in returnQcDetails. Refund may be reduced or
+      refused per the applicable return policy.
 
       '
-  affected_field: message.contract.performance[].performanceAttributes.qcResult
+  affected_field: message.contract.performance[].performanceAttributes.returnQcResult
   affected_apis:
   - on_status
   schema_ref: schema/extensions/trade/performance/v1

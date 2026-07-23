@@ -150,10 +150,10 @@ phases:
           - message.contract.participants[role=BUYER].address
           - message.contract.performance[].id
           - message.contract.performance[].performanceAttributes.performanceMode
-          - message.contract.performance[].stops[].location.address
-          - message.contract.performance[].stops[].location.gps
-          - message.contract.performance[].stops[].location.area_code
-          - message.contract.performance[].stops[].location.ionAddressAttributes.provinsiCode
+          - message.contract.performance[].performanceAttributes.stops[].location.address
+          - message.contract.performance[].performanceAttributes.stops[].location.geo
+          - message.contract.performance[].performanceAttributes.stops[].location.address.postalCode
+          - message.contract.performance[].performanceAttributes.stops[].location.ionAddressAttributes.provinsiCode
           - message.contract.settlements[].settlementAttributes.method
           - message.contract.settlements[].settlementAttributes.paymentRail
           - message.contract.settlements[].settlementAttributes.collectedBy
@@ -247,11 +247,11 @@ phases:
         description: Package picked up by logistics. AWB number and tracking URL added.
         requiredFields:
           - message.contract.performance[].status.descriptor.code
-          - message.contract.performance[].performanceAttributes.awbNumber
+          - message.contract.performance[].performanceAttributes.trackingNumber
           - message.contract.performance[].performanceAttributes.trackingUrl
           - message.contract.performance[].performanceAttributes.estimatedDeliveryTime
         conditionalFields:
-          - field: message.contract.performance[].performanceAttributes.lspSubscriberId
+          - field: message.contract.performance[].performanceAttributes.logisticsProviderId
             condition: present when fulfilment is handled by on-network logistics provider
 
       - step: on_status

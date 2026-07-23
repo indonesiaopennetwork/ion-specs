@@ -60,7 +60,7 @@ phases:
           Marketplace provides consumer delivery address. Payment collectedBy=BAP
           (marketplace collects from consumer, settles to seller).
         requiredFields:
-          - message.contract.performance[].stops[].location
+          - message.contract.performance[].performanceAttributes.stops[].location
           - message.contract.settlements[].settlementAttributes.collectedBy  # BAP (marketplace)
 
       - step: on_init

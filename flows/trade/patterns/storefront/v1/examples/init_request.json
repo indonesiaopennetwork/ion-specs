@@ -98,9 +98,20 @@
               {
                 "type": "END",
                 "location": {
-                  "address": "Unit 12B, Apartemen Sudirman Park, Jl. KH. Mas Mansyur No. 121",
-                  "gps": "-6.2100,106.8200",
-                  "areaCode": "10220",
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      106.82,
+                      -6.21
+                    ]
+                  },
+                  "address": {
+                    "streetAddress": "Unit 12B, Apartemen Sudirman Park, Jl. KH. Mas Mansyur No. 121",
+                    "addressLocality": "Jakarta Pusat",
+                    "addressRegion": "DKI Jakarta",
+                    "postalCode": "10220",
+                    "addressCountry": "ID"
+                  },
                   "ionAddressAttributes": {
                     "@context": "https://schema.ion.id/extensions/core/address/v1/context.jsonld",
                     "@type": "ion:IONAddress",

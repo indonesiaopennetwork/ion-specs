@@ -63,7 +63,7 @@ Fields marked `← not in pattern.yaml` are enforced by ION network policy but n
 
 | Field | Source | Note |
 |---|---|---|
-| `awbNumber` | `[pattern]` | Required at DISPATCHED state |
+| `trackingNumber` | `[pattern]` | Required at DISPATCHED state |
 | `trackingUrl` | `[pattern]` | |
 
 ---

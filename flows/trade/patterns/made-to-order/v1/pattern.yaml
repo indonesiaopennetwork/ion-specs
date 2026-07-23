@@ -162,10 +162,10 @@ phases:
           - message.contract.settlements[].settlementAttributes.paymentRail
           - message.contract.settlements[].settlementAttributes.collectedBy
         conditionalFields:
-          - field: message.contract.performance[].stops[].location.address
-          - field: message.contract.performance[].stops[].location.gps
-          - field: message.contract.performance[].stops[].location.area_code
-          - field: message.contract.performance[].stops[].location.ionAddressAttributes.provinsiCode
+          - field: message.contract.performance[].performanceAttributes.stops[].location.address
+          - field: message.contract.performance[].performanceAttributes.stops[].location.geo
+          - field: message.contract.performance[].performanceAttributes.stops[].location.address.postalCode
+          - field: message.contract.performance[].performanceAttributes.stops[].location.ionAddressAttributes.provinsiCode
         schemaPacks:
           core: [address/v1, payment/v1]
           trade: [contract/v1]
@@ -257,13 +257,13 @@ phases:
         description: Logistics agent picked up the order.
         requiredFields:
           - message.contract.performance[].status.descriptor.code
-          - message.contract.performance[].performanceAttributes.awbNumber
+          - message.contract.performance[].performanceAttributes.trackingNumber
           - message.contract.performance[].performanceAttributes.estimatedDeliveryTime
-          - message.contract.performance[].performanceAttributes.agentName
-          - message.contract.performance[].performanceAttributes.agentPhone
+          - message.contract.performance[].performanceAttributes.agent.name
+          - message.contract.performance[].performanceAttributes.agent.phone
         conditionalFields:
           - field: message.contract.performance[].performanceAttributes.trackingUrl
-          - field: message.contract.performance[].performanceAttributes.agentPhoto
+          - field: message.contract.performance[].performanceAttributes.agent.photo
 
       - step: on_status
         trigger: OUT_FOR_DELIVERY

@@ -251,7 +251,7 @@ subBranches:
         to: BPP
         description: BAP provides one delivery address per fulfillment (or shared).
         requiredFields:
-          - message.contract.performance[].stops[]
+          - message.contract.performance[].performanceAttributes.stops[]
     businessRules:
       - Each fulfillment has its own cancellation window
       - Partial cancellation of one fulfillment is allowed if partialCancellationAllowed=true
@@ -316,7 +316,7 @@ subBranches:
           responder: LSP (BPP in logistics flow)
         linkedVia:
           - trade.contractAttributes.linkedContractId
-          - performance.lspSubscriberId
+          - performance.logisticsProviderId
     businessRules:
       - Logistics transaction uses ION Logistics sector (Sector F)
       - BAP does not receive on_status from logistics directly

@@ -17,7 +17,7 @@ Post-confirm order updates. Covers seller-pushed delay notifications, buyer-requ
 ## API sequence
 ```
 Buyer address change:
-  BAP → /update (target.fulfillment.stops[].location = new address)
+  BAP → /update (`performanceAttributes.stops[].location` = new address)
   BPP → /on_update (accepted) or /on_update (rejected, reason)
 
 Delay notification:

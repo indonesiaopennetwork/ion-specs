@@ -71,7 +71,7 @@ phases:
         from: BAP
         to: BPP
         requiredFields:
-          - message.contract.performance[].stops[].location
+          - message.contract.performance[].performanceAttributes.stops[].location
           - message.contract.settlements[].settlementAttributes.method
           - message.contract.settlements[].settlementAttributes.collectedBy
           - message.contract.contractAttributes.subscriptionBillingCycle

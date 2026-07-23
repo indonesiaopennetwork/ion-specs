@@ -17,7 +17,7 @@ Trade sector schema extensions. These packs apply to all Trade sector transactio
 | `resource/v1` | `beckn:Resource.resourceAttributes` | Full TradeResource — identity, physical, packaged goods, regulatory, food, fashion, electronics, beauty, agritech, installation, usage, warranty, availability, catalog structure (variants, customisation groups) |
 | `offer/v1` | `beckn:Offer.offerAttributes` | cancellation and return policies, timeToShip, inherited RetailOffer return/COD/MOQ/validity terms, self-pickup, promotions, weight slabs |
 | `consideration/v1` | `beckn:Consideration.considerationAttributes` | Retail monetary consideration and breakup, with nested IONTaxDetail refinement |
-| `performance/v1` | `beckn:Performance.performanceAttributes` | readyToShip, awbNumber, agent details, trackingUrl, deliveryOtp, deliveryProof, SLA, handling, installationScheduling, performanceMode |
+| `performance/v1` | `beckn:Performance.performanceAttributes` | selected performance mode, tracking number and URL, agent details, return QC details, SLA breaches, verification outcome, package count and weight |
 | `contract/v1` | `beckn:Contract.contractAttributes` | fulfillingLocationId, creditTermsDays, paymentDueDate, subscriptionBillingCycle, buyerInstructions, gift, deliveryPreferences, invoicePreferences, Faktur Pajak reference |
 | `commitment/v1` | `beckn:Commitment.commitmentAttributes` | inherited RetailCommitment line, resource, offer, quantity, price, selected customizations and instructions; line-specific replacement preference |
 | `performance-states/v1` | (canonical enum, not a pack) | Standard, MTO, self-pickup, return, replacement, RTO state machines |

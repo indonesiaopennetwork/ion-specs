@@ -26,7 +26,7 @@ return-initiated:
 
 return-picked-up:
   BPP → /on_status (RETURN_AGENT_ASSIGNED, agent details)
-  BPP → /on_status (RETURN_PICKED, returnTrackingUrl)
+  BPP → /on_status (RETURN_PICKED, trackingUrl)
 
 return-delivered:
   BPP → /on_status (RETURN_DELIVERED)

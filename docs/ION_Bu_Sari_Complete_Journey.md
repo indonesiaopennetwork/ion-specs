@@ -818,13 +818,17 @@ Ibu Rina proceeds through init (provides address) and confirms. Payment via QRIS
       "performanceMode": "DELIVERY",
       "supportedPerformanceModes": ["DELIVERY"],
       "sla": { "min": "PT30M", "max": "PT90M", "unitBasis": "ORDER_CONFIRMATION" },
-      "agentName": "Budi Santoso",
-      "agentPhone": "081298765432",
-      "agentId": "RIDER-BSN-0091",
-      "agentVehicleType": "MOTORCYCLE",
-      "agentPlateNumber": "B 4821 KLM",
+      "agent": {
+        "id": "RIDER-BSN-0091",
+        "name": "Budi Santoso",
+        "phone": "081298765432",
+        "vehicle": {
+          "type": "MOTORCYCLE",
+          "registrationNumber": "B 4821 KLM"
+        }
+      },
       "estimatedDeliveryTime": "2026-04-19T11:15:00+07:00",
-      "lspSubscriberId": "lsp.gosend.ion.id"
+      "logisticsProviderId": "lsp.gosend.ion.id"
     }
   }]
 }
@@ -880,8 +884,7 @@ BPP generates a delivery OTP at confirm time:
           "max": "PT2H",
           "unitBasis": "ORDER_CONFIRMATION"
         },
-        "deliveryOtp": "482930",
-        "ageVerificationRequired": false
+        "deliveryOtp": "482930"
       }
     }]
   }
@@ -903,11 +906,15 @@ Agent arrives at the door. Agent shows ID, Pak Budi shows OTP "482930" on his ph
       "performanceMode": "DELIVERY",
       "supportedPerformanceModes": ["DELIVERY"],
       "sla": { "min": "PT30M", "max": "PT2H", "unitBasis": "ORDER_CONFIRMATION" },
-      "agentName": "Dewi Rahayu",
-      "agentPhone": "081234509876",
-      "agentId": "RIDER-DRY-0047",
-      "deliveryOtp": "482930",
-      "agentVehicleType": "MOTORCYCLE"
+      "agent": {
+        "id": "RIDER-DRY-0047",
+        "name": "Dewi Rahayu",
+        "phone": "081234509876",
+        "vehicle": {
+          "type": "MOTORCYCLE"
+        }
+      },
+      "deliveryOtp": "482930"
     }
   }]
 }

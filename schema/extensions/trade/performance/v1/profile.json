@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "domain": "trade",
   "name": "ION Trade Performance Extension (v1)",
-  "description": "Fulfilment tracking \u2014 agent, AWB, OTP, SLA, handling, installation scheduling.",
+  "description": "Fulfilment execution \u2014 selected mode, tracking, agent, return QC, SLA breaches, verification, and package facts.",
   "packSchema": "./schema.json",
   "jsonldContext": "./context.jsonld",
   "attachmentPoints": {

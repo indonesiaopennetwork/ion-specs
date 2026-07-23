@@ -562,7 +562,7 @@
       "description": {
         "en": "Delivery agent could not verify buyer age for age-restricted item. Reasons include buyer underage, refused to show ID, no valid ID, or biometric API failure. Delivery fails; RTO initiates.\n"
       },
-      "affected_field": "message.contract.performance[].performanceAttributes.ageVerificationFailedReason",
+      "affected_field": "message.contract.performance[].performanceAttributes.ageVerification.failureReason",
       "affected_apis": [
         "on_status"
       ],
@@ -1207,9 +1207,9 @@
         "en": "Return QC failed"
       },
       "description": {
-        "en": "Return item QC inspection failed — tampered, missing parts, different item, used or damaged. Refund amount reduced or refused per seller policy.\n"
+        "en": "The inherited returnQcResult reports REJECTED. Detailed findings and evidence may be provided in returnQcDetails. Refund may be reduced or refused per the applicable return policy.\n"
       },
-      "affected_field": "message.contract.performance[].performanceAttributes.qcResult",
+      "affected_field": "message.contract.performance[].performanceAttributes.returnQcResult",
       "affected_apis": [
         "on_status"
       ],

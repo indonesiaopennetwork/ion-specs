@@ -58,9 +58,9 @@ subBranches:
           - message.contract.performance[].status.descriptor.code
         conditionalFields:
           - field: message.contract.performance[].performanceAttributes.tags.return_rejection_reason
-          - field: message.contract.performance[].performanceAttributes.returnAgentName
-          - field: message.contract.performance[].performanceAttributes.returnAgentPhone
-          - field: message.contract.performance[].performanceAttributes.returnTrackingUrl
+          - field: message.contract.performance[].performanceAttributes.agent.name
+          - field: message.contract.performance[].performanceAttributes.agent.phone
+          - field: message.contract.performance[].performanceAttributes.trackingUrl
 
   return-picked-up:
     id: return-picked-up
@@ -77,10 +77,10 @@ subBranches:
         direction: unsolicited
         requiredFields:
           - message.contract.performance[].status.descriptor.code
-          - message.contract.performance[].performanceAttributes.returnTrackingUrl
+          - message.contract.performance[].performanceAttributes.trackingUrl
         conditionalFields:
-          - field: message.contract.performance[].performanceAttributes.returnAgentName
-          - field: message.contract.performance[].performanceAttributes.returnAgentPhone
+          - field: message.contract.performance[].performanceAttributes.agent.name
+          - field: message.contract.performance[].performanceAttributes.agent.phone
 
   return-delivered:
     id: return-delivered
@@ -123,7 +123,7 @@ subBranches:
         description: BPP notifies BAP that replacement is being dispatched.
         requiredFields:
           - message.contract.performance[].status.descriptor.code
-          - message.contract.performance[].performanceAttributes.awbNumber
+          - message.contract.performance[].performanceAttributes.trackingNumber
           - message.contract.performance[].performanceAttributes.trackingUrl
 
       - step: on_status
@@ -226,9 +226,9 @@ subBranches:
         description: Same agent handles pickup of original and delivery of replacement.
         requiredFields:
           - message.contract.performance[].status.descriptor.code  # value: EXCHANGE_VARIANT_AGENT_ASSIGNED
-          - message.contract.performance[].performanceAttributes.agentId
-          - message.contract.performance[].performanceAttributes.agentName
-          - message.contract.performance[].performanceAttributes.agentPhone
+          - message.contract.performance[].performanceAttributes.agent.id
+          - message.contract.performance[].performanceAttributes.agent.name
+          - message.contract.performance[].performanceAttributes.agent.phone
 
       - step: on_status
         stepContext: "swap complete"
@@ -329,8 +329,8 @@ subBranches:
       earliest: after return-delivered
     description: >
       When returned item arrives at seller, QC inspection determines refund
-      amount. QC_PASSED releases full refund; QC_FAILED variants trigger
-      reduced refund and potentially dispute escalation.
+      amount. ACCEPTED releases a full refund; REJECTED may refuse a refund;
+      PARTIAL permits a reduced refund and potentially dispute escalation.
     steps:
       - step: on_status[RETURN_DELIVERED]
         from: BPP
@@ -338,18 +338,18 @@ subBranches:
         direction: unsolicited
         requiredFields:
           - message.contract.performance[].status.descriptor.code  # value: RETURN_DELIVERED
-          - message.contract.performance[].performanceAttributes.qcResult  # enum: "[QC_PASSED, QC_FAILED_TAMPERED, QC_FAILED_MISSING_PARTS, QC_FAILED_DIFFERENT_ITEM, QC_FAILED_USED_DAMAGED, QC_PARTIAL]"
+          - message.contract.performance[].performanceAttributes.returnQcResult  # enum: "[ACCEPTED, REJECTED, PARTIAL]"
         conditionalFields:
-          - field: message.contract.performance[].performanceAttributes.qcNotes
-            condition: required when qcResult is not QC_PASSED
-          - field: message.contract.performance[].performanceAttributes.qcEvidence[]
-            condition: "required for QC_FAILED_* and QC_PARTIAL"
+          - field: message.contract.performance[].performanceAttributes.returnQcDetails.notes
+            condition: required when returnQcResult is not ACCEPTED
+          - field: message.contract.performance[].performanceAttributes.returnQcDetails.evidence[]
+            condition: required for REJECTED or PARTIAL
           - field: message.contract.settlements[].settlementAttributes.refundAmount
             condition: "per QC result — full for QC_PASSED, partial for QC_PARTIAL, none for QC_FAILED"
     businessRules:
-      - QC_PASSED → full refund per original payment amount
-      - QC_PARTIAL → partial refund with reason
-      - QC_FAILED_* → no refund, item may be returned to buyer or disposed
+      - ACCEPTED → full refund per original payment amount
+      - PARTIAL → partial refund with reason
+      - REJECTED → no refund; item may be returned to buyer or disposed
       - Consumer may dispute QC finding via support (escalationLevel=MARKETPLACE_MEDIATION)
       - Escalation to BPSK if unresolved at mediation level
     errors:

@@ -1,6 +1,7 @@
 # trade/performance/v1
 
-Fulfilment tracking attributes — agent details, AWB, SLA, handling, installation.
+Fulfilment execution attributes — selected mode, shipment identifier, assigned
+agent, return QC details, SLA breaches, verification outcome, and package facts.
 
 ## Attaches to
 `beckn:Performance.performanceAttributes`
@@ -10,6 +11,7 @@ Fulfilment tracking attributes — agent details, AWB, SLA, handling, installati
 |---|---|
 | DELIVERY | Logistics delivers to buyer address |
 | SELF_PICKUP | Buyer collects from seller location |
+| SERVICE | Provider performs a service |
 | DINE_IN | For restaurant orders consumed on premises |
 | CURBSIDE | Buyer drives to pickup, seller brings to car |
 
@@ -26,6 +28,15 @@ SLA `unitBasis` options:
 ## Installation scheduling
 `resource.installation` declares capability (does it need installation? does seller provide it?).
 `performance.installationScheduling` carries the transaction-time appointment (scheduledDate, notes).
+
+## ION-specific refinements
+
+- `ageVerification.method` carries the KTP-, SIM-, passport-, selfie-, or
+  biometric-aware verification method.
+- `stops[].location.geo` uses Beckn GeoJSON geometry.
+- `stops[].location.address` uses the closed Beckn Address shape.
+- `stops[].location.ionAddressAttributes` adds Indonesian administrative
+  subdivisions without modifying the Beckn Address object.
 
 ## Network-required fields
 
@@ -46,7 +57,7 @@ The `flows/trade/patterns/storefront/v1/pattern.yaml` lists every field ONIX val
 
 ## Common rejection reasons
 
-Invalid `performanceState` transition → `ION-4xxx`. Missing `awbNumber` at DISPATCHED state → `ION-4xxx`. See `errors/README.md` for the full error code reference.
+Invalid `performanceState` transition → `ION-4xxx`. Missing `trackingNumber` at DISPATCHED state → `ION-4xxx`. See `errors/README.md` for the full error code reference.
 
 ## Changelog
 

@@ -71,7 +71,7 @@
             "@context": "https://schema.ion.id/extensions/trade/performance/v1/context.jsonld",
             "@type": "ion:IONTradePerformance",
             "performanceMode": "DELIVERY",
-            "awbNumber": "JNE-2026041900001234",
+            "trackingNumber": "JNE-2026041900001234",
             "trackingUrl": "https://track.jne.co.id/JNE-2026041900001234",
             "estimatedDeliveryTime": "2026-04-19T14:00:00.000+07:00",
             "logisticsAgent": {

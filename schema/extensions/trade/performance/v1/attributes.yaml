@@ -1,8 +1,9 @@
 openapi: 3.1.1
 info:
   title: ION Trade Performance Extension (v1)
-  description: 'Trade sector performance/fulfilment tracking attributes. Agent details, AWB tracking, delivery OTP,
-    proof of delivery, SLA, handling requirements, installation scheduling, and performance mode. Attaches to: beckn:Performance.performanceAttributes
+  description: 'Trade sector performance and fulfilment attributes. Covers the selected execution mode, carrier
+    tracking reference, assigned agent extensions, return QC details, SLA breaches, verification outcomes, and
+    package facts. Attaches to: beckn:Performance.performanceAttributes
 
     '
   version: 1.0.0
@@ -18,126 +19,45 @@ components:
       type: object
       title: TradePerformance
       description: >
-        Network-agnostic generic layer for TradePerformance. Inherits from Beckn core Attributes.
+        Network-agnostic generic layer for TradePerformance. Inherits from
+        RetailPerformance 2.1.
         Downstream ION-specific layer (IONTradePerformance) extends this schema via allOf.
-        This layer carries only fields that are meaningful across any Beckn network — 
-        no Indonesia-specific regulatory or compliance fields.
+        This layer carries fields whose underlying concepts are meaningful
+        across trade networks; definitions will be reviewed individually.
       x-ion-layer: generic
       x-ion-split-version: "0.7.0"
       x-recommended-parent: Performance.performanceAttributes
       additionalProperties: true
       allOf:
         - $ref: https://schema.beckn.io/RetailPerformance/2.1/attributes.yaml#/components/schemas/RetailPerformance
-    IONTradePerformance:
-      type: object
-      x-ion-layer: ion
-      x-ion-split-version: "0.7.0"
-      allOf:
-        - $ref: '#/components/schemas/TradePerformance'
-        - if:
-            properties:
-              ageVerificationMethod:
-                const: KTP_SCANNED
-            required:
-            - ageVerificationMethod
-          then:
-            required:
-            - ageVerificationEvidence
-        - if:
-            properties:
-              ageVerificationRequired:
-                const: true
-            required:
-            - ageVerificationRequired
-          then:
-            required:
-            - ageVerificationMethod
-            - ageVerifiedAt
-            - ageVerifiedByAgentId
-        - if:
-            properties:
-              qcResult:
-                enum:
-                  - QC_FAILED_TAMPERED
-                  - QC_FAILED_MISSING_PARTS
-                  - QC_FAILED_DIFFERENT_ITEM
-                  - QC_FAILED_USED_DAMAGED
-            required:
-            - qcResult
-          then:
-            required:
-            - qcEvidence
-      title: TradePerformance
-      additionalProperties: true
-      x-jsonld:
-        '@context': 'https://schema.ion.id/trade/performance/v1/context.jsonld'
-        '@type': ion:IONTradePerformance
-      x-beckn-attaches-to: Performance.performanceAttributes
+      # supportedPerformanceModes, handling, agent.name, agent.phone,
+      # proofOfDelivery, deliveryOtp, selfPickupCode, and
+      # installationScheduling are inherited from RetailPerformance 2.1.
       properties:
         performanceMode:
           type: string
           enum:
           - DELIVERY
           - SELF_PICKUP
+          - SERVICE
           - DINE_IN
           - CURBSIDE
-          description: 'How the fulfilment is executed. DELIVERY: logistics delivers to buyer address. SELF_PICKUP:
-            buyer collects from seller location. DINE_IN: for restaurant orders consumed on premises. CURBSIDE:
-            buyer drives to pickup point, seller brings to car.
-
-            '
+          description: >
+            Selected mode by which this performance is executed. Values align
+            with the modes declared by inherited supportedPerformanceModes.
+            DELIVERY uses logistics to deliver to the recipient; SELF_PICKUP
+            requires collection from the provider; SERVICE represents a
+            performed service; DINE_IN is consumption on premises; and CURBSIDE
+            is collection at a designated vehicle pickup point.
           example: DELIVERY
-        supportedPerformanceModes:
-          type: array
-          items:
-            type: string
-            enum:
-            - DELIVERY
-            - SELF_PICKUP
-            - DINE_IN
-            - CURBSIDE
-          description: 'All performance modes supported by this provider for this offer. Declared in on_select.
-            Buyer selects mode at init.
-
-            '
-          example:
-          - DELIVERY
-          - SELF_PICKUP
-        handling:
-          type: array
-          items:
-            type: string
-            enum:
-            - COLD_CHAIN
-            - PERISHABLE
-            - HIGH_VALUE
-            - OVERSIZED
-            - FRAGILE
-            - HAZARDOUS
-            - AGE_RESTRICTED
-          description: 'Special handling requirements for this fulfilment. Determines logistics eligibility and
-            surcharges.
-
-            '
-          example:
-          - COLD_CHAIN
-          - PERISHABLE
-        readyToShip:
-          type: boolean
-          description: 'Seller signals that the package is physically ready for logistics pickup. Sent by BPP via
-            /update. Triggers LSP to dispatch agent.
-
-            '
-          example: true
-          x-ion-condition: Required in /update when seller is ready for pickup
-        awbNumber:
+        trackingNumber:
           type: string
-          description: 'Air Waybill number assigned by the logistics provider after pickup. Enables tracking on
-            LSP platform.
-
-            '
+          description: >
+            Carrier-issued identifier used to track the shipment. This
+            network-neutral term covers airway bills, courier consignment
+            numbers, postal tracking numbers, and equivalent identifiers.
           example: JNE1234567890
-          x-ion-condition: Added after order is picked up by logistics provider
+          x-ion-condition: Added when a carrier assigns a shipment identifier
         trackingUrl:
           type: string
           format: uri
@@ -156,245 +76,78 @@ components:
             '
           example: 2026-04-19 14:30:00+07:00
           x-ion-condition: Present from DISPATCHED state onwards
-        agentName:
+        logisticsProviderId:
           type: string
-          description: Name of delivery agent or driver assigned to this fulfilment.
-          example: Budi Santoso
-          x-ion-condition: Present when agent is assigned
-        agentPhone:
-          type: string
-          pattern: ^[0-9]{10,13}$
-          description: Indonesian mobile number, 10-13 digits.
-          example: "08123456789"
-          x-ion-condition: Present when agent is assigned
-        agentPhoto:
-          type: string
-          format: uri
-          description: 'URL to photo of delivery agent. Displayed by BAP for consumer security verification. URL
-            must remain valid for 24 hours.
-
-            '
-          example: https://sellerapp.ion.id/agents/budi-santoso.jpg
-          x-ion-condition: Present when agent is assigned
-        deliveryOtp:
-          type: string
-          pattern: ^[0-9]{4,6}$
-          description: 'One-time password required for agent to confirm delivery. Consumer shows OTP to agent at
-            doorstep.
-
-            '
-          example: '482930'
-          x-ion-condition: Present when offer.selfPickupOtp=true or high-value item
-        deliveryProofUrl:
-          type: string
-          format: uri
-          description: 'URL to photo proof of delivery — package at door or consumer signature. Added at DELIVERED
-            state.
-
-            '
-          example: https://sellerapp.ion.id/proofs/delivery-ORD-001.jpg
-          x-ion-condition: Present after DELIVERED state
-        selfPickupCode:
-          type: string
-          description: 'Unique code generated by BPP for self-pickup orders. Consumer presents this code at counter
-            to collect order.
-
-            '
-          example: SP-4729
-          x-ion-condition: Present for SELF_PICKUP performance mode
-        returnAgentName:
-          type: string
-          description: Name of pickup agent for return collection.
-          example: Andi Wijaya
-          x-ion-condition: Present on return Performance records when agent assigned
-        returnTrackingUrl:
-          type: string
-          format: uri
-          description: Tracking URL for return shipment.
-          example: https://jne.co.id/track?awb=JNE9876543210
-          x-ion-condition: Present on return Performance after RETURN_PICKED state
-        installationScheduling:
-          type: object
-          additionalProperties: false
-          description: 'Installation appointment scheduling. Declared capability is in resource.installation. This
-            carries the transaction-time appointment.
-
-            '
-          properties:
-            available:
-              type: boolean
-              description: Whether seller can schedule installation for this order.
-            scheduledDate:
-              type: string
-              format: date-time
-              description: Confirmed installation appointment datetime with timezone.
-              example: 2026-04-05 10:00:00+07:00
-            notes:
-              type: string
-              description: Instructions for consumer regarding installation.
-              example: Teknisi akan menelepon 30 menit sebelum tiba.
-          x-ion-condition: Present for products with installation.required=true
-        realTimeGps:
-          type: object
-          additionalProperties: false
-          description: 'Current GPS position of delivery agent. Updated via /track API. Not persisted — real-time
-            only.
-
-            '
-          properties:
-            latitude:
-              type: number
-              minimum: -90
-              maximum: 90
-            longitude:
-              type: number
-              minimum: -180
-              maximum: 180
-            accuracy:
-              type: number
-              description: Position accuracy in metres
-            timestamp:
-              type: string
-              format: date-time
-          required:
-          - latitude
-          - longitude
-          - timestamp
-          x-ion-condition: Present only in /on_track responses
-        lspSubscriberId:
-          type: string
-          description: 'Subscriber ID of the on-network logistics provider handling this fulfilment. Enables ION
-            to trace the cascaded logistics contract.
-
-            '
+          description: >
+            Identifier of the logistics provider responsible for this
+            performance. When the provider is a network participant, this value
+            may be its network participant identifier.
           example: lsp.jne.ion.id
           x-ion-condition: Present when fulfilment is handled by on-network LSP
-        shippingInsurance:
-          type: object
-          additionalProperties: false
-          description: 'Insurance declaration for high-value shipments. Mandatory for items above IDR 5,000,000
-            on all major marketplaces. Affects RTO refund calculations — claim filed against insurance policy when
-            applicable.
-
-            '
-          required:
-          - mandatory
-          - provider
-          - coverageAmount
-          properties:
-            mandatory:
-              type: boolean
-              description: Whether insurance is legally or operationally required.
-            provider:
-              type: string
-              description: Insurance provider name
-              example: PT Asuransi Sinar Mas
-            policyNumber:
-              type: string
-              description: Policy reference assigned by insurance provider
-              example: AS-POL-2026-00123456
-            coverageAmount:
-              type: number
-              description: Maximum coverage in IDR
-              example: 15000000
-            premium:
-              type: number
-              description: Insurance premium in IDR — appears in consideration breakup
-              example: 15000
-            paidBy:
-              type: string
-              enum:
-              - BUYER
-              - SELLER
-              - PLATFORM
-              description: Who bears the insurance premium cost
-            claimProcedureUrl:
-              type: string
-              format: uri
-              description: URL to claim filing procedure for this policy
-          x-ion-regulatory: OJK POJK 69/POJK.05/2016 tentang Perilaku Usaha Pialang Asuransi
-          x-ion-condition: Required when offer.price > IDR 5,000,000 or category-mandated
-        agentId:
-          type: string
-          description: 'Platform-issued agent ID that consumer can verify against BPP app or logistics app. More
-            trustworthy than name alone — prevents impersonation scams.
-
-            '
-          example: SPX-RIDER-28471
-          x-ion-condition: Present when agent is assigned
-        agentVehicleType:
-          type: string
-          enum:
-          - MOTORCYCLE
-          - CAR
-          - VAN
-          - TRUCK
-          - BICYCLE
-          - WALK
-          - PUBLIC_TRANSPORT
-          description: Agent vehicle type — affects delivery ETA and corporate policy
-        agentPlateNumber:
-          type: string
-          description: Indonesian vehicle plate (Nomor Polisi). Required by some corporate buyers for building access.
-          example: B 1234 XYZ
+        agent:
+          allOf:
+          - $ref: https://schema.beckn.io/RetailPerformance/2.1/attributes.yaml#/components/schemas/RetailPerformance/properties/agent
+          - type: object
+            description: >
+              Agent assigned to this performance. A return uses a separate
+              Performance with a RETURN_* state and populates this same agent
+              object; return-specific duplicate fields are not used.
+            properties:
+              id:
+                type: string
+                description: Provider-issued identifier of the assigned agent.
+                example: SPX-RIDER-28471
+              photo:
+                type: string
+                format: uri
+                description: URI of a photo used to verify the assigned agent.
+                example: https://sellerapp.ion.id/agents/budi-santoso.jpg
+              vehicle:
+                type: object
+                additionalProperties: true
+                properties:
+                  type:
+                    type: string
+                    enum:
+                    - MOTORCYCLE
+                    - CAR
+                    - VAN
+                    - TRUCK
+                    - BICYCLE
+                    - WALK
+                    - PUBLIC_TRANSPORT
+                    description: Vehicle or transport mode used by the agent.
+                  registrationNumber:
+                    type: string
+                    description: Jurisdiction-issued vehicle registration number.
+                    example: B 1234 XYZ
         agentBadgeNumber:
           type: string
-          description: 'Physical badge number the agent carries. Consumers verify at door. Distinct from agentId
-            which is internal.
-
-            '
+          description: >
+            Physical badge number carried by the agent. This remains distinct
+            from agent.id, which identifies the agent in the provider system.
           example: SPX-28471
-        liveAgentLocationUrl:
-          type: string
-          format: uri
-          description: 'URL for live agent location tracking (distinct from trackingUrl which is package-centric).
-            Agent-centric view consumers use during OUT_FOR_DELIVERY for last-mile visibility.
-
-            '
-        qcResult:
-          type: string
-          enum:
-          - QC_PASSED
-          - QC_FAILED_TAMPERED
-          - QC_FAILED_MISSING_PARTS
-          - QC_FAILED_DIFFERENT_ITEM
-          - QC_FAILED_USED_DAMAGED
-          - QC_PARTIAL
-          - QC_PENDING
-          description: 'Quality inspection result when return package is received by seller. Determines refund amount
-            — full for QC_PASSED, partial for QC_PARTIAL, zero for QC_FAILED_* variants (dispute-prone).
-
-            '
-          x-ion-condition: Required on Performance record for return-delivered state
-        qcNotes:
-          type: string
-          description: Seller-provided explanation of QC findings
-          x-ion-condition: Required when qcResult is not QC_PASSED
-        qcEvidence:
+        returnQcDetails:
+          type: object
+          additionalProperties: false
+          description: >
+            Additional findings supporting the inherited returnQcResult.
+            The normalized outcome remains in returnQcResult; this object carries
+            explanatory notes and typed evidence.
+          properties:
+            notes:
+              type: string
+              description: Explanation of the quality-control findings.
+            evidence:
+              type: array
+              description: Documents or media supporting the quality-control findings.
+              items:
+                $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Document
+        slaBreaches:
           type: array
-          items:
-            type: string
-            format: uri
-          description: Photo/video URLs from seller's QC inspection. Used in dispute resolution.
-        marketplaceManagedLogistics:
-          type: boolean
-          description: 'True when logistics is orchestrated by the BAP (marketplace) rather than the BPP (seller).
-            Seller BPP handles ready-to-ship only; marketplace BAP triggers its own logistics contract. Used by
-            Shopee Xpress, Tokopedia TokoCabang, Amazon MFN.
-
-            '
-          default: false
-        slaBreachCount:
-          type: integer
-          minimum: 0
-          description: 'Number of SLA TATs breached by BPP on this fulfilment. Incremented by BAP each time an expected
-            on_status does not arrive within SLA. Persists across updates for reconciliation penalty calculation.
-
-            '
-          default: 0
-        slaBreachDetails:
-          type: array
-          description: Record of each SLA breach for audit trail.
+          description: >
+            Audit records for SLA breaches observed during this performance.
+            A breach count is derived from the length of this array.
           items:
             type: object
             additionalProperties: false
@@ -417,82 +170,117 @@ components:
                 format: date-time
               breachDurationSeconds:
                 type: integer
-            required:
-            - expectedBy
-            - breachedAt
-            - tatType
-        ageVerificationRequired:
-          type: boolean
-          description: 'Whether delivery agent must verify buyer age at door before handover. Derived from resource.ageRestricted;
-            BPP copies to performance record. If true, delivery fails (state goes to DELIVERY_FAILED) if verification
-            is not successfully completed.
-
-            '
-          default: false
-          x-ion-condition: Required when any item in order has resource.ageRestricted=true
-        ageVerificationMethod:
-          type: string
-          enum:
-          - KTP_SIGHTED
-          - KTP_SCANNED
-          - SIM_SIGHTED
-          - PASSPORT_SIGHTED
-          - SELFIE_COMPARISON
-          - BIOMETRIC_API
-          - NONE
-          description: 'Method used to verify buyer age at delivery. KTP_SIGHTED: agent visually confirms KTP DOB.
-            KTP_SCANNED: agent scans KTP via agent app; OCR reads DOB. SELFIE_COMPARISON: agent compares consumer
-            face to buyer profile photo. BIOMETRIC_API: agent uses liveness + age estimation API.
-
-            '
-          x-ion-regulatory: UU 39/2007 tentang Cukai (tobacco); PP 109/2012; PerBPOM 28/2021 (alcohol)
-        ageVerifiedAt:
-          type: string
-          format: date-time
-          description: Timestamp of successful verification at door
-        ageVerifiedByAgentId:
-          type: string
-          description: Agent ID of the person who performed verification
-        ageVerificationEvidence:
-          type: string
-          format: uri
-          description: 'URL to evidence of verification (photo of KTP with DOB visible, scan result). Retained per
-            platform policy. Must be encrypted at rest and subject to data residency rules if applicable.
-
-            '
-        ageVerificationFailedReason:
-          type: string
-          enum:
-          - BUYER_UNDERAGE
-          - BUYER_UNAVAILABLE_VERIFIER_NEEDED
-          - BUYER_REFUSED_TO_SHOW_ID
-          - ID_DOCUMENT_NOT_PRESENTED
-          - ID_DOCUMENT_INVALID
-          - BIOMETRIC_API_FAILED
-          description: 'Reason age verification failed at delivery. Performance state should transition to DELIVERY_FAILED
-            with this reason tag, and RTO flow initiates. Buyer may be blocked from future purchases of this category
-            (per platform policy).
-
-            '
-          x-ion-condition: Required when delivery fails due to age verification
-        returnAgentPhone:
-          type: string
-          pattern: "^[0-9]{10,13}$"
+                minimum: 0
+        ageVerification:
+          type: object
+          additionalProperties: true
           description: >
-            Indonesian mobile number of the return pickup agent. Companion field
-            to returnAgentName — both are populated when a return pickup agent is
-            assigned. Displayed by BAP so consumer can coordinate handover.
-          example: "08129876543"
-          x-ion-condition: Present on return Performance records when agent assigned
+            Outcome of an age-verification attempt performed during this
+            performance. Whether verification is required is a Resource, Offer,
+            or Contract policy and is not duplicated here.
+          properties:
+            verifiedAt:
+              type: string
+              format: date-time
+              description: Timestamp at which age verification succeeded.
+            verifiedByAgentId:
+              type: string
+              description: Identifier of the agent that performed verification.
+            evidence:
+              type: array
+              description: >
+                Evidence retained under the applicable privacy, security, and
+                data-residency policy.
+              items:
+                $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Document
+            failureReason:
+              type: string
+              enum:
+              - BUYER_UNDERAGE
+              - BUYER_UNAVAILABLE_VERIFIER_NEEDED
+              - BUYER_REFUSED_TO_SHOW_ID
+              - ID_DOCUMENT_NOT_PRESENTED
+              - ID_DOCUMENT_INVALID
+              - BIOMETRIC_API_FAILED
+              description: Reason the age-verification attempt failed.
+        packageCount:
+          type: integer
+          minimum: 1
+          description: >
+            Number of physical packages in this performance, independent of
+            whether they are cartons, crates, pallets, bags, or parcels.
+          example: 3
+          x-ion-condition: Present when the performance has multiple packages
+        totalWeight:
+          allOf:
+          - $ref: https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+          description: >
+            Total packed weight. The unit is carried by the Quantity rather
+            than being encoded in the property name.
+          example:
+            unitCode: KGM
+            unitText: kilogram
+            unitQuantity: 12.5
+          x-ion-condition: Present at PACKED state and later
+        deliveryReceiptId:
+          type: string
+          description: >
+            Identifier of the delivery receipt issued at handover. The actual
+            proof or document is represented by inherited proofOfDelivery.
+          example: DLV-RCP-2026-00012345
+          x-ion-condition: Present after DELIVERED when a receipt was issued
 
+    IONTradePerformance:
+      type: object
+      x-ion-layer: ion
+      x-ion-split-version: "0.7.0"
+      allOf:
+        - $ref: '#/components/schemas/TradePerformance'
+        # Conditional mandatoriness is enforced by ION network policy rather
+        # than this shared schema. The former constraints required evidence for
+        # KTP_SCANNED, required verification outcome fields when verification
+        # was required, and required QC evidence for failed QC results.
+      title: IONTradePerformance
+      description: >
+        Indonesia-specific extension of TradePerformance. Refines the generic
+        age-verification result with ION methods and provides route stops whose
+        locations combine Beckn geographic and postal-address shapes with
+        Indonesian administrative subdivisions.
+      additionalProperties: true
+      x-jsonld:
+        '@context': 'https://schema.ion.id/trade/performance/v1/context.jsonld'
+        '@type': ion:IONTradePerformance
+      x-beckn-attaches-to: Performance.performanceAttributes
+      properties:
+        ageVerification:
+          allOf:
+          - $ref: '#/components/schemas/TradePerformance/properties/ageVerification'
+          - type: object
+            properties:
+              method:
+                type: string
+                enum:
+                - KTP_SIGHTED
+                - KTP_SCANNED
+                - SIM_SIGHTED
+                - PASSPORT_SIGHTED
+                - SELFIE_COMPARISON
+                - BIOMETRIC_API
+                - NONE
+                description: >
+                  ION method used to verify age. KTP_SIGHTED and KTP_SCANNED
+                  use the Indonesian national identity card; SIM_SIGHTED uses
+                  an Indonesian driving licence. PASSPORT_SIGHTED,
+                  SELFIE_COMPARISON, and BIOMETRIC_API cover other supported
+                  verification methods. NONE records that no method was used.
+                x-ion-regulatory: UU 39/2007 tentang Cukai (tobacco); PP 109/2012; PerBPOM 28/2021 (alcohol)
         stops:
           type: array
           description: >
             Ordered list of stops for this performance leg. Each stop carries a
-            location and a type (START, END, INTERMEDIATE). Declared by BAP at
-            init for the delivery address, and by BPP at on_confirm for the
-            fulfilment centre origin. Used by logistics integrations to define
-            the full route.
+            location and a role (START, END, INTERMEDIATE). The location reuses
+            Beckn GeoJSONGeometry and Address and adds IONAddress for Indonesian
+            administrative subdivisions.
           items:
             type: object
             additionalProperties: false
@@ -512,19 +300,16 @@ components:
               location:
                 type: object
                 additionalProperties: false
+                description: >
+                  ION-aware location. The geo and address properties have the
+                  same shapes as Beckn Location; ionAddressAttributes carries
+                  Indonesian administrative subdivisions that cannot be added
+                  directly to the closed Beckn Address object.
                 properties:
+                  geo:
+                    $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/GeoJSONGeometry
                   address:
-                    type: string
-                    description: Human-readable address string
-                  gps:
-                    type: string
-                    description: 'GPS coordinates in decimal degrees format: lat,lng'
-                    pattern: '^-?[0-9]{1,2}.[0-9]+,-?[0-9]{1,3}.[0-9]+$'
-                    example: "-6.2088,106.8456"
-                  areaCode:
-                    type: string
-                    description: Indonesian postal code (5-digit kode pos)
-                    example: "10110"
+                    $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Address
                   ionAddressAttributes:
                     $ref: '../../../../extensions/core/address/v1/attributes.yaml#/components/schemas/IONAddress'
               instructions:
@@ -539,56 +324,8 @@ components:
                 format: date-time
                 description: Actual arrival time — populated after stop is reached
               proof:
-                type: string
-                format: uri
-                description: Photo/signature proof URL for this stop
-
-        tags:
-          type: object
-          additionalProperties: true
-          description: >
-            Open key-value tag bag on the performance record. Used by patterns
-            and variants to attach structured event metadata without requiring
-            schema bumps. Common tag namespaces: return (return flow metadata),
-            rto (return-to-origin flow), exchange_item (exchange flow),
-            delivery (delivery event details). Tag keys use namespace.key format.
-          example:
-            returnReason.code: DEFECTIVE
-            returnEvidence: "[https://...]"
-            rtoReason: CONSUMER_UNAVAILABLE
-            deliveryAttemptCount: "2"
-
-        totalCartons:
-          type: integer
-          minimum: 1
-          description: >
-            Total number of physical cartons/boxes in this shipment. Used by
-            logistics for multi-carton fulfilments — furniture, bulk FMCG,
-            B2B wholesale. Declared by BPP at PACKED state. Enables consumer
-            to verify all cartons received at delivery.
-          example: 3
-          x-ion-condition: Present when fulfilment has multiple physical cartons
-
-        totalWeightKg:
-          type: number
-          minimum: 0
-          description: >
-            Total packed weight of this fulfilment in kilograms. Declared at
-            PACKED state. Used for logistics cost audit, insurance valuation,
-            and oversized surcharge verification. Matches logistics contract
-            weight declaration.
-          example: 12.5
-          x-ion-condition: Present at PACKED state and later
-
-        deliveryReceiptRef:
-          type: string
-          description: >
-            Reference number from the physical delivery receipt or proof-of-delivery
-            document signed or acknowledged by the consumer at handover. Populated
-            by the logistics provider at DELIVERED state. Used in dispute resolution
-            to prove delivery was completed and acknowledged by the consumer.
-          example: DLV-RCP-2026-00012345
-          x-ion-condition: Present after DELIVERED state when physical receipt was issued
+                $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Document
+                description: Documentary proof associated with completion of this stop.
 
       # NETWORK POLICY NOTE (GAP 32 / NFH-012 CON-012-18):
       # Shared schemas MUST NOT declare mandatory fields.

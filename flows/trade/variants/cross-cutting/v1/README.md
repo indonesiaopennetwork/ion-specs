@@ -10,7 +10,7 @@ Window:  on_confirm → on_status[DELIVERED]
 Purpose: Real-time GPS position of the delivery agent
 Note:    Distinct from /status — track gives position, status gives state transitions
 CN → /track (contract.id)
-BPP → /on_track (realTimeGps: latitude, longitude, accuracy, timestamp)
+BPP → /on_track (`trackingAttributes.currentLocation`: latitude, longitude, accuracyMeters, timestamp)
 ```
 
 ### support / on_support

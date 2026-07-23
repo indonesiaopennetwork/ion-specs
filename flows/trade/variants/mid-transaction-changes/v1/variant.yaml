@@ -54,10 +54,10 @@ subBranches:
         requiredFields:
           - message.contract.id
           - message.contract.performance[].id
-          - message.contract.performance[].stops[].location.address
-          - message.contract.performance[].stops[].location.gps
-          - message.contract.performance[].stops[].location.area_code
-          - message.contract.performance[].stops[].location.ionAddressAttributes.provinsiCode
+          - message.contract.performance[].performanceAttributes.stops[].location.address
+          - message.contract.performance[].performanceAttributes.stops[].location.geo
+          - message.contract.performance[].performanceAttributes.stops[].location.address.postalCode
+          - message.contract.performance[].performanceAttributes.stops[].location.ionAddressAttributes.provinsiCode
         businessRules:
           - BPP validates new address is within service polygon
           - BPP may reject if state is PACKED or if address changes delivery zone
@@ -67,7 +67,7 @@ subBranches:
         to: BAP
         direction: callback
         conditionalFields:
-          - field: message.contract.performance[].stops[].location
+          - field: message.contract.performance[].performanceAttributes.stops[].location
           - field: message.contract.consideration.considerationAttributes.breakup[type=DELIVERY_CHARGE]
           - field: message.contract.tags.address_change_rejected
           - field: message.contract.tags.address_change_rejected_reason
@@ -197,7 +197,8 @@ subBranches:
     initiator: BPP
     trigger: Seller has physically prepared and packed the order
     description: >
-      BPP signals that the package is physically ready for logistics pickup.
+      BPP transitions the Performance to PACKED when the package is physically
+      ready for logistics pickup.
       This triggers the on-network LSP (if used) to dispatch a pickup agent.
       For off-network logistics, it signals the seller's own fulfillment team.
     steps:
@@ -206,9 +207,9 @@ subBranches:
         to: BAP
         direction: unsolicited
         requiredFields:
-          - message.contract.performance[].performanceAttributes.readyToShip
+          - message.contract.performance[].status.descriptor.code  # value: PACKED
         conditionalFields:
-          - field: message.contract.performance[].performanceAttributes.awbNumber
+          - field: message.contract.performance[].performanceAttributes.trackingNumber
         businessRules:
           - BAP may surface "Your order is ready for pickup" to consumer for SELF_PICKUP
           - For DELIVERY, BAP does not need to display this to consumer

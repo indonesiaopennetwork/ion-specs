@@ -115,7 +115,7 @@ phases:
         to: BPP
         description: Standard init; reservation now hard-held until TTL.
         requiredFields:
-          - message.contract.performance[].stops[].location
+          - message.contract.performance[].performanceAttributes.stops[].location
           - message.contract.settlements[].settlementAttributes.method
           - message.contract.settlements[].settlementAttributes.paymentRail
           - message.contract.settlements[].settlementAttributes.collectedBy

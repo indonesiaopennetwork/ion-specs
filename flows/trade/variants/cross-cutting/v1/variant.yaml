@@ -28,10 +28,10 @@ subFlows:
         from: BPP
         to: BAP
         conditionalFields:
-          - field: performanceAttributes.realTimeGps
+          - field: message.tracking.trackingAttributes.currentLocation
             condition: agent has GPS active
         schemaPacks:
-          trade: [performance/v1]
+          logistics: [tracking/v1]
 
   support:
     apis: [support, on_support]
@@ -125,12 +125,10 @@ subFlows:
       earliest: on_confirm
       latest: contract_COMPLETE
     description: >
-      BAP increments slaBreachCount when BPP misses a declared SLA TAT.
+      BAP appends an slaBreaches entry when BPP misses a declared SLA TAT.
       Tracked for reconciliation penalty calculation.
     conditionalFields:
-      - field: message.contract.performance[].performanceAttributes.slaBreachCount
-        condition: incremented by BAP on each missed TAT
-      - field: message.contract.performance[].performanceAttributes.slaBreachDetails
+      - field: message.contract.performance[].performanceAttributes.slaBreaches
         condition: appended on each breach event
 
   raise:
