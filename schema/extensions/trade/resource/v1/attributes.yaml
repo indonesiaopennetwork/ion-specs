@@ -3,7 +3,7 @@ info:
   title: ION Trade Resource Extension (v1)
   description: >
     Trade sector resource attributes for the Indonesia Open Network.
-    Properties are split across three layers following the Beckn schema inheritance model:
+    Properties are split across two layers following the Beckn schema inheritance model:
 
     1. RetailResource (schema.beckn.io) — inherited via allOf, not defined here.
        Covers: resourceStructure, resourceTangibility, variantGroup, variantMatrix,
@@ -13,13 +13,12 @@ info:
        canonicalId, featuredOfferEligible, featuredOfferScore, bundleComposition,
        brandIdentity, parentResourceId, isDefaultVariant.
 
-    2. TradeResource (this file, generic layer) — fields useful for retail across
+    2. IONTradeResource (this file) — fields useful for retail across
        any geography, not yet in RetailResource: name, shortDesc, menuCategory,
        preparationTime, food, preparation, fashion, electronics, beauty, agritech,
-       pharmacy, installation, usage, warranty.
-
-    3. IONTradeResource (this file, ION layer) — Indonesia-specific fields:
-       crc, regulatory, regionOfOrigin, digital, dataResidency.
+       pharmacy, installation, usage, warranty; plus Indonesia-specific fields:
+       crc, regulatory, regionOfOrigin, digital, and dataResidency. Indonesia-specific
+       fields are identified by x-attr-ion-layer: ion.
 
     Availability model: stock count is NEVER transmitted. Only availability signal.
   version: 1.0.0
@@ -52,33 +51,39 @@ components:
           description: English text value. Required for cross-border pattern.
 
     # ─────────────────────────────────────────────────────────────────────
-    # LAYER 1: TradeResource — generic retail layer
+    # IONTradeResource
     # Inherits from RetailResource v2.1 at schema.beckn.io via allOf.
-    # Adds fields that are meaningful across any retail network but are not
-    # yet part of the upstream RetailResource schema.
+    # Adds generic trade fields and explicitly marked Indonesia-specific fields
+    # that are not yet part of the upstream RetailResource schema.
     # ─────────────────────────────────────────────────────────────────────
-    TradeResource:
+    IONTradeResource:
       type: object
-      title: TradeResource
+      title: IONTradeResource
       description: >
-        Network-agnostic generic layer for trade sector resources on ION. Inherits
-        from RetailResource v2.1 (schema.beckn.io) via allOf, which provides the
-        core retail fields (resourceStructure, variants, images, availability,
-        physical, packaged goods, age restriction, country of origin, etc.).
+        ION Trade sector resource attributes. Inherits from RetailResource v2.1
+        (schema.beckn.io) via allOf, which provides the core retail fields
+        (resourceStructure, variants, images, availability, physical, packaged
+        goods, age restriction, country of origin, etc.).
 
-        This layer adds fields that are useful for retail networks in general but
-        are not yet in the upstream RetailResource: localised name and description,
-        food and beverage attributes, fashion, electronics, beauty, agritech,
-        pharmacy, installation, usage, and warranty sub-objects.
-
-        The ION-specific layer (IONTradeResource) extends this via allOf and adds
-        Indonesia-specific regulatory and compliance fields.
-      x-ion-layer: generic
+        This schema adds fields that are useful for retail networks in general,
+        plus Indonesia-specific regulatory and compliance fields. Properties
+        specific to Indonesia are identified by x-attr-ion-layer: ion.
+      x-ion-layer: ion
       x-ion-split-version: "0.7.0"
       x-recommended-parent: Resource.resourceAttributes
       additionalProperties: true
+      x-ion-closed-extensions: false
+      x-beckn-attaches-to: Resource.resourceAttributes
+      x-jsonld:
+        '@context': 'https://schema.ion.id/trade/resource/v1/context.jsonld'
+        '@type': ion:IONTradeResource
       allOf:
         - $ref: https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource
+        # NOTE Conditional validation rules have been removed. They were
+        # If resourceStructure is [VARIANT] then [parentResourceId,isDefaultVariant,variantGroup] are required
+        # If resourceStructure is [COMPOSED, WITH_EXTRAS] then [customizationGroups] is required
+        # If ageRestricted is true, then [minAge] is required
+        # If regionOfOrigin is present, then [geographicIndicaitonCert] is required
       properties:
         # Inherited properties repeated as refs so this pack's standalone JSON-LD
         # context and vocabulary can declare their upstream-owned terms.
@@ -452,38 +457,9 @@ components:
           x-ion-regulatory: UU 8/1999 tentang Perlindungan Konsumen Pasal 25; PP 36/2023
           x-ion-condition: Required for electronics, appliances, consumer durables
 
-    IONTradeResource:
-      type: object
-      title: IONTradeResource
-      description: >
-        ION Trade sector resource attributes. Indonesia-specific extension layer for
-        trade resources. Inherits all fields from TradeResource (generic layer) and
-        RetailResource (upstream Beckn domain schema) via the allOf chain.
-
-        This layer carries only fields that are specific to Indonesia: the ION
-        Catalogue Resource Category (CRC) taxonomy code, Indonesian regulatory
-        registrations (BPOM, MUI, SNI, POSTEL), geographic indication provenance
-        under Indonesian IP law, digital goods categories specific to Indonesian
-        operators (Telkomsel pulsa, PLN tokens, BPJS payments), and data residency
-        requirements under the Indonesian PDP Law (UU 27/2022).
-      x-ion-layer: ion
-      x-ion-split-version: "0.7.0"
-      additionalProperties: true
-      x-ion-closed-extensions: false
-      x-beckn-attaches-to: Resource.resourceAttributes
-      x-jsonld:
-        '@context': 'https://schema.ion.id/trade/resource/v1/context.jsonld'
-        '@type': ion:IONTradeResource
-      allOf:
-        - $ref: '#/components/schemas/TradeResource'
-        # NOTE Conditional validation rules have been removed. They were
-        # If resourceStructure is [VARIANT] then [parentResourceId,isDefaultVariant,variantGroup] are required
-        # If resourceStructure is [COMPOSED, WITH_EXTRAS] then [customizationGroups] is required
-        # If ageRestricted is true, then [minAge] is required
-        # If regionOfOrigin is present, then [geographicIndicaitonCert] is required
-      properties:
         crc:
           type: string
+          x-attr-ion-layer: ion
           description: >
             ION Catalogue Resource Category code classifying this resource within
             the ION item taxonomy. Determines which attribute sub-objects are
@@ -497,6 +473,7 @@ components:
 
         regulatory:
           type: object
+          x-attr-ion-layer: ion
           additionalProperties: false
           description: >
             Indonesian regulatory registrations and food safety declarations
@@ -568,6 +545,7 @@ components:
 
         regionOfOrigin:
           type: string
+          x-attr-ion-layer: ion
           pattern: '^[A-Z]{2,3}-[A-Z0-9]{1,3}$'
           description: >
             ISO 3166-2 sub-national region code for geographic indication products.
@@ -581,6 +559,7 @@ components:
 
         digital:
           type: object
+          x-attr-ion-layer: ion
           additionalProperties: false
           description: >
             Digital goods attributes specific to Indonesian digital commerce.
@@ -662,6 +641,7 @@ components:
 
         dataResidency:
           type: string
+          x-attr-ion-layer: ion
           enum: [DOMESTIC_ONLY, INTERNATIONAL_ALLOWED]
           description: >
             Data residency requirement for this resource under Indonesian Personal

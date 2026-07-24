@@ -11,27 +11,15 @@
   },
   "@graph": [
     {
-      "@id": "ion:TradeConsideration",
+      "@id": "ion:IONTradeConsideration",
       "@type": "rdfs:Class",
-      "rdfs:label": "TradeConsideration",
-      "rdfs:comment": "Network-agnostic trade consideration layer. Inherits the monetary consideration model from RetailConsideration v2.1 without adding properties.",
+      "rdfs:label": "IONTradeConsideration",
+      "rdfs:comment": "ION trade consideration extension. Extends RetailConsideration v2.1 and refines inherited breakup tax details with the shared IONTaxDetail schema.",
       "rdfs:subClassOf": {
         "@id": "rccna:RetailConsideration"
       },
       "skos:broader": {
         "@id": "beckn:Consideration"
-      }
-    },
-    {
-      "@id": "ion:IONTradeConsideration",
-      "@type": "rdfs:Class",
-      "rdfs:label": "IONTradeConsideration",
-      "rdfs:comment": "ION-specific extension point for trade consideration attributes. Extends the network-agnostic TradeConsideration layer.",
-      "rdfs:subClassOf": {
-        "@id": "ion:TradeConsideration"
-      },
-      "skos:broader": {
-        "@id": "ion:TradeConsideration"
       }
     },
     {

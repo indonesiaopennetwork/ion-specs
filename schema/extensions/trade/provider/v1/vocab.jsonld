@@ -8,24 +8,15 @@
   },
   "@graph": [
     {
-      "@id": "ion:TradeProvider",
+      "@id": "ion:IONTradeProvider",
       "@type": "rdfs:Class",
-      "rdfs:label": "TradeProvider",
-      "rdfs:comment": "Network-agnostic trade attributes carried by Provider.providerAttributes.",
+      "rdfs:label": "IONTradeProvider",
+      "rdfs:comment": "ION trade-provider extension carried by Provider.providerAttributes. Extends Beckn Attributes with generic provider operations and Indonesia-specific registration, trust, verification-tier, and category-licensing attributes.",
       "rdfs:subClassOf": {
         "@id": "beckn:Attributes"
       },
       "skos:broader": {
         "@id": "beckn:Provider"
-      }
-    },
-    {
-      "@id": "ion:IONTradeProvider",
-      "@type": "rdfs:Class",
-      "rdfs:label": "IONTradeProvider",
-      "rdfs:comment": "Indonesia- and ION-specific extension of TradeProvider.",
-      "rdfs:subClassOf": {
-        "@id": "ion:TradeProvider"
       }
     },
     {

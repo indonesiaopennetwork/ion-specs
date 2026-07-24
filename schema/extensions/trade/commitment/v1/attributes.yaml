@@ -3,7 +3,7 @@ info:
   title: ION Trade Commitment Extension (v1)
   description: 'Trade sector commitment attributes. Inherits line identifiers, resource and offer references,
     quantity, committed prices, selected customizations, and special instructions from RetailCommitment v2.1.
-    Adds network-agnostic trade semantics and an ION-specific extension point. Attaches to:
+    Adds trade semantics for ION. Attaches to:
     beckn:Commitment.commitmentAttributes
 
     '
@@ -16,18 +16,22 @@ info:
     url: https://schema.ion.id
 components:
   schemas:
-    TradeCommitment:
+    IONTradeCommitment:
       type: object
-      title: TradeCommitment
+      title: IONTradeCommitment
       description: >
-        Network-agnostic generic layer for TradeCommitment. Inherits from Beckn core Attributes.
-        Downstream ION-specific layer (IONTradeCommitment) extends this schema via allOf.
-        This layer carries only fields that are meaningful across any Beckn network — 
-        no Indonesia-specific regulatory or compliance fields.
-      x-ion-layer: generic
+        ION trade commitment attributes. Inherits directly from RetailCommitment v2.1
+        and adds replacement preference semantics. The former ION-specific layer
+        defined no additional properties, so no x-attr-ion-layer markers are needed.
+      x-ion-layer: ion
       x-ion-split-version: "0.7.0"
       x-recommended-parent: Commitment.commitmentAttributes
       additionalProperties: true
+      x-jsonld:
+        '@context': 'https://schema.ion.id/trade/commitment/v1/context.jsonld'
+        '@type': ion:IONTradeCommitment
+      x-beckn-attaches-to: Commitment.commitmentAttributes
+      x-ion-closed-extensions: false
       allOf:
         - $ref: https://schema.beckn.io/RetailCommitment/v2.1/attributes.yaml#/components/schemas/RetailCommitment
       properties:
@@ -39,23 +43,9 @@ components:
             eligible for remediation. This is line-specific because different
             commitments in the same contract may require different remedies.
           default: false
-    IONTradeCommitment:
-      type: object
-      x-ion-layer: ion
-      x-ion-split-version: "0.7.0"
-      allOf:
-        - $ref: '#/components/schemas/TradeCommitment'
-      title: IONTradeCommitment
-      additionalProperties: true
-      x-jsonld:
-        '@context': 'https://schema.ion.id/trade/commitment/v1/context.jsonld'
-        '@type': ion:IONTradeCommitment
-      x-beckn-attaches-to: Commitment.commitmentAttributes
-      properties: {}
       # selectedCustomizations is inherited from RetailCommitment v2.1.
       # x-ion-condition: Required for COMPOSED and WITH_EXTRAS resources
       # RetailCommitment v2.1 requires lineId, resourceId, and quantity.
       # ION network policy additionally requires offerId. These inherited
       # compatibility fields overlap the direct Commitment.id, resources,
       # and offer properties in the current Beckn core model.
-      x-ion-closed-extensions: false

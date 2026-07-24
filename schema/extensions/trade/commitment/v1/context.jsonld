@@ -14,7 +14,6 @@
     "owl": "http://www.w3.org/2002/07/owl#",
     "Commitment": "beckn:Commitment",
     "RetailCommitment": "rccma:RetailCommitment",
-    "TradeCommitment": "ion:TradeCommitment",
     "IONTradeCommitment": "ion:IONTradeCommitment",
     "replacementPreferred": "ion:replacementPreferred"
   }

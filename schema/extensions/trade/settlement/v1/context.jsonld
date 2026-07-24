@@ -11,7 +11,6 @@
     "owl": "http://www.w3.org/2002/07/owl#",
     "Settlement": "beckn:Settlement",
     "RetailSettlement": "rcsa:RetailSettlement",
-    "TradeSettlement": "ion:TradeSettlement",
     "IONTradeSettlement": "ion:IONTradeSettlement",
     "gateway": {
       "@id": "rcsa:gateway",

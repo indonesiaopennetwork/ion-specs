@@ -4,7 +4,7 @@ info:
   description: >
     Trade sector consideration attributes. Inherits the monetary amount,
     payment method, breakup, voucher, and loyalty-point structures defined by
-    RetailConsideration v2.1 and provides an ION-specific extension point.
+    RetailConsideration v2.1 and refines tax details for ION.
     Attaches to: beckn:Consideration.considerationAttributes
   version: 1.0.0
   license:
@@ -15,45 +15,27 @@ info:
     url: https://schema.ion.id
 components:
   schemas:
-    TradeConsideration:
-      type: object
-      title: TradeConsideration
-      description: >
-        Network-agnostic generic layer for TradeConsideration. Inherits from
-        RetailConsideration v2.1.
-        Downstream ION-specific layer (IONTradeConsideration) extends this schema via allOf.
-        This layer introduces no additional properties because the inherited
-        schema already defines the generic retail consideration model.
-      x-ion-layer: generic
-      x-ion-split-version: "0.7.0"
-      x-recommended-parent: Consideration.considerationAttributes
-      additionalProperties: true
-      allOf:
-        - $ref: https://schema.beckn.io/RetailConsideration/v2.1/attributes.yaml#/components/schemas/RetailConsideration
-      properties: {}
-      # Monetary breakup, payment methods, total amount, applied vouchers,
-      # and loyalty points are inherited from RetailConsideration v2.1.
-      # Realized discounts use breakup[].type: DISCOUNT and breakup[].amount;
-      # voucher attribution uses appliedVouchers[]. Promotion calculation
-      # mechanics belong to the Offer rather than the Consideration.
     IONTradeConsideration:
       type: object
-      x-ion-layer: ion
-      x-ion-split-version: "0.7.0"
-      allOf:
-        - $ref: '#/components/schemas/TradeConsideration'
       title: IONTradeConsideration
       description: >
-        ION-specific extension point for TradeConsideration. Indonesia-specific
-        tax regimes are defined by the shared IONTaxDetail schema rather than
-        repeated as trade-sector rate properties.
+        ION trade consideration attributes. Inherits directly from
+        RetailConsideration v2.1 and refines inherited breakup taxDetail objects
+        with the shared IONTaxDetail schema.
+      x-ion-layer: ion
+      x-ion-split-version: "0.7.0"
+      x-recommended-parent: Consideration.considerationAttributes
       additionalProperties: true
       x-jsonld:
         '@context': 'https://schema.ion.id/trade/consideration/v1/context.jsonld'
         '@type': ion:IONTradeConsideration
       x-beckn-attaches-to: Consideration.considerationAttributes
+      x-ion-closed-extensions: false
+      allOf:
+        - $ref: https://schema.beckn.io/RetailConsideration/v2.1/attributes.yaml#/components/schemas/RetailConsideration
       properties:
         breakup:
+          x-attr-ion-layer: ion
           type: array
           description: >
             Inherited RetailConsideration price breakup, refined so each
@@ -67,6 +49,11 @@ components:
                   taxDetail:
                     allOf:
                       - $ref: ../../../../extensions/core/tax/v1/attributes.yaml#/components/schemas/IONTaxDetail
+      # Monetary breakup, payment methods, total amount, applied vouchers,
+      # and loyalty points are inherited from RetailConsideration v2.1.
+      # Realized discounts use breakup[].type: DISCOUNT and breakup[].amount;
+      # voucher attribution uses appliedVouchers[]. Promotion calculation
+      # mechanics belong to the Offer rather than the Consideration.
       # Tax amounts and rates use inherited breakup[].taxDetail fields.
       # Removed duplicate ppnRate property; regulatory annotation retained:
       # x-ion-regulatory: UU 7/2021 HPP; PMK 131/2024 (or current applicable PMK)
@@ -76,4 +63,3 @@ components:
       # x-ion-condition: Required on PPNBM consideration lines for luxury goods
       # RetailConsideration v2.1 requires currency and totalAmount. These
       # inherited requirements cannot be relaxed by this allOf extension.
-      x-ion-closed-extensions: false

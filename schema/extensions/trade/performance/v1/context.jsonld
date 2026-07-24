@@ -14,7 +14,6 @@
 
     "Performance": "beckn:Performance",
     "RetailPerformance": "rcpa:RetailPerformance",
-    "TradePerformance": "ion:TradePerformance",
     "IONTradePerformance": "ion:IONTradePerformance",
     "fulfillingLocationId": "ion:fulfillingLocationId",
 

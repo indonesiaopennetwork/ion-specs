@@ -12,30 +12,15 @@
   },
   "@graph": [
     {
-      "@id": "ion:TradeResource",
-      "@type": "rdfs:Class",
-      "rdfs:label": "TradeResource",
-      "rdfs:comment": "Network-agnostic generic layer for trade sector resources. Extends RetailResource from schema.beckn.io with additional fields useful for retail across any geography: localised name and description, food/fashion/electronics/beauty/agritech/pharmacy category sub-objects, preparation, installation, usage, and warranty.",
-      "rdfs:subClassOf": {
-        "@id": "beckn:Resource"
-      },
-      "skos:broader": {
-        "@id": "beckn:Resource"
-      },
-      "owl:sameAs": {
-        "@id": "https://schema.beckn.io/RetailResource"
-      }
-    },
-    {
       "@id": "ion:IONTradeResource",
       "@type": "rdfs:Class",
       "rdfs:label": "IONTradeResource",
-      "rdfs:comment": "Indonesia-specific trade resource extension. Extends TradeResource with Indonesian regulatory registrations (BPOM, MUI, SNI), geographic indication certification (DJKI), Indonesian digital goods categories (pulsa, PLN, BPJS), and data residency requirements under UU 27/2022 PDP Law.",
+      "rdfs:comment": "ION trade resource extension. Extends Beckn RetailResource with fields useful for retail across geographies and with explicitly marked Indonesia-specific regulatory registrations (BPOM, MUI, SNI), geographic indication certification (DJKI), digital goods categories (pulsa, PLN, BPJS), and data residency requirements under UU 27/2022 PDP Law.",
       "rdfs:subClassOf": {
-        "@id": "ion:TradeResource"
+        "@id": "https://schema.beckn.io/RetailResource"
       },
       "skos:broader": {
-        "@id": "ion:TradeResource"
+        "@id": "https://schema.beckn.io/RetailResource"
       }
     },
     {
@@ -56,7 +41,7 @@
       "rdfs:label": "name",
       "rdfs:comment": "Display name of the resource as a localised text object. Minimum: name.id (Bahasa Indonesia). name.en required for cross-border pattern. Rendered as the product title in consumer-facing interfaces.",
       "rdfs:domain": {
-        "@id": "ion:TradeResource"
+        "@id": "ion:IONTradeResource"
       },
       "rdfs:range": {
         "@id": "ion:LocalisedText"
@@ -68,7 +53,7 @@
       "rdfs:label": "menuCategory",
       "rdfs:comment": "Menu or category section this resource belongs to. Drives display order and grouping in BAP interfaces. Required for food and beverage providers.",
       "rdfs:domain": {
-        "@id": "ion:TradeResource"
+        "@id": "ion:IONTradeResource"
       }
     },
     {
@@ -77,7 +62,7 @@
       "rdfs:label": "preparationTime",
       "rdfs:comment": "ISO 8601 duration from order confirmation to item ready for pickup or dispatch. Used for SLA computation and estimated delivery time display. Applicable to made-to-order food and custom-built products.",
       "rdfs:domain": {
-        "@id": "ion:TradeResource"
+        "@id": "ion:IONTradeResource"
       }
     },
     {
@@ -86,7 +71,7 @@
       "rdfs:label": "food",
       "rdfs:comment": "Packaged food product attributes for filtering and regulatory compliance. Covers dietary classification, allergens, cuisine type, and spice level. Used for FMCG packaged food and grocery products sold from warehouse stock.",
       "rdfs:domain": {
-        "@id": "ion:TradeResource"
+        "@id": "ion:IONTradeResource"
       }
     },
     {
@@ -95,7 +80,7 @@
       "rdfs:label": "preparation",
       "rdfs:comment": "Preparation, storage, and shelf-life instructions for the resource. Applicable to food, beverage, perishable, and made-to-order products.",
       "rdfs:domain": {
-        "@id": "ion:TradeResource"
+        "@id": "ion:IONTradeResource"
       }
     },
     {
@@ -104,7 +89,7 @@
       "rdfs:label": "fashion",
       "rdfs:comment": "Fashion and apparel attributes for filtering and size guidance. Covers gender, size, fabric, and fabric composition (SNI-regulated). Descriptive attributes such as fitType and careInstructions belong in Descriptor.longDesc.",
       "rdfs:domain": {
-        "@id": "ion:TradeResource"
+        "@id": "ion:IONTradeResource"
       }
     },
     {
@@ -113,7 +98,7 @@
       "rdfs:label": "electronics",
       "rdfs:comment": "Consumer electronics technical specifications for deterministic filtering and regulatory compliance. Covers OS type, connectivity standards, wattage, and BSN energy efficiency rating. Descriptive specs belong in Descriptor.longDesc.",
       "rdfs:domain": {
-        "@id": "ion:TradeResource"
+        "@id": "ion:IONTradeResource"
       }
     },
     {
@@ -122,7 +107,7 @@
       "rdfs:label": "beauty",
       "rdfs:comment": "Beauty and personal care product attributes for filtering and compliance under PerBPOM 23/2019. Covers conscious/preference labels, formulation, skin type, hair type, SPF, gender, and volume.",
       "rdfs:domain": {
-        "@id": "ion:TradeResource"
+        "@id": "ion:IONTradeResource"
       }
     },
     {
@@ -131,7 +116,7 @@
       "rdfs:label": "agritech",
       "rdfs:comment": "Agricultural and fresh produce attributes. Covers harvest date, produce grade, pesticide declaration, organic certification, and unit of measure for weight-sold agricultural products.",
       "rdfs:domain": {
-        "@id": "ion:TradeResource"
+        "@id": "ion:IONTradeResource"
       }
     },
     {
@@ -140,7 +125,7 @@
       "rdfs:label": "pharmacy",
       "rdfs:comment": "Pharmaceutical and OTC medicine attributes under PerBPOM Nomor 4 Tahun 2018. Covers prescription requirements, dosage form, active ingredients with per-ingredient strength, and cold chain requirements.",
       "rdfs:domain": {
-        "@id": "ion:TradeResource"
+        "@id": "ion:IONTradeResource"
       }
     },
     {
@@ -149,7 +134,7 @@
       "rdfs:label": "installation",
       "rdfs:comment": "Installation service information for products requiring professional setup. Indicates whether the seller provides installation and includes notes for the installer.",
       "rdfs:domain": {
-        "@id": "ion:TradeResource"
+        "@id": "ion:IONTradeResource"
       }
     },
     {
@@ -158,7 +143,7 @@
       "rdfs:label": "usage",
       "rdfs:comment": "Usage constraints and compatibility information. Covers indoor-only restrictions and compatibility with other products or infrastructure.",
       "rdfs:domain": {
-        "@id": "ion:TradeResource"
+        "@id": "ion:IONTradeResource"
       }
     },
     {
@@ -167,7 +152,7 @@
       "rdfs:label": "warranty",
       "rdfs:comment": "Warranty terms for the resource. Covers manufacturer warranty, seller warranty, and extended warranty with duration, type, and terms.",
       "rdfs:domain": {
-        "@id": "ion:TradeResource"
+        "@id": "ion:IONTradeResource"
       }
     },
     {

@@ -15,7 +15,6 @@
     "QuantitativeValue": "schema:QuantitativeValue",
     "Resource": "beckn:Resource",
     "RetailResource": "https://schema.beckn.io/RetailResource",
-    "TradeResource": "ion:TradeResource",
     "IONTradeResource": "ion:IONTradeResource",
     "name": "ion:name",
     "menuCategory": "ion:menuCategory",

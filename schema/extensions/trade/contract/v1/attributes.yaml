@@ -18,18 +18,24 @@ info:
 
 components:
   schemas:
-    TradeContract:
+    IONTradeContract:
       type: object
-      title: TradeContract
+      title: IONTradeContract
       description: >
-        Network-agnostic trade contract attributes. Inherits RetailContract
-        v2.1 and adds only concepts that remain meaningful at the Contract
-        level rather than on Commitment, Consideration, Performance, Payment,
-        Settlement, or Offer.
-      x-ion-layer: generic
+        ION trade contract attributes. Inherits directly from RetailContract v2.1
+        and combines generic contract semantics with Indonesia-specific invoice
+        preferences and buyer business registration.
+
+        Properties originating in the former ION-specific layer are identified by
+        x-attr-ion-layer: ion.
+      x-ion-layer: ion
       x-ion-split-version: "0.7.0"
       x-recommended-parent: Contract.contractAttributes
       additionalProperties: true
+      x-jsonld:
+        '@context': 'https://schema.ion.id/trade/contract/v1/context.jsonld'
+        '@type': ion:IONTradeContract
+      x-beckn-attaches-to: Contract.contractAttributes
       allOf:
         - $ref: https://schema.beckn.io/RetailContract/v2.1/attributes.yaml#/components/schemas/RetailContract
       properties:
@@ -208,26 +214,8 @@ components:
       # - payment schedules -> Consideration plus Settlement records
       # - cancellation/dispute eligibility -> TradeOffer policies
       # - detailed reconciliation -> core/reconcile
-      x-ion-closed-extensions: false
-
-    IONTradeContract:
-      type: object
-      title: IONTradeContract
-      description: >
-        Indonesia- and ION-specific refinement of TradeContract. Reuses the
-        inherited RetailContract invoice structure and the shared Indonesian
-        business-registration schema rather than repeating identity fields.
-      x-ion-layer: ion
-      x-ion-split-version: "0.7.0"
-      allOf:
-        - $ref: '#/components/schemas/TradeContract'
-      additionalProperties: true
-      x-jsonld:
-        '@context': 'https://schema.ion.id/trade/contract/v1/context.jsonld'
-        '@type': ion:IONTradeContract
-      x-beckn-attaches-to: Contract.contractAttributes
-      properties:
         invoicePreferences:
+          x-attr-ion-layer: ion
           allOf:
             - $ref: https://schema.beckn.io/RetailContract/v2.1/attributes.yaml#/components/schemas/RetailContract/properties/invoicePreferences
             - type: object
@@ -252,6 +240,7 @@ components:
           # x-ion-condition: taxId is required by network policy for applicable tax-invoice requests
 
         buyerBusinessRegistration:
+          x-attr-ion-layer: ion
           allOf:
             - $ref: ../../../../extensions/core/business-registration/v1/attributes.yaml#/components/schemas/IONBusinessRegistration
           description: >

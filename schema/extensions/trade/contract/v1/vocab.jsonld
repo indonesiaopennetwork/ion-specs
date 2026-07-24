@@ -11,27 +11,15 @@
   },
   "@graph": [
     {
-      "@id": "ion:TradeContract",
+      "@id": "ion:IONTradeContract",
       "@type": "rdfs:Class",
-      "rdfs:label": "TradeContract",
-      "rdfs:comment": "Network-agnostic trade contract layer inheriting RetailContract v2.1.",
+      "rdfs:label": "IONTradeContract",
+      "rdfs:comment": "ION trade contract extension. Extends RetailContract v2.1 with generic contract semantics, Indonesia-specific invoice preferences, and buyer business registration.",
       "rdfs:subClassOf": {
         "@id": "rcca:RetailContract"
       },
       "skos:broader": {
         "@id": "beckn:Contract"
-      }
-    },
-    {
-      "@id": "ion:IONTradeContract",
-      "@type": "rdfs:Class",
-      "rdfs:label": "IONTradeContract",
-      "rdfs:comment": "Indonesia- and ION-specific refinement of TradeContract.",
-      "rdfs:subClassOf": {
-        "@id": "ion:TradeContract"
-      },
-      "skos:broader": {
-        "@id": "ion:TradeContract"
       }
     },
     {

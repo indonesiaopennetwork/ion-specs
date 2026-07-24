@@ -15,24 +15,15 @@
       "rdfs:comment": "Identifier of the Provider operating location from which a Performance is fulfilled."
     },
     {
-      "@id": "ion:TradePerformance",
+      "@id": "ion:IONTradePerformance",
       "@type": "rdfs:Class",
-      "rdfs:label": "TradePerformance",
-      "rdfs:comment": "Network-agnostic trade performance layer extending RetailPerformance v2.1.",
+      "rdfs:label": "IONTradePerformance",
+      "rdfs:comment": "ION trade performance extension. Extends RetailPerformance v2.1 with generic fulfillment semantics, Indonesia-specific age-verification methods, and ION-aware route stops.",
       "rdfs:subClassOf": {
         "@id": "rcpa:RetailPerformance"
       },
       "skos:broader": {
         "@id": "beckn:Performance"
-      }
-    },
-    {
-      "@id": "ion:IONTradePerformance",
-      "@type": "rdfs:Class",
-      "rdfs:label": "IONTradePerformance",
-      "rdfs:comment": "ION-specific layer for trade performance attributes.",
-      "rdfs:subClassOf": {
-        "@id": "ion:TradePerformance"
       }
     },
     {

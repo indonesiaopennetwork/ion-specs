@@ -14,20 +14,107 @@ info:
     url: https://schema.ion.id
 components:
   schemas:
-    TradeOffer:
+    IONTradeOffer:
       type: object
-      title: TradeOffer
+      title: IONTradeOffer
       description: >
-        Network-agnostic generic layer for TradeOffer. Inherits from RetailOffer v2.1.
-        Downstream ION-specific layer (IONTradeOffer) extends this schema via allOf.
-        This layer carries fields whose underlying concepts are meaningful across trade
-        networks; definitions will be reviewed against RetailOffer in the cleanup pass.
-      x-ion-layer: generic
+        ION trade offer attributes. Inherits directly from RetailOffer v2.1 and
+        combines generic trade offer mechanics with Indonesia-specific policy,
+        language, logistics-pricing, and payment-method extensions.
+
+        Properties originating in the former ION-specific layer are identified by
+        x-attr-ion-layer: ion.
+      x-ion-layer: ion
       x-ion-split-version: "0.7.0"
       x-recommended-parent: Offer.offerAttributes
       additionalProperties: true
+      x-jsonld:
+        '@context': 'https://schema.ion.id/trade/offer/v1/context.jsonld'
+        '@type': ion:IONTradeOffer
+      x-beckn-attaches-to: Offer.offerAttributes
+      x-ion-closed-extensions: false
       allOf:
         - $ref: https://schema.beckn.io/RetailOffer/v2.1/attributes.yaml#/components/schemas/RetailOffer
+        - type: object
+          properties:
+            policies:
+              x-attr-ion-layer: ion
+              type: object
+              properties:
+                cancellation:
+                  type: object
+                  properties:
+                    policyRef:
+                      allOf:
+                        - $ref: https://schema.beckn.io/RetailOffer/v2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/cancellation/properties/policyRef
+                      description: ION-registered cancellation policy URI.
+                      example: ion://policy/cancel.prepacked.free
+                      x-ion-policy-registry: https://registry.ion.id/policies
+                      x-ion-regulatory: UU 8/1999 Pasal 19
+
+                returns:
+                  type: object
+                  properties:
+                    policyRef:
+                      allOf:
+                        - $ref: https://schema.beckn.io/RetailOffer/v2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/returns/properties/policyRef
+                      description: ION-registered returns policy URI.
+                      example: ion://policy/return.standard.7d-sellerpays
+                      x-ion-policy-registry: https://registry.ion.id/policies
+                      x-ion-regulatory: UU 8/1999 Pasal 25; Permendag 19/M-DAG/PER/5/2009
+
+                warranty:
+                  type: object
+                  properties:
+                    policyRef:
+                      allOf:
+                        - $ref: https://schema.beckn.io/RetailOffer/v2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/warranty/properties/policyRef
+                      description: ION-registered warranty policy URI.
+                      example: ion://policy/warranty.manufacturer.1y-distance-service
+                      x-ion-policy-registry: https://registry.ion.id/policies
+                      x-ion-regulatory: UU 8/1999 Pasal 25; PP 36/2023
+
+                dispute:
+                  type: object
+                  properties:
+                    policyRef:
+                      type: string
+                      format: uri
+                      description: ION-registered dispute-resolution policy URI.
+                      example: ion://policy/dispute.consumer.bpsk
+                      x-ion-policy-registry: https://registry.ion.id/policies
+                      x-ion-regulatory: UU 8/1999 Pasal 45; UU 30/1999 tentang Arbitrase
+                grievanceSla:
+                  type: object
+                  properties:
+                    policyRef:
+                      type: string
+                      format: uri
+                      description: ION-registered grievance SLA policy URI.
+                      example: ion://policy/grievance-sla.consumer.standard
+                      x-ion-policy-registry: https://registry.ion.id/policies
+                      x-ion-regulatory: UU 8/1999 Pasal 45; Permendag 50/2020 Pasal 6
+                paymentTerms:
+                  type: object
+                  properties:
+                    policyRef:
+                      type: string
+                      format: uri
+                      description: ION-registered payment-terms policy URI.
+                      example: ion://policy/payment-terms.upfront.full
+                      x-ion-policy-registry: https://registry.ion.id/policies
+                      x-ion-regulatory: UU 7/2021 HPP; OJK POJK terkait metode pembayaran
+                penalty:
+                  type: object
+                  properties:
+                    policyRef:
+                      type: string
+                      format: uri
+                      description: Optional ION-registered per-offer penalty-policy override. It cannot be weaker than the seller-tier minimum.
+                      example: ion://policy/penalty.seller-sla-breach.standard
+                      x-ion-policy-registry: https://registry.ion.id/policies
+                      # x-ion-condition: Auto-derived from seller tier and other policies; declare only for an explicit override
+
       properties:
         policies:
           allOf:
@@ -327,97 +414,8 @@ components:
             '
           example: Garansi seumur hidup untuk mekanisme jam tangan mewah (terms & conditions apply - see seller
             page).
-    IONTradeOffer:
-      type: object
-      x-ion-layer: ion
-      x-ion-split-version: "0.7.0"
-      allOf:
-        - $ref: '#/components/schemas/TradeOffer'
-      title: TradeOffer
-      additionalProperties: true
-      x-jsonld:
-        '@context': 'https://schema.ion.id/trade/offer/v1/context.jsonld'
-        '@type': ion:IONTradeOffer
-      x-beckn-attaches-to: Offer.offerAttributes
-      properties:
-        policies:
-          type: object
-          properties:
-            cancellation:
-              type: object
-              properties:
-                policyRef:
-                  allOf:
-                    - $ref: https://schema.beckn.io/RetailOffer/v2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/cancellation/properties/policyRef
-                  description: ION-registered cancellation policy URI.
-                  example: ion://policy/cancel.prepacked.free
-                  x-ion-policy-registry: https://registry.ion.id/policies
-                  x-ion-regulatory: UU 8/1999 Pasal 19
-
-            returns:
-              type: object
-              properties:
-                policyRef:
-                  allOf:
-                    - $ref: https://schema.beckn.io/RetailOffer/v2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/returns/properties/policyRef
-                  description: ION-registered returns policy URI.
-                  example: ion://policy/return.standard.7d-sellerpays
-                  x-ion-policy-registry: https://registry.ion.id/policies
-                  x-ion-regulatory: UU 8/1999 Pasal 25; Permendag 19/M-DAG/PER/5/2009
-
-            warranty:
-              type: object
-              properties:
-                policyRef:
-                  allOf:
-                    - $ref: https://schema.beckn.io/RetailOffer/v2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/warranty/properties/policyRef
-                  description: ION-registered warranty policy URI.
-                  example: ion://policy/warranty.manufacturer.1y-distance-service
-                  x-ion-policy-registry: https://registry.ion.id/policies
-                  x-ion-regulatory: UU 8/1999 Pasal 25; PP 36/2023
-
-            dispute:
-              type: object
-              properties:
-                policyRef:
-                  type: string
-                  format: uri
-                  description: ION-registered dispute-resolution policy URI.
-                  example: ion://policy/dispute.consumer.bpsk
-                  x-ion-policy-registry: https://registry.ion.id/policies
-                  x-ion-regulatory: UU 8/1999 Pasal 45; UU 30/1999 tentang Arbitrase
-            grievanceSla:
-              type: object
-              properties:
-                policyRef:
-                  type: string
-                  format: uri
-                  description: ION-registered grievance SLA policy URI.
-                  example: ion://policy/grievance-sla.consumer.standard
-                  x-ion-policy-registry: https://registry.ion.id/policies
-                  x-ion-regulatory: UU 8/1999 Pasal 45; Permendag 50/2020 Pasal 6
-            paymentTerms:
-              type: object
-              properties:
-                policyRef:
-                  type: string
-                  format: uri
-                  description: ION-registered payment-terms policy URI.
-                  example: ion://policy/payment-terms.upfront.full
-                  x-ion-policy-registry: https://registry.ion.id/policies
-                  x-ion-regulatory: UU 7/2021 HPP; OJK POJK terkait metode pembayaran
-            penalty:
-              type: object
-              properties:
-                policyRef:
-                  type: string
-                  format: uri
-                  description: Optional ION-registered per-offer penalty-policy override. It cannot be weaker than the seller-tier minimum.
-                  example: ion://policy/penalty.seller-sla-breach.standard
-                  x-ion-policy-registry: https://registry.ion.id/policies
-                  # x-ion-condition: Auto-derived from seller tier and other policies; declare only for an explicit override
-
         displayLanguage:
+          x-attr-ion-layer: ion
           type: array
           minItems: 1
           uniqueItems: true
@@ -439,6 +437,7 @@ components:
           x-ion-regulatory: ION Network Policy — language completeness validation
           # x-ion-condition: Must include id; cross-border offers must also include en
         weightSlabs:
+          x-attr-ion-layer: ion
           type: array
           description: Weight-based pricing tiers for catalogued logistics offers.
           items:
@@ -465,6 +464,7 @@ components:
             priceIDR: 25000
           # x-ion-condition: Required for catalogued domestic logistics patterns
         paymentMethodEligibility:
+          x-attr-ion-layer: ion
           type: array
           description: Structured ION payment-method restrictions applied in addition to inherited acceptedPaymentMethod.
           items:
@@ -519,4 +519,3 @@ components:
                 description: Optional human-readable explanation.
             required:
             - method
-      x-ion-closed-extensions: false

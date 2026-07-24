@@ -4,17 +4,49 @@
   "title": "ION Trade Provider Schema Pack v1",
   "$ref": "#/$defs/IONTradeProvider",
   "$defs": {
-    "TradeProvider": {
+    "IONTradeProvider": {
       "type": "object",
-      "title": "TradeProvider",
-      "description": "Network-agnostic trade-provider attributes attached to Provider.providerAttributes.",
-      "x-ion-layer": "generic",
+      "title": "IONTradeProvider",
+      "description": "ION trade-provider attributes carried by Provider.providerAttributes. Inherits directly from Beckn Attributes and combines generic provider operations with Indonesia-specific registration, trust, verification-tier, and category-licensing extensions. Properties originating in the former ION-specific layer are identified by x-attr-ion-layer: ion.",
+      "x-ion-layer": "ion",
       "x-ion-split-version": "0.7.0",
       "x-recommended-parent": "Provider.providerAttributes",
       "additionalProperties": true,
+      "x-jsonld": {
+        "@context": "https://schema.ion.id/trade/provider/v1/context.jsonld",
+        "@type": "ion:IONTradeProvider"
+      },
+      "x-beckn-attaches-to": "Provider.providerAttributes",
+      "x-ion-closed-extensions": false,
       "allOf": [
         {
           "$ref": "https://schema.beckn.io/Attributes/2.0/attributes.yaml#/components/schemas/Attributes"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "verification": {
+              "allOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "level": {
+                      "type": "string",
+                      "enum": [
+                        "BASIC",
+                        "STANDARD",
+                        "ENHANCED",
+                        "ENTERPRISE"
+                      ],
+                      "description": "ION provider-verification tier.",
+                      "example": "STANDARD"
+                    }
+                  }
+                }
+              ],
+              "x-attr-ion-layer": "ion"
+            }
+          }
         }
       ],
       "properties": {
@@ -240,55 +272,19 @@
               }
             }
           }
-        }
-      }
-    },
-    "IONTradeProvider": {
-      "type": "object",
-      "title": "IONTradeProvider",
-      "description": "Indonesia- and ION-specific extension of TradeProvider.",
-      "x-ion-layer": "ion",
-      "x-ion-split-version": "0.7.0",
-      "additionalProperties": true,
-      "allOf": [
-        {
-          "$ref": "#/$defs/TradeProvider"
-        }
-      ],
-      "properties": {
+        },
         "businessRegistration": {
           "$ref": "../../../../extensions/core/business-registration/v1/attributes.yaml#/components/schemas/IONBusinessRegistration",
-          "description": "Indonesian business identity for the provider. The actual nib replaces the former nibRegistered boolean."
+          "description": "Indonesian business identity for the provider. The actual nib replaces the former nibRegistered boolean.",
+          "x-attr-ion-layer": "ion"
         },
         "trustMarks": {
           "type": "array",
           "description": "Signed or otherwise verifiable trust marks awarded to the provider.",
           "items": {
             "$ref": "../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Document"
-          }
-        },
-        "verification": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/TradeProvider/properties/verification"
-            },
-            {
-              "type": "object",
-              "properties": {
-                "level": {
-                  "type": "string",
-                  "enum": [
-                    "BASIC",
-                    "STANDARD",
-                    "ENHANCED",
-                    "ENTERPRISE"
-                  ],
-                  "description": "ION provider-verification tier.",
-                  "example": "STANDARD"
-                }
-              }
-            }
-          ]
+          },
+          "x-attr-ion-layer": "ion"
         },
         "categoryLicenses": {
           "type": "array",
@@ -331,7 +327,8 @@
               }
             }
           },
-          "x-ion-regulatory": "PP 5/2021; PerBPOM various"
+          "x-ion-regulatory": "PP 5/2021; PerBPOM various",
+          "x-attr-ion-layer": "ion"
         }
       }
     }

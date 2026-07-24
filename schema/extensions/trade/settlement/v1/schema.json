@@ -2,18 +2,24 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://schema.ion.id/trade/settlement/v1",
   "title": "ION Trade Settlement Schema Pack v1",
-  "description": "JSON Schema 2020-12 mirror of the trade/settlement/v1 OpenAPI schema pack. The root resolves to IONTradeSettlement; TradeSettlement inherits RetailSettlement v2.1.",
+  "description": "JSON Schema 2020-12 mirror of the trade/settlement/v1 OpenAPI schema pack. The root resolves to IONTradeSettlement, which inherits RetailSettlement v2.1 directly.",
   "type": "object",
   "$ref": "#/$defs/IONTradeSettlement",
   "$defs": {
-    "TradeSettlement": {
+    "IONTradeSettlement": {
       "type": "object",
-      "title": "TradeSettlement",
-      "description": "Network-agnostic trade settlement layer. Inherits RetailSettlement v2.1 and exposes its fields through property-level references so the local JSON Schema and JSON-LD artifacts remain aligned.",
-      "x-ion-layer": "generic",
+      "title": "IONTradeSettlement",
+      "description": "ION trade settlement attributes. Inherits RetailSettlement v2.1 and exposes its fields through property-level references. The former ION-specific layer defined no additional properties, so no x-attr-ion-layer markers are needed.",
+      "x-ion-layer": "ion",
       "x-ion-split-version": "0.7.0",
       "x-recommended-parent": "Settlement.settlementAttributes",
       "additionalProperties": true,
+      "x-jsonld": {
+        "@context": "https://schema.ion.id/trade/settlement/v1/context.jsonld",
+        "@type": "ion:IONTradeSettlement"
+      },
+      "x-beckn-attaches-to": "Settlement.settlementAttributes",
+      "x-ion-closed-extensions": false,
       "allOf": [
         {
           "$ref": "https://schema.beckn.io/RetailSettlement/v2.1/attributes.yaml#/components/schemas/RetailSettlement"
@@ -51,26 +57,6 @@
           "$ref": "https://schema.beckn.io/RetailSettlement/v2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/reconciliationStatus"
         }
       }
-    },
-    "IONTradeSettlement": {
-      "type": "object",
-      "title": "IONTradeSettlement",
-      "description": "ION-specific extension point for TradeSettlement. Domestic currency constraints belong to ION network policy so cross-border settlement remains expressible.",
-      "x-ion-layer": "ion",
-      "x-ion-split-version": "0.7.0",
-      "allOf": [
-        {
-          "$ref": "#/$defs/TradeSettlement"
-        }
-      ],
-      "additionalProperties": true,
-      "x-jsonld": {
-        "@context": "https://schema.ion.id/trade/settlement/v1/context.jsonld",
-        "@type": "ion:IONTradeSettlement"
-      },
-      "x-beckn-attaches-to": "Settlement.settlementAttributes",
-      "properties": {},
-      "x-ion-closed-extensions": false
     }
   }
 }

@@ -6,14 +6,19 @@
   "type": "object",
   "$ref": "#/$defs/IONTradeContract",
   "$defs": {
-    "TradeContract": {
+    "IONTradeContract": {
       "type": "object",
-      "title": "TradeContract",
-      "description": "Network-agnostic trade contract attributes inheriting RetailContract v2.1.",
-      "x-ion-layer": "generic",
+      "title": "IONTradeContract",
+      "description": "ION trade contract attributes. Inherits directly from RetailContract v2.1 and combines generic contract semantics with Indonesia-specific invoice preferences and buyer business registration. Properties originating in the former ION-specific layer are identified by x-attr-ion-layer: ion.",
+      "x-ion-layer": "ion",
       "x-ion-split-version": "0.7.0",
       "x-recommended-parent": "Contract.contractAttributes",
       "additionalProperties": true,
+      "x-jsonld": {
+        "@context": "https://schema.ion.id/trade/contract/v1/context.jsonld",
+        "@type": "ion:IONTradeContract"
+      },
+      "x-beckn-attaches-to": "Contract.contractAttributes",
       "allOf": [
         {
           "$ref": "https://schema.beckn.io/RetailContract/v2.1/attributes.yaml#/components/schemas/RetailContract"
@@ -178,28 +183,7 @@
               }
             }
           ]
-        }
-      },
-      "x-ion-closed-extensions": false
-    },
-    "IONTradeContract": {
-      "type": "object",
-      "title": "IONTradeContract",
-      "description": "Indonesia- and ION-specific refinement of TradeContract.",
-      "x-ion-layer": "ion",
-      "x-ion-split-version": "0.7.0",
-      "allOf": [
-        {
-          "$ref": "#/$defs/TradeContract"
-        }
-      ],
-      "additionalProperties": true,
-      "x-jsonld": {
-        "@context": "https://schema.ion.id/trade/contract/v1/context.jsonld",
-        "@type": "ion:IONTradeContract"
-      },
-      "x-beckn-attaches-to": "Contract.contractAttributes",
-      "properties": {
+        },
         "invoicePreferences": {
           "allOf": [
             {
@@ -222,7 +206,8 @@
                 }
               }
             }
-          ]
+          ],
+          "x-attr-ion-layer": "ion"
         },
         "buyerBusinessRegistration": {
           "allOf": [
@@ -230,7 +215,8 @@
               "$ref": "https://schema.ion.id/extensions/core/business-registration/v1/schema.json"
             }
           ],
-          "description": "Verified Indonesian business registration of the buying organisation."
+          "description": "Verified Indonesian business registration of the buying organisation.",
+          "x-attr-ion-layer": "ion"
         }
       },
       "x-ion-closed-extensions": false

@@ -10,27 +10,12 @@
   },
   "@graph": [
     {
-      "@id": "ion:TradeOffer",
-      "@type": "rdfs:Class",
-      "rdfs:label": "TradeOffer",
-      "rdfs:comment": "Network-agnostic generic layer for trade offer attributes. Extends RetailOffer v2.1 with generic offer mechanics not adequately represented upstream.",
-      "rdfs:subClassOf": {
-        "@id": "beckn:Offer"
-      },
-      "skos:broader": {
-        "@id": "https://spec.beckn.io/vocab/v2.0.0#Offer"
-      },
-      "owl:sameAs": {
-        "@id": "https://schema.beckn.io/RetailOffer"
-      }
-    },
-    {
       "@id": "ion:IONTradeOffer",
       "@type": "rdfs:Class",
       "rdfs:label": "IONTradeOffer",
-      "rdfs:comment": "ION-specific layer for trade offer attributes. Extends the network-agnostic TradeOffer layer.",
+      "rdfs:comment": "ION trade offer extension. Extends Beckn RetailOffer with generic trade offer mechanics and explicitly marked Indonesia-specific policy, language, logistics-pricing, and payment-method attributes.",
       "rdfs:subClassOf": {
-        "@id": "ion:TradeOffer"
+        "@id": "https://schema.beckn.io/RetailOffer"
       },
       "skos:broader": {
         "@id": "https://spec.beckn.io/vocab/v2.0.0#Offer"
@@ -78,7 +63,7 @@
       "rdfs:label": "timeToShip",
       "rdfs:comment": "Lead time from order confirmation to shipment dispatch. ISO 8601 duration. Used for delivery promise calculation.",
       "rdfs:domain": {
-        "@id": "ion:TradeOffer"
+        "@id": "ion:IONTradeOffer"
       }
     },
     {
@@ -87,7 +72,7 @@
       "rdfs:label": "selfPickupOtp",
       "rdfs:comment": "Whether OTP verification is required when consumer picks up order. If true, BPP generates deliveryOtp in performanceAttributes.\n",
       "rdfs:domain": {
-        "@id": "ion:TradeOffer"
+        "@id": "ion:IONTradeOffer"
       }
     },
     {
@@ -96,7 +81,7 @@
       "rdfs:label": "selfPickupInstructions",
       "rdfs:comment": "Instructions for self-pickup — counter number, floor, collection point.",
       "rdfs:domain": {
-        "@id": "ion:TradeOffer"
+        "@id": "ion:IONTradeOffer"
       }
     },
     {
@@ -105,7 +90,7 @@
       "rdfs:label": "proofOfDeliveryType",
       "rdfs:comment": "Type of delivery confirmation proof required.",
       "rdfs:domain": {
-        "@id": "ion:TradeOffer"
+        "@id": "ion:IONTradeOffer"
       }
     },
     {
@@ -114,7 +99,7 @@
       "rdfs:label": "contactDetailsConsumerCare",
       "rdfs:comment": "Structured consumer-care contact displayed for pre- and post-purchase support.",
       "rdfs:domain": {
-        "@id": "ion:TradeOffer"
+        "@id": "ion:IONTradeOffer"
       },
       "rdfs:range": {
         "@id": "https://schema.beckn.io/Contact"
@@ -144,7 +129,7 @@
       "rdfs:label": "offerType",
       "rdfs:comment": "Commercial offer mechanic. AUCTION identifies bid-based offers; FLASH_SALE identifies time- or quantity-limited sale events.",
       "rdfs:domain": {
-        "@id": "ion:TradeOffer"
+        "@id": "ion:IONTradeOffer"
       }
     },
     {
@@ -153,7 +138,7 @@
       "rdfs:label": "priceModel",
       "rdfs:comment": "How pricing is determined for this offer.",
       "rdfs:domain": {
-        "@id": "ion:TradeOffer"
+        "@id": "ion:IONTradeOffer"
       }
     },
     {
@@ -162,7 +147,7 @@
       "rdfs:label": "minBasketAmount",
       "rdfs:comment": "Minimum basket value in IDR for offer to be valid.",
       "rdfs:domain": {
-        "@id": "ion:TradeOffer"
+        "@id": "ion:IONTradeOffer"
       }
     },
     {
@@ -171,7 +156,7 @@
       "rdfs:label": "maxDiscountAmount",
       "rdfs:comment": "Maximum discount cap in IDR for percentage offers.",
       "rdfs:domain": {
-        "@id": "ion:TradeOffer"
+        "@id": "ion:IONTradeOffer"
       }
     },
     {
@@ -180,7 +165,7 @@
       "rdfs:label": "voucherCode",
       "rdfs:comment": "Voucher or promo code to activate offer.",
       "rdfs:domain": {
-        "@id": "ion:TradeOffer"
+        "@id": "ion:IONTradeOffer"
       }
     },
     {
@@ -189,7 +174,7 @@
       "rdfs:label": "usageLimitPerUser",
       "rdfs:comment": "Maximum times this offer can be used by a single user.",
       "rdfs:domain": {
-        "@id": "ion:TradeOffer"
+        "@id": "ion:IONTradeOffer"
       }
     },
     {
@@ -198,7 +183,7 @@
       "rdfs:label": "customerSegment",
       "rdfs:comment": "Segment of customers eligible for this offer.",
       "rdfs:domain": {
-        "@id": "ion:TradeOffer"
+        "@id": "ion:IONTradeOffer"
       }
     },
     {
@@ -216,7 +201,7 @@
       "rdfs:label": "subsidyBreakup",
       "rdfs:comment": "Who funds the discount/promotion.",
       "rdfs:domain": {
-        "@id": "ion:TradeOffer"
+        "@id": "ion:IONTradeOffer"
       }
     },
     {
@@ -225,7 +210,7 @@
       "rdfs:label": "priceChangeSchedule",
       "rdfs:comment": "Price validity timeline for a campaign. Use one entry for a single price window and multiple entries when the price changes during the campaign. BAPs MUST render countdown UI and compute the correct price at transaction time. Entries MUST NOT overlap and must be sorted ascending by validFrom.",
       "rdfs:domain": {
-        "@id": "ion:TradeOffer"
+        "@id": "ion:IONTradeOffer"
       }
     },
     {
@@ -234,7 +219,7 @@
       "rdfs:label": "reservationWindowSeconds",
       "rdfs:comment": "Seconds for which the BPP will hold availability and the on_select price quote. Default 300. BPP soft-reserves at on_select, hard-reserves at on_init. After window expires, availability is released and any subsequent /confirm for this messageId returns ION-3006.\n",
       "rdfs:domain": {
-        "@id": "ion:TradeOffer"
+        "@id": "ion:IONTradeOffer"
       }
     },
     {
@@ -243,7 +228,7 @@
       "rdfs:label": "totalStockCap",
       "rdfs:comment": "Absolute total quantity available under this offer. When reached, all subsequent /select calls return ION-3008. Distinct from resource.availability.maxOrderQty (per-order cap).\n",
       "rdfs:domain": {
-        "@id": "ion:TradeOffer"
+        "@id": "ion:IONTradeOffer"
       }
     },
     {
@@ -252,7 +237,7 @@
       "rdfs:label": "perUserQuantityCap",
       "rdfs:comment": "Maximum units a single buyer can purchase under this offer across all transactions (enforced by BPP). Distinct from usageLimitPerUser which is number of separate redemptions.\n",
       "rdfs:domain": {
-        "@id": "ion:TradeOffer"
+        "@id": "ion:IONTradeOffer"
       }
     },
     {
@@ -261,7 +246,7 @@
       "rdfs:label": "queueEnabled",
       "rdfs:comment": "Whether BPP uses a queue/throttle mechanism when demand exceeds supply. When true, on_select may return queuePosition.\n",
       "rdfs:domain": {
-        "@id": "ion:TradeOffer"
+        "@id": "ion:IONTradeOffer"
       }
     },
     {
@@ -270,7 +255,7 @@
       "rdfs:label": "queuePosition",
       "rdfs:comment": "Consumer's current position in the purchase queue. 0 = at front. Returned in on_select when queueEnabled=true.\n",
       "rdfs:domain": {
-        "@id": "ion:TradeOffer"
+        "@id": "ion:IONTradeOffer"
       }
     },
     {
@@ -279,7 +264,7 @@
       "rdfs:label": "estimatedWaitSeconds",
       "rdfs:comment": "Estimated wait time before this consumer reaches front of queue.",
       "rdfs:domain": {
-        "@id": "ion:TradeOffer"
+        "@id": "ion:IONTradeOffer"
       }
     },
     {
@@ -288,7 +273,7 @@
       "rdfs:label": "stackingGroup",
       "rdfs:comment": "Voucher stacking group. Vouchers from different groups stack by default. Within a single group only one voucher can apply per order unless stackingRules override.",
       "rdfs:domain": {
-        "@id": "ion:TradeOffer"
+        "@id": "ion:IONTradeOffer"
       }
     },
     {
@@ -297,7 +282,7 @@
       "rdfs:label": "stackingRules",
       "rdfs:comment": "Explicit voucher stacking rules. Used when offer has complex combination logic beyond the default group rules.\n",
       "rdfs:domain": {
-        "@id": "ion:TradeOffer"
+        "@id": "ion:IONTradeOffer"
       }
     },
     {
@@ -306,7 +291,7 @@
       "rdfs:label": "codEligibilityForBuyer",
       "rdfs:comment": "BPP-evaluated COD eligibility for the specific buyer in this transaction. Returned in on_select. Distinct from paymentConstraints.codAvailable which is offer-level availability. Allows BPP to decline COD for new buyers, previous COD failures, high-value items exceeding buyer's verified tier, etc.\n",
       "rdfs:domain": {
-        "@id": "ion:TradeOffer"
+        "@id": "ion:IONTradeOffer"
       }
     },
     {
@@ -315,7 +300,7 @@
       "rdfs:label": "codEligibilityReason",
       "rdfs:comment": "Reason for the codEligibilityForBuyer decision.",
       "rdfs:domain": {
-        "@id": "ion:TradeOffer"
+        "@id": "ion:IONTradeOffer"
       }
     },
     {
@@ -336,7 +321,7 @@
       "rdfs:label": "handlingTime",
       "rdfs:comment": "Time from order confirmation until the package is ready for logistics. Expressed as an ISO 8601 duration.",
       "rdfs:domain": {
-        "@id": "ion:TradeOffer"
+        "@id": "ion:IONTradeOffer"
       }
     },
     {
@@ -345,7 +330,7 @@
       "rdfs:label": "customTermsAddendum",
       "rdfs:comment": "Free-text addendum for edge cases (e.g. watchmaker offering lifetime service). Supplements the declared policy IRIs but cannot contradict them. If addendum contradicts base policy, base policy wins and addendum is informational only. BAP displays addendum below the structured policy terms.\n",
       "rdfs:domain": {
-        "@id": "ion:TradeOffer"
+        "@id": "ion:IONTradeOffer"
       }
     },
     {

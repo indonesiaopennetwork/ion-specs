@@ -10,10 +10,10 @@
   },
   "@graph": [
     {
-      "@id": "ion:TradeCommitment",
+      "@id": "ion:IONTradeCommitment",
       "@type": "rdfs:Class",
-      "rdfs:label": "TradeCommitment",
-      "rdfs:comment": "Network-agnostic generic layer for trade commitment attributes. Extends RetailCommitment v2.1 with line-specific trade semantics.",
+      "rdfs:label": "IONTradeCommitment",
+      "rdfs:comment": "ION trade commitment extension. Extends RetailCommitment v2.1 with line-specific replacement preference semantics.",
       "rdfs:subClassOf": {
         "@id": "rccma:RetailCommitment"
       },
@@ -22,24 +22,12 @@
       }
     },
     {
-      "@id": "ion:IONTradeCommitment",
-      "@type": "rdfs:Class",
-      "rdfs:label": "IONTradeCommitment",
-      "rdfs:comment": "ION-specific extension point for trade commitment attributes. Extends the network-agnostic TradeCommitment layer.",
-      "rdfs:subClassOf": {
-        "@id": "ion:TradeCommitment"
-      },
-      "skos:broader": {
-        "@id": "ion:TradeCommitment"
-      }
-    },
-    {
       "@id": "ion:replacementPreferred",
       "@type": "rdf:Property",
       "rdfs:label": "replacementPreferred",
       "rdfs:comment": "Whether the buyer prefers replacement over refund for this committed line when remediation is available.",
       "rdfs:domain": {
-        "@id": "ion:TradeCommitment"
+        "@id": "ion:IONTradeCommitment"
       },
       "rdfs:range": {
         "@id": "http://www.w3.org/2001/XMLSchema#boolean"

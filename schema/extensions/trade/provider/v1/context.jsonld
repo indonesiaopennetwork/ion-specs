@@ -13,7 +13,6 @@
 
     "Provider": "beckn:Provider",
     "Attributes": "beckn:Attributes",
-    "TradeProvider": "ion:TradeProvider",
     "IONTradeProvider": "ion:IONTradeProvider",
 
     "invoicing": "ion:invoicing",

@@ -10,10 +10,10 @@
   },
   "@graph": [
     {
-      "@id": "ion:TradeSettlement",
+      "@id": "ion:IONTradeSettlement",
       "@type": "rdfs:Class",
-      "rdfs:label": "TradeSettlement",
-      "rdfs:comment": "Network-agnostic trade settlement layer inheriting the settlement discharge model from RetailSettlement v2.1 and exposing its fields through references.",
+      "rdfs:label": "IONTradeSettlement",
+      "rdfs:comment": "ION trade settlement extension inheriting the settlement discharge model from RetailSettlement v2.1 and exposing its fields through references.",
       "rdfs:subClassOf": {
         "@id": "rcsa:RetailSettlement"
       },
@@ -22,24 +22,12 @@
       }
     },
     {
-      "@id": "ion:IONTradeSettlement",
-      "@type": "rdfs:Class",
-      "rdfs:label": "IONTradeSettlement",
-      "rdfs:comment": "ION-specific extension point for trade settlement attributes.",
-      "rdfs:subClassOf": {
-        "@id": "ion:TradeSettlement"
-      },
-      "skos:broader": {
-        "@id": "ion:TradeSettlement"
-      }
-    },
-    {
       "@id": "rcsa:gateway",
       "@type": "rdf:Property",
       "rdfs:label": "gateway",
       "rdfs:comment": "Payment gateway details inherited from RetailSettlement v2.1.",
       "rdfs:domain": {
-        "@id": "ion:TradeSettlement"
+        "@id": "ion:IONTradeSettlement"
       }
     },
     {
@@ -48,7 +36,7 @@
       "rdfs:label": "method",
       "rdfs:comment": "High-level settlement discharge method inherited from RetailSettlement v2.1.",
       "rdfs:domain": {
-        "@id": "ion:TradeSettlement"
+        "@id": "ion:IONTradeSettlement"
       }
     },
     {
@@ -57,7 +45,7 @@
       "rdfs:label": "paymentRail",
       "rdfs:comment": "Payment rail or scheme inherited from RetailSettlement v2.1.",
       "rdfs:domain": {
-        "@id": "ion:TradeSettlement"
+        "@id": "ion:IONTradeSettlement"
       }
     },
     {
@@ -66,7 +54,7 @@
       "rdfs:label": "settledAt",
       "rdfs:comment": "Settlement completion time inherited from RetailSettlement v2.1.",
       "rdfs:domain": {
-        "@id": "ion:TradeSettlement"
+        "@id": "ion:IONTradeSettlement"
       }
     },
     {
@@ -75,7 +63,7 @@
       "rdfs:label": "settledAmount",
       "rdfs:comment": "Amount discharged by the settlement, inherited from RetailSettlement v2.1.",
       "rdfs:domain": {
-        "@id": "ion:TradeSettlement"
+        "@id": "ion:IONTradeSettlement"
       }
     },
     {
@@ -84,7 +72,7 @@
       "rdfs:label": "currency",
       "rdfs:comment": "ISO 4217 settlement currency inherited from RetailSettlement v2.1.",
       "rdfs:domain": {
-        "@id": "ion:TradeSettlement"
+        "@id": "ion:IONTradeSettlement"
       }
     },
     {
@@ -93,7 +81,7 @@
       "rdfs:label": "refund",
       "rdfs:comment": "Structured refund record inherited from RetailSettlement v2.1.",
       "rdfs:domain": {
-        "@id": "ion:TradeSettlement"
+        "@id": "ion:IONTradeSettlement"
       }
     },
     {
@@ -102,7 +90,7 @@
       "rdfs:label": "adjustments",
       "rdfs:comment": "Post-transaction settlement adjustments inherited from RetailSettlement v2.1.",
       "rdfs:domain": {
-        "@id": "ion:TradeSettlement"
+        "@id": "ion:IONTradeSettlement"
       }
     },
     {
@@ -111,7 +99,7 @@
       "rdfs:label": "reconciliationId",
       "rdfs:comment": "Cross-party reconciliation identifier inherited from RetailSettlement v2.1.",
       "rdfs:domain": {
-        "@id": "ion:TradeSettlement"
+        "@id": "ion:IONTradeSettlement"
       }
     },
     {
@@ -120,7 +108,7 @@
       "rdfs:label": "reconciliationStatus",
       "rdfs:comment": "Reconciliation lifecycle status inherited from RetailSettlement v2.1.",
       "rdfs:domain": {
-        "@id": "ion:TradeSettlement"
+        "@id": "ion:IONTradeSettlement"
       }
     }
   ]

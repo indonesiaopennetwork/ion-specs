@@ -2,20 +2,55 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://schema.ion.id/trade/performance/v1",
   "title": "ION Trade Performance Schema Pack v1",
-  "description": "JSON Schema 2020-12 mirror of the trade/performance/v1 OpenAPI schema pack. The root resolves to IONTradePerformance.",
+  "description": "JSON Schema 2020-12 mirror of the trade/performance/v1 OpenAPI schema pack. The root resolves to IONTradePerformance, which inherits directly from RetailPerformance 2.1.",
   "$ref": "#/$defs/IONTradePerformance",
   "$defs": {
-    "TradePerformance": {
+    "IONTradePerformance": {
       "type": "object",
-      "title": "TradePerformance",
-      "description": "Network-agnostic generic layer for TradePerformance. Inherits from RetailPerformance 2.1.",
-      "x-ion-layer": "generic",
+      "title": "IONTradePerformance",
+      "description": "ION trade performance attributes. Inherits directly from RetailPerformance 2.1 and combines generic fulfillment semantics with Indonesia-specific age-verification methods and ION-aware route stops. Properties originating in the former ION-specific layer are identified by x-attr-ion-layer: ion.",
+      "x-ion-layer": "ion",
       "x-ion-split-version": "0.7.0",
       "x-recommended-parent": "Performance.performanceAttributes",
       "additionalProperties": true,
+      "x-jsonld": {
+        "@context": "https://schema.ion.id/trade/performance/v1/context.jsonld",
+        "@type": "ion:IONTradePerformance"
+      },
+      "x-beckn-attaches-to": "Performance.performanceAttributes",
+      "x-ion-closed-extensions": false,
       "allOf": [
         {
           "$ref": "https://schema.beckn.io/RetailPerformance/2.1/attributes.yaml#/components/schemas/RetailPerformance"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "ageVerification": {
+              "allOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "method": {
+                      "type": "string",
+                      "enum": [
+                        "KTP_SIGHTED",
+                        "KTP_SCANNED",
+                        "SIM_SIGHTED",
+                        "PASSPORT_SIGHTED",
+                        "SELFIE_COMPARISON",
+                        "BIOMETRIC_API",
+                        "NONE"
+                      ],
+                      "description": "ION method used to verify age.",
+                      "x-ion-regulatory": "UU 39/2007 tentang Cukai (tobacco); PP 109/2012; PerBPOM 28/2021 (alcohol)"
+                    }
+                  }
+                }
+              ],
+              "x-attr-ion-layer": "ion"
+            }
+          }
         }
       ],
       "properties": {
@@ -228,47 +263,6 @@
           "description": "Identifier of the delivery receipt issued at handover. The actual proof or document is represented by inherited proofOfDelivery.",
           "example": "DLV-RCP-2026-00012345",
           "x-ion-condition": "Present after DELIVERED when a receipt was issued"
-        }
-      }
-    },
-    "IONTradePerformance": {
-      "type": "object",
-      "title": "IONTradePerformance",
-      "description": "Indonesia-specific extension of TradePerformance. Refines age verification and provides ION-aware route stops.",
-      "x-ion-layer": "ion",
-      "x-ion-split-version": "0.7.0",
-      "additionalProperties": true,
-      "allOf": [
-        {
-          "$ref": "#/$defs/TradePerformance"
-        }
-      ],
-      "properties": {
-        "ageVerification": {
-          "allOf": [
-            {
-              "$ref": "#/$defs/TradePerformance/properties/ageVerification"
-            },
-            {
-              "type": "object",
-              "properties": {
-                "method": {
-                  "type": "string",
-                  "enum": [
-                    "KTP_SIGHTED",
-                    "KTP_SCANNED",
-                    "SIM_SIGHTED",
-                    "PASSPORT_SIGHTED",
-                    "SELFIE_COMPARISON",
-                    "BIOMETRIC_API",
-                    "NONE"
-                  ],
-                  "description": "ION method used to verify age.",
-                  "x-ion-regulatory": "UU 39/2007 tentang Cukai (tobacco); PP 109/2012; PerBPOM 28/2021 (alcohol)"
-                }
-              }
-            }
-          ]
         },
         "stops": {
           "type": "array",
@@ -322,7 +316,8 @@
                 "description": "Documentary proof associated with completion of this stop."
               }
             }
-          }
+          },
+          "x-attr-ion-layer": "ion"
         }
       }
     }

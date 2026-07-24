@@ -12,7 +12,6 @@
     "owl": "http://www.w3.org/2002/07/owl#",
     "Contract": "beckn:Contract",
     "RetailContract": "rcca:RetailContract",
-    "TradeContract": "ion:TradeContract",
     "IONTradeContract": "ion:IONTradeContract",
     "quoteReference": "rcca:quoteReference",
     "buyerInstructions": "rcca:buyerInstructions",

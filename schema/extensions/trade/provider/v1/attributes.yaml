@@ -16,19 +16,46 @@ info:
 
 components:
   schemas:
-    TradeProvider:
+    IONTradeProvider:
       type: object
-      title: TradeProvider
+      title: IONTradeProvider
       description: >
-        Network-agnostic trade-provider attributes. This schema is placed inside
-        Provider.providerAttributes and therefore extends Beckn Attributes,
-        rather than the reserved Beckn Provider object itself.
-      x-ion-layer: generic
+        ION trade-provider attributes carried by Provider.providerAttributes.
+        Inherits directly from Beckn Attributes and combines generic provider
+        operations with Indonesia-specific registration, trust, verification-tier,
+        and category-licensing extensions.
+
+        Properties originating in the former ION-specific layer are identified by
+        x-attr-ion-layer: ion.
+      x-ion-layer: ion
       x-ion-split-version: "0.7.0"
       x-recommended-parent: Provider.providerAttributes
       additionalProperties: true
+      x-jsonld:
+        '@context': 'https://schema.ion.id/trade/provider/v1/context.jsonld'
+        '@type': ion:IONTradeProvider
+      x-beckn-attaches-to: Provider.providerAttributes
       allOf:
         - $ref: https://schema.beckn.io/Attributes/2.0/attributes.yaml#/components/schemas/Attributes
+        - type: object
+          properties:
+            verification:
+              x-attr-ion-layer: ion
+              allOf:
+                - type: object
+                  properties:
+                    level:
+                      type: string
+                      enum:
+                        - BASIC
+                        - STANDARD
+                        - ENHANCED
+                        - ENTERPRISE
+                      description: >
+                        ION provider-verification tier. The criteria and transaction
+                        limits associated with each tier are ION network policy.
+                      example: STANDARD
+
       properties:
         invoicing:
           type: object
@@ -251,25 +278,8 @@ components:
                   - PROBATIONARY_PERIOD
           # x-ion-condition: caveats are required by network policy when status is APPROVED_WITH_CAVEATS
 
-      x-ion-closed-extensions: false
-
-    IONTradeProvider:
-      type: object
-      title: IONTradeProvider
-      description: >
-        Indonesia- and ION-specific extension of TradeProvider. Its properties
-        will be reviewed separately.
-      x-ion-layer: ion
-      x-ion-split-version: "0.7.0"
-      allOf:
-        - $ref: '#/components/schemas/TradeProvider'
-      additionalProperties: true
-      x-jsonld:
-        '@context': 'https://schema.ion.id/trade/provider/v1/context.jsonld'
-        '@type': ion:IONTradeProvider
-      x-beckn-attaches-to: Provider.providerAttributes
-      properties:
         businessRegistration:
+          x-attr-ion-layer: ion
           $ref: ../../../../extensions/core/business-registration/v1/attributes.yaml#/components/schemas/IONBusinessRegistration
           description: >
             Indonesian business identity for the provider. The presence and
@@ -277,6 +287,7 @@ components:
             nibRegistered boolean.
 
         trustMarks:
+          x-attr-ion-layer: ion
           type: array
           description: >
             Signed or otherwise verifiable trust marks awarded to the provider,
@@ -285,24 +296,8 @@ components:
           items:
             $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Document
 
-        verification:
-          allOf:
-            - $ref: '#/components/schemas/TradeProvider/properties/verification'
-            - type: object
-              properties:
-                level:
-                  type: string
-                  enum:
-                    - BASIC
-                    - STANDARD
-                    - ENHANCED
-                    - ENTERPRISE
-                  description: >
-                    ION provider-verification tier. The criteria and transaction
-                    limits associated with each tier are ION network policy.
-                  example: STANDARD
-
         categoryLicenses:
+          x-attr-ion-layer: ion
           type: array
           description: >
             Indonesian operating licences applicable to one or more provider

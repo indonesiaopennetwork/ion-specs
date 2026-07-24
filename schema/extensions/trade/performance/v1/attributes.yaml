@@ -15,21 +15,55 @@ info:
     url: https://schema.ion.id
 components:
   schemas:
-    TradePerformance:
+    IONTradePerformance:
       type: object
-      title: TradePerformance
+      title: IONTradePerformance
       description: >
-        Network-agnostic generic layer for TradePerformance. Inherits from
-        RetailPerformance 2.1.
-        Downstream ION-specific layer (IONTradePerformance) extends this schema via allOf.
-        This layer carries fields whose underlying concepts are meaningful
-        across trade networks; definitions will be reviewed individually.
-      x-ion-layer: generic
+        ION trade performance attributes. Inherits directly from
+        RetailPerformance 2.1 and combines generic fulfillment semantics with
+        Indonesia-specific age-verification methods and ION-aware route stops.
+
+        Properties originating in the former ION-specific layer are identified by
+        x-attr-ion-layer: ion.
+      x-ion-layer: ion
       x-ion-split-version: "0.7.0"
       x-recommended-parent: Performance.performanceAttributes
       additionalProperties: true
+      x-jsonld:
+        '@context': 'https://schema.ion.id/trade/performance/v1/context.jsonld'
+        '@type': ion:IONTradePerformance
+      x-beckn-attaches-to: Performance.performanceAttributes
+      x-ion-closed-extensions: false
       allOf:
         - $ref: https://schema.beckn.io/RetailPerformance/2.1/attributes.yaml#/components/schemas/RetailPerformance
+        # Conditional mandatoriness is enforced by ION network policy rather
+        # than this shared schema. The former constraints required evidence for
+        # KTP_SCANNED, required verification outcome fields when verification
+        # was required, and required QC evidence for failed QC results.
+        - type: object
+          properties:
+            ageVerification:
+              x-attr-ion-layer: ion
+              allOf:
+              - type: object
+                properties:
+                  method:
+                    type: string
+                    enum:
+                    - KTP_SIGHTED
+                    - KTP_SCANNED
+                    - SIM_SIGHTED
+                    - PASSPORT_SIGHTED
+                    - SELFIE_COMPARISON
+                    - BIOMETRIC_API
+                    - NONE
+                    description: >
+                      ION method used to verify age. KTP_SIGHTED and KTP_SCANNED
+                      use the Indonesian national identity card; SIM_SIGHTED uses
+                      an Indonesian driving licence. PASSPORT_SIGHTED,
+                      SELFIE_COMPARISON, and BIOMETRIC_API cover other supported
+                      verification methods. NONE records that no method was used.
+                    x-ion-regulatory: UU 39/2007 tentang Cukai (tobacco); PP 109/2012; PerBPOM 28/2021 (alcohol)
       # supportedPerformanceModes, handling, agent.name, agent.phone,
       # proofOfDelivery, deliveryOtp, selfPickupCode, and
       # installationScheduling are inherited from RetailPerformance 2.1.
@@ -240,51 +274,8 @@ components:
           example: DLV-RCP-2026-00012345
           x-ion-condition: Present after DELIVERED when a receipt was issued
 
-    IONTradePerformance:
-      type: object
-      x-ion-layer: ion
-      x-ion-split-version: "0.7.0"
-      allOf:
-        - $ref: '#/components/schemas/TradePerformance'
-        # Conditional mandatoriness is enforced by ION network policy rather
-        # than this shared schema. The former constraints required evidence for
-        # KTP_SCANNED, required verification outcome fields when verification
-        # was required, and required QC evidence for failed QC results.
-      title: IONTradePerformance
-      description: >
-        Indonesia-specific extension of TradePerformance. Refines the generic
-        age-verification result with ION methods and provides route stops whose
-        locations combine Beckn geographic and postal-address shapes with
-        Indonesian administrative subdivisions.
-      additionalProperties: true
-      x-jsonld:
-        '@context': 'https://schema.ion.id/trade/performance/v1/context.jsonld'
-        '@type': ion:IONTradePerformance
-      x-beckn-attaches-to: Performance.performanceAttributes
-      properties:
-        ageVerification:
-          allOf:
-          - $ref: '#/components/schemas/TradePerformance/properties/ageVerification'
-          - type: object
-            properties:
-              method:
-                type: string
-                enum:
-                - KTP_SIGHTED
-                - KTP_SCANNED
-                - SIM_SIGHTED
-                - PASSPORT_SIGHTED
-                - SELFIE_COMPARISON
-                - BIOMETRIC_API
-                - NONE
-                description: >
-                  ION method used to verify age. KTP_SIGHTED and KTP_SCANNED
-                  use the Indonesian national identity card; SIM_SIGHTED uses
-                  an Indonesian driving licence. PASSPORT_SIGHTED,
-                  SELFIE_COMPARISON, and BIOMETRIC_API cover other supported
-                  verification methods. NONE records that no method was used.
-                x-ion-regulatory: UU 39/2007 tentang Cukai (tobacco); PP 109/2012; PerBPOM 28/2021 (alcohol)
         stops:
+          x-attr-ion-layer: ion
           type: array
           description: >
             Ordered list of stops for this performance leg. Each stop carries a
@@ -343,4 +334,3 @@ components:
       # enforced via ION network policy (x-ion-crc-rules,
       # x-ion-conditional-rules) rather than the shared schema:
       # performanceMode, supportedPerformanceModes, sla
-      x-ion-closed-extensions: false
