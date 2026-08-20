@@ -48,9 +48,43 @@ contain Beckn Protocol `v2.0.0`, Beckn domain schema `RetailResource` version
 ## Release contents
 
 A release contains all normative artifacts needed to understand and validate that
-version of ION, together with its vendored dependencies. The target layout is:
+version of ION, together with its vendored dependencies. Placement is determined
+by whether an artifact defines or explains the behavior of a particular release.
+
+The following artifacts are release-specific and MUST be stored within each
+release:
+
+- schemas and vendored schema dependencies;
+- error definitions and generated error registries;
+- policy definitions and generated policy registries;
+- transaction flows and their release-specific examples;
+- implementation-facing documentation that describes the release's wire format,
+  validation behavior, signing requirements, sectors, or integration process; and
+- generated distribution artifacts.
+
+The following repository-level material remains outside `releases/`:
+
+- release creation, validation, generation, and maintenance tools;
+- repository governance and contribution instructions;
+- architecture decisions and schema authoring guidance for future work;
+- working notes, review responses, migration plans, and unresolved observations;
+  and
+- repository automation and continuous integration configuration.
+
+The target repository layout is:
 
 ```text
+README.md
+CONTRIBUTING.md
+GOVERNANCE.md
+
+docs/
+  ION_Release_Architecture.md
+  <architecture and contributor documentation>
+
+tools/
+  <release-aware repository tooling>
+
 releases/
   release1/
     release.yaml
@@ -112,9 +146,54 @@ from existing pack names to public `SchemaName` directories MUST be established 
 part of the pre-release cleanup. Once published, directory names are part of the
 public API and cannot be renamed within that release.
 
-Repository tooling and contributor documentation may remain outside `releases/`
-when they are not normative release artifacts. A release MUST NOT depend on those
-external files to resolve or validate its specifications.
+### Normative release registries and flows
+
+Error codes, policy terms, and transaction-flow requirements affect protocol
+behavior and compatibility. The `errors/`, `policies/`, and `flows/` directories
+therefore belong inside each release. They MUST remain aligned with the schemas in
+that release. Generated registries belong alongside their source definitions in
+the release, even when root-level tooling is used to generate them.
+
+There MUST NOT be a second editable copy of these normative directories at the
+repository root. Work on the next release happens in its draft release directory.
+Published release copies remain unchanged.
+
+### Documentation classification
+
+Documentation is divided by audience and stability:
+
+- Implementation documentation belongs inside a release when an implementer could
+  receive a different answer for a different release. This includes transport and
+  signing behavior, field requirements, sector behavior, integration guides, and
+  release-specific examples.
+- Repository documentation remains at the root when it governs how maintainers
+  create future releases or records work that is not part of the normative
+  specification. This includes architecture decisions, contributor instructions,
+  authoring style guides, working notes, review responses, and migration plans.
+- Each release has its own `README.md` and release notes describing its contents,
+  compatibility impact, and entry points.
+
+A root-level guide may link to the current release for convenience, but it is not
+part of that release and MUST NOT be the sole source of release-specific behavior.
+
+### Repository tooling
+
+`tools/` remains at the repository root and evolves independently of published
+releases. Tools MUST accept an explicit release directory and remain capable of
+validating every published release, for example:
+
+```bash
+python tools/validate_release.py releases/release1
+python tools/build_distribution.py releases/release2
+```
+
+Generated output belongs to the applicable release. A release manifest SHOULD
+record the repository commit or tool version used to generate it, but the complete
+toolchain is not copied into every release.
+
+A published release MUST NOT depend on root-level tools or documentation to
+resolve its schemas or determine its normative behavior. Tools assist in building
+and verifying a release; they are not part of the released protocol contract.
 
 ## Public URL namespace
 
@@ -331,9 +410,11 @@ must follow these principles:
 4. Move the normative specification into `releases/release1/` without maintaining
    a second editable source tree.
 5. Rewrite resolvable references to the `release1` public namespace.
-6. Update generated mirrors, distributions, examples, flows, policies, errors,
-   documentation, licensing, and tooling together.
-7. Prove local, offline, and public-URL resolution before publication.
+6. Move normative flows, policies, errors, and implementation documentation into
+   the release; classify remaining documentation as repository-level material.
+7. Update release-aware root tooling and regenerate mirrors, registries,
+   distributions, and examples without creating root-level normative copies.
+8. Prove local, offline, and public-URL resolution before publication.
 
 Cleanup unrelated to producing a correct first release should be deferred so that
 the migration remains reviewable.
