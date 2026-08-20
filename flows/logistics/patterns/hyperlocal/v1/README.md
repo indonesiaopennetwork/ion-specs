@@ -44,7 +44,7 @@ INSTANT and sub-3-hour delivery patterns. Covers GoSend, GrabExpress, Paxel inst
 | `logistics/performance/v1` | See pack README | [`schema/extensions/logistics/performance/v1/README.md`](../../../../schema/extensions/logistics/performance/v1/README.md) |
 | `logistics/contract/v1` | See pack README | [`schema/extensions/logistics/contract/v1/README.md`](../../../../schema/extensions/logistics/contract/v1/README.md) |
 | `logistics/agent/v1` | See pack README | [`schema/extensions/logistics/agent/v1/README.md`](../../../../schema/extensions/logistics/agent/v1/README.md) |
-| `core/address/v1` | See pack README | [`schema/extensions/core/address/v1/README.md`](../../../../schema/extensions/core/address/v1/README.md) |
+| `core/address/v1` | See pack README | [`releases/release1/common/Address/v1/README.md`](../../../../releases/release1/common/Address/v1/README.md) |
 
 ## Variants
 

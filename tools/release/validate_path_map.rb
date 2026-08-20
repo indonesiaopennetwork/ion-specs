@@ -12,7 +12,7 @@ module IonReleasePathMap
 
   module_function
 
-  def validate(data, repository_root: nil)
+  def validate(data, repository_root: nil, required_location: :source)
     errors = []
     return ["path map root must be an object"] unless data.is_a?(Hash)
 
@@ -31,7 +31,15 @@ module IonReleasePathMap
     end
 
     mappings.each_with_index do |mapping, index|
-      validate_mapping(mapping, index, release_name, expected_base, repository_root, errors)
+      validate_mapping(
+        mapping,
+        index,
+        release_name,
+        expected_base,
+        repository_root,
+        required_location,
+        errors
+      )
     end
 
     %w[source target publicUrl].each do |field|
@@ -44,7 +52,7 @@ module IonReleasePathMap
     errors
   end
 
-  def validate_mapping(mapping, index, release_name, public_base, repository_root, errors)
+  def validate_mapping(mapping, index, release_name, public_base, repository_root, required_location, errors)
     unless mapping.is_a?(Hash)
       errors << "mapping #{index} must be an object"
       return
@@ -71,8 +79,11 @@ module IonReleasePathMap
       errors << "mapping #{index} publicUrl does not mirror target" unless public_url == expected_url
     end
 
-    if repository_root && safe_relative_path?(source)
-      errors << "mapping #{index} source does not exist: #{source}" unless File.exist?(File.join(repository_root, source))
+    if repository_root
+      required_path = required_location == :target ? target : source
+      if safe_relative_path?(required_path) && !File.exist?(File.join(repository_root, required_path))
+        errors << "mapping #{index} #{required_location} does not exist: #{required_path}"
+      end
     end
   end
 
@@ -88,8 +99,10 @@ module IonReleasePathMap
 end
 
 if $PROGRAM_NAME == __FILE__
+  required_location = ARGV.delete("--require-targets") ? :target : :source
+  ARGV.delete("--require-sources")
   if ARGV.length != 1
-    warn "Usage: ruby tools/release/validate_path_map.rb <path-map.json>"
+    warn "Usage: ruby tools/release/validate_path_map.rb [--require-sources|--require-targets] <path-map.json>"
     exit 2
   end
 
@@ -98,7 +111,8 @@ if $PROGRAM_NAME == __FILE__
     repository_root = File.expand_path("../..", __dir__)
     errors = IonReleasePathMap.validate(
       IonReleasePathMap.load(path),
-      repository_root: repository_root
+      repository_root: repository_root,
+      required_location: required_location
     )
   rescue ArgumentError => e
     warn "ERROR: #{e.message}"

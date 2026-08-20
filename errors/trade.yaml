@@ -26,7 +26,7 @@
   affected_apis:
   - publish_catalog
   - on_discover
-  schema_ref: schema/extensions/trade/resource/v1
+  schema_ref: releases/release1/extension/trade/TradeResource/v1
   flow_ref: null
   resolution:
     en: Provide at least one valid HTTPS image URL in images[]. First image is the
@@ -48,7 +48,7 @@
   affected_field: offerAttributes.policies.returns.policyRef|policies.cancellation.policyRef|policies.warranty.policyRef|policies.dispute.policyRef|policies.grievanceSla.policyRef|policies.paymentTerms.policyRef
   affected_apis:
   - publish_catalog
-  schema_ref: schema/extensions/trade/offer/v1
+  schema_ref: releases/release1/extension/trade/TradeOffer/v1
   flow_ref: policies/registry.json
   resolution:
     en: Check policies/registry.json for the ratified set. Declare only IRIs present
@@ -71,7 +71,7 @@
   affected_field: offerAttributes.policies.returns.policyRef|policies.cancellation.policyRef|policies.warranty.policyRef|policies.dispute.policyRef|policies.grievanceSla.policyRef|policies.paymentTerms.policyRef
   affected_apis:
   - publish_catalog
-  schema_ref: schema/extensions/trade/offer/v1
+  schema_ref: releases/release1/extension/trade/TradeOffer/v1
   flow_ref: policies/registry.json
   resolution:
     en: Replace with the supersededBy IRI from the terms document, or select an alternative
@@ -90,7 +90,7 @@
   affected_field: message.contract.commitments[].commitmentAttributes.selectedCustomizations
   affected_apis:
   - select
-  schema_ref: schema/extensions/trade/resource/v1
+  schema_ref: releases/release1/extension/trade/TradeResource/v1
   flow_ref: flows/trade/patterns/storefront/v1
   resolution:
     en: Ensure your UI enforces SINGLE_REQUIRED groups before allowing /select. Check
@@ -110,7 +110,7 @@
   affected_field: message.contract.commitments[].commitmentAttributes.selectedCustomizations[].optionId
   affected_apis:
   - select
-  schema_ref: schema/extensions/trade/resource/v1
+  schema_ref: releases/release1/extension/trade/TradeResource/v1
   flow_ref: flows/trade/patterns/storefront/v1
   resolution:
     en: Only send optionIds returned in the customisationGroups of the on_discover
@@ -131,7 +131,7 @@
   affected_field: message.catalog.offers[].offerAttributes.totalStockCap
   affected_apis:
   - select
-  schema_ref: schema/extensions/trade/offer/v1
+  schema_ref: releases/release1/extension/trade/TradeOffer/v1
   flow_ref: flows/trade/patterns/live-commerce/v1
   resolution:
     en: Inform consumer offer is sold out. Surface standard (non-flash) offer if available.
@@ -153,7 +153,7 @@
   - select
   - init
   - confirm
-  schema_ref: schema/extensions/trade/offer/v1
+  schema_ref: releases/release1/extension/trade/TradeOffer/v1
   flow_ref: flows/trade/patterns/live-commerce/v1
   resolution:
     en: Inform consumer the live offer has ended. Redirect to standard catalog.
@@ -172,7 +172,7 @@
       '
   affected_apis:
   - select
-  schema_ref: schema/extensions/trade/resource/v1
+  schema_ref: releases/release1/extension/trade/TradeResource/v1
   flow_ref: flows/trade/patterns/digital-goods/v1
   resolution:
     en: Prompt consumer to verify target identifier. Return actionable error message.
@@ -193,7 +193,7 @@
   affected_apis:
   - select
   - init
-  schema_ref: schema/extensions/trade/offer/v1
+  schema_ref: releases/release1/extension/trade/TradeOffer/v1
   flow_ref: flows/trade/patterns/storefront/v1
   resolution:
     en: Display stacking rule violation to consumer. Offer choice of which voucher
@@ -215,7 +215,7 @@
   affected_field: message.contract.commitments[].commitmentAttributes.selectedCustomizations
   affected_apis:
   - select
-  schema_ref: schema/extensions/trade/resource/v1
+  schema_ref: releases/release1/extension/trade/TradeResource/v1
   flow_ref: flows/trade/patterns/storefront/v1
   resolution:
     en: Present only valid axis value combinations. Surface available=false values
@@ -234,7 +234,7 @@
   affected_field: offerAttributes.policies.returns.allowed
   affected_apis:
   - update
-  schema_ref: schema/extensions/trade/offer/v1
+  schema_ref: releases/release1/extension/trade/TradeOffer/v1
   flow_ref: flows/trade/variants/returns/v1
   resolution:
     en: Check policies.returns.allowed flag before showing return option in BAP UI. Do not present
@@ -253,7 +253,7 @@
   affected_field: offerAttributes.policies.returns.policyRef
   affected_apis:
   - update
-  schema_ref: schema/extensions/trade/offer/v1
+  schema_ref: releases/release1/extension/trade/TradeOffer/v1
   flow_ref: flows/trade/variants/returns/v1
   resolution:
     en: The policies.returns.policyRef IRI defines the returnWindowDays. Calculate return deadline
@@ -274,7 +274,7 @@
   affected_field: message.contract.performance[].performanceAttributes.tags.return_evidence
   affected_apis:
   - update
-  schema_ref: schema/extensions/trade/offer/v1
+  schema_ref: releases/release1/extension/trade/TradeOffer/v1
   flow_ref: flows/trade/variants/returns/v1
   resolution:
     en: Request additional evidence from consumer per policies.returns.evidenceRequirement.
@@ -295,7 +295,7 @@
   affected_field: message.contract.performance[].performanceAttributes.returnQcResult
   affected_apis:
   - on_status
-  schema_ref: schema/extensions/trade/performance/v1
+  schema_ref: releases/release1/extension/trade/TradePerformance/v1
   flow_ref: flows/trade/variants/returns/v1
   resolution:
     en: Consumer may escalate via support/raise if they dispute QC finding.

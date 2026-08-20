@@ -11,4 +11,4 @@ outcome, and package facts.
 
 | Version | attributes.yaml | schema.json | context.jsonld | vocab.jsonld | README |
 |---|---|---|---|---|---|
-| **v1** | [v1/attributes.yaml](v1/attributes.yaml) | [v1/schema.json](v1/schema.json) | [v1/context.jsonld](v1/context.jsonld) | [v1/vocab.jsonld](v1/vocab.jsonld) | [v1/README.md](v1/README.md) |
+| **v1** | [v1/attributes.yaml](../../../../releases/release1/extension/trade/TradePerformance/v1/attributes.yaml) | [v1/schema.json](../../../../releases/release1/extension/trade/TradePerformance/v1/schema.json) | [v1/context.jsonld](../../../../releases/release1/extension/trade/TradePerformance/v1/context.jsonld) | [v1/vocab.jsonld](../../../../releases/release1/extension/trade/TradePerformance/v1/vocab.jsonld) | [v1/README.md](../../../../releases/release1/extension/trade/TradePerformance/v1/README.md) |

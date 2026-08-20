@@ -1,21 +1,24 @@
 # ION Protocol Specification — Core API Layer
 
-This directory contains exactly two files. That is intentional.
+The two API contracts previously stored in this directory have moved into the
+Release 1 draft:
 
 ```
-beckn.yaml   ← Beckn Protocol v2.0.0 (upstream, do not edit)
-ion.yaml     ← ION network extension (this is what you implement)
+releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml
+releases/release1/core/api/v2.0.0/ion.yaml
 ```
+
+This legacy directory contains no normative API contract.
 
 > **You do not need to read `beckn.yaml` to build an integration.** `ion.yaml` is your implementation target. `beckn.yaml` is only touched when upgrading the vendored Beckn version or debugging a protocol-level issue.
 
 ## How they relate
 
-`beckn.yaml` is the upstream Beckn Protocol specification. It defines:
+The Release 1 `beckn.yaml` is the upstream Beckn Protocol specification. It defines:
 - 30 API endpoints (`/discover`, `/select`, `/init`, `/confirm`, `/status`, etc.)
 - All core data model schemas (`Contract`, `Resource`, `Offer`, `Commitment`, `Consideration`, `Performance`, `Settlement`, `Provider`, `Participant`, `Tracking`, `Attributes`, …)
 
-`ion.yaml` extends `beckn.yaml` without copying it. It defines:
+The Release 1 `ion.yaml` extends `beckn.yaml` without copying it. It defines:
 - **L2** — ION network profile: Indonesian regulatory rules, signing requirements, allowed payment rails, conformance matrix (`x-ion-profile` block)
 - **L3** — 8 additional ION endpoints: `/raise` family (6) + `/reconcile` + `/on_reconcile`. Every path `$ref`s Beckn types from `beckn.yaml`
 - **L4** — 11 cross-sector attribute packs that mount on Beckn's `*Attributes` slots
@@ -49,11 +52,12 @@ This assembles the complete field checklist for your integration in one command.
 
 Run both files together through any OpenAPI 3.1.1 validator:
 ```
-spectral lint ion.yaml --ruleset beckn-ruleset.yaml
+spectral lint releases/release1/core/api/v2.0.0/ion.yaml --ruleset beckn-ruleset.yaml
 ```
 
 ## Upstream tracking
 
-When Beckn releases a new version, only `beckn.yaml` needs updating. All 42 `$ref: beckn.yaml#/...` references in `ion.yaml` automatically resolve to the new version. No other files need changing for a Beckn version bump.
+Vendored Beckn upgrades are performed by release tooling and recorded in the
+release manifest and notices. Published releases are never modified in place.
 
 Current Beckn target: **v2.0.0** (LTS `main` branch)

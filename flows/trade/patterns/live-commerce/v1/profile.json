@@ -23,7 +23,7 @@
     "updates/v1",
     "cross-cutting/v1"
   ],
-  "performanceStateMachine": "schema/extensions/trade/performance-states/v1/states.yaml#standard",
+  "performanceStateMachine": "releases/release1/extension/trade/TradePerformanceStates/v1/states.yaml#standard",
   "regulatoryBasis": "Kemendag Permen 31/2023 \u2014 separation of social commerce from e-commerce; UU 11/2008 tentang ITE",
   "requiredPolicyCategories": [
     "RETURN",

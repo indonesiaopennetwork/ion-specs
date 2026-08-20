@@ -108,7 +108,7 @@ phases:
   phase3:
     name: Export Fulfilment
     description: International logistics. States use standard machine with XB additions.
-    stateMachine: schema/extensions/trade/performance-states/v1/states.yaml#standard
+    stateMachine: releases/release1/extension/trade/TradePerformanceStates/v1/states.yaml#standard
     additionalStates:
       - CUSTOMS_CLEARED_EXPORT  # Bea Cukai export customs cleared at Indonesian port
       - IN_TRANSIT_INTERNATIONAL  # In transit via international carrier

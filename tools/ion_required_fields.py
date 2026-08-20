@@ -43,7 +43,7 @@ def load_yaml(path: Path) -> dict:
 
 
 def load_ion_yaml() -> dict:
-    path = REPO_ROOT / "schema/core/v2/api/v2.0.0/ion.yaml"
+    path = REPO_ROOT / "releases/release1/core/api/v2.0.0/ion.yaml"
     if not path.exists():
         print(f"ERROR: ion.yaml not found at {path}", file=sys.stderr)
         sys.exit(1)

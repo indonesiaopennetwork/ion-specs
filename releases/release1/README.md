@@ -9,16 +9,17 @@ until the ION Council approves the release and changes its status to `published`
 
 ## Current state
 
-Migration Phase 2 created only the release envelope:
+Migration Phase 3 mechanically moved the two primary API files, all nine Trade
+packs, and the four common packs required by Trade into this draft. Repository
+path literals and references affected by those moves now point to their Release 1
+locations.
 
-- `release.yaml` — machine-readable release identity and readiness state;
-- `README.md` — this draft warning and entry point; and
-- `NOTICES.md` — dependency, attribution, and licensing status.
+The move does not certify the content. `ion.yaml` and the common packs remain
+review-required, Trade remains validation-pending, and Beckn provenance and
+transitive vendoring remain incomplete. Flows, policies, and errors have not yet
+been moved into this directory.
 
-No API contract, schema pack, flow, policy, error registry, or vendored dependency
-has been moved into this directory yet.
-
-## Planned primary API contracts
+## Primary API contracts
 
 Release 1 will expose two primary OpenAPI contracts:
 

@@ -10,7 +10,7 @@
   affected_field: message.contract.commitments[].id
   affected_apis:
   - select
-  schema_ref: schema/core/v2/api/v2.0.0/beckn.yaml#Resource
+  schema_ref: releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#Resource
   flow_ref: null
   resolution:
     en: Refresh catalog from /on_discover before sending /select. Do not cache resource
@@ -28,7 +28,7 @@
   affected_apis:
   - select
   - on_select
-  schema_ref: schema/core/v2/api/v2.0.0/beckn.yaml#Resource
+  schema_ref: releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#Resource
   flow_ref: null
   resolution:
     en: Refresh catalog and display current availability status to consumer. Do not
@@ -45,7 +45,7 @@
   affected_field: message.contract.commitments[].resources[].quantity.count
   affected_apis:
   - select
-  schema_ref: schema/core/v2/api/v2.0.0/beckn.yaml#Commitment
+  schema_ref: releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#Commitment
   flow_ref: null
   resolution:
     en: Respect maxOrderQty from the availability signal. Display this limit to the
@@ -63,7 +63,7 @@
   affected_apis:
   - init
   - on_init
-  schema_ref: schema/core/v2/api/v2.0.0/beckn.yaml#Offer
+  schema_ref: releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#Offer
   flow_ref: null
   resolution:
     en: Check paymentConstraints.codAvailable and paymentMethodEligibility from the offer before presenting
@@ -82,7 +82,7 @@
   affected_field: message.contract.commitments[].offer.reservationWindowSeconds
   affected_apis:
   - confirm
-  schema_ref: schema/core/v2/api/v2.0.0/beckn.yaml#Offer
+  schema_ref: releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#Offer
   flow_ref: null
   resolution:
     en: Restart transaction from /select. Stock and pricing must be re-quoted.
@@ -100,7 +100,7 @@
   affected_field: message.contract.commitments[].resources[].quantity.count
   affected_apis:
   - confirm
-  schema_ref: schema/core/v2/api/v2.0.0/beckn.yaml#Resource
+  schema_ref: releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#Resource
   flow_ref: null
   resolution:
     en: Display out-of-stock message to consumer. Offer alternative products.
@@ -120,7 +120,7 @@
   affected_apis:
   - on_select
   - init
-  schema_ref: schema/core/v2/api/v2.0.0/beckn.yaml#Offer
+  schema_ref: releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#Offer
   flow_ref: null
   resolution:
     en: Prompt consumer to select prepaid payment method. Display codEligibilityReason.
@@ -140,7 +140,7 @@
   affected_apis:
   - confirm
   - on_status
-  schema_ref: schema/core/v2/api/v2.0.0/beckn.yaml#Contract
+  schema_ref: releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#Contract
   flow_ref: null
   resolution:
     en: Retry collection with a fresh payment method, update the Settlement payment

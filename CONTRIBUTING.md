@@ -27,7 +27,7 @@ Read `docs/ION_Schema_Design_Guide.md` and `docs/ION_Schema_Style_Guide.md` befo
 | New flow pattern or variant | `flows/{sector}/patterns/` or `flows/{sector}/variants/` | ION Sector Working Group |
 | New policy term | `policies/{category}/v1/` | ION Council |
 | New error code | `errors/{category}.yaml` | ION Schema Working Group |
-| `ion.yaml` changes (L2/L3) | `schema/core/v2/api/v2.0.0/ion.yaml` | ION Council (L2), ION Schema Working Group (L3 endpoints) |
+| `ion.yaml` changes (L2/L3) | `releases/release1/core/api/v2.0.0/ion.yaml` | ION Council (L2), ION Schema Working Group (L3 endpoints) |
 | Documentation fixes | Any `README.md` or `docs/` file | Any maintainer |
 
 ---
@@ -182,7 +182,7 @@ Reviewers will verify the self-review checklist above and additionally check:
 
 ```bash
 # Validate the ION spec files
-spectral lint schema/core/v2/api/v2.0.0/ion.yaml
+spectral lint releases/release1/core/api/v2.0.0/ion.yaml
 
 # Regenerate policy registry after adding a policy
 python3 policies/generate_registry.py
@@ -425,7 +425,7 @@ Run all validation commands before raising the PR:
 
 ```bash
 # Validate ion.yaml schema
-spectral lint schema/core/v2/api/v2.0.0/ion.yaml
+spectral lint releases/release1/core/api/v2.0.0/ion.yaml
 
 # Regenerate and validate error registry
 python3 errors/generate_registry.py
@@ -481,7 +481,7 @@ Adding a new sector is a multi-deliverable project, not a single PR. The work fa
 The six ION sectors are declared in `ion.yaml → x-ion-sector-registry`. Check the entry for your sector:
 
 ```bash
-grep -A6 "id: {sector}" schema/core/v2/api/v2.0.0/ion.yaml
+grep -A6 "id: {sector}" releases/release1/core/api/v2.0.0/ion.yaml
 ```
 
 If `active: false`, the sector is reserved. You cannot publish schema packs or patterns for a reserved sector without ION Council approval to activate it. The `domain` value (`ion:mobility`, `ion:services`) is already registered in the `context.domain` enum — what is missing is everything else.
@@ -590,7 +590,7 @@ Not every sector needs all seven. Mobility, for example, may not need a `commitm
   x-recommended-parent: Resource.resourceAttributes
   additionalProperties: true
   allOf:
-    - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+    - $ref: https://schema.ion.id/releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Attributes
 
 # ION-specific layer — inherits from generic via allOf
 ION{SectorConcept}:
@@ -783,7 +783,7 @@ The table below is the canonical list of everything a new sector contribution mu
 
 | Deliverable | Location | Phase | Reviewer |
 |---|---|---|---|
-| Sector foundation PR (ion.yaml: sector registry, category registry, CRC registry placeholders, CRC rules placeholders, schema dependencies) | `schema/core/v2/api/v2.0.0/ion.yaml` | 1 | ION Council |
+| Sector foundation PR (ion.yaml: sector registry, category registry, CRC registry placeholders, CRC rules placeholders, schema dependencies) | `releases/release1/core/api/v2.0.0/ion.yaml` | 1 | ION Council |
 | Resource schema pack | `schema/extensions/{sector}/resource/v1/` | 2 | ION Schema WG |
 | Offer schema pack | `schema/extensions/{sector}/offer/v1/` | 2 | ION Schema WG |
 | Provider schema pack | `schema/extensions/{sector}/provider/v1/` | 2 | ION Schema WG |
@@ -791,12 +791,11 @@ The table below is the canonical list of everything a new sector contribution mu
 | Consideration schema pack | `schema/extensions/{sector}/consideration/v1/` | 2 | ION Schema WG |
 | Performance schema pack | `schema/extensions/{sector}/performance/v1/` | 2 | ION Schema WG |
 | Contract schema pack | `schema/extensions/{sector}/contract/v1/` | 2 | ION Schema WG |
-| ion.yaml CRC wiring update (fill in attributePack, requiredSubObject, complete crc-rules) | `schema/core/v2/api/v2.0.0/ion.yaml` | 2 (follow-on) | ION Schema WG |
+| ion.yaml CRC wiring update (fill in attributePack, requiredSubObject, complete crc-rules) | `releases/release1/core/api/v2.0.0/ion.yaml` | 2 (follow-on) | ION Schema WG |
 | Sector schema extensions README | `schema/extensions/{sector}/README.md` | 2 | ION Schema WG |
 | Cross-cutting variant | `flows/{sector}/variants/cross-cutting/v1/` | 3 | ION Sector WG |
 | Reference pattern (at least one) | `flows/{sector}/patterns/{name}/v1/` | 3 | ION Sector WG |
 | Sector flows README | `flows/{sector}/README.md` | 3 | ION Sector WG |
 | Sector error codes | `errors/{sector}.yaml` + `generate_registry.py` update | 4 | ION Schema WG |
 | Sector policy terms (if new categories needed) | `policies/{category}/v1/{sector}/` | 4 | ION Council |
-| Activation PR (ion.yaml: active: true) | `schema/core/v2/api/v2.0.0/ion.yaml` | 4 | ION Council |
-
+| Activation PR (ion.yaml: active: true) | `releases/release1/core/api/v2.0.0/ion.yaml` | 4 | ION Council |

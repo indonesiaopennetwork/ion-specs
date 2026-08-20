@@ -26,7 +26,7 @@
       "affected_apis": [
         "all"
       ],
-      "schema_ref": "schema/core/v2/api/v2.0.0/ion.yaml",
+      "schema_ref": "releases/release1/core/api/v2.0.0/ion.yaml",
       "flow_ref": null,
       "resolution": {
         "en": "Verify that you are signing with the private key matching the public key registered for your subscriber_id. Check that the signing string construction follows the ION spec."
@@ -47,7 +47,7 @@
       "affected_apis": [
         "all"
       ],
-      "schema_ref": "schema/core/v2/api/v2.0.0/ion.yaml",
+      "schema_ref": "releases/release1/core/api/v2.0.0/ion.yaml",
       "flow_ref": null,
       "resolution": {
         "en": "Ensure your subscriber_id is registered and active on the ION registry. Contact ION network operations if you believe registration is complete."
@@ -68,7 +68,7 @@
       "affected_apis": [
         "all"
       ],
-      "schema_ref": "schema/core/v2/api/v2.0.0/ion.yaml",
+      "schema_ref": "releases/release1/core/api/v2.0.0/ion.yaml",
       "flow_ref": null,
       "resolution": {
         "en": "Ensure your clock is synchronized (NTP). Reduce processing time before sending. Do not reuse messageIds from expired messages."
@@ -89,7 +89,7 @@
       "affected_apis": [
         "all"
       ],
-      "schema_ref": "schema/core/v2/api/v2.0.0/ion.yaml",
+      "schema_ref": "releases/release1/core/api/v2.0.0/ion.yaml",
       "flow_ref": null,
       "resolution": {
         "en": "Generate a new UUID for each unique message. Never reuse messageIds."
@@ -110,7 +110,7 @@
       "affected_apis": [
         "all"
       ],
-      "schema_ref": "schema/core/v2/api/v2.0.0/ion.yaml",
+      "schema_ref": "releases/release1/core/api/v2.0.0/ion.yaml",
       "flow_ref": null,
       "resolution": {
         "en": "Use ion:trade for Trade sector. Other valid domains will be listed in the ION registry."
@@ -131,7 +131,7 @@
       "affected_apis": [
         "publish_catalog"
       ],
-      "schema_ref": "schema/core/v2/api/v2.0.0/ion.yaml",
+      "schema_ref": "releases/release1/core/api/v2.0.0/ion.yaml",
       "flow_ref": null,
       "resolution": {
         "en": "Split catalog into multiple publish_catalog calls by category or provider location. Maximum 10MB per call."
@@ -155,7 +155,7 @@
         "init",
         "confirm"
       ],
-      "schema_ref": "schema/extensions/trade/provider/v1",
+      "schema_ref": "releases/release1/extension/trade/TradeProvider/v1",
       "resolution": {
         "en": "Provider must complete KYC renewal. New transactions blocked until verification.status is APPROVED."
       }
@@ -197,7 +197,7 @@
       "affected_apis": [
         "publish_catalog"
       ],
-      "schema_ref": "schema/extensions/core/business-registration/v1",
+      "schema_ref": "releases/release1/common/BusinessRegistration/v1",
       "resolution": {
         "en": "Upload current license certificate with validUntil in future. Renew via relevant authority (BPOM, Kemendag)."
       }
@@ -217,7 +217,7 @@
       "affected_apis": [
         "select"
       ],
-      "schema_ref": "schema/core/v2/api/v2.0.0/beckn.yaml#Resource",
+      "schema_ref": "releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#Resource",
       "flow_ref": null,
       "resolution": {
         "en": "Refresh catalog from /on_discover before sending /select. Do not cache resource IDs beyond catalog TTL."
@@ -239,7 +239,7 @@
         "select",
         "on_select"
       ],
-      "schema_ref": "schema/core/v2/api/v2.0.0/beckn.yaml#Resource",
+      "schema_ref": "releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#Resource",
       "flow_ref": null,
       "resolution": {
         "en": "Refresh catalog and display current availability status to consumer. Do not allow select on OUT_OF_STOCK or DISCONTINUED items."
@@ -260,7 +260,7 @@
       "affected_apis": [
         "select"
       ],
-      "schema_ref": "schema/core/v2/api/v2.0.0/beckn.yaml#Commitment",
+      "schema_ref": "releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#Commitment",
       "flow_ref": null,
       "resolution": {
         "en": "Respect maxOrderQty from the availability signal. Display this limit to the consumer before checkout."
@@ -282,7 +282,7 @@
         "init",
         "on_init"
       ],
-      "schema_ref": "schema/core/v2/api/v2.0.0/beckn.yaml#Offer",
+      "schema_ref": "releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#Offer",
       "flow_ref": null,
       "resolution": {
         "en": "Check paymentConstraints.codAvailable and paymentMethodEligibility from the offer before presenting payment options to consumer."
@@ -303,7 +303,7 @@
       "affected_apis": [
         "confirm"
       ],
-      "schema_ref": "schema/core/v2/api/v2.0.0/beckn.yaml#Offer",
+      "schema_ref": "releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#Offer",
       "flow_ref": null,
       "resolution": {
         "en": "Restart transaction from /select. Stock and pricing must be re-quoted."
@@ -324,7 +324,7 @@
       "affected_apis": [
         "confirm"
       ],
-      "schema_ref": "schema/core/v2/api/v2.0.0/beckn.yaml#Resource",
+      "schema_ref": "releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#Resource",
       "flow_ref": null,
       "resolution": {
         "en": "Display out-of-stock message to consumer. Offer alternative products."
@@ -346,7 +346,7 @@
         "on_select",
         "init"
       ],
-      "schema_ref": "schema/core/v2/api/v2.0.0/beckn.yaml#Offer",
+      "schema_ref": "releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#Offer",
       "flow_ref": null,
       "resolution": {
         "en": "Prompt consumer to select prepaid payment method. Display codEligibilityReason."
@@ -368,7 +368,7 @@
         "confirm",
         "on_status"
       ],
-      "schema_ref": "schema/core/v2/api/v2.0.0/beckn.yaml#Contract",
+      "schema_ref": "releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#Contract",
       "flow_ref": null,
       "resolution": {
         "en": "Retry collection with a fresh payment method, update the Settlement payment status when resolved, or cancel with an appropriate reason."
@@ -393,7 +393,7 @@
         "track",
         "on_track"
       ],
-      "schema_ref": "schema/extensions/core/address/v1",
+      "schema_ref": "releases/release1/common/Address/v1",
       "flow_ref": null,
       "resolution": {
         "en": "Format as '-6.261000,106.815000' (lat,lon). Minimum 4 decimal places. Do not swap longitude and latitude."
@@ -417,7 +417,7 @@
         "track",
         "on_track"
       ],
-      "schema_ref": "schema/core/v2/api/v2.0.0/beckn.yaml#Performance",
+      "schema_ref": "releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#Performance",
       "flow_ref": null,
       "resolution": {
         "en": "Use performanceId from on_confirm. Multiple performance records may exist (main delivery + return). Reference the correct one."
@@ -439,10 +439,10 @@
         "on_status",
         "on_update"
       ],
-      "schema_ref": "schema/core/v2/api/v2.0.0/beckn.yaml#Performance",
+      "schema_ref": "releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#Performance",
       "flow_ref": null,
       "resolution": {
-        "en": "Check the allowed transitions in schema/extensions/trade/performance-states/v1/states.yaml. Cannot skip states or go backwards."
+        "en": "Check the allowed transitions in releases/release1/extension/trade/TradePerformanceStates/v1/states.yaml. Cannot skip states or go backwards."
       }
     },
     {
@@ -461,7 +461,7 @@
         "cancel",
         "on_cancel"
       ],
-      "schema_ref": "schema/core/v2/api/v2.0.0/beckn.yaml#Offer",
+      "schema_ref": "releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#Offer",
       "flow_ref": null,
       "resolution": {
         "en": "Enforce cancellation window in BAP UI. Check cancellationFeeApplicableStates — if current state is in this list, fee applies."
@@ -482,7 +482,7 @@
       "affected_apis": [
         "cancel"
       ],
-      "schema_ref": "schema/core/v2/api/v2.0.0/beckn.yaml#Offer",
+      "schema_ref": "releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#Offer",
       "flow_ref": null,
       "resolution": {
         "en": "Only send cancellation reasons that are in the offer's policies.cancellation.allowedReasons. Display these reasons to consumer in the cancellation flow."
@@ -566,7 +566,7 @@
       "affected_apis": [
         "on_status"
       ],
-      "schema_ref": "schema/core/v2/api/v2.0.0/beckn.yaml#Performance",
+      "schema_ref": "releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#Performance",
       "flow_ref": null,
       "resolution": {
         "en": "Initiate RTO flow. Buyer may be restricted from future purchases of this category per platform policy."
@@ -589,7 +589,7 @@
         "init",
         "confirm"
       ],
-      "schema_ref": "schema/core/v2/api/v2.0.0/beckn.yaml#Resource",
+      "schema_ref": "releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#Resource",
       "resolution": {
         "en": "BAP must confirm domestic-only data processing before attempting these transactions; otherwise filter such resources from discovery."
       },
@@ -634,7 +634,7 @@
         "on_init",
         "confirm"
       ],
-      "schema_ref": "schema/extensions/core/payment/v1",
+      "schema_ref": "releases/release1/common/Payment/v1",
       "flow_ref": "flows/trade/patterns/storefront/v1",
       "resolution": {
         "en": "Use only payment rails declared in ion.yaml x-ion-settlement.allowedPaymentRails."
@@ -780,7 +780,7 @@
       "affected_apis": [
         "all"
       ],
-      "schema_ref": "schema/core/v2/api/v2.0.0/ion.yaml",
+      "schema_ref": "releases/release1/core/api/v2.0.0/ion.yaml",
       "flow_ref": null,
       "resolution": {
         "en": "Set all price.currency and consideration.currency fields to IDR. Cross-border (cross-border pattern) has a separate currency handling specification."
@@ -823,7 +823,7 @@
         "confirm",
         "on_confirm"
       ],
-      "schema_ref": "schema/extensions/core/business-registration/v1",
+      "schema_ref": "releases/release1/common/BusinessRegistration/v1",
       "flow_ref": null,
       "resolution": {
         "en": "Use the 16-digit NPWP format as per PMK 136/2023. Do not include dots or dashes."
@@ -912,7 +912,7 @@
         "publish_catalog",
         "on_discover"
       ],
-      "schema_ref": "schema/extensions/trade/resource/v1",
+      "schema_ref": "releases/release1/extension/trade/TradeResource/v1",
       "flow_ref": null,
       "resolution": {
         "en": "Provide at least one valid HTTPS image URL in images[]. First image is the primary thumbnail."
@@ -935,7 +935,7 @@
       "affected_apis": [
         "publish_catalog"
       ],
-      "schema_ref": "schema/extensions/trade/offer/v1",
+      "schema_ref": "releases/release1/extension/trade/TradeOffer/v1",
       "flow_ref": "policies/registry.json",
       "resolution": {
         "en": "Check policies/registry.json for the ratified set. Declare only IRIs present in the current registry."
@@ -958,7 +958,7 @@
       "affected_apis": [
         "publish_catalog"
       ],
-      "schema_ref": "schema/extensions/trade/offer/v1",
+      "schema_ref": "releases/release1/extension/trade/TradeOffer/v1",
       "flow_ref": "policies/registry.json",
       "resolution": {
         "en": "Replace with the supersededBy IRI from the terms document, or select an alternative from the current registry."
@@ -981,7 +981,7 @@
       "affected_apis": [
         "select"
       ],
-      "schema_ref": "schema/extensions/trade/resource/v1",
+      "schema_ref": "releases/release1/extension/trade/TradeResource/v1",
       "flow_ref": "flows/trade/patterns/storefront/v1",
       "resolution": {
         "en": "Ensure your UI enforces SINGLE_REQUIRED groups before allowing /select. Check all customisationGroups where selectionType=SINGLE_REQUIRED and add the missing groupId and optionId."
@@ -1004,7 +1004,7 @@
       "affected_apis": [
         "select"
       ],
-      "schema_ref": "schema/extensions/trade/resource/v1",
+      "schema_ref": "releases/release1/extension/trade/TradeResource/v1",
       "flow_ref": "flows/trade/patterns/storefront/v1",
       "resolution": {
         "en": "Only send optionIds returned in the customisationGroups of the on_discover catalog. Do not fabricate or guess option IDs."
@@ -1027,7 +1027,7 @@
       "affected_apis": [
         "select"
       ],
-      "schema_ref": "schema/extensions/trade/offer/v1",
+      "schema_ref": "releases/release1/extension/trade/TradeOffer/v1",
       "flow_ref": "flows/trade/patterns/live-commerce/v1",
       "resolution": {
         "en": "Inform consumer offer is sold out. Surface standard (non-flash) offer if available."
@@ -1052,7 +1052,7 @@
         "init",
         "confirm"
       ],
-      "schema_ref": "schema/extensions/trade/offer/v1",
+      "schema_ref": "releases/release1/extension/trade/TradeOffer/v1",
       "flow_ref": "flows/trade/patterns/live-commerce/v1",
       "resolution": {
         "en": "Inform consumer the live offer has ended. Redirect to standard catalog."
@@ -1074,7 +1074,7 @@
       "affected_apis": [
         "select"
       ],
-      "schema_ref": "schema/extensions/trade/resource/v1",
+      "schema_ref": "releases/release1/extension/trade/TradeResource/v1",
       "flow_ref": "flows/trade/patterns/digital-goods/v1",
       "resolution": {
         "en": "Prompt consumer to verify target identifier. Return actionable error message."
@@ -1098,7 +1098,7 @@
         "select",
         "init"
       ],
-      "schema_ref": "schema/extensions/trade/offer/v1",
+      "schema_ref": "releases/release1/extension/trade/TradeOffer/v1",
       "flow_ref": "flows/trade/patterns/storefront/v1",
       "resolution": {
         "en": "Display stacking rule violation to consumer. Offer choice of which voucher to keep."
@@ -1121,7 +1121,7 @@
       "affected_apis": [
         "select"
       ],
-      "schema_ref": "schema/extensions/trade/resource/v1",
+      "schema_ref": "releases/release1/extension/trade/TradeResource/v1",
       "flow_ref": "flows/trade/patterns/storefront/v1",
       "resolution": {
         "en": "Present only valid axis value combinations. Surface available=false values as disabled options."
@@ -1144,7 +1144,7 @@
       "affected_apis": [
         "update"
       ],
-      "schema_ref": "schema/extensions/trade/offer/v1",
+      "schema_ref": "releases/release1/extension/trade/TradeOffer/v1",
       "flow_ref": "flows/trade/variants/returns/v1",
       "resolution": {
         "en": "Check policies.returns.allowed flag before showing return option in BAP UI. Do not present return option if policies.returns.allowed=false."
@@ -1167,7 +1167,7 @@
       "affected_apis": [
         "update"
       ],
-      "schema_ref": "schema/extensions/trade/offer/v1",
+      "schema_ref": "releases/release1/extension/trade/TradeOffer/v1",
       "flow_ref": "flows/trade/variants/returns/v1",
       "resolution": {
         "en": "The policies.returns.policyRef IRI defines the returnWindowDays. Calculate return deadline as deliveredAt + returnWindowDays. Only show return option within this window."
@@ -1190,7 +1190,7 @@
       "affected_apis": [
         "update"
       ],
-      "schema_ref": "schema/extensions/trade/offer/v1",
+      "schema_ref": "releases/release1/extension/trade/TradeOffer/v1",
       "flow_ref": "flows/trade/variants/returns/v1",
       "resolution": {
         "en": "Request additional evidence from consumer per policies.returns.evidenceRequirement."
@@ -1213,7 +1213,7 @@
       "affected_apis": [
         "on_status"
       ],
-      "schema_ref": "schema/extensions/trade/performance/v1",
+      "schema_ref": "releases/release1/extension/trade/TradePerformance/v1",
       "flow_ref": "flows/trade/variants/returns/v1",
       "resolution": {
         "en": "Consumer may escalate via support/raise if they dispute QC finding."
@@ -1656,7 +1656,7 @@
       "affected_apis": [
         "on_init"
       ],
-      "schema_ref": "schema/extensions/core/business-registration/v1",
+      "schema_ref": "releases/release1/common/BusinessRegistration/v1",
       "flow_ref": null,
       "resolution": {
         "en": "Ensure consignor NPWP matches the tax invoice NPWP"
@@ -1680,7 +1680,7 @@
         "on_confirm",
         "on_status[DELIVERED]"
       ],
-      "schema_ref": "schema/extensions/core/business-registration/v1",
+      "schema_ref": "releases/release1/common/BusinessRegistration/v1",
       "flow_ref": null,
       "resolution": {
         "en": "Retry or use consolidated-monthly invoicing model"
@@ -1703,7 +1703,7 @@
       "affected_apis": [
         "on_init"
       ],
-      "schema_ref": "schema/extensions/core/business-registration/v1",
+      "schema_ref": "releases/release1/common/BusinessRegistration/v1",
       "flow_ref": null,
       "resolution": {
         "en": "Renew NIB via OSS; resubmit"
@@ -1726,7 +1726,7 @@
       "affected_apis": [
         "on_init"
       ],
-      "schema_ref": "schema/extensions/core/business-registration/v1",
+      "schema_ref": "releases/release1/common/BusinessRegistration/v1",
       "flow_ref": null,
       "resolution": {
         "en": "Declare withholdingTax object with bukti potong details"
@@ -1889,7 +1889,7 @@
       "affected_apis": [
         "on_init"
       ],
-      "schema_ref": "schema/extensions/core/business-registration/v1",
+      "schema_ref": "releases/release1/common/BusinessRegistration/v1",
       "flow_ref": "flows/logistics/variants/ekyc/v1",
       "resolution": {
         "en": "Verify NPWP with DJP; re-submit with valid NPWP"
@@ -1912,7 +1912,7 @@
       "affected_apis": [
         "on_init"
       ],
-      "schema_ref": "schema/extensions/core/business-registration/v1",
+      "schema_ref": "releases/release1/common/BusinessRegistration/v1",
       "flow_ref": "flows/logistics/variants/ekyc/v1",
       "resolution": {
         "en": "Renew NIB via OSS; re-submit"
@@ -1935,7 +1935,7 @@
       "affected_apis": [
         "on_init"
       ],
-      "schema_ref": "schema/extensions/core/business-registration/v1",
+      "schema_ref": "releases/release1/common/BusinessRegistration/v1",
       "flow_ref": "flows/logistics/variants/ekyc/v1",
       "resolution": {
         "en": "Await unsolicited on_init with final eKYC status"
@@ -1958,7 +1958,7 @@
       "affected_apis": [
         "on_init"
       ],
-      "schema_ref": "schema/extensions/core/business-registration/v1",
+      "schema_ref": "releases/release1/common/BusinessRegistration/v1",
       "flow_ref": "flows/logistics/variants/ekyc/v1",
       "resolution": {
         "en": "Provide correct authorised signatory per entity registration"
@@ -1981,7 +1981,7 @@
       "affected_apis": [
         "on_init"
       ],
-      "schema_ref": "schema/extensions/core/business-registration/v1",
+      "schema_ref": "releases/release1/common/BusinessRegistration/v1",
       "flow_ref": "flows/logistics/variants/ekyc/v1",
       "resolution": {
         "en": "Contact BPP for manual resolution or register FWA via governed process"
@@ -2308,7 +2308,7 @@
       "affected_apis": [
         "NACK on any endpoint"
       ],
-      "schema_ref": "schema/core/v2/api/v2.0.0/ion.yaml",
+      "schema_ref": "releases/release1/core/api/v2.0.0/ion.yaml",
       "flow_ref": null,
       "resolution": {
         "en": "Check required fields per pattern definition"
@@ -2331,7 +2331,7 @@
       "affected_apis": [
         "NACK on any endpoint"
       ],
-      "schema_ref": "schema/core/v2/api/v2.0.0/ion.yaml",
+      "schema_ref": "releases/release1/core/api/v2.0.0/ion.yaml",
       "flow_ref": null,
       "resolution": {
         "en": "Check signing key rotation; re-sign request"
@@ -2355,7 +2355,7 @@
         "on_select",
         "on_init"
       ],
-      "schema_ref": "schema/core/v2/api/v2.0.0/ion.yaml",
+      "schema_ref": "releases/release1/core/api/v2.0.0/ion.yaml",
       "flow_ref": null,
       "resolution": {
         "en": "Check provider catalog for supported capabilities"
@@ -2378,7 +2378,7 @@
       "affected_apis": [
         "any update"
       ],
-      "schema_ref": "schema/core/v2/api/v2.0.0/ion.yaml",
+      "schema_ref": "releases/release1/core/api/v2.0.0/ion.yaml",
       "flow_ref": null,
       "resolution": {
         "en": "Use a ratified policy IRI from the ION policy registry"
@@ -2401,7 +2401,7 @@
       "affected_apis": [
         "any callback"
       ],
-      "schema_ref": "schema/core/v2/api/v2.0.0/ion.yaml",
+      "schema_ref": "releases/release1/core/api/v2.0.0/ion.yaml",
       "flow_ref": null,
       "resolution": {
         "en": "BAP checks endpoint availability; may poll via /status"
@@ -2424,7 +2424,7 @@
       "affected_apis": [
         "Ack response"
       ],
-      "schema_ref": "schema/core/v2/api/v2.0.0/ion.yaml",
+      "schema_ref": "releases/release1/core/api/v2.0.0/ion.yaml",
       "flow_ref": null,
       "resolution": {
         "en": "Include valid CounterSignature per Beckn 2.0 CounterSignature schema"
@@ -2447,7 +2447,7 @@
       "affected_apis": [
         "NACK on any endpoint"
       ],
-      "schema_ref": "schema/core/v2/api/v2.0.0/ion.yaml",
+      "schema_ref": "releases/release1/core/api/v2.0.0/ion.yaml",
       "flow_ref": null,
       "resolution": {
         "en": "Use pipe-separated triple keyId format"
@@ -2470,7 +2470,7 @@
       "affected_apis": [
         "NACK on any endpoint"
       ],
-      "schema_ref": "schema/core/v2/api/v2.0.0/ion.yaml",
+      "schema_ref": "releases/release1/core/api/v2.0.0/ion.yaml",
       "flow_ref": null,
       "resolution": {
         "en": "Set context.version to \"2.0.0\""
@@ -2493,7 +2493,7 @@
       "affected_apis": [
         "NACK on any endpoint"
       ],
-      "schema_ref": "schema/core/v2/api/v2.0.0/ion.yaml",
+      "schema_ref": "releases/release1/core/api/v2.0.0/ion.yaml",
       "flow_ref": null,
       "resolution": {
         "en": "Include @context (URI) and @type (IRI) in every Attributes block"
@@ -2516,7 +2516,7 @@
       "affected_apis": [
         "documentation"
       ],
-      "schema_ref": "schema/core/v2/api/v2.0.0/ion.yaml",
+      "schema_ref": "releases/release1/core/api/v2.0.0/ion.yaml",
       "flow_ref": null,
       "resolution": {
         "en": "See ION logistics documentation."

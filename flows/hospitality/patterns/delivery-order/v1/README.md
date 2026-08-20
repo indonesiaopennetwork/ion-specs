@@ -48,8 +48,8 @@ See `pattern.yaml` for the full API sequence.
 | `hospitality/performance/v1` | See pack README | [`schema/extensions/hospitality/performance/v1/README.md`](../../../../schema/extensions/hospitality/performance/v1/README.md) |
 | `hospitality/contract/v1` | See pack README | [`schema/extensions/hospitality/contract/v1/README.md`](../../../../schema/extensions/hospitality/contract/v1/README.md) |
 | `core/localization/v1` | See pack README | [`schema/extensions/core/localization/v1/README.md`](../../../../schema/extensions/core/localization/v1/README.md) |
-| `core/payment/v1` | See pack README | [`schema/extensions/core/payment/v1/README.md`](../../../../schema/extensions/core/payment/v1/README.md) |
-| `core/address/v1` | See pack README | [`schema/extensions/core/address/v1/README.md`](../../../../schema/extensions/core/address/v1/README.md) |
+| `core/payment/v1` | See pack README | [`releases/release1/common/Payment/v1/README.md`](../../../../releases/release1/common/Payment/v1/README.md) |
+| `core/address/v1` | See pack README | [`releases/release1/common/Address/v1/README.md`](../../../../releases/release1/common/Address/v1/README.md) |
 
 ## Variants
 

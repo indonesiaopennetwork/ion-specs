@@ -229,14 +229,14 @@ Selecting a CRC determines which ION schema extension packs apply to the resourc
 
 | CRC selected | Sector | Attribute pack enforced | Key mandatory fields |
 |---|---|---|---|
-| `TRC-health-beauty` | Trade | `schema/extensions/trade/resource/v1` → `pharmacy` sub-object | `prescriptionRequired`, `dosageForm`, `strength`, `activeIngredients` |
-| `TRC-food-bev` | Trade | `schema/extensions/trade/resource/v1` → `food` sub-object | `food.classification` (halal status), `allergens`, BPOM food registration. **Packaged products only — not food delivery** |
-| `TRC-fashion` | Trade | `schema/extensions/trade/resource/v1` → `fashion` sub-object | `gender`, `size`, `fabricComposition` |
-| `TRC-electronics` | Trade | `schema/extensions/trade/resource/v1` → `electronics` sub-object | `osType`, `connectivity`, `wattage`, `energyRating` |
+| `TRC-health-beauty` | Trade | `releases/release1/extension/trade/TradeResource/v1` → `pharmacy` sub-object | `prescriptionRequired`, `dosageForm`, `strength`, `activeIngredients` |
+| `TRC-food-bev` | Trade | `releases/release1/extension/trade/TradeResource/v1` → `food` sub-object | `food.classification` (halal status), `allergens`, BPOM food registration. **Packaged products only — not food delivery** |
+| `TRC-fashion` | Trade | `releases/release1/extension/trade/TradeResource/v1` → `fashion` sub-object | `gender`, `size`, `fabricComposition` |
+| `TRC-electronics` | Trade | `releases/release1/extension/trade/TradeResource/v1` → `electronics` sub-object | `osType`, `connectivity`, `wattage`, `energyRating` |
 | `HSC-restaurant-ordering` | **Hospitality** | `schema/extensions/hospitality/delivery/v1` | `classification` (halal status), `allergens`, `preparationTime`. **Food delivery and online food ordering — GoFood, GrabFood, restaurant apps** |
 | `LGC-lastmile` | Logistics | `schema/extensions/logistics/resource/v1` | `serviceType`, `quantity`, `weight`, `dimensions` |
 
-All Trade CRCs use `schema/extensions/trade/resource/v1` — the CRC determines which *conditional sub-object* within that pack is required. Logistics CRCs use `schema/extensions/logistics/resource/v1`. The full attribute pack documentation lives in `schema/extensions/`.
+All Trade CRCs use `releases/release1/extension/trade/TradeResource/v1` — the CRC determines which *conditional sub-object* within that pack is required. Logistics CRCs use `schema/extensions/logistics/resource/v1`. The full attribute pack documentation lives in `schema/extensions/`.
 
 #### Example: same seller, two CRCs, two different forms
 

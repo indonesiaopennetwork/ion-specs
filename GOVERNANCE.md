@@ -33,13 +33,14 @@ Upgrade notice: network participants receive **90 days' notice** before any mand
 All ION schema extensions MUST:
 
 - Carry an `x-beckn-attaches-to` annotation naming the Beckn `*Attributes` slot
-- `allOf` with `../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes`
+- `allOf` with `https://schema.ion.id/releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Attributes`
 - Include `@context` and `@type` as required fields (inherited from the Beckn `Attributes` base)
 - Follow naming conventions in `docs/ION_Schema_Style_Guide.md`
-- Reference `beckn.yaml` via the local relative path, never via external GitHub URL
+- Reference vendored Beckn schemas through the absolute, release-qualified
+  `schema.ion.id` URL, never via a relative path or external GitHub URL
 
 See `docs/ION_Schema_Style_Guide.md` for the complete pack-authoring guide.
 
 ## Sectors
 
-Active sectors are declared in `schema/core/v2/api/v2.0.0/ion.yaml → x-ion-sectors`. Opening a new sector requires Council ratification with a defined working group and at least two committed implementation partners.
+Active sectors are declared in `releases/release1/core/api/v2.0.0/ion.yaml → x-ion-sectors`. Opening a new sector requires Council ratification with a defined working group and at least two committed implementation partners.

@@ -14,7 +14,7 @@
   - init
   - track
   - on_track
-  schema_ref: schema/extensions/core/address/v1
+  schema_ref: releases/release1/common/Address/v1
   flow_ref: null
   resolution:
     en: Format as '-6.261000,106.815000' (lat,lon). Minimum 4 decimal places. Do not
@@ -34,7 +34,7 @@
   - on_status
   - track
   - on_track
-  schema_ref: schema/core/v2/api/v2.0.0/beckn.yaml#Performance
+  schema_ref: releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#Performance
   flow_ref: null
   resolution:
     en: Use performanceId from on_confirm. Multiple performance records may exist
@@ -52,8 +52,8 @@
   affected_apis:
   - on_status
   - on_update
-  schema_ref: schema/core/v2/api/v2.0.0/beckn.yaml#Performance
+  schema_ref: releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#Performance
   flow_ref: null
   resolution:
-    en: Check the allowed transitions in schema/extensions/trade/performance-states/v1/states.yaml.
+    en: Check the allowed transitions in releases/release1/extension/trade/TradePerformanceStates/v1/states.yaml.
       Cannot skip states or go backwards.

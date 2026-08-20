@@ -128,7 +128,7 @@ phases:
   phase4:
     name: Fulfilment
     description: Same as storefront from confirm onwards.
-    stateMachine: schema/extensions/trade/performance-states/v1/states.yaml#standard
+    stateMachine: releases/release1/extension/trade/TradePerformanceStates/v1/states.yaml#standard
 
 variantWindows:
   cancellation:

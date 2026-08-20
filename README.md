@@ -49,7 +49,7 @@ ION Network (this repo)
 The extension mechanism is simple: every ION schema pack declares which Beckn object it extends, using the `x-beckn-attaches-to` annotation. For example:
 
 ```yaml
-# In schema/extensions/trade/resource/v1/attributes.yaml
+# In releases/release1/extension/trade/TradeResource/v1/attributes.yaml
 TradeResource:
   x-beckn-attaches-to: Resource.resourceAttributes
   # ...fields for product type, availability, category-specific attributes
@@ -61,17 +61,20 @@ This means a Beckn `Resource` object — which has an `id`, a `descriptor`, and 
 
 ## The two spec files
 
-The entire ION specification lives in two files, side by side:
+The two primary API contracts in the Release 1 draft live at:
 
 ```
-schema/core/v2/api/v2.0.0/
-  beckn.yaml   ← Beckn Protocol v2.0.0 (vendored, do not edit)
-  ion.yaml     ← ION extension specification (everything ION adds)
+releases/release1/core/api/v2.0.0/ion.yaml
+releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml
 ```
 
-`beckn.yaml` is a vendored copy of Beckn's upstream spec, pinned to a specific release. It is kept locally so that validators and tooling work offline. The header inside it explains how to upgrade it when Beckn releases a new version.
+`beckn.yaml` is the candidate vendored copy of Beckn's upstream spec. Its
+provenance and transitive dependencies must be completed before Release 1 can be
+published.
 
-`ion.yaml` contains all ION extensions. Every reference to a Beckn type uses `$ref: beckn.yaml#/...` — pointing to the local copy, never to an external URL. If you change `beckn.yaml` to a newer Beckn version, `ion.yaml` automatically picks up the changes.
+`ion.yaml` contains ION extensions. References affected by the migration use the
+absolute Release 1 `schema.ion.id` namespace so they resolve through the public
+proxy and map deterministically back into this repository.
 
 > **You do not need to read `beckn.yaml` unless you are upgrading the vendored Beckn version or debugging a protocol-level issue.** `ion.yaml` is your implementation target.
 
@@ -82,15 +85,17 @@ schema/core/v2/api/v2.0.0/
 ```
 ion-specs/
 │
-├── schema/
-│   ├── core/v2/api/v2.0.0/
-│   │   ├── beckn.yaml          ← Beckn Protocol v2.0.0 (vendored)
-│   │   └── ion.yaml            ← ION extension spec (L2 + L3 + L4 + L5)
-│   │
-│   └── extensions/             ← Individual attribute packs (source of truth for fields)
-│       ├── core/               ← 11 cross-sector packs (address, identity, payment, tax...)
-│       ├── trade/              ← 8 trade sector packs
-│       └── logistics/          ← 10 logistics sector packs
+├── releases/release1/          ← Mutable draft until publication
+│   ├── core/api/v2.0.0/        ← Native ION API contract
+│   ├── common/                 ← Common packs included in the draft
+│   ├── extension/trade/        ← Trade packs included in the draft
+│   └── vendored/beckn/         ← Release-local upstream dependencies
+│
+├── schema/extensions/          ← Unmigrated packs awaiting review and mapping
+│   ├── core/
+│   ├── logistics/
+│   ├── hospitality/
+│   └── finance/
 │
 ├── flows/                      ← Transaction flow specifications
 │   ├── trade/                  ← 12 commerce patterns (storefront, made-to-order, subscription,
@@ -104,7 +109,7 @@ ion-specs/
 └── docs/                       ← Reference documents and developer guides
 ```
 
-**How the parts connect.** A flow spec in `flows/` references field paths like `message.catalog.resources[].resourceAttributes.food.classification`. That field is defined in `schema/extensions/trade/resource/v1/attributes.yaml`. Its commercial terms (what happens if it is wrong) are in `policies/`. The error code if ION rejects it is in `errors/`.
+**How the parts connect.** A flow spec in `flows/` references field paths like `message.catalog.resources[].resourceAttributes.food.classification`. That field is defined in `releases/release1/extension/trade/TradeResource/v1/attributes.yaml`. Its commercial terms (what happens if it is wrong) are in `policies/`. The error code if ION rejects it is in `errors/`.
 
 ### docs/ — Developer guides vs. internal working documents
 
@@ -130,7 +135,7 @@ ION composes with Beckn in five distinct layers. The table below shows which lay
 
 | Layer | What it is | Where it lives | Do you read this? |
 |---|---|---|---|
-| **L1 — Beckn core** | The upstream protocol: 30 endpoints, core data model, `*Attributes` extension slots. ION never modifies this. | `schema/core/v2/api/v2.0.0/beckn.yaml` | Only when debugging protocol-level issues |
+| **L1 — Beckn core** | The upstream protocol: 30 endpoints, core data model, `*Attributes` extension slots. ION never modifies this. | `releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml` | Only when debugging protocol-level issues |
 | **L2 — ION network profile** | Network-wide rules: Ed25519 signing, NPWP/NIB mandatory fields, allowed payment rails, data residency Indonesia, 90-day upgrade policy. | `ion.yaml → x-ion-profile block` | Read `docs/ION_Transport_and_Signing.md` for signing; read the mandatory fields table below for field requirements |
 | **L3 — ION endpoint extensions** | 8 endpoints that ION adds to Beckn's 30: the `/raise` family for dispute escalation (6 endpoints) and `/reconcile` + `/on_reconcile` for settlement. | `ion.yaml → paths: block` | Read the flow pattern for your sector |
 | **L4 — Cross-sector attribute packs** | Fields that apply across every ION sector: Indonesian address format, business identity (NPWP, NIB), payment methods (QRIS, COD, BNPL...), tax (PPN, PPnBM), participant roles, product certifications (halal, BPOM). | `schema/extensions/core/` | Read the pack README for each field you send |
@@ -159,8 +164,8 @@ You implement Beckn's 30 endpoints **plus** ION's 8 extensions. You publish cata
 
 **Fast path — trade BPP selling physical goods:**
 1. Open `flows/trade/patterns/storefront/v1/README.md` — this is the reference pattern for your integration
-2. Open `schema/extensions/trade/resource/v1/README.md` — this defines every field in your catalog
-3. Open `schema/extensions/trade/offer/v1/README.md` — this defines policy IRIs and offer terms
+2. Open `releases/release1/extension/trade/TradeResource/v1/README.md` — this defines every field in your catalog
+3. Open `releases/release1/extension/trade/TradeOffer/v1/README.md` — this defines policy IRIs and offer terms
 4. Read `docs/ION_Transport_and_Signing.md` — HTTP signing is required on every request before any other integration work
 5. Run `python tools/ion_required_fields.py --sector trade --pattern storefront --crc <your-crc>` to get your mandatory field checklist (see [How to find your required fields](#how-to-find-your-required-fields))
 
@@ -199,7 +204,7 @@ Knowing which fields are mandatory for your integration requires consulting four
 
 | Source | What it declares | Where it lives |
 |---|---|---|
-| `ion.yaml → x-ion-field-requirements.alwaysRequired` | Fields always required on every ION transaction, per schema | `schema/core/v2/api/v2.0.0/ion.yaml` |
+| `ion.yaml → x-ion-field-requirements.alwaysRequired` | Fields always required on every ION transaction, per schema | `releases/release1/core/api/v2.0.0/ion.yaml` |
 | `ion.yaml → x-ion-crc-rules` | Fields required only when a resource carries a specific CRC (product category) | Same file |
 | `ion.yaml → x-ion-conditional-rules` | Fields required only when a field in a different schema bag has a specific value | Same file |
 | `flows/{sector}/patterns/{pattern}/v1/pattern.yaml` | The exact full list of fields ONIX will check at each API step for this specific pattern | e.g. `flows/trade/patterns/storefront/v1/pattern.yaml` |
@@ -260,8 +265,8 @@ See `flows/trade/patterns/storefront/v1/pattern.yaml` for the full field-by-fiel
 
 **I'm a developer building a trade BPP (most common — physical goods seller):**
 1. Open `flows/trade/patterns/storefront/v1/README.md` — start here
-2. Open `schema/extensions/trade/resource/v1/README.md` — your catalog fields
-3. Open `schema/extensions/trade/offer/v1/README.md` — your offer terms and policy IRIs
+2. Open `releases/release1/extension/trade/TradeResource/v1/README.md` — your catalog fields
+3. Open `releases/release1/extension/trade/TradeOffer/v1/README.md` — your offer terms and policy IRIs
 4. Read `schema/extensions/README.md` — how attribute packs work
 5. Run the required-fields tool for your CRC (see above)
 

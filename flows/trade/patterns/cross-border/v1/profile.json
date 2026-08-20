@@ -17,7 +17,7 @@
     "returns/v1",
     "cross-cutting/v1"
   ],
-  "performanceStateMachine": "schema/extensions/trade/performance-states/v1/states.yaml#standard",
+  "performanceStateMachine": "releases/release1/extension/trade/TradePerformanceStates/v1/states.yaml#standard",
   "requiredCatalogLanguages": [
     "id",
     "en"

@@ -12,7 +12,7 @@
     "cancellation/v1",
     "cross-cutting/v1"
   ],
-  "performanceStateMachine": "schema/extensions/trade/performance-states/v1/states.yaml#digital",
+  "performanceStateMachine": "releases/release1/extension/trade/TradePerformanceStates/v1/states.yaml#digital",
   "regulatoryBasis": "UU 36/1999 Telekomunikasi (pulsa); UU 8/1999 Perlindungan Konsumen",
   "requiredPolicyCategories": [
     "CANCELLATION",

@@ -106,8 +106,9 @@ Phase 1 establishes migration inputs without moving normative files:
 - `tools/release/release1-path-map.json` records 15 approved mechanical mappings:
   the two primary API files, nine Trade packs, and the four common packs directly
   referenced by Trade (`Address`, `BusinessRegistration`, `Payment`, and `Tax`).
-- `tools/release/validate_path_map.rb` verifies that mappings are unique, their
-  sources exist, targets stay within Release 1, and public URLs mirror target paths.
+- `tools/release/validate_path_map.rb` verifies that mappings are unique, the
+  required pre- or post-migration locations exist, targets stay within Release 1,
+  and public URLs mirror target paths.
 - `tools/release/tests/` contains focused manifest validation tests and a draft
   fixture. The fixture is not the Release 1 manifest.
 - Confirmed `.DS_Store` and Python bytecode artifacts were removed and ignored.
@@ -132,11 +133,41 @@ Phase 2 creates the release envelope without moving normative artifacts:
 
 No schema, flow, policy, error, or other normative artifact was moved in Phase 2.
 
-## Current repository inventory
+## Phase 3 outputs
+
+Phase 3 mechanically applies the 15 approved mappings:
+
+- the ION and Beckn API files moved to their Release 1 API and vendored paths;
+- all nine Trade packs and the four Trade-required common packs moved into the
+  Release 1 draft;
+- exact repository path literals in connected flows, errors, tools, and
+  documentation were updated to the mapped targets;
+- relative references affected by the moves were changed to absolute,
+  release-qualified `schema.ion.id` URLs;
+- schema IDs, context-document URLs, example context URLs, and vocabulary-document
+  references affected by the moves were made release-qualified, while semantic
+  vocabulary IRIs were left unchanged; and
+- the old mapped files and version directories no longer contain normative copies.
+
+All moved YAML, JSON, and JSON-LD files parse. The post-migration path-map gate
+confirms all 15 targets exist. Reference inspection resolves 511 local or
+release-qualified references and JSON Pointers, except for four pre-existing
+internal pointers in `ion.yaml` to absent local components (`Attributes`,
+`GeoJSONGeometry`, and `Document`). Those are content defects, not move defects,
+and remain review gates. Phase 4 must also close 139 active `schema.beckn.io`
+references across 10 upstream documents in the moved draft subset.
+
+Flows, policies, and errors remain at the repository root; only their schema path
+literals were updated in this phase.
+
+## Pre-migration repository inventory
+
+The counts and paths below record the inventory used to plan the migration. They
+describe the repository before Phase 3 and are retained as the migration baseline.
 
 ### Primary API contracts
 
-The current API directory contains:
+Before Phase 3, the API directory contained:
 
 ```text
 schema/core/v2/api/v2.0.0/
@@ -291,8 +322,8 @@ only if genuinely release-specific documentation is identified.
 
 | Current path | Draft Release 1 path | Transformation |
 |---|---|---|
-| `schema/core/v2/api/v2.0.0/ion.yaml` | `releases/release1/core/api/v2.0.0/ion.yaml` | Move, then rewrite release references |
-| `schema/core/v2/api/v2.0.0/beckn.yaml` | `releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml` | Re-vendor from verified immutable source; record provenance |
+| `releases/release1/core/api/v2.0.0/ion.yaml` | `releases/release1/core/api/v2.0.0/ion.yaml` | Move, then rewrite release references |
+| `releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml` | `releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml` | Re-vendor from verified immutable source; record provenance |
 | `schema/extensions/core/` | `releases/release1/common/` | Rename classification and approve public schema directory names |
 | `schema/extensions/<sector>/` | `releases/release1/extension/<sector>/` | Move; normalize public schema directory names only after review |
 | `flows/` | `releases/release1/flows/` | Move normative content; rewrite pack identifiers and links |
@@ -527,11 +558,13 @@ Before publication, root tooling must provide:
 
 ### Phase 3 — Mechanical migration
 
-1. Move files using explicit path mappings.
-2. Do not combine sector correctness fixes with the move.
-3. Rewrite only paths required for resolvability.
-4. Preserve file history where Git can detect the moves.
-5. Remove old normative root copies so there is one editable source tree.
+1. [x] Move files using explicit path mappings.
+2. [x] Do not combine sector correctness fixes with the move.
+3. [x] Rewrite only paths required for resolvability.
+4. [x] Preserve file history where Git can detect the moves.
+5. [x] Remove old normative root copies so there is one editable source tree.
+6. [x] Validate mapped targets, structured-file parsing, and moved reference
+   resolution; record pre-existing content defects for later phases.
 
 ### Phase 4 — Vendor and close references
 

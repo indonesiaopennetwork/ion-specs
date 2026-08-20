@@ -17,7 +17,7 @@ attachmentWindow:
   earliest: on_status[DISPATCHED]
   latest: on_status[DELIVERED]
 
-performanceStateMachine: schema/extensions/trade/performance-states/v1/states.yaml#rto
+performanceStateMachine: releases/release1/extension/trade/TradePerformanceStates/v1/states.yaml#rto
 
 subBranches:
 

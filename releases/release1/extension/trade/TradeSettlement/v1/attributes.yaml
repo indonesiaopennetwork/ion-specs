@@ -1,0 +1,74 @@
+openapi: 3.1.1
+info:
+  title: ION Trade Settlement Extension (v1)
+  description: >
+    Trade-sector settlement discharge attributes. Inherits the settlement
+    method, payment rail, gateway, settled amount, refund, adjustment, and
+    reconciliation structures defined by RetailSettlement v2.1 for ION.
+    Buyer-facing payment declaration fields
+    belong to core/payment/v1; detailed reconciliation fields belong to
+    core/reconcile/v1. Attaches to:
+    beckn:Settlement.settlementAttributes.
+  version: 1.0.0
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    name: ION Network
+    url: https://schema.ion.id
+
+components:
+  schemas:
+    IONTradeSettlement:
+      type: object
+      title: IONTradeSettlement
+      description: >
+        ION trade settlement attributes. Inherits RetailSettlement v2.1 and
+        exposes its fields through property-level references so the local
+        OpenAPI and JSON-LD artifacts remain aligned. The former ION-specific
+        layer defined no additional properties, so no x-attr-ion-layer markers
+        are needed.
+      x-ion-layer: ion
+      x-ion-split-version: "0.7.0"
+      x-recommended-parent: Settlement.settlementAttributes
+      additionalProperties: true
+      x-jsonld:
+        '@context': 'https://schema.ion.id/releases/release1/extension/trade/TradeSettlement/v1/context.jsonld'
+        '@type': ion:IONTradeSettlement
+      x-beckn-attaches-to: Settlement.settlementAttributes
+      x-ion-closed-extensions: false
+      allOf:
+        - $ref: https://schema.beckn.io/RetailSettlement/v2.1/attributes.yaml#/components/schemas/RetailSettlement
+      properties:
+        gateway:
+          $ref: https://schema.beckn.io/RetailSettlement/v2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/gateway
+        method:
+          $ref: https://schema.beckn.io/RetailSettlement/v2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/method
+        paymentRail:
+          $ref: https://schema.beckn.io/RetailSettlement/v2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/paymentRail
+        settledAt:
+          $ref: https://schema.beckn.io/RetailSettlement/v2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/settledAt
+        settledAmount:
+          $ref: https://schema.beckn.io/RetailSettlement/v2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/settledAmount
+        currency:
+          $ref: https://schema.beckn.io/RetailSettlement/v2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/currency
+        refund:
+          $ref: https://schema.beckn.io/RetailSettlement/v2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/refund
+        adjustments:
+          $ref: https://schema.beckn.io/RetailSettlement/v2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/adjustments
+        reconciliationId:
+          $ref: https://schema.beckn.io/RetailSettlement/v2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/reconciliationId
+        reconciliationStatus:
+          $ref: https://schema.beckn.io/RetailSettlement/v2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/reconciliationStatus
+      #
+      # Payment intent, collection timing, collector, payment status, and
+      # instrument details are modeled by core/payment/v1 IONPayment.
+      # Reconciliation calculations, settlement basis, and disputes are
+      # modeled by core/reconcile/v1 IONReconcile.
+      # Domestic ION policy: currency is IDR unless an applicable cross-border
+      # agreement explicitly permits another ISO 4217 settlement currency.
+      # Removed duplicate payment declarations previously owned here:
+      # method, paymentRail, collectedBy, timing, status, currency, amount,
+      # methodDetail, gatewayRef, and paidAt.
+      # Removed flat refund fields in favor of inherited RetailSettlement.refund.
+      # Removed reconciliation details duplicated by core/reconcile/v1.

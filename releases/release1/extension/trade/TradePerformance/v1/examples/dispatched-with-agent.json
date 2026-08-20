@@ -1,0 +1,32 @@
+{
+  "@context": "https://schema.ion.id/releases/release1/extension/trade/TradePerformance/v1/context.jsonld",
+  "@type": "ion:IONTradePerformance",
+  "_comment": "Example: on_status payload when DISPATCHED — agent assigned, tracking available",
+  "performanceMode": "DELIVERY",
+  "sla": {
+    "min": "PT30M",
+    "max": "PT90M",
+    "unitBasis": "ORDER_CONFIRMATION"
+  },
+  "handling": ["PERISHABLE"],
+  "trackingNumber": "GOJEK-2026-001234567",
+  "agent": {
+    "id": "GOJEK-RIDER-28471",
+    "name": "Budi Santoso",
+    "phone": "08123456789",
+    "photo": "https://driver.gojek.com/photos/budi-santoso-verified.jpg",
+    "vehicle": {
+      "type": "MOTORCYCLE",
+      "registrationNumber": "B 1234 XYZ"
+    }
+  },
+  "trackingUrl": "https://gojek.com/track/2026-001234567",
+  "estimatedDeliveryTime": "2026-04-19T12:45:00+07:00",
+  "deliveryOtp": "482930",
+  "promisedWindow": {
+    "startAt": "2026-04-19T12:30:00+07:00",
+    "endAt": "2026-04-19T13:00:00+07:00"
+  },
+  "fulfillmentType": "INSTANT",
+  "shippingProviderType": "THIRD_PARTY_ON_NETWORK"
+}

@@ -1,0 +1,336 @@
+openapi: 3.1.1
+info:
+  title: ION Trade Performance Extension (v1)
+  description: 'Trade sector performance and fulfilment attributes. Covers the selected execution mode, carrier
+    tracking reference, assigned agent extensions, return QC details, SLA breaches, verification outcomes, and
+    package facts. Attaches to: beckn:Performance.performanceAttributes
+
+    '
+  version: 1.0.0
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    name: ION Network
+    url: https://schema.ion.id
+components:
+  schemas:
+    IONTradePerformance:
+      type: object
+      title: IONTradePerformance
+      description: >
+        ION trade performance attributes. Inherits directly from
+        RetailPerformance 2.1 and combines generic fulfillment semantics with
+        Indonesia-specific age-verification methods and ION-aware route stops.
+
+        Properties originating in the former ION-specific layer are identified by
+        x-attr-ion-layer: ion.
+      x-ion-layer: ion
+      x-ion-split-version: "0.7.0"
+      x-recommended-parent: Performance.performanceAttributes
+      additionalProperties: true
+      x-jsonld:
+        '@context': 'https://schema.ion.id/releases/release1/extension/trade/TradePerformance/v1/context.jsonld'
+        '@type': ion:IONTradePerformance
+      x-beckn-attaches-to: Performance.performanceAttributes
+      x-ion-closed-extensions: false
+      allOf:
+        - $ref: https://schema.beckn.io/RetailPerformance/2.1/attributes.yaml#/components/schemas/RetailPerformance
+        # Conditional mandatoriness is enforced by ION network policy rather
+        # than this shared schema. The former constraints required evidence for
+        # KTP_SCANNED, required verification outcome fields when verification
+        # was required, and required QC evidence for failed QC results.
+        - type: object
+          properties:
+            ageVerification:
+              x-attr-ion-layer: ion
+              allOf:
+              - type: object
+                properties:
+                  method:
+                    type: string
+                    enum:
+                    - KTP_SIGHTED
+                    - KTP_SCANNED
+                    - SIM_SIGHTED
+                    - PASSPORT_SIGHTED
+                    - SELFIE_COMPARISON
+                    - BIOMETRIC_API
+                    - NONE
+                    description: >
+                      ION method used to verify age. KTP_SIGHTED and KTP_SCANNED
+                      use the Indonesian national identity card; SIM_SIGHTED uses
+                      an Indonesian driving licence. PASSPORT_SIGHTED,
+                      SELFIE_COMPARISON, and BIOMETRIC_API cover other supported
+                      verification methods. NONE records that no method was used.
+                    x-ion-regulatory: UU 39/2007 tentang Cukai (tobacco); PP 109/2012; PerBPOM 28/2021 (alcohol)
+      # supportedPerformanceModes, handling, agent.name, agent.phone,
+      # proofOfDelivery, deliveryOtp, selfPickupCode, and
+      # installationScheduling are inherited from RetailPerformance 2.1.
+      properties:
+        fulfillingLocationId:
+          type: string
+          description: >
+            Identifier of the Provider operating location from which this
+            Performance is fulfilled. It applies to this execution unit rather
+            than the Contract as a whole, allowing different performances in
+            one Contract to originate from different locations.
+          example: FC-SBY-01
+          # x-ion-condition: Present when the provider selects a fulfilment location
+
+        performanceMode:
+          type: string
+          enum:
+          - DELIVERY
+          - SELF_PICKUP
+          - SERVICE
+          - DINE_IN
+          - CURBSIDE
+          description: >
+            Selected mode by which this performance is executed. Values align
+            with the modes declared by inherited supportedPerformanceModes.
+            DELIVERY uses logistics to deliver to the recipient; SELF_PICKUP
+            requires collection from the provider; SERVICE represents a
+            performed service; DINE_IN is consumption on premises; and CURBSIDE
+            is collection at a designated vehicle pickup point.
+          example: DELIVERY
+        trackingNumber:
+          type: string
+          description: >
+            Carrier-issued identifier used to track the shipment. This
+            network-neutral term covers airway bills, courier consignment
+            numbers, postal tracking numbers, and equivalent identifiers.
+          example: JNE1234567890
+          x-ion-condition: Added when a carrier assigns a shipment identifier
+        trackingUrl:
+          type: string
+          format: uri
+          description: 'URL for real-time shipment tracking. Provided by logistics provider after pickup. BAP renders
+            as tracking link or embedded tracker.
+
+            '
+          example: https://jne.co.id/track?awb=JNE1234567890
+          x-ion-condition: Present after DISPATCHED state
+        estimatedDeliveryTime:
+          type: string
+          format: date-time
+          description: 'Updated estimated delivery datetime in ISO 8601 with timezone. BPP updates dynamically as
+            fulfilment progresses.
+
+            '
+          example: 2026-04-19 14:30:00+07:00
+          x-ion-condition: Present from DISPATCHED state onwards
+        logisticsProviderId:
+          type: string
+          description: >
+            Identifier of the logistics provider responsible for this
+            performance. When the provider is a network participant, this value
+            may be its network participant identifier.
+          example: lsp.jne.ion.id
+          x-ion-condition: Present when fulfilment is handled by on-network LSP
+        agent:
+          allOf:
+          - $ref: https://schema.beckn.io/RetailPerformance/2.1/attributes.yaml#/components/schemas/RetailPerformance/properties/agent
+          - type: object
+            description: >
+              Agent assigned to this performance. A return uses a separate
+              Performance with a RETURN_* state and populates this same agent
+              object; return-specific duplicate fields are not used.
+            properties:
+              id:
+                type: string
+                description: Provider-issued identifier of the assigned agent.
+                example: SPX-RIDER-28471
+              photo:
+                type: string
+                format: uri
+                description: URI of a photo used to verify the assigned agent.
+                example: https://sellerapp.ion.id/agents/budi-santoso.jpg
+              vehicle:
+                type: object
+                additionalProperties: true
+                properties:
+                  type:
+                    type: string
+                    enum:
+                    - MOTORCYCLE
+                    - CAR
+                    - VAN
+                    - TRUCK
+                    - BICYCLE
+                    - WALK
+                    - PUBLIC_TRANSPORT
+                    description: Vehicle or transport mode used by the agent.
+                  registrationNumber:
+                    type: string
+                    description: Jurisdiction-issued vehicle registration number.
+                    example: B 1234 XYZ
+        agentBadgeNumber:
+          type: string
+          description: >
+            Physical badge number carried by the agent. This remains distinct
+            from agent.id, which identifies the agent in the provider system.
+          example: SPX-28471
+        returnQcDetails:
+          type: object
+          additionalProperties: false
+          description: >
+            Additional findings supporting the inherited returnQcResult.
+            The normalized outcome remains in returnQcResult; this object carries
+            explanatory notes and typed evidence.
+          properties:
+            notes:
+              type: string
+              description: Explanation of the quality-control findings.
+            evidence:
+              type: array
+              description: Documents or media supporting the quality-control findings.
+              items:
+                $ref: https://schema.ion.id/releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Document
+        slaBreaches:
+          type: array
+          description: >
+            Audit records for SLA breaches observed during this performance.
+            A breach count is derived from the length of this array.
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              tatType:
+                type: string
+                enum:
+                - ORDER_ACCEPTANCE
+                - PACKED
+                - DISPATCHED
+                - DELIVERY
+                - PICKUP_RETURN
+                - RETURN_DELIVERED
+                - REFUND_INITIATED
+              expectedBy:
+                type: string
+                format: date-time
+              breachedAt:
+                type: string
+                format: date-time
+              breachDurationSeconds:
+                type: integer
+                minimum: 0
+        ageVerification:
+          type: object
+          additionalProperties: true
+          description: >
+            Outcome of an age-verification attempt performed during this
+            performance. Whether verification is required is a Resource, Offer,
+            or Contract policy and is not duplicated here.
+          properties:
+            verifiedAt:
+              type: string
+              format: date-time
+              description: Timestamp at which age verification succeeded.
+            verifiedByAgentId:
+              type: string
+              description: Identifier of the agent that performed verification.
+            evidence:
+              type: array
+              description: >
+                Evidence retained under the applicable privacy, security, and
+                data-residency policy.
+              items:
+                $ref: https://schema.ion.id/releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Document
+            failureReason:
+              type: string
+              enum:
+              - BUYER_UNDERAGE
+              - BUYER_UNAVAILABLE_VERIFIER_NEEDED
+              - BUYER_REFUSED_TO_SHOW_ID
+              - ID_DOCUMENT_NOT_PRESENTED
+              - ID_DOCUMENT_INVALID
+              - BIOMETRIC_API_FAILED
+              description: Reason the age-verification attempt failed.
+        packageCount:
+          type: integer
+          minimum: 1
+          description: >
+            Number of physical packages in this performance, independent of
+            whether they are cartons, crates, pallets, bags, or parcels.
+          example: 3
+          x-ion-condition: Present when the performance has multiple packages
+        totalWeight:
+          allOf:
+          - $ref: https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+          description: >
+            Total packed weight. The unit is carried by the Quantity rather
+            than being encoded in the property name.
+          example:
+            unitCode: KGM
+            unitText: kilogram
+            unitQuantity: 12.5
+          x-ion-condition: Present at PACKED state and later
+        deliveryReceiptId:
+          type: string
+          description: >
+            Identifier of the delivery receipt issued at handover. The actual
+            proof or document is represented by inherited proofOfDelivery.
+          example: DLV-RCP-2026-00012345
+          x-ion-condition: Present after DELIVERED when a receipt was issued
+
+        stops:
+          x-attr-ion-layer: ion
+          type: array
+          description: >
+            Ordered list of stops for this performance leg. Each stop carries a
+            location and a role (START, END, INTERMEDIATE). The location reuses
+            Beckn GeoJSONGeometry and Address and adds IONAddress for Indonesian
+            administrative subdivisions.
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              id:
+                type: string
+                description: Unique identifier for this stop within this performance
+              type:
+                type: string
+                enum:
+                  - START
+                  - END
+                  - INTERMEDIATE
+                description: >
+                  START — pickup/origin point. END — delivery/destination point.
+                  INTERMEDIATE — waypoint (e.g. multi-stop deliveries, hub transfers).
+              location:
+                type: object
+                additionalProperties: false
+                description: >
+                  ION-aware location. The geo and address properties have the
+                  same shapes as Beckn Location; ionAddressAttributes carries
+                  Indonesian administrative subdivisions that cannot be added
+                  directly to the closed Beckn Address object.
+                properties:
+                  geo:
+                    $ref: https://schema.ion.id/releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/GeoJSONGeometry
+                  address:
+                    $ref: https://schema.ion.id/releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Address
+                  ionAddressAttributes:
+                    $ref: 'https://schema.ion.id/releases/release1/common/Address/v1/attributes.yaml#/components/schemas/IONAddress'
+              instructions:
+                type: string
+                description: Delivery or pickup instructions for this stop
+              estimatedArrival:
+                type: string
+                format: date-time
+                description: Estimated arrival datetime at this stop
+              actualArrival:
+                type: string
+                format: date-time
+                description: Actual arrival time — populated after stop is reached
+              proof:
+                $ref: https://schema.ion.id/releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Document
+                description: Documentary proof associated with completion of this stop.
+
+      # NETWORK POLICY NOTE (GAP 32 / NFH-012 CON-012-18):
+      # Shared schemas MUST NOT declare mandatory fields.
+      # The following fields were required in v0.6.0 and are now
+      # enforced via ION network policy (x-ion-crc-rules,
+      # x-ion-conditional-rules) rather than the shared schema:
+      # performanceMode, supportedPerformanceModes, sla

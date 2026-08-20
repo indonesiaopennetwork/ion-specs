@@ -96,7 +96,7 @@ const: true
 ```yaml
 provider:
   type: string
-  x-ion-vocab: https://schema.ion.id/core/payment/v1/vocab.jsonld#EWalletProvider
+  x-ion-vocab: https://schema.ion.id/releases/release1/common/Payment/v1/vocab.jsonld#EWalletProvider
   description: E-wallet provider identifier
 ```
 
@@ -325,7 +325,7 @@ Any conformant JSON-LD processor can now resolve and verify every `ion:` CURIE.
 
 **Observation:** A `$schema` keyword was visible inside component schemas in the Beckn core section of the composed file — non-standard in an OpenAPI 3.1.1 document.
 
-**Fix:** Was an artefact of embedding the upstream `beckn.yaml` verbatim in the old monolithic file. The current architecture keeps `beckn.yaml` as a separate vendored file (`schema/core/v2/api/v2.0.0/beckn.yaml`) and `ion.yaml` as ION's own extension spec. ION-authored component schemas contain no `$schema` keyword.
+**Fix:** Was an artefact of embedding the upstream `beckn.yaml` verbatim in the old monolithic file. The current architecture keeps `beckn.yaml` as a separate vendored file (`releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml`) and `ion.yaml` as ION's own extension spec. ION-authored component schemas contain no `$schema` keyword.
 
 **Verification:** `$schema` absent from all ION-authored component schemas.
 

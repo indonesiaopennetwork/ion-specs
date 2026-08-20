@@ -11,7 +11,7 @@
   affected_apis:
   - cancel
   - on_cancel
-  schema_ref: schema/core/v2/api/v2.0.0/beckn.yaml#Offer
+  schema_ref: releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#Offer
   flow_ref: null
   resolution:
     en: Enforce cancellation window in BAP UI. Check cancellationFeeApplicableStates
@@ -28,7 +28,7 @@
   affected_field: offerAttributes.policies.cancellation.allowedReasons
   affected_apis:
   - cancel
-  schema_ref: schema/core/v2/api/v2.0.0/beckn.yaml#Offer
+  schema_ref: releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#Offer
   flow_ref: null
   resolution:
     en: Only send cancellation reasons that are in the offer's policies.cancellation.allowedReasons.
@@ -107,7 +107,7 @@
   affected_field: message.contract.performance[].performanceAttributes.ageVerification.failureReason
   affected_apis:
   - on_status
-  schema_ref: schema/core/v2/api/v2.0.0/beckn.yaml#Performance
+  schema_ref: releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#Performance
   flow_ref: null
   resolution:
     en: Initiate RTO flow. Buyer may be restricted from future purchases of this category
@@ -129,7 +129,7 @@
   - select
   - init
   - confirm
-  schema_ref: schema/core/v2/api/v2.0.0/beckn.yaml#Resource
+  schema_ref: releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#Resource
   resolution:
     en: BAP must confirm domestic-only data processing before attempting these transactions;
       otherwise filter such resources from discovery.

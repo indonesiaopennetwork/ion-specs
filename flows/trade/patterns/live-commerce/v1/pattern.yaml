@@ -37,7 +37,7 @@ keyDifferences_vs_B2C_SF:
   - Settlement includes STREAMER_COMMISSION / AFFILIATE_COMMISSION line
   - Group-buy variant: contract not confirmed until minimum participants reached
 
-performanceStateMachine: schema/extensions/trade/performance-states/v1/states.yaml#standard
+performanceStateMachine: releases/release1/extension/trade/TradePerformanceStates/v1/states.yaml#standard
 
 phases:
 
@@ -150,7 +150,7 @@ phases:
     description: >
       Standard fulfilment per storefront. For group-buy, fulfilment only begins
       after group minimum is reached — until then, status is ACTIVE_PENDING_GROUP.
-    stateMachine: schema/extensions/trade/performance-states/v1/states.yaml#standard
+    stateMachine: releases/release1/extension/trade/TradePerformanceStates/v1/states.yaml#standard
 
 variantWindows:
   during-transaction:

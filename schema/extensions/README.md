@@ -64,7 +64,7 @@ The concept folder above `v1/` also has a `README.md` that shows all available v
 Every pack's main schema object carries an `x-beckn-attaches-to` annotation:
 
 ```yaml
-# schema/extensions/trade/resource/v1/attributes.yaml
+# releases/release1/extension/trade/TradeResource/v1/attributes.yaml
 
 TradeResource:
   type: object
@@ -73,7 +73,7 @@ TradeResource:
     '@context': ./context.jsonld
     '@type': ion:TradeResource
   allOf:
-    - $ref: ../../../../core/v2/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+    - $ref: https://schema.ion.id/releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Attributes
   properties:
     resourceStructure:
       type: string
@@ -91,7 +91,7 @@ The `@context` field inside any `*Attributes` bag **must be a single string URL*
 ```json
 {
   "resourceAttributes": {
-    "@context": "https://schema.ion.id/trade/resource/v1/context.jsonld",
+    "@context": "https://schema.ion.id/releases/release1/extension/trade/TradeResource/v1/context.jsonld",
     "@type": "ion:TradeResource",
     "resourceStructure": "PLAIN",
     "availability": { "status": "IN_STOCK" }
@@ -106,7 +106,7 @@ When multiple packs attach to the same Beckn object, all their fields coexist in
 ```json
 {
   "settlementAttributes": {
-    "@context": "https://schema.ion.id/core/payment/v1/context.jsonld",
+    "@context": "https://schema.ion.id/releases/release1/common/Payment/v1/context.jsonld",
     "@type": "ion:PaymentDeclaration",
     "method": "QRIS",
     "paymentRail": "QRIS",
@@ -125,7 +125,7 @@ Both packs contribute fields to the same object. The single `@context` URL point
 
 1. Create `extensions/{sector}/README.md` — describe the sector and list which core packs it uses
 2. Create pack folders following the same structure as an existing sector
-3. Add the sector to `schema/core/v2/api/v2.0.0/ion.yaml` under `x-ion-conformance.schemaPackMatrix`
+3. Add the sector to `releases/release1/core/api/v2.0.0/ion.yaml` under `x-ion-conformance.schemaPackMatrix`
 4. Opening a new sector requires ION Council ratification — see `GOVERNANCE.md`
 
 ## Pack versioning

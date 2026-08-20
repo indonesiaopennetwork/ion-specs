@@ -131,7 +131,7 @@ phases:
   phase3:
     name: Fulfilment
     description: Bulk goods dispatched. Performance states follow standard machine.
-    stateMachine: schema/extensions/trade/performance-states/v1/states.yaml#standard
+    stateMachine: releases/release1/extension/trade/TradePerformanceStates/v1/states.yaml#standard
     steps:
       - step: on_status
         stepContext: "PACKED"

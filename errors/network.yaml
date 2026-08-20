@@ -27,7 +27,7 @@
   affected_field: price.currency
   affected_apis:
   - all
-  schema_ref: schema/core/v2/api/v2.0.0/ion.yaml
+  schema_ref: releases/release1/core/api/v2.0.0/ion.yaml
   flow_ref: null
   resolution:
     en: Set all price.currency and consideration.currency fields to IDR. Cross-border

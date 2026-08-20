@@ -7,7 +7,6 @@ Canonical state machine definitions for trade fulfilment — states, allowed tra
 
 ## Versions
 
-| Version | attributes.yaml | schema.json | context.jsonld | vocab.jsonld | README |
-|---|---|---|---|---|---|
-| **v1** | [v1/attributes.yaml](v1/attributes.yaml) | [v1/schema.json](v1/schema.json) | [v1/context.jsonld](v1/context.jsonld) | [v1/vocab.jsonld](v1/vocab.jsonld) | [v1/README.md](v1/README.md) |
-
+| Version | States | Profile | README |
+|---|---|---|---|
+| **v1** | [states.yaml](../../../../releases/release1/extension/trade/TradePerformanceStates/v1/states.yaml) | [profile.json](../../../../releases/release1/extension/trade/TradePerformanceStates/v1/profile.json) | [README.md](../../../../releases/release1/extension/trade/TradePerformanceStates/v1/README.md) |
