@@ -162,6 +162,9 @@ Published release copies remain unchanged.
 
 Documentation is divided by audience and stability:
 
+- The existing root `docs/` directory is retained as the common documentation set.
+  During migration, documents remain there by default unless they are explicitly
+  identified as describing behavior that differs between integer releases.
 - Implementation documentation belongs inside a release when an implementer could
   receive a different answer for a different release. This includes transport and
   signing behavior, field requirements, sector behavior, integration guides, and
@@ -175,6 +178,9 @@ Documentation is divided by audience and stability:
 
 A root-level guide may link to the current release for convenience, but it is not
 part of that release and MUST NOT be the sole source of release-specific behavior.
+A release-level `docs/` directory is optional and is created only when such
+release-specific documentation exists; the common root documentation is not copied
+into every release.
 
 ### Repository tooling
 
