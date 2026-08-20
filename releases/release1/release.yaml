@@ -1,0 +1,22 @@
+schemaVersion: 1
+release: 1
+name: release1
+status: draft
+publishedAt: null
+publicBaseUrl: https://schema.ion.id/releases/release1/
+sourceBranch: main
+contentStatus:
+  ionApi: review-required
+  common: review-required
+  trade: validation-pending
+  logistics: review-required
+  hospitality: review-required
+  finance: review-required
+dependencyStatus: incomplete
+dependencies: []
+artifactChecksums: {}
+toolingCommit: null
+notes:
+  - Draft release envelope created during migration Phase 2.
+  - No schema or normative registry is included yet.
+  - Draft URLs are unsupported until the release is published.

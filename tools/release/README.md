@@ -22,6 +22,16 @@ ruby tools/release/validate_manifest.rb releases/release1/release.yaml
 ruby tools/release/validate_path_map.rb tools/release/release1-path-map.json
 ```
 
+Commands that publish, deploy, or otherwise treat a release as permanent must use
+the publication gate:
+
+```bash
+ruby tools/release/validate_manifest.rb --require-published releases/release1/release.yaml
+```
+
+This command intentionally fails for a draft release, even when the draft manifest
+is otherwise structurally valid.
+
 ## Run tests
 
 ```bash

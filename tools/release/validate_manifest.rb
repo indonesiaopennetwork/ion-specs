@@ -82,6 +82,12 @@ module IonReleaseManifest
     errors
   end
 
+  def validate_for_publication(data)
+    errors = validate(data)
+    errors << "release status must be published" unless data.is_a?(Hash) && data["status"] == "published"
+    errors
+  end
+
   def validate_content_status(content, release_status, errors)
     unless content.is_a?(Hash)
       errors << "contentStatus must be an object"
@@ -152,13 +158,19 @@ module IonReleaseManifest
 end
 
 if $PROGRAM_NAME == __FILE__
+  require_published = ARGV.delete("--require-published")
   if ARGV.length != 1
-    warn "Usage: ruby tools/release/validate_manifest.rb <release.yaml>"
+    warn "Usage: ruby tools/release/validate_manifest.rb [--require-published] <release.yaml>"
     exit 2
   end
 
   begin
-    errors = IonReleaseManifest.validate(IonReleaseManifest.load(ARGV.fetch(0)))
+    manifest = IonReleaseManifest.load(ARGV.fetch(0))
+    errors = if require_published
+               IonReleaseManifest.validate_for_publication(manifest)
+             else
+               IonReleaseManifest.validate(manifest)
+             end
   rescue ArgumentError => e
     warn "ERROR: #{e.message}"
     exit 1

@@ -14,6 +14,12 @@ class ValidateManifestTest < Minitest::Test
     assert_empty IonReleaseManifest.validate(@manifest)
   end
 
+  def test_draft_is_rejected_by_publication_gate
+    errors = IonReleaseManifest.validate_for_publication(@manifest)
+
+    assert_includes errors, "release status must be published"
+  end
+
   def test_release_name_and_url_must_match_number
     @manifest["name"] = "release2"
     @manifest["publicBaseUrl"] = "https://schema.ion.id/releases/release2/"

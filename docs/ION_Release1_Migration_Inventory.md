@@ -116,6 +116,22 @@ The remaining common-pack public names and all review-required sector names rema
 unapproved until their semantic review. The path map must be expanded only after
 those decisions are recorded.
 
+## Phase 2 outputs
+
+Phase 2 creates the release envelope without moving normative artifacts:
+
+- `releases/release1/release.yaml` is the canonical draft manifest. It records
+  incomplete dependencies and the review state of each content group.
+- `releases/release1/README.md` identifies the release as unsupported while it is
+  a draft and documents the planned API locations.
+- `releases/release1/NOTICES.md` is the placeholder for dependency provenance,
+  licenses, modifications, and checksums populated during vendoring.
+- `tools/release/validate_manifest.rb --require-published` is the publication
+  gate. Ordinary validation accepts the Release 1 draft, while publication-mode
+  validation rejects it until all publication requirements are satisfied.
+
+No schema, flow, policy, error, or other normative artifact was moved in Phase 2.
+
 ## Current repository inventory
 
 ### Primary API contracts
@@ -503,9 +519,11 @@ Before publication, root tooling must provide:
 
 ### Phase 2 — Create the draft skeleton
 
-1. Create `releases/release1/` with `status: draft`.
-2. Add `README.md`, `NOTICES.md`, and dependency placeholders.
-3. Add tooling that refuses to treat the draft as published.
+1. [x] Create `releases/release1/` with `status: draft`.
+2. [x] Add `README.md`, `NOTICES.md`, and dependency placeholders.
+3. [x] Add tooling that refuses to treat the draft as published.
+4. [x] Confirm ordinary validation accepts the draft and the publication gate
+   rejects it.
 
 ### Phase 3 — Mechanical migration
 
