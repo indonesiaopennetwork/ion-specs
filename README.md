@@ -115,6 +115,7 @@ ion-specs/
 - `docs/ION_Resource_Categories.md` — Complete CRC reference table (all 46 categories across 6 sectors)
 - `docs/ION_Schema_Design_Guide.md` — ION schema design rationale: three-plane model, CRC taxonomy, two-schema split, context engineering posture, and beckn-agents authoring workflow
 - `docs/ION_Schema_Style_Guide.md` — Technical file-format rules for schema pack authors (YAML structure, JSON-LD syntax, naming)
+- `docs/ION_Release_Architecture.md` — Accepted target architecture for permanent integer releases, release-qualified public schema URLs, and vendored dependencies
 - `docs/ION_Transport_and_Signing.md` — HTTP transport layer: Ed25519 signing, body digest, signature verification, Python quickstart. Read this before implementing any endpoint.
 
 **Internal working documents** (for contributors and maintainers):
