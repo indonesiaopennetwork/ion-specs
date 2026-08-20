@@ -410,20 +410,14 @@ x-ion-profile:
   x-ion-schema-dependencies:
     description: >
       Explicit version-pinned mapping between ION generic schemas and their upstream
-      beckn/schemas or beckn/DEG parents. The active allOf in each attributes.yaml
-      references the REMOTE upstream URL directly — ONIX resolves it at validation time.
-      Local vendored copies in schema/core/v2/api/v2.0.0/vendored/ are reference copies
-      only, used for offline review and version drift detection. These versions are
-      FROZEN — Beckn upstream changes do NOT automatically apply to ION. Upgrades
-      require an explicit ION Council decision. All entries pinned on 2026-06-02.
+      beckn/schemas or beckn/DEG parents. During the pre-release migration period,
+      the active allOf in each attributes.yaml references the remote upstream URL
+      directly and ONIX resolves it at validation time. These versions are frozen:
+      Beckn upstream changes do not automatically apply to ION. Upgrades require an
+      explicit ION Council decision. All entries pinned on 2026-06-02. Published ION
+      releases will use the vendoring model defined in docs/ION_Release_Architecture.md.
     upgradePolicy: ION_COUNCIL_DECISION_REQUIRED
     pinnedAt: 2026-06-02
-    referenceDoc: docs/ION_Upstream_Dependency_Map.md
-    vendoredCopiesPolicy: >
-      Vendored copies in vendored/ are reference copies only. The active allOf $ref
-      points to the remote URL. To check for version drift, diff the remote URL against
-      the vendored copy. Do NOT activate the local ref in production — ONIX requires
-      the remote URL to resolve the upstream schema at validation time.
     dependencies:
       - ionSchema: Address
         upstreamSchema: Address
@@ -438,7 +432,6 @@ x-ion-profile:
         upstreamSchema: Payment
         upstreamVersion: v2.0
         ionNative: false
-        vendoredFile: vendored/payment-v2.0.yaml
       - ionSchema: Participant
         upstreamSchema: Participant
         upstreamVersion: v2.0
@@ -464,37 +457,30 @@ x-ion-profile:
         upstreamSchema: RetailResource
         upstreamVersion: v2.1
         ionNative: false
-        vendoredFile: vendored/retail-resource-v2.1.yaml
       - ionSchema: TradeOffer
         upstreamSchema: RetailOffer
         upstreamVersion: v2.1
         ionNative: false
-        vendoredFile: vendored/retail-offer-v2.1.yaml
       - ionSchema: TradeCommitment
         upstreamSchema: RetailCommitment
         upstreamVersion: v2.1
         ionNative: false
-        vendoredFile: vendored/retail-commitment-v2.1.yaml
       - ionSchema: TradeConsideration
         upstreamSchema: RetailConsideration
         upstreamVersion: v2.1
         ionNative: false
-        vendoredFile: vendored/retail-consideration-v2.1.yaml
       - ionSchema: IONTaxDetail
         upstreamSchema: RetailConsideration.breakup[].taxDetail
         upstreamVersion: v2.1
         ionNative: false
-        vendoredFile: vendored/retail-consideration-v2.1.yaml
       - ionSchema: TradeContract
         upstreamSchema: RetailContract
         upstreamVersion: v2.1
         ionNative: false
-        vendoredFile: vendored/retail-contract-v2.1.yaml
       - ionSchema: TradePerformance
         upstreamSchema: RetailPerformance
         upstreamVersion: v2.1
         ionNative: false
-        vendoredFile: vendored/retail-performance-v2.1.yaml
       - ionSchema: TradeProvider
         upstreamSchema: Provider
         upstreamVersion: v2.1
@@ -503,17 +489,14 @@ x-ion-profile:
         upstreamSchema: RetailSettlement
         upstreamVersion: v2.1
         ionNative: false
-        vendoredFile: vendored/retail-settlement-v2.1.yaml
       - ionSchema: LogisticsResource
         upstreamSchema: Shipment
         upstreamVersion: v2.0
         ionNative: false
-        vendoredFile: vendored/shipment-v2.0.yaml
       - ionSchema: LogisticsOffer
         upstreamSchema: LogisticsModule
         upstreamVersion: v2.0
         ionNative: false
-        vendoredFile: vendored/logistics-v2.0.yaml
       - ionSchema: LogisticsCommitment
         upstreamSchema: Commitment
         upstreamVersion: v2.0
@@ -522,7 +505,6 @@ x-ion-profile:
         upstreamSchema: LogisticsFare
         upstreamVersion: v2.0
         ionNative: false
-        vendoredFile: vendored/logistics-fare-v2.0.yaml
       - ionSchema: LogisticsContract
         upstreamSchema: Contract
         upstreamVersion: v2.0
@@ -535,7 +517,6 @@ x-ion-profile:
         upstreamSchema: LogisticsOperator
         upstreamVersion: v2.0
         ionNative: false
-        vendoredFile: vendored/logistics-operator-v2.0.yaml
       - ionSchema: LogisticsAgent
         upstreamSchema: Participant
         upstreamVersion: v2.0
@@ -549,7 +530,6 @@ x-ion-profile:
         upstreamSchema: FoodAndBeverageResource
         upstreamVersion: v2.1
         ionNative: false
-        vendoredFile: vendored/food-and-beverage-resource-v2.1.yaml
         note: >
           Merged from hospitality/menu-item and hospitality/menu-item.
           Serves both HSC-restaurant-ordering and HSC-fnb-delivery CRCs.
@@ -557,7 +537,6 @@ x-ion-profile:
         upstreamSchema: FoodAndBeverageOffer
         upstreamVersion: v2.1
         ionNative: false
-        vendoredFile: vendored/food-and-beverage-offer-v2.1.yaml
       - ionSchema: RestaurantProvider
         upstreamSchema: Provider
         upstreamVersion: v2.1
@@ -585,12 +564,10 @@ x-ion-profile:
         upstreamSchema: FoodAndBeverageOffer
         upstreamVersion: v2.1
         ionNative: false
-        vendoredFile: vendored/food-and-beverage-offer-v2.1.yaml
       - ionSchema: MenuItem
         upstreamSchema: FoodAndBeverageResource
         upstreamVersion: v2.1
         ionNative: false
-        vendoredFile: vendored/food-and-beverage-resource-v2.1.yaml
       - ionSchema: RestaurantProvider
         upstreamSchema: Provider
         upstreamVersion: v2.1
