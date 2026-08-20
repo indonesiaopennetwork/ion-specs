@@ -12,11 +12,239 @@ contentStatus:
   logistics: review-required
   hospitality: review-required
   finance: review-required
-dependencyStatus: incomplete
-dependencies: []
-artifactChecksums: {}
+dependencyStatus: complete
+dependencies:
+- name: BecknProtocol
+  type: protocol
+  upstreamVersion: 2.0.0
+  upstreamRepository: https://github.com/beckn/protocol-specifications-v2
+  upstreamCommit: a22300aa83796cb8dfc2b63cd9dd0e36a7f4d3a1
+  upstreamUrl: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/a22300aa83796cb8dfc2b63cd9dd0e36a7f4d3a1/api/v2.0.0/beckn.yaml
+  vendoredPath: vendored/beckn/protocol/v2.0.0/beckn.yaml
+  upstreamSha256: 5afc7586ef1fbc378ea6abb139292dbe85750e4c5ea1a2fd410a40479aadc0f0
+  releasedSha256: 3a909f076796c58b122bf38cfcf9560e1edb504cde00d35261ac8ae393b1ad76
+  license: CC-BY-NC-SA-4.0
+  transformations:
+  - Removed upstream trailing whitespace without changing parsed OpenAPI content.
+- name: AcceptedPaymentMethod
+  type: schema
+  upstreamVersion: '2.0'
+  upstreamRepository: https://github.com/beckn/schemas
+  upstreamCommit: b0ffbdd409c2fbe988a344161345a88ebb11d544
+  upstreamUrl: https://raw.githubusercontent.com/beckn/schemas/b0ffbdd409c2fbe988a344161345a88ebb11d544/schema/AcceptedPaymentMethod/v2.0/attributes.yaml
+  vendoredPath: vendored/beckn/schemas/AcceptedPaymentMethod/2.0/attributes.yaml
+  upstreamSha256: 192181c691590fdf35ddc8ff3a64ed18fa4ae36d8baa4e9b8fc2c189314ecf77
+  releasedSha256: 192181c691590fdf35ddc8ff3a64ed18fa4ae36d8baa4e9b8fc2c189314ecf77
+  license: CC-BY-NC-SA-4.0
+  transformations: []
+- name: Address
+  type: schema
+  upstreamVersion: '2.0'
+  upstreamRepository: https://github.com/beckn/schemas
+  upstreamCommit: b0ffbdd409c2fbe988a344161345a88ebb11d544
+  upstreamUrl: https://raw.githubusercontent.com/beckn/schemas/b0ffbdd409c2fbe988a344161345a88ebb11d544/schema/Address/v2.0/attributes.yaml
+  vendoredPath: vendored/beckn/schemas/Address/2.0/attributes.yaml
+  upstreamSha256: cbd663923fcbf4dc7a5050c76762320ec4db2a1b9d7ff532eab1d8442dc6b7be
+  releasedSha256: cbd663923fcbf4dc7a5050c76762320ec4db2a1b9d7ff532eab1d8442dc6b7be
+  license: CC-BY-NC-SA-4.0
+  transformations: []
+- name: Attributes
+  type: schema
+  upstreamVersion: '2.0'
+  upstreamRepository: https://github.com/beckn/schemas
+  upstreamCommit: b0ffbdd409c2fbe988a344161345a88ebb11d544
+  upstreamUrl: https://raw.githubusercontent.com/beckn/schemas/b0ffbdd409c2fbe988a344161345a88ebb11d544/schema/Attributes/v2.0/attributes.yaml
+  vendoredPath: vendored/beckn/schemas/Attributes/2.0/attributes.yaml
+  upstreamSha256: bd9b439dcf0ac8e54702807fd488a6e4394fe92d826382f9ca2357f7f2c1354d
+  releasedSha256: bd9b439dcf0ac8e54702807fd488a6e4394fe92d826382f9ca2357f7f2c1354d
+  license: CC-BY-NC-SA-4.0
+  transformations: []
+- name: CategoryCode
+  type: schema
+  upstreamVersion: '2.0'
+  upstreamRepository: https://github.com/beckn/schemas
+  upstreamCommit: b0ffbdd409c2fbe988a344161345a88ebb11d544
+  upstreamUrl: https://raw.githubusercontent.com/beckn/schemas/b0ffbdd409c2fbe988a344161345a88ebb11d544/schema/CategoryCode/v2.0/attributes.yaml
+  vendoredPath: vendored/beckn/schemas/CategoryCode/2.0/attributes.yaml
+  upstreamSha256: 06f3e4a3061796e2d5f2b83e123ec77d833e2b1e2d68553d2d6ae19af9145108
+  releasedSha256: 06f3e4a3061796e2d5f2b83e123ec77d833e2b1e2d68553d2d6ae19af9145108
+  license: CC-BY-NC-SA-4.0
+  transformations: []
+- name: Contact
+  type: schema
+  upstreamVersion: '2.0'
+  upstreamRepository: https://github.com/beckn/schemas
+  upstreamCommit: b0ffbdd409c2fbe988a344161345a88ebb11d544
+  upstreamUrl: https://raw.githubusercontent.com/beckn/schemas/b0ffbdd409c2fbe988a344161345a88ebb11d544/schema/Contact/v2.0/attributes.yaml
+  vendoredPath: vendored/beckn/schemas/Contact/2.0/attributes.yaml
+  upstreamSha256: 77a25837a60c2e9870e9538958b6910f005512158f0e1d01a9648d559513df92
+  releasedSha256: 77a25837a60c2e9870e9538958b6910f005512158f0e1d01a9648d559513df92
+  license: CC-BY-NC-SA-4.0
+  transformations: []
+- name: GeoJSONGeometry
+  type: schema
+  upstreamVersion: '2.0'
+  upstreamRepository: https://github.com/beckn/schemas
+  upstreamCommit: b0ffbdd409c2fbe988a344161345a88ebb11d544
+  upstreamUrl: https://raw.githubusercontent.com/beckn/schemas/b0ffbdd409c2fbe988a344161345a88ebb11d544/schema/GeoJSONGeometry/v2.0/attributes.yaml
+  vendoredPath: vendored/beckn/schemas/GeoJSONGeometry/2.0/attributes.yaml
+  upstreamSha256: 66628dcd6f8d470b4af2c28316e758059ecc0ddee00ed97f1427b7b6a2bff7fd
+  releasedSha256: 43148b6636c95b9566e4dc3d739748f9da4bf57db27b23f52fdf3edcc3d126b5
+  license: CC-BY-NC-SA-4.0
+  transformations:
+  - Rewrote schema.beckn.io $ref values to Release 1 public vendored URLs.
+- name: Location
+  type: schema
+  upstreamVersion: '2.0'
+  upstreamRepository: https://github.com/beckn/schemas
+  upstreamCommit: b0ffbdd409c2fbe988a344161345a88ebb11d544
+  upstreamUrl: https://raw.githubusercontent.com/beckn/schemas/b0ffbdd409c2fbe988a344161345a88ebb11d544/schema/Location/v2.0/attributes.yaml
+  vendoredPath: vendored/beckn/schemas/Location/2.0/attributes.yaml
+  upstreamSha256: 187c2b8df1ee6b2b8dd06c8390709c68555593e3349dbf6a7f6f2b3d34fa3820
+  releasedSha256: 3be8b9139132a86163d48705a2bd0187ceedb0a7f23970160c85036458b20313
+  license: CC-BY-NC-SA-4.0
+  transformations:
+  - Rewrote schema.beckn.io $ref values to Release 1 public vendored URLs.
+- name: PriceSpecification
+  type: schema
+  upstreamVersion: '2.0'
+  upstreamRepository: https://github.com/beckn/schemas
+  upstreamCommit: b0ffbdd409c2fbe988a344161345a88ebb11d544
+  upstreamUrl: https://raw.githubusercontent.com/beckn/schemas/b0ffbdd409c2fbe988a344161345a88ebb11d544/schema/PriceSpecification/v2.0/attributes.yaml
+  vendoredPath: vendored/beckn/schemas/PriceSpecification/2.0/attributes.yaml
+  upstreamSha256: 2030952a8ec9cd0039e9dfad34458e16f37e0bfaa73385d8701c753942a91777
+  releasedSha256: 213c0ea029f17894fb3890e4f8194fc0782bce829275f1af2044fab5bfac385a
+  license: CC-BY-NC-SA-4.0
+  transformations:
+  - Rewrote schema.beckn.io $ref values to Release 1 public vendored URLs.
+- name: Quantity
+  type: schema
+  upstreamVersion: '2.0'
+  upstreamRepository: https://github.com/beckn/schemas
+  upstreamCommit: b0ffbdd409c2fbe988a344161345a88ebb11d544
+  upstreamUrl: https://raw.githubusercontent.com/beckn/schemas/b0ffbdd409c2fbe988a344161345a88ebb11d544/schema/Quantity/v2.0/attributes.yaml
+  vendoredPath: vendored/beckn/schemas/Quantity/2.0/attributes.yaml
+  upstreamSha256: 7494fb9e0590439bf284cc224f1421630c14c94ac94be53b8fb5ba2dfa852611
+  releasedSha256: 7494fb9e0590439bf284cc224f1421630c14c94ac94be53b8fb5ba2dfa852611
+  license: CC-BY-NC-SA-4.0
+  transformations: []
+- name: RetailCommitment
+  type: schema
+  upstreamVersion: '2.1'
+  upstreamRepository: https://github.com/beckn/local-retail
+  upstreamCommit: 280726e123f907173f31db840931426045fcfd52
+  upstreamUrl: https://raw.githubusercontent.com/beckn/local-retail/280726e123f907173f31db840931426045fcfd52/schema/RetailCommitment/v2.1/attributes.yaml
+  vendoredPath: vendored/beckn/schemas/RetailCommitment/2.1/attributes.yaml
+  upstreamSha256: 1cc702a28facb3e1abc3666f9e857584afc89f611c9db5c356302df921e2c54f
+  releasedSha256: cbdf8db19794a4dbea779051199057ec7d256f9314b90f43fe726000c7a5991a
+  license: CC-BY-NC-SA-4.0
+  transformations:
+  - Rewrote schema.beckn.io $ref values to Release 1 public vendored URLs.
+- name: RetailConsideration
+  type: schema
+  upstreamVersion: '2.1'
+  upstreamRepository: https://github.com/beckn/local-retail
+  upstreamCommit: 280726e123f907173f31db840931426045fcfd52
+  upstreamUrl: https://raw.githubusercontent.com/beckn/local-retail/280726e123f907173f31db840931426045fcfd52/schema/RetailConsideration/v2.1/attributes.yaml
+  vendoredPath: vendored/beckn/schemas/RetailConsideration/2.1/attributes.yaml
+  upstreamSha256: f94ac0192b3fa93093c4d21c7274f3df85710575ec46339ac21075e83ae4995c
+  releasedSha256: f94ac0192b3fa93093c4d21c7274f3df85710575ec46339ac21075e83ae4995c
+  license: CC-BY-NC-SA-4.0
+  transformations: []
+- name: RetailContract
+  type: schema
+  upstreamVersion: '2.1'
+  upstreamRepository: https://github.com/beckn/local-retail
+  upstreamCommit: 280726e123f907173f31db840931426045fcfd52
+  upstreamUrl: https://raw.githubusercontent.com/beckn/local-retail/280726e123f907173f31db840931426045fcfd52/schema/RetailContract/v2.1/attributes.yaml
+  vendoredPath: vendored/beckn/schemas/RetailContract/2.1/attributes.yaml
+  upstreamSha256: 9a426161ba86dfc0b78e6b8eb3fac8afe56e837821b49f880a33de7a5c9b2aab
+  releasedSha256: 9a426161ba86dfc0b78e6b8eb3fac8afe56e837821b49f880a33de7a5c9b2aab
+  license: CC-BY-NC-SA-4.0
+  transformations: []
+- name: RetailOffer
+  type: schema
+  upstreamVersion: '2.1'
+  upstreamRepository: https://github.com/beckn/local-retail
+  upstreamCommit: 280726e123f907173f31db840931426045fcfd52
+  upstreamUrl: https://raw.githubusercontent.com/beckn/local-retail/280726e123f907173f31db840931426045fcfd52/schema/RetailOffer/v2.1/attributes.yaml
+  vendoredPath: vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml
+  upstreamSha256: cd0e67ea8420e9cc3436e7e107d24caed855b86ecf4be7bc84274de86f0bf9aa
+  releasedSha256: f763c8d6bd00790ac1501b5896d8414f2e163b03986a2c4d8bc6dd358479db7d
+  license: CC-BY-NC-SA-4.0
+  transformations:
+  - Rewrote schema.beckn.io $ref values to Release 1 public vendored URLs.
+- name: RetailPerformance
+  type: schema
+  upstreamVersion: '2.1'
+  upstreamRepository: https://github.com/beckn/local-retail
+  upstreamCommit: 280726e123f907173f31db840931426045fcfd52
+  upstreamUrl: https://raw.githubusercontent.com/beckn/local-retail/280726e123f907173f31db840931426045fcfd52/schema/RetailPerformance/v2.1/attributes.yaml
+  vendoredPath: vendored/beckn/schemas/RetailPerformance/2.1/attributes.yaml
+  upstreamSha256: 5fcd885cedd9c0f154077da5e7f4460e2b6e162a5388424ae5b30249aae15a42
+  releasedSha256: 801ccef1acb70e23ceee2d38c87297d49df4c10755ed388adce381e06e05a4a7
+  license: CC-BY-NC-SA-4.0
+  transformations:
+  - Rewrote schema.beckn.io $ref values to Release 1 public vendored URLs.
+- name: RetailResource
+  type: schema
+  upstreamVersion: '2.1'
+  upstreamRepository: https://github.com/beckn/local-retail
+  upstreamCommit: 280726e123f907173f31db840931426045fcfd52
+  upstreamUrl: https://raw.githubusercontent.com/beckn/local-retail/280726e123f907173f31db840931426045fcfd52/schema/RetailResource/v2.1/attributes.yaml
+  vendoredPath: vendored/beckn/schemas/RetailResource/2.1/attributes.yaml
+  upstreamSha256: c58c8297094ce41bc110e1a9cbd0127dcee9ef38f93b510adc326e6d748f38b2
+  releasedSha256: a62de32105c0a7586e36d4bdec4eb1fc18384427bcedf53f2e679787bea9e71c
+  license: CC-BY-NC-SA-4.0
+  transformations:
+  - Rewrote schema.beckn.io $ref values to Release 1 public vendored URLs.
+- name: RetailSettlement
+  type: schema
+  upstreamVersion: '2.1'
+  upstreamRepository: https://github.com/beckn/local-retail
+  upstreamCommit: 280726e123f907173f31db840931426045fcfd52
+  upstreamUrl: https://raw.githubusercontent.com/beckn/local-retail/280726e123f907173f31db840931426045fcfd52/schema/RetailSettlement/v2.1/attributes.yaml
+  vendoredPath: vendored/beckn/schemas/RetailSettlement/2.1/attributes.yaml
+  upstreamSha256: 253d7a95849a068252360a559e9747217e6b87b213d2fb1fea7aca285306f53a
+  releasedSha256: 253d7a95849a068252360a559e9747217e6b87b213d2fb1fea7aca285306f53a
+  license: CC-BY-NC-SA-4.0
+  transformations: []
+- name: TimePeriod
+  type: schema
+  upstreamVersion: '2.0'
+  upstreamRepository: https://github.com/beckn/schemas
+  upstreamCommit: b0ffbdd409c2fbe988a344161345a88ebb11d544
+  upstreamUrl: https://raw.githubusercontent.com/beckn/schemas/b0ffbdd409c2fbe988a344161345a88ebb11d544/schema/TimePeriod/v2.0/attributes.yaml
+  vendoredPath: vendored/beckn/schemas/TimePeriod/2.0/attributes.yaml
+  upstreamSha256: d1d365abfe4a7b81313255291a23284ea65e1e59264de6bf9aadbf3643ae6c91
+  releasedSha256: d1d365abfe4a7b81313255291a23284ea65e1e59264de6bf9aadbf3643ae6c91
+  license: CC-BY-NC-SA-4.0
+  transformations: []
+artifactChecksums:
+  vendored/beckn/licenses/local-retail/LICENSE.md: 8386f4aded6116293b4a2daf378638abe4ed49406c696c12d4e8c19310aec46e
+  vendored/beckn/licenses/protocol-specifications-v2/LICENSE: ec5bc2d54dae0ebc2c8ec5a147d0b48d48af5b3f73acdcb8e33f104a7ad4407c
+  vendored/beckn/licenses/schemas/LICENSE.md: ec5bc2d54dae0ebc2c8ec5a147d0b48d48af5b3f73acdcb8e33f104a7ad4407c
+  vendored/beckn/protocol/v2.0.0/beckn.yaml: 3a909f076796c58b122bf38cfcf9560e1edb504cde00d35261ac8ae393b1ad76
+  vendored/beckn/schemas/AcceptedPaymentMethod/2.0/attributes.yaml: 192181c691590fdf35ddc8ff3a64ed18fa4ae36d8baa4e9b8fc2c189314ecf77
+  vendored/beckn/schemas/Address/2.0/attributes.yaml: cbd663923fcbf4dc7a5050c76762320ec4db2a1b9d7ff532eab1d8442dc6b7be
+  vendored/beckn/schemas/Attributes/2.0/attributes.yaml: bd9b439dcf0ac8e54702807fd488a6e4394fe92d826382f9ca2357f7f2c1354d
+  vendored/beckn/schemas/CategoryCode/2.0/attributes.yaml: 06f3e4a3061796e2d5f2b83e123ec77d833e2b1e2d68553d2d6ae19af9145108
+  vendored/beckn/schemas/Contact/2.0/attributes.yaml: 77a25837a60c2e9870e9538958b6910f005512158f0e1d01a9648d559513df92
+  vendored/beckn/schemas/GeoJSONGeometry/2.0/attributes.yaml: 43148b6636c95b9566e4dc3d739748f9da4bf57db27b23f52fdf3edcc3d126b5
+  vendored/beckn/schemas/Location/2.0/attributes.yaml: 3be8b9139132a86163d48705a2bd0187ceedb0a7f23970160c85036458b20313
+  vendored/beckn/schemas/PriceSpecification/2.0/attributes.yaml: 213c0ea029f17894fb3890e4f8194fc0782bce829275f1af2044fab5bfac385a
+  vendored/beckn/schemas/Quantity/2.0/attributes.yaml: 7494fb9e0590439bf284cc224f1421630c14c94ac94be53b8fb5ba2dfa852611
+  vendored/beckn/schemas/RetailCommitment/2.1/attributes.yaml: cbdf8db19794a4dbea779051199057ec7d256f9314b90f43fe726000c7a5991a
+  vendored/beckn/schemas/RetailConsideration/2.1/attributes.yaml: f94ac0192b3fa93093c4d21c7274f3df85710575ec46339ac21075e83ae4995c
+  vendored/beckn/schemas/RetailContract/2.1/attributes.yaml: 9a426161ba86dfc0b78e6b8eb3fac8afe56e837821b49f880a33de7a5c9b2aab
+  vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml: f763c8d6bd00790ac1501b5896d8414f2e163b03986a2c4d8bc6dd358479db7d
+  vendored/beckn/schemas/RetailPerformance/2.1/attributes.yaml: 801ccef1acb70e23ceee2d38c87297d49df4c10755ed388adce381e06e05a4a7
+  vendored/beckn/schemas/RetailResource/2.1/attributes.yaml: a62de32105c0a7586e36d4bdec4eb1fc18384427bcedf53f2e679787bea9e71c
+  vendored/beckn/schemas/RetailSettlement/2.1/attributes.yaml: 253d7a95849a068252360a559e9747217e6b87b213d2fb1fea7aca285306f53a
+  vendored/beckn/schemas/TimePeriod/2.0/attributes.yaml: d1d365abfe4a7b81313255291a23284ea65e1e59264de6bf9aadbf3643ae6c91
 toolingCommit: null
 notes:
-  - Draft release envelope created during migration Phase 2.
-  - No schema or normative registry is included yet.
-  - Draft URLs are unsupported until the release is published.
+- Draft release envelope created during migration Phase 2.
+- Beckn dependencies were vendored and the offline reference graph was closed during
+  Phase 4.
+- Draft URLs are unsupported until the release is published.

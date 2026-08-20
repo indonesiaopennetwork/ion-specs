@@ -568,10 +568,18 @@ Before publication, root tooling must provide:
 
 ### Phase 4 — Vendor and close references
 
-1. Verify and re-vendor Beckn Protocol.
-2. Vendor all direct and transitive Beckn schema dependencies.
-3. Rewrite schema references to Release 1 public URLs.
-4. Validate with network access disabled.
+1. [x] Generated a review-only proposal and selected the latest official
+   upstream snapshots, pinned at the commits recorded in `release.yaml`.
+2. [x] Re-vendored Beckn Protocol and vendored all 17 direct and transitive
+   Beckn schema dependencies.
+3. [x] Preserved all three upstream license texts and recorded upstream and
+   released SHA-256 values.
+4. [x] Rewrote active schema references to permanent Release 1 public URLs while
+   leaving semantic vocabulary IRIs unchanged.
+5. [x] Replaced four pre-existing unresolved internal `ion.yaml` references with
+   explicit references to the vendored protocol.
+6. [x] Validated the complete graph offline: 86 structured documents and 666
+   active references resolved within Release 1.
 
 ### Phase 5 — Validate the trusted baseline
 

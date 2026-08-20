@@ -40,23 +40,23 @@
       },
       "allOf": [
         {
-          "$ref": "https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource"
+          "$ref": "https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml#/components/schemas/RetailResource"
         }
       ],
       "properties": {
         "ageRestricted": {
-          "$ref": "https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/ageRestricted"
+          "$ref": "https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml#/components/schemas/RetailResource/properties/ageRestricted"
         },
         "foodRegulatoryDeclaration": {
           "allOf": [
             {
-              "$ref": "https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/foodRegulatoryDeclaration"
+              "$ref": "https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml#/components/schemas/RetailResource/properties/foodRegulatoryDeclaration"
             },
             {
               "type": "object",
               "properties": {
                 "additives": {
-                  "$ref": "https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/foodRegulatoryDeclaration/properties/additives"
+                  "$ref": "https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml#/components/schemas/RetailResource/properties/foodRegulatoryDeclaration/properties/additives"
                 }
               }
             }
@@ -65,7 +65,7 @@
         "credentials": {
           "allOf": [
             {
-              "$ref": "https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/credentials"
+              "$ref": "https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml#/components/schemas/RetailResource/properties/credentials"
             },
             {
               "type": "array",
@@ -73,13 +73,13 @@
                 "type": "object",
                 "properties": {
                   "type": {
-                    "$ref": "https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/credentials/items/properties/type"
+                    "$ref": "https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml#/components/schemas/RetailResource/properties/credentials/items/properties/type"
                   },
                   "uri": {
-                    "$ref": "https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/credentials/items/properties/uri"
+                    "$ref": "https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml#/components/schemas/RetailResource/properties/credentials/items/properties/uri"
                   },
                   "issuer": {
-                    "$ref": "https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/credentials/items/properties/issuer"
+                    "$ref": "https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml#/components/schemas/RetailResource/properties/credentials/items/properties/issuer"
                   }
                 }
               }
@@ -126,13 +126,13 @@
           "description": "Packaged food product attributes for filtering and regulatory compliance. Use for FMCG packaged food, grocery products, bottled beverages, packaged meal kits, snacks, and confectionery sold from warehouse stock. Do not use for restaurant or cloud kitchen menu items — those use MenuItem in the Hospitality sector (hospitality/menu-item/v1). Detailed nutritional information and ingredient lists belong in Descriptor.longDesc for agent readability.\n",
           "allOf": [
             {
-              "$ref": "https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/food"
+              "$ref": "https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml#/components/schemas/RetailResource/properties/food"
             },
             {
               "type": "object",
               "properties": {
                 "classification": {
-                  "$ref": "https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/food/properties/classification"
+                  "$ref": "https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml#/components/schemas/RetailResource/properties/food/properties/classification"
                 },
                 "allergens": {
                   "type": "array",
@@ -177,7 +177,7 @@
                     "netQuantityDeclaration": {
                       "allOf": [
                         {
-                          "$ref": "https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity"
+                          "$ref": "https://schema.ion.id/releases/release1/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity"
                         }
                       ],
                       "description": "Declared net quantity of the fresh produce.",
@@ -298,7 +298,7 @@
             "wattage": {
               "allOf": [
                 {
-                  "$ref": "https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity"
+                  "$ref": "https://schema.ion.id/releases/release1/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity"
                 }
               ],
               "example": {
@@ -309,7 +309,7 @@
             "voltage": {
               "allOf": [
                 {
-                  "$ref": "https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity"
+                  "$ref": "https://schema.ion.id/releases/release1/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity"
                 }
               ],
               "example": {
@@ -462,19 +462,19 @@
             "unitOfMeasure": {
               "allOf": [
                 {
-                  "$ref": "https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity"
+                  "$ref": "https://schema.ion.id/releases/release1/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity"
                 },
                 {
                   "type": "object",
                   "properties": {
                     "unitCode": {
-                      "$ref": "https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity/properties/unitCode"
+                      "$ref": "https://schema.ion.id/releases/release1/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity/properties/unitCode"
                     },
                     "unitQuantity": {
-                      "$ref": "https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity/properties/unitQuantity"
+                      "$ref": "https://schema.ion.id/releases/release1/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity/properties/unitQuantity"
                     },
                     "unitText": {
-                      "$ref": "https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity/properties/unitText"
+                      "$ref": "https://schema.ion.id/releases/release1/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity/properties/unitText"
                     }
                   }
                 }
@@ -527,7 +527,7 @@
                   "strength": {
                     "allOf": [
                       {
-                        "$ref": "https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity"
+                        "$ref": "https://schema.ion.id/releases/release1/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity"
                       }
                     ],
                     "description": "Strength of this active ingredient."
@@ -580,16 +580,16 @@
         "warranty": {
           "allOf": [
             {
-              "$ref": "https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/warranty"
+              "$ref": "https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml#/components/schemas/RetailResource/properties/warranty"
             },
             {
               "type": "object",
               "properties": {
                 "duration": {
-                  "$ref": "https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/warranty/properties/duration"
+                  "$ref": "https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml#/components/schemas/RetailResource/properties/warranty/properties/duration"
                 },
                 "terms": {
-                  "$ref": "https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/warranty/properties/terms"
+                  "$ref": "https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml#/components/schemas/RetailResource/properties/warranty/properties/terms"
                 }
               }
             }
@@ -676,7 +676,7 @@
                   "value": {
                     "allOf": [
                       {
-                        "$ref": "https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity"
+                        "$ref": "https://schema.ion.id/releases/release1/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity"
                       }
                     ],
                     "description": "Measured amount of the nutrient."
@@ -735,7 +735,7 @@
             "denomination": {
               "allOf": [
                 {
-                  "$ref": "https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity"
+                  "$ref": "https://schema.ion.id/releases/release1/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity"
                 }
               ],
               "description": "Voucher or top-up denomination.",

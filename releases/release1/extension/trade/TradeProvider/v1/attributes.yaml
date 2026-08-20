@@ -36,7 +36,7 @@ components:
         '@type': ion:IONTradeProvider
       x-beckn-attaches-to: Provider.providerAttributes
       allOf:
-        - $ref: https://schema.beckn.io/Attributes/2.0/attributes.yaml#/components/schemas/Attributes
+        - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/Attributes/2.0/attributes.yaml#/components/schemas/Attributes
         - type: object
           properties:
             verification:

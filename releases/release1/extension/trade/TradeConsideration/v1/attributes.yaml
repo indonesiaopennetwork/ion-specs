@@ -32,7 +32,7 @@ components:
       x-beckn-attaches-to: Consideration.considerationAttributes
       x-ion-closed-extensions: false
       allOf:
-        - $ref: https://schema.beckn.io/RetailConsideration/v2.1/attributes.yaml#/components/schemas/RetailConsideration
+        - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailConsideration/2.1/attributes.yaml#/components/schemas/RetailConsideration
       properties:
         breakup:
           x-attr-ion-layer: ion
@@ -43,7 +43,7 @@ components:
             compliance fields.
           items:
             allOf:
-              - $ref: https://schema.beckn.io/RetailConsideration/v2.1/attributes.yaml#/components/schemas/RetailConsideration/properties/breakup/items
+              - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailConsideration/2.1/attributes.yaml#/components/schemas/RetailConsideration/properties/breakup/items
               - type: object
                 properties:
                   taxDetail:

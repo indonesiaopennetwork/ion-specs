@@ -35,7 +35,8 @@ x-ion-profile:
   x-ion-compatibility:
     profileVersion: 0.7.0-draft
     becknCore: 2.0.0
-    becknCoreUpstreamTag: main-2026-06-02
+    becknCoreUpstreamTag: main-2026-08-21
+    becknCoreUpstreamCommit: a22300aa83796cb8dfc2b63cd9dd0e36a7f4d3a1
     becknCoreUpstreamRepo: https://github.com/beckn/protocol-specifications-v2
     becknCoreStatus: LTS
     schemaPacks:
@@ -2213,7 +2214,7 @@ components:
       # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
       x-ion-closed-extensions: false
       # REMOTE (uncomment to use upstream directly):
-      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yamlhttps://schema.ion.id/releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Attributes
     IONBusinessRegistration:
       type: object
       title: Indonesia Business Identity
@@ -2313,7 +2314,7 @@ components:
       allOf:
       # LOCAL (default — active):
       # REMOTE (uncomment to use upstream directly):
-      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yamlhttps://schema.ion.id/releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:
           properties:
             businessType:
@@ -2652,7 +2653,7 @@ components:
       allOf:
       # LOCAL (default — active):
       # REMOTE (uncomment to use upstream directly):
-      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yamlhttps://schema.ion.id/releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:
           properties:
             role:
@@ -3098,7 +3099,7 @@ components:
       allOf:
       # LOCAL (default — active):
       # REMOTE (uncomment to use upstream directly):
-      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yamlhttps://schema.ion.id/releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:
           properties:
             method:
@@ -3683,7 +3684,7 @@ components:
       # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
       x-ion-closed-extensions: false
       # REMOTE (uncomment to use upstream directly):
-      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yamlhttps://schema.ion.id/releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Attributes
     IONReconciliation:
       type: object
       title: ION Reconcile Attributes
@@ -4147,7 +4148,7 @@ components:
       allOf:
       # LOCAL (default — active):
       # REMOTE (uncomment to use upstream directly):
-      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yamlhttps://schema.ion.id/releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:
           properties:
             adjustmentType:
@@ -4457,7 +4458,7 @@ components:
       allOf:
       # LOCAL (default — active):
       # REMOTE (uncomment to use upstream directly):
-      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yamlhttps://schema.ion.id/releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:
           properties:
             escalationLevel:
@@ -4493,7 +4494,7 @@ components:
       x-recommended-parent: Consideration.considerationAttributes.breakup[].taxDetail
       x-beckn-attaches-to: Consideration.considerationAttributes.breakup[].taxDetail
       allOf:
-      - $ref: https://schema.beckn.io/RetailConsideration/v2.1/attributes.yaml#/components/schemas/RetailConsideration/properties/breakup/items/properties/taxDetail
+      - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailConsideration/2.1/attributes.yaml#/components/schemas/RetailConsideration/properties/breakup/items/properties/taxDetail
       properties:
         taxRegime:
           type: string
@@ -4547,7 +4548,7 @@ components:
         pack defines TradeCommitment as the generic layer and
         IONTradeCommitment as the ION-specific layer.
       allOf:
-      - $ref: https://schema.beckn.io/RetailCommitment/v2.1/attributes.yaml#/components/schemas/RetailCommitment
+      - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailCommitment/2.1/attributes.yaml#/components/schemas/RetailCommitment
       properties:
         replacementPreferred:
           type: boolean
@@ -4571,13 +4572,13 @@ components:
         '@type': ion:TradeConsideration
       x-beckn-attaches-to: Consideration.considerationAttributes
       allOf:
-      - $ref: https://schema.beckn.io/RetailConsideration/v2.1/attributes.yaml#/components/schemas/RetailConsideration
+      - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailConsideration/2.1/attributes.yaml#/components/schemas/RetailConsideration
       properties:
         breakup:
           type: array
           items:
             allOf:
-            - $ref: https://schema.beckn.io/RetailConsideration/v2.1/attributes.yaml#/components/schemas/RetailConsideration/properties/breakup/items
+            - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailConsideration/2.1/attributes.yaml#/components/schemas/RetailConsideration/properties/breakup/items
             - type: object
               properties:
                 taxDetail:
@@ -4595,7 +4596,7 @@ components:
       x-recommended-parent: Contract.contractAttributes
       additionalProperties: true
       allOf:
-      - $ref: https://schema.beckn.io/RetailContract/v2.1/attributes.yaml#/components/schemas/RetailContract
+      - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml#/components/schemas/RetailContract
       properties:
         purchaseOrderReference:
           type: string
@@ -4662,7 +4663,7 @@ components:
               format: date-time
         source:
           allOf:
-          - $ref: https://schema.beckn.io/RetailContract/v2.1/attributes.yaml#/components/schemas/RetailContract/properties/source
+          - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml#/components/schemas/RetailContract/properties/source
           - type: object
             description: Inherited source enriched with channel-neutral attribution.
             properties:
@@ -4683,7 +4684,7 @@ components:
                 type: string
         gift:
           allOf:
-          - $ref: https://schema.beckn.io/RetailContract/v2.1/attributes.yaml#/components/schemas/RetailContract/properties/gift
+          - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml#/components/schemas/RetailContract/properties/gift
           - type: object
             description: Inherited gifting preferences enriched with recipient and presentation
               details.
@@ -4700,7 +4701,7 @@ components:
                 default: false
         invoicePreferences:
           allOf:
-          - $ref: https://schema.beckn.io/RetailContract/v2.1/attributes.yaml#/components/schemas/RetailContract/properties/invoicePreferences
+          - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml#/components/schemas/RetailContract/properties/invoicePreferences
           - type: object
             description: Inherited invoice preferences enriched with the requested ION
               invoice-document type.
@@ -4743,17 +4744,17 @@ components:
       properties:
         policies:
           allOf:
-            - $ref: https://schema.beckn.io/RetailOffer/v2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies
+            - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies
             - type: object
               properties:
                 cancellation:
                   allOf:
-                    - $ref: https://schema.beckn.io/RetailOffer/v2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/cancellation
+                    - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/cancellation
                     - type: object
                       properties:
                         policyRef:
                           allOf:
-                            - $ref: https://schema.beckn.io/RetailOffer/v2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/cancellation/properties/policyRef
+                            - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/cancellation/properties/policyRef
                           description: ION-registered cancellation policy URI.
                           example: ion://policy/cancel.prepacked.free
                           x-ion-policy-registry: https://registry.ion.id/policies
@@ -4782,12 +4783,12 @@ components:
                           # x-ion-condition: Required when policies.cancellation.allowed is true
                 returns:
                   allOf:
-                    - $ref: https://schema.beckn.io/RetailOffer/v2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/returns
+                    - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/returns
                     - type: object
                       properties:
                         policyRef:
                           allOf:
-                            - $ref: https://schema.beckn.io/RetailOffer/v2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/returns/properties/policyRef
+                            - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/returns/properties/policyRef
                           description: ION-registered returns policy URI.
                           example: ion://policy/return.standard.7d-sellerpays
                           x-ion-policy-registry: https://registry.ion.id/policies
@@ -4818,7 +4819,7 @@ components:
                   properties:
                     policyRef:
                       allOf:
-                        - $ref: https://schema.beckn.io/RetailOffer/v2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/warranty/properties/policyRef
+                        - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/warranty/properties/policyRef
                       description: ION-registered warranty policy URI.
                       example: ion://policy/warranty.manufacturer.1y-distance-service
                       x-ion-policy-registry: https://registry.ion.id/policies
@@ -4865,11 +4866,11 @@ components:
                       x-ion-policy-registry: https://registry.ion.id/policies
                       # x-ion-condition: Auto-derived from seller tier and other policies; declare only for an explicit override
         paymentConstraints:
-          $ref: https://schema.beckn.io/RetailOffer/v2.1/attributes.yaml#/components/schemas/RetailOffer/properties/paymentConstraints
+          $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml#/components/schemas/RetailOffer/properties/paymentConstraints
         validity:
-          $ref: https://schema.beckn.io/RetailOffer/v2.1/attributes.yaml#/components/schemas/RetailOffer/properties/validity
+          $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml#/components/schemas/RetailOffer/properties/validity
         minOrderQuantity:
-          $ref: https://schema.beckn.io/RetailOffer/v2.1/attributes.yaml#/components/schemas/RetailOffer/properties/minOrderQuantity
+          $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml#/components/schemas/RetailOffer/properties/minOrderQuantity
         timeToShip:
           type: string
           format: duration
@@ -4899,7 +4900,7 @@ components:
           example: OTP
         contactDetailsConsumerCare:
           allOf:
-            - $ref: https://schema.beckn.io/Contact/2.0#/components/schemas/Contact
+            - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/Contact/2.0/attributes.yaml#/components/schemas/Contact
           description: Structured consumer-care contact displayed for pre- and post-purchase support.
           example:
             name: Customer Service
@@ -5685,7 +5686,7 @@ components:
       allOf:
       # LOCAL (default — active):
       # REMOTE (uncomment to use upstream directly):
-      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yamlhttps://schema.ion.id/releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:
           properties:
             ageVerificationMethod:
@@ -5725,7 +5726,7 @@ components:
       x-recommended-parent: Provider.providerAttributes
       additionalProperties: true
       allOf:
-      - "$ref": "#/components/schemas/Attributes"
+      - "$ref": "https://schema.ion.id/releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Attributes"
       properties:
         invoicing:
           type: object
@@ -5841,7 +5842,7 @@ components:
                 type: string
                 description: Optional origin location to which this area applies.
               geo:
-                "$ref": "#/components/schemas/GeoJSONGeometry"
+                "$ref": "https://schema.ion.id/releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/GeoJSONGeometry"
         averagePreparationTime:
           type: string
           format: duration
@@ -5972,7 +5973,7 @@ components:
 
     '
           items:
-            "$ref": "#/components/schemas/Document"
+            "$ref": "https://schema.ion.id/releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Document"
         categoryLicenses:
           type: array
           description: 'Indonesian operating licences applicable to one or more provider
@@ -6008,7 +6009,7 @@ components:
                 type: string
                 example: BPOM
               evidence:
-                "$ref": "#/components/schemas/Document"
+                "$ref": "https://schema.ion.id/releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Document"
           x-ion-regulatory: PP 5/2021; PerBPOM various
       x-ion-closed-extensions: false
       x-jsonld:
@@ -6625,7 +6626,7 @@ components:
                     example: Protein
                   value:
                     allOf:
-                    - $ref: https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+                    - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
                     description: Measured amount of the nutrient.
                 required:
                 - nutrient
@@ -7099,7 +7100,7 @@ components:
                     type: string
                   strength:
                     allOf:
-                    - $ref: https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+                    - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
                     description: Strength of this active ingredient.
             coldChainRequired:
               type: boolean
@@ -7379,7 +7380,7 @@ components:
               example: TELKOMSEL
             denomination:
               allOf:
-              - $ref: https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+              - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
               description: Voucher or top-up denomination.
               example:
                 unitQuantity: 50000
@@ -7434,7 +7435,7 @@ components:
       allOf:
       # LOCAL (default — active):
       # REMOTE (uncomment to use upstream directly):
-      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yamlhttps://schema.ion.id/releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:
           properties:
             resourceStructure:
@@ -7569,7 +7570,7 @@ components:
           description: Parent commitment reference for child transactions under a parent contract
       x-ion-closed-extensions: false
       # REMOTE (uncomment to use upstream directly):
-      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yamlhttps://schema.ion.id/releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Attributes
     LogisticsConsideration:
       type: object
       title: Logistics Consideration Attributes
@@ -7783,7 +7784,7 @@ components:
       # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
       x-ion-closed-extensions: false
       # REMOTE (uncomment to use upstream directly):
-      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yamlhttps://schema.ion.id/releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Attributes
     LogisticsContract:
       type: object
       title: Logistics Contract Attributes
@@ -8393,7 +8394,7 @@ components:
           type: string
       x-ion-closed-extensions: false
       # REMOTE (uncomment to use upstream directly):
-      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yamlhttps://schema.ion.id/releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Attributes
     LogisticsOffer:
       type: object
       title: Logistics Offer Attributes
@@ -9180,7 +9181,7 @@ components:
       allOf:
       # LOCAL (default — active):
       # REMOTE (uncomment to use upstream directly):
-      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yamlhttps://schema.ion.id/releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Attributes
       - if:
           properties:
             availableOnCod:
@@ -9231,7 +9232,7 @@ components:
           x-ion-cross-schema-condition: true
       x-ion-closed-extensions: false
       # REMOTE (uncomment to use upstream directly):
-      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yamlhttps://schema.ion.id/releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Attributes
     LogisticsPerformance:
       type: object
       title: Logistics Performance Attributes
@@ -10047,7 +10048,7 @@ components:
             - PPE_WORN
       x-ion-closed-extensions: false
       # REMOTE (uncomment to use upstream directly):
-      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yamlhttps://schema.ion.id/releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Attributes
     LogisticsProvider:
       type: object
       title: Logistics Provider Attributes
@@ -10287,7 +10288,7 @@ components:
       # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
       x-ion-closed-extensions: false
       # REMOTE (uncomment to use upstream directly):
-      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yamlhttps://schema.ion.id/releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Attributes
     LogisticsResource:
       type: object
       title: Logistics Resource Attributes
@@ -10829,7 +10830,7 @@ components:
       # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
       x-ion-closed-extensions: false
       # REMOTE (uncomment to use upstream directly):
-      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yamlhttps://schema.ion.id/releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Attributes
     LogisticsTracking:
       type: object
       title: Logistics Tracking Attributes
@@ -10951,4 +10952,4 @@ components:
       # required: [] — removed per NFH-012 CON-012-18; mandatoriness enforced via x-ion-field-requirements + x-ion-crc-rules
       x-ion-closed-extensions: false
       # REMOTE (uncomment to use upstream directly):
-      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yaml#/components/schemas/Attributes
+      # - $ref: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/main/api/v2.0.0/beckn.yamlhttps://schema.ion.id/releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Attributes

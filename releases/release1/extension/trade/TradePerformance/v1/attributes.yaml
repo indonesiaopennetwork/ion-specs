@@ -35,7 +35,7 @@ components:
       x-beckn-attaches-to: Performance.performanceAttributes
       x-ion-closed-extensions: false
       allOf:
-        - $ref: https://schema.beckn.io/RetailPerformance/2.1/attributes.yaml#/components/schemas/RetailPerformance
+        - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailPerformance/2.1/attributes.yaml#/components/schemas/RetailPerformance
         # Conditional mandatoriness is enforced by ION network policy rather
         # than this shared schema. The former constraints required evidence for
         # KTP_SCANNED, required verification outcome fields when verification
@@ -130,7 +130,7 @@ components:
           x-ion-condition: Present when fulfilment is handled by on-network LSP
         agent:
           allOf:
-          - $ref: https://schema.beckn.io/RetailPerformance/2.1/attributes.yaml#/components/schemas/RetailPerformance/properties/agent
+          - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailPerformance/2.1/attributes.yaml#/components/schemas/RetailPerformance/properties/agent
           - type: object
             description: >
               Agent assigned to this performance. A return uses a separate
@@ -257,7 +257,7 @@ components:
           x-ion-condition: Present when the performance has multiple packages
         totalWeight:
           allOf:
-          - $ref: https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+          - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
           description: >
             Total packed weight. The unit is carried by the Quantity rather
             than being encoded in the property name.

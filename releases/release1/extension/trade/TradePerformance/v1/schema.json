@@ -21,7 +21,7 @@
       "x-ion-closed-extensions": false,
       "allOf": [
         {
-          "$ref": "https://schema.beckn.io/RetailPerformance/2.1/attributes.yaml#/components/schemas/RetailPerformance"
+          "$ref": "https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailPerformance/2.1/attributes.yaml#/components/schemas/RetailPerformance"
         },
         {
           "type": "object",
@@ -100,7 +100,7 @@
         "agent": {
           "allOf": [
             {
-              "$ref": "https://schema.beckn.io/RetailPerformance/2.1/attributes.yaml#/components/schemas/RetailPerformance/properties/agent"
+              "$ref": "https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailPerformance/2.1/attributes.yaml#/components/schemas/RetailPerformance/properties/agent"
             },
             {
               "type": "object",
@@ -247,7 +247,7 @@
         "totalWeight": {
           "allOf": [
             {
-              "$ref": "https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity"
+              "$ref": "https://schema.ion.id/releases/release1/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity"
             }
           ],
           "description": "Total packed weight. The unit is carried by the Quantity.",

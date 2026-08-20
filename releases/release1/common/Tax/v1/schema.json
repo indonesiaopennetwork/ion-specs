@@ -11,7 +11,7 @@
   "additionalProperties": true,
   "allOf": [
     {
-      "$ref": "https://schema.beckn.io/RetailConsideration/v2.1/attributes.yaml#/components/schemas/RetailConsideration/properties/breakup/items/properties/taxDetail"
+      "$ref": "https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailConsideration/2.1/attributes.yaml#/components/schemas/RetailConsideration/properties/breakup/items/properties/taxDetail"
     }
   ],
   "properties": {

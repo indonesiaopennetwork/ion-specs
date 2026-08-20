@@ -1,16 +1,32 @@
 # Release 1 Notices
 
-**Status:** Draft and incomplete
+**Status:** Draft release; dependency inventory complete
 
-Release 1 contains the mechanically moved Beckn Protocol candidate at
-`vendored/beckn/protocol/v2.0.0/beckn.yaml`. It is not an accepted vendored
-dependency until its upstream provenance and content are verified in Phase 4.
-Dependency provenance, copyright notices, license texts, upstream commit
-identifiers, checksums, transitive dependencies, and any recorded localization
-transformations remain incomplete.
+Release 1 vendors files from these official Beckn repositories at immutable
+commits:
 
-Before publication, every included dependency must be present under `vendored/`
-and represented in `release.yaml`.
+- `beckn/protocol-specifications-v2` at
+  `a22300aa83796cb8dfc2b63cd9dd0e36a7f4d3a1`;
+- `beckn/schemas` at `b0ffbdd409c2fbe988a344161345a88ebb11d544`;
+- `beckn/local-retail` at `280726e123f907173f31db840931426045fcfd52`.
 
-This file must not be treated as the final attribution or licensing notice for
-Release 1.
+The corresponding license texts are preserved at:
+
+- `vendored/beckn/licenses/protocol-specifications-v2/LICENSE`;
+- `vendored/beckn/licenses/schemas/LICENSE.md`;
+- `vendored/beckn/licenses/local-retail/LICENSE.md`.
+
+The upstream materials identify the license as Creative Commons
+Attribution-NonCommercial-ShareAlike 4.0 International. The precise upstream and
+released SHA-256 values for every dependency are recorded in `release.yaml`.
+
+Ten schema files are byte-for-byte copies of their pinned upstream sources. The
+vendored protocol differs only by removal of upstream trailing whitespace, with
+no change to its parsed OpenAPI content. Seven schema files—`GeoJSONGeometry`, `Location`,
+`PriceSpecification`, `RetailCommitment`, `RetailOffer`, `RetailPerformance`, and
+`RetailResource`—contain only a vendoring transformation: active
+`schema.beckn.io` `$ref` values were rewritten to permanent Release 1 URLs under
+`schema.ion.id`. No semantic vocabulary IRI was rewritten.
+
+This notice covers dependency provenance for the draft. Release 1 remains
+unpublished until its content validation and approval gates are complete.

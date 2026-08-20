@@ -9,15 +9,14 @@ until the ION Council approves the release and changes its status to `published`
 
 ## Current state
 
-Migration Phase 3 mechanically moved the two primary API files, all nine Trade
-packs, and the four common packs required by Trade into this draft. Repository
-path literals and references affected by those moves now point to their Release 1
-locations.
+Migration Phases 3 and 4 moved the two primary API files, all nine Trade packs,
+and the four common packs required by Trade into this draft, then vendored the
+complete Beckn dependency graph at immutable upstream commits. Active schema
+references now use Release 1 public URLs, and the graph resolves offline.
 
-The move does not certify the content. `ion.yaml` and the common packs remain
-review-required, Trade remains validation-pending, and Beckn provenance and
-transitive vendoring remain incomplete. Flows, policies, and errors have not yet
-been moved into this directory.
+The migration does not certify ION content. `ion.yaml` and the common packs remain
+review-required, and Trade remains validation-pending. Flows, policies, and errors
+have not yet been moved into this directory.
 
 ## Primary API contracts
 
@@ -47,6 +46,7 @@ Validate the draft manifest:
 
 ```bash
 ruby tools/release/validate_manifest.rb releases/release1/release.yaml
+ruby tools/release/validate_offline_refs.rb releases/release1
 ```
 
 The publication gate must reject this draft:

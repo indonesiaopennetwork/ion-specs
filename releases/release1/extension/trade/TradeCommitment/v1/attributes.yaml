@@ -33,7 +33,7 @@ components:
       x-beckn-attaches-to: Commitment.commitmentAttributes
       x-ion-closed-extensions: false
       allOf:
-        - $ref: https://schema.beckn.io/RetailCommitment/v2.1/attributes.yaml#/components/schemas/RetailCommitment
+        - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailCommitment/2.1/attributes.yaml#/components/schemas/RetailCommitment
       properties:
         replacementPreferred:
           type: boolean

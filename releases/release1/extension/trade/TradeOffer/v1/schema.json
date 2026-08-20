@@ -21,7 +21,7 @@
       "x-ion-closed-extensions": false,
       "allOf": [
         {
-          "$ref": "https://schema.beckn.io/RetailOffer/v2.1/attributes.yaml#/components/schemas/RetailOffer"
+          "$ref": "https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml#/components/schemas/RetailOffer"
         },
         {
           "type": "object",
@@ -35,7 +35,7 @@
                     "policyRef": {
                       "allOf": [
                         {
-                          "$ref": "https://schema.beckn.io/RetailOffer/v2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/cancellation/properties/policyRef"
+                          "$ref": "https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/cancellation/properties/policyRef"
                         }
                       ],
                       "description": "ION standard cancellation policy IRI. cancel.prepacked.free: buyer may cancel before packed at no fee. cancel.mto.nofee.before_prepare: MTO, free cancellation before preparation starts. cancel.none: no cancellation permitted after confirm.\n",
@@ -51,7 +51,7 @@
                     "policyRef": {
                       "allOf": [
                         {
-                          "$ref": "https://schema.beckn.io/RetailOffer/v2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/returns/properties/policyRef"
+                          "$ref": "https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/returns/properties/policyRef"
                         }
                       ],
                       "description": "ION standard return policy IRI. Encodes window duration and who pays return shipping.\n",
@@ -67,7 +67,7 @@
                     "policyRef": {
                       "allOf": [
                         {
-                          "$ref": "https://schema.beckn.io/RetailOffer/v2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/warranty/properties/policyRef"
+                          "$ref": "https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/warranty/properties/policyRef"
                         }
                       ],
                       "description": "ION standard warranty policy IRI.",
@@ -139,7 +139,7 @@
         "policies": {
           "allOf": [
             {
-              "$ref": "https://schema.beckn.io/RetailOffer/v2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies"
+              "$ref": "https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies"
             },
             {
               "type": "object",
@@ -147,7 +147,7 @@
                 "cancellation": {
                   "allOf": [
                     {
-                      "$ref": "https://schema.beckn.io/RetailOffer/v2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/cancellation"
+                      "$ref": "https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/cancellation"
                     },
                     {
                       "type": "object",
@@ -186,7 +186,7 @@
                 "returns": {
                   "allOf": [
                     {
-                      "$ref": "https://schema.beckn.io/RetailOffer/v2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/returns"
+                      "$ref": "https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/returns"
                     },
                     {
                       "type": "object",
@@ -250,7 +250,7 @@
         "contactDetailsConsumerCare": {
           "allOf": [
             {
-              "$ref": "https://schema.beckn.io/Contact/2.0#/components/schemas/Contact"
+              "$ref": "https://schema.ion.id/releases/release1/vendored/beckn/schemas/Contact/2.0/attributes.yaml#/components/schemas/Contact"
             }
           ],
           "description": "Structured consumer-care contact displayed for pre- and post-purchase support.",

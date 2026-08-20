@@ -78,7 +78,7 @@ components:
         '@context': 'https://schema.ion.id/releases/release1/extension/trade/TradeResource/v1/context.jsonld'
         '@type': ion:IONTradeResource
       allOf:
-        - $ref: https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource
+        - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml#/components/schemas/RetailResource
         # NOTE Conditional validation rules have been removed. They were
         # If resourceStructure is [VARIANT] then [parentResourceId,isDefaultVariant,variantGroup] are required
         # If resourceStructure is [COMPOSED, WITH_EXTRAS] then [customizationGroups] is required
@@ -88,29 +88,29 @@ components:
         # Inherited properties repeated as refs so this pack's standalone JSON-LD
         # context and vocabulary can declare their upstream-owned terms.
         ageRestricted:
-          $ref: https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/ageRestricted
+          $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml#/components/schemas/RetailResource/properties/ageRestricted
 
         foodRegulatoryDeclaration:
           allOf:
-            - $ref: https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/foodRegulatoryDeclaration
+            - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml#/components/schemas/RetailResource/properties/foodRegulatoryDeclaration
             - type: object
               properties:
                 additives:
-                  $ref: https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/foodRegulatoryDeclaration/properties/additives
+                  $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml#/components/schemas/RetailResource/properties/foodRegulatoryDeclaration/properties/additives
 
         credentials:
           allOf:
-            - $ref: https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/credentials
+            - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml#/components/schemas/RetailResource/properties/credentials
             - type: array
               items:
                 type: object
                 properties:
                   type:
-                    $ref: https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/credentials/items/properties/type
+                    $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml#/components/schemas/RetailResource/properties/credentials/items/properties/type
                   uri:
-                    $ref: https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/credentials/items/properties/uri
+                    $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml#/components/schemas/RetailResource/properties/credentials/items/properties/uri
                   issuer:
-                    $ref: https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/credentials/items/properties/issuer
+                    $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml#/components/schemas/RetailResource/properties/credentials/items/properties/issuer
 
         menuCategory:
           type: object
@@ -158,11 +158,11 @@ components:
             Detailed nutritional information and ingredient lists belong in
             Descriptor.longDesc for agent readability.
           allOf:
-            - $ref: https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/food
+            - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml#/components/schemas/RetailResource/properties/food
             - type: object
               properties:
                 classification:
-                  $ref: https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/food/properties/classification
+                  $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml#/components/schemas/RetailResource/properties/food/properties/classification
                 allergens:
                   type: array
                   items:
@@ -185,7 +185,7 @@ components:
                   properties:
                     netQuantityDeclaration:
                       allOf:
-                        - $ref: https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+                        - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
                       description: Declared net quantity of the fresh produce.
                       example:
                         unitQuantity: 1
@@ -269,13 +269,13 @@ components:
                        LIGHTNING, MMWAVE_5G, SUB6_5G, 4G_LTE, 3G, IR_BLASTER, OTHER]
             wattage:
               allOf:
-                - $ref: https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+                - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
               example:
                 unitQuantity: 45
                 unitText: W
             voltage:
               allOf:
-                - $ref: https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+                - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
               example:
                 minQuantity: 100
                 maxQuantity: 240
@@ -361,15 +361,15 @@ components:
               enum: [PESTICIDE_FREE, LOW_PESTICIDE, STANDARD, ORGANIC_CERTIFIED]
             unitOfMeasure:
               allOf:
-                - $ref: https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+                - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
                 - type: object
                   properties:
                     unitCode:
-                      $ref: https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity/properties/unitCode
+                      $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity/properties/unitCode
                     unitQuantity:
-                      $ref: https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity/properties/unitQuantity
+                      $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity/properties/unitQuantity
                     unitText:
-                      $ref: https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity/properties/unitText
+                      $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity/properties/unitText
               description: Declared net quantity of the fresh produce.
               example:
                 unitQuantity: 1
@@ -406,7 +406,7 @@ components:
                     type: string
                   strength:
                     allOf:
-                      - $ref: https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+                      - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
                     description: Strength of this active ingredient.
             coldChainRequired:
               type: boolean
@@ -447,13 +447,13 @@ components:
         warranty:
           # NOTE Retained locally for ION annotations; its data shape is owned by Beckn.
           allOf:
-            - $ref: https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/warranty
+            - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml#/components/schemas/RetailResource/properties/warranty
             - type: object
               properties:
                 duration:
-                  $ref: https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/warranty/properties/duration
+                  $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml#/components/schemas/RetailResource/properties/warranty/properties/duration
                 terms:
-                  $ref: https://schema.beckn.io/RetailResource/v2.1/attributes.yaml#/components/schemas/RetailResource/properties/warranty/properties/terms
+                  $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml#/components/schemas/RetailResource/properties/warranty/properties/terms
           x-ion-regulatory: UU 8/1999 tentang Perlindungan Konsumen Pasal 25; PP 36/2023
           x-ion-condition: Required for electronics, appliances, consumer durables
 
@@ -532,7 +532,7 @@ components:
                     example: Protein
                   value:
                     allOf:
-                      - $ref: https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+                      - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
                     description: Measured amount of the nutrient.
             # NOTE: Removed additives. Use RetailResource.foodRegulatoryDeclaration.additives
             # NOTE: Removed credentials
@@ -600,7 +600,7 @@ components:
               example: TELKOMSEL
             denomination:
               allOf:
-                - $ref: https://schema.beckn.io/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+                - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
               description: Voucher or top-up denomination.
               example:
                 unitQuantity: 50000

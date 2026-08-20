@@ -37,19 +37,19 @@ components:
         '@type': ion:IONTradeContract
       x-beckn-attaches-to: Contract.contractAttributes
       allOf:
-        - $ref: https://schema.beckn.io/RetailContract/v2.1/attributes.yaml#/components/schemas/RetailContract
+        - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml#/components/schemas/RetailContract
       properties:
         quoteReference:
-          $ref: https://schema.beckn.io/RetailContract/v2.1/attributes.yaml#/components/schemas/RetailContract/properties/quoteReference
+          $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml#/components/schemas/RetailContract/properties/quoteReference
 
         buyerInstructions:
-          $ref: https://schema.beckn.io/RetailContract/v2.1/attributes.yaml#/components/schemas/RetailContract/properties/buyerInstructions
+          $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml#/components/schemas/RetailContract/properties/buyerInstructions
 
         deliveryPreferences:
-          $ref: https://schema.beckn.io/RetailContract/v2.1/attributes.yaml#/components/schemas/RetailContract/properties/deliveryPreferences
+          $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml#/components/schemas/RetailContract/properties/deliveryPreferences
 
         loyalty:
-          $ref: https://schema.beckn.io/RetailContract/v2.1/attributes.yaml#/components/schemas/RetailContract/properties/loyalty
+          $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml#/components/schemas/RetailContract/properties/loyalty
 
         purchaseOrderReference:
           type: string
@@ -152,7 +152,7 @@ components:
 
         source:
           allOf:
-            - $ref: https://schema.beckn.io/RetailContract/v2.1/attributes.yaml#/components/schemas/RetailContract/properties/source
+            - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml#/components/schemas/RetailContract/properties/source
             - type: object
               description: >
                 Inherited transaction source enriched with channel-neutral
@@ -183,7 +183,7 @@ components:
 
         gift:
           allOf:
-            - $ref: https://schema.beckn.io/RetailContract/v2.1/attributes.yaml#/components/schemas/RetailContract/properties/gift
+            - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml#/components/schemas/RetailContract/properties/gift
             - type: object
               description: >
                 Inherited gifting preferences enriched with recipient and
@@ -217,7 +217,7 @@ components:
         invoicePreferences:
           x-attr-ion-layer: ion
           allOf:
-            - $ref: https://schema.beckn.io/RetailContract/v2.1/attributes.yaml#/components/schemas/RetailContract/properties/invoicePreferences
+            - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml#/components/schemas/RetailContract/properties/invoicePreferences
             - type: object
               description: >
                 Inherited invoice preferences enriched with the requested ION
