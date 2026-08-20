@@ -52,8 +52,6 @@ Run both files together through any OpenAPI 3.1.1 validator:
 spectral lint ion.yaml --ruleset beckn-ruleset.yaml
 ```
 
-If your toolchain requires a single merged file, see `tools/README.md` for the merge utility.
-
 ## Upstream tracking
 
 When Beckn releases a new version, only `beckn.yaml` needs updating. All 42 `$ref: beckn.yaml#/...` references in `ion.yaml` automatically resolve to the new version. No other files need changing for a Beckn version bump.

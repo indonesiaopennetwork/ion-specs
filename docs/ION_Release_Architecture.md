@@ -59,8 +59,7 @@ release:
 - policy definitions and generated policy registries;
 - transaction flows and their release-specific examples;
 - implementation-facing documentation that describes the release's wire format,
-  validation behavior, signing requirements, sectors, or integration process; and
-- generated distribution artifacts.
+  validation behavior, signing requirements, sectors, or integration process.
 
 The following repository-level material remains outside `releases/`:
 
@@ -137,7 +136,6 @@ releases/
     policies/
     errors/
     docs/
-    dist/
 ```
 
 `common/` contains ION attribute packs that apply across sectors.
@@ -190,7 +188,7 @@ validating every published release, for example:
 
 ```bash
 python tools/validate_release.py releases/release1
-python tools/build_distribution.py releases/release2
+python tools/create_release.py releases/release1 releases/release2
 ```
 
 Generated output belongs to the applicable release. A release manifest SHOULD
@@ -378,7 +376,6 @@ For every release, automated checks must:
 - verify the complete vendored dependency inventory and checksums;
 - validate examples against their schemas;
 - check the alignment of `attributes.yaml` and `schema.json` mirrors;
-- rebuild and verify generated distribution artifacts;
 - validate successfully with network access disabled; and
 - reject changes to directories whose manifest status is `published`.
 
@@ -418,8 +415,8 @@ must follow these principles:
 5. Rewrite resolvable references to the `release1` public namespace.
 6. Move normative flows, policies, errors, and implementation documentation into
    the release; classify remaining documentation as repository-level material.
-7. Update release-aware root tooling and regenerate mirrors, registries,
-   distributions, and examples without creating root-level normative copies.
+7. Update release-aware root tooling and regenerate mirrors, registries, and
+   examples without creating root-level normative copies.
 8. Prove local, offline, and public-URL resolution before publication.
 
 Cleanup unrelated to producing a correct first release should be deferred so that
