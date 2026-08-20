@@ -1,0 +1,188 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ION Release Manifest",
+  "description": "Manifest for a permanent ION integer release bundle.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "release",
+    "name",
+    "status",
+    "publishedAt",
+    "publicBaseUrl",
+    "sourceBranch",
+    "contentStatus",
+    "dependencyStatus",
+    "dependencies",
+    "artifactChecksums"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "release": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "name": {
+      "type": "string",
+      "pattern": "^release[1-9][0-9]*$"
+    },
+    "status": {
+      "enum": ["draft", "published"]
+    },
+    "publishedAt": {
+      "oneOf": [
+        { "type": "null" },
+        { "type": "string", "format": "date-time" }
+      ]
+    },
+    "publicBaseUrl": {
+      "type": "string",
+      "pattern": "^https://schema\\.ion\\.id/releases/release[1-9][0-9]*/$"
+    },
+    "sourceBranch": {
+      "const": "main"
+    },
+    "contentStatus": {
+      "$ref": "#/$defs/contentStatus"
+    },
+    "dependencyStatus": {
+      "enum": ["incomplete", "complete"]
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/dependency"
+      }
+    },
+    "artifactChecksums": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "#/$defs/releaseRelativePath"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/sha256"
+      }
+    },
+    "toolingCommit": {
+      "type": ["string", "null"],
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": { "const": "draft" }
+        },
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "publishedAt": { "type": "null" }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": { "const": "published" }
+        },
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "publishedAt": { "type": "string", "format": "date-time" },
+          "dependencyStatus": { "const": "complete" },
+          "contentStatus": { "$ref": "#/$defs/publishedContentStatus" },
+          "dependencies": { "minItems": 1 },
+          "artifactChecksums": { "minProperties": 1 },
+          "toolingCommit": { "type": "string", "pattern": "^[0-9a-f]{40}$" }
+        },
+        "required": ["toolingCommit"]
+      }
+    }
+  ],
+  "$defs": {
+    "contentState": {
+      "enum": ["review-required", "validation-pending", "validated", "excluded"]
+    },
+    "contentStatus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ionApi", "common", "trade", "logistics", "hospitality", "finance"],
+      "properties": {
+        "ionApi": { "$ref": "#/$defs/contentState" },
+        "common": { "$ref": "#/$defs/contentState" },
+        "trade": { "$ref": "#/$defs/contentState" },
+        "logistics": { "$ref": "#/$defs/contentState" },
+        "hospitality": { "$ref": "#/$defs/contentState" },
+        "finance": { "$ref": "#/$defs/contentState" }
+      }
+    },
+    "publishedContentStatus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ionApi", "common", "trade", "logistics", "hospitality", "finance"],
+      "properties": {
+        "ionApi": { "const": "validated" },
+        "common": { "enum": ["validated", "excluded"] },
+        "trade": { "enum": ["validated", "excluded"] },
+        "logistics": { "enum": ["validated", "excluded"] },
+        "hospitality": { "enum": ["validated", "excluded"] },
+        "finance": { "enum": ["validated", "excluded"] }
+      }
+    },
+    "dependency": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "type",
+        "upstreamVersion",
+        "upstreamRepository",
+        "upstreamCommit",
+        "upstreamUrl",
+        "vendoredPath",
+        "upstreamSha256",
+        "releasedSha256",
+        "license",
+        "transformations"
+      ],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "type": { "enum": ["protocol", "schema"] },
+        "upstreamVersion": { "type": "string", "minLength": 1 },
+        "upstreamRepository": { "type": "string", "format": "uri" },
+        "upstreamCommit": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "upstreamUrl": { "type": "string", "format": "uri" },
+        "vendoredPath": { "$ref": "#/$defs/releaseRelativePath" },
+        "upstreamSha256": { "$ref": "#/$defs/sha256" },
+        "releasedSha256": { "$ref": "#/$defs/sha256" },
+        "license": { "type": "string", "minLength": 1 },
+        "transformations": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "releaseRelativePath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

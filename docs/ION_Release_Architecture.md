@@ -1,8 +1,10 @@
 # ION Release Architecture
 
-**Status:** Accepted — implementation pending  
-**Decision date:** 2026-08-21  
-**Decision owners:** ION Council  
+**Status:** Accepted — implementation pending
+
+**Decision date:** 2026-08-21
+
+**Decision owners:** ION Council
 
 ## Purpose
 
@@ -255,9 +257,9 @@ A release MUST NOT reference schemas in a different ION release. In particular,
 files in `release2` must not retain `$ref` values under the `release1` namespace.
 All dependencies required by `release2` must also be present within `release2`.
 
-JSON Schema mirrors and generated distributions are subject to the same dependency
-closure rule. Their reference syntax may follow the requirements of their format,
-but every non-fragment reference must resolve within the same release namespace.
+JSON Schema mirrors are subject to the same dependency closure rule. Their
+reference syntax may follow the requirements of their format, but every
+non-fragment reference must resolve within the same release namespace.
 
 ### JSON-LD contexts
 
@@ -325,18 +327,29 @@ schema that composes with the vendored dependency.
 Every release contains a machine-readable `release.yaml`. At minimum it declares:
 
 ```yaml
+schemaVersion: 1
 release: 1
+name: release1
 status: draft
 publishedAt: null
 publicBaseUrl: https://schema.ion.id/releases/release1/
 sourceBranch: main
+contentStatus:
+  ionApi: review-required
+  common: review-required
+  trade: validation-pending
+  logistics: review-required
+  hospitality: review-required
+  finance: review-required
+dependencyStatus: incomplete
 dependencies: []
+artifactChecksums: {}
 ```
 
 Before publication, `status` is changed to `published`, `publishedAt` is populated,
 the dependency inventory is complete, and release checksums are recorded. The final
-manifest schema and checksum representation will be defined with the release
-tooling.
+manifest contract is defined in
+`tools/release/release-manifest.schema.json` and enforced by the release tooling.
 
 ## Lifecycle and immutability
 
@@ -402,7 +415,8 @@ the authority for the target release architecture.
 ## Migration principles
 
 The migration to `release1` will be performed separately from this decision. It
-must follow these principles:
+is inventoried in `docs/ION_Release1_Migration_Inventory.md` and must follow these
+principles:
 
 1. Inventory and classify existing URLs as schema references, context document
    URLs, semantic IRIs, source citations, or prose examples.

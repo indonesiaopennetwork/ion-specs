@@ -7,3 +7,10 @@ session.md
 session1.md
 contract.md
 conversion.md
+
+# OS metadata
+**/.DS_Store
+
+# Python bytecode and caches
+__pycache__/
+*.py[cod]

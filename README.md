@@ -119,6 +119,7 @@ ion-specs/
 - `docs/ION_Transport_and_Signing.md` — HTTP transport layer: Ed25519 signing, body digest, signature verification, Python quickstart. Read this before implementing any endpoint.
 
 **Internal working documents** (for contributors and maintainers):
+- `docs/ION_Release1_Migration_Inventory.md` — Working inventory, readiness gates, and staged migration plan for the first permanent integer release
 - `docs/ION_Deferred_Issues.md`, `docs/ION_Open_Observations.md`, `docs/ION_Schema_Review_Response.md` — These are not part of the normative spec. They record open items and design decisions in progress.
 
 ---
