@@ -583,11 +583,24 @@ Before publication, root tooling must provide:
 
 ### Phase 5 — Validate the trusted baseline
 
-1. Validate all Trade pack documents and examples.
-2. Validate common packs referenced by Trade.
-3. Reconcile Trade components embedded in `ion.yaml` with standalone packs.
-4. Reconcile Trade flows, policies, and errors.
-5. Mark Trade and approved common packs `validated` only after the checks pass.
+1. [x] Validated all nine Trade pack filesets with `schemav2validator`; all
+   `attributes.yaml`, `schema.json`, `context.jsonld`, and `vocab.jsonld` files
+   pass consistency and reference validation.
+2. [x] Validated all four Trade-required common packs after removing stale
+   JSON-LD types and synchronizing Payment vocabulary properties.
+3. [x] Validated all 17 standalone Trade and common example objects against the
+   local Release 1 schemas and corrected stale contexts, types, and shapes.
+4. [ ] Reconcile the embedded `ion.yaml` Trade components. The attempted
+   structural comparison showed this is not a mechanical sync: TradePerformance
+   has 28 standalone-only and 49 aggregate-only property names, TradeResource has
+   4 standalone-only and 119 aggregate-only names, and `ion.yaml` has no
+   TradeSettlement component. It remains part of the separate `ionApi` review.
+5. [x] Reconciled repository-root Trade flows, policies, and errors: repaired 19
+   profile file targets, removed non-registry policy placeholders, removed five
+   exact duplicate policy files while retaining their canonical Trade copies,
+   and aligned `ION-A8001` with `TradeResource.food.classification`.
+6. [x] Marked standalone Trade and the four approved common packs `validated`;
+   `ionApi` remains `review-required`.
 
 ### Phase 6 — Review other sectors independently
 

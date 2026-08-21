@@ -1,9 +1,9 @@
 {
-  "@context": "https://schema.ion.id/core/identity/v1/context.jsonld",
+  "@context": "https://schema.ion.id/releases/release1/common/BusinessRegistration/v1/context.jsonld",
   "@type": "ion:IONBusinessRegistration",
-  "businessType": "INDIVIDUAL_MERCHANT",
+  "businessType": "PERORANGAN",
   "legalName": "Budi Santoso",
-  "nik": "3171234567890001",
+  "nikNumber": "3171234567890001",
   "npwp": "0123456789012345",
   "nib": "1234567890123",
   "address": {

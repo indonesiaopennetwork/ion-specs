@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://schema.ion.id/core/identity/v1",
+  "$id": "https://schema.ion.id/releases/release1/common/BusinessRegistration/v1",
   "title": "IONBusinessRegistration",
   "type": "object",
   "properties": {

@@ -4,7 +4,7 @@
   "branchName": "cancellation",
   "status": "ready",
   "description": "Full and partial order cancellation. Buyer-initiated, seller-initiated, and force-cancel on TAT breach.",
-  "branchFile": "./branch.yaml",
+  "branchFile": "./variant.yaml",
   "applicableSpines": [
     "B2C-SF",
     "B2C-MTO",
@@ -56,11 +56,8 @@
     "requiredCategories": [
       "CANCELLATION"
     ],
-    "policyIris": [
-      "ion://policy/trade/cancellation/v1"
-    ],
     "enforcedBy": "ONIX",
     "enforcementPoint": "catalog/publish and on_confirm",
-    "note": "All offers on this variant MUST carry policyIris for each required category in offerAttributes."
+    "note": "Offers on this flow MUST carry a concrete registered policyRef for each required category."
   }
 }

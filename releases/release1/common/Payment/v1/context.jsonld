@@ -16,7 +16,6 @@
     "EWallet": "ion:EWallet",
     "InvoiceReference": "ion:InvoiceReference",
     "Payment": "ion:Payment",
-    "PaymentDeclaration": "ion:PaymentDeclaration",
     "IONPayment": "ion:IONPayment",
     "ProcessingFee": "ion:ProcessingFee",
     "QRIS": "ion:QRIS",
@@ -95,6 +94,9 @@
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
     "skos": "http://www.w3.org/2004/02/skos/core#",
-    "owl": "http://www.w3.org/2002/07/owl#"
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "daysRelativeToDueDate": "ion:daysRelativeToDueDate",
+    "channel": "ion:channel",
+    "party": "ion:party"
   }
 }

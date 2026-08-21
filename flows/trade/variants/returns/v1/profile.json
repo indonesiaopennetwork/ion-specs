@@ -4,7 +4,7 @@
   "branchName": "returns",
   "status": "ready",
   "description": "Return flows after delivery. Includes return pickup, return delivery, replacement, exchange, and cancel-return.",
-  "branchFile": "./branch.yaml",
+  "branchFile": "./variant.yaml",
   "applicableSpines": [
     "B2C-SF",
     "B2C-MTO",
@@ -65,11 +65,8 @@
     "requiredCategories": [
       "RETURN"
     ],
-    "policyIris": [
-      "ion://policy/trade/return/v1"
-    ],
     "enforcedBy": "ONIX",
     "enforcementPoint": "catalog/publish and on_confirm",
-    "note": "All offers on this variant MUST carry policyIris for each required category in offerAttributes."
+    "note": "Offers on this flow MUST carry a concrete registered policyRef for each required category."
   }
 }

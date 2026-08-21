@@ -4,7 +4,7 @@
   "branchName": "updates",
   "status": "ready",
   "description": "Post-confirm order updates. Address, authorization, instructions, invoice, price, delay notification.",
-  "branchFile": "./branch.yaml",
+  "branchFile": "./variant.yaml",
   "applicableSpines": [
     "B2C-SF",
     "B2C-MTO",
@@ -76,12 +76,8 @@
       "CANCELLATION",
       "PAYMENT_TERMS"
     ],
-    "policyIris": [
-      "ion://policy/trade/cancellation/v1",
-      "ion://policy/trade/payment-terms/v1"
-    ],
     "enforcedBy": "ONIX",
     "enforcementPoint": "catalog/publish and on_confirm",
-    "note": "All offers on this variant MUST carry policyIris for each required category in offerAttributes."
+    "note": "Offers on this flow MUST carry a concrete registered policyRef for each required category."
   }
 }

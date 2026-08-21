@@ -27,6 +27,10 @@ permanent integer releases. It is not copied into individual release bundles.
   without network access.
 - `finalize_vendoring_manifest.rb` records upstream and released checksums only
   after the offline graph passes; it previews changes unless passed `--apply`.
+- `sync_schema_pack_jsonld.rb` synchronizes a pack's local JSON-LD types and
+  properties with its authoritative `attributes.yaml`; it is dry-run by default.
+- `validate_trade_connections.rb` checks Trade flow targets, concrete policy
+  references, policy registry uniqueness, and generated Trade error views.
 
 ## Validate a manifest
 

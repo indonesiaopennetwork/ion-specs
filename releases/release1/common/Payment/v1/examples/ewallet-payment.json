@@ -1,6 +1,6 @@
 {
   "@context": "https://schema.ion.id/releases/release1/common/Payment/v1/context.jsonld",
-  "@type": "ion:PaymentDeclaration",
+  "@type": "ion:IONPayment",
   "method": "EWALLET",
   "eWallet": {
     "provider": "GOPAY",

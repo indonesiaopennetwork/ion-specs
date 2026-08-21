@@ -1,6 +1,6 @@
 {
   "@context": "https://schema.ion.id/releases/release1/extension/trade/TradeResource/v1/context.jsonld",
-  "@type": "ion:TradeResource",
+  "@type": "ion:IONTradeResource",
   "_comment": "Example: Pepperoni Pizza — COMPOSED resource (TRC-food-bev, food-qsr)",
   "quantity": {
     "value": 1,
@@ -43,7 +43,9 @@
         "role": "MANUFACTURER",
         "validUntil": "2028-01-01"
       }
-    ],
+    ]
+  },
+  "foodRegulatoryDeclaration": {
     "additives": [
       {
         "type": "CONTAINS",

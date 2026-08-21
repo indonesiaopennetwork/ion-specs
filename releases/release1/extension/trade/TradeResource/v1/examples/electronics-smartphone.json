@@ -1,6 +1,6 @@
 {
   "@context": "https://schema.ion.id/releases/release1/extension/trade/TradeResource/v1/context.jsonld",
-  "@type": "ion:TradeResource",
+  "@type": "ion:IONTradeResource",
   "_comment": "Example: Samsung Galaxy S25 \u2014 VARIANT resource (TRC-electronics)",
   "quantity": {
     "value": 1,
@@ -51,8 +51,8 @@
     "color": "Phantom Black",
     "colorName": "Phantom Black",
     "weight": {
-      "value": 162.0,
-      "unit": "G"
+      "unitQuantity": 162.0,
+      "unitCode": "GRM"
     }
   },
   "packaged": {
@@ -76,29 +76,18 @@
         "role": "BRAND_OWNER",
         "validUntil": "2026-12-31"
       }
-    ],
-    "credentials": [
-      {
-        "type": "SNI",
-        "uri": "https://registry.bsn.go.id/sni/2024-EL-001234",
-        "issuer": "BSN",
-        "validUntil": "2026-12-31"
-      }
     ]
   },
+  "credentials": [
+    {
+      "type": "SNI",
+      "uri": "https://registry.bsn.go.id/sni/2024-EL-001234",
+      "issuer": "BSN",
+      "validTo": "2026-12-31"
+    }
+  ],
   "electronics": {
-    "ram": 8,
-    "ramUnit": "GB",
-    "rom": 256,
-    "romUnit": "GB",
-    "screenSize": 6.2,
-    "primaryCamera": 200,
-    "secondaryCamera": 12,
-    "cpu": "Snapdragon 8 Elite",
-    "gpu": "Adreno 830",
-    "batteryCapacity": 4000,
     "osType": "ANDROID",
-    "osVersion": "Android 15",
     "connectivity": [
       "WIFI",
       "BLUETOOTH",

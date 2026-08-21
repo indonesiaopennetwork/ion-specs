@@ -14,9 +14,12 @@ and the four common packs required by Trade into this draft, then vendored the
 complete Beckn dependency graph at immutable upstream commits. Active schema
 references now use Release 1 public URLs, and the graph resolves offline.
 
-The migration does not certify ION content. `ion.yaml` and the common packs remain
-review-required, and Trade remains validation-pending. Flows, policies, and errors
-have not yet been moved into this directory.
+Phase 5 validated the standalone Trade packs and the four common packs required by
+Trade, including their JSON-LD documents and all 17 example objects. The separate
+`ion.yaml` aggregate remains review-required because its embedded Trade models are
+not mechanically equivalent to the standalone packs. Flows, policies, and errors
+have been reconciled at the repository root but have not yet been moved into this
+directory.
 
 ## Primary API contracts
 
@@ -47,6 +50,7 @@ Validate the draft manifest:
 ```bash
 ruby tools/release/validate_manifest.rb releases/release1/release.yaml
 ruby tools/release/validate_offline_refs.rb releases/release1
+ruby tools/release/validate_trade_connections.rb
 ```
 
 The publication gate must reject this draft:

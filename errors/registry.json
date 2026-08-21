@@ -1226,21 +1226,21 @@
       "http_status": 400,
       "category": "schema",
       "title": {
-        "id": "Status halal tidak valid untuk produk makanan",
-        "en": "Invalid halal status for food product"
+        "id": "Klasifikasi makanan tidak valid",
+        "en": "Invalid food classification"
       },
       "description": {
-        "en": "Food and beverage resources must declare halalStatus. The field is absent or has an invalid value."
+        "en": "A food or beverage resource contains a value in food.classification that is not supported by the inherited RetailResource classification vocabulary."
       },
       "affected_field": "resourceAttributes.food.classification",
       "affected_apis": [
         "discover",
         "on_discover"
       ],
-      "schema_ref": "schema/extensions/core/product/v1",
+      "schema_ref": "releases/release1/extension/trade/TradeResource/v1",
       "flow_ref": null,
       "resolution": {
-        "en": "Declare halalStatus (HALAL/HALAL_PENDING/NON_HALAL) for all food and beverage products. If HALAL, halalCertNumber is required."
+        "en": "Use one or more supported food.classification values such as HALAL, KOSHER, VEGAN, or GLUTEN_FREE. Supply certification evidence separately through the resource credentials where applicable."
       },
       "legacy_code": "ION-8004",
       "sector": "trade"

@@ -4,7 +4,7 @@
   "sector": "trade",
   "status": "ready",
   "description": "Indonesian exporter to international buyer. English required, HS codes, Bea Cukai, PEB, incoterms.",
-  "spineFile": "./spine.yaml",
+  "spineFile": "./pattern.yaml",
   "applicableCategories": [
     "agritech",
     "fashion",
@@ -30,7 +30,7 @@
     "GRIEVANCE_SLA",
     "PAYMENT_TERMS"
   ],
-  "policyRegistryVersion": "1.0.0",
+  "policyRegistryVersion": "2.0.0",
   "type": "Pattern",
   "patternName": "cross-border",
   "policyRequirements": {
@@ -42,16 +42,8 @@
       "GRIEVANCE_SLA",
       "PAYMENT_TERMS"
     ],
-    "policyIris": [
-      "ion://policy/trade/cancellation/v1",
-      "ion://policy/trade/return/v1",
-      "ion://policy/trade/warranty/v1",
-      "ion://policy/trade/dispute/v1",
-      "ion://policy/grievance-sla/v1",
-      "ion://policy/trade/payment-terms/v1"
-    ],
     "enforcedBy": "ONIX",
     "enforcementPoint": "catalog/publish and on_confirm",
-    "note": "All offers on this pattern MUST carry policyIris for each required category in offerAttributes."
+    "note": "Offers on this flow MUST carry a concrete registered policyRef for each required category."
   }
 }

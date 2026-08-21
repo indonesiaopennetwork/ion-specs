@@ -33,18 +33,6 @@
       }
     },
     {
-      "@id": "ion:IONAddressSubdivisions",
-      "@type": "rdfs:Class",
-      "rdfs:label": "IONAddressSubdivisions",
-      "rdfs:comment": "IONAddressSubdivisions",
-      "rdfs:subClassOf": {
-        "@id": "beckn:Address"
-      },
-      "skos:broader": {
-        "@id": "https://spec.beckn.io/vocab/v2.0.0#Address"
-      }
-    },
-    {
       "@id": "ion:provinsiCode",
       "@type": "rdf:Property",
       "rdfs:label": "provinsiCode",
@@ -72,13 +60,13 @@
       "@id": "ion:rt",
       "@type": "rdf:Property",
       "rdfs:label": "rt",
-      "rdfs:comment": "Rukun Tetangga \u2014 neighborhood group, typically ~40 households. Critical for last-mile delivery in Indonesia \u2014 riders use RT/RW to locate specific houses in dense residential areas.\n"
+      "rdfs:comment": "Rukun Tetangga — neighborhood group, typically ~40 households. Critical for last-mile delivery in Indonesia — riders use RT/RW to locate specific houses in dense residential areas.\n"
     },
     {
       "@id": "ion:rw",
       "@type": "rdf:Property",
       "rdfs:label": "rw",
-      "rdfs:comment": "Rukun Warga \u2014 association of RTs, typically ~400 people. Used together with RT for precise address resolution.\n"
+      "rdfs:comment": "Rukun Warga — association of RTs, typically ~400 people. Used together with RT for precise address resolution.\n"
     },
     {
       "@id": "ion:postalCode",
@@ -90,13 +78,13 @@
       "@id": "ion:addressType",
       "@type": "rdf:Property",
       "rdfs:label": "addressType",
-      "rdfs:comment": "Address classification. Affects delivery SLA and surcharges \u2014 offices have restricted delivery hours, apartments require lobby/concierge handling, warehouses accept larger shipments. BOARDING_HOUSE (kost) is common in Indonesian urban delivery.\n"
+      "rdfs:comment": "Address classification. Affects delivery SLA and surcharges — offices have restricted delivery hours, apartments require lobby/concierge handling, warehouses accept larger shipments. BOARDING_HOUSE (kost) is common in Indonesian urban delivery.\n"
     },
     {
       "@id": "ion:receiverInstructions",
       "@type": "rdf:Property",
       "rdfs:label": "receiverInstructions",
-      "rdfs:comment": "Instructions for delivery receiver. Distinct from buyerInstructions \u2014 used for gift orders where receiver != buyer, and for handover preferences (leave at door, signature required, call first).\n"
+      "rdfs:comment": "Instructions for delivery receiver. Distinct from buyerInstructions — used for gift orders where receiver != buyer, and for handover preferences (leave at door, signature required, call first).\n"
     },
     {
       "@id": "ion:gpsAccuracyMeters",

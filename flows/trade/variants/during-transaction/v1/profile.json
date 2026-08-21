@@ -4,7 +4,7 @@
   "branchName": "during-transaction",
   "status": "ready",
   "description": "Branches active between select and on_confirm. Shape the transaction before it is committed.",
-  "branchFile": "./branch.yaml",
+  "branchFile": "./variant.yaml",
   "applicableSpines": [
     "B2C-SF",
     "B2C-MTO",
@@ -95,11 +95,8 @@
     "requiredCategories": [
       "PAYMENT_TERMS"
     ],
-    "policyIris": [
-      "ion://policy/trade/payment-terms/v1"
-    ],
     "enforcedBy": "ONIX",
     "enforcementPoint": "catalog/publish and on_confirm",
-    "note": "All offers on this variant MUST carry policyIris for each required category in offerAttributes."
+    "note": "Offers on this flow MUST carry a concrete registered policyRef for each required category."
   }
 }

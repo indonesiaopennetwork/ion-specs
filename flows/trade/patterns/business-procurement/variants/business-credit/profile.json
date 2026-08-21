@@ -4,7 +4,7 @@
   "sector": "trade",
   "status": "ready",
   "description": "B2B wholesale with deferred payment. Credit terms NET 7-90. Dunning flow. PPh23 withholding.",
-  "spineFile": "./spine.yaml",
+  "spineFile": "./pattern.yaml",
   "applicableCategories": [
     "fmcg",
     "electronics",
@@ -28,7 +28,7 @@
     "GRIEVANCE_SLA",
     "PAYMENT_TERMS"
   ],
-  "policyRegistryVersion": "1.0.0",
+  "policyRegistryVersion": "2.0.0",
   "type": "Variant",
   "variantName": "business-credit",
   "policyRequirements": {
@@ -40,16 +40,8 @@
       "GRIEVANCE_SLA",
       "PAYMENT_TERMS"
     ],
-    "policyIris": [
-      "ion://policy/trade/cancellation/v1",
-      "ion://policy/trade/return/v1",
-      "ion://policy/trade/warranty/v1",
-      "ion://policy/trade/dispute/v1",
-      "ion://policy/grievance-sla/v1",
-      "ion://policy/trade/payment-terms/v1"
-    ],
     "enforcedBy": "ONIX",
     "enforcementPoint": "catalog/publish and on_confirm",
-    "note": "All offers on this variant MUST carry policyIris for each required category in offerAttributes."
+    "note": "Offers on this flow MUST carry a concrete registered policyRef for each required category."
   }
 }

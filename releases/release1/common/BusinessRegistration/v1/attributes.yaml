@@ -45,8 +45,8 @@ components:
       title: Indonesia Business Identity
       additionalProperties: true
       x-jsonld:
-        '@context': 'https://schema.ion.id/core/identity/v1/context.jsonld'
-        '@type': ion:BusinessRegistration
+        '@context': 'https://schema.ion.id/releases/release1/common/BusinessRegistration/v1/context.jsonld'
+        '@type': ion:IONBusinessRegistration
       x-beckn-attaches-to: Provider.providerAttributes (composed)
       properties:
         npwp:

@@ -8,6 +8,10 @@
   "x-ion-split-version": "0.7.0",
   "x-recommended-parent": "Consideration.considerationAttributes.breakup[].taxDetail",
   "x-beckn-attaches-to": "Consideration.considerationAttributes.breakup[].taxDetail",
+  "x-jsonld": {
+    "@context": "https://schema.ion.id/releases/release1/common/Tax/v1/context.jsonld",
+    "@type": "ion:IONTaxDetail"
+  },
   "additionalProperties": true,
   "allOf": [
     {

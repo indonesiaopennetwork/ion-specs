@@ -242,6 +242,16 @@
           "additionalProperties": false,
           "description": "Catalog-visible summary of provider verification performed by the Provider Node.",
           "properties": {
+            "level": {
+              "type": "string",
+              "enum": [
+                "BASIC",
+                "STANDARD",
+                "ENHANCED",
+                "ENTERPRISE"
+              ],
+              "description": "ION provider-verification tier."
+            },
             "status": {
               "type": "string",
               "enum": [

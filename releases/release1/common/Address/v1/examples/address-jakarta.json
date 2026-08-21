@@ -1,6 +1,6 @@
 {
   "@context": "https://schema.ion.id/releases/release1/common/Address/v1/context.jsonld",
-  "@type": "ion:IONAddressSubdivisions",
+  "@type": "ion:IONAddress",
   "provinsiCode": "BPS-31",
   "kabupatenCode": "3171",
   "kecamatan": "Setiabudi",

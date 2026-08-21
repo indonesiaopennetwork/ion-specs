@@ -253,6 +253,14 @@ components:
             Catalog-visible summary of provider verification performed by the
             Provider Node. Sensitive evidence is not transmitted in the catalog.
           properties:
+            level:
+              type: string
+              enum:
+                - BASIC
+                - STANDARD
+                - ENHANCED
+                - ENTERPRISE
+              description: ION provider-verification tier.
             status:
               type: string
               enum:

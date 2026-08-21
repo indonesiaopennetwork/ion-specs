@@ -3,6 +3,7 @@
   "@type": "ion:IONTradePerformance",
   "_comment": "Example: on_status payload when DISPATCHED — agent assigned, tracking available",
   "performanceMode": "DELIVERY",
+  "supportedPerformanceModes": ["DELIVERY"],
   "sla": {
     "min": "PT30M",
     "max": "PT90M",
