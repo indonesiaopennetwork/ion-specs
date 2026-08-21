@@ -119,27 +119,33 @@
     "contentStatus": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["ionApi", "common", "trade", "logistics", "hospitality", "finance"],
+      "required": ["ionApi", "common", "trade", "logistics", "hospitality", "finance", "flows", "policies", "errors"],
       "properties": {
         "ionApi": { "$ref": "#/$defs/contentState" },
         "common": { "$ref": "#/$defs/contentState" },
         "trade": { "$ref": "#/$defs/contentState" },
         "logistics": { "$ref": "#/$defs/contentState" },
         "hospitality": { "$ref": "#/$defs/contentState" },
-        "finance": { "$ref": "#/$defs/contentState" }
+        "finance": { "$ref": "#/$defs/contentState" },
+        "flows": { "$ref": "#/$defs/contentState" },
+        "policies": { "$ref": "#/$defs/contentState" },
+        "errors": { "$ref": "#/$defs/contentState" }
       }
     },
     "publishedContentStatus": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["ionApi", "common", "trade", "logistics", "hospitality", "finance"],
+      "required": ["ionApi", "common", "trade", "logistics", "hospitality", "finance", "flows", "policies", "errors"],
       "properties": {
         "ionApi": { "enum": ["validated", "excluded"] },
         "common": { "enum": ["validated", "excluded"] },
         "trade": { "enum": ["validated", "excluded"] },
         "logistics": { "enum": ["validated", "excluded"] },
         "hospitality": { "enum": ["validated", "excluded"] },
-        "finance": { "enum": ["validated", "excluded"] }
+        "finance": { "enum": ["validated", "excluded"] },
+        "flows": { "enum": ["validated", "excluded"] },
+        "policies": { "enum": ["validated", "excluded"] },
+        "errors": { "enum": ["validated", "excluded"] }
       }
     },
     "dependency": {
@@ -165,7 +171,12 @@
         "upstreamRepository": { "type": "string", "format": "uri" },
         "upstreamCommit": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
         "upstreamUrl": { "type": "string", "format": "uri" },
-        "vendoredPath": { "$ref": "#/$defs/releaseRelativePath" },
+        "vendoredPath": {
+          "allOf": [
+            { "$ref": "#/$defs/releaseRelativePath" },
+            { "pattern": "^schema/vendored/" }
+          ]
+        },
         "upstreamSha256": { "$ref": "#/$defs/sha256" },
         "releasedSha256": { "$ref": "#/$defs/sha256" },
         "license": { "type": "string", "minLength": 1 },

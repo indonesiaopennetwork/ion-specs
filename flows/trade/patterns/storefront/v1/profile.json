@@ -41,7 +41,7 @@
       "commitment/v1"
     ]
   },
-  "performanceStateMachine": "releases/release1/extension/trade/TradePerformanceStates/v1/states.yaml#standard",
+  "performanceStateMachine": "releases/release1/schema/extension/trade/TradePerformanceStates/v1/states.yaml#standard",
   "requiredPolicyCategories": [
     "RETURN",
     "CANCELLATION",

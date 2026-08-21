@@ -11,11 +11,11 @@ require "yaml"
 require_relative "plan_vendoring"
 
 module IonVendoringApply
-  PROTOCOL_PUBLIC_URL = "https://schema.ion.id/releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml".freeze
+  PROTOCOL_PUBLIC_URL = "https://schema.ion.id/releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml".freeze
   LICENSE_TARGETS = {
-    "https://github.com/beckn/protocol-specifications-v2" => "releases/release1/vendored/beckn/licenses/protocol-specifications-v2/LICENSE",
-    "https://github.com/beckn/schemas" => "releases/release1/vendored/beckn/licenses/schemas/LICENSE.md",
-    "https://github.com/beckn/local-retail" => "releases/release1/vendored/beckn/licenses/local-retail/LICENSE.md"
+    "https://github.com/beckn/protocol-specifications-v2" => "releases/release1/schema/vendored/beckn/licenses/protocol-specifications-v2/LICENSE",
+    "https://github.com/beckn/schemas" => "releases/release1/schema/vendored/beckn/licenses/schemas/LICENSE.md",
+    "https://github.com/beckn/local-retail" => "releases/release1/schema/vendored/beckn/licenses/local-retail/LICENSE.md"
   }.freeze
   ION_INTERNAL_REFS = {
     "#/components/schemas/Attributes" => "#{PROTOCOL_PUBLIC_URL}#/components/schemas/Attributes",
@@ -106,7 +106,7 @@ module IonVendoringApply
 
       rewrite_count = 0
       staged.keys.grep(/\.(?:yaml|yml|json)\z/).each do |path|
-        extra_refs = path == File.join(release_root, "core/api/v2.0.0/ion.yaml") ? ION_INTERNAL_REFS : {}
+        extra_refs = path == File.join(release_root, "schema/core/api/v2.0.0/ion.yaml") ? ION_INTERNAL_REFS : {}
         rewritten, count = IonVendoringApply.rewrite_ref_lines(staged.fetch(path), aliases, extra_refs: extra_refs)
         if path == contained_path(plan.dig("protocol", "existingCandidate"))
           rewritten = rewritten.gsub(/[ \t]+(?=\r?$)/, "")

@@ -222,7 +222,7 @@ phases:
       MTO performance states replace the standard PLANNED/PACKED sequence.
       PREPARING fires immediately at on_confirm. READY signals the order
       is done and awaiting logistics pickup or consumer collection.
-    stateMachine: releases/release1/extension/trade/TradePerformanceStates/v1/states.yaml#mto
+    stateMachine: releases/release1/schema/extension/trade/TradePerformanceStates/v1/states.yaml#mto
     steps:
       - step: on_status
         trigger: PREPARING

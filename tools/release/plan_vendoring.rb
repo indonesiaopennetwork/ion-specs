@@ -79,7 +79,7 @@ module IonVendoringPlan
   end
 
   def target_path(family, version)
-    "releases/release1/vendored/beckn/schemas/#{family}/#{version}/attributes.yaml"
+    "releases/release1/schema/vendored/beckn/schemas/#{family}/#{version}/attributes.yaml"
   end
 
   def strip_vendoring_header(content)
@@ -343,7 +343,7 @@ module IonVendoringPlan
           "reviewStatus" => "proposed"
         },
         "target" => IonVendoringPlan.target_path(family, version),
-        "publicUrl" => "#{PUBLIC_RELEASE_BASE}vendored/beckn/schemas/#{family}/#{version}/attributes.yaml"
+        "publicUrl" => "#{PUBLIC_RELEASE_BASE}schema/vendored/beckn/schemas/#{family}/#{version}/attributes.yaml"
       }
     end
 
@@ -356,7 +356,7 @@ module IonVendoringPlan
       current_head = repository_head(repo, branch)
       commit = @protocol_selection == "latest" ? current_head : historical_commit
       raw_url = "https://raw.githubusercontent.com/#{repo}/#{commit}/#{path}"
-      local_path = File.join(@release_root, "vendored/beckn/protocol/v2.0.0/beckn.yaml")
+      local_path = File.join(@release_root, "schema/vendored/beckn/protocol/v2.0.0/beckn.yaml")
       local_body = File.file?(local_path) ? File.read(local_path) : nil
       local_sha = local_body && Digest::SHA256.hexdigest(local_body)
       candidate_payload = local_body && IonVendoringPlan.strip_vendoring_header(local_body)
@@ -429,7 +429,7 @@ module IonVendoringPlan
     end
 
     def protocol_sync_date
-      ion_path = File.join(@release_root, "core/api/v2.0.0/ion.yaml")
+      ion_path = File.join(@release_root, "schema/core/api/v2.0.0/ion.yaml")
       content = File.read(ion_path)
       match = content.match(/becknCoreUpstreamTag:\s*main-(\d{4}-\d{2}-\d{2})/)
       raise ArgumentError, "cannot derive protocol sync date from becknCoreUpstreamTag" unless match

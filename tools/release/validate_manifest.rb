@@ -6,7 +6,7 @@ require "time"
 require "yaml"
 
 module IonReleaseManifest
-  CONTENT_AREAS = %w[ionApi common trade logistics hospitality finance].freeze
+  CONTENT_AREAS = %w[ionApi common trade logistics hospitality finance flows policies errors].freeze
   CONTENT_STATES = %w[review-required validation-pending validated excluded].freeze
   RELEASE_STATUSES = %w[draft published].freeze
   DEPENDENCY_STATUSES = %w[incomplete complete].freeze
@@ -125,6 +125,9 @@ module IonReleaseManifest
     end
     unless safe_relative_path?(dependency["vendoredPath"])
       errors << "dependency #{index} vendoredPath must be release-relative"
+    end
+    unless dependency["vendoredPath"].to_s.start_with?("schema/vendored/")
+      errors << "dependency #{index} vendoredPath must be under schema/vendored/"
     end
     errors << "dependency #{index} transformations must be an array" unless dependency["transformations"].is_a?(Array)
   end

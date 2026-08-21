@@ -95,7 +95,7 @@ phases:
     description: >
       Marketplace picks/packs from its own FC. Marketplace ships with its
       own logistics arm or partner LSP. SLA guaranteed by marketplace.
-    stateMachine: releases/release1/extension/trade/TradePerformanceStates/v1/states.yaml#standard
+    stateMachine: releases/release1/schema/extension/trade/TradePerformanceStates/v1/states.yaml#standard
     steps:
       - step: on_status
         stepContext: "PACKED"

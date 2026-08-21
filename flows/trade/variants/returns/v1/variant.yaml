@@ -19,7 +19,7 @@ prerequisite:
   - Reason must be in offer.returnAllowedReasons
   - DEFECTIVE and DAMAGED_IN_TRANSIT are always valid per UU 8/1999
 
-performanceStateMachine: releases/release1/extension/trade/TradePerformanceStates/v1/states.yaml#return
+performanceStateMachine: releases/release1/schema/extension/trade/TradePerformanceStates/v1/states.yaml#return
 
 subBranches:
 
@@ -114,7 +114,7 @@ subBranches:
       Seller dispatches a replacement item instead of refund. Initiated
       when a commitment's commitmentAttributes.replacementPreferred=true or the buyer explicitly
       requests replacement at return-initiated step.
-    performanceStateMachine: releases/release1/extension/trade/TradePerformanceStates/v1/states.yaml#replacement
+    performanceStateMachine: releases/release1/schema/extension/trade/TradePerformanceStates/v1/states.yaml#replacement
     steps:
       - step: on_update
         from: BPP

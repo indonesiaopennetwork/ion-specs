@@ -1,0 +1,21 @@
+{
+  "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeProvider/v1/context.jsonld",
+  "@type": "ion:IONTradeProvider",
+  "operationalStatus": {
+    "status": "OPEN"
+  },
+  "invoicing": {
+    "model": "CENTRAL",
+    "entityId": "PROVIDER-001"
+  },
+  "verification": {
+    "status": "APPROVED",
+    "level": "STANDARD"
+  },
+  "businessRegistration": {
+    "nib": "1234567890123"
+  },
+  "providerCategories": [
+    "FMCG"
+  ]
+}

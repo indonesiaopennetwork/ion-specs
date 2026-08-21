@@ -12,6 +12,9 @@ contentStatus:
   logistics: excluded
   hospitality: excluded
   finance: excluded
+  flows: validated
+  policies: validated
+  errors: validated
 dependencyStatus: complete
 dependencies:
 - name: BecknProtocol
@@ -20,7 +23,7 @@ dependencies:
   upstreamRepository: https://github.com/beckn/protocol-specifications-v2
   upstreamCommit: a22300aa83796cb8dfc2b63cd9dd0e36a7f4d3a1
   upstreamUrl: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/a22300aa83796cb8dfc2b63cd9dd0e36a7f4d3a1/api/v2.0.0/beckn.yaml
-  vendoredPath: vendored/beckn/protocol/v2.0.0/beckn.yaml
+  vendoredPath: schema/vendored/beckn/protocol/v2.0.0/beckn.yaml
   upstreamSha256: 5afc7586ef1fbc378ea6abb139292dbe85750e4c5ea1a2fd410a40479aadc0f0
   releasedSha256: 3a909f076796c58b122bf38cfcf9560e1edb504cde00d35261ac8ae393b1ad76
   license: CC-BY-NC-SA-4.0
@@ -32,7 +35,7 @@ dependencies:
   upstreamRepository: https://github.com/beckn/schemas
   upstreamCommit: b0ffbdd409c2fbe988a344161345a88ebb11d544
   upstreamUrl: https://raw.githubusercontent.com/beckn/schemas/b0ffbdd409c2fbe988a344161345a88ebb11d544/schema/AcceptedPaymentMethod/v2.0/attributes.yaml
-  vendoredPath: vendored/beckn/schemas/AcceptedPaymentMethod/2.0/attributes.yaml
+  vendoredPath: schema/vendored/beckn/schemas/AcceptedPaymentMethod/2.0/attributes.yaml
   upstreamSha256: 192181c691590fdf35ddc8ff3a64ed18fa4ae36d8baa4e9b8fc2c189314ecf77
   releasedSha256: 192181c691590fdf35ddc8ff3a64ed18fa4ae36d8baa4e9b8fc2c189314ecf77
   license: CC-BY-NC-SA-4.0
@@ -43,7 +46,7 @@ dependencies:
   upstreamRepository: https://github.com/beckn/schemas
   upstreamCommit: b0ffbdd409c2fbe988a344161345a88ebb11d544
   upstreamUrl: https://raw.githubusercontent.com/beckn/schemas/b0ffbdd409c2fbe988a344161345a88ebb11d544/schema/Address/v2.0/attributes.yaml
-  vendoredPath: vendored/beckn/schemas/Address/2.0/attributes.yaml
+  vendoredPath: schema/vendored/beckn/schemas/Address/2.0/attributes.yaml
   upstreamSha256: cbd663923fcbf4dc7a5050c76762320ec4db2a1b9d7ff532eab1d8442dc6b7be
   releasedSha256: cbd663923fcbf4dc7a5050c76762320ec4db2a1b9d7ff532eab1d8442dc6b7be
   license: CC-BY-NC-SA-4.0
@@ -54,7 +57,7 @@ dependencies:
   upstreamRepository: https://github.com/beckn/schemas
   upstreamCommit: b0ffbdd409c2fbe988a344161345a88ebb11d544
   upstreamUrl: https://raw.githubusercontent.com/beckn/schemas/b0ffbdd409c2fbe988a344161345a88ebb11d544/schema/Attributes/v2.0/attributes.yaml
-  vendoredPath: vendored/beckn/schemas/Attributes/2.0/attributes.yaml
+  vendoredPath: schema/vendored/beckn/schemas/Attributes/2.0/attributes.yaml
   upstreamSha256: bd9b439dcf0ac8e54702807fd488a6e4394fe92d826382f9ca2357f7f2c1354d
   releasedSha256: bd9b439dcf0ac8e54702807fd488a6e4394fe92d826382f9ca2357f7f2c1354d
   license: CC-BY-NC-SA-4.0
@@ -65,7 +68,7 @@ dependencies:
   upstreamRepository: https://github.com/beckn/schemas
   upstreamCommit: b0ffbdd409c2fbe988a344161345a88ebb11d544
   upstreamUrl: https://raw.githubusercontent.com/beckn/schemas/b0ffbdd409c2fbe988a344161345a88ebb11d544/schema/CategoryCode/v2.0/attributes.yaml
-  vendoredPath: vendored/beckn/schemas/CategoryCode/2.0/attributes.yaml
+  vendoredPath: schema/vendored/beckn/schemas/CategoryCode/2.0/attributes.yaml
   upstreamSha256: 06f3e4a3061796e2d5f2b83e123ec77d833e2b1e2d68553d2d6ae19af9145108
   releasedSha256: 06f3e4a3061796e2d5f2b83e123ec77d833e2b1e2d68553d2d6ae19af9145108
   license: CC-BY-NC-SA-4.0
@@ -76,7 +79,7 @@ dependencies:
   upstreamRepository: https://github.com/beckn/schemas
   upstreamCommit: b0ffbdd409c2fbe988a344161345a88ebb11d544
   upstreamUrl: https://raw.githubusercontent.com/beckn/schemas/b0ffbdd409c2fbe988a344161345a88ebb11d544/schema/Contact/v2.0/attributes.yaml
-  vendoredPath: vendored/beckn/schemas/Contact/2.0/attributes.yaml
+  vendoredPath: schema/vendored/beckn/schemas/Contact/2.0/attributes.yaml
   upstreamSha256: 77a25837a60c2e9870e9538958b6910f005512158f0e1d01a9648d559513df92
   releasedSha256: 77a25837a60c2e9870e9538958b6910f005512158f0e1d01a9648d559513df92
   license: CC-BY-NC-SA-4.0
@@ -87,9 +90,9 @@ dependencies:
   upstreamRepository: https://github.com/beckn/schemas
   upstreamCommit: b0ffbdd409c2fbe988a344161345a88ebb11d544
   upstreamUrl: https://raw.githubusercontent.com/beckn/schemas/b0ffbdd409c2fbe988a344161345a88ebb11d544/schema/GeoJSONGeometry/v2.0/attributes.yaml
-  vendoredPath: vendored/beckn/schemas/GeoJSONGeometry/2.0/attributes.yaml
+  vendoredPath: schema/vendored/beckn/schemas/GeoJSONGeometry/2.0/attributes.yaml
   upstreamSha256: 66628dcd6f8d470b4af2c28316e758059ecc0ddee00ed97f1427b7b6a2bff7fd
-  releasedSha256: 43148b6636c95b9566e4dc3d739748f9da4bf57db27b23f52fdf3edcc3d126b5
+  releasedSha256: d2466637c322cc8f25ba0e7f24a5f0c09d68a7bb8c65afdad26a2b9c1c5f937f
   license: CC-BY-NC-SA-4.0
   transformations:
   - Rewrote schema.beckn.io $ref values to Release 1 public vendored URLs.
@@ -99,9 +102,9 @@ dependencies:
   upstreamRepository: https://github.com/beckn/schemas
   upstreamCommit: b0ffbdd409c2fbe988a344161345a88ebb11d544
   upstreamUrl: https://raw.githubusercontent.com/beckn/schemas/b0ffbdd409c2fbe988a344161345a88ebb11d544/schema/Location/v2.0/attributes.yaml
-  vendoredPath: vendored/beckn/schemas/Location/2.0/attributes.yaml
+  vendoredPath: schema/vendored/beckn/schemas/Location/2.0/attributes.yaml
   upstreamSha256: 187c2b8df1ee6b2b8dd06c8390709c68555593e3349dbf6a7f6f2b3d34fa3820
-  releasedSha256: 3be8b9139132a86163d48705a2bd0187ceedb0a7f23970160c85036458b20313
+  releasedSha256: a1a57aa35f44d88113c6e57cef8b2828203df9409877b7664806ae7fac1a7099
   license: CC-BY-NC-SA-4.0
   transformations:
   - Rewrote schema.beckn.io $ref values to Release 1 public vendored URLs.
@@ -111,9 +114,9 @@ dependencies:
   upstreamRepository: https://github.com/beckn/schemas
   upstreamCommit: b0ffbdd409c2fbe988a344161345a88ebb11d544
   upstreamUrl: https://raw.githubusercontent.com/beckn/schemas/b0ffbdd409c2fbe988a344161345a88ebb11d544/schema/PriceSpecification/v2.0/attributes.yaml
-  vendoredPath: vendored/beckn/schemas/PriceSpecification/2.0/attributes.yaml
+  vendoredPath: schema/vendored/beckn/schemas/PriceSpecification/2.0/attributes.yaml
   upstreamSha256: 2030952a8ec9cd0039e9dfad34458e16f37e0bfaa73385d8701c753942a91777
-  releasedSha256: 213c0ea029f17894fb3890e4f8194fc0782bce829275f1af2044fab5bfac385a
+  releasedSha256: f3c93181552a2766a24835bb9f01ed7bc5fb6a96ef5e4033e6ad3533c9456399
   license: CC-BY-NC-SA-4.0
   transformations:
   - Rewrote schema.beckn.io $ref values to Release 1 public vendored URLs.
@@ -123,7 +126,7 @@ dependencies:
   upstreamRepository: https://github.com/beckn/schemas
   upstreamCommit: b0ffbdd409c2fbe988a344161345a88ebb11d544
   upstreamUrl: https://raw.githubusercontent.com/beckn/schemas/b0ffbdd409c2fbe988a344161345a88ebb11d544/schema/Quantity/v2.0/attributes.yaml
-  vendoredPath: vendored/beckn/schemas/Quantity/2.0/attributes.yaml
+  vendoredPath: schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml
   upstreamSha256: 7494fb9e0590439bf284cc224f1421630c14c94ac94be53b8fb5ba2dfa852611
   releasedSha256: 7494fb9e0590439bf284cc224f1421630c14c94ac94be53b8fb5ba2dfa852611
   license: CC-BY-NC-SA-4.0
@@ -134,9 +137,9 @@ dependencies:
   upstreamRepository: https://github.com/beckn/local-retail
   upstreamCommit: 280726e123f907173f31db840931426045fcfd52
   upstreamUrl: https://raw.githubusercontent.com/beckn/local-retail/280726e123f907173f31db840931426045fcfd52/schema/RetailCommitment/v2.1/attributes.yaml
-  vendoredPath: vendored/beckn/schemas/RetailCommitment/2.1/attributes.yaml
+  vendoredPath: schema/vendored/beckn/schemas/RetailCommitment/2.1/attributes.yaml
   upstreamSha256: 1cc702a28facb3e1abc3666f9e857584afc89f611c9db5c356302df921e2c54f
-  releasedSha256: cbdf8db19794a4dbea779051199057ec7d256f9314b90f43fe726000c7a5991a
+  releasedSha256: 270bbcdf3adec5929b7c5d9869f45b61283fdf5694dd97d80b08a4f0bbde9104
   license: CC-BY-NC-SA-4.0
   transformations:
   - Rewrote schema.beckn.io $ref values to Release 1 public vendored URLs.
@@ -146,7 +149,7 @@ dependencies:
   upstreamRepository: https://github.com/beckn/local-retail
   upstreamCommit: 280726e123f907173f31db840931426045fcfd52
   upstreamUrl: https://raw.githubusercontent.com/beckn/local-retail/280726e123f907173f31db840931426045fcfd52/schema/RetailConsideration/v2.1/attributes.yaml
-  vendoredPath: vendored/beckn/schemas/RetailConsideration/2.1/attributes.yaml
+  vendoredPath: schema/vendored/beckn/schemas/RetailConsideration/2.1/attributes.yaml
   upstreamSha256: f94ac0192b3fa93093c4d21c7274f3df85710575ec46339ac21075e83ae4995c
   releasedSha256: f94ac0192b3fa93093c4d21c7274f3df85710575ec46339ac21075e83ae4995c
   license: CC-BY-NC-SA-4.0
@@ -157,7 +160,7 @@ dependencies:
   upstreamRepository: https://github.com/beckn/local-retail
   upstreamCommit: 280726e123f907173f31db840931426045fcfd52
   upstreamUrl: https://raw.githubusercontent.com/beckn/local-retail/280726e123f907173f31db840931426045fcfd52/schema/RetailContract/v2.1/attributes.yaml
-  vendoredPath: vendored/beckn/schemas/RetailContract/2.1/attributes.yaml
+  vendoredPath: schema/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml
   upstreamSha256: 9a426161ba86dfc0b78e6b8eb3fac8afe56e837821b49f880a33de7a5c9b2aab
   releasedSha256: 9a426161ba86dfc0b78e6b8eb3fac8afe56e837821b49f880a33de7a5c9b2aab
   license: CC-BY-NC-SA-4.0
@@ -168,9 +171,9 @@ dependencies:
   upstreamRepository: https://github.com/beckn/local-retail
   upstreamCommit: 280726e123f907173f31db840931426045fcfd52
   upstreamUrl: https://raw.githubusercontent.com/beckn/local-retail/280726e123f907173f31db840931426045fcfd52/schema/RetailOffer/v2.1/attributes.yaml
-  vendoredPath: vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml
+  vendoredPath: schema/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml
   upstreamSha256: cd0e67ea8420e9cc3436e7e107d24caed855b86ecf4be7bc84274de86f0bf9aa
-  releasedSha256: f763c8d6bd00790ac1501b5896d8414f2e163b03986a2c4d8bc6dd358479db7d
+  releasedSha256: 76a6ca169c40edfa47a114c57da5b3ed7c9b41e4fd37bde53ef5c3468c1df68a
   license: CC-BY-NC-SA-4.0
   transformations:
   - Rewrote schema.beckn.io $ref values to Release 1 public vendored URLs.
@@ -180,9 +183,9 @@ dependencies:
   upstreamRepository: https://github.com/beckn/local-retail
   upstreamCommit: 280726e123f907173f31db840931426045fcfd52
   upstreamUrl: https://raw.githubusercontent.com/beckn/local-retail/280726e123f907173f31db840931426045fcfd52/schema/RetailPerformance/v2.1/attributes.yaml
-  vendoredPath: vendored/beckn/schemas/RetailPerformance/2.1/attributes.yaml
+  vendoredPath: schema/vendored/beckn/schemas/RetailPerformance/2.1/attributes.yaml
   upstreamSha256: 5fcd885cedd9c0f154077da5e7f4460e2b6e162a5388424ae5b30249aae15a42
-  releasedSha256: 801ccef1acb70e23ceee2d38c87297d49df4c10755ed388adce381e06e05a4a7
+  releasedSha256: 82130fc6c5e22fc6af02e93af18126f7614b448ea2a96391715634b9a8904cd2
   license: CC-BY-NC-SA-4.0
   transformations:
   - Rewrote schema.beckn.io $ref values to Release 1 public vendored URLs.
@@ -192,9 +195,9 @@ dependencies:
   upstreamRepository: https://github.com/beckn/local-retail
   upstreamCommit: 280726e123f907173f31db840931426045fcfd52
   upstreamUrl: https://raw.githubusercontent.com/beckn/local-retail/280726e123f907173f31db840931426045fcfd52/schema/RetailResource/v2.1/attributes.yaml
-  vendoredPath: vendored/beckn/schemas/RetailResource/2.1/attributes.yaml
+  vendoredPath: schema/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml
   upstreamSha256: c58c8297094ce41bc110e1a9cbd0127dcee9ef38f93b510adc326e6d748f38b2
-  releasedSha256: a62de32105c0a7586e36d4bdec4eb1fc18384427bcedf53f2e679787bea9e71c
+  releasedSha256: 5cb82b21b08dd1d625bf0c28c85c54dd87513347e858a5da1f9c6a6b6359da8b
   license: CC-BY-NC-SA-4.0
   transformations:
   - Rewrote schema.beckn.io $ref values to Release 1 public vendored URLs.
@@ -204,7 +207,7 @@ dependencies:
   upstreamRepository: https://github.com/beckn/local-retail
   upstreamCommit: 280726e123f907173f31db840931426045fcfd52
   upstreamUrl: https://raw.githubusercontent.com/beckn/local-retail/280726e123f907173f31db840931426045fcfd52/schema/RetailSettlement/v2.1/attributes.yaml
-  vendoredPath: vendored/beckn/schemas/RetailSettlement/2.1/attributes.yaml
+  vendoredPath: schema/vendored/beckn/schemas/RetailSettlement/2.1/attributes.yaml
   upstreamSha256: 253d7a95849a068252360a559e9747217e6b87b213d2fb1fea7aca285306f53a
   releasedSha256: 253d7a95849a068252360a559e9747217e6b87b213d2fb1fea7aca285306f53a
   license: CC-BY-NC-SA-4.0
@@ -215,33 +218,250 @@ dependencies:
   upstreamRepository: https://github.com/beckn/schemas
   upstreamCommit: b0ffbdd409c2fbe988a344161345a88ebb11d544
   upstreamUrl: https://raw.githubusercontent.com/beckn/schemas/b0ffbdd409c2fbe988a344161345a88ebb11d544/schema/TimePeriod/v2.0/attributes.yaml
-  vendoredPath: vendored/beckn/schemas/TimePeriod/2.0/attributes.yaml
+  vendoredPath: schema/vendored/beckn/schemas/TimePeriod/2.0/attributes.yaml
   upstreamSha256: d1d365abfe4a7b81313255291a23284ea65e1e59264de6bf9aadbf3643ae6c91
   releasedSha256: d1d365abfe4a7b81313255291a23284ea65e1e59264de6bf9aadbf3643ae6c91
   license: CC-BY-NC-SA-4.0
   transformations: []
 artifactChecksums:
-  vendored/beckn/licenses/local-retail/LICENSE.md: 8386f4aded6116293b4a2daf378638abe4ed49406c696c12d4e8c19310aec46e
-  vendored/beckn/licenses/protocol-specifications-v2/LICENSE: ec5bc2d54dae0ebc2c8ec5a147d0b48d48af5b3f73acdcb8e33f104a7ad4407c
-  vendored/beckn/licenses/schemas/LICENSE.md: ec5bc2d54dae0ebc2c8ec5a147d0b48d48af5b3f73acdcb8e33f104a7ad4407c
-  vendored/beckn/protocol/v2.0.0/beckn.yaml: 3a909f076796c58b122bf38cfcf9560e1edb504cde00d35261ac8ae393b1ad76
-  vendored/beckn/schemas/AcceptedPaymentMethod/2.0/attributes.yaml: 192181c691590fdf35ddc8ff3a64ed18fa4ae36d8baa4e9b8fc2c189314ecf77
-  vendored/beckn/schemas/Address/2.0/attributes.yaml: cbd663923fcbf4dc7a5050c76762320ec4db2a1b9d7ff532eab1d8442dc6b7be
-  vendored/beckn/schemas/Attributes/2.0/attributes.yaml: bd9b439dcf0ac8e54702807fd488a6e4394fe92d826382f9ca2357f7f2c1354d
-  vendored/beckn/schemas/CategoryCode/2.0/attributes.yaml: 06f3e4a3061796e2d5f2b83e123ec77d833e2b1e2d68553d2d6ae19af9145108
-  vendored/beckn/schemas/Contact/2.0/attributes.yaml: 77a25837a60c2e9870e9538958b6910f005512158f0e1d01a9648d559513df92
-  vendored/beckn/schemas/GeoJSONGeometry/2.0/attributes.yaml: 43148b6636c95b9566e4dc3d739748f9da4bf57db27b23f52fdf3edcc3d126b5
-  vendored/beckn/schemas/Location/2.0/attributes.yaml: 3be8b9139132a86163d48705a2bd0187ceedb0a7f23970160c85036458b20313
-  vendored/beckn/schemas/PriceSpecification/2.0/attributes.yaml: 213c0ea029f17894fb3890e4f8194fc0782bce829275f1af2044fab5bfac385a
-  vendored/beckn/schemas/Quantity/2.0/attributes.yaml: 7494fb9e0590439bf284cc224f1421630c14c94ac94be53b8fb5ba2dfa852611
-  vendored/beckn/schemas/RetailCommitment/2.1/attributes.yaml: cbdf8db19794a4dbea779051199057ec7d256f9314b90f43fe726000c7a5991a
-  vendored/beckn/schemas/RetailConsideration/2.1/attributes.yaml: f94ac0192b3fa93093c4d21c7274f3df85710575ec46339ac21075e83ae4995c
-  vendored/beckn/schemas/RetailContract/2.1/attributes.yaml: 9a426161ba86dfc0b78e6b8eb3fac8afe56e837821b49f880a33de7a5c9b2aab
-  vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml: f763c8d6bd00790ac1501b5896d8414f2e163b03986a2c4d8bc6dd358479db7d
-  vendored/beckn/schemas/RetailPerformance/2.1/attributes.yaml: 801ccef1acb70e23ceee2d38c87297d49df4c10755ed388adce381e06e05a4a7
-  vendored/beckn/schemas/RetailResource/2.1/attributes.yaml: a62de32105c0a7586e36d4bdec4eb1fc18384427bcedf53f2e679787bea9e71c
-  vendored/beckn/schemas/RetailSettlement/2.1/attributes.yaml: 253d7a95849a068252360a559e9747217e6b87b213d2fb1fea7aca285306f53a
-  vendored/beckn/schemas/TimePeriod/2.0/attributes.yaml: d1d365abfe4a7b81313255291a23284ea65e1e59264de6bf9aadbf3643ae6c91
+  errors/README.md: 98a6a083bfed2d168bc2b4064156cfded018f20face23c706d3033a1a2b05eaf
+  errors/registry.json: 8d499b6b7e1be4f1a44a74c6fa78b4cc029d928c93bf67339ae9805dc35da6a0
+  errors/trade.yaml: 0d84dcf173dfab0958e591d072875879b1040d46d68515fe0aa156a27e1be324
+  flows/trade/README.md: a1fbd4bc8f90e92317eb78ea32f302d0f2ad92a80c3dbd2c09b31450b2eef284
+  flows/trade/patterns/storefront/v1/README.md: fca879916d78e136c354e1bc7a0d36c86c8472588f5769cacc7c4a83b70cf03f
+  flows/trade/patterns/storefront/v1/docs/01-happy-path.md: 7c049f1e33ea97447f146f6d547c44237c2bc2be7b4c3c04ea7f41949c73ecd2
+  flows/trade/patterns/storefront/v1/docs/README.md: 3f7122022e694e50b79d0c487178e97b70a4e35f17d95923d81074492124a54c
+  flows/trade/patterns/storefront/v1/examples/confirm_request.json: 114fedb72aa6f26c286936b85293a62a6bce27446f0fc0c5404790efb710a743
+  flows/trade/patterns/storefront/v1/examples/init_request.json: 93a855a97ebd0ac2a2b022b3bedfe4cc79bf775c2d3cdb83400654cb3494f407
+  flows/trade/patterns/storefront/v1/examples/on_confirm_response.json: a83232cc789c8e677889f3ea65433da1d65920e7c170b4affdb8eda4bb6779c2
+  flows/trade/patterns/storefront/v1/examples/on_init_response.json: 4e194c827e7a31ffb15c70c3b847c3935b76d249d237da3421ee09c0c675bbda
+  flows/trade/patterns/storefront/v1/examples/on_select_response.json: 2c4961261b0ef28b160f076cc402627d9ec1613eb310708cb8a00f561619aa6f
+  flows/trade/patterns/storefront/v1/examples/on_status_DELIVERED.json: ac3249b84c61afb83b01180f0bf63975147a59d4cee6b7b1ca49ee31ffdc6ae3
+  flows/trade/patterns/storefront/v1/examples/on_status_DISPATCHED.json: 1cd8012451cd09c3f5acacfcb9a5ef61eae2697146202fd6ac161276bf4c4b3b
+  flows/trade/patterns/storefront/v1/examples/on_status_OUT_FOR_DELIVERY.json: cf5dbf96e0213349fb745e4c00fe030dee90f4b7f21d35b5cd2e694242457a96
+  flows/trade/patterns/storefront/v1/examples/on_status_PACKED.json: 544063ac51a312382a1d3746a8071e21889612859a5324b1415aa851e24c7467
+  flows/trade/patterns/storefront/v1/examples/publish_catalog.json: 845f9fdd2ffe68369509e8c33b9659d28d2bb886bd2f09a241fb5929c2c62954
+  flows/trade/patterns/storefront/v1/examples/select_request.json: 398083cc68176cde4a9c25fbfa9fdd6b04273913145dddac74c262efee01acbc
+  flows/trade/patterns/storefront/v1/pattern.yaml: 604a6525c477a9c615dc1591c6571679f740e9e93bb4f49e0b687f0c05043811
+  flows/trade/patterns/storefront/v1/profile.json: a26ba3aa54b3a6500f3f50071053d7e723fdcab6ceb32a4f931dbdb6524c13e7
+  policies/README.md: fc4cc6caf74132192672777248f69c6346e26fbcb184c4423c94f333a4c62b75
+  policies/cancellation/v1/b2b-restocking.yaml: 7134032c2100290800b56e901a8cc84a05aa7c209f82eea63b5148db4db91bdb
+  policies/cancellation/v1/digital-before-pending.yaml: b9eeaf49e882202a366fbddb12b202e8b5bd5a9bdeb8a96e8331231c95edefa4
+  policies/cancellation/v1/flash-sale-noncancel.yaml: 7410148418f9eee0bd617547c561d99a008857d2144dc8483f77a0b9487c437f
+  policies/cancellation/v1/mto-nofee-before-prepare.yaml: 0c61c765972f5db9b42700b11dbb74083d658391d546a2d4450204932f14cfe9
+  policies/cancellation/v1/none.yaml: 41343135d03d384ab37c114fa037498ed18f7fd94098cdaf4a20f213da75ec3e
+  policies/cancellation/v1/partial-refund-threshold.yaml: b6057a8d12639c7a68ee1e5df4dac2ac9d8cf4ef3875f5137d37d722dfbeae06
+  policies/cancellation/v1/preorder.yaml: 6b70de0efac367ac93f51b773fd47c676ef438e6ba4cea67cf4958f3c50a09eb
+  policies/cancellation/v1/prepacked-free.yaml: 8ebc0c0694a8f36ba0fd2ddc27c5197d2894491b236858a1d71abf64eda7f2b2
+  policies/cancellation/v1/standard.yaml: 19215e8de815390bbc53c0acbbcce2b7e34068af0cc1be9d8acb8027bc7eddaf
+  policies/cancellation/v1/subscription-prorated.yaml: 5ce1cf3960137f3ee41d941a74ebc0beffa7616154ec92e84ac4b64ce323e9a1
+  policies/dispute/v1/trade/b2g-government.yaml: 12580f7fbcd042022384510d49d4115ddf905c8642542b16db467fc7df4587a5
+  policies/dispute/v1/trade/commercial-bani.yaml: cbe28006960e00f8d0f3a20b86f8939e15b8867befda5d7d66adcd98d51462e9
+  policies/dispute/v1/trade/commercial-odr.yaml: b69ecacfc13d8b8492c3140d32f83d9d4f3c706bc057c06ee43ba93dcb9b107f
+  policies/dispute/v1/trade/consumer-bpsk.yaml: 984511305e6a6a8e237c518457b36456c4611be0ad90e4bb66f17ae42c7c178c
+  policies/dispute/v1/trade/international.yaml: c5ad9811c65e9f2be75551590aa8942782223286468338201ce1b51b98581927
+  policies/grievance-sla/v1/b2b-businesshours.yaml: 00f215559655d90308cf55ecfd686012ddb83433c4e23225e9211e4b89f75265
+  policies/grievance-sla/v1/flash-critical.yaml: 0127aab8917663f646b77546a6f0e243014d847ca25683d72cec1c25c6489d2c
+  policies/grievance-sla/v1/premium-mall.yaml: c8dff0c999bb7baeb72599452d0b0837a37cb704c25e2c0b0e26581e3b0ba457
+  policies/grievance-sla/v1/standard.yaml: d924ae9a39c3713459cf94b5238ddcae07a1814b9cdce43f406581eaacde759e
+  policies/payment-terms/v1/cod-full.yaml: 3722115e104ab6d1593cd5fcce95bbf6ffa5deaea779d9041967e5f178528191
+  policies/payment-terms/v1/credit-net30.yaml: 59ee5bab9d9e4faafc3cf5b5dfe19219584bc038fe07066daf4e511ec373c14c
+  policies/payment-terms/v1/credit-net60.yaml: a79e2cf722cf1191b57a91558940be815d407d39bdd687c2ac8cb7b4c648090a
+  policies/payment-terms/v1/credit-net7.yaml: 79b5039ad96a3a75d2f072b042bbc4ca9d699d5bb59d004bb7888b6b955737d2
+  policies/payment-terms/v1/installment-3mo.yaml: 57090bca6c1c7e24584a0559b1efe41d4c40625fe83e8dadaae2fbcd22fb7f24
+  policies/payment-terms/v1/partial-deposit-30.yaml: db9f273f751a8b6cda4649267ee5c35ec87275b385d4903f2d9097f910d3a5fd
+  policies/payment-terms/v1/subscription-monthly.yaml: 8b4c0ab42a33e72e9da00fee485ecf80e2730beb8f75059d04855a0e17c3e154
+  policies/payment-terms/v1/upfront-full.yaml: 03c3d22c82fcca668ffa3e133c6e52ccdad142f01fe9cb42a96cae4e1abbeb80
+  policies/penalty/v1/buyer-chargeback-abuse.yaml: 22d2a7d214ae04be9dcba2516a09bccdbb2bee4086526e16c2ed4653f32427f8
+  policies/penalty/v1/buyer-cod-refusal.yaml: 4d2570452abf7c0364d954d1532d8be2c89236d2cb671273f16c87c46da776b8
+  policies/penalty/v1/buyer-failed-delivery.yaml: c936c3d9290156e299e3d64b241c9108ba91a5eaf3c73d574ec4aae9ed00f72f
+  policies/penalty/v1/buyer-restocking-15pct.yaml: 7ec62f53b44df144f39013af73e1154d78a72c559a0d1d2b6f583c7e7bf14cef
+  policies/penalty/v1/buyer-restocking-20pct.yaml: 31a8a117df7007df8c1921a3d40aa7e95c291c4a4bc16ab1bb91ebf6bc52162e
+  policies/penalty/v1/buyer-restocking-none.yaml: 14cdf579273185fadc21ac58cd70a1cfda7a97f54e7d8fbf4470db3a0c121fed
+  policies/penalty/v1/creator-counterfeit.yaml: 5ce760d5135cdf5430f5d5ed34aa541ff40c1067961f98d2e78e7ecbe4c2186b
+  policies/penalty/v1/creator-misleading.yaml: 4b07d5c0d4a309af7b08a72ad38003aec9c60a96859b5ed86121327fda1df4cb
+  policies/penalty/v1/marketplace-escalation-miss.yaml: 187fc459df52193f3ae90424acc5d57bf93e3bbba0f3ac79b007328a57ae5e7e
+  policies/penalty/v1/seller-cancel-without-cause-premium.yaml: 22b7bfc010d076908f1d195412e8107e712510d7fff4e3af0bda7f2fa7199183
+  policies/penalty/v1/seller-cancel-without-cause.yaml: '089b23a64f639c18b67fc8112613d663d31ababc704288648c2967c77c3eb1e3'
+  policies/penalty/v1/seller-late-dispatch.yaml: 286e75afbbeb3c2bd574458c60767717ad09e032eeff71dde3d120082eae0214
+  policies/penalty/v1/seller-rto-fault.yaml: 2e34485d5ddfa4cd9255ba3ed7f5972d2803a1415db897b6024fb76f0657a2da
+  policies/penalty/v1/seller-sla-breach-mall.yaml: b9caf241e1c7cde9e4d78a289a6256a68736cd0015dfd00233742e35937c4d74
+  policies/penalty/v1/seller-sla-breach-premium.yaml: 5c5113e6df1ddfd55a6cbc539968d7bd2182f8853f65768427f8b0f27ba8f500
+  policies/penalty/v1/seller-sla-breach-standard.yaml: f5baa0b5b6d6c8f333b3a52fe9a2690da6b7eb599e3735edfe9835cda65f8d35
+  policies/penalty/v1/seller-wrong-item.yaml: 00bd79ec47a185cb0a10951c0f55e8b7b98245f5e47ea07cdec7cb6e987a6fae
+  policies/registry.json: 2db6ae35188296300f29e6c4034a97fe128dc6da2ea4931cb7f5359b631cd821
+  policies/return/v1/agritech-perishable.yaml: 9eb2c9f8d9fd8d599c78f133b8d72622c6c91ec9e53d19758dbb98ace94d8243
+  policies/return/v1/beauty-hygiene-nonreturnable.yaml: 0c0d5f110d3781ad936b72ac4e8d06f603d21d0aa2d95269240865316b28d168
+  policies/return/v1/books-14d-sealed.yaml: 4e70a6a6eb0a386d21e047e0e670ee865037621b721cc7f7ff1299d5116e13fc
+  policies/return/v1/custom-nonreturnable.yaml: 92402b13fec3c9cfb2e970f4ba5662973e160ef3d6bcd3403754c847fa16073a
+  policies/return/v1/electronics-14d-condition.yaml: a3467657d207b4985d2fb483afb56cd66fe758ce0a2a7420416e7b13682ad13e
+  policies/return/v1/fashion-7d-fit-only.yaml: '086fcea35bd57e5ce1ed7ddbc907a866d67c19153df30a7bef85d368f2f6e6d1'
+  policies/return/v1/grocery-sameday.yaml: a3efcfe87e94240f8b81c7b39fd76ac16535aec1d97257fecd6f17b7d3feb73c
+  policies/return/v1/highvalue-14d-inspection.yaml: 1ff768e88444902b03a3176913d0020071f2903ea69d7405b76a454e320fb48b
+  policies/return/v1/jewelry-3d-tamper.yaml: e7c7598c10721842d5bf1d28c58490b797f6c52f61ccdd40b792b1b778ce88be
+  policies/return/v1/none.yaml: 8d94cd991ed4bd9b98e6aa5b52e90905a67d3e2f82326a5c723ab83319c5cf97
+  policies/return/v1/pharmacy-nonreturnable.yaml: 5c9a98fe67988bbb544ddb852467ae93533732f85df50cacc7433b0a37003c87
+  policies/return/v1/standard-14d-sellerpays.yaml: efb02a634e2805f0e8ce98867adbbc1a154c9d0bae1966a6bc5b388eb9e6bac3
+  policies/return/v1/standard-30d-sellerpays.yaml: 1e4b5dcae86642f99693e7671ef2d7ed2487c3df13042d7dcb853e4cd5f4675e
+  policies/return/v1/standard-7d-buyerpays.yaml: a1627f94d4e0ae335f377b83d20205fd8586a19e38a703853384370002485d34
+  policies/return/v1/standard-7d-sellerpays.yaml: 248d4b844ebefc04c24ef061efdb4e326b556e4329b5fd250c95fe360be02266
+  policies/warranty/v1/extended-paid.yaml: 8bf13f289523cf4045a73de7730dd64efb1b06135b66d27c099b76a48d99c00f
+  policies/warranty/v1/manufacturer-1y.yaml: 2a0b31df5ae351c82684718eb514b5e3f60573b00e07a71de8c74069d3a66326
+  policies/warranty/v1/manufacturer-2y.yaml: b9c43f217747fe4c18d03e51cded57531da31383f6757f1637cf8f8e82ccbb51
+  policies/warranty/v1/manufacturer-3y.yaml: c9d8aa5e802e2b2c5927f7a754a3eedb3818a5abb756b7751821e618c460d47c
+  policies/warranty/v1/none.yaml: f7a2b0b557a1e98ac9af1f928350fc6165ad3bee516cc0b8fbb3bf88a8dd1ca0
+  policies/warranty/v1/refurbished-30d.yaml: e161f615ae77a97b07c7c9711d2a1c6d465b3e8e4c42de8e7a4c2f6edf7cd5ae
+  policies/warranty/v1/seller-1y.yaml: 0bc3de3679c0dbffe040182a66f5a7ff549d7d20458731bcdb299b59d30a692b
+  policies/warranty/v1/seller-replacement-only.yaml: 568229e444130a390c594214ab474d73875c6ba6b174989cf24f18de03518cd3
+  schema/README.md: c0016b2be4629a9117e39483af3c59dcc61de54f37b40472a4033e46c41e8d2f
+  schema/common/Address/v1/README.md: 2fa4c86279f15d02962729d295d37a42f08cc4d532bfaf82daa8740c135be29a
+  schema/common/Address/v1/attributes.yaml: 92b0c30e27f5174292c6a4023fd2a5edad91da5a79d0a5f9a0459727a764563d
+  schema/common/Address/v1/context.jsonld: ca4f63bc42c0d989fc574dfad9f78a83e73577481bc73613a942083c16b10038
+  schema/common/Address/v1/docs/01-overview.md: 7d56dd3990ffc18521e95625cd5bf4674e0b54da482a1d19c5e5cdbd889f8d0e
+  schema/common/Address/v1/docs/README.md: a66bcf598e2f4ad8b3ea12d79e7092ffa7e029038fb1f4e46a708ef2d0d83430
+  schema/common/Address/v1/examples/address-jakarta.json: 92864596ee647d789f161cd83b732effe9ca76f813206cd26594039f7587df9b
+  schema/common/Address/v1/profile.json: 9c11ded37504683f98969e86e6a576d15ecf9c5cfbed714073b8a1e41d2882d3
+  schema/common/Address/v1/renderer.json: 8584cfd1b5cb51bb036ffdf961d139684e98ec71952c3c3c7866a13a1914d3c1
+  schema/common/Address/v1/schema.json: f9a9c555e61ee046cc80b517070919e18217e7e0202269ad879cbd526dee4703
+  schema/common/Address/v1/vocab.jsonld: f1932cce610fade27df7d296ba88ca6e6c02a92d7a70b61b25ea6400ba26954c
+  schema/common/BusinessRegistration/v1/README.md: 628b5454c46306dcc413d922dfb3ce0e9c867803f2c3a2cfe4c894da3d3f5b49
+  schema/common/BusinessRegistration/v1/attributes.yaml: 0b006a8dd779ebb427f69755f674ac418ff9a08048c09546b69ab688f308f2e4
+  schema/common/BusinessRegistration/v1/context.jsonld: dd1df781e7d8a394e98a026d9f40fb6f6713920698cdd9d44626515f64e9ec2b
+  schema/common/BusinessRegistration/v1/docs/01-overview.md: d7b522300ece6c51e1f3afbef3d58e03a34eb8a0a993ac7e7fa09f850813b776
+  schema/common/BusinessRegistration/v1/docs/README.md: 39465d5defe7d4931d024382f478fa66fea43701983d45578367b2e38bc589c0
+  schema/common/BusinessRegistration/v1/examples/business-identity-pt.json: 8557363556d1ec7f51ebfabcceef3678973c4c34282d62cbd45831608e8c0470
+  schema/common/BusinessRegistration/v1/examples/individual-identity.json: 00610ef35d8094a0b8d350f54d2ec97386040a69f5c24449cd2c29386223ade2
+  schema/common/BusinessRegistration/v1/profile.json: 5ad81fd3f936a5f8e2aa4814295ecea674216ee5a4fff44e0fc50f470774ec41
+  schema/common/BusinessRegistration/v1/renderer.json: fd1ad073255674c4bba776c8b43a4d11ebb9b1e5bbcfcdac3a3018bca04beac6
+  schema/common/BusinessRegistration/v1/schema.json: 6a2076d69b4feb66931722a30578bfc73441b9ab3a89c7f0dc4dc3713eb886fd
+  schema/common/BusinessRegistration/v1/vocab.jsonld: dcd58248892e9e205b0364fd1bc1fd0bf2f6247f935b2af4df1efaaee2b060d3
+  schema/common/Payment/v1/README.md: 131b0a2fba139e973795a9db00ab235fe358ee3a5b5434f659ec0bcd2bccde99
+  schema/common/Payment/v1/attributes.yaml: 131bcb3f198e3a2c6a72dac48e302e914a84d67b95e45706857b5fe9f21a941f
+  schema/common/Payment/v1/context.jsonld: 261ea77a77f5a4029b5be0ef9cf4f3ef467bf3f870ea814f2bc932e7c7b91988
+  schema/common/Payment/v1/docs/01-overview.md: 33e1c56584658930f291218c49e511b205c8c2231e542645e961ec5c378518d3
+  schema/common/Payment/v1/docs/README.md: 573ef67e841b89bf31e5f266529ff20c51e279bf6bf1407fa7cdff9d8564da61
+  schema/common/Payment/v1/examples/ewallet-payment.json: 256ed591356fd4b9cdaf1f68f6ddc7848ae6facbfa36a583e6c06229450187ba
+  schema/common/Payment/v1/profile.json: d47603d315de1077d34de1ceaed06002c8c5a799686a96fe87a2fbee89dd60e4
+  schema/common/Payment/v1/renderer.json: 1640137624bf96938ffbde5b28001a2c1a27aa487940a774b9051dde8b2f6829
+  schema/common/Payment/v1/schema.json: 864aaaaabae9c233bb5a20274f7fac707f6b8bb3734734e002dfdfb8c34faebb
+  schema/common/Payment/v1/vocab.jsonld: b33f41af10277953ed27749a2814c3c58c2f4e921bc5723af88a161a23c577d1
+  schema/common/Tax/v1/README.md: f758f1033cc7595d309faec59de7e5cec0a1a9431c914b12cfb8c0cee6bfbbc2
+  schema/common/Tax/v1/attributes.yaml: 30544bf91a39a8a9f288b1d9106f054fced793947546272b0cb5c77eaf98650e
+  schema/common/Tax/v1/context.jsonld: 5c4cfaefe101ce85ec950b2144cf269ec424e70e71acfcb0bdffd6206581418b
+  schema/common/Tax/v1/docs/01-overview.md: b2be0d4b895e49c8bbec2c466d7a1eba5c55438090d7e4732bf6d9fe1b0f75d2
+  schema/common/Tax/v1/docs/README.md: 237fe94c783e94a72c9cd4011ade5113bf4f9d596731ca6e610515c62e480e08
+  schema/common/Tax/v1/examples/ppn-tax-detail.json: c73c30c39c682303719683a58eedbbbcdc9b858c44bc3c85c52b95d16a29b9ae
+  schema/common/Tax/v1/profile.json: 03de22a9b6d4967b35c3de506b1411ae5d20059c12b8798da3dd033e2d9074ea
+  schema/common/Tax/v1/renderer.json: 1a9ded8be9f70a1049acd7c442614073f0e769ea1f5f7fcf59915c2bc804b307
+  schema/common/Tax/v1/schema.json: 23803cbb4298b0e7239d0a81f65f703e3b8a2b8c77e9c372af736f61e93f9f14
+  schema/common/Tax/v1/vocab.jsonld: e7524c2efc5db3d00542998ec428e7441b6b1ec664d103e977ad2c2a1f3d16f0
+  schema/core/README.md: 0e55343db813f5951651c1144db6ec203779b5e36f4111c52c2f09ef06fe7673
+  schema/extension/trade/TradeCommitment/v1/README.md: 879069e3d8ca170bad7ac9586592a6b17793ac48504664e1a375655531dd9aa3
+  schema/extension/trade/TradeCommitment/v1/attributes.yaml: d4a20a3434ad40c79a01a790ba4d34037058e292d4fac442143504fede1e6e70
+  schema/extension/trade/TradeCommitment/v1/context.jsonld: 62f8aad5c9d897d6a0b684a5bfd2e552e7a70106e4f885d2f32bbc156e060a1c
+  schema/extension/trade/TradeCommitment/v1/docs/01-overview.md: 2fa79969cf89c01ec08f2bae9de9d825de8384c9a819c7aabe2447f68b4af4c7
+  schema/extension/trade/TradeCommitment/v1/docs/README.md: dd287b3760f4ff5f5b1fb9b1de2ea012457062258c033bc91fb56527eccf0464
+  schema/extension/trade/TradeCommitment/v1/examples/garlic-bread-order.json: 7d741e7f3b4c2ef2a31669688ff9db74fd7c40616c6e29b074cb7aa88dab8936
+  schema/extension/trade/TradeCommitment/v1/examples/pizza-order.json: 6a2d765edf0b3c8c1d0d1c0265f02a684aea43de23c2d5ae5a27073621dc33f0
+  schema/extension/trade/TradeCommitment/v1/profile.json: cca8538aa7d42c9d2a302bae59dc47e20d69bee65d797ff1e85c2867f5782a15
+  schema/extension/trade/TradeCommitment/v1/renderer.json: 9272bf577b6683187896b67949ae8836bcacb405fd5ebec8992e16b1f0904f42
+  schema/extension/trade/TradeCommitment/v1/schema.json: 1eb7cf69d5d40f2d1471a9e8795b72a9a4978ac56c63b0ef3f8ce64a5ba53b51
+  schema/extension/trade/TradeCommitment/v1/vocab.jsonld: 399f136e1a6ac648b476c36aecd7295b28e7ca4f06e0ac97af1763f450c622af
+  schema/extension/trade/TradeConsideration/v1/README.md: 4db776cd37adda495631773fcb7e4fc117c2763978853964170699c3fac981dd
+  schema/extension/trade/TradeConsideration/v1/attributes.yaml: a4b6c7688381ed0613726fb6943da11f90784013ac9fd0b1bc10a2a215b1f8d8
+  schema/extension/trade/TradeConsideration/v1/context.jsonld: 9cbccfd9e3d18d142f4d83109fa49cc2ef4522e226be38c7a9ff6f58bac37e5f
+  schema/extension/trade/TradeConsideration/v1/docs/01-overview.md: 053bdfbc95bd6d435f5e762f3fefc8cf31427ad5b9e63388ffe137d74e2b33b7
+  schema/extension/trade/TradeConsideration/v1/docs/README.md: 158c844e63e4c560ed616977e799bc1763fbab076c8383723d4d78d3a55d2b77
+  schema/extension/trade/TradeConsideration/v1/examples/pizza-order-breakup.json: 1fbd927e0d0aecd9beb90e7853c75fe94f557fe7df8c7457367f4a6e427e335d
+  schema/extension/trade/TradeConsideration/v1/profile.json: 9b838a4b8da3d3207e2d308cd81d6033c93d1cc67283a5d158ac7eb158ea8242
+  schema/extension/trade/TradeConsideration/v1/renderer.json: 221c46a8ded28c7c4c457beb58714af5e749bea42ae523f14877d3ff2c0374a8
+  schema/extension/trade/TradeConsideration/v1/schema.json: c3e3e7aabb553358f5410489fd8423f5d9ee4af12114ab22408d6744ced5abb8
+  schema/extension/trade/TradeConsideration/v1/vocab.jsonld: e52a8706c0c09760e40129aa728e48757ecd6bb2e5094b07f647f5d3276c28f5
+  schema/extension/trade/TradeContract/v1/README.md: b29124a98d40579a2801e92899e0d0eb8762abd8c6ea4dbea01cdc8318cc7cbb
+  schema/extension/trade/TradeContract/v1/attributes.yaml: 5846632486e86b9a8141d1bde1855e766250605e8f5d976b45758c0fb64ead6b
+  schema/extension/trade/TradeContract/v1/context.jsonld: c0444120b1180880553df7df2e52467621757cdbdf9e3629606e2e2eb4052fc0
+  schema/extension/trade/TradeContract/v1/docs/01-overview.md: 844057916e5c76067bb457aaa94da266f0f2c74c5d36f4b1376636d2d54fde9a
+  schema/extension/trade/TradeContract/v1/docs/README.md: 5b2138175b257f78a3e88cd329e460fbe43aaabf9293b4f5f9a81223ef845acf
+  schema/extension/trade/TradeContract/v1/examples/b2c-confirmed-order.json: 8c15c8597beee152c6f63690d6518ee69d4ebc11bb61a0770edcff4dec45f182
+  schema/extension/trade/TradeContract/v1/profile.json: 3c8ece1fab333d4f041952e19f1d4641b27c549e9ee73048748047b5a328aae3
+  schema/extension/trade/TradeContract/v1/renderer.json: a672a62b451bb4d9525457a318fb8f8456b47610a0078dea0febaa64660072f2
+  schema/extension/trade/TradeContract/v1/schema.json: a1bfeefbaf847a2d56880071ad3c14f732efa356a7c3b3f2e56e2ab17d6d21bf
+  schema/extension/trade/TradeContract/v1/vocab.jsonld: 168a3b021de143ff33cbd651b223d8b24db0f94cc20f7d9334c5cfa5d4638eae
+  schema/extension/trade/TradeOffer/v1/README.md: fbdb6b6c1a81bc769b761554bb165d26c4ec835b7d6899934979aa5ccaef2057
+  schema/extension/trade/TradeOffer/v1/attributes.yaml: 60da947993b9a877708f8488b14430cbb2a391a2261788eae5939b822d5d2658
+  schema/extension/trade/TradeOffer/v1/context.jsonld: 7e5bd61207c77eba4b8b19089156743ea20ce419279369127679dd4a3328e2e1
+  schema/extension/trade/TradeOffer/v1/docs/01-overview.md: 6f8166991f9367c25259436f2455263ee12291ee3f7601999ffcf60ae003c0e7
+  schema/extension/trade/TradeOffer/v1/docs/README.md: 00de3789b968ceb08d55220223a612084d1e44a9d8e43e8597baa843f162cd17
+  schema/extension/trade/TradeOffer/v1/examples/electronics-offer.json: 4824c2850863d21464c48ae34222e33e925e0762bb3f34d2599772375ecc3b7f
+  schema/extension/trade/TradeOffer/v1/examples/food-offer.json: ac0ff5e628ca5fbc0f01be0c86373bb9117f177d3f19a2ad571712e94bb0aca5
+  schema/extension/trade/TradeOffer/v1/profile.json: c30a47ed441289eea564252520f054449ddb41451fe09aa7da053a613d9fe89f
+  schema/extension/trade/TradeOffer/v1/renderer.json: e402b6ca2c221c1bc49f4dcee03f298d123b76fcb7fdaf4aeda24a565288aea7
+  schema/extension/trade/TradeOffer/v1/schema.json: ab34b6a6f7c96f504bfa0eac4a860a89876687895001bb50333f14b2022e192c
+  schema/extension/trade/TradeOffer/v1/vocab.jsonld: 8fac3f7bfbda5c42fba331105cab4c64b1e2f3aca53a8a11ea3d5b83424cb4d2
+  schema/extension/trade/TradePerformance/v1/README.md: 0de9bb534bd4376e2f1421969511ec167b494be9875ddf6bfebbf8ff3f880087
+  schema/extension/trade/TradePerformance/v1/attributes.yaml: d9cab8d6a73667c5848ab916db5f2670daa456e1141ba085c6e7354729f609be
+  schema/extension/trade/TradePerformance/v1/context.jsonld: 6d94ae97f4125616d112ae61d196d7dd102f6de69cbfdff62f137b7c38c6d9f9
+  schema/extension/trade/TradePerformance/v1/docs/01-overview.md: 4cde7c66e90861d33ad23638141aba08f4463e71c50d6e27277a1567799de0d3
+  schema/extension/trade/TradePerformance/v1/docs/README.md: 2ec7059d3d855595e87080f48bb733af0e11a9ef2143e3a4a7bf275f5d1cde84
+  schema/extension/trade/TradePerformance/v1/examples/dispatched-with-agent.json: 1103ae7a5645a1a697bb14cbaae9157e1c87ad2a8dda6bf2c62a9f94b5f3bc94
+  schema/extension/trade/TradePerformance/v1/profile.json: 82d80133b38dd0610964232e856121f3a57831013b575d2a538df038986a75ef
+  schema/extension/trade/TradePerformance/v1/renderer.json: 8ccd5add871e66664cadc3b9842ae2141d47a234a1881dc2411bb444b1468f52
+  schema/extension/trade/TradePerformance/v1/schema.json: 5caba27bd75169f179002a83cd6c0d3a6347801a95e89aa88b00c741f55912ad
+  schema/extension/trade/TradePerformance/v1/vocab.jsonld: 8e82eb867fc3e3ec24eaf9679570765ef3ffd9795e9b718612b8266e62d86476
+  schema/extension/trade/TradePerformanceStates/v1/README.md: 05e85b64ee2aa01b10a1129024d47c7351ecc3b128cff5f7ac67a27cb1d2097f
+  schema/extension/trade/TradePerformanceStates/v1/profile.json: 041c28e887a22cee87ba5486ea5271b9ddbf1e9e839f793c7c8392cc80d4ab0b
+  schema/extension/trade/TradePerformanceStates/v1/states.yaml: 31cd1f9e3ba7de5d5f330086364701a2867e1a18577cbe6bf51d61bdf8ee6478
+  schema/extension/trade/TradeProvider/v1/README.md: 4e71e8d816487d72d308281e8ce06529d1c66fac42b0ed1ba7c5d4c9be95c9ed
+  schema/extension/trade/TradeProvider/v1/attributes.yaml: 104848ebf5b5b7a7a268be55eff6d0595778c31eb39763bd7679b4d0dac42e14
+  schema/extension/trade/TradeProvider/v1/context.jsonld: e7929bc086f1eb843dc8652584326d763b15a2b75e9119e2ff57b589c105670f
+  schema/extension/trade/TradeProvider/v1/docs/01-overview.md: f4439183e2aff8a26e507770ba2508321acc344f4bbc230731866ca1d71fbcba
+  schema/extension/trade/TradeProvider/v1/docs/README.md: 7ef999782e8121fbaf6f86c87df9be07f907dcbe8fe04f49044d045f2ef421f3
+  schema/extension/trade/TradeProvider/v1/examples/merchant-provider.json: 6ea484c24b5acc6e5aef0105822f72878a1828b6ec4d474465c85e512e424042
+  schema/extension/trade/TradeProvider/v1/profile.json: 2c576b2aea0a63df3a5a89341fa714571795fd16c02e7939753511da1a6d5158
+  schema/extension/trade/TradeProvider/v1/renderer.json: 77d13b2b70fe0846aadf5f986dd437ae7ce8ee3b65ca41a0db5c15ba2b439a15
+  schema/extension/trade/TradeProvider/v1/schema.json: bf777f8126c4a5746278ab4ff58ff80ab1a9a9aaa838ca6aeaa722aa596bd3e6
+  schema/extension/trade/TradeProvider/v1/vocab.jsonld: 37d10642fe89c3a9dce7ebfc9e537868046fd98fff72438e5ba3cb0f20ee2d5a
+  schema/extension/trade/TradeResource/v1/README.md: 74c06920ddf713966a7bb014d2b3c6e3efe665c2dc7a6daf4563469870fd0ddc
+  schema/extension/trade/TradeResource/v1/attributes.yaml: 1915da536f55298e001a83c00cb5f51193a7b8a93ce28e9a652086a96d91518e
+  schema/extension/trade/TradeResource/v1/context.jsonld: bfd32f663d6726f71806a1d4cab45e4b90ad4b227d68cdd0833b8c4a9805ff80
+  schema/extension/trade/TradeResource/v1/docs/01-overview.md: 478efce28cde42a7b986669b5890d54db7fa16fb310a4c1f8dd93eac334eb5ae
+  schema/extension/trade/TradeResource/v1/docs/README.md: ea7345bf3b1c3606111fa412c44856c910facd38a524bf7c0effe44c152d15a5
+  schema/extension/trade/TradeResource/v1/examples/agritech-beras.json: 4c14c89926b6a66f3c3a662b17d6d3978fcd36b04b5474cec92f06999e525d1c
+  schema/extension/trade/TradeResource/v1/examples/electronics-smartphone.json: 88518dc82f71b001dcca8ef2ecb7059c6d3b106c373c1a97df5b0ac86a030e80
+  schema/extension/trade/TradeResource/v1/examples/food-qsr-pizza.json: 8318567c7c5d3546b405985aa6f45388b645ba191b19c3109b8db10d505b1d40
+  schema/extension/trade/TradeResource/v1/profile.json: e80725407c5cc76df56121c2471aab064ce85d340e31d73b87992c0fe913053a
+  schema/extension/trade/TradeResource/v1/renderer.json: 915fea033d2c7b8df22545a71ef7e4b48e82d16858e7ee6f3ec3726f73322559
+  schema/extension/trade/TradeResource/v1/schema.json: 107b35da4896b72b690902b92bc1946de949bc43e269da2e908d03d514ed67ea
+  schema/extension/trade/TradeResource/v1/vocab.jsonld: 4a313f939091ed5a52253fc2011be208239179c35fe47aa6a707df6d40f446d1
+  schema/extension/trade/TradeSettlement/v1/README.md: ec011cb0baffdb130e5f2c74c56d6913c3fc43ef9b20b96995db401a1940e489
+  schema/extension/trade/TradeSettlement/v1/attributes.yaml: d8e4b9a651aeb4d55c2286a3a1ea9aa2beedf123d0960b256df51351ac5622b0
+  schema/extension/trade/TradeSettlement/v1/context.jsonld: 03ba61a974b343fab9cb5807f3882582d4bee6acdab3daa2a04101a9ac9d1dbe
+  schema/extension/trade/TradeSettlement/v1/examples/qris-payment.json: 76890d655e003861518d3bf048657034fc3313bafd7e48fd032777c11fad528f
+  schema/extension/trade/TradeSettlement/v1/profile.json: 1dee9288cc53f8de2d02a4af59def7407b3d4ef80b98218d8b5e769272b38255
+  schema/extension/trade/TradeSettlement/v1/renderer.json: 66ba14a82a7f5a9738ec2ad2c215eacd17ec7de2fd9dbd46393c03b62ace591b
+  schema/extension/trade/TradeSettlement/v1/schema.json: 3af9db6a24b54b99bc200379852d26d2d6cb41d06c583e4ddce754c1b7447bf4
+  schema/extension/trade/TradeSettlement/v1/vocab.jsonld: 40f05dfa870425990198eb1d00e4c7a351550897416abddda4d79dd0c20e7d81
+  schema/vendored/beckn/licenses/local-retail/LICENSE.md: 8386f4aded6116293b4a2daf378638abe4ed49406c696c12d4e8c19310aec46e
+  schema/vendored/beckn/licenses/protocol-specifications-v2/LICENSE: ec5bc2d54dae0ebc2c8ec5a147d0b48d48af5b3f73acdcb8e33f104a7ad4407c
+  schema/vendored/beckn/licenses/schemas/LICENSE.md: ec5bc2d54dae0ebc2c8ec5a147d0b48d48af5b3f73acdcb8e33f104a7ad4407c
+  schema/vendored/beckn/protocol/v2.0.0/beckn.yaml: 3a909f076796c58b122bf38cfcf9560e1edb504cde00d35261ac8ae393b1ad76
+  schema/vendored/beckn/schemas/AcceptedPaymentMethod/2.0/attributes.yaml: 192181c691590fdf35ddc8ff3a64ed18fa4ae36d8baa4e9b8fc2c189314ecf77
+  schema/vendored/beckn/schemas/Address/2.0/attributes.yaml: cbd663923fcbf4dc7a5050c76762320ec4db2a1b9d7ff532eab1d8442dc6b7be
+  schema/vendored/beckn/schemas/Attributes/2.0/attributes.yaml: bd9b439dcf0ac8e54702807fd488a6e4394fe92d826382f9ca2357f7f2c1354d
+  schema/vendored/beckn/schemas/CategoryCode/2.0/attributes.yaml: 06f3e4a3061796e2d5f2b83e123ec77d833e2b1e2d68553d2d6ae19af9145108
+  schema/vendored/beckn/schemas/Contact/2.0/attributes.yaml: 77a25837a60c2e9870e9538958b6910f005512158f0e1d01a9648d559513df92
+  schema/vendored/beckn/schemas/GeoJSONGeometry/2.0/attributes.yaml: d2466637c322cc8f25ba0e7f24a5f0c09d68a7bb8c65afdad26a2b9c1c5f937f
+  schema/vendored/beckn/schemas/Location/2.0/attributes.yaml: a1a57aa35f44d88113c6e57cef8b2828203df9409877b7664806ae7fac1a7099
+  schema/vendored/beckn/schemas/PriceSpecification/2.0/attributes.yaml: f3c93181552a2766a24835bb9f01ed7bc5fb6a96ef5e4033e6ad3533c9456399
+  schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml: 7494fb9e0590439bf284cc224f1421630c14c94ac94be53b8fb5ba2dfa852611
+  schema/vendored/beckn/schemas/RetailCommitment/2.1/attributes.yaml: 270bbcdf3adec5929b7c5d9869f45b61283fdf5694dd97d80b08a4f0bbde9104
+  schema/vendored/beckn/schemas/RetailConsideration/2.1/attributes.yaml: f94ac0192b3fa93093c4d21c7274f3df85710575ec46339ac21075e83ae4995c
+  schema/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml: 9a426161ba86dfc0b78e6b8eb3fac8afe56e837821b49f880a33de7a5c9b2aab
+  schema/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml: 76a6ca169c40edfa47a114c57da5b3ed7c9b41e4fd37bde53ef5c3468c1df68a
+  schema/vendored/beckn/schemas/RetailPerformance/2.1/attributes.yaml: 82130fc6c5e22fc6af02e93af18126f7614b448ea2a96391715634b9a8904cd2
+  schema/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml: 5cb82b21b08dd1d625bf0c28c85c54dd87513347e858a5da1f9c6a6b6359da8b
+  schema/vendored/beckn/schemas/RetailSettlement/2.1/attributes.yaml: 253d7a95849a068252360a559e9747217e6b87b213d2fb1fea7aca285306f53a
+  schema/vendored/beckn/schemas/TimePeriod/2.0/attributes.yaml: d1d365abfe4a7b81313255291a23284ea65e1e59264de6bf9aadbf3643ae6c91
 toolingCommit: null
 notes:
 - Draft release envelope created during migration Phase 2.
@@ -249,7 +469,13 @@ notes:
   Phase 4.
 - Standalone Trade and Trade-required common packs, JSON-LD files, and examples were
   validated during Phase 5.
-- Release 1 is scoped to standalone Trade and its required common packs. The
-  unreconciled ion.yaml aggregate and the Logistics, Hospitality, and Finance
-  sectors are explicitly excluded.
+- Release 1 is scoped to standalone Trade and its required common packs. The unreconciled
+  ion.yaml aggregate and the Logistics, Hospitality, and Finance sectors are explicitly
+  excluded.
+- Phase 8A includes only the Storefront v1 flow, 67 Trade or cross-sector policy terms,
+  and 8 Trade errors whose targets are present in this release.
+- Other Trade flows and their dependent errors remain non-normative working material
+  for consideration in a future integer release.
+- Schema content groups core, common, extension, and vendored below schema/ rather
+  than flattening them at the release root.
 - Draft URLs are unsupported until the release is published.

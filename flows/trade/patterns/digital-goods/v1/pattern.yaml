@@ -31,7 +31,7 @@ keyDifferences_vs_B2C_SF:
   - Fast fulfilment — usually seconds, not days
   - PPN treatment varies — pulsa and bill payments may have different tax treatment
 
-performanceStateMachine: releases/release1/extension/trade/TradePerformanceStates/v1/states.yaml#digital
+performanceStateMachine: releases/release1/schema/extension/trade/TradePerformanceStates/v1/states.yaml#digital
 
 phases:
 
@@ -122,7 +122,7 @@ phases:
     description: >
       Very fast — usually seconds. BPP calls operator/issuer API, receives
       confirmation, relays to BAP.
-    stateMachine: releases/release1/extension/trade/TradePerformanceStates/v1/states.yaml#digital
+    stateMachine: releases/release1/schema/extension/trade/TradePerformanceStates/v1/states.yaml#digital
     steps:
       - step: on_status
         trigger: PENDING_OPERATOR

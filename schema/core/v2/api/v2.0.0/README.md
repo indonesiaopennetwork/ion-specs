@@ -3,7 +3,7 @@
 The Beckn Protocol dependency has moved into the Release 1 draft:
 
 ```
-releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml
+releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml
 ```
 
 The `ion.yaml` aggregate remains here as non-normative work in progress. Release 1
@@ -12,8 +12,8 @@ the validated standalone Trade packs. It must not be treated as a Release 1
 contract or served from the Release 1 public namespace.
 
 > **Do not use this `ion.yaml` as a Release 1 implementation contract.** Use the
-> standalone schemas in `releases/release1/common/` and
-> `releases/release1/extension/trade/`.
+> standalone schemas in `releases/release1/schema/common/` and
+> `releases/release1/schema/extension/trade/`.
 
 ## How they relate
 

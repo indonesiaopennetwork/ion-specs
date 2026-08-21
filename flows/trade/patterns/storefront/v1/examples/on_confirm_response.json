@@ -40,7 +40,7 @@
       "https://schema.ion.id/extensions/trade/performance/v1/context.jsonld",
       "https://schema.ion.id/extensions/trade/contract/v1/context.jsonld",
       "https://schema.ion.id/extensions/trade/consideration/v1/context.jsonld",
-      "https://schema.ion.id/releases/release1/extension/trade/TradeCommitment/v1/context.jsonld",
+      "https://schema.ion.id/releases/release1/schema/extension/trade/TradeCommitment/v1/context.jsonld",
       "https://schema.ion.id/extensions/core/business-registration/v1/context.jsonld",
       "https://schema.ion.id/extensions/core/payment/v1/context.jsonld"
     ]
@@ -104,7 +104,7 @@
             }
           ],
           "commitmentAttributes": {
-            "@context": "https://schema.ion.id/releases/release1/extension/trade/TradeCommitment/v1/context.jsonld",
+            "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeCommitment/v1/context.jsonld",
             "@type": "ion:IONTradeCommitment",
             "lineId": "L01",
             "selectedCustomizations": [
@@ -136,7 +136,7 @@
             "code": "ACTIVE"
           },
           "considerationAttributes": {
-            "@context": "https://schema.ion.id/releases/release1/extension/trade/TradeConsideration/v1/context.jsonld",
+            "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeConsideration/v1/context.jsonld",
             "@type": "ion:IONTradeConsideration",
             "totalAmount": 98900,
             "currency": "IDR",

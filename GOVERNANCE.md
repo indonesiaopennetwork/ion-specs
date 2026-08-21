@@ -1,46 +1,52 @@
-# ION Network — Governance
+# ION Network Specification Governance
 
 ## ION Council
 
-The ION Council is the governing body for the ION Network Specification. The Council:
+The ION Council approves release scope, public compatibility decisions, sector
+activation, policy registries, and publication of permanent releases. Publication
+requires at least two Council approvals.
 
-- Ratifies new spec versions (major, minor, and patch)
-- Approves new sector activations
-- Manages the Policy Terms Registry
-- Sets network participation rules and fees
+## Integer releases
 
-## Specification versioning
+ION publishes monotonically increasing integer bundles: `release1`, `release2`,
+and so on. Component schemas may retain their own versions inside a bundle.
 
-ION follows semantic versioning (`MAJOR.MINOR.PATCH-STAGE`):
+A release is mutable only while its manifest says `status: draft`. After
+publication:
 
-- **MAJOR** — wire-breaking changes (new required fields, removed fields, endpoint removal)
-- **MINOR** — additive changes (new optional fields, new endpoints, new policy categories)
-- **PATCH** — clarifications, bug fixes, tooling improvements, no wire changes
-- **STAGE** — `draft` (under review), `rc` (release candidate), `ga` (generally available)
+- its directory and public URLs are permanent;
+- no file may be modified or removed;
+- corrections require the next integer release; and
+- a matching protected Git tag records provenance.
 
-Upgrade notice: network participants receive **90 days' notice** before any mandatory upgrade to a new version. Policy registry versioning follows the same model.
+Each content area in `release.yaml` must be `validated` or `excluded` before
+publication. Excluded source material is not a supported part of that release.
 
 ## Change process
 
-1. Open an issue in the ION Council issue tracker with label `spec-change`
-2. Draft a pull request against `main` with the proposed changes
-3. ION Council review (minimum 2 approvals required)
-4. Merge and tag; CHANGELOG.md updated with the release notes
-5. 90-day notice broadcast to all registered network participants before mandatory adoption
+1. Open an issue describing the proposed behavior and compatibility impact.
+2. Make the change in the applicable draft release or unreleased source area.
+3. Run `ruby tools/release/validate_release.rb <release-directory>`.
+4. Obtain review from the responsible schema or sector working group.
+5. Obtain Council approval for scope, breaking, or publication changes.
+6. Merge the approved draft into `main`.
+
+Publication additionally requires the publication gate, Council approval,
+release metadata, a protected release tag, and immutable-directory enforcement.
 
 ## Extension conventions
 
-All ION schema extensions MUST:
+Released ION schema extensions must:
 
-- Carry an `x-beckn-attaches-to` annotation naming the Beckn `*Attributes` slot
-- `allOf` with `https://schema.ion.id/releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Attributes`
-- Include `@context` and `@type` as required fields (inherited from the Beckn `Attributes` base)
-- Follow naming conventions in `docs/ION_Schema_Style_Guide.md`
-- Reference vendored Beckn schemas through the absolute, release-qualified
-  `schema.ion.id` URL, never via a relative path or external GitHub URL
+- name their Beckn attachment point with `x-beckn-attaches-to`;
+- compose with an appropriate pinned vendored Beckn schema;
+- use release-qualified `schema.ion.id` URLs for schema dependencies;
+- keep JSON-LD semantic IRIs stable;
+- follow the schema style and design guides; and
+- pass the release and schema-pack validators.
 
-See `docs/ION_Schema_Style_Guide.md` for the complete pack-authoring guide.
+## Release 1 scope
 
-## Sectors
-
-Active sectors are declared in `releases/release1/core/api/v2.0.0/ion.yaml → x-ion-sectors`. Opening a new sector requires Council ratification with a defined working group and at least two committed implementation partners.
+Release 1 includes Trade, its four validated common packs, and vendored Beckn
+dependencies. `ion.yaml`, Logistics, Hospitality, and Finance are explicitly
+excluded and remain future-release work.

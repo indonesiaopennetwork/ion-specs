@@ -48,7 +48,7 @@ International air cargo export/import, international ocean freight, cross-border
 | `logistics/consideration/v1` | See pack README | [`schema/extensions/logistics/consideration/v1/README.md`](../../../../schema/extensions/logistics/consideration/v1/README.md) |
 | `logistics/performance/v1` | See pack README | [`schema/extensions/logistics/performance/v1/README.md`](../../../../schema/extensions/logistics/performance/v1/README.md) |
 | `logistics/contract/v1` | See pack README | [`schema/extensions/logistics/contract/v1/README.md`](../../../../schema/extensions/logistics/contract/v1/README.md) |
-| `core/tax/v1` | See pack README | [`releases/release1/common/Tax/v1/README.md`](../../../../releases/release1/common/Tax/v1/README.md) |
+| `core/tax/v1` | See pack README | [`releases/release1/schema/common/Tax/v1/README.md`](../../../../releases/release1/schema/common/Tax/v1/README.md) |
 
 ## Variants
 

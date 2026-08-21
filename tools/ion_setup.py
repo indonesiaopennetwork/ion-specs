@@ -46,7 +46,7 @@ def load_json(path: Path) -> dict:
         return json.load(f)
 
 def load_ion_yaml() -> dict:
-    return load_yaml(REPO_ROOT / "releases/release1/core/api/v2.0.0/ion.yaml")
+    return load_yaml(REPO_ROOT / "releases/release1/schema/core/api/v2.0.0/ion.yaml")
 
 def load_pattern(sector: str, pattern: str) -> dict:
     return load_yaml(REPO_ROOT / f"flows/{sector}/patterns/{pattern}/v1/pattern.yaml")

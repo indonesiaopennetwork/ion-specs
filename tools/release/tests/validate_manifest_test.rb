@@ -58,7 +58,7 @@ class ValidateManifestTest < Minitest::Test
     @manifest["dependencyStatus"] = "complete"
     @manifest["dependencies"] = [valid_dependency]
     @manifest["artifactChecksums"] = {
-      "vendored/beckn/protocol/v2.0.0/beckn.yaml" => "b" * 64
+      "schema/vendored/beckn/protocol/v2.0.0/beckn.yaml" => "b" * 64
     }
     @manifest["toolingCommit"] = "a" * 40
 
@@ -73,6 +73,14 @@ class ValidateManifestTest < Minitest::Test
     assert_includes errors, "dependency 0 vendoredPath must be release-relative"
   end
 
+  def test_dependency_paths_must_use_nested_schema_layout
+    @manifest["dependencies"] = [valid_dependency.merge("vendoredPath" => "vendored/beckn.yaml")]
+
+    errors = IonReleaseManifest.validate(@manifest)
+
+    assert_includes errors, "dependency 0 vendoredPath must be under schema/vendored/"
+  end
+
   private
 
   def valid_dependency
@@ -83,7 +91,7 @@ class ValidateManifestTest < Minitest::Test
       "upstreamRepository" => "https://github.com/beckn/protocol-specifications-v2",
       "upstreamCommit" => "a" * 40,
       "upstreamUrl" => "https://raw.githubusercontent.com/example/beckn.yaml",
-      "vendoredPath" => "vendored/beckn/protocol/v2.0.0/beckn.yaml",
+      "vendoredPath" => "schema/vendored/beckn/protocol/v2.0.0/beckn.yaml",
       "upstreamSha256" => "b" * 64,
       "releasedSha256" => "b" * 64,
       "license" => "CC-BY-NC-SA-4.0",

@@ -12,9 +12,9 @@ commits:
 
 The corresponding license texts are preserved at:
 
-- `vendored/beckn/licenses/protocol-specifications-v2/LICENSE`;
-- `vendored/beckn/licenses/schemas/LICENSE.md`;
-- `vendored/beckn/licenses/local-retail/LICENSE.md`.
+- `schema/vendored/beckn/licenses/protocol-specifications-v2/LICENSE`;
+- `schema/vendored/beckn/licenses/schemas/LICENSE.md`;
+- `schema/vendored/beckn/licenses/local-retail/LICENSE.md`.
 
 The upstream materials identify the license as Creative Commons
 Attribution-NonCommercial-ShareAlike 4.0 International. The precise upstream and

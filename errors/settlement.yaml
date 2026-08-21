@@ -31,7 +31,7 @@
   - init
   - on_init
   - confirm
-  schema_ref: releases/release1/common/Payment/v1
+  schema_ref: releases/release1/schema/common/Payment/v1
   flow_ref: flows/trade/patterns/storefront/v1
   resolution:
     en: Use only payment rails declared in ion.yaml x-ion-settlement.allowedPaymentRails.

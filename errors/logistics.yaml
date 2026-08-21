@@ -331,7 +331,7 @@
   affected_field: null
   affected_apis:
   - on_init
-  schema_ref: releases/release1/common/BusinessRegistration/v1
+  schema_ref: releases/release1/schema/common/BusinessRegistration/v1
   flow_ref: null
   resolution:
     en: Ensure consignor NPWP matches the tax invoice NPWP
@@ -349,7 +349,7 @@
   affected_apis:
   - on_confirm
   - on_status[DELIVERED]
-  schema_ref: releases/release1/common/BusinessRegistration/v1
+  schema_ref: releases/release1/schema/common/BusinessRegistration/v1
   flow_ref: null
   resolution:
     en: Retry or use consolidated-monthly invoicing model
@@ -367,7 +367,7 @@
   affected_field: null
   affected_apis:
   - on_init
-  schema_ref: releases/release1/common/BusinessRegistration/v1
+  schema_ref: releases/release1/schema/common/BusinessRegistration/v1
   flow_ref: null
   resolution:
     en: Renew NIB via OSS; resubmit
@@ -384,7 +384,7 @@
   affected_field: null
   affected_apis:
   - on_init
-  schema_ref: releases/release1/common/BusinessRegistration/v1
+  schema_ref: releases/release1/schema/common/BusinessRegistration/v1
   flow_ref: null
   resolution:
     en: Declare withholdingTax object with bukti potong details
@@ -506,7 +506,7 @@
   affected_field: null
   affected_apis:
   - on_init
-  schema_ref: releases/release1/common/BusinessRegistration/v1
+  schema_ref: releases/release1/schema/common/BusinessRegistration/v1
   flow_ref: flows/logistics/variants/ekyc/v1
   resolution:
     en: Verify NPWP with DJP; re-submit with valid NPWP
@@ -523,7 +523,7 @@
   affected_field: null
   affected_apis:
   - on_init
-  schema_ref: releases/release1/common/BusinessRegistration/v1
+  schema_ref: releases/release1/schema/common/BusinessRegistration/v1
   flow_ref: flows/logistics/variants/ekyc/v1
   resolution:
     en: Renew NIB via OSS; re-submit
@@ -540,7 +540,7 @@
   affected_field: null
   affected_apis:
   - on_init
-  schema_ref: releases/release1/common/BusinessRegistration/v1
+  schema_ref: releases/release1/schema/common/BusinessRegistration/v1
   flow_ref: flows/logistics/variants/ekyc/v1
   resolution:
     en: Await unsolicited on_init with final eKYC status
@@ -558,7 +558,7 @@
   affected_field: null
   affected_apis:
   - on_init
-  schema_ref: releases/release1/common/BusinessRegistration/v1
+  schema_ref: releases/release1/schema/common/BusinessRegistration/v1
   flow_ref: flows/logistics/variants/ekyc/v1
   resolution:
     en: Provide correct authorised signatory per entity registration
@@ -575,7 +575,7 @@
   affected_field: null
   affected_apis:
   - on_init
-  schema_ref: releases/release1/common/BusinessRegistration/v1
+  schema_ref: releases/release1/schema/common/BusinessRegistration/v1
   flow_ref: flows/logistics/variants/ekyc/v1
   resolution:
     en: Contact BPP for manual resolution or register FWA via governed process
@@ -830,7 +830,7 @@
   affected_field: null
   affected_apis:
   - NACK on any endpoint
-  schema_ref: releases/release1/core/api/v2.0.0/ion.yaml
+  schema_ref: releases/release1/schema/core/api/v2.0.0/ion.yaml
   flow_ref: null
   resolution:
     en: Check required fields per pattern definition
@@ -847,7 +847,7 @@
   affected_field: null
   affected_apis:
   - NACK on any endpoint
-  schema_ref: releases/release1/core/api/v2.0.0/ion.yaml
+  schema_ref: releases/release1/schema/core/api/v2.0.0/ion.yaml
   flow_ref: null
   resolution:
     en: Check signing key rotation; re-sign request
@@ -865,7 +865,7 @@
   affected_apis:
   - on_select
   - on_init
-  schema_ref: releases/release1/core/api/v2.0.0/ion.yaml
+  schema_ref: releases/release1/schema/core/api/v2.0.0/ion.yaml
   flow_ref: null
   resolution:
     en: Check provider catalog for supported capabilities
@@ -883,7 +883,7 @@
   affected_field: null
   affected_apis:
   - any update
-  schema_ref: releases/release1/core/api/v2.0.0/ion.yaml
+  schema_ref: releases/release1/schema/core/api/v2.0.0/ion.yaml
   flow_ref: null
   resolution:
     en: Use a ratified policy IRI from the ION policy registry
@@ -900,7 +900,7 @@
   affected_field: null
   affected_apis:
   - any callback
-  schema_ref: releases/release1/core/api/v2.0.0/ion.yaml
+  schema_ref: releases/release1/schema/core/api/v2.0.0/ion.yaml
   flow_ref: null
   resolution:
     en: BAP checks endpoint availability; may poll via /status
@@ -918,7 +918,7 @@
   affected_field: null
   affected_apis:
   - Ack response
-  schema_ref: releases/release1/core/api/v2.0.0/ion.yaml
+  schema_ref: releases/release1/schema/core/api/v2.0.0/ion.yaml
   flow_ref: null
   resolution:
     en: Include valid CounterSignature per Beckn 2.0 CounterSignature schema
@@ -936,7 +936,7 @@
   affected_field: null
   affected_apis:
   - NACK on any endpoint
-  schema_ref: releases/release1/core/api/v2.0.0/ion.yaml
+  schema_ref: releases/release1/schema/core/api/v2.0.0/ion.yaml
   flow_ref: null
   resolution:
     en: Use pipe-separated triple keyId format
@@ -954,7 +954,7 @@
   affected_field: null
   affected_apis:
   - NACK on any endpoint
-  schema_ref: releases/release1/core/api/v2.0.0/ion.yaml
+  schema_ref: releases/release1/schema/core/api/v2.0.0/ion.yaml
   flow_ref: null
   resolution:
     en: Set context.version to "2.0.0"
@@ -972,7 +972,7 @@
   affected_field: null
   affected_apis:
   - NACK on any endpoint
-  schema_ref: releases/release1/core/api/v2.0.0/ion.yaml
+  schema_ref: releases/release1/schema/core/api/v2.0.0/ion.yaml
   flow_ref: null
   resolution:
     en: Include @context (URI) and @type (IRI) in every Attributes block
@@ -991,7 +991,7 @@
   affected_field: null
   affected_apis:
   - documentation
-  schema_ref: releases/release1/core/api/v2.0.0/ion.yaml
+  schema_ref: releases/release1/schema/core/api/v2.0.0/ion.yaml
   flow_ref: null
   resolution:
     en: See ION logistics documentation.

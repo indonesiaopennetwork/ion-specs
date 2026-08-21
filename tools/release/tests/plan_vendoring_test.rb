@@ -49,7 +49,7 @@ class PlanVendoringTest < Minitest::Test
     assert_equal "beckn/schemas", generic["apiRepository"]
     assert_equal "schema/Quantity/v2.0/attributes.yaml", IonVendoringPlan.upstream_path("Quantity", "2.0")
     assert_equal(
-      "releases/release1/vendored/beckn/schemas/Quantity/2.0/attributes.yaml",
+      "releases/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml",
       IonVendoringPlan.target_path("Quantity", "2.0")
     )
   end

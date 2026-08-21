@@ -41,12 +41,14 @@ The following decisions are already accepted:
   `schema.ion.id` URLs.
 - JSON-LD semantic IRIs are not blindly rewritten as schema dependencies.
 - Beckn validation dependencies are vendored transitively within each release.
-- There is no merged `ion-full.yaml`; the two primary API contracts are the
-  vendored `beckn.yaml` and ION-native `ion.yaml`.
+- There is no merged `ion-full.yaml`. Release 1 includes the vendored
+  `beckn.yaml`; the unreconciled ION-native `ion.yaml` is excluded.
 - Cross-sector extension packs move from the confusing `core` classification to
   `common` in the release structure.
 - Common repository documentation remains in the root `docs/` directory.
 - Errors, policies, and flows are versioned with the release.
+- Each release root contains `schema/`, `flows/`, `policies/`, and `errors/`;
+  `core/`, `common/`, `extension/`, and `vendored/` are nested under `schema/`.
 - Repository tooling remains at the root and becomes release-aware.
 
 ## Content-confidence model
@@ -85,6 +87,9 @@ contentStatus:
   logistics: review-required
   hospitality: review-required
   finance: review-required
+  flows: review-required
+  policies: review-required
+  errors: review-required
 dependencyStatus: incomplete
 dependencies: []
 artifactChecksums: {}
@@ -197,11 +202,11 @@ The current tree contains 56 versioned pack directories and 577 files:
 
 | Current area | Pack directories | Files | Target classification |
 |---|---:|---:|---|
-| `schema/extensions/core/` | 13 | 145 | `releases/release1/common/` |
-| `schema/extensions/trade/` | 9 | 94 | `releases/release1/extension/trade/` |
-| `schema/extensions/logistics/` | 11 | 115 | `releases/release1/extension/logistics/` |
-| `schema/extensions/hospitality/` | 10 | 103 | `releases/release1/extension/hospitality/` |
-| `schema/extensions/finance/` | 13 | 116 | `releases/release1/extension/finance/` |
+| `schema/extensions/core/` | 13 | 145 | `releases/release1/schema/common/` |
+| `schema/extensions/trade/` | 9 | 94 | `releases/release1/schema/extension/trade/` |
+| `schema/extensions/logistics/` | 11 | 115 | `releases/release1/schema/extension/logistics/` |
+| `schema/extensions/hospitality/` | 10 | 103 | `releases/release1/schema/extension/hospitality/` |
+| `schema/extensions/finance/` | 13 | 116 | `releases/release1/schema/extension/finance/` |
 
 Reserved `healthcare`, `mobility`, and `tourism` extension directories currently
 contain sector-level README material but no versioned schema packs.
@@ -275,38 +280,23 @@ releases/
     README.md
     NOTICES.md
 
-    core/
-      api/
-        v2.0.0/
-          ion.yaml
+    schema/
+      core/
+        api/v2.0.0/ion.yaml
 
-    common/
-      <SchemaName>/
-        v1/
-          attributes.yaml
-          schema.json
-          context.jsonld
-          vocab.jsonld
-          profile.json
-          renderer.json
-          README.md
-          docs/
-          examples/
-
-    extension/
-      trade/
-        <SchemaName>/v1/
-      logistics/
-        <SchemaName>/v1/
-      hospitality/
-        <SchemaName>/v1/
-      finance/
+      common/
         <SchemaName>/v1/
 
-    vendored/
-      beckn/
-        protocol/v2.0.0/beckn.yaml
-        schemas/<SchemaName>/<upstream-version>/attributes.yaml
+      extension/
+        trade/<SchemaName>/v1/
+        logistics/<SchemaName>/v1/
+        hospitality/<SchemaName>/v1/
+        finance/<SchemaName>/v1/
+
+      vendored/
+        beckn/
+          protocol/v2.0.0/beckn.yaml
+          schemas/<SchemaName>/<upstream-version>/attributes.yaml
 
     flows/
     policies/
@@ -322,10 +312,11 @@ only if genuinely release-specific documentation is identified.
 
 | Current path | Draft Release 1 path | Transformation |
 |---|---|---|
-| `releases/release1/core/api/v2.0.0/ion.yaml` | `releases/release1/core/api/v2.0.0/ion.yaml` | Move, then rewrite release references |
-| `releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml` | `releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml` | Re-vendor from verified immutable source; record provenance |
-| `schema/extensions/core/` | `releases/release1/common/` | Rename classification and approve public schema directory names |
-| `schema/extensions/<sector>/` | `releases/release1/extension/<sector>/` | Move; normalize public schema directory names only after review |
+| `schema/core/v2/api/v2.0.0/ion.yaml` | Excluded | Retain as non-normative future-release work; assign no Release 1 URL |
+| `releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml` | `releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml` | Re-vendor from verified immutable source; record provenance |
+| `schema/extensions/core/` | `releases/release1/schema/common/` | Rename classification and approve public schema directory names |
+| `schema/extensions/trade/` | `releases/release1/schema/extension/trade/` | Moved and normalized to approved public schema names |
+| Other `schema/extensions/<sector>/` | Excluded | Retain outside Release 1 as non-normative future-release work |
 | `flows/` | `releases/release1/flows/` | Move normative content; rewrite pack identifiers and links |
 | `policies/` | `releases/release1/policies/` | Move sources and registry, excluding generator script |
 | `errors/` | `releases/release1/errors/` | Move sources and registries, excluding generator script |
@@ -340,19 +331,19 @@ until common-pack review confirms the canonical schema concept.
 
 | Current pack | Provisional target directory | Publication gate |
 |---|---|---|
-| `core/address/v1` | `common/Address/v1` | Validate `IONAddress` and Trade references |
-| `core/business-registration/v1` | `common/BusinessRegistration/v1` | Resolve duplicate identity with `identity` |
-| `core/identity/v1` | `common/Identity/v1` | Resolve duplicate profile ID and scope |
-| `core/localization/v1` | `common/Localization/v1` | Decide canonical public name and spelling |
-| `core/participant/v1` | `common/Participant/v1` | Validate attachment model |
-| `core/payment/v1` | `common/Payment/v1` | Validate Trade dependencies and vocabulary URLs |
-| `core/product-compliance/v1` | `common/ProductCompliance/v1` | Resolve duplicate product pack identity |
-| `core/product/v1` | `common/Product/v1` | Resolve overlap with `product-compliance` |
-| `core/raise/v1` | `common/Raise/v1` | Confirm whether public concept is Raise or Ticket |
-| `core/rating/v1` | `common/Rating/v1` | Validate upstream version and attachment |
-| `core/reconcile/v1` | `common/Reconcile/v1` | Confirm Reconcile versus Reconciliation naming |
-| `core/support/v1` | `common/Support/v1` | Validate attachment and context |
-| `core/tax/v1` | `common/Tax/v1` | Validate Trade consideration dependency |
+| `core/address/v1` | `schema/common/Address/v1` | Validate `IONAddress` and Trade references |
+| `core/business-registration/v1` | `schema/common/BusinessRegistration/v1` | Resolve duplicate identity with `identity` |
+| `core/identity/v1` | `schema/common/Identity/v1` | Resolve duplicate profile ID and scope |
+| `core/localization/v1` | `schema/common/Localization/v1` | Decide canonical public name and spelling |
+| `core/participant/v1` | `schema/common/Participant/v1` | Validate attachment model |
+| `core/payment/v1` | `schema/common/Payment/v1` | Validate Trade dependencies and vocabulary URLs |
+| `core/product-compliance/v1` | `schema/common/ProductCompliance/v1` | Resolve duplicate product pack identity |
+| `core/product/v1` | `schema/common/Product/v1` | Resolve overlap with `product-compliance` |
+| `core/raise/v1` | `schema/common/Raise/v1` | Confirm whether public concept is Raise or Ticket |
+| `core/rating/v1` | `schema/common/Rating/v1` | Validate upstream version and attachment |
+| `core/reconcile/v1` | `schema/common/Reconcile/v1` | Confirm Reconcile versus Reconciliation naming |
+| `core/support/v1` | `schema/common/Support/v1` | Validate attachment and context |
+| `core/tax/v1` | `schema/common/Tax/v1` | Validate Trade consideration dependency |
 
 ### Trade pack mapping
 
@@ -361,15 +352,15 @@ still checked during migration, but do not require a prior semantic redesign.
 
 | Current pack | Proposed target directory | Primary schema |
 |---|---|---|
-| `trade/commitment/v1` | `extension/trade/TradeCommitment/v1` | `IONTradeCommitment` |
-| `trade/consideration/v1` | `extension/trade/TradeConsideration/v1` | `IONTradeConsideration` |
-| `trade/contract/v1` | `extension/trade/TradeContract/v1` | `IONTradeContract` |
-| `trade/offer/v1` | `extension/trade/TradeOffer/v1` | `IONTradeOffer` |
-| `trade/performance/v1` | `extension/trade/TradePerformance/v1` | `IONTradePerformance` |
-| `trade/performance-states/v1` | `extension/trade/TradePerformanceStates/v1` | State registry |
-| `trade/provider/v1` | `extension/trade/TradeProvider/v1` | `IONTradeProvider` |
-| `trade/resource/v1` | `extension/trade/TradeResource/v1` | `IONTradeResource` |
-| `trade/settlement/v1` | `extension/trade/TradeSettlement/v1` | `IONTradeSettlement` |
+| `trade/commitment/v1` | `schema/extension/trade/TradeCommitment/v1` | `IONTradeCommitment` |
+| `trade/consideration/v1` | `schema/extension/trade/TradeConsideration/v1` | `IONTradeConsideration` |
+| `trade/contract/v1` | `schema/extension/trade/TradeContract/v1` | `IONTradeContract` |
+| `trade/offer/v1` | `schema/extension/trade/TradeOffer/v1` | `IONTradeOffer` |
+| `trade/performance/v1` | `schema/extension/trade/TradePerformance/v1` | `IONTradePerformance` |
+| `trade/performance-states/v1` | `schema/extension/trade/TradePerformanceStates/v1` | State registry |
+| `trade/provider/v1` | `schema/extension/trade/TradeProvider/v1` | `IONTradeProvider` |
+| `trade/resource/v1` | `schema/extension/trade/TradeResource/v1` | `IONTradeResource` |
+| `trade/settlement/v1` | `schema/extension/trade/TradeSettlement/v1` | `IONTradeSettlement` |
 
 The current `ion.yaml` schema-pack matrix omits `trade/settlement/v1`; that mismatch
 must be resolved before publication.
@@ -410,7 +401,7 @@ immutable upstream commits, recursively discover transitive `$ref` dependencies,
 record checksums and licenses, and then rewrite validation references to:
 
 ```text
-https://schema.ion.id/releases/release1/vendored/beckn/...
+https://schema.ion.id/releases/release1/schema/vendored/beckn/...
 ```
 
 The current `beckn.yaml` provenance must also be verified rather than assumed from
@@ -701,20 +692,63 @@ the source material is obsolete or a request to delete it.
 
 ### Phase 7 — Update repository-level material
 
-1. Make root tools release-aware.
-2. Update README, CONTRIBUTING, GOVERNANCE, CHANGELOG, LICENSE, style guides, and
-   design guides.
-3. Retain common root documentation and remove obsolete implementation claims.
-4. Add CI for references, generation, content status, and immutability.
+1. [x] Added a manually runnable release gate at
+   `tools/release/validate_release.rb`; CI calls the same command.
+2. [x] Added release-scope and vendored-checksum validators with focused tests.
+3. [x] Added GitHub Actions checks for pull requests and `main`, plus a manual
+   `workflow_dispatch` trigger with an optional publication gate.
+4. [x] Updated the root README, CONTRIBUTING, GOVERNANCE, release README, and
+   release-tool documentation for the Trade-only Release 1 scope.
+5. [x] Qualified legacy `ion.yaml` implementation claims in Release 1 packs and
+   marked the aggregate sections of long-form design guides as future-release
+   material.
+
+Phase 7 is complete. It identified one substantive publication-preparation task
+that must not be hidden inside a repository-documentation change: the current
+root Trade flows, policy registry, and error registry still contain stale URLs
+and dependencies on common packs excluded from Release 1. They require a scoped
+reconciliation before they can be moved into the self-contained release.
 
 ### Phase 8 — Publish
+
+#### Phase 8A — Reconcile connected Trade material (2026-08-21)
+
+Phase 8A copies only the connected material that can be independently validated
+against the Release 1 schema scope:
+
+- `flows/trade/patterns/storefront/v1/` is the sole included flow. Its pack names,
+  release document URLs, and state-machine target resolve within Release 1.
+- `policies/` contains 67 source terms selected from the working registry because
+  they are classified as Trade or cross-sector: 28 Trade and 39 cross-sector.
+- `errors/trade.yaml` contains 8 errors whose schema and flow references exist in
+  Release 1. Seven errors tied to `live-commerce`, `digital-goods`, or `returns`
+  were deliberately omitted with those flows.
+- Both release registries are deterministic products of
+  `tools/release/generate_release_registries.rb` and are checked for freshness.
+- The release manifest records `flows`, `policies`, and `errors` as `validated`,
+  and its checksum inventory covers all files under the normative release trees.
+
+The complete root material remains available for later comparison. Once Release
+1 is published, any newly approved omitted object must be introduced in
+`release2` or a later integer release; Release 1 must not be amended.
+
+Phase 8A does not publish the release. Council approval, final publication
+metadata, the protected tag, and the production `main` mapping remain Phase 8
+tasks.
+
+The subsequent layout correction restored the repository's top-level
+specification boundaries inside the release: `schema/`, `flows/`, `policies/`,
+and `errors/`. All common, core, extension, and vendored schema material and
+public URLs now live below `releases/release1/schema/`.
 
 Publication is permitted only when:
 
 - every included area is `validated`;
 - every unvalidated area is explicitly `excluded` and absent from the normative
   release contract;
-- the `ion.yaml` component set, registries, and declared scope agree;
+- `ionApi` is validated and present or explicitly excluded and absent;
+- the approved Trade flows, policies, and errors are reconciled and stored inside
+  the release;
 - no schema `$ref` resolves outside Release 1;
 - local offline validation passes;
 - generated registries are current;

@@ -1,5 +1,11 @@
 # ION Integration Tools
 
+> **Release 1 note:** tools described below that read `ion.yaml` are not Release
+> 1 validation tools. The aggregate is non-normative work in progress at
+> `schema/core/v2/api/v2.0.0/ion.yaml`. Use
+> `ruby tools/release/validate_release.rb releases/release1` for the Release 1
+> gate.
+
 Two CLI tools that collapse the required-field discovery problem into a single command.
 
 ## TOOL-1: `ion_required_fields.py` — Required fields query
@@ -52,8 +58,8 @@ Fields marked `← not in pattern.yaml` are enforced by ION network policy but n
 | Source | Used for |
 |---|---|
 | `flows/{sector}/patterns/{pattern}/v1/pattern.yaml` | Required fields per step |
-| `releases/release1/core/api/v2.0.0/ion.yaml → x-ion-field-requirements` | Network-wide always-required fields |
-| `releases/release1/core/api/v2.0.0/ion.yaml → x-ion-crc-rules` | Category-conditional required fields |
+| `releases/release1/schema/core/api/v2.0.0/ion.yaml → x-ion-field-requirements` | Network-wide always-required fields |
+| `releases/release1/schema/core/api/v2.0.0/ion.yaml → x-ion-crc-rules` | Category-conditional required fields |
 | `schema/extensions/{pack}/v1/profile.json → minimalForDiscovery` | Discovery indexing fields |
 
 See `tools/samples/` for pre-generated outputs for common integration profiles.

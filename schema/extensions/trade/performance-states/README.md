@@ -9,4 +9,4 @@ Canonical state machine definitions for trade fulfilment — states, allowed tra
 
 | Version | States | Profile | README |
 |---|---|---|---|
-| **v1** | [states.yaml](../../../../releases/release1/extension/trade/TradePerformanceStates/v1/states.yaml) | [profile.json](../../../../releases/release1/extension/trade/TradePerformanceStates/v1/profile.json) | [README.md](../../../../releases/release1/extension/trade/TradePerformanceStates/v1/README.md) |
+| **v1** | [states.yaml](../../../../releases/release1/schema/extension/trade/TradePerformanceStates/v1/states.yaml) | [profile.json](../../../../releases/release1/schema/extension/trade/TradePerformanceStates/v1/profile.json) | [README.md](../../../../releases/release1/schema/extension/trade/TradePerformanceStates/v1/README.md) |

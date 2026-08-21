@@ -86,7 +86,7 @@ Every entry in every YAML file uses the same schema:
   affected_field: message.contract.commitments[]   # JSON path, or null
   affected_apis:
     - select
-  schema_ref: releases/release1/extension/trade/TradeResource/v1  # Repo-relative path, or null
+  schema_ref: releases/release1/schema/extension/trade/TradeResource/v1  # Repo-relative path, or null
   flow_ref: flows/trade/patterns/storefront/v1     # Repo-relative path, or null
   resolution:
     en: "What the implementer should do to fix this."
@@ -150,7 +150,7 @@ Each error entry in the YAML files links to its relevant schema pack (`schema_re
 
 ```bash
 # All errors for the trade/resource pack
-jq '[.[] | select(.schema_ref == "releases/release1/extension/trade/TradeResource/v1")]' errors/registry.json
+jq '[.[] | select(.schema_ref == "releases/release1/schema/extension/trade/TradeResource/v1")]' errors/registry.json
 
 # All errors for the storefront pattern
 jq '[.[] | select(.flow_ref == "flows/trade/patterns/storefront/v1")]' errors/registry.json

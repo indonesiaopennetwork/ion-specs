@@ -1,5 +1,10 @@
 # ION Schema Design Guide
 
+> **Release 1 scope note:** Release 1 publishes standalone Trade and required
+> common packs only. This guide also discusses the unreleased `ion.yaml`
+> aggregate and future sectors as design inputs; those sections are not part of
+> the normative Release 1 contract.
+
 **Audience:** Contributors authoring or reviewing schema packs, flow patterns, or `ion.yaml` changes.  
 **Relationship to NFH-012:** This document does not replace NFH-012. It translates NFH-012's three design principles into ION-specific terms, adds the ION structural constraints that sit above NFH-012, and gives contributors the decision framework for choices that NFH-012 leaves open.
 

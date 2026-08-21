@@ -1,0 +1,225 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeContract/v1",
+  "title": "ION Trade Contract Schema Pack v1",
+  "description": "JSON Schema 2020-12 mirror of the trade/contract/v1 OpenAPI schema pack.",
+  "type": "object",
+  "$ref": "#/$defs/IONTradeContract",
+  "$defs": {
+    "IONTradeContract": {
+      "type": "object",
+      "title": "IONTradeContract",
+      "description": "ION trade contract attributes. Inherits directly from RetailContract v2.1 and combines generic contract semantics with Indonesia-specific invoice preferences and buyer business registration. Properties originating in the former ION-specific layer are identified by x-attr-ion-layer: ion.",
+      "x-ion-layer": "ion",
+      "x-ion-split-version": "0.7.0",
+      "x-recommended-parent": "Contract.contractAttributes",
+      "additionalProperties": true,
+      "x-jsonld": {
+        "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeContract/v1/context.jsonld",
+        "@type": "ion:IONTradeContract"
+      },
+      "x-beckn-attaches-to": "Contract.contractAttributes",
+      "allOf": [
+        {
+          "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml#/components/schemas/RetailContract"
+        }
+      ],
+      "properties": {
+        "quoteReference": {
+          "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml#/components/schemas/RetailContract/properties/quoteReference"
+        },
+        "buyerInstructions": {
+          "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml#/components/schemas/RetailContract/properties/buyerInstructions"
+        },
+        "deliveryPreferences": {
+          "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml#/components/schemas/RetailContract/properties/deliveryPreferences"
+        },
+        "loyalty": {
+          "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml#/components/schemas/RetailContract/properties/loyalty"
+        },
+        "purchaseOrderReference": {
+          "type": "string",
+          "description": "Buyer-issued purchase-order reference, distinct from the inherited seller quoteReference.",
+          "example": "PO-2026-00456"
+        },
+        "parentContractId": {
+          "allOf": [
+            {
+              "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Contract/properties/id"
+            }
+          ],
+          "description": "Identifier of the parent Contract when this Contract is a child transaction."
+        },
+        "cancellation": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Cancellation request or outcome recorded on this Contract.",
+          "properties": {
+            "reason": {
+              "allOf": [
+                {
+                  "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Descriptor"
+                }
+              ],
+              "description": "Machine- and human-readable cancellation reason."
+            },
+            "commitmentIds": {
+              "type": "array",
+              "uniqueItems": true,
+              "description": "Core Commitment IDs affected by a partial cancellation.",
+              "items": {
+                "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Commitment/properties/id"
+              }
+            },
+            "forced": {
+              "type": "boolean",
+              "description": "True when cancellation is forced because the provider missed the applicable SLA."
+            },
+            "lastProviderInteractionAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "expectedStatusBy": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "subscription": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Contract-level terms and current state for a recurring trade subscription.",
+          "properties": {
+            "billingCycle": {
+              "type": "string",
+              "enum": [
+                "WEEKLY",
+                "FORTNIGHTLY",
+                "MONTHLY",
+                "QUARTERLY",
+                "ANNUAL"
+              ]
+            },
+            "trialDays": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "ACTIVE",
+                "PAUSED",
+                "CANCELLED"
+              ]
+            },
+            "pausedUntil": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "nextBillingAt": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "source": {
+          "allOf": [
+            {
+              "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml#/components/schemas/RetailContract/properties/source"
+            },
+            {
+              "type": "object",
+              "description": "Inherited source enriched with channel-neutral attribution.",
+              "properties": {
+                "sessionId": {
+                  "type": "string"
+                },
+                "creatorId": {
+                  "type": "string"
+                },
+                "affiliateId": {
+                  "type": "string"
+                },
+                "platform": {
+                  "type": "string"
+                },
+                "contentId": {
+                  "type": "string"
+                },
+                "contentTimestampSeconds": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "groupBuyId": {
+                  "type": "string"
+                }
+              }
+            }
+          ]
+        },
+        "gift": {
+          "allOf": [
+            {
+              "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml#/components/schemas/RetailContract/properties/gift"
+            },
+            {
+              "type": "object",
+              "description": "Inherited gifting preferences enriched with recipient and presentation details.",
+              "properties": {
+                "recipientName": {
+                  "type": "string"
+                },
+                "recipientPhone": {
+                  "type": "string"
+                },
+                "hideSenderInfo": {
+                  "type": "boolean",
+                  "default": false
+                },
+                "showPrice": {
+                  "type": "boolean",
+                  "default": false
+                }
+              }
+            }
+          ]
+        },
+        "invoicePreferences": {
+          "allOf": [
+            {
+              "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml#/components/schemas/RetailContract/properties/invoicePreferences"
+            },
+            {
+              "type": "object",
+              "description": "Inherited invoice preferences enriched with the requested ION invoice-document type.",
+              "properties": {
+                "invoiceType": {
+                  "type": "string",
+                  "enum": [
+                    "RECEIPT",
+                    "TAX_INVOICE",
+                    "EINVOICE",
+                    "SURAT_TAGIHAN",
+                    "COMMERCIAL_INVOICE"
+                  ],
+                  "x-ion-regulatory": "PMK 168/PMK.010/2023 tentang Faktur Pajak"
+                }
+              }
+            }
+          ],
+          "x-attr-ion-layer": "ion"
+        },
+        "buyerBusinessRegistration": {
+          "allOf": [
+            {
+              "$ref": "https://schema.ion.id/releases/release1/schema/common/BusinessRegistration/v1/schema.json"
+            }
+          ],
+          "description": "Verified Indonesian business registration of the buying organisation.",
+          "x-attr-ion-layer": "ion"
+        }
+      },
+      "x-ion-closed-extensions": false
+    }
+  }
+}

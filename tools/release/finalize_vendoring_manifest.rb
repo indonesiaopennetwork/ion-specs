@@ -8,6 +8,7 @@ require "pathname"
 require "yaml"
 
 require_relative "validate_offline_refs"
+require_relative "validate_artifact_checksums"
 
 module IonVendoringManifest
   LICENSE_ID = "CC-BY-NC-SA-4.0".freeze
@@ -90,8 +91,8 @@ module IonVendoringManifest
         )
       end
 
-      artifact_checksums = Dir.glob(File.join(@release_root, "vendored", "**", "*")).select { |path| File.file?(path) }.sort.to_h do |path|
-        [IonVendoringManifest.release_relative(path, @release_root), IonVendoringManifest.sha256_file(path)]
+      artifact_checksums = IonArtifactChecksums.artifact_files(Pathname.new(@release_root)).to_h do |relative_path|
+        [relative_path, IonVendoringManifest.sha256_file(File.join(@release_root, relative_path))]
       end
       manifest["dependencyStatus"] = "complete"
       manifest["dependencies"] = dependencies

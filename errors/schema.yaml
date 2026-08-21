@@ -29,7 +29,7 @@
   affected_apis:
   - confirm
   - on_confirm
-  schema_ref: releases/release1/common/BusinessRegistration/v1
+  schema_ref: releases/release1/schema/common/BusinessRegistration/v1
   flow_ref: null
   resolution:
     en: Use the 16-digit NPWP format as per PMK 136/2023. Do not include dots or dashes.

@@ -25,13 +25,13 @@ Plus additional XB states: CUSTOMS_CLEARED_EXPORT, IN_TRANSIT_INTERNATIONAL, CUS
 
 | Pack | Purpose | Reference |
 |---|---|---|
-| `trade/resource/v1` | See pack README | [`releases/release1/extension/trade/TradeResource/v1/README.md`](../../../../releases/release1/extension/trade/TradeResource/v1/README.md) |
-| `trade/offer/v1` | See pack README | [`releases/release1/extension/trade/TradeOffer/v1/README.md`](../../../../releases/release1/extension/trade/TradeOffer/v1/README.md) |
-| `trade/commitment/v1` | See pack README | [`releases/release1/extension/trade/TradeCommitment/v1/README.md`](../../../../releases/release1/extension/trade/TradeCommitment/v1/README.md) |
-| `trade/consideration/v1` | See pack README | [`releases/release1/extension/trade/TradeConsideration/v1/README.md`](../../../../releases/release1/extension/trade/TradeConsideration/v1/README.md) |
-| `trade/performance/v1` | See pack README | [`releases/release1/extension/trade/TradePerformance/v1/README.md`](../../../../releases/release1/extension/trade/TradePerformance/v1/README.md) |
-| `trade/contract/v1` | See pack README | [`releases/release1/extension/trade/TradeContract/v1/README.md`](../../../../releases/release1/extension/trade/TradeContract/v1/README.md) |
-| `core/tax/v1` | See pack README | [`releases/release1/common/Tax/v1/README.md`](../../../../releases/release1/common/Tax/v1/README.md) |
+| `trade/resource/v1` | See pack README | [`releases/release1/schema/extension/trade/TradeResource/v1/README.md`](../../../../releases/release1/schema/extension/trade/TradeResource/v1/README.md) |
+| `trade/offer/v1` | See pack README | [`releases/release1/schema/extension/trade/TradeOffer/v1/README.md`](../../../../releases/release1/schema/extension/trade/TradeOffer/v1/README.md) |
+| `trade/commitment/v1` | See pack README | [`releases/release1/schema/extension/trade/TradeCommitment/v1/README.md`](../../../../releases/release1/schema/extension/trade/TradeCommitment/v1/README.md) |
+| `trade/consideration/v1` | See pack README | [`releases/release1/schema/extension/trade/TradeConsideration/v1/README.md`](../../../../releases/release1/schema/extension/trade/TradeConsideration/v1/README.md) |
+| `trade/performance/v1` | See pack README | [`releases/release1/schema/extension/trade/TradePerformance/v1/README.md`](../../../../releases/release1/schema/extension/trade/TradePerformance/v1/README.md) |
+| `trade/contract/v1` | See pack README | [`releases/release1/schema/extension/trade/TradeContract/v1/README.md`](../../../../releases/release1/schema/extension/trade/TradeContract/v1/README.md) |
+| `core/tax/v1` | See pack README | [`releases/release1/schema/common/Tax/v1/README.md`](../../../../releases/release1/schema/common/Tax/v1/README.md) |
 
 ## Variants
 

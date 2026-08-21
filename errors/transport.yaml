@@ -10,7 +10,7 @@
   affected_field: Authorization
   affected_apis:
   - all
-  schema_ref: releases/release1/core/api/v2.0.0/ion.yaml
+  schema_ref: releases/release1/schema/core/api/v2.0.0/ion.yaml
   flow_ref: null
   resolution:
     en: Verify that you are signing with the private key matching the public key registered
@@ -28,7 +28,7 @@
   affected_field: context.bapId or context.bppId
   affected_apis:
   - all
-  schema_ref: releases/release1/core/api/v2.0.0/ion.yaml
+  schema_ref: releases/release1/schema/core/api/v2.0.0/ion.yaml
   flow_ref: null
   resolution:
     en: Ensure your subscriber_id is registered and active on the ION registry. Contact
@@ -45,7 +45,7 @@
   affected_field: context.ttl
   affected_apis:
   - all
-  schema_ref: releases/release1/core/api/v2.0.0/ion.yaml
+  schema_ref: releases/release1/schema/core/api/v2.0.0/ion.yaml
   flow_ref: null
   resolution:
     en: Ensure your clock is synchronized (NTP). Reduce processing time before sending.
@@ -62,7 +62,7 @@
   affected_field: context.messageId
   affected_apis:
   - all
-  schema_ref: releases/release1/core/api/v2.0.0/ion.yaml
+  schema_ref: releases/release1/schema/core/api/v2.0.0/ion.yaml
   flow_ref: null
   resolution:
     en: Generate a new UUID for each unique message. Never reuse messageIds.
@@ -77,7 +77,7 @@
   affected_field: context.domain
   affected_apis:
   - all
-  schema_ref: releases/release1/core/api/v2.0.0/ion.yaml
+  schema_ref: releases/release1/schema/core/api/v2.0.0/ion.yaml
   flow_ref: null
   resolution:
     en: Use ion:trade for Trade sector. Other valid domains will be listed in the

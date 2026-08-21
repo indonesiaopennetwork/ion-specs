@@ -19,7 +19,7 @@
     "updates/v1",
     "cross-cutting/v1"
   ],
-  "performanceStateMachine": "releases/release1/extension/trade/TradePerformanceStates/v1/states.yaml#mto",
+  "performanceStateMachine": "releases/release1/schema/extension/trade/TradePerformanceStates/v1/states.yaml#mto",
   "requiredPolicyCategories": [
     "CANCELLATION",
     "DISPUTE",

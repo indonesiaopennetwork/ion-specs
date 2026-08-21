@@ -9,7 +9,7 @@
   affected_field: message.catalog
   affected_apis:
   - publish_catalog
-  schema_ref: releases/release1/core/api/v2.0.0/ion.yaml
+  schema_ref: releases/release1/schema/core/api/v2.0.0/ion.yaml
   flow_ref: null
   resolution:
     en: Split catalog into multiple publish_catalog calls by category or provider
@@ -32,7 +32,7 @@
   - select
   - init
   - confirm
-  schema_ref: releases/release1/extension/trade/TradeProvider/v1
+  schema_ref: releases/release1/schema/extension/trade/TradeProvider/v1
   resolution:
     en: Provider must complete KYC renewal. New transactions blocked until verification.status
       is APPROVED.
@@ -70,7 +70,7 @@
   affected_field: message.catalog.provider.providerAttributes.categoryLicenses
   affected_apis:
   - publish_catalog
-  schema_ref: releases/release1/common/BusinessRegistration/v1
+  schema_ref: releases/release1/schema/common/BusinessRegistration/v1
   resolution:
     en: Upload current license certificate with validUntil in future. Renew via relevant
       authority (BPOM, Kemendag).

@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schema.ion.id/releases/release1/schema/common/Tax/v1",
+  "title": "IONTaxDetail",
+  "description": "Indonesia-specific extension of RetailConsideration v2.1 breakup[].taxDetail. Inherits rate, included, and taxableBase; the containing breakup item's amount is the calculated tax amount.",
+  "type": "object",
+  "x-ion-layer": "ion",
+  "x-ion-split-version": "0.7.0",
+  "x-recommended-parent": "Consideration.considerationAttributes.breakup[].taxDetail",
+  "x-beckn-attaches-to": "Consideration.considerationAttributes.breakup[].taxDetail",
+  "x-jsonld": {
+    "@context": "https://schema.ion.id/releases/release1/schema/common/Tax/v1/context.jsonld",
+    "@type": "ion:IONTaxDetail"
+  },
+  "additionalProperties": true,
+  "allOf": [
+    {
+      "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailConsideration/2.1/attributes.yaml#/components/schemas/RetailConsideration/properties/breakup/items/properties/taxDetail"
+    }
+  ],
+  "properties": {
+    "taxRegime": {
+      "type": "string",
+      "enum": [
+        "PPN",
+        "PPNBM",
+        "PPH22",
+        "PPH23",
+        "PPN_FINAL",
+        "EXEMPT"
+      ],
+      "description": "Indonesian tax regime applied by this tax breakup entry. PPN is value-added tax; PPNBM is luxury-goods sales tax; PPH22 and PPH23 are withholding regimes; PPN_FINAL is final VAT for applicable categories; EXEMPT identifies a non-taxable transaction.\n",
+      "example": "PPN",
+      "x-ion-regulatory": "UU 7/2021 tentang Harmonisasi Peraturan Perpajakan (HPP)"
+    },
+    "taxCategory": {
+      "type": "string",
+      "enum": [
+        "BKP",
+        "JKP",
+        "NON_BKP"
+      ],
+      "description": "Indonesian taxable-supply classification. BKP identifies taxable goods, JKP identifies taxable services, and NON_BKP identifies goods or services outside those taxable categories.\n",
+      "example": "BKP",
+      "x-ion-regulatory": "UU 8/1983 tentang PPN Pasal 4"
+    },
+    "eFakturRef": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "DJP e-Faktur reference for the tax entry, when an electronic Faktur Pajak has been issued. Format: XXX.XXX-YY.XXXXXXXX.\n",
+      "example": "010.000-26.00000001",
+      "x-ion-regulatory": "PMK 168/PMK.010/2023 tentang Faktur Pajak"
+    }
+  },
+  "x-ion-closed-extensions": false
+}

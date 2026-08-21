@@ -1,5 +1,23 @@
 # ION Network Specification — Changelog
 
+## Release 1 — Draft (August 2026)
+
+The first permanent integer release is being prepared under
+`releases/release1/`. Its approved scope is the standalone Trade schemas, the
+four common packs required by Trade, pinned vendored Beckn dependencies, the
+Storefront v1 flow, 67 Trade or cross-sector policy terms, and 8 Trade errors
+whose targets are included in the release. `ion.yaml`, Logistics, Hospitality,
+Finance, other Trade flows, and errors tied to those flows are explicitly
+excluded.
+
+Release-owned schema content is grouped under `releases/release1/schema/`:
+`core/`, `common/`, `extension/`, and `vendored/` are peers there, while
+`flows/`, `policies/`, and `errors/` remain peers of `schema/` at the release
+root.
+
+The older semantic-version entries below describe pre-release repository history;
+they are not permanent published integer releases.
+
 ## v0.6.1 — May 2026
 
 **Logistics patch — multi-stop P2P variant.**

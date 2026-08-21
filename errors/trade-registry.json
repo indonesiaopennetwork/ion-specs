@@ -21,7 +21,7 @@
         "publish_catalog",
         "on_discover"
       ],
-      "schema_ref": "releases/release1/extension/trade/TradeResource/v1",
+      "schema_ref": "releases/release1/schema/extension/trade/TradeResource/v1",
       "flow_ref": null,
       "resolution": {
         "en": "Provide at least one valid HTTPS image URL in images[]. First image is the primary thumbnail."
@@ -44,7 +44,7 @@
       "affected_apis": [
         "publish_catalog"
       ],
-      "schema_ref": "releases/release1/extension/trade/TradeOffer/v1",
+      "schema_ref": "releases/release1/schema/extension/trade/TradeOffer/v1",
       "flow_ref": "policies/registry.json",
       "resolution": {
         "en": "Check policies/registry.json for the ratified set. Declare only IRIs present in the current registry."
@@ -67,7 +67,7 @@
       "affected_apis": [
         "publish_catalog"
       ],
-      "schema_ref": "releases/release1/extension/trade/TradeOffer/v1",
+      "schema_ref": "releases/release1/schema/extension/trade/TradeOffer/v1",
       "flow_ref": "policies/registry.json",
       "resolution": {
         "en": "Replace with the supersededBy IRI from the terms document, or select an alternative from the current registry."
@@ -90,7 +90,7 @@
       "affected_apis": [
         "select"
       ],
-      "schema_ref": "releases/release1/extension/trade/TradeResource/v1",
+      "schema_ref": "releases/release1/schema/extension/trade/TradeResource/v1",
       "flow_ref": "flows/trade/patterns/storefront/v1",
       "resolution": {
         "en": "Ensure your UI enforces SINGLE_REQUIRED groups before allowing /select. Check all customisationGroups where selectionType=SINGLE_REQUIRED and add the missing groupId and optionId."
@@ -113,7 +113,7 @@
       "affected_apis": [
         "select"
       ],
-      "schema_ref": "releases/release1/extension/trade/TradeResource/v1",
+      "schema_ref": "releases/release1/schema/extension/trade/TradeResource/v1",
       "flow_ref": "flows/trade/patterns/storefront/v1",
       "resolution": {
         "en": "Only send optionIds returned in the customisationGroups of the on_discover catalog. Do not fabricate or guess option IDs."
@@ -136,7 +136,7 @@
       "affected_apis": [
         "select"
       ],
-      "schema_ref": "releases/release1/extension/trade/TradeOffer/v1",
+      "schema_ref": "releases/release1/schema/extension/trade/TradeOffer/v1",
       "flow_ref": "flows/trade/patterns/live-commerce/v1",
       "resolution": {
         "en": "Inform consumer offer is sold out. Surface standard (non-flash) offer if available."
@@ -161,7 +161,7 @@
         "init",
         "confirm"
       ],
-      "schema_ref": "releases/release1/extension/trade/TradeOffer/v1",
+      "schema_ref": "releases/release1/schema/extension/trade/TradeOffer/v1",
       "flow_ref": "flows/trade/patterns/live-commerce/v1",
       "resolution": {
         "en": "Inform consumer the live offer has ended. Redirect to standard catalog."
@@ -183,7 +183,7 @@
       "affected_apis": [
         "select"
       ],
-      "schema_ref": "releases/release1/extension/trade/TradeResource/v1",
+      "schema_ref": "releases/release1/schema/extension/trade/TradeResource/v1",
       "flow_ref": "flows/trade/patterns/digital-goods/v1",
       "resolution": {
         "en": "Prompt consumer to verify target identifier. Return actionable error message."
@@ -207,7 +207,7 @@
         "select",
         "init"
       ],
-      "schema_ref": "releases/release1/extension/trade/TradeOffer/v1",
+      "schema_ref": "releases/release1/schema/extension/trade/TradeOffer/v1",
       "flow_ref": "flows/trade/patterns/storefront/v1",
       "resolution": {
         "en": "Display stacking rule violation to consumer. Offer choice of which voucher to keep."
@@ -230,7 +230,7 @@
       "affected_apis": [
         "select"
       ],
-      "schema_ref": "releases/release1/extension/trade/TradeResource/v1",
+      "schema_ref": "releases/release1/schema/extension/trade/TradeResource/v1",
       "flow_ref": "flows/trade/patterns/storefront/v1",
       "resolution": {
         "en": "Present only valid axis value combinations. Surface available=false values as disabled options."
@@ -253,7 +253,7 @@
       "affected_apis": [
         "update"
       ],
-      "schema_ref": "releases/release1/extension/trade/TradeOffer/v1",
+      "schema_ref": "releases/release1/schema/extension/trade/TradeOffer/v1",
       "flow_ref": "flows/trade/variants/returns/v1",
       "resolution": {
         "en": "Check policies.returns.allowed flag before showing return option in BAP UI. Do not present return option if policies.returns.allowed=false."
@@ -276,7 +276,7 @@
       "affected_apis": [
         "update"
       ],
-      "schema_ref": "releases/release1/extension/trade/TradeOffer/v1",
+      "schema_ref": "releases/release1/schema/extension/trade/TradeOffer/v1",
       "flow_ref": "flows/trade/variants/returns/v1",
       "resolution": {
         "en": "The policies.returns.policyRef IRI defines the returnWindowDays. Calculate return deadline as deliveredAt + returnWindowDays. Only show return option within this window."
@@ -299,7 +299,7 @@
       "affected_apis": [
         "update"
       ],
-      "schema_ref": "releases/release1/extension/trade/TradeOffer/v1",
+      "schema_ref": "releases/release1/schema/extension/trade/TradeOffer/v1",
       "flow_ref": "flows/trade/variants/returns/v1",
       "resolution": {
         "en": "Request additional evidence from consumer per policies.returns.evidenceRequirement."
@@ -322,7 +322,7 @@
       "affected_apis": [
         "on_status"
       ],
-      "schema_ref": "releases/release1/extension/trade/TradePerformance/v1",
+      "schema_ref": "releases/release1/schema/extension/trade/TradePerformance/v1",
       "flow_ref": "flows/trade/variants/returns/v1",
       "resolution": {
         "en": "Consumer may escalate via support/raise if they dispute QC finding."
@@ -346,7 +346,7 @@
         "discover",
         "on_discover"
       ],
-      "schema_ref": "releases/release1/extension/trade/TradeResource/v1",
+      "schema_ref": "releases/release1/schema/extension/trade/TradeResource/v1",
       "flow_ref": null,
       "resolution": {
         "en": "Use one or more supported food.classification values such as HALAL, KOSHER, VEGAN, or GLUTEN_FREE. Supply certification evidence separately through the resource credentials where applicable."

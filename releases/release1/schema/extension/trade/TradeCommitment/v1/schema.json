@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeCommitment/v1",
+  "title": "ION Trade Commitment Schema Pack v1",
+  "description": "JSON Schema 2020-12 mirror of the trade/commitment/v1 OpenAPI schema pack. The root resolves to IONTradeCommitment, which inherits directly from RetailCommitment v2.1.",
+  "type": "object",
+  "$ref": "#/$defs/IONTradeCommitment",
+  "$defs": {
+    "IONTradeCommitment": {
+      "type": "object",
+      "title": "IONTradeCommitment",
+      "description": "ION trade commitment attributes. Inherits directly from RetailCommitment v2.1 and adds replacement preference semantics. The former ION-specific layer defined no additional properties, so no x-attr-ion-layer markers are needed.",
+      "x-ion-layer": "ion",
+      "x-ion-split-version": "0.7.0",
+      "x-recommended-parent": "Commitment.commitmentAttributes",
+      "additionalProperties": true,
+      "x-jsonld": {
+        "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeCommitment/v1/context.jsonld",
+        "@type": "ion:IONTradeCommitment"
+      },
+      "x-beckn-attaches-to": "Commitment.commitmentAttributes",
+      "x-ion-closed-extensions": false,
+      "allOf": [
+        {
+          "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailCommitment/2.1/attributes.yaml#/components/schemas/RetailCommitment"
+        }
+      ],
+      "properties": {
+        "replacementPreferred": {
+          "type": "boolean",
+          "description": "Whether the buyer prefers replacement over refund for this committed line if the supplied resource is defective, incorrect, or otherwise eligible for remediation. This is line-specific because different commitments in the same contract may require different remedies.\n",
+          "default": false
+        }
+      }
+    }
+  }
+}

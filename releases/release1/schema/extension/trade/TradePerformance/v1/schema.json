@@ -1,0 +1,325 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schema.ion.id/releases/release1/schema/extension/trade/TradePerformance/v1",
+  "title": "ION Trade Performance Schema Pack v1",
+  "description": "JSON Schema 2020-12 mirror of the trade/performance/v1 OpenAPI schema pack. The root resolves to IONTradePerformance, which inherits directly from RetailPerformance 2.1.",
+  "$ref": "#/$defs/IONTradePerformance",
+  "$defs": {
+    "IONTradePerformance": {
+      "type": "object",
+      "title": "IONTradePerformance",
+      "description": "ION trade performance attributes. Inherits directly from RetailPerformance 2.1 and combines generic fulfillment semantics with Indonesia-specific age-verification methods and ION-aware route stops. Properties originating in the former ION-specific layer are identified by x-attr-ion-layer: ion.",
+      "x-ion-layer": "ion",
+      "x-ion-split-version": "0.7.0",
+      "x-recommended-parent": "Performance.performanceAttributes",
+      "additionalProperties": true,
+      "x-jsonld": {
+        "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradePerformance/v1/context.jsonld",
+        "@type": "ion:IONTradePerformance"
+      },
+      "x-beckn-attaches-to": "Performance.performanceAttributes",
+      "x-ion-closed-extensions": false,
+      "allOf": [
+        {
+          "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailPerformance/2.1/attributes.yaml#/components/schemas/RetailPerformance"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "ageVerification": {
+              "allOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "method": {
+                      "type": "string",
+                      "enum": [
+                        "KTP_SIGHTED",
+                        "KTP_SCANNED",
+                        "SIM_SIGHTED",
+                        "PASSPORT_SIGHTED",
+                        "SELFIE_COMPARISON",
+                        "BIOMETRIC_API",
+                        "NONE"
+                      ],
+                      "description": "ION method used to verify age.",
+                      "x-ion-regulatory": "UU 39/2007 tentang Cukai (tobacco); PP 109/2012; PerBPOM 28/2021 (alcohol)"
+                    }
+                  }
+                }
+              ],
+              "x-attr-ion-layer": "ion"
+            }
+          }
+        }
+      ],
+      "properties": {
+        "fulfillingLocationId": {
+          "type": "string",
+          "description": "Identifier of the Provider operating location from which this Performance is fulfilled.",
+          "example": "FC-SBY-01"
+        },
+        "performanceMode": {
+          "type": "string",
+          "enum": [
+            "DELIVERY",
+            "SELF_PICKUP",
+            "SERVICE",
+            "DINE_IN",
+            "CURBSIDE"
+          ],
+          "description": "Selected mode by which this performance is executed. Values align with inherited supportedPerformanceModes.",
+          "example": "DELIVERY"
+        },
+        "trackingNumber": {
+          "type": "string",
+          "description": "Carrier-issued identifier used to track the shipment, including an airway bill, courier consignment number, or postal tracking number.",
+          "example": "JNE1234567890",
+          "x-ion-condition": "Added when a carrier assigns a shipment identifier"
+        },
+        "trackingUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL for real-time shipment tracking. Provided by the logistics provider after pickup.",
+          "example": "https://jne.co.id/track?awb=JNE1234567890",
+          "x-ion-condition": "Present after DISPATCHED state"
+        },
+        "estimatedDeliveryTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Updated estimated delivery datetime in ISO 8601 with timezone.",
+          "example": "2026-04-19 14:30:00+07:00",
+          "x-ion-condition": "Present from DISPATCHED state onwards"
+        },
+        "logisticsProviderId": {
+          "type": "string",
+          "description": "Identifier of the logistics provider responsible for this performance.",
+          "example": "lsp.jne.ion.id",
+          "x-ion-condition": "Present when fulfilment is handled by on-network LSP"
+        },
+        "agent": {
+          "allOf": [
+            {
+              "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailPerformance/2.1/attributes.yaml#/components/schemas/RetailPerformance/properties/agent"
+            },
+            {
+              "type": "object",
+              "description": "Agent assigned to this performance. Return Performances use this same object.",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "Provider-issued identifier of the assigned agent.",
+                  "example": "SPX-RIDER-28471"
+                },
+                "photo": {
+                  "type": "string",
+                  "format": "uri",
+                  "description": "URI of a photo used to verify the assigned agent.",
+                  "example": "https://sellerapp.ion.id/agents/budi-santoso.jpg"
+                },
+                "vehicle": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "enum": [
+                        "MOTORCYCLE",
+                        "CAR",
+                        "VAN",
+                        "TRUCK",
+                        "BICYCLE",
+                        "WALK",
+                        "PUBLIC_TRANSPORT"
+                      ],
+                      "description": "Vehicle or transport mode used by the agent."
+                    },
+                    "registrationNumber": {
+                      "type": "string",
+                      "description": "Jurisdiction-issued vehicle registration number.",
+                      "example": "B 1234 XYZ"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "agentBadgeNumber": {
+          "type": "string",
+          "description": "Physical badge number carried by the agent. Distinct from agent.id.",
+          "example": "SPX-28471"
+        },
+        "returnQcDetails": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Additional findings supporting the inherited returnQcResult.",
+          "properties": {
+            "notes": {
+              "type": "string",
+              "description": "Explanation of the quality-control findings."
+            },
+            "evidence": {
+              "type": "array",
+              "description": "Documents or media supporting the quality-control findings.",
+              "items": {
+                "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Document"
+              }
+            }
+          }
+        },
+        "slaBreaches": {
+          "type": "array",
+          "description": "Audit records for SLA breaches observed during this performance. The count is derived from the array length.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "tatType": {
+                "type": "string",
+                "enum": [
+                  "ORDER_ACCEPTANCE",
+                  "PACKED",
+                  "DISPATCHED",
+                  "DELIVERY",
+                  "PICKUP_RETURN",
+                  "RETURN_DELIVERED",
+                  "REFUND_INITIATED"
+                ]
+              },
+              "expectedBy": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "breachedAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "breachDurationSeconds": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          }
+        },
+        "ageVerification": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "Outcome of an age-verification attempt performed during this performance.",
+          "properties": {
+            "verifiedAt": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Timestamp at which age verification succeeded."
+            },
+            "verifiedByAgentId": {
+              "type": "string",
+              "description": "Identifier of the agent that performed verification."
+            },
+            "evidence": {
+              "type": "array",
+              "description": "Evidence retained under the applicable privacy, security, and data-residency policy.",
+              "items": {
+                "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Document"
+              }
+            },
+            "failureReason": {
+              "type": "string",
+              "enum": [
+                "BUYER_UNDERAGE",
+                "BUYER_UNAVAILABLE_VERIFIER_NEEDED",
+                "BUYER_REFUSED_TO_SHOW_ID",
+                "ID_DOCUMENT_NOT_PRESENTED",
+                "ID_DOCUMENT_INVALID",
+                "BIOMETRIC_API_FAILED"
+              ],
+              "description": "Reason the age-verification attempt failed."
+            }
+          }
+        },
+        "packageCount": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of physical packages in this performance.",
+          "example": 3,
+          "x-ion-condition": "Present when the performance has multiple packages"
+        },
+        "totalWeight": {
+          "allOf": [
+            {
+              "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity"
+            }
+          ],
+          "description": "Total packed weight. The unit is carried by the Quantity.",
+          "example": {
+            "unitCode": "KGM",
+            "unitText": "kilogram",
+            "unitQuantity": 12.5
+          },
+          "x-ion-condition": "Present at PACKED state and later"
+        },
+        "deliveryReceiptId": {
+          "type": "string",
+          "description": "Identifier of the delivery receipt issued at handover. The actual proof or document is represented by inherited proofOfDelivery.",
+          "example": "DLV-RCP-2026-00012345",
+          "x-ion-condition": "Present after DELIVERED when a receipt was issued"
+        },
+        "stops": {
+          "type": "array",
+          "description": "Ordered list of stops for this performance leg.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Unique identifier for this stop within this performance"
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "START",
+                  "END",
+                  "INTERMEDIATE"
+                ],
+                "description": "Role of this stop in the route."
+              },
+              "location": {
+                "type": "object",
+                "additionalProperties": false,
+                "description": "ION-aware location composed from Beckn geographic and postal-address shapes plus Indonesian subdivisions.",
+                "properties": {
+                  "geo": {
+                    "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/GeoJSONGeometry"
+                  },
+                  "address": {
+                    "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Address"
+                  },
+                  "ionAddressAttributes": {
+                    "$ref": "https://schema.ion.id/releases/release1/schema/common/Address/v1/attributes.yaml#/components/schemas/IONAddress"
+                  }
+                }
+              },
+              "instructions": {
+                "type": "string"
+              },
+              "estimatedArrival": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "actualArrival": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "proof": {
+                "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Document",
+                "description": "Documentary proof associated with completion of this stop."
+              }
+            }
+          },
+          "x-attr-ion-layer": "ion"
+        }
+      }
+    }
+  }
+}

@@ -109,7 +109,7 @@ phases:
     description: >
       Delivery follows standard flow. At delivery, Berita Acara Serah Terima
       (BAST) must be signed by government official before payment is released.
-    stateMachine: releases/release1/extension/trade/TradePerformanceStates/v1/states.yaml#standard
+    stateMachine: releases/release1/schema/extension/trade/TradePerformanceStates/v1/states.yaml#standard
     additionalSteps:
       - step: on_update
         stepContext: "BAST_SIGNED"

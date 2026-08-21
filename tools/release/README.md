@@ -25,12 +25,46 @@ permanent integer releases. It is not copied into individual release bundles.
 - `validate_offline_refs.rb` maps Release 1 public URLs back to the release tree
   and verifies that every active `$ref`, including its JSON Pointer, resolves
   without network access.
+- `validate_public_urls.rb` checks that every release-qualified public document
+  URL in release YAML, JSON, JSON-LD, and Markdown maps to an existing file or
+  directory in that release.
 - `finalize_vendoring_manifest.rb` records upstream and released checksums only
   after the offline graph passes; it previews changes unless passed `--apply`.
 - `sync_schema_pack_jsonld.rb` synchronizes a pack's local JSON-LD types and
   properties with its authoritative `attributes.yaml`; it is dry-run by default.
 - `validate_trade_connections.rb` checks Trade flow targets, concrete policy
   references, policy registry uniqueness, and generated Trade error views.
+- `generate_release_registries.rb` deterministically generates or checks the
+  release-local policy and Trade error registries.
+- `record_artifact_checksums.rb` records or checks the complete artifact
+  inventory under the release's normative content trees.
+- `validate_release_scope.rb` ensures validated content is present and excluded
+  content is absent from a release directory.
+- `validate_artifact_checksums.rb` verifies every release artifact against the
+  manifest and rejects unrecorded or missing artifacts.
+- `validate_release_immutability.rb` rejects changes to any release whose
+  manifest is already `published`.
+- `validate_release.rb` is the complete local and CI entry point.
+
+## Run the complete Release 1 gate
+
+From the repository root:
+
+```bash
+ruby tools/release/validate_release.rb releases/release1
+```
+
+This is the same command used by `.github/workflows/release-validation.yml`.
+The workflow runs automatically for relevant pull requests and changes on
+`main`, and it supports manual `workflow_dispatch` runs.
+
+To include the publication-only manifest requirements:
+
+```bash
+ruby tools/release/validate_release.rb --publication releases/release1
+```
+
+The publication form is expected to fail while the manifest is a draft.
 
 ## Validate a manifest
 
@@ -61,6 +95,10 @@ ruby tools/release/tests/validate_path_map_test.rb
 ruby tools/release/tests/plan_vendoring_test.rb
 ruby tools/release/tests/apply_vendoring_plan_test.rb
 ruby tools/release/tests/validate_offline_refs_test.rb
+ruby tools/release/tests/validate_artifact_checksums_test.rb
+ruby tools/release/tests/validate_release_scope_test.rb
+ruby tools/release/tests/validate_release_immutability_test.rb
+ruby tools/release/tests/generate_release_registries_test.rb
 ```
 
 ## Propose vendored dependencies
@@ -99,8 +137,9 @@ ruby tools/release/apply_vendoring_plan.rb --apply
 ```
 
 The apply command rewrites only `$ref` lines. Descriptive and semantic IRIs are
-left unchanged. It also replaces the four known unresolved internal references
-in `ion.yaml` with explicit references to the vendored protocol document.
+left unchanged. The Phase 4 Release 1 plan also replaced four known unresolved
+internal references in the then-candidate `ion.yaml`; that aggregate was later
+excluded from Release 1 and returned to the non-normative source area.
 
 Verify the resulting dependency graph offline:
 

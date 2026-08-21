@@ -1,6 +1,6 @@
 # ION Release Architecture
 
-**Status:** Accepted — implementation pending
+**Status:** Accepted — implemented for the Release 1 draft
 
 **Decision date:** 2026-08-21
 
@@ -10,8 +10,8 @@
 
 This document defines how the ION Network Specification is packaged, published,
 addressed, and preserved. It is the target architecture for the repository
-reorganization. Existing repository paths and references remain in place until the
-migration described here is implemented.
+reorganization. Release 1 implements this structure; unreleased working material
+remains outside the release until it is reviewed for a future integer release.
 
 The goals are to ensure that every ION release is:
 
@@ -41,6 +41,11 @@ releases/release2/
 Each release directory is a complete, permanent specification bundle. Once a
 release is published, its files MUST NOT be modified or removed. A correction or
 clarification to a published release MUST be issued in a new release directory.
+
+Each release keeps its four principal specification areas at the release root:
+`schema/`, `flows/`, `policies/`, and `errors/`. Schema-owned content is not
+flattened beside those areas: `core/`, `common/`, `extension/`, and `vendored/`
+all live below the release's `schema/` directory.
 
 Integer release numbers identify complete ION bundles. They do not replace the
 versions of components contained within a bundle. For example, `release1` may
@@ -92,26 +97,13 @@ releases/
     README.md
     NOTICES.md
 
-    core/                    # present only when ionApi is included
-      api/
-        v2.0.0/
-          ion.yaml
+    schema/
+      core/                  # API contract present only when ionApi is included
+        api/
+          v2.0.0/
+            ion.yaml
 
-    common/
-      <SchemaName>/
-        v1/
-          attributes.yaml
-          schema.json
-          context.jsonld
-          vocab.jsonld
-          profile.json
-          renderer.json
-          README.md
-          docs/
-          examples/
-
-    extension/
-      <sector>/
+      common/
         <SchemaName>/
           v1/
             attributes.yaml
@@ -124,15 +116,14 @@ releases/
             docs/
             examples/
 
-    vendored/
-      beckn/
-        protocol/
-          v2.0.0/
-            beckn.yaml
-        schemas/
-          <SchemaName>/
-            <upstream-version>/
-              attributes.yaml
+      extension/
+        <sector>/
+          <SchemaName>/v1/
+
+      vendored/
+        beckn/
+          protocol/v2.0.0/beckn.yaml
+          schemas/<SchemaName>/<upstream-version>/attributes.yaml
 
     flows/
     policies/
@@ -140,8 +131,8 @@ releases/
     docs/
 ```
 
-`common/` contains ION attribute packs that apply across sectors.
-`extension/<sector>/` contains sector-specific attribute packs. The final mapping
+`schema/common/` contains ION attribute packs that apply across sectors.
+`schema/extension/<sector>/` contains sector-specific attribute packs. The final mapping
 from existing pack names to public `SchemaName` directories MUST be established as
 part of the pre-release cleanup. Once published, directory names are part of the
 public API and cannot be renamed within that release.
@@ -149,7 +140,7 @@ public API and cannot be renamed within that release.
 The manifest determines which content areas are part of a particular release.
 Every area MUST be `validated` or `excluded` before publication, and artifacts for
 an excluded area MUST NOT appear in the release directory. In particular, a
-release may omit the aggregate `core/api/.../ion.yaml` when `ionApi` is
+release may omit the aggregate `schema/core/api/.../ion.yaml` when `ionApi` is
 `excluded`; standalone validated schema packs remain valid release content.
 
 ### Normative release registries and flows
@@ -214,20 +205,20 @@ The public URL for a released artifact mirrors its path below the repository's
 
 ```text
 Repository path:
-releases/release1/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml
+releases/release1/schema/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml
 
 Public URL:
-https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml
+https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml
 ```
 
 Additional examples:
 
 ```text
-releases/release1/common/LocalizedLanguage/v1/attributes.yaml
-https://schema.ion.id/releases/release1/common/LocalizedLanguage/v1/attributes.yaml
+releases/release1/schema/common/LocalizedLanguage/v1/attributes.yaml
+https://schema.ion.id/releases/release1/schema/common/LocalizedLanguage/v1/attributes.yaml
 
-releases/release1/extension/trade/TradeResource/v1/attributes.yaml
-https://schema.ion.id/releases/release1/extension/trade/TradeResource/v1/attributes.yaml
+releases/release1/schema/extension/trade/TradeResource/v1/attributes.yaml
+https://schema.ion.id/releases/release1/schema/extension/trade/TradeResource/v1/attributes.yaml
 ```
 
 `schema.ion.id` is the stable public origin. Its Nginx configuration serves the
@@ -252,7 +243,7 @@ and vendored Beckn schemas.
 
 ```yaml
 allOf:
-  - $ref: https://schema.ion.id/releases/release1/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml#/components/schemas/RetailResource
+  - $ref: https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml#/components/schemas/RetailResource
 ```
 
 Published `attributes.yaml` files MUST NOT use repository-relative `$ref` paths.
@@ -274,7 +265,7 @@ release-qualified URL of that document:
 
 ```json
 {
-  "@context": "https://schema.ion.id/releases/release1/extension/trade/TradeResource/v1/context.jsonld"
+  "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeResource/v1/context.jsonld"
 }
 ```
 
@@ -347,6 +338,9 @@ contentStatus:
   logistics: review-required
   hospitality: review-required
   finance: review-required
+  flows: review-required
+  policies: review-required
+  errors: review-required
 dependencyStatus: incomplete
 dependencies: []
 artifactChecksums: {}

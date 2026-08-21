@@ -61,8 +61,8 @@ All three are defined in `schema/extensions/logistics/performance-states/v1/stat
 | `logistics/consideration/v1` | See pack README | [`schema/extensions/logistics/consideration/v1/README.md`](../../../../schema/extensions/logistics/consideration/v1/README.md) |
 | `logistics/performance/v1` | See pack README | [`schema/extensions/logistics/performance/v1/README.md`](../../../../schema/extensions/logistics/performance/v1/README.md) |
 | `logistics/contract/v1` | See pack README | [`schema/extensions/logistics/contract/v1/README.md`](../../../../schema/extensions/logistics/contract/v1/README.md) |
-| `core/address/v1` | See pack README | [`releases/release1/common/Address/v1/README.md`](../../../../releases/release1/common/Address/v1/README.md) |
-| `core/payment/v1` | See pack README | [`releases/release1/common/Payment/v1/README.md`](../../../../releases/release1/common/Payment/v1/README.md) |
+| `core/address/v1` | See pack README | [`releases/release1/schema/common/Address/v1/README.md`](../../../../releases/release1/schema/common/Address/v1/README.md) |
+| `core/payment/v1` | See pack README | [`releases/release1/schema/common/Payment/v1/README.md`](../../../../releases/release1/schema/common/Payment/v1/README.md) |
 
 ## Variants
 

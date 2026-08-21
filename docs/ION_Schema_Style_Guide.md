@@ -1,5 +1,11 @@
 # ION Schema Style Guide
 
+> **Release 1 scope note:** Release 1 publishes standalone Trade and required
+> common packs only. References in this authoring guide to `ion.yaml`, L2/L3
+> configuration, CRC registries, or unreleased sectors describe future-release
+> design work in `schema/core/v2/api/v2.0.0/ion.yaml`; they are not Release 1
+> requirements.
+
 Authoritative conventions for pack authors. All contributions must follow this guide.
 
 ## 1. Layer model reminder
@@ -7,8 +13,8 @@ Authoritative conventions for pack authors. All contributions must follow this g
 | Layer | Location | What goes here |
 |---|---|---|
 | L1 | `beckn.yaml` (external) | Beckn core — never modified |
-| L2 | `releases/release1/core/api/v2.0.0/ion.yaml` | ION network profile overlay |
-| L3 | `releases/release1/core/api/v2.0.0/ion.yaml` → `paths:` block | `/raise` family (6 endpoints) + `/reconcile` + `/on_reconcile` |
+| L2 | `releases/release1/schema/core/api/v2.0.0/ion.yaml` | ION network profile overlay |
+| L3 | `releases/release1/schema/core/api/v2.0.0/ion.yaml` → `paths:` block | `/raise` family (6 endpoints) + `/reconcile` + `/on_reconcile` |
 | L4 | `schema/extensions/core/*/v1/` | Cross-sector attribute packs |
 | L5 | `schema/extensions/{trade,logistics}/*/v1/` | Sector-specific attribute packs |
 
@@ -70,7 +76,7 @@ x-beckn-attaches-to: BecknObject.attributesSlot
 ### allOf with Beckn Attributes base (required)
 ```yaml
 allOf:
-  - $ref: https://schema.ion.id/releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Attributes
+  - $ref: https://schema.ion.id/releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Attributes
 ```
 
 **Never use the external GitHub URL.** Always use the local relative path.
@@ -271,9 +277,9 @@ Every API call should populate `context.schemaContext` with the ION extension co
 ```yaml
 context:
   schemaContext:
-    - https://schema.ion.id/releases/release1/extension/trade/TradeResource/v1/context.jsonld
-    - https://schema.ion.id/releases/release1/extension/trade/TradeOffer/v1/context.jsonld
-    - https://schema.ion.id/releases/release1/common/Payment/v1/context.jsonld
+    - https://schema.ion.id/releases/release1/schema/extension/trade/TradeResource/v1/context.jsonld
+    - https://schema.ion.id/releases/release1/schema/extension/trade/TradeOffer/v1/context.jsonld
+    - https://schema.ion.id/releases/release1/schema/common/Payment/v1/context.jsonld
 ```
 
 This makes every message self-describing and enables deterministic validation at ION Central.

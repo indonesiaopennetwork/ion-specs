@@ -1,0 +1,132 @@
+{
+  "_meta": {
+    "description": "Storefront on_select \u2014 BPP returns quote with price breakdown and SLA.",
+    "pattern": "storefront",
+    "step": "on_select",
+    "sent_by": "BPP",
+    "received_by": "BAP",
+    "schemaPacks": [
+      "schema/extension/trade/TradeConsideration/v1",
+      "schema/extension/trade/TradePerformance/v1",
+      "schema/common/Tax/v1"
+    ]
+  },
+  "context": {
+    "domain": "ion:trade",
+    "action": "on_select",
+    "version": "2.0.0",
+    "bapId": "buyerapp.ion.id",
+    "bapUri": "https://buyerapp.ion.id/beckn",
+    "bppId": "sellerapp.ion.id",
+    "bppUri": "https://sellerapp.ion.id/beckn",
+    "networkId": "ion.id",
+    "transactionId": "9fdb667c-76c6-456a-9742-ba9caa5eb765",
+    "messageId": "msg-on-select-001",
+    "timestamp": "2026-04-19T10:30:00.000+07:00",
+    "ttl": "PT30S",
+    "location": {
+      "city": {
+        "code": "std:3171"
+      },
+      "country": {
+        "code": "IDN"
+      }
+    },
+    "schemaContext": [
+      "https://schema.ion.id/releases/release1/schema/extension/trade/TradeConsideration/v1/context.jsonld",
+      "https://schema.ion.id/releases/release1/schema/extension/trade/TradePerformance/v1/context.jsonld",
+      "https://schema.ion.id/releases/release1/schema/common/Tax/v1/context.jsonld"
+    ]
+  },
+  "message": {
+    "contract": {
+      "participants": [
+        {
+          "role": "PROVIDER",
+          "id": "PROV-APOTEK-SEHAT-001"
+        }
+      ],
+      "commitments": [
+        {
+          "id": "L01",
+          "status": {
+            "descriptor": {
+              "code": "DRAFT"
+            }
+          },
+          "resources": [
+            {
+              "id": "RES-PANADOL-500MG-STRIP"
+            }
+          ],
+          "offer": {
+            "id": "OFFER-PANADOL-001",
+            "provider": {
+              "id": "PROV-APOTEK-SEHAT-001",
+              "descriptor": {
+                "name": "Apotek Sehat Mandiri"
+              }
+            }
+          }
+        }
+      ],
+      "consideration": [
+        {
+          "id": "CONSID-DRAFT-001",
+          "considerationAttributes": {
+            "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeConsideration/v1/context.jsonld",
+            "@type": "ion:IONTradeConsideration",
+            "totalAmount": 9435,
+            "currency": "IDR",
+            "breakup": [
+              {
+                "title": "Panadol 500mg Strip 4 Tablet",
+                "commitmentId": "L01",
+                "resourceId": "RES-PANADOL-500MG-STRIP",
+                "amount": 8500,
+                "type": "BASE_PRICE"
+              },
+              {
+                "title": "Ongkos Kirim",
+                "_note": "Free delivery for this offer",
+                "amount": 0,
+                "type": "DELIVERY_CHARGE"
+              },
+              {
+                "title": "PPN 11%",
+                "amount": 935,
+                "type": "TAX",
+                "taxDetail": {
+                  "rate": 0.11,
+                  "included": false,
+                  "taxableBase": 8500,
+                  "taxRegime": "PPN",
+                  "taxCategory": "BKP"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "performance": [
+        {
+          "id": "PERF-DRAFT-001",
+          "performanceAttributes": {
+            "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradePerformance/v1/context.jsonld",
+            "@type": "ion:IONTradePerformance",
+            "performanceMode": "DELIVERY",
+            "supportedPerformanceModes": [
+              "DELIVERY",
+              "SELF_PICKUP"
+            ],
+            "sla": {
+              "min": "PT1H",
+              "max": "PT3H",
+              "unitBasis": "ORDER_CONFIRMATION"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

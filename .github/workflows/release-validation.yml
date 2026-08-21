@@ -1,0 +1,54 @@
+name: Release validation
+
+on:
+  pull_request:
+    paths:
+      - "releases/**"
+      - "flows/trade/**"
+      - "policies/**"
+      - "errors/**"
+      - "tools/release/**"
+      - ".github/workflows/release-validation.yml"
+  push:
+    branches: [main]
+    paths:
+      - "releases/**"
+      - "flows/trade/**"
+      - "policies/**"
+      - "errors/**"
+      - "tools/release/**"
+      - ".github/workflows/release-validation.yml"
+  workflow_dispatch:
+    inputs:
+      release:
+        description: Release directory name
+        required: true
+        default: release1
+        type: string
+      publication_gate:
+        description: Also require published manifest metadata
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    env:
+      RELEASE_NAME: ${{ inputs.release || 'release1' }}
+      ION_IMMUTABILITY_BASE: ${{ github.event.pull_request.base.sha || github.event.before || '' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+      - name: Validate release
+        run: ruby tools/release/validate_release.rb "releases/${RELEASE_NAME}"
+      - name: Run publication gate
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.publication_gate }}
+        run: ruby tools/release/validate_release.rb --publication "releases/${RELEASE_NAME}"

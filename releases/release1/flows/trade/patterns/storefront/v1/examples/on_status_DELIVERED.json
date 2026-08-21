@@ -1,0 +1,87 @@
+{
+  "_meta": {
+    "description": "Storefront on_status DELIVERED \u2014 package delivered. Contract transitions to COMPLETE.",
+    "pattern": "storefront",
+    "step": "on_status[DELIVERED]",
+    "sent_by": "BPP",
+    "received_by": "BAP",
+    "schemaPacks": [
+      "schema/extension/trade/TradePerformance/v1"
+    ]
+  },
+  "context": {
+    "domain": "ion:trade",
+    "action": "on_status",
+    "version": "2.0.0",
+    "bapId": "buyerapp.ion.id",
+    "bapUri": "https://buyerapp.ion.id/beckn",
+    "bppId": "sellerapp.ion.id",
+    "bppUri": "https://sellerapp.ion.id/beckn",
+    "networkId": "ion.id",
+    "transactionId": "9fdb667c-76c6-456a-9742-ba9caa5eb765",
+    "messageId": "msg-on-status-001",
+    "timestamp": "2026-04-19T10:30:00.000+07:00",
+    "ttl": "PT30S",
+    "location": {
+      "city": {
+        "code": "std:3171"
+      },
+      "country": {
+        "code": "IDN"
+      }
+    },
+    "schemaContext": [
+      "https://schema.ion.id/releases/release1/schema/extension/trade/TradePerformance/v1/context.jsonld"
+    ]
+  },
+  "message": {
+    "contract": {
+      "id": "ORD-2026-04190001",
+      "status": {
+        "code": "COMPLETE"
+      },
+      "performance": [
+        {
+          "id": "PERF-001",
+          "status": {
+            "code": "DELIVERED"
+          },
+          "performanceAttributes": {
+            "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradePerformance/v1/context.jsonld",
+            "@type": "ion:IONTradePerformance",
+            "performanceMode": "DELIVERY",
+            "trackingNumber": "JNE-2026041900001234",
+            "deliveredAt": "2026-04-19T13:45:00.000+07:00",
+            "supportedPerformanceModes": [
+              "DELIVERY"
+            ]
+          }
+        }
+      ],
+      "commitments": [
+        {
+          "id": "L01",
+          "status": {
+            "descriptor": {
+              "code": "ACTIVE"
+            }
+          },
+          "resources": [
+            {
+              "id": "RES-PANADOL-500MG-STRIP"
+            }
+          ],
+          "offer": {
+            "id": "OFFER-PANADOL-001",
+            "provider": {
+              "id": "PROV-APOTEK-SEHAT-001",
+              "descriptor": {
+                "name": "Apotek Sehat Mandiri"
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
