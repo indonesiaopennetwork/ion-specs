@@ -6,12 +6,12 @@ publishedAt: null
 publicBaseUrl: https://schema.ion.id/releases/release1/
 sourceBranch: main
 contentStatus:
-  ionApi: review-required
+  ionApi: excluded
   common: validated
   trade: validated
-  logistics: review-required
-  hospitality: review-required
-  finance: review-required
+  logistics: excluded
+  hospitality: excluded
+  finance: excluded
 dependencyStatus: complete
 dependencies:
 - name: BecknProtocol
@@ -248,5 +248,8 @@ notes:
 - Beckn dependencies were vendored and the offline reference graph was closed during
   Phase 4.
 - Standalone Trade and Trade-required common packs, JSON-LD files, and examples were
-  validated during Phase 5. The separate ion.yaml aggregate remains review-required.
+  validated during Phase 5.
+- Release 1 is scoped to standalone Trade and its required common packs. The
+  unreconciled ion.yaml aggregate and the Logistics, Hospitality, and Finance
+  sectors are explicitly excluded.
 - Draft URLs are unsupported until the release is published.

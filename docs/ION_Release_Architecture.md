@@ -92,7 +92,7 @@ releases/
     README.md
     NOTICES.md
 
-    core/
+    core/                    # present only when ionApi is included
       api/
         v2.0.0/
           ion.yaml
@@ -145,6 +145,12 @@ releases/
 from existing pack names to public `SchemaName` directories MUST be established as
 part of the pre-release cleanup. Once published, directory names are part of the
 public API and cannot be renamed within that release.
+
+The manifest determines which content areas are part of a particular release.
+Every area MUST be `validated` or `excluded` before publication, and artifacts for
+an excluded area MUST NOT appear in the release directory. In particular, a
+release may omit the aggregate `core/api/.../ion.yaml` when `ionApi` is
+`excluded`; standalone validated schema packs remain valid release content.
 
 ### Normative release registries and flows
 

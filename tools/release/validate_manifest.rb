@@ -105,9 +105,7 @@ module IonReleaseManifest
 
     return unless release_status == "published"
 
-    errors << "published ionApi must be validated" unless content["ionApi"] == "validated"
     content.each do |area, state|
-      next if area == "ionApi"
       errors << "published #{area} must be validated or excluded" unless %w[validated excluded].include?(state)
     end
   end

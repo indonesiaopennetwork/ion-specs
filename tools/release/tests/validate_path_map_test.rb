@@ -14,7 +14,7 @@ class ValidatePathMapTest < Minitest::Test
 
   def test_release1_path_map
     assert_empty IonReleasePathMap.validate(@path_map)
-    assert_equal 15, @path_map.fetch("mappings").size
+    assert_equal 14, @path_map.fetch("mappings").size
   end
 
   def test_duplicate_targets_are_rejected

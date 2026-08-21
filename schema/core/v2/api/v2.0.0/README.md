@@ -1,16 +1,19 @@
-# ION Protocol Specification — Core API Layer
+# ION API Aggregate — Work in Progress
 
-The two API contracts previously stored in this directory have moved into the
-Release 1 draft:
+The Beckn Protocol dependency has moved into the Release 1 draft:
 
 ```
 releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml
-releases/release1/core/api/v2.0.0/ion.yaml
 ```
 
-This legacy directory contains no normative API contract.
+The `ion.yaml` aggregate remains here as non-normative work in progress. Release 1
+explicitly excludes it because its embedded models have not been reconciled with
+the validated standalone Trade packs. It must not be treated as a Release 1
+contract or served from the Release 1 public namespace.
 
-> **You do not need to read `beckn.yaml` to build an integration.** `ion.yaml` is your implementation target. `beckn.yaml` is only touched when upgrading the vendored Beckn version or debugging a protocol-level issue.
+> **Do not use this `ion.yaml` as a Release 1 implementation contract.** Use the
+> standalone schemas in `releases/release1/common/` and
+> `releases/release1/extension/trade/`.
 
 ## How they relate
 
@@ -18,7 +21,7 @@ The Release 1 `beckn.yaml` is the upstream Beckn Protocol specification. It defi
 - 30 API endpoints (`/discover`, `/select`, `/init`, `/confirm`, `/status`, etc.)
 - All core data model schemas (`Contract`, `Resource`, `Offer`, `Commitment`, `Consideration`, `Performance`, `Settlement`, `Provider`, `Participant`, `Tracking`, `Attributes`, …)
 
-The Release 1 `ion.yaml` extends `beckn.yaml` without copying it. It defines:
+The work-in-progress `ion.yaml` extends `beckn.yaml` without copying it. It defines:
 - **L2** — ION network profile: Indonesian regulatory rules, signing requirements, allowed payment rails, conformance matrix (`x-ion-profile` block)
 - **L3** — 8 additional ION endpoints: `/raise` family (6) + `/reconcile` + `/on_reconcile`. Every path `$ref`s Beckn types from `beckn.yaml`
 - **L4** — 11 cross-sector attribute packs that mount on Beckn's `*Attributes` slots
@@ -47,13 +50,6 @@ python tools/ion_required_fields.py --sector <sector> --pattern <pattern> --crc 
 ```
 
 This assembles the complete field checklist for your integration in one command. See `tools/README.md` for usage.
-
-## To validate
-
-Run both files together through any OpenAPI 3.1.1 validator:
-```
-spectral lint releases/release1/core/api/v2.0.0/ion.yaml --ruleset beckn-ruleset.yaml
-```
 
 ## Upstream tracking
 

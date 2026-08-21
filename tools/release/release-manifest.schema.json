@@ -134,7 +134,7 @@
       "additionalProperties": false,
       "required": ["ionApi", "common", "trade", "logistics", "hospitality", "finance"],
       "properties": {
-        "ionApi": { "const": "validated" },
+        "ionApi": { "enum": ["validated", "excluded"] },
         "common": { "enum": ["validated", "excluded"] },
         "trade": { "enum": ["validated", "excluded"] },
         "logistics": { "enum": ["validated", "excluded"] },

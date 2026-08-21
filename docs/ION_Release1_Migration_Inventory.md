@@ -590,11 +590,12 @@ Before publication, root tooling must provide:
    JSON-LD types and synchronizing Payment vocabulary properties.
 3. [x] Validated all 17 standalone Trade and common example objects against the
    local Release 1 schemas and corrected stale contexts, types, and shapes.
-4. [ ] Reconcile the embedded `ion.yaml` Trade components. The attempted
+4. [x] Exclude the embedded `ion.yaml` aggregate from Release 1. The attempted
    structural comparison showed this is not a mechanical sync: TradePerformance
    has 28 standalone-only and 49 aggregate-only property names, TradeResource has
    4 standalone-only and 119 aggregate-only names, and `ion.yaml` has no
-   TradeSettlement component. It remains part of the separate `ionApi` review.
+   TradeSettlement component. The file remains non-normative work in progress at
+   `schema/core/v2/api/v2.0.0/ion.yaml` for a future release.
 5. [x] Reconciled repository-root Trade flows, policies, and errors: repaired 19
    profile file targets, removed non-registry policy placeholders, removed five
    exact duplicate policy files while retaining their canonical Trade copies,
@@ -611,6 +612,92 @@ Review Logistics, Hospitality, and Finance as separate workstreams. For each are
 3. validate examples and JSON-LD;
 4. reconcile flows, policies, errors, and `ion.yaml` declarations; and
 5. mark the area `validated` or `excluded`.
+
+#### Phase 6 baseline audit (2026-08-21)
+
+The source directories were validated independently with:
+
+```text
+go run ./cmd/schemav2validator schema-dir --json <sector-directory>
+```
+
+The validator was run from the ION testbed against the source packs, with network
+access available for their current `schema.beckn.io` references. This is a
+baseline consistency audit, not evidence that the schema semantics are correct.
+
+| Sector | Packs checked | Total errors | Missing context terms | Missing vocabulary terms | Stale JSON-LD declarations | Missing from `schema.json` | Other |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Logistics | 10 | 1,057 | 350 | 676 | 12 | 18 | 1 |
+| Hospitality | 10 | 1,252 | 399 | 433 | 2 | 417 | 1 |
+| Finance | 13 | 319 | 36 | 98 | 174 | 11 | 0 |
+
+`logistics/performance-states/v1` is a state registry rather than a schema pack;
+it has no `attributes.yaml`, `schema.json`, `context.jsonld`, `vocab.jsonld`, or
+`renderer.json`, so it is outside the schema-directory validator count and needs
+a separate registry review.
+
+No sector is ready to move into the normative Release 1 tree. In particular:
+
+- Logistics is dominated by absent context and vocabulary declarations. Its
+  `consideration`, `contract`, `performance`, and `resource` packs also contain
+  declarations that are not represented in `schema.json`.
+- Hospitality has broad three-way drift between `attributes.yaml`,
+  `context.jsonld`/`vocab.jsonld`, and `schema.json`; the 417 missing schema
+  declarations make a mechanical JSON-LD synchronization insufficient.
+- Finance has less missing-schema drift, but contains 174 context or vocabulary
+  declarations not present in `attributes.yaml`. Those terms must not be deleted
+  until it is decided whether they are obsolete or the attribute schemas are
+  incomplete.
+
+The suspected duplicate packs are not interchangeable copies:
+
+- `logistics/agent/v1` and `logistics/participant-logistics/v1` declare the same
+  profile ID but model different attachment points and schema types. The former
+  says direct `Participant` properties; the latter says
+  `Participant.participantAttributes`. The vendored Beckn 2.0.0 protocol
+  explicitly defines `Participant.participantAttributes` as an `Attributes`
+  reference, so the direct-property claim in `agent/v1` is incompatible with the
+  pinned Release 1 dependency. The remaining review is how to merge any useful
+  `agent/v1` metadata and whether the canonical public pack name should be
+  `LogisticsParticipant` or `LogisticsAgent`.
+- `hospitality/provider/v1` and `hospitality/restaurant-provider/v1` share most
+  generated artifacts, but their `attributes.yaml` files use different Beckn
+  bases and differ in object openness. The former also lacks `renderer.json`.
+- `hospitality/delivery/v1` and `hospitality/fnb-delivery/v1` have different
+  component models and attachment metadata and cannot be deduplicated by path
+  choice alone.
+
+Phase 6 therefore proceeds as three semantic workstreams, in this order:
+
+1. decide the canonical attachment model and pack names for the overlaps above;
+2. choose `attributes.yaml` or another reviewed artifact as the authority for
+   each pack;
+3. regenerate or reconcile `schema.json`, context, vocabulary, profile, and
+   renderer artifacts from that authority;
+4. validate examples, then reconcile the sector's flows, policies, errors, and
+   embedded `ion.yaml` components; and
+5. only then copy the sector into Release 1 and change its manifest state from
+   `review-required` to `validated` (or explicitly `excluded`).
+
+The baseline audit did not itself change the Release 1 manifest.
+
+#### Phase 6 scope decision (2026-08-21)
+
+Release 1 is limited to the validated standalone Trade packs, the four validated
+common packs they require, and the pinned vendored Beckn dependencies. The scope
+decision is recorded as follows:
+
+- `trade` and `common` remain `validated`;
+- `ionApi`, `logistics`, `hospitality`, and `finance` are `excluded`;
+- the excluded sector source directories remain unchanged as non-normative work
+  in progress for a future release;
+- the unreconciled `ion.yaml` aggregate was removed from the Release 1 directory
+  and retained at `schema/core/v2/api/v2.0.0/ion.yaml` as non-normative work in
+  progress; and
+- no public Release 1 URL is assigned to an excluded schema or API aggregate.
+
+This completes Phase 6. Exclusion is a Release 1 scope decision, not a claim that
+the source material is obsolete or a request to delete it.
 
 ### Phase 7 — Update repository-level material
 

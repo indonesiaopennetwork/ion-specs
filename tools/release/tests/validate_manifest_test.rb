@@ -42,12 +42,27 @@ class ValidateManifestTest < Minitest::Test
 
     errors = IonReleaseManifest.validate(@manifest)
 
-    assert errors.any? { |error| error.include?("published ionApi") }
     assert errors.any? { |error| error.include?("must be validated or excluded") }
     assert_includes errors, "published dependencyStatus must be complete"
     assert_includes errors, "published dependencies must not be empty"
     assert_includes errors, "published artifactChecksums must not be empty"
     assert_includes errors, "published toolingCommit must be a 40-character commit"
+  end
+
+  def test_published_release_may_explicitly_exclude_ion_api
+    @manifest["status"] = "published"
+    @manifest["publishedAt"] = "2026-08-21T00:00:00Z"
+    @manifest["contentStatus"].transform_values! { "excluded" }
+    @manifest["contentStatus"]["common"] = "validated"
+    @manifest["contentStatus"]["trade"] = "validated"
+    @manifest["dependencyStatus"] = "complete"
+    @manifest["dependencies"] = [valid_dependency]
+    @manifest["artifactChecksums"] = {
+      "vendored/beckn/protocol/v2.0.0/beckn.yaml" => "b" * 64
+    }
+    @manifest["toolingCommit"] = "a" * 40
+
+    assert_empty IonReleaseManifest.validate(@manifest)
   end
 
   def test_dependency_paths_must_stay_inside_release

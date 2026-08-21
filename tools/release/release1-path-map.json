@@ -4,14 +4,6 @@
   "publicBaseUrl": "https://schema.ion.id/releases/release1/",
   "mappings": [
     {
-      "kind": "api",
-      "source": "schema/core/v2/api/v2.0.0/ion.yaml",
-      "target": "releases/release1/core/api/v2.0.0/ion.yaml",
-      "publicUrl": "https://schema.ion.id/releases/release1/core/api/v2.0.0/ion.yaml",
-      "pathStatus": "approved",
-      "contentStatus": "review-required"
-    },
-    {
       "kind": "vendored-protocol",
       "source": "schema/core/v2/api/v2.0.0/beckn.yaml",
       "target": "releases/release1/vendored/beckn/protocol/v2.0.0/beckn.yaml",
