@@ -42,7 +42,8 @@ Not applicable — this pack defines states, not attributes.
 
 ## Used in
 
-[Release 1 Trade flow](../../../../../flows/trade/README.md) — used by Storefront v1.
+[Release 1 Trade flows](../../../../../flows/trade/README.md) — used by
+Storefront v1, Made-to-Order v1, and Live Commerce v1.
 
 ## Common rejection reasons
 

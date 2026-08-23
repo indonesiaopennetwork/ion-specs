@@ -58,8 +58,8 @@ Fields marked `← not in pattern.yaml` are enforced by ION network policy but n
 | Source | Used for |
 |---|---|
 | `flows/{sector}/patterns/{pattern}/v1/pattern.yaml` | Required fields per step |
-| `releases/release1/schema/core/api/v2.0.0/ion.yaml → x-ion-field-requirements` | Network-wide always-required fields |
-| `releases/release1/schema/core/api/v2.0.0/ion.yaml → x-ion-crc-rules` | Category-conditional required fields |
+| `schema/core/v2/api/v2.0.0/ion.yaml → x-ion-field-requirements` | Unreleased network-wide always-required fields |
+| `schema/core/v2/api/v2.0.0/ion.yaml → x-ion-crc-rules` | Unreleased category-conditional required fields |
 | `schema/extensions/{pack}/v1/profile.json → minimalForDiscovery` | Discovery indexing fields |
 
 See `tools/samples/` for pre-generated outputs for common integration profiles.

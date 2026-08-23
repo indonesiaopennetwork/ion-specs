@@ -20,11 +20,28 @@ explicitly excluded the unreconciled `ion.yaml` aggregate and the Logistics,
 Hospitality, and Finance sectors from Release 1. Their source material remains
 non-normative work in progress outside this release.
 
-Phase 8A adds the independently reviewable subset of the connected Trade
-material: the Storefront v1 reference flow, 67 Trade or cross-sector policy
-terms, and 8 Trade errors whose schema and flow targets are present in this
-release. Other root flows and the errors that depend on them remain
-non-normative work in progress for a future integer release.
+Phase 8A added the independently reviewable connected Trade baseline:
+Storefront v1, 67 Trade or cross-sector policy terms, and 8 Trade errors whose
+schema and flow targets are present in this release. Phase 8B added the
+Made-to-Order v1 flow after reconciling its schema-pack names, category boundary,
+MTO state-machine target, and concrete cancellation policy. Other root flows and
+the errors that depend on them remain non-normative work in progress. Phase 8C
+added the standard-action subset of Live Commerce v1 and restored its two
+release-local errors, bringing the included error count to 10.
+Phase 8D added the standard-action, target-free subset of Digital Goods v1 for
+electronically delivered vouchers and subscriptions. Push-to-target, account
+credit, and digital top-up transactions remain outside Release 1 because no
+transaction-level delivery-target schema exists in either Release 1 or the root
+standalone schema packs.
+Phase 8E added Business Procurement, Marketplace In-house, and Marketplace
+Listed using the existing Release 1 schema packs. Cross-Border, Government,
+Forward Auction, and Reverse Auction were reviewed and deferred because their
+defining objects or state semantics are not available within the Trade release
+boundary.
+Phase 8F began variant migration with the During-Transaction v1 family. Six
+sub-branches were included using existing Release 1 objects; four branches were
+excluded for callback misuse, missing Contract lifecycle, non-Beckn escalation,
+or Logistics dependencies.
 
 ## Protocol dependency
 

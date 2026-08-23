@@ -67,10 +67,10 @@ stateMachines:
         to: [DELIVERED]
 
   mto:
-    description: Make-to-order — food QSR, custom bakery, tailoring, custom furniture
+    description: Make-to-order — custom bakery, meal kits, tailoring, custom furniture
     states:
       - code: PREPARING
-        description: Seller actively preparing/cooking/assembling the order
+        description: Seller actively preparing or assembling the order
       - code: READY
         description: Order ready for pickup by logistics or consumer
       - code: DISPATCHED

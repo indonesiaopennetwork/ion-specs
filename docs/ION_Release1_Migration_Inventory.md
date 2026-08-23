@@ -741,6 +741,175 @@ specification boundaries inside the release: `schema/`, `flows/`, `policies/`,
 and `errors/`. All common, core, extension, and vendored schema material and
 public URLs now live below `releases/release1/schema/`.
 
+#### Phase 8B — Add Made-to-Order v1 (2026-08-23)
+
+The Made-to-Order flow was reviewed independently after Storefront and added to
+the still-draft Release 1 bundle:
+
+- its schema-pack declarations use only the nine validated Trade packs and four
+  validated common packs already included in Release 1;
+- stale `localization` and `product-compliance` pack dependencies were removed
+  because the flow's localized descriptors and product attributes are carried
+  by the vendored Beckn schemas and Trade packs;
+- restaurant and cloud-kitchen categories were removed from the flow because
+  they belong to the excluded Hospitality sector;
+- the registered cancellation policy
+  `ion://policy/cancel.mto.nofee-before-prepare` is referenced concretely and
+  closes cancellation at `on_status[PREPARING]`;
+- for this draft, `on_confirm` accepts the contract and a subsequent
+  `on_status[PREPARING]` closes cancellation, preserving a post-confirm,
+  pre-preparation cancellation window;
+- the `mto` state-machine reference is release-local, and its descriptions were
+  aligned with the Trade/Hospitality boundary without changing state codes; and
+- obsolete `spine.yaml`, cross-cutting `raise`/`reconcile`, and excluded-branch
+  claims were removed from the release-local documentation.
+
+Made-to-Order is the second included Trade flow. The remaining Trade patterns
+continue to be reviewed one at a time while Release 1 is a draft.
+
+#### Subscription v1 review — deferred (2026-08-23)
+
+Subscription v1 was reviewed after Made-to-Order and was not copied into
+Release 1. Its source pattern declares the non-Beckn actions `subscribe`,
+`on_subscribe`, `subscription_status`, and `on_subscription_status`, which are
+absent from the pinned Beckn Protocol 2.0.0 contract. The same source also mixes
+those actions with standard `select`, `init`, `confirm`, `update`, and `cancel`
+steps, so mechanically removing the declarations would leave the intended
+recurring-cycle protocol ambiguous. Subscription remains non-normative source
+material pending a Beckn-compatible action model.
+
+#### Phase 8C — Add Live Commerce v1 (2026-08-23)
+
+Live Commerce was reviewed after Subscription and added as the third Release 1
+Trade flow. All included operational steps use actions defined by the pinned
+Beckn Protocol 2.0.0 contract. The release-local pattern includes live and OTT
+provider channels, Beckn `TimePeriod` offer validity, reservation and quantity
+caps, optional queues, and TradeContract source attribution.
+
+The review also inspected unreleased root schema material before narrowing the
+flow. `schema/extensions/core/reconcile/v1` contains streamer and affiliate
+reconciliation amounts, but it depends on the non-Beckn `reconcile` and
+`on_reconcile` actions and was therefore not ported. No root schema defines the
+source pattern's `STREAMER_COMMISSION` or `AFFILIATE_COMMISSION` consideration
+types or its group-buy performance states. Those features remain excluded rather
+than being represented by invented fields or states.
+
+The existing `ION-A3003` stock-cap and `ION-A3004` expired-live-session errors
+were restored with release-local schema and flow targets, increasing the
+Release 1 Trade error count from 8 to 10.
+
+#### Phase 8D — Add Digital Goods v1 (2026-08-23)
+
+Digital Goods was reviewed after Live Commerce and added as the fourth Release 1
+Trade flow. Its operational steps use only the pinned Beckn catalog, `select`,
+`init`, `confirm`, and status actions. The release-local flow corrects the source
+pattern's use of digital values under `resourceStructure`: product structure
+remains `PLAIN`, `VARIANT`, or another RetailResource structural value, while
+`DIGITAL_VOUCHER` and `DIGITAL_SUBSCRIPTION` are carried by
+`resourceTangibility`.
+
+The schema audit found that Release 1 already contains the digital Resource
+object and the `digital` performance state machine. No standalone root schema
+pack defines a transaction-level delivery target, operator delivery reference,
+or general digital-delivery failure reason. The Release 1 subset therefore
+supports only `CODE_TO_BUYER` and `QR_VOUCHER`; `PUSH_TO_TARGET`,
+`ACCOUNT_CREDIT`, and `DIGITAL_TOP_UP` transactions remain deferred rather than
+being modeled with invented fields. The undefined `tags.failure_reason` was
+removed, and `DELIVERY_FAILED` now uses the existing Payment refund object with
+the registered `DELIVERY_FAILED` reason.
+
+The source pattern's buyer NPWP and NIB requirements were also removed because
+this is a consumer flow. Its legacy target-validation error `ION-3018` /
+`ION-A3005` was not restored because target validation is outside the supported
+subset. The release remains at 10 included Trade errors.
+
+#### Phase 8E — Add Business Procurement and Marketplace flows (2026-08-23)
+
+Three further standard-action patterns were added after Digital Goods:
+
+- Business Procurement uses the existing `RetailOffer.minOrderQuantity`,
+  `TradeContract.purchaseOrderReference`, `buyerBusinessRegistration`, enriched
+  `invoicePreferences`, `IONTaxDetail.eFakturRef`, and bulk-performance fields.
+  Stale source pack names were reconciled to the Release 1 pack names. The flow
+  is explicitly prepaid; credit procurement and procurement auctions are not
+  implied.
+- Marketplace In-house specializes Storefront for marketplace-held inventory,
+  using `TradeProvider.invoicing.model=CENTRAL`, the selected
+  `fulfillingLocationId`, and marketplace-owned SLAs. Off-network brand
+  consignment and payout are outside the transaction.
+- Marketplace Listed specializes Storefront for a marketplace BAP and
+  independent seller BPP. Transaction-time commission uses the existing
+  `PLATFORM_FEE` consideration breakup type and marketplace collection uses
+  `settlementAttributes.collectedBy=BAP`. Finder-fee reconciliation was removed
+  because the root reconcile pack depends on non-Beckn actions.
+
+All objects needed by these three patterns were already present in the nine
+Trade and four common Release 1 packs, so no root schema pack was migrated.
+
+#### Remaining Trade pattern reviews — deferred (2026-08-23)
+
+The remaining four previously unreviewed root patterns were inspected and not
+copied:
+
+- Cross-Border requires the unreleased Logistics contract, resource,
+  participant, performance, and performance-state packs for Incoterms, customs
+  declarations, commercial invoices, customs actors, and export/import states.
+  Those root objects do exist, but porting them would introduce the Logistics
+  sector and its dependency closure into a release that explicitly excludes
+  Logistics. Removing them would leave a misleading export flow, so the pattern
+  remains deferred until a Logistics-enabled release.
+- Government expresses its defining K/L/D/I identity, DIPA, SP/SPK, LKPP, TKDN,
+  KPPN, BAST, SP2D, and withholding-certificate data only through ad hoc `tags`.
+  No standalone root schema pack defines a coherent B2G procurement object.
+  The standard `update` actions alone are insufficient to make those fields a
+  portable contract.
+- Forward Auction has an `AUCTION` offer type, but no Release 1 or root
+  standalone schema defines bid increments, reserve disclosure, bid status,
+  current or winning bids, or auction results. The source also uses unsolicited
+  `on_select` and `on_update` callbacks without corresponding requests, which
+  does not match the pinned Beckn callback model.
+- Reverse Auction uses standard `discover` and `on_discover` names, but its RFQ,
+  ceiling price, submission deadline, technical compliance, and quote linkage
+  are ad hoc tags with no standalone root schema. It therefore lacks the
+  interoperable procurement-intent object required to publish an auction.
+
+Subscription remains deferred as recorded above. Consequently, every top-level
+root Trade pattern has now either been migrated into Release 1 or has an explicit
+deferral reason. Root `variants/` remain separate branch material and were not
+promoted as top-level patterns.
+
+#### Phase 8F — Begin Trade variant migration (2026-08-23)
+
+The During-Transaction v1 family was reviewed first and added beneath
+`flows/trade/variants/`. Six source sub-branches can be expressed using the
+existing Release 1 schema and pinned Beckn request/callback pairs:
+
+- fulfilment-mode selection uses inherited `supportedPerformanceModes` and the
+  selected `performanceMode`;
+- BAP-collected prepayment uses the common Payment status, instrument, timestamp,
+  and gateway-reference fields;
+- BAP- and BPP-collected COD use `method=COD`, `timing=ON_FULFILLMENT`, the
+  applicable collector and COD rail, and `TradeConsideration.codAmount`;
+- multi-fulfilment uses multiple core Performance records and their
+  `commitmentIds` links; and
+- cancellation terms use the selected Offer's registered cancellation policy
+  and inline fee instead of ad hoc tags. Consumer acknowledgement remains BAP UI
+  behavior rather than an invented Contract field.
+
+Four source sub-branches were excluded within the release-local variant:
+
+- BPP-collected prepayment requires an unsolicited second `on_init`, although
+  pinned Beckn defines `on_init` as the correlated callback to `init`;
+- on-network LSP creates a separate transaction using the excluded Logistics
+  contract and `parentContractReference`;
+- the BAP technical-confirm branch attempts to cancel a Contract that was never
+  established and escalates through non-Beckn `raise`; and
+- the BPP technical-confirm branch models a NACK as `on_confirm` and then also
+  cancels a Contract that was not created, rather than returning a standard HTTP
+  NACK to `confirm`.
+
+No root schema pack was required for the six included branches.
+
 Publication is permitted only when:
 
 - every included area is `validated`;

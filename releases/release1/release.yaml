@@ -225,9 +225,39 @@ dependencies:
   transformations: []
 artifactChecksums:
   errors/README.md: 98a6a083bfed2d168bc2b4064156cfded018f20face23c706d3033a1a2b05eaf
-  errors/registry.json: 8d499b6b7e1be4f1a44a74c6fa78b4cc029d928c93bf67339ae9805dc35da6a0
-  errors/trade.yaml: 0d84dcf173dfab0958e591d072875879b1040d46d68515fe0aa156a27e1be324
-  flows/trade/README.md: a1fbd4bc8f90e92317eb78ea32f302d0f2ad92a80c3dbd2c09b31450b2eef284
+  errors/registry.json: ea00d27e994cb180540f10141935dc1b52cd1bf4129c12660ce568781210cbbe
+  errors/trade.yaml: 151cf69f7e66290306f77bcb23a712697710f19d9be97d5bbd0de98d473ee366
+  flows/trade/README.md: dc3fa3970913496638478c01047b0070eea25ae0ec9129df7c33752d3887cf45
+  flows/trade/patterns/business-procurement/v1/README.md: b4b6802e517a9390c9c7b332ca76cc335e2e6e0edc9247eda177e3d70dca644f
+  flows/trade/patterns/business-procurement/v1/docs/01-happy-path.md: '06257838df35851a22f9b9f327e9fd2e37ea696254cd72668656510b43988a1d'
+  flows/trade/patterns/business-procurement/v1/docs/README.md: b8d45bd77c9daa9331b0d7c84f736a5b5fd3a37f7ad981eeaaf4bef8aa202f5b
+  flows/trade/patterns/business-procurement/v1/pattern.yaml: 20e496695c17a68fe45e9c7c41e9ef57b154929302fe4c2b65beca95b85665ae
+  flows/trade/patterns/business-procurement/v1/profile.json: f18c43d94e49a0f20a18fca0924bfb1918211f1b9424a753d09971e23ce19a5d
+  flows/trade/patterns/digital-goods/v1/README.md: 3b7fedd01208df2946e8b33b55ff508d6eb1af5ddd6650c2286b3de2ba2220ff
+  flows/trade/patterns/digital-goods/v1/docs/01-happy-path.md: ce3ae34260d445b5d9d83ebf03065f74f5802ada175c8c76a91a4fa07ad17be6
+  flows/trade/patterns/digital-goods/v1/docs/README.md: c0498726f450b39decc158aae4fda5834ff668717c8a14971c270f1e1f4a234a
+  flows/trade/patterns/digital-goods/v1/pattern.yaml: 9a06429f4be89c8043a3c6236ab0467f110878793e62292278cc98898354db5e
+  flows/trade/patterns/digital-goods/v1/profile.json: 33321464927e0d986f5541271d21dcc72626ec385a27e250b89d0170f45b9989
+  flows/trade/patterns/live-commerce/v1/README.md: a3dbc5686dd8409498eb309b04052823ceffcf6e45b68c86376080bf38321a78
+  flows/trade/patterns/live-commerce/v1/docs/01-happy-path.md: c1ac89477aeb429eadc6adb51b9c915ac101772334dafffcff2b641ddac9f2ca
+  flows/trade/patterns/live-commerce/v1/docs/README.md: 94d31fbe1382ba5669b17dea2ace6f469393e8bf18d08acf8cab223975f46000
+  flows/trade/patterns/live-commerce/v1/pattern.yaml: 6116f1d01699e47796d963dcead4a83fe1b58adfde42c3c11ce7888bcb5e3765
+  flows/trade/patterns/live-commerce/v1/profile.json: e6d51cbe680d8c73423bbe0a0bfac42e4ff5ad471cd4701a2f6754724a3197cd
+  flows/trade/patterns/made-to-order/v1/README.md: f1eeb1da8152b38d5dd1aa231b08cfa80e03c72070de0190bb5859584679c6ad
+  flows/trade/patterns/made-to-order/v1/docs/01-happy-path.md: c5427398dc208c0da42eab7da102bf8bd97e5f8afe6749adf7ebe74871d22e7b
+  flows/trade/patterns/made-to-order/v1/docs/README.md: 7ad878dd0df4e6dfc53b1475fe508d6c0b3565f4da9734023d49c45882de6f34
+  flows/trade/patterns/made-to-order/v1/pattern.yaml: 3eca270e068c94cb0fd3cd08e94a0f242616373a645198557f6fc8018b761667
+  flows/trade/patterns/made-to-order/v1/profile.json: 4d26785cd75261b79f8390734f38a91c46387555faa45bcc54a85a9ccc15f3c8
+  flows/trade/patterns/marketplace-inhouse/v1/README.md: ec1cfe324294b4229c5404588f621084010ea90b32b32571f35c10a93351b021
+  flows/trade/patterns/marketplace-inhouse/v1/docs/01-happy-path.md: b65791ebb2cc9250de4b4a3ec17838735235247a8b1ff26a38b6d2f4728a7dee
+  flows/trade/patterns/marketplace-inhouse/v1/docs/README.md: 3fa1b128d9b1b24c2ffb864ef31ab39df3b8323c0488955d9bfff290e7dc81c8
+  flows/trade/patterns/marketplace-inhouse/v1/pattern.yaml: ec83148dcaa7394928621c84a24fa550bbd25b5984143bbd1956a4a3e00b49a3
+  flows/trade/patterns/marketplace-inhouse/v1/profile.json: 83830f43cb0fe8c402e0bfaac50ecccbfd119d6f983bdafc1078d23c8157b9f9
+  flows/trade/patterns/marketplace-listed/v1/README.md: 8c2d87dc0958f7292dddf0d75cf5a396c11c8bf9b6146342618117c202b7b81a
+  flows/trade/patterns/marketplace-listed/v1/docs/01-happy-path.md: d860540def33ec4f5e56deb6fd01fc20fd24f7f22407ffecf848bca5e7dd5652
+  flows/trade/patterns/marketplace-listed/v1/docs/README.md: dc9f9ad4255e3e8d21749ec6aaa36f20d59677247ecac7f9c16deb2d44135a1a
+  flows/trade/patterns/marketplace-listed/v1/pattern.yaml: a1abb4739b7adf6e7137b8fe4110704b7504b0c3e421261c7ad0ead684ff4ff0
+  flows/trade/patterns/marketplace-listed/v1/profile.json: 5a1fbc2d72edf5df3f40c91ffd951f57894f149925043b356c321f5b97dfe0a3
   flows/trade/patterns/storefront/v1/README.md: fca879916d78e136c354e1bc7a0d36c86c8472588f5769cacc7c4a83b70cf03f
   flows/trade/patterns/storefront/v1/docs/01-happy-path.md: 7c049f1e33ea97447f146f6d547c44237c2bc2be7b4c3c04ea7f41949c73ecd2
   flows/trade/patterns/storefront/v1/docs/README.md: 3f7122022e694e50b79d0c487178e97b70a4e35f17d95923d81074492124a54c
@@ -244,6 +274,11 @@ artifactChecksums:
   flows/trade/patterns/storefront/v1/examples/select_request.json: 398083cc68176cde4a9c25fbfa9fdd6b04273913145dddac74c262efee01acbc
   flows/trade/patterns/storefront/v1/pattern.yaml: 604a6525c477a9c615dc1591c6571679f740e9e93bb4f49e0b687f0c05043811
   flows/trade/patterns/storefront/v1/profile.json: a26ba3aa54b3a6500f3f50071053d7e723fdcab6ceb32a4f931dbdb6524c13e7
+  flows/trade/variants/during-transaction/v1/README.md: f2b7b684ffc8d82ee9001f7ba2d235b1150d7561b1c7aef605f4fe630628794d
+  flows/trade/variants/during-transaction/v1/docs/01-overview.md: b18a2f2096c79d69e65c0f161465e1fa16a1f886e7176f0868469a4833990025
+  flows/trade/variants/during-transaction/v1/docs/README.md: 3a10bc924fcad39c30e7feb80995a79f7e17eb4d0cea2123db7a6a1b5d658d23
+  flows/trade/variants/during-transaction/v1/profile.json: 32309094e158948412586efcdede7e751cc8aa1cbc33dee734ae25e1db6f88a9
+  flows/trade/variants/during-transaction/v1/variant.yaml: 60f974c9b5b51733ab91c9207e351d7381e8427e0c0717265e3068df5f93aeb4
   policies/README.md: fc4cc6caf74132192672777248f69c6346e26fbcb184c4423c94f333a4c62b75
   policies/cancellation/v1/b2b-restocking.yaml: 7134032c2100290800b56e901a8cc84a05aa7c209f82eea63b5148db4db91bdb
   policies/cancellation/v1/digital-before-pending.yaml: b9eeaf49e882202a366fbddb12b202e8b5bd5a9bdeb8a96e8331231c95edefa4
@@ -408,9 +443,9 @@ artifactChecksums:
   schema/extension/trade/TradePerformance/v1/renderer.json: 8ccd5add871e66664cadc3b9842ae2141d47a234a1881dc2411bb444b1468f52
   schema/extension/trade/TradePerformance/v1/schema.json: 5caba27bd75169f179002a83cd6c0d3a6347801a95e89aa88b00c741f55912ad
   schema/extension/trade/TradePerformance/v1/vocab.jsonld: 8e82eb867fc3e3ec24eaf9679570765ef3ffd9795e9b718612b8266e62d86476
-  schema/extension/trade/TradePerformanceStates/v1/README.md: 05e85b64ee2aa01b10a1129024d47c7351ecc3b128cff5f7ac67a27cb1d2097f
+  schema/extension/trade/TradePerformanceStates/v1/README.md: 16dd82d7f2be2cf642dc213666a1616c9ac6aaeb42201bb66095d9a7457ac0b7
   schema/extension/trade/TradePerformanceStates/v1/profile.json: 041c28e887a22cee87ba5486ea5271b9ddbf1e9e839f793c7c8392cc80d4ab0b
-  schema/extension/trade/TradePerformanceStates/v1/states.yaml: 31cd1f9e3ba7de5d5f330086364701a2867e1a18577cbe6bf51d61bdf8ee6478
+  schema/extension/trade/TradePerformanceStates/v1/states.yaml: 43a0f72aa9623faba90e635b423a7760ed4623a3e4e6994158e09a63fbe561b2
   schema/extension/trade/TradeProvider/v1/README.md: 4e71e8d816487d72d308281e8ce06529d1c66fac42b0ed1ba7c5d4c9be95c9ed
   schema/extension/trade/TradeProvider/v1/attributes.yaml: 104848ebf5b5b7a7a268be55eff6d0595778c31eb39763bd7679b4d0dac42e14
   schema/extension/trade/TradeProvider/v1/context.jsonld: e7929bc086f1eb843dc8652584326d763b15a2b75e9119e2ff57b589c105670f

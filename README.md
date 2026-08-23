@@ -4,8 +4,10 @@ ION is an open digital-commerce network specification for Indonesia, built on
 Beckn Protocol 2.0.0.
 
 > **Release 1 status: DRAFT.** Release 1 is limited to the standalone Trade
-> schema packs, the common packs they require, the scoped Storefront flow and
-> connected registries, and pinned vendored Beckn dependencies. It is not
+> schema packs, the common packs they require, the scoped Storefront,
+> Made-to-Order, Live Commerce, Digital Goods, Business Procurement,
+> Marketplace In-house, and Marketplace Listed flows and connected registries,
+> and pinned vendored Beckn dependencies. It is not
 > permanent or supported until its manifest is marked `published` on `main`.
 
 ## Release 1 entry points
@@ -21,11 +23,12 @@ Beckn Protocol 2.0.0.
 - [`releases/release1/schema/vendored/beckn/`](releases/release1/schema/vendored/beckn/) —
   immutable upstream protocol and schema dependencies.
 - [`releases/release1/flows/trade/`](releases/release1/flows/trade/) — the
-  validated Storefront v1 reference flow.
+  seven validated Trade v1 reference flows and the reviewed During-Transaction
+  v1 variant.
 - [`releases/release1/policies/registry.json`](releases/release1/policies/registry.json)
   — 67 included Trade and cross-sector policy terms.
 - [`releases/release1/errors/registry.json`](releases/release1/errors/registry.json)
-  — 8 Trade errors with release-local targets.
+  — 10 Trade errors with release-local targets.
 
 Release 1 does not publish `ion.yaml`, Logistics, Hospitality, or Finance. Their
 files under `schema/`, `flows/`, `policies/`, and `errors/` are work in progress
@@ -43,7 +46,7 @@ releases/
       common/                  Validated common packs used by Trade
       extension/trade/         Validated Trade packs
       vendored/beckn/          Pinned release-local dependencies
-    flows/trade/               Storefront v1 reference flow
+    flows/trade/               Seven flows plus reviewed Trade variants
     policies/                  Included policy sources and registry
     errors/                    Included Trade errors and registry
 

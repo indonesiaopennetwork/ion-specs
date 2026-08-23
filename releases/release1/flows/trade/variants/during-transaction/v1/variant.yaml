@@ -1,0 +1,284 @@
+# ION Trade Variant — During Transaction v1
+# NOT OAS. ION variant specification document.
+
+id: ion-trade-variant-during-transaction-v1
+version: "1.0.0"
+variantType: during-transaction
+sector: ion:trade
+status: ready
+description: >
+  Optional branches that refine an included Trade pattern between select and
+  on_confirm. Release 1 includes fulfilment-mode selection, BAP-collected
+  prepayment, two cash-on-delivery collection models, multi-performance
+  fulfilment, and display of cancellation-fee terms.
+
+attachmentWindow:
+  earliest: select
+  latest: on_confirm
+
+applicablePatterns:
+  - storefront
+  - made-to-order
+  - business-procurement
+  - marketplace-inhouse
+  - marketplace-listed
+
+subBranches:
+  fulfillment-type:
+    id: fulfillment-type
+    window:
+      earliest: select
+      latest: on_confirm
+    description: Consumer selects one of the performance modes offered by the BPP.
+    steps:
+      - step: select
+        from: BAP
+        to: BPP
+        direction: request
+        requiredFields:
+          - message.contract.performance[].performanceAttributes.performanceMode
+      - step: on_select
+        from: BPP
+        to: BAP
+        direction: callback
+        requiredFields:
+          - message.contract.performance[].performanceAttributes.supportedPerformanceModes[]
+      - step: init
+        from: BAP
+        to: BPP
+        direction: request
+        requiredFields:
+          - message.contract.performance[].performanceAttributes.performanceMode
+        conditionalFields:
+          - field: message.contract.performance[].performanceAttributes.stops[].location
+            condition: required for DELIVERY and identifies the provider pickup location for SELF_PICKUP
+    businessRules:
+      - selected performanceMode is one of supportedPerformanceModes
+      - SELF_PICKUP does not require a buyer delivery address
+    schemaPacks:
+      trade: [TradePerformance/v1]
+
+  payment-prepaid-BAP-collected:
+    id: payment-prepaid-BAP-collected
+    window:
+      earliest: init
+      latest: on_confirm
+    description: The BAP collects electronic payment before confirm.
+    steps:
+      - step: init
+        from: BAP
+        to: BPP
+        direction: request
+        requiredFields:
+          - message.contract.settlements[].settlementAttributes.collectedBy
+          - message.contract.settlements[].settlementAttributes.method
+          - message.contract.settlements[].settlementAttributes.paymentRail
+          - message.contract.settlements[].settlementAttributes.timing
+      - step: on_init
+        from: BPP
+        to: BAP
+        direction: callback
+        requiredFields:
+          - message.contract.settlements[].settlementAttributes.status
+          - message.contract.settlements[].settlementAttributes.methodDetail
+      - step: confirm
+        from: BAP
+        to: BPP
+        direction: request
+        requiredFields:
+          - message.contract.settlements[].settlementAttributes.status
+          - message.contract.settlements[].settlementAttributes.paidAt
+          - message.contract.settlements[].settlementAttributes.gatewayRef
+    businessRules:
+      - settlementAttributes.collectedBy is BAP
+      - settlementAttributes.timing is ON_ORDER or PRE_FULFILLMENT
+      - settlementAttributes.status is PAID at confirm
+    schemaPacks:
+      common: [Payment/v1]
+
+  payment-COD-BAP-collected:
+    id: payment-COD-BAP-collected
+    window:
+      earliest: init
+      latest: on_status[DELIVERED]
+    description: The BAP-arranged delivery channel collects cash at delivery.
+    steps:
+      - step: init
+        from: BAP
+        to: BPP
+        direction: request
+        requiredFields:
+          - message.contract.settlements[].settlementAttributes.method
+          - message.contract.settlements[].settlementAttributes.collectedBy
+          - message.contract.settlements[].settlementAttributes.paymentRail
+          - message.contract.settlements[].settlementAttributes.timing
+      - step: on_init
+        from: BPP
+        to: BAP
+        direction: callback
+        requiredFields:
+          - message.contract.consideration[].considerationAttributes.codAmount
+      - step: confirm
+        from: BAP
+        to: BPP
+        direction: request
+        requiredFields:
+          - message.contract.settlements[].settlementAttributes.status
+      - step: on_status
+        trigger: DELIVERED
+        from: BPP
+        to: BAP
+        direction: unsolicited
+        requiredFields:
+          - message.contract.settlements[].settlementAttributes.status
+          - message.contract.settlements[].settlementAttributes.paidAt
+    businessRules:
+      - settlementAttributes.method is COD
+      - settlementAttributes.collectedBy is BAP
+      - settlementAttributes.timing is ON_FULFILLMENT
+      - settlementAttributes.paymentRail is COD_CASH or COD_CARD_TAP
+      - considerationAttributes.codAmount is the exact amount to collect
+    schemaPacks:
+      common: [Payment/v1]
+      trade: [TradeConsideration/v1]
+
+  payment-COD-BPP-collected:
+    id: payment-COD-BPP-collected
+    window:
+      earliest: init
+      latest: on_status[DELIVERED]
+    description: The seller's delivery channel collects cash at delivery.
+    steps:
+      - step: init
+        from: BAP
+        to: BPP
+        direction: request
+        requiredFields:
+          - message.contract.settlements[].settlementAttributes.method
+          - message.contract.settlements[].settlementAttributes.collectedBy
+          - message.contract.settlements[].settlementAttributes.paymentRail
+          - message.contract.settlements[].settlementAttributes.timing
+      - step: on_init
+        from: BPP
+        to: BAP
+        direction: callback
+        requiredFields:
+          - message.contract.consideration[].considerationAttributes.codAmount
+      - step: confirm
+        from: BAP
+        to: BPP
+        direction: request
+        requiredFields:
+          - message.contract.settlements[].settlementAttributes.status
+      - step: on_status
+        trigger: DELIVERED
+        from: BPP
+        to: BAP
+        direction: unsolicited
+        requiredFields:
+          - message.contract.settlements[].settlementAttributes.status
+          - message.contract.settlements[].settlementAttributes.paidAt
+    businessRules:
+      - settlementAttributes.method is COD
+      - settlementAttributes.collectedBy is BPP
+      - settlementAttributes.timing is ON_FULFILLMENT
+      - settlementAttributes.paymentRail is COD_CASH or COD_CARD_TAP
+      - considerationAttributes.codAmount is the exact amount to collect
+    schemaPacks:
+      common: [Payment/v1]
+      trade: [TradeConsideration/v1]
+
+  multi-fulfillment:
+    id: multi-fulfillment
+    window:
+      earliest: select
+      latest: init
+    description: >
+      One Contract is split into multiple Performance records, each linked to
+      the Commitment identifiers it fulfils.
+    steps:
+      - step: select
+        from: BAP
+        to: BPP
+        direction: request
+        requiredFields:
+          - message.contract.commitments[]
+      - step: on_select
+        from: BPP
+        to: BAP
+        direction: callback
+        requiredFields:
+          - message.contract.performance[]
+          - message.contract.performance[].id
+          - message.contract.performance[].commitmentIds[]
+          - message.contract.performance[].performanceAttributes.performanceMode
+          - message.contract.performance[].performanceAttributes.sla
+          - message.contract.consideration[].considerationAttributes.breakup[]
+      - step: init
+        from: BAP
+        to: BPP
+        direction: request
+        conditionalFields:
+          - field: message.contract.performance[].performanceAttributes.stops[]
+            condition: present for each Performance that requires a location
+    businessRules:
+      - each Commitment ID is fulfilled by at least one Performance
+      - each Performance progresses through its applicable state machine independently
+    schemaPacks:
+      trade: [TradePerformance/v1, TradeConsideration/v1]
+
+  cancellation-terms:
+    id: cancellation-terms
+    window:
+      earliest: on_init
+      latest: confirm
+    description: >
+      The BAP displays the selected Offer's registered cancellation policy and
+      inline fee before asking the consumer to confirm.
+    steps:
+      - step: on_init
+        from: BPP
+        to: BAP
+        direction: callback
+        requiredFields:
+          - message.contract.commitments[].offer.offerAttributes.policies.cancellation.policyRef
+        conditionalFields:
+          - field: message.contract.commitments[].offer.offerAttributes.policies.cancellation.fee.type
+            condition: present when the registered policy applies a fee
+          - field: message.contract.commitments[].offer.offerAttributes.policies.cancellation.fee.value
+            condition: present when the registered policy applies a fee
+      - step: confirm
+        from: BAP
+        to: BPP
+        direction: request
+        description: Confirmation occurs only after the BAP displays the applicable terms.
+    businessRules:
+      - the inline cancellation fee agrees with the registered policyRef
+      - no invented consumer-acknowledgement tag is placed on the Contract
+    schemaPacks:
+      trade: [TradeOffer/v1, TradeCommitment/v1]
+
+excludedSubBranches:
+  payment-prepaid-BPP-collected:
+    reason: >
+      The source requires a second unsolicited on_init payment callback without
+      a corresponding init request. Pinned Beckn defines on_init as the callback
+      to init and requires request correlation.
+  on-network-LSP:
+    reason: >
+      This branch creates a separate Logistics-sector transaction using
+      LogisticsContract.parentContractReference. Logistics is excluded from
+      Release 1 and cannot be represented by the Trade pack alone.
+  technical-cancellation-confirm-failure-BAP:
+    reason: >
+      A rejected or timed-out confirm does not establish a Contract that can be
+      cancelled. The source also escalates through the non-Beckn raise action.
+  technical-cancellation-confirm-failure-BPP:
+    reason: >
+      Beckn returns a NACK as the HTTP response to confirm; the source instead
+      models an on_confirm NACK and then cancels a Contract that was not created.
+
+policyRequirements:
+  paymentTerms:
+    policyRef: ion://policy/payment-terms.upfront.full
+

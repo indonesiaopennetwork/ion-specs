@@ -13,8 +13,8 @@ Authoritative conventions for pack authors. All contributions must follow this g
 | Layer | Location | What goes here |
 |---|---|---|
 | L1 | `beckn.yaml` (external) | Beckn core — never modified |
-| L2 | `releases/release1/schema/core/api/v2.0.0/ion.yaml` | ION network profile overlay |
-| L3 | `releases/release1/schema/core/api/v2.0.0/ion.yaml` → `paths:` block | `/raise` family (6 endpoints) + `/reconcile` + `/on_reconcile` |
+| L2 | `schema/core/v2/api/v2.0.0/ion.yaml` | Unreleased ION network profile overlay |
+| L3 | `schema/core/v2/api/v2.0.0/ion.yaml` → `paths:` block | Unreleased `/raise` family (6 endpoints) + `/reconcile` + `/on_reconcile` |
 | L4 | `schema/extensions/core/*/v1/` | Cross-sector attribute packs |
 | L5 | `schema/extensions/{trade,logistics}/*/v1/` | Sector-specific attribute packs |
 
@@ -79,7 +79,8 @@ allOf:
   - $ref: https://schema.ion.id/releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Attributes
 ```
 
-**Never use the external GitHub URL.** Always use the local relative path.
+**Never use the external GitHub URL or a repository-relative path in a released
+pack.** Use the absolute, release-qualified `schema.ion.id` URL shown above.
 
 ### additionalProperties
 Set `additionalProperties: true` on all extension bags (allows NPOS overlay schemas).

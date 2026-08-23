@@ -1,0 +1,60 @@
+{
+  "id": "ion-trade-pattern-made-to-order-v1",
+  "version": "1.0.0",
+  "sector": "trade",
+  "sectorCode": "A",
+  "status": "ready",
+  "description": "Consumer purchases goods prepared or assembled after confirmation; cancellation closes when PREPARING begins.",
+  "applicableCategories": [
+    "custom-bakery",
+    "meal-kits",
+    "tailoring",
+    "custom-furniture",
+    "made-to-order-fmcg"
+  ],
+  "spineFile": "./pattern.yaml",
+  "schemaPacksRequired": {
+    "common": [
+      "BusinessRegistration/v1",
+      "Payment/v1",
+      "Tax/v1",
+      "Address/v1"
+    ],
+    "trade": [
+      "TradeProvider/v1",
+      "TradeResource/v1",
+      "TradeOffer/v1",
+      "TradeConsideration/v1",
+      "TradePerformance/v1",
+      "TradeContract/v1",
+      "TradeCommitment/v1",
+      "TradeSettlement/v1"
+    ]
+  },
+  "performanceStateMachine": "schema/extension/trade/TradePerformanceStates/v1/states.yaml#mto",
+  "requiredPolicyCategories": [
+    "RETURN",
+    "CANCELLATION",
+    "WARRANTY",
+    "DISPUTE",
+    "GRIEVANCE_SLA",
+    "PAYMENT_TERMS"
+  ],
+  "policyRegistryVersion": "2.0.0",
+  "includedBranches": [],
+  "type": "Pattern",
+  "patternName": "made-to-order",
+  "policyRequirements": {
+    "requiredCategories": [
+      "CANCELLATION",
+      "RETURN",
+      "WARRANTY",
+      "DISPUTE",
+      "GRIEVANCE_SLA",
+      "PAYMENT_TERMS"
+    ],
+    "enforcedBy": "ONIX",
+    "enforcementPoint": "catalog/publish and on_confirm",
+    "note": "Offers on this flow MUST carry a concrete registered policyRef for each required category."
+  }
+}

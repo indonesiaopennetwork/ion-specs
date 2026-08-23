@@ -95,6 +95,7 @@ ruby tools/release/tests/validate_path_map_test.rb
 ruby tools/release/tests/plan_vendoring_test.rb
 ruby tools/release/tests/apply_vendoring_plan_test.rb
 ruby tools/release/tests/validate_offline_refs_test.rb
+ruby tools/release/tests/validate_public_urls_test.rb
 ruby tools/release/tests/validate_artifact_checksums_test.rb
 ruby tools/release/tests/validate_release_scope_test.rb
 ruby tools/release/tests/validate_release_immutability_test.rb

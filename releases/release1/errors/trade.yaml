@@ -117,6 +117,46 @@
       catalog. Do not fabricate or guess option IDs.
   legacy_code: ION-3003
   sector: trade
+- code: ION-A3003
+  http_status: 409
+  category: transaction
+  title:
+    id: Batas stok penawaran tercapai
+    en: Offer total stock cap reached
+  description:
+    en: A flash or capped offer has been fully claimed. The offer's totalStockCap
+      has been reached and the offer is no longer available.
+  affected_field: message.catalog.offers[].offerAttributes.totalStockCap
+  affected_apis:
+  - select
+  schema_ref: schema/extension/trade/TradeOffer/v1
+  flow_ref: flows/trade/patterns/live-commerce/v1
+  resolution:
+    en: Inform the consumer that the offer is sold out and surface a standard offer
+      when one is available.
+  legacy_code: ION-3015
+  sector: trade
+- code: ION-A3004
+  http_status: 410
+  category: transaction
+  title:
+    id: Sesi live berakhir
+    en: Live session ended
+  description:
+    en: The current time is past the offer validity schema:endDate, so the
+      time-bounded live offer can no longer be selected or confirmed.
+  affected_field: message.catalog.offers[].offerAttributes.validity.schema:endDate
+  affected_apis:
+  - select
+  - init
+  - confirm
+  schema_ref: schema/extension/trade/TradeOffer/v1
+  flow_ref: flows/trade/patterns/live-commerce/v1
+  resolution:
+    en: Inform the consumer that the live offer has ended and redirect to the
+      standard catalog.
+  legacy_code: ION-3017
+  sector: trade
 - code: ION-A3006
   http_status: 409
   category: transaction
