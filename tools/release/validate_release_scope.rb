@@ -32,7 +32,7 @@ module IonReleaseScope
     end
 
     CONTENT_PATHS.each do |area, patterns|
-      matches = patterns.flat_map { |pattern| Dir[root.join(pattern).to_s] }.uniq
+      matches = patterns.flat_map { |pattern| matching_paths(root, pattern) }.uniq
       case statuses[area]
       when "excluded"
         matches.each do |path|
@@ -46,6 +46,13 @@ module IonReleaseScope
     errors
   rescue Psych::SyntaxError => e
     ["invalid release manifest: #{e.message.lines.first.strip}"]
+  end
+
+  def matching_paths(root, pattern)
+    path = root.join(pattern)
+    return [path.to_s] if !pattern.include?("*") && path.exist?
+
+    Dir[path.to_s]
   end
 end
 

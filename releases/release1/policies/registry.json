@@ -1012,12 +1012,8 @@
         "id": "Denda penyalahgunaan chargeback",
         "en": "Chargeback abuse penalty"
       },
-      "applicableCategories": [
-
-      ],
-      "applicableResourceTypes": [
-
-      ],
+      "applicableCategories": [],
+      "applicableResourceTypes": [],
       "regulatoryBasis": [
         "OJK regulations on chargeback",
         "ION Network Anti-Fraud Policy"
@@ -1038,12 +1034,8 @@
         "id": "Denda penolakan COD",
         "en": "COD refusal penalty"
       },
-      "applicableCategories": [
-
-      ],
-      "applicableResourceTypes": [
-
-      ],
+      "applicableCategories": [],
+      "applicableResourceTypes": [],
       "regulatoryBasis": [
         "ION Network Policy"
       ],
@@ -1063,12 +1055,8 @@
         "id": "Denda kegagalan penerimaan",
         "en": "Failed delivery penalty"
       },
-      "applicableCategories": [
-
-      ],
-      "applicableResourceTypes": [
-
-      ],
+      "applicableCategories": [],
+      "applicableResourceTypes": [],
       "regulatoryBasis": [
         "ION Network Policy"
       ],
@@ -1088,12 +1076,8 @@
         "id": "Biaya restocking 15%",
         "en": "15% restocking fee"
       },
-      "applicableCategories": [
-
-      ],
-      "applicableResourceTypes": [
-
-      ],
+      "applicableCategories": [],
+      "applicableResourceTypes": [],
       "regulatoryBasis": [
         "ION Network Policy",
         "UU 8/1999 Pasal 19"
@@ -1114,12 +1098,8 @@
         "id": "Biaya restocking 20% - elektronik",
         "en": "20% restocking fee - electronics"
       },
-      "applicableCategories": [
-
-      ],
-      "applicableResourceTypes": [
-
-      ],
+      "applicableCategories": [],
+      "applicableResourceTypes": [],
       "regulatoryBasis": [
         "ION Network Policy",
         "UU 8/1999 Pasal 19"
@@ -1140,12 +1120,8 @@
         "id": "Tanpa biaya restocking",
         "en": "No restocking fee"
       },
-      "applicableCategories": [
-
-      ],
-      "applicableResourceTypes": [
-
-      ],
+      "applicableCategories": [],
+      "applicableResourceTypes": [],
       "regulatoryBasis": [
         "ION Network Policy - Default Return Terms"
       ],
@@ -1165,12 +1141,8 @@
         "id": "Denda produk palsu dari kreator",
         "en": "Counterfeit products promoted by creator"
       },
-      "applicableCategories": [
-
-      ],
-      "applicableResourceTypes": [
-
-      ],
+      "applicableCategories": [],
+      "applicableResourceTypes": [],
       "regulatoryBasis": [
         "UU 20/2016 tentang Merek",
         "UU 28/2014 tentang Hak Cipta"
@@ -1191,12 +1163,8 @@
         "id": "Denda klaim menyesatkan kreator",
         "en": "Misleading claims by creator/streamer"
       },
-      "applicableCategories": [
-
-      ],
-      "applicableResourceTypes": [
-
-      ],
+      "applicableCategories": [],
+      "applicableResourceTypes": [],
       "regulatoryBasis": [
         "UU 8/1999 Pasal 9",
         "Kemendag Permen 31/2023"
@@ -1217,12 +1185,8 @@
         "id": "Denda marketplace - gagal eskalasi",
         "en": "Marketplace escalation miss penalty"
       },
-      "applicableCategories": [
-
-      ],
-      "applicableResourceTypes": [
-
-      ],
+      "applicableCategories": [],
+      "applicableResourceTypes": [],
       "regulatoryBasis": [
         "ION Network Policy",
         "UU 8/1999 Pasal 45"
@@ -1243,12 +1207,8 @@
         "id": "Denda pembatalan premium/flash",
         "en": "Seller cancellation penalty - Premium/Flash tier"
       },
-      "applicableCategories": [
-
-      ],
-      "applicableResourceTypes": [
-
-      ],
+      "applicableCategories": [],
+      "applicableResourceTypes": [],
       "regulatoryBasis": [
         "ION Premium Tier Standards"
       ],
@@ -1268,12 +1228,8 @@
         "id": "Denda pembatalan tanpa alasan sah",
         "en": "Seller cancellation without valid cause"
       },
-      "applicableCategories": [
-
-      ],
-      "applicableResourceTypes": [
-
-      ],
+      "applicableCategories": [],
+      "applicableResourceTypes": [],
       "regulatoryBasis": [
         "UU 8/1999 Pasal 8"
       ],
@@ -1293,12 +1249,8 @@
         "id": "Denda keterlambatan pengiriman",
         "en": "Late dispatch penalty"
       },
-      "applicableCategories": [
-
-      ],
-      "applicableResourceTypes": [
-
-      ],
+      "applicableCategories": [],
+      "applicableResourceTypes": [],
       "regulatoryBasis": [
         "ION Network Policy",
         "Permendag 50/2020"
@@ -1319,12 +1271,8 @@
         "id": "Denda SLA penjual - tier Mall",
         "en": "Seller SLA breach penalty - Mall tier (stricter)"
       },
-      "applicableCategories": [
-
-      ],
-      "applicableResourceTypes": [
-
-      ],
+      "applicableCategories": [],
+      "applicableResourceTypes": [],
       "regulatoryBasis": [
         "ION Network Policy - Mall Tier Standards"
       ],
@@ -1344,12 +1292,8 @@
         "id": "Denda SLA penjual - tier Premium",
         "en": "Seller SLA breach penalty - Premium tier (strictest)"
       },
-      "applicableCategories": [
-
-      ],
-      "applicableResourceTypes": [
-
-      ],
+      "applicableCategories": [],
+      "applicableResourceTypes": [],
       "regulatoryBasis": [
         "ION Network Policy - Premium Tier Standards"
       ],
@@ -1369,12 +1313,8 @@
         "id": "Denda SLA penjual - standar",
         "en": "Seller SLA breach penalty - standard tier"
       },
-      "applicableCategories": [
-
-      ],
-      "applicableResourceTypes": [
-
-      ],
+      "applicableCategories": [],
+      "applicableResourceTypes": [],
       "regulatoryBasis": [
         "UU 8/1999 Pasal 45",
         "ION Network Policy - Seller Performance Standards"
@@ -1395,12 +1335,8 @@
         "id": "Denda pengiriman barang salah",
         "en": "Wrong item shipped penalty"
       },
-      "applicableCategories": [
-
-      ],
-      "applicableResourceTypes": [
-
-      ],
+      "applicableCategories": [],
+      "applicableResourceTypes": [],
       "regulatoryBasis": [
         "UU 8/1999 Pasal 4"
       ],
@@ -1420,12 +1356,8 @@
         "id": "Denda RTO kesalahan penjual",
         "en": "RTO due to seller fault penalty"
       },
-      "applicableCategories": [
-
-      ],
-      "applicableResourceTypes": [
-
-      ],
+      "applicableCategories": [],
+      "applicableResourceTypes": [],
       "regulatoryBasis": [
         "UU 8/1999 Pasal 8"
       ],

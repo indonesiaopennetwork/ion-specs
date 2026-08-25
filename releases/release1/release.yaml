@@ -25,10 +25,9 @@ dependencies:
   upstreamUrl: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/a22300aa83796cb8dfc2b63cd9dd0e36a7f4d3a1/api/v2.0.0/beckn.yaml
   vendoredPath: schema/vendored/beckn/protocol/v2.0.0/beckn.yaml
   upstreamSha256: 5afc7586ef1fbc378ea6abb139292dbe85750e4c5ea1a2fd410a40479aadc0f0
-  releasedSha256: 3a909f076796c58b122bf38cfcf9560e1edb504cde00d35261ac8ae393b1ad76
+  releasedSha256: 5afc7586ef1fbc378ea6abb139292dbe85750e4c5ea1a2fd410a40479aadc0f0
   license: CC-BY-NC-SA-4.0
-  transformations:
-  - Removed upstream trailing whitespace without changing parsed OpenAPI content.
+  transformations: []
 - name: AcceptedPaymentMethod
   type: schema
   upstreamVersion: '2.0'
@@ -225,7 +224,7 @@ dependencies:
   transformations: []
 artifactChecksums:
   errors/README.md: 98a6a083bfed2d168bc2b4064156cfded018f20face23c706d3033a1a2b05eaf
-  errors/registry.json: ea00d27e994cb180540f10141935dc1b52cd1bf4129c12660ce568781210cbbe
+  errors/registry.json: a99b475e41a99f1da7b4a12e8ed79ecc5cb2dd7382949ec1ee1608463ac09921
   errors/trade.yaml: 151cf69f7e66290306f77bcb23a712697710f19d9be97d5bbd0de98d473ee366
   flows/trade/README.md: dc3fa3970913496638478c01047b0070eea25ae0ec9129df7c33752d3887cf45
   flows/trade/patterns/business-procurement/v1/README.md: b4b6802e517a9390c9c7b332ca76cc335e2e6e0edc9247eda177e3d70dca644f
@@ -324,7 +323,7 @@ artifactChecksums:
   policies/penalty/v1/seller-sla-breach-premium.yaml: 5c5113e6df1ddfd55a6cbc539968d7bd2182f8853f65768427f8b0f27ba8f500
   policies/penalty/v1/seller-sla-breach-standard.yaml: f5baa0b5b6d6c8f333b3a52fe9a2690da6b7eb599e3735edfe9835cda65f8d35
   policies/penalty/v1/seller-wrong-item.yaml: 00bd79ec47a185cb0a10951c0f55e8b7b98245f5e47ea07cdec7cb6e987a6fae
-  policies/registry.json: 2db6ae35188296300f29e6c4034a97fe128dc6da2ea4931cb7f5359b631cd821
+  policies/registry.json: 3bf347ae842b45c3b0215e3109730b3af0d595a1d5806895d14942c32bcada25
   policies/return/v1/agritech-perishable.yaml: 9eb2c9f8d9fd8d599c78f133b8d72622c6c91ec9e53d19758dbb98ace94d8243
   policies/return/v1/beauty-hygiene-nonreturnable.yaml: 0c0d5f110d3781ad936b72ac4e8d06f603d21d0aa2d95269240865316b28d168
   policies/return/v1/books-14d-sealed.yaml: 4e70a6a6eb0a386d21e047e0e670ee865037621b721cc7f7ff1299d5116e13fc
@@ -479,7 +478,7 @@ artifactChecksums:
   schema/vendored/beckn/licenses/local-retail/LICENSE.md: 8386f4aded6116293b4a2daf378638abe4ed49406c696c12d4e8c19310aec46e
   schema/vendored/beckn/licenses/protocol-specifications-v2/LICENSE: ec5bc2d54dae0ebc2c8ec5a147d0b48d48af5b3f73acdcb8e33f104a7ad4407c
   schema/vendored/beckn/licenses/schemas/LICENSE.md: ec5bc2d54dae0ebc2c8ec5a147d0b48d48af5b3f73acdcb8e33f104a7ad4407c
-  schema/vendored/beckn/protocol/v2.0.0/beckn.yaml: 3a909f076796c58b122bf38cfcf9560e1edb504cde00d35261ac8ae393b1ad76
+  schema/vendored/beckn/protocol/v2.0.0/beckn.yaml: 5afc7586ef1fbc378ea6abb139292dbe85750e4c5ea1a2fd410a40479aadc0f0
   schema/vendored/beckn/schemas/AcceptedPaymentMethod/2.0/attributes.yaml: 192181c691590fdf35ddc8ff3a64ed18fa4ae36d8baa4e9b8fc2c189314ecf77
   schema/vendored/beckn/schemas/Address/2.0/attributes.yaml: cbd663923fcbf4dc7a5050c76762320ec4db2a1b9d7ff532eab1d8442dc6b7be
   schema/vendored/beckn/schemas/Attributes/2.0/attributes.yaml: bd9b439dcf0ac8e54702807fd488a6e4394fe92d826382f9ca2357f7f2c1354d

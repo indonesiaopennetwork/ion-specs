@@ -10,12 +10,23 @@ module IonReleaseImmutability
 
   def published_release_paths(releases_root)
     root = Pathname.new(File.expand_path(releases_root))
-    Dir[root.join("release*/release.yaml").to_s].sort.each_with_object([]) do |manifest_path, result|
+    manifest_paths(root).each_with_object([]) do |manifest_path, result|
       manifest = YAML.safe_load(File.read(manifest_path), aliases: true)
       if manifest["status"] == "published"
         result << Pathname.new(manifest_path).dirname.relative_path_from(root.parent).to_s
       end
     end
+  end
+
+  def manifest_paths(root)
+    return [] unless root.directory?
+
+    root.children
+      .select { |path| path.directory? && path.basename.to_s.match?(/\Arelease[1-9][0-9]*\z/) }
+      .map { |path| path.join("release.yaml") }
+      .select(&:file?)
+      .map(&:to_s)
+      .sort
   end
 
   def validate(published_paths, changed_paths)

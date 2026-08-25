@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
+require "find"
 require "pathname"
 require "yaml"
 
@@ -15,7 +16,7 @@ module IonReleasePublicUrls
     base = manifest.fetch("publicBaseUrl")
     errors = []
 
-    Dir[root.join("**/*").to_s].sort.each do |path|
+    text_files(root).each do |path|
       next unless File.file?(path) && TEXT_EXTENSIONS.include?(File.extname(path))
 
       File.read(path).scan(URL_PATTERN).each do |url|
@@ -32,6 +33,12 @@ module IonReleasePublicUrls
     errors.uniq
   rescue Psych::SyntaxError => e
     ["invalid release manifest: #{e.message.lines.first.strip}"]
+  end
+
+  def text_files(root)
+    paths = []
+    Find.find(root.to_s) { |path| paths << path if File.file?(path) }
+    paths.sort
   end
 end
 

@@ -29,7 +29,7 @@ module IonVendoringManifest
     transformations = if released_sha == upstream.fetch("sha256")
                         []
                       elsif type == "protocol"
-                        ["Removed upstream trailing whitespace without changing parsed OpenAPI content."]
+                        raise ArgumentError, "vendored protocol differs from upstream; do not transform protocol files without explicit approval"
                       else
                         [REF_TRANSFORMATION]
                       end

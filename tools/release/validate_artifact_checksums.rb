@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require "digest"
+require "find"
 require "pathname"
 require "yaml"
 
@@ -11,7 +12,12 @@ module IonArtifactChecksums
 
   def artifact_files(root)
     ARTIFACT_ROOTS.flat_map do |directory|
-      Dir[root.join(directory, "**/*").to_s].select { |path| File.file?(path) }
+      base = root.join(directory)
+      next [] unless base.directory?
+
+      files = []
+      Find.find(base.to_s) { |path| files << path if File.file?(path) }
+      files
     end.sort.map { |path| Pathname.new(path).relative_path_from(root).to_s }
   end
 

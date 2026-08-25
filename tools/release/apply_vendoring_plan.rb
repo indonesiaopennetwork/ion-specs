@@ -108,9 +108,6 @@ module IonVendoringApply
       staged.keys.grep(/\.(?:yaml|yml|json)\z/).each do |path|
         extra_refs = path == File.join(release_root, "schema/core/api/v2.0.0/ion.yaml") ? ION_INTERNAL_REFS : {}
         rewritten, count = IonVendoringApply.rewrite_ref_lines(staged.fetch(path), aliases, extra_refs: extra_refs)
-        if path == contained_path(plan.dig("protocol", "existingCandidate"))
-          rewritten = rewritten.gsub(/[ \t]+(?=\r?$)/, "")
-        end
         IonVendoringApply.parse_document(rewritten, path)
         staged[path] = rewritten
         rewrite_count += count

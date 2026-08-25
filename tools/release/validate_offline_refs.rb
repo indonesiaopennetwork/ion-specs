@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require "date"
+require "find"
 require "pathname"
 require "uri"
 require "yaml"
@@ -74,7 +75,11 @@ module IonOfflineRefs
     private
 
     def document_paths
-      Dir.glob(File.join(@release_root, "**/*.{yaml,yml,json}")).sort
+      paths = []
+      Find.find(@release_root) do |path|
+        paths << path if File.file?(path) && path.match?(/\.(?:yaml|yml|json)\z/)
+      end
+      paths.sort
     end
 
     def load_document(path)

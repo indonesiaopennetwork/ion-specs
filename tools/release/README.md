@@ -29,7 +29,8 @@ permanent integer releases. It is not copied into individual release bundles.
   URL in release YAML, JSON, JSON-LD, and Markdown maps to an existing file or
   directory in that release.
 - `finalize_vendoring_manifest.rb` records upstream and released checksums only
-  after the offline graph passes; it previews changes unless passed `--apply`.
+  after the offline graph passes; it rejects transformed protocol files and
+  previews changes unless passed `--apply`.
 - `sync_schema_pack_jsonld.rb` synchronizes a pack's local JSON-LD types and
   properties with its authoritative `attributes.yaml`; it is dry-run by default.
 - `validate_trade_connections.rb` checks Trade flow targets, concrete policy
@@ -94,6 +95,7 @@ ruby tools/release/tests/validate_manifest_test.rb
 ruby tools/release/tests/validate_path_map_test.rb
 ruby tools/release/tests/plan_vendoring_test.rb
 ruby tools/release/tests/apply_vendoring_plan_test.rb
+ruby tools/release/tests/finalize_vendoring_manifest_test.rb
 ruby tools/release/tests/validate_offline_refs_test.rb
 ruby tools/release/tests/validate_public_urls_test.rb
 ruby tools/release/tests/validate_artifact_checksums_test.rb

@@ -11,24 +11,24 @@ info:
 
     - **Discovery**: Catalog publishing, Catalog discovery and browsing
     - **Contracting (previously called Ordering)**: Price negotiation, Terms negotiation, Contract agreement
-    - **Performance (previously called Fulfillment)** : Status updates, real-time tracking, contract cancellation / termination, contract amendment
+    - **Performance (previously called Fulfillment)** : Status updates, real-time tracking, contract cancellation / termination, contract amendment 
     - **Post-performance (previously called Post-fulfillment)**: Rating, feedback, and support
 
     ## Fabric Actors (Normative)
 
     Any actor on the fabric participating in a value-exchange transaction MUST be one of the following:
 
-    1. **Consumer:** A verified entity on the fabric that seeks to obtain an item of value (Resource) from a provider who owns that resource.
+    1. **Consumer:** A verified entity on the fabric that seeks to obtain an item of value (Resource) from a provider who owns that resource. 
 
     2. **Provider:** A verified entity on the fabric that provides the item of value (Resource) to the consumer who wants that resource.
 
-    3. **Consumer Node (CN)** — A verified, on-fabric application that onboards consumers or consumer-facing agents as clients by creating or verifying their identity on the fabric. It initiates value-exchange transactions on behalf of its clients. It MUST provide an addressable endpoint to routing incoming messages to the respective consumers it onboards. It SHOULD implement a client-facing interface for discovery, contracting, fulfillment and post-fulfillment workflows.
+    3. **Consumer Node (CN)** — A verified, on-fabric application that onboards consumers or consumer-facing agents as clients by creating or verifying their identity on the fabric. It initiates value-exchange transactions on behalf of its clients. It MUST provide an addressable endpoint to routing incoming messages to the respective consumers it onboards. It SHOULD implement a client-facing interface for discovery, contracting, fulfillment and post-fulfillment workflows. 
 
     4. **Provider Node (PN)** — A verified, on-fabric application that onboards providers or provider-facing agents as clients by creating or verifying their identity on the fabric. Its network-facing API MUST implement the Beckn Protocol endpoints that receive value-exchange requests from calling CNs and respond to them via asynchronous callback endpoints implemented by the CNs. It MUST provide an addressable endpoint to routing incoming messages to the respective providers it has onboarded. It SHOULD provide a client-facing interface for publishing and managing catalogs, contracts, fulfillments, ratings, feedback, and providing support to CNs.
 
     5. **Discovery Service (DS)**: — A verified on-fabric application that enables discovery of catalogs only accessible via CNs. Its network-facing API MUST implement the Beckn Protocol API endpoints that receive catalog discovery requests from CNs and asynchronously respond with catalogs from various providers. It MUST ensure the catalog it has is the most recent, either by subscribing to updates from the fabric cataloging service (see next section — deprecated, see NFH-014) or by crawling and independently verifying PN-hosted catalog files per NFH-014's decentralized publishing model. It MAY be implemented as an independent SaaS for CNs to consume, or implemented by the CNs themselves.
 
-    6. **Network Facilitator Organization (NFO)** — Entity that manages a subnet on the fabric consisting of CNs, PNs, and DSes.
+    6. **Network Facilitator Organization (NFO)** — Entity that manages a subnet on the fabric consisting of CNs, PNs, and DSes. 
 
     The above actors can exist as separate applications with distinct fabric identities, or can be bundled inside a single application. Each role MUST have a separate identity and public key on the fabric, even if they are all implemented of a single platform.
 
@@ -37,19 +37,19 @@ info:
     ## Required Infrastructure Building Blocks (Threads)
     To perform trusted value-exchange, NPs MUST consume the following services provided on the Fabric. These services are a species of one, and MUST NOT be implemented on any subnet inside the fabric, only consumed.
 
-    1. **NS** (Namespacing Service) — Identity service provided to all NPs to create their unique and verified identity and establish their presence on the fabric. Powered by dedi.global, an implementation of dedi protocol.
+    1. **NS** (Namespacing Service) — Identity service provided to all NPs to create their unique and verified identity and establish their presence on the fabric. Powered by dedi.global, an implementation of dedi protocol. 
 
     2. **GRR** (Global Root Registry) — Global identity and address lookup service used by all NPs.
-
+    
     3. **CS** (Cataloging Service) — Common service provided to all NPs for programmable catalog discoverability. Deprecated: superseded by the decentralized catalog publishing and discovery model in NFH-014; remains available for existing implementations.
 
-    **Note:** Both the Namespacing Service and Global Root Registry service MUST be consumed using dedi protocol API. The API for consuming the Namespacing and Global Root Registry services are out of scope of this API specification and can be found in the dedi protocol documentation.
+    **Note:** Both the Namespacing Service and Global Root Registry service MUST be consumed using dedi protocol API. The API for consuming the Namespacing and Global Root Registry services are out of scope of this API specification and can be found in the dedi protocol documentation. 
 
     ## Prerequisites for Production
 
-    1. **Namespace creation** — Every actor (Consumer, Provider, NFO, CN, PN, DS) MUST claim a unique namespace on the fabric created via the namespacing service. For consumers and providers, the namespace can be created by themselves, or by the CNs and PNs that have respectively onboarded them.
+    1. **Namespace creation** — Every actor (Consumer, Provider, NFO, CN, PN, DS) MUST claim a unique namespace on the fabric created via the namespacing service. For consumers and providers, the namespace can be created by themselves, or by the CNs and PNs that have respectively onboarded them. 
 
-    2. **Network address registration** — CNs and PNs that are onboarding their respective users (consumers and providers) MUST ensure that their addresses are properly registered on their respective users' namespaces.
+    2. **Network address registration** — CNs and PNs that are onboarding their respective users (consumers and providers) MUST ensure that their addresses are properly registered on their respective users' namespaces. 
 
     3. **Subnet registration** — Actors participating in a fabric subnet MUST register their network identifier and relevant addresses on the registry managed by that subnet's NFO in its own namespace.
 
@@ -65,17 +65,17 @@ info:
 
     2. **Context** —  The `context` object MUST include at minimum:
     ```
-    - `action`,
+    - `action`, 
     - `version` (always set to 2.0.0)
     - `transactionId`
     - `messageId`
     - `bapId` or `bppId`
     ```
-    3. **`context.try`** — The `context.try` property when set to `true`, allows a requesting NP to preview the consequences of an action before committing to that action.
-    - This field is applicable to `update / on_update` and `cancel / on_cancel` endpoints ONLY.
-    - NPs MUST NOT send this flag, or if sent, completely ignore the value of this flag in other endpoints.
+    3. **`context.try`** — The `context.try` property when set to `true`, allows a requesting NP to preview the consequences of an action before committing to that action. 
+    - This field is applicable to `update / on_update` and `cancel / on_cancel` endpoints ONLY. 
+    - NPs MUST NOT send this flag, or if sent, completely ignore the value of this flag in other endpoints. 
     - When the caller wants to commit the request, it MUST set the `context.try` to `false`, with the `context.requestDigest` containing the digest of the previous payload that it received as a response to the request with `try` set to true. If this value is not sent, the receiver NP MUST return a NACK with an appropriate error.
-    - This is to ensure that NPs are not directly committing requests that without knowing the consequences of that operation.
+    - This is to ensure that NPs are not directly committing requests that without knowing the consequences of that operation. 
 
     4. **Message** — The `message` object carries the action-specific payload defined by the path's request schema.
 
@@ -114,7 +114,7 @@ tags:
     Publish catalogs to the Cataloging Service (CS) on the Fabric and subscribe to catalog updates.
 
 
-    Deprecated: superseded by the decentralized catalog publishing and discovery model in NFH-014. These endpoints remain fully defined and supported for existing implementations; new integrations SHOULD use NFH-014 instead.
+    Deprecated: superseded by the decentralized catalog publishing and discovery model in NFH-014. These endpoints remain fully defined and supported for existing implementations; new integrations SHOULD use NFH-014 instead. 
 security: []
 servers:
 - url: https://{subscriberUrl}
@@ -3690,7 +3690,7 @@ components:
             $ref: '#/components/schemas/Resource/properties/id'
         addOns:
           type: array
-          description: A list of add-ons that may be included with this offer.
+          description: A list of add-ons that may be included with this offer. 
           items:
             $ref: '#/components/schemas/AddOn'
         considerations:
@@ -4067,9 +4067,9 @@ components:
       properties:
         contract:
           description: Attributes of the contract for which the tracking is performed
-          allOf:
+          allOf: 
             -  $ref: "#/components/schemas/Contract"
-            - required:
+            - required: 
               -  id
         status:
           type: string

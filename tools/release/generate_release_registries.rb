@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require "date"
+require "find"
 require "json"
 require "optparse"
 require "pathname"
@@ -21,7 +22,7 @@ module IonReleaseRegistries
     policies = []
     errors = []
     seen = {}
-    Dir[root.join("policies/**/v1/**/*.yaml").to_s].sort.each do |path|
+    policy_source_paths(root).each do |path|
       YAML.load_stream(File.read(path).delete_prefix("\uFEFF")).compact.each do |document|
         unless document.is_a?(Hash)
           errors << "#{relative(root, path)}: policy document must be an object"
@@ -105,6 +106,20 @@ module IonReleaseRegistries
 
   def relative(root, path)
     Pathname.new(path).relative_path_from(root).to_s
+  end
+
+  def policy_source_paths(root)
+    policies_root = root.join("policies")
+    return [] unless policies_root.directory?
+
+    paths = []
+    Find.find(policies_root.to_s) do |path|
+      next unless File.file?(path) && File.extname(path) == ".yaml"
+
+      parts = Pathname.new(path).relative_path_from(root).each_filename.to_a
+      paths << path if parts.first == "policies" && parts.include?("v1")
+    end
+    paths.sort
   end
 end
 
