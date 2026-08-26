@@ -7,7 +7,7 @@ class ApplyVendoringPlanTest < Minitest::Test
     {
       "name" => "Quantity",
       "version" => "2.0",
-      "publicUrl" => "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml",
+      "publicUrl" => "https://schema.ion.id/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml",
       "registryDocuments" => [
         { "url" => "https://schema.beckn.io/Quantity/2.0/attributes.yaml" }
       ]

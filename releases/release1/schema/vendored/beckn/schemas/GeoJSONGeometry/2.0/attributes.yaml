@@ -41,7 +41,7 @@ components:
           description: Member geometries when `type` is **GeometryCollection**.
           type: array
           items:
-            $ref: https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/GeoJSONGeometry/2.0/attributes.yaml#/components/schemas/GeoJSONGeometry
+            $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/GeoJSONGeometry/2.0/attributes.yaml#/components/schemas/GeoJSONGeometry
         type:
           type: string
           enum:

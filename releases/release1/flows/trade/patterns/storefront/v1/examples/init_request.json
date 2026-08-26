@@ -33,9 +33,9 @@
       }
     },
     "schemaContext": [
-      "https://schema.ion.id/releases/release1/schema/common/Address/v1/context.jsonld",
-      "https://schema.ion.id/releases/release1/schema/common/Payment/v1/context.jsonld",
-      "https://schema.ion.id/releases/release1/schema/extension/trade/TradeContract/v1/context.jsonld"
+      "https://schema.ion.id/release1/schema/common/Address/v1/context.jsonld",
+      "https://schema.ion.id/release1/schema/common/Payment/v1/context.jsonld",
+      "https://schema.ion.id/release1/schema/extension/trade/TradeContract/v1/context.jsonld"
     ]
   },
   "message": {
@@ -91,7 +91,7 @@
         {
           "id": "PERF-001",
           "performanceAttributes": {
-            "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradePerformance/v1/context.jsonld",
+            "@context": "https://schema.ion.id/release1/schema/extension/trade/TradePerformance/v1/context.jsonld",
             "@type": "ion:IONTradePerformance",
             "performanceMode": "DELIVERY",
             "stops": [
@@ -113,7 +113,7 @@
                     "addressCountry": "ID"
                   },
                   "ionAddressAttributes": {
-                    "@context": "https://schema.ion.id/releases/release1/schema/common/Address/v1/context.jsonld",
+                    "@context": "https://schema.ion.id/release1/schema/common/Address/v1/context.jsonld",
                     "@type": "ion:IONAddress",
                     "provinsiCode": "BPS-31",
                     "kabupatenCode": "3171",
@@ -134,7 +134,7 @@
       "settlements": [
         {
           "settlementAttributes": {
-            "@context": "https://schema.ion.id/releases/release1/schema/common/Payment/v1/context.jsonld",
+            "@context": "https://schema.ion.id/release1/schema/common/Payment/v1/context.jsonld",
             "@type": "ion:IONPayment",
             "method": "QRIS",
             "paymentRail": "QRIS",

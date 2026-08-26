@@ -1,5 +1,5 @@
 {
-  "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeContract/v1/context.jsonld",
+  "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeContract/v1/context.jsonld",
   "@type": "ion:IONTradeContract",
   "buyerInstructions": "Hubungi 5 menit sebelum tiba. Masuk dari pintu belakang.",
   "deliveryPreferences": {

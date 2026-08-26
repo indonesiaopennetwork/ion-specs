@@ -1,5 +1,5 @@
 {
-  "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeOffer/v1/context.jsonld",
+  "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeOffer/v1/context.jsonld",
   "@type": "ion:IONTradeOffer",
   "_comment": "Example: Electronics offer — manufacturer warranty 1 year, COD unavailable",
   "timeToShip": "P1D",

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeConsideration/v1",
+  "$id": "https://schema.ion.id/release1/schema/extension/trade/TradeConsideration/v1",
   "title": "ION Trade Consideration Schema Pack v1",
   "description": "JSON Schema 2020-12 mirror of the trade/consideration/v1 OpenAPI schema pack. The root resolves to IONTradeConsideration, which inherits directly from RetailConsideration v2.1.",
   "type": "object",
@@ -15,14 +15,14 @@
       "x-recommended-parent": "Consideration.considerationAttributes",
       "additionalProperties": true,
       "x-jsonld": {
-        "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeConsideration/v1/context.jsonld",
+        "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeConsideration/v1/context.jsonld",
         "@type": "ion:IONTradeConsideration"
       },
       "x-beckn-attaches-to": "Consideration.considerationAttributes",
       "x-ion-closed-extensions": false,
       "allOf": [
         {
-          "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailConsideration/2.1/attributes.yaml#/components/schemas/RetailConsideration"
+          "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailConsideration/2.1/attributes.yaml#/components/schemas/RetailConsideration"
         }
       ],
       "properties": {
@@ -33,7 +33,7 @@
           "items": {
             "allOf": [
               {
-                "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailConsideration/2.1/attributes.yaml#/components/schemas/RetailConsideration/properties/breakup/items"
+                "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailConsideration/2.1/attributes.yaml#/components/schemas/RetailConsideration/properties/breakup/items"
               },
               {
                 "type": "object",
@@ -41,7 +41,7 @@
                   "taxDetail": {
                     "allOf": [
                       {
-                        "$ref": "https://schema.ion.id/releases/release1/schema/common/Tax/v1/schema.json"
+                        "$ref": "https://schema.ion.id/release1/schema/common/Tax/v1/schema.json"
                       }
                     ]
                   }

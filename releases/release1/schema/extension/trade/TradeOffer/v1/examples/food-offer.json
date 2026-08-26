@@ -1,5 +1,5 @@
 {
-  "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeOffer/v1/context.jsonld",
+  "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeOffer/v1/context.jsonld",
   "@type": "ion:IONTradeOffer",
   "_comment": "Example: F&B offer (food-qsr/delivery) — returns not allowed, free cancellation before preparation",
   "timeToShip": "PT30M",

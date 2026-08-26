@@ -1,5 +1,5 @@
 {
-  "@context": "https://schema.ion.id/releases/release1/schema/common/Tax/v1/context.jsonld",
+  "@context": "https://schema.ion.id/release1/schema/common/Tax/v1/context.jsonld",
   "@type": "ion:IONTaxDetail",
   "rate": 0.11,
   "included": false,

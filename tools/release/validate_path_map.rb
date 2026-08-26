@@ -21,7 +21,7 @@ module IonReleasePathMap
     errors << "schemaVersion must be 1" unless data["schemaVersion"] == 1
     errors << "release must be a positive integer" unless release_name
 
-    expected_base = release_name && "https://schema.ion.id/releases/#{release_name}/"
+    expected_base = release_name && "https://schema.ion.id/#{release_name}/"
     errors << "publicBaseUrl must equal #{expected_base}" if expected_base && data["publicBaseUrl"] != expected_base
 
     mappings = data["mappings"]

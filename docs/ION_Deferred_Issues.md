@@ -69,7 +69,7 @@ This IRI is what gets written into every payload that uses this schema, on the w
 ```json
 {
   "resourceAttributes": {
-    "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeResource/v1/context.jsonld",
+    "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeResource/v1/context.jsonld",
     "@type": "ion:TradeResource",
     ...
   }
@@ -93,7 +93,7 @@ TradeOffer:            # ← The class name
   type: object
   title: Trade Offer Attributes
   x-jsonld:
-    '@context': 'https://schema.ion.id/releases/release1/schema/extension/trade/TradeOffer/v1/context.jsonld'
+    '@context': 'https://schema.ion.id/release1/schema/extension/trade/TradeOffer/v1/context.jsonld'
     '@type': ion:TradeOffer   # ← This goes on the wire in every payload
   x-beckn-attaches-to: Offer.offerAttributes
 ```
@@ -105,7 +105,7 @@ TradeOffer:                      # ← Name reflects what the thing IS
   type: object
   title: ION Trade Offer
   x-jsonld:
-    '@context': 'https://schema.ion.id/releases/release1/schema/extension/trade/TradeOffer/v1/context.jsonld'
+    '@context': 'https://schema.ion.id/release1/schema/extension/trade/TradeOffer/v1/context.jsonld'
     '@type': ion:TradeOffer      # ← Clean, meaningful IRI on the wire
   x-beckn-attaches-to: Offer.offerAttributes
   x-recommended-parent: Offer    # ← Where it lives, without polluting the name

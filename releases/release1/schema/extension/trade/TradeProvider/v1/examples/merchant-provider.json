@@ -1,5 +1,5 @@
 {
-  "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeProvider/v1/context.jsonld",
+  "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeProvider/v1/context.jsonld",
   "@type": "ion:IONTradeProvider",
   "operationalStatus": {
     "status": "OPEN"

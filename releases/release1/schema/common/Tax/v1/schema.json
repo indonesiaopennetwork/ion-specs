@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://schema.ion.id/releases/release1/schema/common/Tax/v1",
+  "$id": "https://schema.ion.id/release1/schema/common/Tax/v1",
   "title": "IONTaxDetail",
   "description": "Indonesia-specific extension of RetailConsideration v2.1 breakup[].taxDetail. Inherits rate, included, and taxableBase; the containing breakup item's amount is the calculated tax amount.",
   "type": "object",
@@ -9,13 +9,13 @@
   "x-recommended-parent": "Consideration.considerationAttributes.breakup[].taxDetail",
   "x-beckn-attaches-to": "Consideration.considerationAttributes.breakup[].taxDetail",
   "x-jsonld": {
-    "@context": "https://schema.ion.id/releases/release1/schema/common/Tax/v1/context.jsonld",
+    "@context": "https://schema.ion.id/release1/schema/common/Tax/v1/context.jsonld",
     "@type": "ion:IONTaxDetail"
   },
   "additionalProperties": true,
   "allOf": [
     {
-      "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailConsideration/2.1/attributes.yaml#/components/schemas/RetailConsideration/properties/breakup/items/properties/taxDetail"
+      "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailConsideration/2.1/attributes.yaml#/components/schemas/RetailConsideration/properties/breakup/items/properties/taxDetail"
     }
   ],
   "properties": {

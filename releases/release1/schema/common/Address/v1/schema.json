@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://schema.ion.id/releases/release1/schema/common/Address/v1",
+  "$id": "https://schema.ion.id/release1/schema/common/Address/v1",
   "title": "IONAddressSubdivisions",
   "type": "object",
   "properties": {
@@ -129,7 +129,7 @@
   "additionalProperties": true,
   "allOf": [
     {
-      "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/Attributes/2.0/attributes.yaml#/components/schemas/Attributes"
+      "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/Attributes/2.0/attributes.yaml#/components/schemas/Attributes"
     }
   ]
 }

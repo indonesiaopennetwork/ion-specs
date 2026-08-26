@@ -57,8 +57,9 @@ similar files) as authoritative project state. They may be local and stale.
 - Each schema pack's `attributes.yaml` is its primary authoring source. Keep its
   JSON Schema, JSON-LD, profile, renderer, examples, README, and attachment
   annotations aligned.
-- Public document URLs mirror the path below `releases/`, for example
-  `https://schema.ion.id/releases/release1/schema/extension/trade/TradeResource/v1/attributes.yaml`.
+- Public document URLs mirror the path below `releases/` and omit the
+  repository-only top-level `releases/` segment, for example
+  `https://schema.ion.id/release1/schema/extension/trade/TradeResource/v1/attributes.yaml`.
   Schema `$ref` values must be absolute, release-qualified URLs.
 - JSON-LD semantic IRIs identify concepts rather than retrieval dependencies.
   Stable Beckn semantic IRIs may continue to use `schema.beckn.io`; do not rewrite

@@ -29,12 +29,12 @@ components:
       x-recommended-parent: Offer.offerAttributes
       additionalProperties: true
       x-jsonld:
-        '@context': 'https://schema.ion.id/releases/release1/schema/extension/trade/TradeOffer/v1/context.jsonld'
+        '@context': 'https://schema.ion.id/release1/schema/extension/trade/TradeOffer/v1/context.jsonld'
         '@type': ion:IONTradeOffer
       x-beckn-attaches-to: Offer.offerAttributes
       x-ion-closed-extensions: false
       allOf:
-        - $ref: https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml#/components/schemas/RetailOffer
+        - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml#/components/schemas/RetailOffer
         - type: object
           properties:
             policies:
@@ -46,7 +46,7 @@ components:
                   properties:
                     policyRef:
                       allOf:
-                        - $ref: https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/cancellation/properties/policyRef
+                        - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/cancellation/properties/policyRef
                       description: ION-registered cancellation policy URI.
                       example: ion://policy/cancel.prepacked.free
                       x-ion-policy-registry: https://registry.ion.id/policies
@@ -57,7 +57,7 @@ components:
                   properties:
                     policyRef:
                       allOf:
-                        - $ref: https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/returns/properties/policyRef
+                        - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/returns/properties/policyRef
                       description: ION-registered returns policy URI.
                       example: ion://policy/return.standard.7d-sellerpays
                       x-ion-policy-registry: https://registry.ion.id/policies
@@ -68,7 +68,7 @@ components:
                   properties:
                     policyRef:
                       allOf:
-                        - $ref: https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/warranty/properties/policyRef
+                        - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/warranty/properties/policyRef
                       description: ION-registered warranty policy URI.
                       example: ion://policy/warranty.manufacturer.1y-distance-service
                       x-ion-policy-registry: https://registry.ion.id/policies
@@ -118,12 +118,12 @@ components:
       properties:
         policies:
           allOf:
-            - $ref: https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies
+            - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies
             - type: object
               properties:
                 cancellation:
                   allOf:
-                    - $ref: https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/cancellation
+                    - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/cancellation
                     - type: object
                       properties:
                         allowedReasons:
@@ -150,7 +150,7 @@ components:
                           # x-ion-condition: Required when policies.cancellation.allowed is true
                 returns:
                   allOf:
-                    - $ref: https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/returns
+                    - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/returns
                     - type: object
                       properties:
                         evidenceRequirement:
@@ -203,7 +203,7 @@ components:
           example: OTP
         contactDetailsConsumerCare:
           allOf:
-            - $ref: https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/Contact/2.0/attributes.yaml#/components/schemas/Contact
+            - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Contact/2.0/attributes.yaml#/components/schemas/Contact
           description: Structured consumer-care contact displayed for pre- and post-purchase support.
           example:
             name: Customer Service
@@ -472,7 +472,7 @@ components:
             additionalProperties: false
             properties:
               method:
-                $ref: 'https://schema.ion.id/releases/release1/schema/common/Payment/v1/attributes.yaml#/components/schemas/IONPayment/properties/method'
+                $ref: 'https://schema.ion.id/release1/schema/common/Payment/v1/attributes.yaml#/components/schemas/IONPayment/properties/method'
               minAmount:
                 type: number
                 minimum: 0

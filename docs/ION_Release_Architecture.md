@@ -4,6 +4,8 @@
 
 **Decision date:** 2026-08-21
 
+**Public URL namespace amended:** 2026-08-26
+
 **Decision owners:** ION Council
 
 ## Purpose
@@ -201,31 +203,32 @@ and verifying a release; they are not part of the released protocol contract.
 ## Public URL namespace
 
 The public URL for a released artifact mirrors its path below the repository's
-`releases/` directory:
+`releases/` directory. The repository-only top-level `releases/` segment is not
+part of the public URL:
 
 ```text
 Repository path:
 releases/release1/schema/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml
 
 Public URL:
-https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml
+https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml
 ```
 
 Additional examples:
 
 ```text
 releases/release1/schema/common/LocalizedLanguage/v1/attributes.yaml
-https://schema.ion.id/releases/release1/schema/common/LocalizedLanguage/v1/attributes.yaml
+https://schema.ion.id/release1/schema/common/LocalizedLanguage/v1/attributes.yaml
 
 releases/release1/schema/extension/trade/TradeResource/v1/attributes.yaml
-https://schema.ion.id/releases/release1/schema/extension/trade/TradeResource/v1/attributes.yaml
+https://schema.ion.id/release1/schema/extension/trade/TradeResource/v1/attributes.yaml
 ```
 
 `schema.ion.id` is the stable public origin. Its Nginx configuration serves the
 corresponding files from the `main` branch of this repository. Conceptually:
 
 ```text
-https://schema.ion.id/releases/release1/<path>
+https://schema.ion.id/release1/<path>
   -> https://raw.githubusercontent.com/indonesiaopennetwork/ion-specs/refs/heads/main/releases/release1/<path>
 ```
 
@@ -243,7 +246,7 @@ and vendored Beckn schemas.
 
 ```yaml
 allOf:
-  - $ref: https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml#/components/schemas/RetailResource
+  - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml#/components/schemas/RetailResource
 ```
 
 Published `attributes.yaml` files MUST NOT use repository-relative `$ref` paths.
@@ -265,7 +268,7 @@ release-qualified URL of that document:
 
 ```json
 {
-  "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeResource/v1/context.jsonld"
+  "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeResource/v1/context.jsonld"
 }
 ```
 
@@ -329,7 +332,7 @@ release: 1
 name: release1
 status: draft
 publishedAt: null
-publicBaseUrl: https://schema.ion.id/releases/release1/
+publicBaseUrl: https://schema.ion.id/release1/
 sourceBranch: main
 contentStatus:
   ionApi: review-required
@@ -377,7 +380,7 @@ Repository validation MUST be release-aware and MUST support deterministic mappi
 between a public URI prefix and the local release directory:
 
 ```text
-https://schema.ion.id/releases/release1/
+https://schema.ion.id/release1/
   <-> releases/release1/
 ```
 

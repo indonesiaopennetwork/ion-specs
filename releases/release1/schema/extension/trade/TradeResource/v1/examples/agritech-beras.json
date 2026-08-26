@@ -1,5 +1,5 @@
 {
-  "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeResource/v1/context.jsonld",
+  "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeResource/v1/context.jsonld",
   "@type": "ion:IONTradeResource",
   "_comment": "Example: Beras Pandan Wangi Organik — PLAIN resource (TRC-food-bev, agritech)",
   "quantity": {

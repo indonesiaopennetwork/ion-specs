@@ -6,7 +6,8 @@ require "yaml"
 
 module IonReleasePublicUrls
   TEXT_EXTENSIONS = %w[.json .jsonld .md .yaml .yml].freeze
-  URL_PATTERN = %r{https://schema\.ion\.id/releases/release[1-9][0-9]*/[^\s"'`<>\)\}\]]*}.freeze
+  URL_PATTERN = %r{https://schema\.ion\.id/release[1-9][0-9]*/[^\s"'`<>\)\}\]]*}.freeze
+  LEGACY_URL_PATTERN = %r{https://schema\.ion\.id/releases/release[1-9][0-9]*/[^\s"'`<>\)\}\]]*}.freeze
 
   module_function
 
@@ -19,10 +20,17 @@ module IonReleasePublicUrls
     text_files(root).each do |path|
       next unless File.file?(path) && TEXT_EXTENSIONS.include?(File.extname(path))
 
-      File.read(path).scan(URL_PATTERN).each do |url|
-        next unless url.start_with?(base)
-
+      File.read(path).scan(LEGACY_URL_PATTERN).each do |url|
         clean_url = url.sub(/[.,;:]\z/, "")
+        errors << "#{Pathname.new(path).relative_path_from(root)}: legacy public URL namespace: #{clean_url}"
+      end
+
+      File.read(path).scan(URL_PATTERN).each do |url|
+        clean_url = url.sub(/[.,;:]\z/, "")
+        unless clean_url.start_with?(base)
+          errors << "#{Pathname.new(path).relative_path_from(root)}: public URL falls outside #{base}: #{clean_url}"
+          next
+        end
         relative_path = clean_url.delete_prefix(base).split("#", 2).first.to_s
         relative_path = "." if relative_path.empty?
         target = root.join(relative_path).cleanpath

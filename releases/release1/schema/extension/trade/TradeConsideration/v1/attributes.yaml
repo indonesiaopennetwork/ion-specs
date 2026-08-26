@@ -27,12 +27,12 @@ components:
       x-recommended-parent: Consideration.considerationAttributes
       additionalProperties: true
       x-jsonld:
-        '@context': 'https://schema.ion.id/releases/release1/schema/extension/trade/TradeConsideration/v1/context.jsonld'
+        '@context': 'https://schema.ion.id/release1/schema/extension/trade/TradeConsideration/v1/context.jsonld'
         '@type': ion:IONTradeConsideration
       x-beckn-attaches-to: Consideration.considerationAttributes
       x-ion-closed-extensions: false
       allOf:
-        - $ref: https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailConsideration/2.1/attributes.yaml#/components/schemas/RetailConsideration
+        - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailConsideration/2.1/attributes.yaml#/components/schemas/RetailConsideration
       properties:
         breakup:
           x-attr-ion-layer: ion
@@ -43,12 +43,12 @@ components:
             compliance fields.
           items:
             allOf:
-              - $ref: https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailConsideration/2.1/attributes.yaml#/components/schemas/RetailConsideration/properties/breakup/items
+              - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailConsideration/2.1/attributes.yaml#/components/schemas/RetailConsideration/properties/breakup/items
               - type: object
                 properties:
                   taxDetail:
                     allOf:
-                      - $ref: https://schema.ion.id/releases/release1/schema/common/Tax/v1/attributes.yaml#/components/schemas/IONTaxDetail
+                      - $ref: https://schema.ion.id/release1/schema/common/Tax/v1/attributes.yaml#/components/schemas/IONTaxDetail
       # Monetary breakup, payment methods, total amount, applied vouchers,
       # and loyalty points are inherited from RetailConsideration v2.1.
       # Realized discounts use breakup[].type: DISCOUNT and breakup[].amount;

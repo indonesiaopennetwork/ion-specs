@@ -35,7 +35,7 @@
     },
     "schemaContext": [
       "https://schema.ion.id/extensions/trade/resource/v1/context.jsonld",
-      "https://schema.ion.id/releases/release1/schema/extension/trade/TradeCommitment/v1/context.jsonld",
+      "https://schema.ion.id/release1/schema/extension/trade/TradeCommitment/v1/context.jsonld",
       "https://schema.ion.id/extensions/trade/performance/v1/context.jsonld"
     ]
   },
@@ -71,7 +71,7 @@
             }
           ],
           "commitmentAttributes": {
-            "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeCommitment/v1/context.jsonld",
+            "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeCommitment/v1/context.jsonld",
             "@type": "ion:IONTradeCommitment",
             "selectedCustomizations": [
               {

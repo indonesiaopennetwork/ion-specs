@@ -31,7 +31,7 @@ components:
       x-ion-split-version: "0.7.0"
       x-recommended-parent: Settlement.settlementAttributes
       additionalProperties: true
-        # - $ref: https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/Attributes/2.0/attributes.yaml#/components/schemas/Attributes
+        # - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Attributes/2.0/attributes.yaml#/components/schemas/Attributes
     IONPayment:
       type: object
       x-ion-layer: ion
@@ -63,7 +63,7 @@ components:
         '
       additionalProperties: true
       x-jsonld:
-        '@context': 'https://schema.ion.id/releases/release1/schema/common/Payment/v1/context.jsonld'
+        '@context': 'https://schema.ion.id/release1/schema/common/Payment/v1/context.jsonld'
         '@type': ion:IONPayment
       x-beckn-attaches-to: Settlement.settlementAttributes
       properties:
@@ -272,7 +272,7 @@ components:
       properties:
         provider:
           type: string
-          x-ion-vocab: https://schema.ion.id/releases/release1/schema/common/Payment/v1/vocab.jsonld#EWalletProvider
+          x-ion-vocab: https://schema.ion.id/release1/schema/common/Payment/v1/vocab.jsonld#EWalletProvider
           description: E-wallet provider identifier
         accountRef:
           type: string
@@ -404,7 +404,7 @@ components:
       properties:
         provider:
           type: string
-          x-ion-vocab: https://schema.ion.id/releases/release1/schema/common/Payment/v1/vocab.jsonld#BNPLProvider
+          x-ion-vocab: https://schema.ion.id/release1/schema/common/Payment/v1/vocab.jsonld#BNPLProvider
           description: BNPL provider name
         tenure:
           type: integer

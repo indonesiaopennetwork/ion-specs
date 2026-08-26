@@ -16,7 +16,7 @@ class ValidateOfflineRefsTest < Minitest::Test
       File.write(File.join(release_root, "target.yaml"), "components:\n  schemas:\n    Thing:\n      type: string\n")
       File.write(
         File.join(release_root, "source.yaml"),
-        "one:\n  $ref: target.yaml#/components/schemas/Thing\ntwo:\n  $ref: https://schema.ion.id/releases/release9/target.yaml#/components/schemas/Thing\n"
+        "one:\n  $ref: target.yaml#/components/schemas/Thing\ntwo:\n  $ref: https://schema.ion.id/release9/target.yaml#/components/schemas/Thing\n"
       )
 
       validator = IonOfflineRefs::Validator.new(release_root)

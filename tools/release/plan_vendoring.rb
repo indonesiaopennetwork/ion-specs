@@ -11,7 +11,7 @@ require "yaml"
 
 module IonVendoringPlan
   REGISTRY_HOST = "schema.beckn.io".freeze
-  PUBLIC_RELEASE_BASE = "https://schema.ion.id/releases/release1/".freeze
+  PUBLIC_RELEASE_BASE = "https://schema.ion.id/release1/".freeze
 
   SOURCE_RULES = [
     {

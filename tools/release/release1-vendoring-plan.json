@@ -197,7 +197,7 @@
         "reviewStatus": "proposed"
       },
       "target": "releases/release1/schema/vendored/beckn/schemas/AcceptedPaymentMethod/2.0/attributes.yaml",
-      "publicUrl": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/AcceptedPaymentMethod/2.0/attributes.yaml"
+      "publicUrl": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/AcceptedPaymentMethod/2.0/attributes.yaml"
     },
     {
       "name": "Address",
@@ -252,7 +252,7 @@
         "reviewStatus": "proposed"
       },
       "target": "releases/release1/schema/vendored/beckn/schemas/Address/2.0/attributes.yaml",
-      "publicUrl": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/Address/2.0/attributes.yaml"
+      "publicUrl": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/Address/2.0/attributes.yaml"
     },
     {
       "name": "Attributes",
@@ -300,7 +300,7 @@
         "reviewStatus": "proposed"
       },
       "target": "releases/release1/schema/vendored/beckn/schemas/Attributes/2.0/attributes.yaml",
-      "publicUrl": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/Attributes/2.0/attributes.yaml"
+      "publicUrl": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/Attributes/2.0/attributes.yaml"
     },
     {
       "name": "CategoryCode",
@@ -345,7 +345,7 @@
         "reviewStatus": "proposed"
       },
       "target": "releases/release1/schema/vendored/beckn/schemas/CategoryCode/2.0/attributes.yaml",
-      "publicUrl": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/CategoryCode/2.0/attributes.yaml"
+      "publicUrl": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/CategoryCode/2.0/attributes.yaml"
     },
     {
       "name": "Contact",
@@ -392,7 +392,7 @@
         "reviewStatus": "proposed"
       },
       "target": "releases/release1/schema/vendored/beckn/schemas/Contact/2.0/attributes.yaml",
-      "publicUrl": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/Contact/2.0/attributes.yaml"
+      "publicUrl": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/Contact/2.0/attributes.yaml"
     },
     {
       "name": "GeoJSONGeometry",
@@ -438,7 +438,7 @@
         "reviewStatus": "proposed"
       },
       "target": "releases/release1/schema/vendored/beckn/schemas/GeoJSONGeometry/2.0/attributes.yaml",
-      "publicUrl": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/GeoJSONGeometry/2.0/attributes.yaml"
+      "publicUrl": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/GeoJSONGeometry/2.0/attributes.yaml"
     },
     {
       "name": "Location",
@@ -484,7 +484,7 @@
         "reviewStatus": "proposed"
       },
       "target": "releases/release1/schema/vendored/beckn/schemas/Location/2.0/attributes.yaml",
-      "publicUrl": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/Location/2.0/attributes.yaml"
+      "publicUrl": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/Location/2.0/attributes.yaml"
     },
     {
       "name": "PriceSpecification",
@@ -530,7 +530,7 @@
         "reviewStatus": "proposed"
       },
       "target": "releases/release1/schema/vendored/beckn/schemas/PriceSpecification/2.0/attributes.yaml",
-      "publicUrl": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/PriceSpecification/2.0/attributes.yaml"
+      "publicUrl": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/PriceSpecification/2.0/attributes.yaml"
     },
     {
       "name": "Quantity",
@@ -599,7 +599,7 @@
         "reviewStatus": "proposed"
       },
       "target": "releases/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml",
-      "publicUrl": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml"
+      "publicUrl": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml"
     },
     {
       "name": "RetailCommitment",
@@ -642,7 +642,7 @@
         "reviewStatus": "proposed"
       },
       "target": "releases/release1/schema/vendored/beckn/schemas/RetailCommitment/2.1/attributes.yaml",
-      "publicUrl": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailCommitment/2.1/attributes.yaml"
+      "publicUrl": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailCommitment/2.1/attributes.yaml"
     },
     {
       "name": "RetailConsideration",
@@ -687,7 +687,7 @@
         "reviewStatus": "proposed"
       },
       "target": "releases/release1/schema/vendored/beckn/schemas/RetailConsideration/2.1/attributes.yaml",
-      "publicUrl": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailConsideration/2.1/attributes.yaml"
+      "publicUrl": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailConsideration/2.1/attributes.yaml"
     },
     {
       "name": "RetailContract",
@@ -730,7 +730,7 @@
         "reviewStatus": "proposed"
       },
       "target": "releases/release1/schema/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml",
-      "publicUrl": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml"
+      "publicUrl": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml"
     },
     {
       "name": "RetailOffer",
@@ -773,7 +773,7 @@
         "reviewStatus": "proposed"
       },
       "target": "releases/release1/schema/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml",
-      "publicUrl": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml"
+      "publicUrl": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml"
     },
     {
       "name": "RetailPerformance",
@@ -815,7 +815,7 @@
         "reviewStatus": "proposed"
       },
       "target": "releases/release1/schema/vendored/beckn/schemas/RetailPerformance/2.1/attributes.yaml",
-      "publicUrl": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailPerformance/2.1/attributes.yaml"
+      "publicUrl": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailPerformance/2.1/attributes.yaml"
     },
     {
       "name": "RetailResource",
@@ -857,7 +857,7 @@
         "reviewStatus": "proposed"
       },
       "target": "releases/release1/schema/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml",
-      "publicUrl": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml"
+      "publicUrl": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml"
     },
     {
       "name": "RetailSettlement",
@@ -899,7 +899,7 @@
         "reviewStatus": "proposed"
       },
       "target": "releases/release1/schema/vendored/beckn/schemas/RetailSettlement/2.1/attributes.yaml",
-      "publicUrl": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailSettlement/2.1/attributes.yaml"
+      "publicUrl": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailSettlement/2.1/attributes.yaml"
     },
     {
       "name": "TimePeriod",
@@ -944,7 +944,7 @@
         "reviewStatus": "proposed"
       },
       "target": "releases/release1/schema/vendored/beckn/schemas/TimePeriod/2.0/attributes.yaml",
-      "publicUrl": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/TimePeriod/2.0/attributes.yaml"
+      "publicUrl": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/TimePeriod/2.0/attributes.yaml"
     }
   ],
   "repositories": [

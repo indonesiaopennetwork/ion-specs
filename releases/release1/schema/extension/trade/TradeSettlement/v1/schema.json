@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeSettlement/v1",
+  "$id": "https://schema.ion.id/release1/schema/extension/trade/TradeSettlement/v1",
   "title": "ION Trade Settlement Schema Pack v1",
   "description": "JSON Schema 2020-12 mirror of the trade/settlement/v1 OpenAPI schema pack. The root resolves to IONTradeSettlement, which inherits RetailSettlement v2.1 directly.",
   "type": "object",
@@ -15,46 +15,46 @@
       "x-recommended-parent": "Settlement.settlementAttributes",
       "additionalProperties": true,
       "x-jsonld": {
-        "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeSettlement/v1/context.jsonld",
+        "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeSettlement/v1/context.jsonld",
         "@type": "ion:IONTradeSettlement"
       },
       "x-beckn-attaches-to": "Settlement.settlementAttributes",
       "x-ion-closed-extensions": false,
       "allOf": [
         {
-          "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailSettlement/2.1/attributes.yaml#/components/schemas/RetailSettlement"
+          "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailSettlement/2.1/attributes.yaml#/components/schemas/RetailSettlement"
         }
       ],
       "properties": {
         "gateway": {
-          "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailSettlement/2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/gateway"
+          "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailSettlement/2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/gateway"
         },
         "method": {
-          "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailSettlement/2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/method"
+          "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailSettlement/2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/method"
         },
         "paymentRail": {
-          "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailSettlement/2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/paymentRail"
+          "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailSettlement/2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/paymentRail"
         },
         "settledAt": {
-          "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailSettlement/2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/settledAt"
+          "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailSettlement/2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/settledAt"
         },
         "settledAmount": {
-          "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailSettlement/2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/settledAmount"
+          "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailSettlement/2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/settledAmount"
         },
         "currency": {
-          "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailSettlement/2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/currency"
+          "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailSettlement/2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/currency"
         },
         "refund": {
-          "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailSettlement/2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/refund"
+          "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailSettlement/2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/refund"
         },
         "adjustments": {
-          "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailSettlement/2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/adjustments"
+          "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailSettlement/2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/adjustments"
         },
         "reconciliationId": {
-          "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailSettlement/2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/reconciliationId"
+          "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailSettlement/2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/reconciliationId"
         },
         "reconciliationStatus": {
-          "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailSettlement/2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/reconciliationStatus"
+          "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailSettlement/2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/reconciliationStatus"
         }
       }
     }

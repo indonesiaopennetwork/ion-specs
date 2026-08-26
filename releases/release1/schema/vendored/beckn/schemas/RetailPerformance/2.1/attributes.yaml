@@ -42,7 +42,7 @@ components:
             - contact
           properties:
             address:
-              $ref: 'https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/Address/2.0/attributes.yaml#/components/schemas/Address'
+              $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/schemas/Address/2.0/attributes.yaml#/components/schemas/Address'
               x-jsonld-id: "rcpa:address"
             contact:
               type: object

@@ -12,7 +12,7 @@ module IonReleaseManifest
   DEPENDENCY_STATUSES = %w[incomplete complete].freeze
   SHA1 = /\A[0-9a-f]{40}\z/.freeze
   SHA256 = /\A[0-9a-f]{64}\z/.freeze
-  URL_PREFIX = "https://schema.ion.id/releases/".freeze
+  URL_PREFIX = "https://schema.ion.id/".freeze
   DEPENDENCY_FIELDS = %w[
     name type upstreamVersion upstreamRepository upstreamCommit upstreamUrl
     vendoredPath upstreamSha256 releasedSha256 license transformations

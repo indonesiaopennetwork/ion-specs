@@ -34,9 +34,9 @@
       }
     },
     "schemaContext": [
-      "https://schema.ion.id/releases/release1/schema/extension/trade/TradeResource/v1/context.jsonld",
-      "https://schema.ion.id/releases/release1/schema/extension/trade/TradeOffer/v1/context.jsonld",
-      "https://schema.ion.id/releases/release1/schema/extension/trade/TradeProvider/v1/context.jsonld"
+      "https://schema.ion.id/release1/schema/extension/trade/TradeResource/v1/context.jsonld",
+      "https://schema.ion.id/release1/schema/extension/trade/TradeOffer/v1/context.jsonld",
+      "https://schema.ion.id/release1/schema/extension/trade/TradeProvider/v1/context.jsonld"
     ]
   },
   "message": {
@@ -47,7 +47,7 @@
           "name": "Apotek Sehat Mandiri"
         },
         "providerAttributes": {
-          "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeProvider/v1/context.jsonld",
+          "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeProvider/v1/context.jsonld",
           "@type": "ion:IONTradeProvider",
           "operationalStatus": {
             "status": "OPEN"
@@ -99,7 +99,7 @@
             "longDesc": "Panadol 500mg mengandung paracetamol 500mg per tablet. Digunakan untuk meredakan demam, sakit kepala, dan nyeri ringan hingga sedang. Tersedia dalam strip 4 tablet. Tidak memerlukan resep dokter."
           },
           "resourceAttributes": {
-            "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeResource/v1/context.jsonld",
+            "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeResource/v1/context.jsonld",
             "@type": "ion:IONTradeResource",
             "crc": "TRC-health-beauty",
             "resourceStructure": "PLAIN",
@@ -156,7 +156,7 @@
             "currency": "IDR"
           },
           "offerAttributes": {
-            "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeOffer/v1/context.jsonld",
+            "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeOffer/v1/context.jsonld",
             "@type": "ion:IONTradeOffer",
             "policies": {
               "returns": {

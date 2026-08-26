@@ -73,11 +73,11 @@ release1/
 Files in this directory will map to:
 
 ```text
-https://schema.ion.id/releases/release1/<path>
+https://schema.ion.id/release1/<path>
 ```
 
 For example, TradeResource is available at
-`https://schema.ion.id/releases/release1/schema/extension/trade/TradeResource/v1/attributes.yaml`.
+`https://schema.ion.id/release1/schema/extension/trade/TradeResource/v1/attributes.yaml`.
 
 Draft paths may be visible through the backing repository, but consumers must not
 depend on them before publication.

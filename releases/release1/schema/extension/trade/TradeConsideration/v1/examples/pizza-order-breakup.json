@@ -1,5 +1,5 @@
 {
-  "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeConsideration/v1/context.jsonld",
+  "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeConsideration/v1/context.jsonld",
   "@type": "ion:IONTradeConsideration",
   "_comment": "Example: Full price breakup for a pizza order",
   "totalAmount": 168180,

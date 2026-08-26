@@ -76,7 +76,7 @@ x-beckn-attaches-to: BecknObject.attributesSlot
 ### allOf with Beckn Attributes base (required)
 ```yaml
 allOf:
-  - $ref: https://schema.ion.id/releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Attributes
+  - $ref: https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Attributes
 ```
 
 **Never use the external GitHub URL or a repository-relative path in a released
@@ -278,9 +278,9 @@ Every API call should populate `context.schemaContext` with the ION extension co
 ```yaml
 context:
   schemaContext:
-    - https://schema.ion.id/releases/release1/schema/extension/trade/TradeResource/v1/context.jsonld
-    - https://schema.ion.id/releases/release1/schema/extension/trade/TradeOffer/v1/context.jsonld
-    - https://schema.ion.id/releases/release1/schema/common/Payment/v1/context.jsonld
+    - https://schema.ion.id/release1/schema/extension/trade/TradeResource/v1/context.jsonld
+    - https://schema.ion.id/release1/schema/extension/trade/TradeOffer/v1/context.jsonld
+    - https://schema.ion.id/release1/schema/common/Payment/v1/context.jsonld
 ```
 
 This makes every message self-describing and enables deterministic validation at ION Central.

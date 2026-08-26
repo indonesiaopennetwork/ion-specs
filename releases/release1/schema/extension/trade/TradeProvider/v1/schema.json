@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeProvider/v1",
+  "$id": "https://schema.ion.id/release1/schema/extension/trade/TradeProvider/v1",
   "title": "ION Trade Provider Schema Pack v1",
   "$ref": "#/$defs/IONTradeProvider",
   "$defs": {
@@ -13,14 +13,14 @@
       "x-recommended-parent": "Provider.providerAttributes",
       "additionalProperties": true,
       "x-jsonld": {
-        "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeProvider/v1/context.jsonld",
+        "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeProvider/v1/context.jsonld",
         "@type": "ion:IONTradeProvider"
       },
       "x-beckn-attaches-to": "Provider.providerAttributes",
       "x-ion-closed-extensions": false,
       "allOf": [
         {
-          "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/Attributes/2.0/attributes.yaml#/components/schemas/Attributes"
+          "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/Attributes/2.0/attributes.yaml#/components/schemas/Attributes"
         },
         {
           "type": "object",
@@ -161,7 +161,7 @@
                 "type": "string"
               },
               "geo": {
-                "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/GeoJSONGeometry"
+                "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/GeoJSONGeometry"
               }
             }
           }
@@ -284,7 +284,7 @@
           }
         },
         "businessRegistration": {
-          "$ref": "https://schema.ion.id/releases/release1/schema/common/BusinessRegistration/v1/attributes.yaml#/components/schemas/IONBusinessRegistration",
+          "$ref": "https://schema.ion.id/release1/schema/common/BusinessRegistration/v1/attributes.yaml#/components/schemas/IONBusinessRegistration",
           "description": "Indonesian business identity for the provider. The actual nib replaces the former nibRegistered boolean.",
           "x-attr-ion-layer": "ion"
         },
@@ -292,7 +292,7 @@
           "type": "array",
           "description": "Signed or otherwise verifiable trust marks awarded to the provider.",
           "items": {
-            "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Document"
+            "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Document"
           },
           "x-attr-ion-layer": "ion"
         },
@@ -333,7 +333,7 @@
                 "type": "string"
               },
               "evidence": {
-                "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Document"
+                "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Document"
               }
             }
           },

@@ -28,12 +28,12 @@ components:
       x-recommended-parent: Commitment.commitmentAttributes
       additionalProperties: true
       x-jsonld:
-        '@context': 'https://schema.ion.id/releases/release1/schema/extension/trade/TradeCommitment/v1/context.jsonld'
+        '@context': 'https://schema.ion.id/release1/schema/extension/trade/TradeCommitment/v1/context.jsonld'
         '@type': ion:IONTradeCommitment
       x-beckn-attaches-to: Commitment.commitmentAttributes
       x-ion-closed-extensions: false
       allOf:
-        - $ref: https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailCommitment/2.1/attributes.yaml#/components/schemas/RetailCommitment
+        - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailCommitment/2.1/attributes.yaml#/components/schemas/RetailCommitment
       properties:
         replacementPreferred:
           type: boolean

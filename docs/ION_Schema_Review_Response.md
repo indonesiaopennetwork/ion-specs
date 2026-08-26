@@ -96,7 +96,7 @@ const: true
 ```yaml
 provider:
   type: string
-  x-ion-vocab: https://schema.ion.id/releases/release1/schema/common/Payment/v1/vocab.jsonld#EWalletProvider
+  x-ion-vocab: https://schema.ion.id/release1/schema/common/Payment/v1/vocab.jsonld#EWalletProvider
   description: E-wallet provider identifier
 ```
 

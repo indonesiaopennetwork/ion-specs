@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "release": 1,
-  "publicBaseUrl": "https://schema.ion.id/releases/release1/",
+  "publicBaseUrl": "https://schema.ion.id/release1/",
   "mappings": [
     {
       "kind": "vendored-protocol",
       "source": "schema/core/v2/api/v2.0.0/beckn.yaml",
       "target": "releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml",
-      "publicUrl": "https://schema.ion.id/releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml",
+      "publicUrl": "https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml",
       "pathStatus": "approved",
       "contentStatus": "provenance-pending"
     },
@@ -15,7 +15,7 @@
       "kind": "common-pack",
       "source": "schema/extensions/core/address/v1",
       "target": "releases/release1/schema/common/Address/v1",
-      "publicUrl": "https://schema.ion.id/releases/release1/schema/common/Address/v1/",
+      "publicUrl": "https://schema.ion.id/release1/schema/common/Address/v1/",
       "pathStatus": "approved",
       "contentStatus": "review-required"
     },
@@ -23,7 +23,7 @@
       "kind": "common-pack",
       "source": "schema/extensions/core/business-registration/v1",
       "target": "releases/release1/schema/common/BusinessRegistration/v1",
-      "publicUrl": "https://schema.ion.id/releases/release1/schema/common/BusinessRegistration/v1/",
+      "publicUrl": "https://schema.ion.id/release1/schema/common/BusinessRegistration/v1/",
       "pathStatus": "approved",
       "contentStatus": "review-required"
     },
@@ -31,7 +31,7 @@
       "kind": "common-pack",
       "source": "schema/extensions/core/payment/v1",
       "target": "releases/release1/schema/common/Payment/v1",
-      "publicUrl": "https://schema.ion.id/releases/release1/schema/common/Payment/v1/",
+      "publicUrl": "https://schema.ion.id/release1/schema/common/Payment/v1/",
       "pathStatus": "approved",
       "contentStatus": "review-required"
     },
@@ -39,7 +39,7 @@
       "kind": "common-pack",
       "source": "schema/extensions/core/tax/v1",
       "target": "releases/release1/schema/common/Tax/v1",
-      "publicUrl": "https://schema.ion.id/releases/release1/schema/common/Tax/v1/",
+      "publicUrl": "https://schema.ion.id/release1/schema/common/Tax/v1/",
       "pathStatus": "approved",
       "contentStatus": "review-required"
     },
@@ -47,7 +47,7 @@
       "kind": "trade-pack",
       "source": "schema/extensions/trade/commitment/v1",
       "target": "releases/release1/schema/extension/trade/TradeCommitment/v1",
-      "publicUrl": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeCommitment/v1/",
+      "publicUrl": "https://schema.ion.id/release1/schema/extension/trade/TradeCommitment/v1/",
       "pathStatus": "approved",
       "contentStatus": "validation-pending"
     },
@@ -55,7 +55,7 @@
       "kind": "trade-pack",
       "source": "schema/extensions/trade/consideration/v1",
       "target": "releases/release1/schema/extension/trade/TradeConsideration/v1",
-      "publicUrl": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeConsideration/v1/",
+      "publicUrl": "https://schema.ion.id/release1/schema/extension/trade/TradeConsideration/v1/",
       "pathStatus": "approved",
       "contentStatus": "validation-pending"
     },
@@ -63,7 +63,7 @@
       "kind": "trade-pack",
       "source": "schema/extensions/trade/contract/v1",
       "target": "releases/release1/schema/extension/trade/TradeContract/v1",
-      "publicUrl": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeContract/v1/",
+      "publicUrl": "https://schema.ion.id/release1/schema/extension/trade/TradeContract/v1/",
       "pathStatus": "approved",
       "contentStatus": "validation-pending"
     },
@@ -71,7 +71,7 @@
       "kind": "trade-pack",
       "source": "schema/extensions/trade/offer/v1",
       "target": "releases/release1/schema/extension/trade/TradeOffer/v1",
-      "publicUrl": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeOffer/v1/",
+      "publicUrl": "https://schema.ion.id/release1/schema/extension/trade/TradeOffer/v1/",
       "pathStatus": "approved",
       "contentStatus": "validation-pending"
     },
@@ -79,7 +79,7 @@
       "kind": "trade-pack",
       "source": "schema/extensions/trade/performance/v1",
       "target": "releases/release1/schema/extension/trade/TradePerformance/v1",
-      "publicUrl": "https://schema.ion.id/releases/release1/schema/extension/trade/TradePerformance/v1/",
+      "publicUrl": "https://schema.ion.id/release1/schema/extension/trade/TradePerformance/v1/",
       "pathStatus": "approved",
       "contentStatus": "validation-pending"
     },
@@ -87,7 +87,7 @@
       "kind": "trade-pack",
       "source": "schema/extensions/trade/performance-states/v1",
       "target": "releases/release1/schema/extension/trade/TradePerformanceStates/v1",
-      "publicUrl": "https://schema.ion.id/releases/release1/schema/extension/trade/TradePerformanceStates/v1/",
+      "publicUrl": "https://schema.ion.id/release1/schema/extension/trade/TradePerformanceStates/v1/",
       "pathStatus": "approved",
       "contentStatus": "validation-pending"
     },
@@ -95,7 +95,7 @@
       "kind": "trade-pack",
       "source": "schema/extensions/trade/provider/v1",
       "target": "releases/release1/schema/extension/trade/TradeProvider/v1",
-      "publicUrl": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeProvider/v1/",
+      "publicUrl": "https://schema.ion.id/release1/schema/extension/trade/TradeProvider/v1/",
       "pathStatus": "approved",
       "contentStatus": "validation-pending"
     },
@@ -103,7 +103,7 @@
       "kind": "trade-pack",
       "source": "schema/extensions/trade/resource/v1",
       "target": "releases/release1/schema/extension/trade/TradeResource/v1",
-      "publicUrl": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeResource/v1/",
+      "publicUrl": "https://schema.ion.id/release1/schema/extension/trade/TradeResource/v1/",
       "pathStatus": "approved",
       "contentStatus": "validation-pending"
     },
@@ -111,7 +111,7 @@
       "kind": "trade-pack",
       "source": "schema/extensions/trade/settlement/v1",
       "target": "releases/release1/schema/extension/trade/TradeSettlement/v1",
-      "publicUrl": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeSettlement/v1/",
+      "publicUrl": "https://schema.ion.id/release1/schema/extension/trade/TradeSettlement/v1/",
       "pathStatus": "approved",
       "contentStatus": "validation-pending"
     }

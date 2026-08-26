@@ -37,12 +37,12 @@
       }
     },
     "schemaContext": [
-      "https://schema.ion.id/releases/release1/schema/extension/trade/TradePerformance/v1/context.jsonld",
-      "https://schema.ion.id/releases/release1/schema/extension/trade/TradeContract/v1/context.jsonld",
-      "https://schema.ion.id/releases/release1/schema/extension/trade/TradeConsideration/v1/context.jsonld",
-      "https://schema.ion.id/releases/release1/schema/extension/trade/TradeCommitment/v1/context.jsonld",
-      "https://schema.ion.id/releases/release1/schema/common/BusinessRegistration/v1/context.jsonld",
-      "https://schema.ion.id/releases/release1/schema/common/Payment/v1/context.jsonld"
+      "https://schema.ion.id/release1/schema/extension/trade/TradePerformance/v1/context.jsonld",
+      "https://schema.ion.id/release1/schema/extension/trade/TradeContract/v1/context.jsonld",
+      "https://schema.ion.id/release1/schema/extension/trade/TradeConsideration/v1/context.jsonld",
+      "https://schema.ion.id/release1/schema/extension/trade/TradeCommitment/v1/context.jsonld",
+      "https://schema.ion.id/release1/schema/common/BusinessRegistration/v1/context.jsonld",
+      "https://schema.ion.id/release1/schema/common/Payment/v1/context.jsonld"
     ]
   },
   "message": {
@@ -95,7 +95,7 @@
             {
               "id": "PIZZA-PEPPERONI-LARGE",
               "resourceAttributes": {
-                "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeResource/v1/context.jsonld",
+                "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeResource/v1/context.jsonld",
                 "@type": "ion:IONTradeResource",
                 "quantity": {
                   "count": 1
@@ -104,7 +104,7 @@
             }
           ],
           "commitmentAttributes": {
-            "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeCommitment/v1/context.jsonld",
+            "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeCommitment/v1/context.jsonld",
             "@type": "ion:IONTradeCommitment",
             "lineId": "L01",
             "selectedCustomizations": [
@@ -136,7 +136,7 @@
             "code": "ACTIVE"
           },
           "considerationAttributes": {
-            "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeConsideration/v1/context.jsonld",
+            "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeConsideration/v1/context.jsonld",
             "@type": "ion:IONTradeConsideration",
             "totalAmount": 98900,
             "currency": "IDR",
@@ -179,7 +179,7 @@
             "code": "PLANNED"
           },
           "performanceAttributes": {
-            "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradePerformance/v1/context.jsonld",
+            "@context": "https://schema.ion.id/release1/schema/extension/trade/TradePerformance/v1/context.jsonld",
             "@type": "ion:IONTradePerformance",
             "fulfillingLocationId": "FC-DOMINOS-SUDIRMAN-001",
             "performanceMode": "DELIVERY",
@@ -213,7 +213,7 @@
                     "kabupatenCode": "3171",
                     "kelurahan": "Senayan",
                     "kecamatan": "Kebayoran Baru",
-                    "@context": "https://schema.ion.id/releases/release1/schema/common/Address/v1/context.jsonld",
+                    "@context": "https://schema.ion.id/release1/schema/common/Address/v1/context.jsonld",
                     "@type": "ion:IONAddress"
                   }
                 }
@@ -231,7 +231,7 @@
           "considerationId": "CONSID-ORD-2026-00012345",
           "status": "COMMITTED",
           "settlementAttributes": {
-            "@context": "https://schema.ion.id/releases/release1/schema/common/Payment/v1/context.jsonld",
+            "@context": "https://schema.ion.id/release1/schema/common/Payment/v1/context.jsonld",
             "@type": "ion:IONPayment",
             "method": "QRIS",
             "collectedBy": "BAP",
@@ -245,7 +245,7 @@
         }
       ],
       "contractAttributes": {
-        "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeContract/v1/context.jsonld",
+        "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeContract/v1/context.jsonld",
         "@type": "ion:IONTradeContract",
         "buyerBusinessRegistration": {
           "npwp": "1234567890123456",

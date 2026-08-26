@@ -74,7 +74,7 @@
         {
           "id": "CONSID-DRAFT-001",
           "considerationAttributes": {
-            "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeConsideration/v1/context.jsonld",
+            "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeConsideration/v1/context.jsonld",
             "@type": "ion:IONTradeConsideration",
             "totalAmount": 9435,
             "currency": "IDR",

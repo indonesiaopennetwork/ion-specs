@@ -30,12 +30,12 @@ components:
       x-recommended-parent: Performance.performanceAttributes
       additionalProperties: true
       x-jsonld:
-        '@context': 'https://schema.ion.id/releases/release1/schema/extension/trade/TradePerformance/v1/context.jsonld'
+        '@context': 'https://schema.ion.id/release1/schema/extension/trade/TradePerformance/v1/context.jsonld'
         '@type': ion:IONTradePerformance
       x-beckn-attaches-to: Performance.performanceAttributes
       x-ion-closed-extensions: false
       allOf:
-        - $ref: https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailPerformance/2.1/attributes.yaml#/components/schemas/RetailPerformance
+        - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailPerformance/2.1/attributes.yaml#/components/schemas/RetailPerformance
         # Conditional mandatoriness is enforced by ION network policy rather
         # than this shared schema. The former constraints required evidence for
         # KTP_SCANNED, required verification outcome fields when verification
@@ -130,7 +130,7 @@ components:
           x-ion-condition: Present when fulfilment is handled by on-network LSP
         agent:
           allOf:
-          - $ref: https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailPerformance/2.1/attributes.yaml#/components/schemas/RetailPerformance/properties/agent
+          - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailPerformance/2.1/attributes.yaml#/components/schemas/RetailPerformance/properties/agent
           - type: object
             description: >
               Agent assigned to this performance. A return uses a separate
@@ -186,7 +186,7 @@ components:
               type: array
               description: Documents or media supporting the quality-control findings.
               items:
-                $ref: https://schema.ion.id/releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Document
+                $ref: https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Document
         slaBreaches:
           type: array
           description: >
@@ -236,7 +236,7 @@ components:
                 Evidence retained under the applicable privacy, security, and
                 data-residency policy.
               items:
-                $ref: https://schema.ion.id/releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Document
+                $ref: https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Document
             failureReason:
               type: string
               enum:
@@ -257,7 +257,7 @@ components:
           x-ion-condition: Present when the performance has multiple packages
         totalWeight:
           allOf:
-          - $ref: https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+          - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
           description: >
             Total packed weight. The unit is carried by the Quantity rather
             than being encoded in the property name.
@@ -308,11 +308,11 @@ components:
                   directly to the closed Beckn Address object.
                 properties:
                   geo:
-                    $ref: https://schema.ion.id/releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/GeoJSONGeometry
+                    $ref: https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/GeoJSONGeometry
                   address:
-                    $ref: https://schema.ion.id/releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Address
+                    $ref: https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Address
                   ionAddressAttributes:
-                    $ref: 'https://schema.ion.id/releases/release1/schema/common/Address/v1/attributes.yaml#/components/schemas/IONAddress'
+                    $ref: 'https://schema.ion.id/release1/schema/common/Address/v1/attributes.yaml#/components/schemas/IONAddress'
               instructions:
                 type: string
                 description: Delivery or pickup instructions for this stop
@@ -325,7 +325,7 @@ components:
                 format: date-time
                 description: Actual arrival time — populated after stop is reached
               proof:
-                $ref: https://schema.ion.id/releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Document
+                $ref: https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Document
                 description: Documentary proof associated with completion of this stop.
 
       # NETWORK POLICY NOTE (GAP 32 / NFH-012 CON-012-18):

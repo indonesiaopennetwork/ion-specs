@@ -28,11 +28,11 @@ components:
       x-recommended-parent: Consideration.considerationAttributes.breakup[].taxDetail
       x-beckn-attaches-to: Consideration.considerationAttributes.breakup[].taxDetail
       x-jsonld:
-        '@context': https://schema.ion.id/releases/release1/schema/common/Tax/v1/context.jsonld
+        '@context': https://schema.ion.id/release1/schema/common/Tax/v1/context.jsonld
         '@type': ion:IONTaxDetail
       additionalProperties: true
       allOf:
-        - $ref: https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailConsideration/2.1/attributes.yaml#/components/schemas/RetailConsideration/properties/breakup/items/properties/taxDetail
+        - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailConsideration/2.1/attributes.yaml#/components/schemas/RetailConsideration/properties/breakup/items/properties/taxDetail
       properties:
         taxRegime:
           type: string

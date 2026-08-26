@@ -10,4 +10,4 @@ this directory:
   explicitly excludes the unreconciled `ion.yaml` aggregate.
 
 The public namespace mirrors this structure at
-`https://schema.ion.id/releases/release1/schema/`.
+`https://schema.ion.id/release1/schema/`.

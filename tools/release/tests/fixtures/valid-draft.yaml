@@ -3,7 +3,7 @@ release: 1
 name: release1
 status: draft
 publishedAt: null
-publicBaseUrl: https://schema.ion.id/releases/release1/
+publicBaseUrl: https://schema.ion.id/release1/
 sourceBranch: main
 contentStatus:
   ionApi: review-required

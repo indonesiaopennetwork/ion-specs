@@ -22,12 +22,12 @@ class ValidateManifestTest < Minitest::Test
 
   def test_release_name_and_url_must_match_number
     @manifest["name"] = "release2"
-    @manifest["publicBaseUrl"] = "https://schema.ion.id/releases/release2/"
+    @manifest["publicBaseUrl"] = "https://schema.ion.id/release2/"
 
     errors = IonReleaseManifest.validate(@manifest)
 
     assert_includes errors, "name must equal release1"
-    assert_includes errors, "publicBaseUrl must equal https://schema.ion.id/releases/release1/"
+    assert_includes errors, "publicBaseUrl must equal https://schema.ion.id/release1/"
   end
 
   def test_draft_may_not_have_publication_date

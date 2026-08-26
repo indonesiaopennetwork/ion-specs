@@ -73,7 +73,7 @@ TradeResource:
     '@context': ./context.jsonld
     '@type': ion:TradeResource
   allOf:
-    - $ref: https://schema.ion.id/releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Attributes
+    - $ref: https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Attributes
   properties:
     resourceStructure:
       type: string
@@ -91,7 +91,7 @@ The `@context` field inside any `*Attributes` bag **must be a single string URL*
 ```json
 {
   "resourceAttributes": {
-    "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeResource/v1/context.jsonld",
+    "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeResource/v1/context.jsonld",
     "@type": "ion:TradeResource",
     "resourceStructure": "PLAIN",
     "availability": { "status": "IN_STOCK" }
@@ -106,7 +106,7 @@ When multiple packs attach to the same Beckn object, all their fields coexist in
 ```json
 {
   "settlementAttributes": {
-    "@context": "https://schema.ion.id/releases/release1/schema/common/Payment/v1/context.jsonld",
+    "@context": "https://schema.ion.id/release1/schema/common/Payment/v1/context.jsonld",
     "@type": "ion:PaymentDeclaration",
     "method": "QRIS",
     "paymentRail": "QRIS",

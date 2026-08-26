@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeContract/v1",
+  "$id": "https://schema.ion.id/release1/schema/extension/trade/TradeContract/v1",
   "title": "ION Trade Contract Schema Pack v1",
   "description": "JSON Schema 2020-12 mirror of the trade/contract/v1 OpenAPI schema pack.",
   "type": "object",
@@ -15,27 +15,27 @@
       "x-recommended-parent": "Contract.contractAttributes",
       "additionalProperties": true,
       "x-jsonld": {
-        "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeContract/v1/context.jsonld",
+        "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeContract/v1/context.jsonld",
         "@type": "ion:IONTradeContract"
       },
       "x-beckn-attaches-to": "Contract.contractAttributes",
       "allOf": [
         {
-          "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml#/components/schemas/RetailContract"
+          "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml#/components/schemas/RetailContract"
         }
       ],
       "properties": {
         "quoteReference": {
-          "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml#/components/schemas/RetailContract/properties/quoteReference"
+          "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml#/components/schemas/RetailContract/properties/quoteReference"
         },
         "buyerInstructions": {
-          "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml#/components/schemas/RetailContract/properties/buyerInstructions"
+          "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml#/components/schemas/RetailContract/properties/buyerInstructions"
         },
         "deliveryPreferences": {
-          "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml#/components/schemas/RetailContract/properties/deliveryPreferences"
+          "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml#/components/schemas/RetailContract/properties/deliveryPreferences"
         },
         "loyalty": {
-          "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml#/components/schemas/RetailContract/properties/loyalty"
+          "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml#/components/schemas/RetailContract/properties/loyalty"
         },
         "purchaseOrderReference": {
           "type": "string",
@@ -45,7 +45,7 @@
         "parentContractId": {
           "allOf": [
             {
-              "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Contract/properties/id"
+              "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Contract/properties/id"
             }
           ],
           "description": "Identifier of the parent Contract when this Contract is a child transaction."
@@ -58,7 +58,7 @@
             "reason": {
               "allOf": [
                 {
-                  "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Descriptor"
+                  "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Descriptor"
                 }
               ],
               "description": "Machine- and human-readable cancellation reason."
@@ -68,7 +68,7 @@
               "uniqueItems": true,
               "description": "Core Commitment IDs affected by a partial cancellation.",
               "items": {
-                "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Commitment/properties/id"
+                "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Commitment/properties/id"
               }
             },
             "forced": {
@@ -125,7 +125,7 @@
         "source": {
           "allOf": [
             {
-              "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml#/components/schemas/RetailContract/properties/source"
+              "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml#/components/schemas/RetailContract/properties/source"
             },
             {
               "type": "object",
@@ -160,7 +160,7 @@
         "gift": {
           "allOf": [
             {
-              "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml#/components/schemas/RetailContract/properties/gift"
+              "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml#/components/schemas/RetailContract/properties/gift"
             },
             {
               "type": "object",
@@ -187,7 +187,7 @@
         "invoicePreferences": {
           "allOf": [
             {
-              "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml#/components/schemas/RetailContract/properties/invoicePreferences"
+              "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml#/components/schemas/RetailContract/properties/invoicePreferences"
             },
             {
               "type": "object",
@@ -212,7 +212,7 @@
         "buyerBusinessRegistration": {
           "allOf": [
             {
-              "$ref": "https://schema.ion.id/releases/release1/schema/common/BusinessRegistration/v1/schema.json"
+              "$ref": "https://schema.ion.id/release1/schema/common/BusinessRegistration/v1/schema.json"
             }
           ],
           "description": "Verified Indonesian business registration of the buying organisation.",

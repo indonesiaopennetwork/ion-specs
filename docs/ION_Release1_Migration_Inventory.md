@@ -35,8 +35,9 @@ The following decisions are already accepted:
 - Release directories live under `releases/` on `main`.
 - Published release directories are permanent and immutable.
 - Draft release directories may change until publication.
-- The public path mirrors the path below `releases/`:
-  `https://schema.ion.id/releases/release1/<path>`.
+- The public path mirrors the path below `releases/` and omits the
+  repository-only top-level `releases/` segment:
+  `https://schema.ion.id/release1/<path>`.
 - Published schema `$ref` values use absolute, release-qualified
   `schema.ion.id` URLs.
 - JSON-LD semantic IRIs are not blindly rewritten as schema dependencies.
@@ -77,7 +78,7 @@ release: 1
 name: release1
 status: draft
 publishedAt: null
-publicBaseUrl: https://schema.ion.id/releases/release1/
+publicBaseUrl: https://schema.ion.id/release1/
 sourceBranch: main
 
 contentStatus:
@@ -401,7 +402,7 @@ immutable upstream commits, recursively discover transitive `$ref` dependencies,
 record checksums and licenses, and then rewrite validation references to:
 
 ```text
-https://schema.ion.id/releases/release1/schema/vendored/beckn/...
+https://schema.ion.id/release1/schema/vendored/beckn/...
 ```
 
 The current `beckn.yaml` provenance must also be verified rather than assumed from
@@ -512,7 +513,7 @@ Before publication, root tooling must provide:
 2. **Reference inventory and validation**
    - parse YAML and JSON;
    - resolve every `$ref` and JSON Pointer locally through the
-     `schema.ion.id/releases/releaseN/` mapping;
+     `schema.ion.id/releaseN/` mapping;
    - reject cross-release and unapproved external schema dependencies.
 3. **Vendoring**
    - fetch from immutable upstream revisions;

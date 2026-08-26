@@ -75,7 +75,7 @@ Dinda fills in the store's operational details. These travel in `Provider.provid
 
 ```json
 {
-  "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeProvider/v1/context.jsonld",
+  "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeProvider/v1/context.jsonld",
   "@type": "ion:IONTradeProvider",
 
   "invoicing": {
@@ -165,7 +165,7 @@ Dinda publishes 5 items via `POST /catalog/publish`. Each resource has its `reso
     "images": ["https://cdn.apotek-sehat.id/panadol-500-4tab.jpg"]
   },
   "resourceAttributes": {
-    "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeResource/v1/context.jsonld",
+    "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeResource/v1/context.jsonld",
     "@type": "ion:TradeResource",
 
     "quantity": { "value": 1, "unit": "piece" },
@@ -246,7 +246,7 @@ Dinda publishes 5 items via `POST /catalog/publish`. Each resource has its `reso
     "images": ["https://cdn.apotek-sehat.id/amoxicillin-500-10caps.jpg"]
   },
   "resourceAttributes": {
-    "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeResource/v1/context.jsonld",
+    "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeResource/v1/context.jsonld",
     "@type": "ion:TradeResource",
 
     "quantity": { "value": 1, "unit": "piece" },
@@ -329,7 +329,7 @@ Dinda publishes 5 items via `POST /catalog/publish`. Each resource has its `reso
     "images": ["https://cdn.apotek-sehat.id/metformin-500-30tab.jpg"]
   },
   "resourceAttributes": {
-    "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeResource/v1/context.jsonld",
+    "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeResource/v1/context.jsonld",
     "@type": "ion:TradeResource",
 
     "quantity": { "value": 1, "unit": "piece" },
@@ -411,7 +411,7 @@ Dinda publishes 5 items via `POST /catalog/publish`. Each resource has its `reso
     "images": ["https://cdn.apotek-sehat.id/aqua-600ml.jpg"]
   },
   "resourceAttributes": {
-    "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeResource/v1/context.jsonld",
+    "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeResource/v1/context.jsonld",
     "@type": "ion:TradeResource",
 
     "quantity": { "value": 1, "unit": "piece" },
@@ -495,7 +495,7 @@ Dinda publishes 5 items via `POST /catalog/publish`. Each resource has its `reso
     ]
   },
   "resourceAttributes": {
-    "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeResource/v1/context.jsonld",
+    "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeResource/v1/context.jsonld",
     "@type": "ion:TradeResource",
 
     "quantity": { "value": 1, "unit": "piece" },
@@ -717,7 +717,7 @@ A different buyer, Ibu Rina, wants Panadol for her fever.
         {
           "id": "CMT-001",
           "commitmentAttributes": {
-            "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeCommitment/v1/context.jsonld",
+            "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeCommitment/v1/context.jsonld",
             "@type": "ion:TradeCommitment",
             "lineId": "L01",
             "resourceId": "RES-APOTEK-SEHAT-001",
@@ -742,7 +742,7 @@ BPP returns quote. 2 × Panadol + delivery:
         {
           "id": "CMT-001",
           "commitmentAttributes": {
-            "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeCommitment/v1/context.jsonld",
+            "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeCommitment/v1/context.jsonld",
             "@type": "ion:TradeCommitment",
             "lineId": "L01",
             "resourceId": "RES-APOTEK-SEHAT-001",
@@ -756,7 +756,7 @@ BPP returns quote. 2 × Panadol + delivery:
         {
           "id": "CON-TOTAL",
           "considerationAttributes": {
-            "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeConsideration/v1/context.jsonld",
+            "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeConsideration/v1/context.jsonld",
             "@type": "ion:IONTradeConsideration",
             "totalAmount": 36000,
             "currency": "IDR",
@@ -792,7 +792,7 @@ Ibu Rina proceeds through init (provides address) and confirms. Payment via QRIS
     "id": "ORD-2026-APOTEK-001",
     "status": "ACTIVE",
     "contractAttributes": {
-      "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeContract/v1/context.jsonld",
+      "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeContract/v1/context.jsonld",
       "@type": "ion:IONTradeContract"
     },
     "performance": [
@@ -800,7 +800,7 @@ Ibu Rina proceeds through init (provides address) and confirms. Payment via QRIS
         "id": "PERF-001",
         "status": { "code": "ACCEPTED" },
         "performanceAttributes": {
-          "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradePerformance/v1/context.jsonld",
+          "@context": "https://schema.ion.id/release1/schema/extension/trade/TradePerformance/v1/context.jsonld",
           "@type": "ion:IONTradePerformance",
           "fulfillingLocationId": "LOC-KEMANG-47",
           "performanceMode": "DELIVERY",
@@ -971,7 +971,7 @@ Pak Ahmad sets up his monthly Metformin subscription.
   "message": {
     "contract": {
       "contractAttributes": {
-        "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeContract/v1/context.jsonld",
+        "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeContract/v1/context.jsonld",
         "@type": "ion:IONTradeContract",
         "subscription": {
           "billingCycle": "MONTHLY",

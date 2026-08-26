@@ -40,7 +40,7 @@
     },
     "publicBaseUrl": {
       "type": "string",
-      "pattern": "^https://schema\\.ion\\.id/releases/release[1-9][0-9]*/$"
+      "pattern": "^https://schema\\.ion\\.id/release[1-9][0-9]*/$"
     },
     "sourceBranch": {
       "const": "main"

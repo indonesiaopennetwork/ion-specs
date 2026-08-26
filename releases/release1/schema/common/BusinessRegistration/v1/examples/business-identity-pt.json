@@ -1,5 +1,5 @@
 {
-  "@context": "https://schema.ion.id/releases/release1/schema/common/BusinessRegistration/v1/context.jsonld",
+  "@context": "https://schema.ion.id/release1/schema/common/BusinessRegistration/v1/context.jsonld",
   "@type": "ion:IONBusinessRegistration",
   "npwp": "1234567890123456",
   "nib": "1234567890123",

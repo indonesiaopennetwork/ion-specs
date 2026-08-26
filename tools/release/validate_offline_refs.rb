@@ -53,7 +53,7 @@ module IonOfflineRefs
 
     def initialize(release_root)
       @release_root = File.expand_path(release_root)
-      @public_base = "https://schema.ion.id/releases/#{File.basename(@release_root)}/"
+      @public_base = "https://schema.ion.id/#{File.basename(@release_root)}/"
       @documents = {}
       @errors = []
       @reference_count = 0

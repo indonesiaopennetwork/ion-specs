@@ -11,7 +11,7 @@ require "yaml"
 require_relative "plan_vendoring"
 
 module IonVendoringApply
-  PROTOCOL_PUBLIC_URL = "https://schema.ion.id/releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml".freeze
+  PROTOCOL_PUBLIC_URL = "https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml".freeze
   LICENSE_TARGETS = {
     "https://github.com/beckn/protocol-specifications-v2" => "releases/release1/schema/vendored/beckn/licenses/protocol-specifications-v2/LICENSE",
     "https://github.com/beckn/schemas" => "releases/release1/schema/vendored/beckn/licenses/schemas/LICENSE.md",

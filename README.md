@@ -65,13 +65,14 @@ Every published release remains permanently under `releases/releaseN/`. Schema
 document references use release-qualified public URLs such as:
 
 ```text
-https://schema.ion.id/releases/release1/schema/extension/trade/TradeResource/v1/attributes.yaml
-https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml
+https://schema.ion.id/release1/schema/extension/trade/TradeResource/v1/attributes.yaml
+https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml
 ```
 
-These URLs mirror repository paths below `releases/`. JSON-LD semantic IRIs may
-continue to use their stable vocabulary namespaces; they are not dependency
-locations.
+These URLs mirror repository paths below `releases/`; the repository-only
+top-level `releases/` segment is omitted from the public URL. JSON-LD semantic
+IRIs may continue to use their stable vocabulary namespaces; they are not
+dependency locations.
 
 ## Validate Release 1 locally
 

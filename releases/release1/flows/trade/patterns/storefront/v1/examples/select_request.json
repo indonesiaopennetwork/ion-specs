@@ -33,9 +33,9 @@
       }
     },
     "schemaContext": [
-      "https://schema.ion.id/releases/release1/schema/extension/trade/TradeResource/v1/context.jsonld",
-      "https://schema.ion.id/releases/release1/schema/extension/trade/TradeCommitment/v1/context.jsonld",
-      "https://schema.ion.id/releases/release1/schema/extension/trade/TradePerformance/v1/context.jsonld"
+      "https://schema.ion.id/release1/schema/extension/trade/TradeResource/v1/context.jsonld",
+      "https://schema.ion.id/release1/schema/extension/trade/TradeCommitment/v1/context.jsonld",
+      "https://schema.ion.id/release1/schema/extension/trade/TradePerformance/v1/context.jsonld"
     ]
   },
   "message": {
@@ -61,7 +61,7 @@
             {
               "id": "PIZZA-PEPPERONI-LARGE",
               "resourceAttributes": {
-                "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeResource/v1/context.jsonld",
+                "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeResource/v1/context.jsonld",
                 "@type": "ion:IONTradeResource",
                 "quantity": {
                   "count": 1
@@ -70,7 +70,7 @@
             }
           ],
           "commitmentAttributes": {
-            "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeCommitment/v1/context.jsonld",
+            "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeCommitment/v1/context.jsonld",
             "@type": "ion:IONTradeCommitment",
             "selectedCustomizations": [
               {
@@ -98,7 +98,7 @@
             "code": "PLANNED"
           },
           "performanceAttributes": {
-            "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradePerformance/v1/context.jsonld",
+            "@context": "https://schema.ion.id/release1/schema/extension/trade/TradePerformance/v1/context.jsonld",
             "@type": "ion:IONTradePerformance",
             "performanceMode": "DELIVERY",
             "supportedPerformanceModes": [

@@ -1,5 +1,5 @@
 {
-  "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradePerformance/v1/context.jsonld",
+  "@context": "https://schema.ion.id/release1/schema/extension/trade/TradePerformance/v1/context.jsonld",
   "@type": "ion:IONTradePerformance",
   "_comment": "Example: on_status payload when DISPATCHED — agent assigned, tracking available",
   "performanceMode": "DELIVERY",

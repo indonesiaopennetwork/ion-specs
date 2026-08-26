@@ -23,7 +23,7 @@ Once a release is published:
 Consumers must reference explicit release URLs such as:
 
 ```text
-https://schema.ion.id/releases/release5/schema/...
+https://schema.ion.id/release5/schema/...
 ```
 
 Mutable channel names such as `current` or `next` are support labels, not schema

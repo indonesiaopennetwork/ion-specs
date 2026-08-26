@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://schema.ion.id/releases/release1/schema/common/Payment/v1",
+  "$id": "https://schema.ion.id/release1/schema/common/Payment/v1",
   "title": "PaymentDeclaration",
   "type": "object",
   "description": "Contents of a Beckn Settlement's settlementAttributes bag for a buyer-facing payment event. Binds a payment method to a transaction and carries method-specific instrument details in methodDetail.\n",
@@ -306,7 +306,7 @@
         "properties": {
           "provider": {
             "type": "string",
-            "x-ion-vocab": "https://schema.ion.id/releases/release1/schema/common/Payment/v1/vocab.jsonld#EWalletProvider",
+            "x-ion-vocab": "https://schema.ion.id/release1/schema/common/Payment/v1/vocab.jsonld#EWalletProvider",
             "description": "E-wallet provider identifier"
           },
           "accountRef": {
@@ -471,7 +471,7 @@
         "properties": {
           "provider": {
             "type": "string",
-            "x-ion-vocab": "https://schema.ion.id/releases/release1/schema/common/Payment/v1/vocab.jsonld#BNPLProvider",
+            "x-ion-vocab": "https://schema.ion.id/release1/schema/common/Payment/v1/vocab.jsonld#BNPLProvider",
             "description": "BNPL provider name"
           },
           "tenure": {

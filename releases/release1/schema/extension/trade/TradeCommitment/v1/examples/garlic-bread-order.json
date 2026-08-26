@@ -1,5 +1,5 @@
 {
-  "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeCommitment/v1/context.jsonld",
+  "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeCommitment/v1/context.jsonld",
   "@type": "ion:IONTradeCommitment",
   "_comment": "Pack example: garlic-bread line item attached to Contract.commitments[].commitmentAttributes.",
   "lineId": "L02",

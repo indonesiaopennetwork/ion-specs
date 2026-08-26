@@ -33,9 +33,9 @@
       }
     },
     "schemaContext": [
-      "https://schema.ion.id/releases/release1/schema/common/Payment/v1/context.jsonld",
-      "https://schema.ion.id/releases/release1/schema/extension/trade/TradeContract/v1/context.jsonld",
-      "https://schema.ion.id/releases/release1/schema/common/BusinessRegistration/v1/context.jsonld"
+      "https://schema.ion.id/release1/schema/common/Payment/v1/context.jsonld",
+      "https://schema.ion.id/release1/schema/extension/trade/TradeContract/v1/context.jsonld",
+      "https://schema.ion.id/release1/schema/common/BusinessRegistration/v1/context.jsonld"
     ]
   },
   "message": {
@@ -87,7 +87,7 @@
       "settlements": [
         {
           "settlementAttributes": {
-            "@context": "https://schema.ion.id/releases/release1/schema/common/Payment/v1/context.jsonld",
+            "@context": "https://schema.ion.id/release1/schema/common/Payment/v1/context.jsonld",
             "@type": "ion:IONPayment",
             "method": "QRIS",
             "paymentRail": "QRIS",
@@ -102,7 +102,7 @@
         }
       ],
       "contractAttributes": {
-        "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradeContract/v1/context.jsonld",
+        "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeContract/v1/context.jsonld",
         "@type": "ion:IONTradeContract",
         "buyerBusinessRegistration": {
           "npwp": "1234567890123456",

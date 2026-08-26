@@ -23,7 +23,7 @@ components:
           type: number
           description: Total value for this price specification
         applicableQuantity:
-          $ref: https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
           x-jsonld:
             '@id': schema:eligibleQuantity
         components:

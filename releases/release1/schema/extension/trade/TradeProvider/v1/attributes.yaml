@@ -32,11 +32,11 @@ components:
       x-recommended-parent: Provider.providerAttributes
       additionalProperties: true
       x-jsonld:
-        '@context': 'https://schema.ion.id/releases/release1/schema/extension/trade/TradeProvider/v1/context.jsonld'
+        '@context': 'https://schema.ion.id/release1/schema/extension/trade/TradeProvider/v1/context.jsonld'
         '@type': ion:IONTradeProvider
       x-beckn-attaches-to: Provider.providerAttributes
       allOf:
-        - $ref: https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/Attributes/2.0/attributes.yaml#/components/schemas/Attributes
+        - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Attributes/2.0/attributes.yaml#/components/schemas/Attributes
         - type: object
           properties:
             verification:
@@ -170,7 +170,7 @@ components:
                 type: string
                 description: Optional origin location to which this area applies.
               geo:
-                $ref: https://schema.ion.id/releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/GeoJSONGeometry
+                $ref: https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/GeoJSONGeometry
 
         averagePreparationTime:
           type: string
@@ -288,7 +288,7 @@ components:
 
         businessRegistration:
           x-attr-ion-layer: ion
-          $ref: https://schema.ion.id/releases/release1/schema/common/BusinessRegistration/v1/attributes.yaml#/components/schemas/IONBusinessRegistration
+          $ref: https://schema.ion.id/release1/schema/common/BusinessRegistration/v1/attributes.yaml#/components/schemas/IONBusinessRegistration
           description: >
             Indonesian business identity for the provider. The presence and
             validity of the actual nib value replaces the former
@@ -302,7 +302,7 @@ components:
             including an ION Trusted Seller credential. A provider must not
             assert trust through an unverified boolean.
           items:
-            $ref: https://schema.ion.id/releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Document
+            $ref: https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Document
 
         categoryLicenses:
           x-attr-ion-layer: ion
@@ -339,7 +339,7 @@ components:
                 type: string
                 example: BPOM
               evidence:
-                $ref: https://schema.ion.id/releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Document
+                $ref: https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Document
           x-ion-regulatory: PP 5/2021; PerBPOM various
           # x-ion-condition: Required by network policy for regulated categories
 

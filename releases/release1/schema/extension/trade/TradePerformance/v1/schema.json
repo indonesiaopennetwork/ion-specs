@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://schema.ion.id/releases/release1/schema/extension/trade/TradePerformance/v1",
+  "$id": "https://schema.ion.id/release1/schema/extension/trade/TradePerformance/v1",
   "title": "ION Trade Performance Schema Pack v1",
   "description": "JSON Schema 2020-12 mirror of the trade/performance/v1 OpenAPI schema pack. The root resolves to IONTradePerformance, which inherits directly from RetailPerformance 2.1.",
   "$ref": "#/$defs/IONTradePerformance",
@@ -14,14 +14,14 @@
       "x-recommended-parent": "Performance.performanceAttributes",
       "additionalProperties": true,
       "x-jsonld": {
-        "@context": "https://schema.ion.id/releases/release1/schema/extension/trade/TradePerformance/v1/context.jsonld",
+        "@context": "https://schema.ion.id/release1/schema/extension/trade/TradePerformance/v1/context.jsonld",
         "@type": "ion:IONTradePerformance"
       },
       "x-beckn-attaches-to": "Performance.performanceAttributes",
       "x-ion-closed-extensions": false,
       "allOf": [
         {
-          "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailPerformance/2.1/attributes.yaml#/components/schemas/RetailPerformance"
+          "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailPerformance/2.1/attributes.yaml#/components/schemas/RetailPerformance"
         },
         {
           "type": "object",
@@ -100,7 +100,7 @@
         "agent": {
           "allOf": [
             {
-              "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/RetailPerformance/2.1/attributes.yaml#/components/schemas/RetailPerformance/properties/agent"
+              "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailPerformance/2.1/attributes.yaml#/components/schemas/RetailPerformance/properties/agent"
             },
             {
               "type": "object",
@@ -163,7 +163,7 @@
               "type": "array",
               "description": "Documents or media supporting the quality-control findings.",
               "items": {
-                "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Document"
+                "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Document"
               }
             }
           }
@@ -220,7 +220,7 @@
               "type": "array",
               "description": "Evidence retained under the applicable privacy, security, and data-residency policy.",
               "items": {
-                "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Document"
+                "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Document"
               }
             },
             "failureReason": {
@@ -247,7 +247,7 @@
         "totalWeight": {
           "allOf": [
             {
-              "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity"
+              "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity"
             }
           ],
           "description": "Total packed weight. The unit is carried by the Quantity.",
@@ -290,13 +290,13 @@
                 "description": "ION-aware location composed from Beckn geographic and postal-address shapes plus Indonesian subdivisions.",
                 "properties": {
                   "geo": {
-                    "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/GeoJSONGeometry"
+                    "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/GeoJSONGeometry"
                   },
                   "address": {
-                    "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Address"
+                    "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Address"
                   },
                   "ionAddressAttributes": {
-                    "$ref": "https://schema.ion.id/releases/release1/schema/common/Address/v1/attributes.yaml#/components/schemas/IONAddress"
+                    "$ref": "https://schema.ion.id/release1/schema/common/Address/v1/attributes.yaml#/components/schemas/IONAddress"
                   }
                 }
               },
@@ -312,7 +312,7 @@
                 "format": "date-time"
               },
               "proof": {
-                "$ref": "https://schema.ion.id/releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Document",
+                "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Document",
                 "description": "Documentary proof associated with completion of this stop."
               }
             }
