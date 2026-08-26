@@ -6,8 +6,8 @@
 
 ION publishes immutable integer releases and advertises a support window to
 help downstream software plan upgrades. The release directories are the permanent
-contract. The release channels are operational labels that describe which
-releases the network currently supports.
+contract. The release channels are operational labels that describe each
+release's support and lifecycle state.
 
 ## Immutable Integer Releases
 
@@ -26,30 +26,35 @@ Consumers must reference explicit release URLs such as:
 https://schema.ion.id/release5/schema/...
 ```
 
-Mutable channel names such as `current` or `next` are support labels, not schema
-retrieval paths.
+Mutable channel names such as `sunset`, `current`, or `next` are lifecycle
+labels, not schema retrieval paths.
 
-## Support Channels
+## Release Channels
 
 ION maintains up to three release channels:
 
 ```text
-previous -> the prior supported release
-current  -> the recommended production release
-next     -> the next candidate release under stabilization
+sunset  -> the superseded release in its announced retirement window
+current -> the recommended production release
+next    -> the next candidate release under stabilization
 ```
 
 Example:
 
 ```text
-previous = release4
-current  = release5
-next     = release6
+sunset  = release4
+current = release5
+next    = release6
 ```
 
-`previous` gives implementers a supported migration window. `current` is the
-default version for production integrations. `next` gives early visibility into
-the candidate that will become current after its stabilization period.
+`sunset` identifies the release being retired and gives implementers an
+announced migration window. It must not be used for new integrations. `current`
+is the default version for production integrations. `next` gives early
+visibility into the candidate that will become current after its stabilization
+period.
+
+When a release leaves `sunset`, its immutable release directory and explicit
+public URLs remain available, but it is no longer an actively supported channel.
 
 ## Channel State
 
@@ -64,7 +69,7 @@ Suggested shape:
 
 ```yaml
 schemaVersion: 1
-previous: release4
+sunset: release4
 current: release5
 next: release6
 nextStabilization:
@@ -115,7 +120,7 @@ before it can become `current`. This applies to every release, including
 3. Update `releases/channels.yaml`:
 
    ```yaml
-   previous: <current previous or null>
+   sunset: <existing sunset or null>
    current: <current current or null>
    next: releaseN
    nextStabilization:
@@ -127,7 +132,7 @@ before it can become `current`. This applies to every release, including
 For the first release, the channel state should be:
 
 ```yaml
-previous: null
+sunset: null
 current: null
 next: release1
 ```
@@ -153,7 +158,7 @@ After the quiet period:
 8. Update channels:
 
    ```yaml
-   previous: <old current>
+   sunset: <old current>
    current: <old next>
    next: null
    ```
@@ -161,7 +166,7 @@ After the quiet period:
 For `release1`, the promotion produces:
 
 ```yaml
-previous: null
+sunset: null
 current: release1
 next: null
 ```
@@ -201,10 +206,11 @@ target the draft `releaseN+1` directory with small, focused changes.
 
 ## Compatibility Promise
 
-The channel model gives downstream software two planning guarantees:
+The channel model gives downstream software three planning guarantees:
 
 - `current` is the recommended target for production implementations.
-- `previous` remains supported long enough for planned migration.
+- `sunset` identifies the retiring release and remains supported for its
+  announced migration window.
 - `next` provides advance visibility and will not become `current` until it has
   completed its quiet period without changes.
 
