@@ -59,7 +59,7 @@ This is the same command used by `.github/workflows/release-validation.yml`.
 The workflow runs automatically for relevant pull requests and changes on
 `main`, and it supports manual `workflow_dispatch` runs.
 
-To include the publication-only manifest requirements:
+To include the manifest requirements for publishing a draft into `next`:
 
 ```bash
 ruby tools/release/validate_release.rb --publication releases/release1
@@ -78,8 +78,8 @@ Before applying a migration, use `--require-sources`. After applying it, use
 `--require-targets`. Source validation is the default for compatibility with the
 Phase 1 workflow.
 
-Commands that publish, deploy, or otherwise treat a release as permanent must use
-the publication gate:
+Commands that publish a draft into `next`, deploy it, or otherwise treat it as
+permanent must use the publication gate:
 
 ```bash
 ruby tools/release/validate_manifest.rb --require-published releases/release1/release.yaml

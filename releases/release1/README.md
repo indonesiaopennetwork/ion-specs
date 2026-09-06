@@ -1,11 +1,13 @@
 # ION Release 1
 
-> **Status: DRAFT — not a published or supported specification release.**
+> **Status: DRAFT — not published or assigned to a release channel.**
 
 This directory is the working envelope for the first permanent integer release of
 the ION Trade specification. It is mutable while `release.yaml` has
 `status: draft`. Its contents and public URLs carry no compatibility guarantee
 until the ION Council approves the release and changes its status to `published`.
+Publication will assign Release 1 to the `next` channel and begin its operational
+stabilization period; it will not automatically make Release 1 `current`.
 
 ## Current state
 
@@ -17,22 +19,21 @@ URLs, and the graph resolves offline.
 Phase 5 validated the standalone Trade packs and the four common packs required by
 Trade, including their JSON-LD documents and all 17 example objects. Phase 6
 explicitly excluded the unreconciled `ion.yaml` aggregate and the Logistics,
-Hospitality, and Finance sectors from Release 1. Their source material remains
-non-normative work in progress outside this release.
+Hospitality, and Finance sectors from Release 1. Those artifacts are absent from
+the release, and the repository does not retain separate root-level normative
+copies.
 
 Phase 8A added the independently reviewable connected Trade baseline:
 Storefront v1, 67 Trade or cross-sector policy terms, and 8 Trade errors whose
 schema and flow targets are present in this release. Phase 8B added the
 Made-to-Order v1 flow after reconciling its schema-pack names, category boundary,
-MTO state-machine target, and concrete cancellation policy. Other root flows and
-the errors that depend on them remain non-normative work in progress. Phase 8C
-added the standard-action subset of Live Commerce v1 and restored its two
-release-local errors, bringing the included error count to 10.
+MTO state-machine target, and concrete cancellation policy. Phase 8C added the
+standard-action subset of Live Commerce v1 and restored its two release-local
+errors, bringing the included error count to 10.
 Phase 8D added the standard-action, target-free subset of Digital Goods v1 for
 electronically delivered vouchers and subscriptions. Push-to-target, account
 credit, and digital top-up transactions remain outside Release 1 because no
-transaction-level delivery-target schema exists in either Release 1 or the root
-standalone schema packs.
+transaction-level delivery-target schema exists in Release 1.
 Phase 8E added Business Procurement, Marketplace In-house, and Marketplace
 Listed using the existing Release 1 schema packs. Cross-Border, Government,
 Forward Auction, and Reverse Auction were reviewed and deferred because their
@@ -104,11 +105,22 @@ ruby tools/release/validate_release.rb releases/release1
 GitHub Actions uses the same command. The **Release validation** workflow can be
 run manually and optionally includes the publication gate.
 
-The publication gate must reject this draft:
+For the deeper Trade schema-pack consistency validation maintained in the ION
+testbed:
 
 ```bash
-ruby tools/release/validate_manifest.rb --require-published releases/release1/release.yaml
+cd /path/to/ion-testbed/tools/schemav2validator
+go run ./cmd/schemav2validator schema-dir /path/to/ion-specs/releases/release1/schema/extension/trade/
 ```
+
+Before the Council publishes Release 1 into `next`, run the complete publication
+gate with:
+
+```bash
+ruby tools/release/validate_release.rb --publication releases/release1
+```
+
+This command intentionally fails while Release 1 remains a draft.
 
 See `docs/ION_Release_Architecture.md` and
 `docs/ION_Release1_Migration_Inventory.md` for the governing decision and migration

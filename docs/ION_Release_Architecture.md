@@ -8,12 +8,14 @@
 
 **Decision owners:** ION Council
 
+**Related policy:** `docs/ION_Release_Channel_Policy.md`
+
 ## Purpose
 
 This document defines how the ION Network Specification is packaged, published,
 addressed, and preserved. It is the target architecture for the repository
 reorganization. Release 1 implements this structure; unreleased working material
-remains outside the release until it is reviewed for a future integer release.
+for later versions is authored in the active draft for a future integer release.
 
 The goals are to ensure that every ION release is:
 
@@ -349,30 +351,44 @@ dependencies: []
 artifactChecksums: {}
 ```
 
-Before publication, `status` is changed to `published`, `publishedAt` is populated,
-the dependency inventory is complete, and release checksums are recorded. The final
-manifest contract is defined in
+When the Council publishes a draft into the `next` channel, `status` is changed
+to `published`, `publishedAt` is populated, the dependency inventory is complete,
+and release checksums are recorded. The final manifest contract is defined in
 `tools/release/release-manifest.schema.json` and enforced by the release tooling.
 
 ## Lifecycle and immutability
 
-1. Create the next integer release by copying the most recent published release.
-2. Set the new manifest status to `draft`.
-3. Rewrite release-qualified document references to the new release namespace.
-4. Apply approved specification and dependency changes.
-5. Regenerate derived artifacts.
-6. Validate the complete release locally with network access disabled.
-7. Merge the reviewed release into `main` and mark it `published`.
-8. Create a matching protected Git tag, such as `release1`, for provenance.
-9. Prevent all subsequent modifications or deletions under that release directory.
+1. Develop approved specification and dependency changes in the active draft.
+2. Regenerate derived artifacts and validate the complete release locally with
+   network access disabled.
+3. When the Council selects the draft for `next`, populate its publication
+   metadata and change its manifest to `status: published`.
+4. Publish the release and assign it to `next` in the same reviewed change.
+5. Create a matching protected Git tag, such as `release1`, for provenance.
+6. Prevent all subsequent modifications or deletions under that release
+   directory.
+7. Begin the `next` stabilization period and create the following integer release
+   as the new mutable draft.
+8. After the minimum stabilization period, allow the Council to promote `next` to
+   `current`, retain it as `next`, or later supersede it with another published
+   release.
+9. Move every release that leaves `current` into LTS with an explicit support end
+   date. A former `current` cannot become unsupported before completing that
+   guaranteed LTS period.
 
 Draft paths may be visible from `main`, but they are not stable or supported until
 the manifest says `published`. Only published release URLs carry the permanence
 guarantee.
 
-A mutable convenience pointer to the current release may be provided outside the
-release directories, but it is non-normative. Implementations and specifications
-MUST reference an explicit `releaseN` URL.
+The `next`, `current`, and LTS channel labels are mutable, non-normative adoption
+guidance recorded outside immutable release directories. Only published releases
+may be assigned to a channel. A published release that loses its channel remains
+permanently resolvable through its explicit `releaseN` URL. Implementations and
+specifications MUST use those explicit URLs rather than channel names.
+
+The complete channel semantics, including discretionary promotion, stabilization,
+replacement of an unpromoted `next`, and overlapping LTS commitments, are defined
+in `docs/ION_Release_Channel_Policy.md`.
 
 ## Validation and enforcement
 
@@ -395,6 +411,11 @@ For every release, automated checks must:
 - validate successfully with network access disabled; and
 - reject changes to directories whose manifest status is `published`.
 
+Channel-state checks should additionally verify that every channel refers to a
+published release, no release occupies more than one channel, `next` and `current`
+are singletons, every LTS entry has a valid support end date, and a release leaving
+`current` enters LTS in the same channel-state change.
+
 The same checks should verify that every published public URL maps to the expected
 repository file and that Nginx returns appropriate content types for YAML, JSON,
 and JSON-LD resources.
@@ -407,7 +428,10 @@ support. The compatibility impact of a new release must be documented, even thou
 the number itself does not encode major, minor, or patch semantics.
 
 Existing notice periods and ION Council approval requirements continue to apply.
-Publication requires Council approval. The release notes must identify breaking,
+Publication into `next`, promotion from `next` to `current`, replacement of an
+unpromoted `next`, and every LTS support date or extension require Council
+approval. LTS is mandatory for a release leaving `current`; only its support date
+and any extension require a decision. The release notes must identify breaking,
 additive, corrective, and documentation-only changes explicitly.
 
 Current documentation that prescribes semantic bundle versions, mutable remote

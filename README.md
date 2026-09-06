@@ -1,16 +1,26 @@
 # ION Network Specification
 
-ION is an open digital-commerce network specification for Indonesia, built on
-Beckn Protocol 2.0.0.
+[ION](https://ion.id) is an open digital-commerce network for Indonesia.
 
-> **Release 1 status: DRAFT.** Release 1 is limited to the standalone Trade
-> schema packs, the common packs they require, the scoped Storefront,
-> Made-to-Order, Live Commerce, Digital Goods, Business Procurement,
-> Marketplace In-house, and Marketplace Listed flows and connected registries,
-> and pinned vendored Beckn dependencies. It is not
-> permanent or supported until its manifest is marked `published` on `main`.
+The ION Network Specification defines the technical contracts for participating
+in the network and is based on Beckn Protocol 2.0.0.
 
-## Release 1 entry points
+## Releases
+
+| Lifecycle position | Release | Current state |
+|---|---|---|
+| LTS | None | No releases are currently under long-term support. |
+| Current | None | No release is currently recommended for production integrations. |
+| Next | None | No published release is currently undergoing stabilization. |
+| Draft | [Release 1](releases/release1/README.md) | Mutable and not yet assigned to a release channel. |
+
+### Release 1 (draft)
+
+Release 1 is limited to the standalone Trade schema packs, the common packs they
+require, the scoped Storefront, Made-to-Order, Live Commerce, Digital Goods,
+Business Procurement, Marketplace In-house, and Marketplace Listed flows and
+connected registries, and pinned vendored Beckn dependencies. It remains mutable
+and unchannelled until the Council publishes it into the `next` channel on `main`.
 
 - [`releases/release1/release.yaml`](releases/release1/release.yaml) — scope,
   dependency provenance, checksums, and publication state.
@@ -30,16 +40,16 @@ Beckn Protocol 2.0.0.
 - [`releases/release1/errors/registry.json`](releases/release1/errors/registry.json)
   — 10 Trade errors with release-local targets.
 
-Release 1 does not publish `ion.yaml`, Logistics, Hospitality, or Finance. Their
-files under `schema/`, `flows/`, `policies/`, and `errors/` are work in progress
-for a future release unless they are explicitly copied into a validated release
-bundle.
+Release 1 excludes `ion.yaml`, Logistics, Hospitality, and Finance. The repository
+does not maintain separate editable `schema/`, `flows/`, `policies/`, or `errors/`
+trees at its root. Future normative work belongs in the draft directory for the
+release that will publish it.
 
 ## Repository structure
 
 ```text
 releases/
-  release1/                    Draft permanent release bundle
+  release1/                    Draft release bundle
     release.yaml
     schema/
       core/                    Reserved; ion.yaml excluded in Release 1
@@ -50,19 +60,13 @@ releases/
     policies/                  Included policy sources and registry
     errors/                    Included Trade errors and registry
 
-schema/
-  core/v2/api/v2.0.0/ion.yaml  Excluded work-in-progress aggregate
-  extensions/                  Unreleased sector and common source work
-
-flows/                         Source flow material under migration
-policies/                      Source policy material under migration
-errors/                        Source error material under migration
 docs/                          Architecture and contributor documentation
 tools/release/                 Release construction and validation tools
 ```
 
-Every published release remains permanently under `releases/releaseN/`. Schema
-document references use release-qualified public URLs such as:
+Each draft release is developed within its own `releases/releaseN/` directory.
+Once published, that directory is permanent and immutable. Schema document
+references use release-qualified public URLs such as:
 
 ```text
 https://schema.ion.id/release1/schema/extension/trade/TradeResource/v1/attributes.yaml
@@ -74,35 +78,17 @@ top-level `releases/` segment is omitted from the public URL. JSON-LD semantic
 IRIs may continue to use their stable vocabulary namespaces; they are not
 dependency locations.
 
-## Validate Release 1 locally
+## Documentation
 
-The same command used by CI can be run manually from the repository root:
-
-```bash
-ruby tools/release/validate_release.rb releases/release1
-```
-
-It runs release-tool tests, manifest and scope checks, registry freshness,
-complete artifact checksum verification, offline `$ref` resolution, and Trade
-connection checks.
-
-To run the stricter publication gate:
-
-```bash
-ruby tools/release/validate_release.rb --publication releases/release1
-```
-
-That command intentionally fails while Release 1 is a draft. In GitHub Actions,
-the **Release validation** workflow runs for relevant pull requests and `main`
-changes and can also be started manually. Its manual form optionally runs the
-publication gate.
-
-For the deeper schema-pack consistency validation maintained in the ION testbed:
-
-```bash
-cd /path/to/ion-testbed/tools/schemav2validator
-go run ./cmd/schemav2validator schema-dir /path/to/ion-specs/releases/release1/schema/extension/trade/
-```
+| Document | What it covers |
+|---|---|
+| [Release Architecture](docs/ION_Release_Architecture.md) | How specifications are packaged into immutable releases, addressed through public URLs, and kept independently verifiable. |
+| [Release Channel Policy](docs/ION_Release_Channel_Policy.md) | How drafts enter `next`, may advance to `current`, and receive guaranteed LTS after leaving `current`. |
+| [Entity Hierarchy Model](docs/ION_Entity_Hierarchy_Model.md) | How participants, roles, sectors, and business classifications fit together across ION. |
+| [Resource Categories](docs/ION_Resource_Categories.md) | The draft cross-sector taxonomy and machine-readable codes used to classify products and services. |
+| [Transport and HTTP Signing](docs/ION_Transport_and_Signing.md) | The request/callback model, HTTP signatures, acknowledgements, and transport-level errors. |
+| [Bu Sari Joins ION](docs/ION_Bu_Sari_Wizard.md) | A plain-language walkthrough of the network for business owners, product teams, regulators, and other non-protocol readers. |
+| [Bu Sari's Complete ION Journey](docs/ION_Bu_Sari_Complete_Journey.md) | The developer companion, with API calls, JSON payloads, and field-level details for an end-to-end seller journey. |
 
 ## Contributing
 

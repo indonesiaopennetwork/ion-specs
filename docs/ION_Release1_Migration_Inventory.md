@@ -927,7 +927,10 @@ Publication is permitted only when:
 - the ION Council approves the release.
 
 After approval, set `status: published`, record the publication date and checksums,
-create the protected `release1` tag, and enable immutable-directory enforcement.
+assign Release 1 to `next`, create the protected `release1` tag, and enable
+immutable-directory enforcement. Its stabilization period begins at that channel
+assignment. Release 2 then becomes the mutable draft for subsequent feature work;
+promotion of Release 1 to `current` remains a separate Council decision.
 
 ## Inventory completion criteria
 

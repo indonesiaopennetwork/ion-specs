@@ -4,62 +4,64 @@
 
 ## Purpose
 
-ION publishes immutable integer releases and advertises a support window to
-help downstream software plan upgrades. The release directories are the permanent
-contract. The release channels are operational labels that describe each
-release's support and lifecycle state.
+ION publishes immutable integer releases and uses mutable channel labels to
+communicate how those releases should be adopted. Release manifests record
+whether a release is mutable or permanent. Channels separately identify the
+cutting-edge release, the recommended production release, and older releases
+with an active long-term support commitment.
 
-## Immutable Integer Releases
+This separation lets the ION Council observe a newly published release before
+recommending it as `current`, without weakening the permanence of its files or
+public URLs.
 
-Every published release lives under `releases/releaseN/`.
+## Release Status And Channel Assignment
 
-Once a release is published:
+Release status and channel assignment are different concepts:
 
-- its files must not be modified or removed;
-- its public URLs remain stable;
-- corrections and additions go into the next integer release; and
-- a protected Git tag records the published state.
+- `status: draft` means the release is mutable, unpublished, and not assigned to
+  a release channel. Feature work happens only in a draft.
+- `status: published` means the release is permanent and immutable. A published
+  release may be `next`, `current`, LTS, or unchannelled.
 
-Consumers must reference explicit release URLs such as:
+Changing a channel never changes release contents. Consumers must reference
+explicit release URLs such as:
 
 ```text
 https://schema.ion.id/release5/schema/...
 ```
 
-Mutable channel names such as `sunset`, `current`, or `next` are lifecycle
-labels, not schema retrieval paths.
+Mutable labels such as `next` and `current` are operational guidance, not schema
+retrieval paths.
 
 ## Release Channels
 
-ION maintains up to three release channels:
+ION maintains three channel types:
 
-```text
-sunset  -> the superseded release in its announced retirement window
-current -> the recommended production release
-next    -> the next candidate release under stabilization
-```
+| Channel | Cardinality | Meaning |
+|---|---:|---|
+| `next` | Zero or one | The newest published release, containing cutting-edge features and undergoing operational stabilization. |
+| `current` | Zero or one | The release recommended for new production integrations. |
+| LTS | Zero or more | Former `current` releases in their guaranteed, time-bounded support period. |
+
+A release may occupy only one channel at a time. Every channel entry must refer
+to a release whose manifest has `status: published`.
 
 Example:
 
 ```text
-sunset  = release4
-current = release5
-next    = release6
+lts     = release1, release2
+current = release3
+next    = release4
+draft   = release5 (not a channel)
 ```
 
-`sunset` identifies the release being retired and gives implementers an
-announced migration window. It must not be used for new integrations. `current`
-is the default version for production integrations. `next` gives early
-visibility into the candidate that will become current after its stabilization
-period.
-
-When a release leaves `sunset`, its immutable release directory and explicit
-public URLs remain available, but it is no longer an actively supported channel.
+In this example, Release 4 is already published and immutable. Release 5 receives
+new feature work while Release 4 is observed. The Council may later promote
+Release 4 to `current`, but promotion is discretionary rather than automatic.
 
 ## Channel State
 
-The repository should record channel state in a small machine-readable file, for
-example:
+The repository should record channel state in a small machine-readable file:
 
 ```text
 releases/channels.yaml
@@ -69,150 +71,177 @@ Suggested shape:
 
 ```yaml
 schemaVersion: 1
-sunset: release4
-current: release5
-next: release6
-nextStabilization:
-  requiredQuietDays: 28
-  lastContentChangedAt: 2026-09-01T00:00:00Z
-  eligibleForPromotionAt: 2026-09-29T00:00:00Z
+current: release3
+next:
+  release: release4
+  assignedAt: '2026-09-01T00:00:00Z'
+  minimumStabilizationDays: 28
+  eligibleForCurrentAt: '2026-09-29T00:00:00Z'
+lts:
+  - release: release1
+    supportedUntil: '2028-12-31'
+  - release: release2
+    supportedUntil: '2029-12-31'
 ```
 
-The root `README.md` should display the same channel state prominently so human
-readers can immediately see the supported upgrade path.
+`current` and `next` may be `null`, and `lts` may be empty. The root `README.md`
+should display the same state so readers can immediately see the supported
+adoption path. Draft releases are identified by their manifests and do not
+appear as channels.
+
+## Draft Development
+
+The highest active draft is the feature-development release. It may change until
+the Council selects it for publication. Normative changes include schemas,
+flows, policies, errors, vendored dependencies, release-local documentation,
+generated registries, and manifest fields that affect the release contract.
+
+A draft carries no permanence or support guarantee. Validation may pass while a
+release remains a draft, but passing validation does not publish it or assign it
+to a channel.
+
+## Publishing A Draft As `next`
+
+When the Council decides that a draft is ready for cutting-edge adoption, the
+publication and `next` assignment happen together:
+
+1. Ensure every included content area is validated and every excluded area is
+   absent.
+2. Populate publication metadata and change the release manifest to
+   `status: published`.
+3. Assign the release to `next` with `assignedAt`,
+   `minimumStabilizationDays`, and `eligibleForCurrentAt`.
+4. Run the complete publication gate.
+5. Obtain Council approval and merge the publication and channel-state changes
+   to `main`.
+6. Create and protect the matching integer release tag.
+7. Enforce immutability for the published release directory.
+8. Create the following integer release as the new mutable draft.
+
+For the first release, publication would produce channel state such as:
+
+```yaml
+current: null
+next:
+  release: release1
+  assignedAt: <publication timestamp>
+  minimumStabilizationDays: 28
+  eligibleForCurrentAt: <publication timestamp + 28 days>
+lts: []
+```
+
+Release 2 would then become the draft used for feature requests.
 
 ## Stabilizing `next`
 
-`next` is a candidate, not a free-form draft. It should be assigned only after
-the release is believed to be feature-complete for promotion.
+Stabilization begins when a release is published and assigned to `next`. Because
+that release is already immutable, stabilization does not permit normative fixes
+or reset a content-change timer. It is an operational observation period in
+which implementers and maintainers evaluate interoperability, conformance,
+security, and adoption experience.
 
-Every normative content change under the `next` release restarts the quiet
-period. Normative content includes schemas, flows, policies, errors, vendored
-dependencies, release-local docs, generated registries, and manifest fields that
-affect the release contract.
+Problems found during stabilization must be documented and corrected in the
+active draft. The Council may extend the observation period or decline to promote
+the `next` release. Reaching `eligibleForCurrentAt` only makes promotion
+permissible; it never makes promotion automatic.
 
-During stabilization:
+## Promoting `next` To `current`
 
-- keep changes rare and reviewable;
-- update `lastContentChangedAt` for every normative change;
-- recompute `eligibleForPromotionAt`;
-- regenerate affected artifacts; and
-- run the complete release gate.
+After the minimum stabilization period, the Council may promote `next` to
+`current` at its discretion:
 
-After the quiet period completes, `next` may be promoted only if validation passes
-and the ION Council approves the promotion.
-
-## Maintainer Workflow
-
-### Promote Draft To `next`
-
-When a draft release is feature-complete, promote it to the `next` candidate
-before it can become `current`. This applies to every release, including
-`release1`.
-
-1. Ensure all included content areas are marked `validated` or `excluded`.
-2. Run the full release gate:
-
-   ```bash
-   ruby tools/release/validate_release.rb releases/releaseN
-   ```
-
-3. Update `releases/channels.yaml`:
-
-   ```yaml
-   sunset: <existing sunset or null>
-   current: <current current or null>
-   next: releaseN
-   nextStabilization:
-     requiredQuietDays: 21
-     lastContentChangedAt: <promotion timestamp>
-     eligibleForPromotionAt: <promotion timestamp + 21 days>
-   ```
-
-For the first release, the channel state should be:
-
-```yaml
-sunset: null
-current: null
-next: release1
-```
-
-4. Open a pull request for Council review.
-
-### Promote `next` To `current`
-
-After the quiet period:
-
-1. Confirm no normative changes occurred since `lastContentChangedAt`.
-2. Run the publication gate for `next`:
-
-   ```bash
-   ruby tools/release/validate_release.rb --publication releases/releaseN
-   ```
-
+1. Review stabilization findings and unresolved compatibility risks.
+2. Confirm the release remains valid and its immutable artifacts match their
+   recorded checksums.
 3. Obtain Council approval.
-4. Set `releases/releaseN/release.yaml` to `status: published`.
-5. Populate publication metadata, including `publishedAt` and `toolingCommit`.
-6. Merge the publication pull request to `main`.
-7. Create and protect the matching `releaseN` Git tag.
-8. Update channels:
+4. Move the `next` release to `current` and set `next: null`.
+5. If a previous `current` exists, move it to LTS in the same channel-state
+   change and record its `supportedUntil` date.
 
-   ```yaml
-   sunset: <old current>
-   current: <old next>
-   next: null
-   ```
+No release content or manifest status changes during channel promotion; both
+releases are already published. A release that has served as `current` must not
+become unchannelled or unsupported without first completing its LTS period.
 
-For `release1`, the promotion produces:
+## Replacing `next` Without Promotion
 
-```yaml
-sunset: null
-current: release1
-next: null
+The Council may decide never to make a particular `next` release `current`. When
+a later draft is ready, the Council may publish that draft and assign it to
+`next`, starting a new stabilization period.
+
+The superseded `next` release then becomes unchannelled unless the Council gives
+it another channel designation. Its immutable directory, tag, and explicit
+public URLs remain permanently available, but it is not recommended or actively
+supported. The existing `current` release remains unchanged.
+
+For example:
+
+```text
+before: current = release3, next = release4, draft = release5
+after:  current = release3, next = release5, draft = release6
+        release4 remains published but unchannelled
 ```
 
-9. Open the next draft baseline PR for the following integer release.
+## Long-Term Support
 
-### Open The Next Draft
+Every release that leaves `current` must enter LTS. This transition is guaranteed,
+not discretionary, and happens in the same channel-state change that installs a
+new `current`. The Council records a `supportedUntil` date for the former current
+release, and multiple LTS periods may overlap.
 
-Soon after `releaseN` becomes `current`, open a separate pull request to create
-`releaseN+1` as the next draft baseline.
+The minimum required LTS duration has not yet been decided by the Council. Three
+months is the current planning estimate, but it is not an approved policy value
+and must not be presented as a guarantee. Until the Council adopts a minimum,
+each transition out of `current` must include an explicitly approved future
+`supportedUntil` date. This document and any channel-state validation must be
+updated when the minimum is ratified.
 
-1. Copy the published release:
+Because published releases are immutable, LTS support does not permit patches to
+an LTS release directory. It means:
 
-   ```text
-   releases/releaseN/ -> releases/releaseN+1/
-   ```
+- its release files, public URLs, validators, and conformance guidance remain
+  available;
+- reported security, interoperability, and specification issues are assessed and
+  documented;
+- maintainers provide migration guidance to a supported replacement when a
+  correction requires normative changes; and
+- every normative correction is published in a newer integer release.
 
-2. In `releases/releaseN+1/release.yaml`:
+Before an LTS support date expires, the Council may approve an extension. A
+release must not be removed from `lts` before its recorded support date. After
+that date, maintainers may remove the entry and end active support. Implementers
+may continue using the immutable release but should migrate to `current` or
+another supported LTS release.
 
-   - set `release: N+1`;
-   - set `name: releaseN+1`;
-   - set `status: draft`;
-   - set `publishedAt: null`;
-   - clear publication-only metadata; and
-   - update notes for the new draft.
+## Opening The Next Draft
 
-3. Rewrite release-qualified document URLs from `/releaseN/` to `/releaseN+1/`.
-4. Refresh generated registries and artifact checksums.
-5. Validate the new draft:
+Soon after a draft is published as `next`, create the following integer release
+as the new draft baseline:
 
-   ```bash
-   ruby tools/release/validate_release.rb releases/releaseN+1
-   ```
+1. Copy the newly published release to `releases/releaseN+1/`.
+2. Set the new manifest to `release: N+1`, `name: releaseN+1`, and
+   `status: draft`.
+3. Clear `publishedAt` and all other publication-only metadata.
+4. Rewrite release-qualified document URLs to the new namespace.
+5. Refresh generated registries and artifact checksums.
+6. Validate the draft before feature work begins.
 
-Do this as a baseline PR before feature work begins. Feature PRs should then
-target the draft `releaseN+1` directory with small, focused changes.
+The draft is not added to `releases/channels.yaml` until the Council publishes it
+as a future `next` release.
 
 ## Compatibility Promise
 
-The channel model gives downstream software three planning guarantees:
+The channel model gives downstream software these guarantees:
 
-- `current` is the recommended target for production implementations.
-- `sunset` identifies the retiring release and remains supported for its
-  announced migration window.
-- `next` provides advance visibility and will not become `current` until it has
-  completed its quiet period without changes.
+- `next` is the newest immutable release and is undergoing a minimum operational
+  stabilization period.
+- `current` is the Council-recommended target for new production integrations.
+- Every release that leaves `current` receives a guaranteed LTS period before it
+  can become unsupported; its LTS entry states when that commitment ends.
+- An unchannelled published release remains permanently resolvable but carries no
+  active recommendation or support commitment. This direct transition is allowed
+  for a superseded `next` that never became `current`, but not for a former
+  `current`.
+- Channel changes never modify a published release or its explicit public URLs.
 
-This policy does not weaken immutable releases. It adds a predictable promotion
-rhythm on top of them.
+This policy adds adoption guidance to immutable integer releases without making
+channel labels part of the normative schema-addressing contract.

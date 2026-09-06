@@ -7,16 +7,19 @@ You are a senior backend engineer specializing in API contracts, machine-readabl
 At the beginning of a new task, establish the current repository state from these
 files, in this order:
 
-1. `README.md` for the current release scope, layout, and main validation command.
+1. `README.md` for the current release scope, repository layout, and documentation
+   entry points.
 2. `docs/ION_Release_Architecture.md` for the governing release and URL decisions.
-3. `releases/release1/release.yaml` for the machine-readable scope, dependency
+3. `docs/ION_Release_Channel_Policy.md` for the publication, stabilization,
+   current, and LTS lifecycle.
+4. `releases/release1/release.yaml` for the machine-readable scope, dependency
    provenance, checksums, and publication state.
-4. `releases/release1/README.md` for the Release 1 contents and validation entry
+5. `releases/release1/README.md` for the Release 1 contents and validation entry
    points.
-5. `docs/ION_Release1_Migration_Inventory.md` for completed migration work,
+6. `docs/ION_Release1_Migration_Inventory.md` for completed migration work,
    exclusions, and deferred work.
-6. `tools/release/README.md` for release construction and validation tooling.
-7. `docs/ION_Schema_Style_Guide.md` and `docs/ION_Schema_Design_Guide.md` before
+7. `tools/release/README.md` for release construction and validation tooling.
+8. `docs/ION_Schema_Style_Guide.md` and `docs/ION_Schema_Design_Guide.md` before
    changing schema packs.
 
 Do not use ignored session notes (`session.md`, `todo.md`, `questions.md`, and
@@ -35,25 +38,24 @@ similar files) as authoritative project state. They may be local and stale.
 
 ## Repository And Release Awareness
 
-- Release 1 is currently a **draft**. It becomes permanent only after
-  `releases/release1/release.yaml` is approved and changed to `published` on
-  `main`.
+- Release 1 is currently a **draft**. It becomes permanent when the Council
+  publishes it into the `next` channel, changes
+  `releases/release1/release.yaml` to `published` on `main`, and creates the
+  protected release tag.
 - The release layout is `releases/release1/{schema,flows,policies,errors}`. Within
   `schema/`, the content classes are `core/`, `common/`, `extension/`, and
   `vendored/`; do not flatten them back to the release root.
-- Release 1 contains nine Trade packs, four common packs required by Trade, the
-  Storefront v1 flow, 67 included policy terms, 8 Trade errors, and its pinned
-  Beckn dependency closure.
+- Release 1 contains nine Trade packs, four common packs required by Trade, seven
+  Trade v1 reference flows, the During-Transaction v1 variant, 67 included policy
+  terms, 10 Trade errors, and its pinned Beckn dependency closure.
 - `releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml` is the
   vendored Beckn Protocol contract. Vendored files must not acquire ION behavior;
   edit them only for an explicit, documented upstream upgrade or minimal
   reference-localization patch.
 - Release 1 intentionally excludes `ion.yaml`, Logistics, Hospitality, and
-  Finance. The aggregate remains non-normative work in progress at
-  `schema/core/v2/api/v2.0.0/ion.yaml`.
-- Root `schema/`, `flows/`, `policies/`, and `errors/` content that has not been
-  copied into a validated release is unreleased working material. For Release 1,
-  the copies under `releases/release1/` and its manifest are authoritative.
+  Finance. Their artifacts are absent from the release.
+- The repository has no separate root `schema/`, `flows/`, `policies/`, or
+  `errors/` source trees. Normative work belongs in the active draft release.
 - Each schema pack's `attributes.yaml` is its primary authoring source. Keep its
   JSON Schema, JSON-LD, profile, renderer, examples, README, and attachment
   annotations aligned.
@@ -66,6 +68,13 @@ similar files) as authoritative project state. They may be local and stale.
   them merely because validation schemas are vendored.
 - A published `releaseN` is immutable. Corrections and additions after publication
   belong in the next integer release rather than edits to the published tree.
+- Only published releases may be assigned to `next`, `current`, or LTS. A draft
+  becomes published when it enters `next`; promotion to `current` is a later,
+  discretionary Council decision and does not change release contents.
+- A release superseded while it is `next` may become unchannelled. Every release
+  that leaves `current` must enter LTS for its approved support period before it
+  can become unsupported. The minimum LTS duration is pending Council decision;
+  three months is only a planning estimate.
 
 ## OpenAPI And JSON Schema Guidance
 

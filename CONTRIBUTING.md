@@ -9,11 +9,11 @@ backed by the relevant validation commands.
 - A draft release may be edited inside its `releases/releaseN/` directory.
 - A published release is immutable. Make every correction in a new integer
   release; never edit or delete the published directory.
-- `schema/`, root `flows/`, `policies/`, and `errors/` currently contain
-  unreleased work. Moving any of that material into a release requires an
-  explicit scope decision and validation.
-- `schema/core/v2/api/v2.0.0/ion.yaml` is a non-normative work-in-progress
-  aggregate. Release 1 explicitly excludes it.
+- The repository does not maintain separate root-level `schema/`, `flows/`,
+  `policies/`, or `errors/` source trees. Future normative work belongs in the
+  active draft release.
+- Only published releases may be assigned to `next`, `current`, or LTS. Channel
+  changes do not authorize edits to their immutable contents.
 
 ## Schema changes
 
@@ -45,8 +45,8 @@ Treat these artifacts as connected to the schemas they reference:
 Run the relevant generators when changing registry sources:
 
 ```bash
-python3 policies/generate_registry.py
-python3 errors/generate_registry.py
+ruby tools/release/generate_release_registries.rb --write releases/releaseN
+ruby tools/release/record_artifact_checksums.rb --write releases/releaseN
 ```
 
 Review generated diffs and include them in the same pull request.
@@ -87,5 +87,6 @@ Include:
 - commands actually run and their results; and
 - any intentionally deferred work.
 
-Changes to release scope, publication status, vendored dependencies, semantic
-IRIs, required fields, or public schema names require ION Council review.
+Changes to release scope, publication status, channel assignment, vendored
+dependencies, semantic IRIs, required fields, or public schema names require ION
+Council review.
