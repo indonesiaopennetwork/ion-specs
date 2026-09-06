@@ -1,0 +1,28 @@
+{
+  "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeContract/v1/context.jsonld",
+  "@type": "ion:IONTradeContract",
+  "buyerInstructions": "Hubungi 5 menit sebelum tiba. Masuk dari pintu belakang.",
+  "deliveryPreferences": {
+    "leaveAtDoor": false,
+    "contactless": true,
+    "preferredTimeSlot": {
+      "start": "2026-04-20T18:00:00+07:00",
+      "end": "2026-04-20T21:00:00+07:00"
+    }
+  },
+  "gift": {
+    "isGift": true,
+    "message": "Selamat ulang tahun sayang! 🎂",
+    "wrap": false,
+    "recipientName": "Ayu",
+    "hideSenderInfo": false,
+    "showPrice": false
+  },
+  "source": {
+    "channel": "MOBILE_APP"
+  },
+  "invoicePreferences": {
+    "email": "buyer@example.com",
+    "invoiceType": "RECEIPT"
+  }
+}

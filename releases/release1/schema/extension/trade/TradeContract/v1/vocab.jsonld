@@ -1,0 +1,209 @@
+{
+  "@context": {
+    "ion": "https://schema.ion.id/trade/contract/v1#",
+    "ionid": "https://schema.ion.id/core/identity/v1#",
+    "rcca": "https://schema.beckn.io/RetailContract#",
+    "beckn": "https://schema.beckn.io/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "owl": "http://www.w3.org/2002/07/owl#"
+  },
+  "@graph": [
+    {
+      "@id": "ion:IONTradeContract",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONTradeContract",
+      "rdfs:comment": "ION trade contract extension. Extends RetailContract v2.1 with generic contract semantics, Indonesia-specific invoice preferences, and buyer business registration.",
+      "rdfs:subClassOf": {
+        "@id": "rcca:RetailContract"
+      },
+      "skos:broader": {
+        "@id": "beckn:Contract"
+      }
+    },
+    {
+      "@id": "rcca:quoteReference",
+      "@type": "rdf:Property",
+      "rdfs:label": "quoteReference",
+      "rdfs:comment": "Seller quote or pro-forma invoice reference inherited from RetailContract v2.1."
+    },
+    {
+      "@id": "rcca:buyerInstructions",
+      "@type": "rdf:Property",
+      "rdfs:label": "buyerInstructions",
+      "rdfs:comment": "Buyer instructions inherited from RetailContract v2.1."
+    },
+    {
+      "@id": "rcca:deliveryPreferences",
+      "@type": "rdf:Property",
+      "rdfs:label": "deliveryPreferences",
+      "rdfs:comment": "Buyer delivery preferences inherited from RetailContract v2.1."
+    },
+    {
+      "@id": "rcca:loyalty",
+      "@type": "rdf:Property",
+      "rdfs:label": "loyalty",
+      "rdfs:comment": "Loyalty information inherited from RetailContract v2.1."
+    },
+    {
+      "@id": "ion:purchaseOrderReference",
+      "@type": "rdf:Property",
+      "rdfs:label": "purchaseOrderReference",
+      "rdfs:comment": "Buyer-issued purchase-order reference."
+    },
+    {
+      "@id": "ion:parentContractId",
+      "@type": "rdf:Property",
+      "rdfs:label": "parentContractId",
+      "rdfs:comment": "Identifier of the parent Contract for a child trade transaction."
+    },
+    {
+      "@id": "ion:cancellation",
+      "@type": "rdf:Property",
+      "rdfs:label": "cancellation",
+      "rdfs:comment": "Cancellation request or outcome recorded on a Contract."
+    },
+    {
+      "@id": "ion:reason",
+      "@type": "rdf:Property",
+      "rdfs:label": "reason"
+    },
+    {
+      "@id": "ion:commitmentIds",
+      "@type": "rdf:Property",
+      "rdfs:label": "commitmentIds"
+    },
+    {
+      "@id": "ion:forced",
+      "@type": "rdf:Property",
+      "rdfs:label": "forced"
+    },
+    {
+      "@id": "ion:lastProviderInteractionAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "lastProviderInteractionAt"
+    },
+    {
+      "@id": "ion:expectedStatusBy",
+      "@type": "rdf:Property",
+      "rdfs:label": "expectedStatusBy"
+    },
+    {
+      "@id": "ion:subscription",
+      "@type": "rdf:Property",
+      "rdfs:label": "subscription",
+      "rdfs:comment": "Contract-level subscription terms and current lifecycle state."
+    },
+    {
+      "@id": "ion:billingCycle",
+      "@type": "rdf:Property",
+      "rdfs:label": "billingCycle"
+    },
+    {
+      "@id": "ion:trialDays",
+      "@type": "rdf:Property",
+      "rdfs:label": "trialDays"
+    },
+    {
+      "@id": "ion:status",
+      "@type": "rdf:Property",
+      "rdfs:label": "status"
+    },
+    {
+      "@id": "ion:pausedUntil",
+      "@type": "rdf:Property",
+      "rdfs:label": "pausedUntil"
+    },
+    {
+      "@id": "ion:nextBillingAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "nextBillingAt"
+    },
+    {
+      "@id": "rcca:source",
+      "@type": "rdf:Property",
+      "rdfs:label": "source",
+      "rdfs:comment": "Transaction source inherited from RetailContract v2.1."
+    },
+    {
+      "@id": "ion:sessionId",
+      "@type": "rdf:Property",
+      "rdfs:label": "sessionId"
+    },
+    {
+      "@id": "ion:creatorId",
+      "@type": "rdf:Property",
+      "rdfs:label": "creatorId"
+    },
+    {
+      "@id": "ion:affiliateId",
+      "@type": "rdf:Property",
+      "rdfs:label": "affiliateId"
+    },
+    {
+      "@id": "ion:platform",
+      "@type": "rdf:Property",
+      "rdfs:label": "platform"
+    },
+    {
+      "@id": "ion:contentId",
+      "@type": "rdf:Property",
+      "rdfs:label": "contentId"
+    },
+    {
+      "@id": "ion:contentTimestampSeconds",
+      "@type": "rdf:Property",
+      "rdfs:label": "contentTimestampSeconds"
+    },
+    {
+      "@id": "ion:groupBuyId",
+      "@type": "rdf:Property",
+      "rdfs:label": "groupBuyId"
+    },
+    {
+      "@id": "rcca:gift",
+      "@type": "rdf:Property",
+      "rdfs:label": "gift",
+      "rdfs:comment": "Gifting preferences inherited from RetailContract v2.1."
+    },
+    {
+      "@id": "ion:recipientName",
+      "@type": "rdf:Property",
+      "rdfs:label": "recipientName"
+    },
+    {
+      "@id": "ion:recipientPhone",
+      "@type": "rdf:Property",
+      "rdfs:label": "recipientPhone"
+    },
+    {
+      "@id": "ion:hideSenderInfo",
+      "@type": "rdf:Property",
+      "rdfs:label": "hideSenderInfo"
+    },
+    {
+      "@id": "ion:showPrice",
+      "@type": "rdf:Property",
+      "rdfs:label": "showPrice"
+    },
+    {
+      "@id": "rcca:invoicePreferences",
+      "@type": "rdf:Property",
+      "rdfs:label": "invoicePreferences",
+      "rdfs:comment": "Invoice preferences inherited from RetailContract v2.1."
+    },
+    {
+      "@id": "ion:invoiceType",
+      "@type": "rdf:Property",
+      "rdfs:label": "invoiceType",
+      "rdfs:comment": "Requested ION invoice-document type."
+    },
+    {
+      "@id": "ion:buyerBusinessRegistration",
+      "@type": "rdf:Property",
+      "rdfs:label": "buyerBusinessRegistration",
+      "rdfs:comment": "Verified Indonesian business registration of the buying organisation."
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeSettlement/v1/context.jsonld",
+  "@type": "ion:IONTradeSettlement",
+  "gateway": {
+    "name": "MIDTRANS",
+    "transactionId": "PG-TXN-2026-00123456",
+    "url": "https://payments.example.id/transactions/PG-TXN-2026-00123456"
+  },
+  "method": "QR_CODE",
+  "paymentRail": "QRIS",
+  "settledAt": "2026-04-19T14:32:11+07:00",
+  "settledAmount": 150000,
+  "currency": "IDR",
+  "reconciliationId": "RECON-2026-TRD-00012345",
+  "reconciliationStatus": "PENDING"
+}

@@ -1,0 +1,37 @@
+{
+  "@context": {
+    "ion": "https://schema.ion.id/trade/commitment/v1#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "beckn": "https://schema.beckn.io/",
+    "rccma": "https://schema.beckn.io/RetailCommitment#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "owl": "http://www.w3.org/2002/07/owl#"
+  },
+  "@graph": [
+    {
+      "@id": "ion:IONTradeCommitment",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONTradeCommitment",
+      "rdfs:comment": "ION trade commitment extension. Extends RetailCommitment v2.1 with line-specific replacement preference semantics.",
+      "rdfs:subClassOf": {
+        "@id": "rccma:RetailCommitment"
+      },
+      "skos:broader": {
+        "@id": "beckn:Commitment"
+      }
+    },
+    {
+      "@id": "ion:replacementPreferred",
+      "@type": "rdf:Property",
+      "rdfs:label": "replacementPreferred",
+      "rdfs:comment": "Whether the buyer prefers replacement over refund for this committed line when remediation is available.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeCommitment"
+      },
+      "rdfs:range": {
+        "@id": "http://www.w3.org/2001/XMLSchema#boolean"
+      }
+    }
+  ]
+}

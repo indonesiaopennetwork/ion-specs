@@ -1,0 +1,989 @@
+{
+  "schemaVersion": 1,
+  "release": 1,
+  "status": "approved",
+  "generatedAt": "2026-08-20T23:31:31Z",
+  "scope": {
+    "releaseRoot": "releases/release1",
+    "rule": "Versions are derived from existing Release 1 $ref values; transitive versions are derived from the fetched upstream documents.",
+    "noReleaseFilesWritten": true
+  },
+  "protocol": {
+    "name": "BecknProtocol",
+    "version": "2.0.0",
+    "existingCandidate": "releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml",
+    "candidateSha256": "00ddcc9a930f77dd41eb0802de9c34d86e4ff42e0a3f542bbdaf3a42f7deb4c3",
+    "candidatePayloadSha256": "e1a39f2389fc48c9c1187edbfc838078cea0958f6ac5cf1cdc8d6de113cf3011",
+    "vendoringHeaderPresent": true,
+    "upstream": {
+      "repository": "https://github.com/beckn/protocol-specifications-v2",
+      "selectionMode": "latest",
+      "selectionBasis": "Current main HEAD at plan generation, explicitly selected for Release 1",
+      "declaredSyncDate": "2026-06-02",
+      "commit": "a22300aa83796cb8dfc2b63cd9dd0e36a7f4d3a1",
+      "path": "api/v2.0.0/beckn.yaml",
+      "rawUrl": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/a22300aa83796cb8dfc2b63cd9dd0e36a7f4d3a1/api/v2.0.0/beckn.yaml",
+      "sha256": "5afc7586ef1fbc378ea6abb139292dbe85750e4c5ea1a2fd410a40479aadc0f0"
+    },
+    "candidatePayloadMatchesUpstream": false,
+    "candidatePayloadDifference": {
+      "upstreamLineCount": 4985,
+      "candidateLineCount": 4995,
+      "differenceCount": 4803,
+      "differences": [
+        {
+          "line": 29,
+          "upstream": "    5. **Discovery Service (DS)**: — A verified on-fabric application that enables discovery of catalogs only accessible via CNs. Its network-facing API MUST implement the Beckn Protocol API endpoints that receive catalog discovery requests from CNs and asynchronously respond with catalogs from various providers. It MUST ensure the catalog it has is the most recent, either by subscribing to updates from the fabric cataloging service (see next section — deprecated, see NFH-014) or by crawling and independently verifying PN-hosted catalog files per NFH-014's decentralized publishing model. It MAY be implemented as an independent SaaS for CNs to consume, or implemented by the CNs themselves.",
+          "candidate": "    5. **Discovery Service (DS)**: — A verified on-fabric application that enables discovery of catalogs only accessible via CNs. Its network-facing API MUST implement the Beckn Protocol API endpoints that receive catalog discovery requests from CNs and asynchronously respond with catalogs from various providers. It MUST subscribe to updates from the fabric cataloging service (see next section), and ensure the catalog it has is the most recent. It MAY be implemented as an independent SaaS for CNs to consume, or implemented by the CNs themselves."
+        },
+        {
+          "line": 44,
+          "upstream": "    3. **CS** (Cataloging Service) — Common service provided to all NPs for programmable catalog discoverability. Deprecated: superseded by the decentralized catalog publishing and discovery model in NFH-014; remains available for existing implementations.",
+          "candidate": "    3. **CS** (Cataloging Service) — Common service provided to all NPs for programmable catalog discoverability."
+        },
+        {
+          "line": 113,
+          "upstream": "  description: >-",
+          "candidate": "  description: Publish catalogs to the Cataloging Service (CS) on the Fabric and subscribe to catalog updates. "
+        },
+        {
+          "line": 114,
+          "upstream": "    Publish catalogs to the Cataloging Service (CS) on the Fabric and subscribe to catalog updates.",
+          "candidate": "security: []"
+        },
+        {
+          "line": 115,
+          "upstream": "",
+          "candidate": "servers:"
+        },
+        {
+          "line": 116,
+          "upstream": "",
+          "candidate": "- url: https://{subscriberUrl}"
+        },
+        {
+          "line": 117,
+          "upstream": "    Deprecated: superseded by the decentralized catalog publishing and discovery model in NFH-014. These endpoints remain fully defined and supported for existing implementations; new integrations SHOULD use NFH-014 instead. ",
+          "candidate": "  description: Base URL of the Beckn network participant endpoint. Implementations MUST substitute `{subscriberUrl}` with the subscriber_url returned by the subnet registry lookup for the NP's namespace id and networkId."
+        },
+        {
+          "line": 118,
+          "upstream": "security: []",
+          "candidate": "  variables:"
+        },
+        {
+          "line": 119,
+          "upstream": "servers:",
+          "candidate": "    subscriberUrl:"
+        },
+        {
+          "line": 120,
+          "upstream": "- url: https://{subscriberUrl}",
+          "candidate": "      default: example.beckn.io"
+        },
+        {
+          "line": 121,
+          "upstream": "  description: Base URL of the Beckn network participant endpoint. Implementations MUST substitute `{subscriberUrl}` with the subscriber_url returned by the subnet registry lookup for the NP's namespace id and networkId.",
+          "candidate": "      # description: Network address of the NP, resolved via the subnet registry lookup using the NP's namespace id and networkId."
+        },
+        {
+          "line": 122,
+          "upstream": "  variables:",
+          "candidate": "paths:"
+        },
+        {
+          "line": 123,
+          "upstream": "    subscriberUrl:",
+          "candidate": "  /discover:"
+        },
+        {
+          "line": 124,
+          "upstream": "      default: example.beckn.io",
+          "candidate": "    post:"
+        },
+        {
+          "line": 125,
+          "upstream": "      description: Network address of the NP, resolved via the subnet registry lookup using the NP's namespace id and networkId.",
+          "candidate": "      summary: Discover catalogs on a network"
+        },
+        {
+          "line": 126,
+          "upstream": "paths:",
+          "candidate": "      description: \"The CN sends a discovery request to the DS (Discovery Service),\\"
+        },
+        {
+          "line": 127,
+          "upstream": "  /discover:",
+          "candidate": "        \\ which searches its indexed catalog store for resources and offers matching\\"
+        },
+        {
+          "line": 128,
+          "upstream": "    post:",
+          "candidate": "        \\ the supplied intent.\\n\\nFabric context: The DS maintains a synchronized catalog\\"
+        },
+        {
+          "line": 129,
+          "upstream": "      summary: Discover catalogs on a network",
+          "candidate": "        \\ index by subscribing to the CS (Cataloging Service) on the Fabric. The CN\\"
+        },
+        {
+          "line": 130,
+          "upstream": "      description: \"The CN sends a discovery request to the DS (Discovery Service),\\",
+          "candidate": "        \\ does not interact directly with the Fabric for discovery.\\n\\nThe message\\"
+        }
+      ],
+      "truncated": true
+    },
+    "alternative": {
+      "selectionMode": "historical",
+      "commit": "bdf5285c84fd1a018092d64f63103bd1f09c0227",
+      "rawUrl": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/bdf5285c84fd1a018092d64f63103bd1f09c0227/api/v2.0.0/beckn.yaml",
+      "sha256": "22ec5593dad45f54bbd803c4179cd5c2f0154cc5055bcaf9a23de53f43638932",
+      "selected": false,
+      "reason": "Historical snapshot associated with the prior declared sync date"
+    },
+    "license": {
+      "repository": "https://github.com/beckn/protocol-specifications-v2",
+      "commit": "a22300aa83796cb8dfc2b63cd9dd0e36a7f4d3a1",
+      "path": "LICENSE",
+      "rawUrl": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/a22300aa83796cb8dfc2b63cd9dd0e36a7f4d3a1/LICENSE",
+      "sha256": "ec5bc2d54dae0ebc2c8ec5a147d0b48d48af5b3f73acdcb8e33f104a7ad4407c",
+      "reviewStatus": "proposed"
+    },
+    "action": "replace-with-upstream",
+    "provenanceStatus": "verified"
+  },
+  "dependencies": [
+    {
+      "name": "AcceptedPaymentMethod",
+      "version": "2.0",
+      "direct": false,
+      "requestedBy": [
+        "RetailOffer@2.1"
+      ],
+      "registryDocuments": [
+        {
+          "url": "https://schema.beckn.io/AcceptedPaymentMethod/2.0",
+          "sha256": "192181c691590fdf35ddc8ff3a64ed18fa4ae36d8baa4e9b8fc2c189314ecf77",
+          "title": "AcceptedPaymentMethod",
+          "declaredVersion": "2.0.0",
+          "declaredLicense": {
+            "name": "CC-BY-NC-SA 4.0 International"
+          }
+        }
+      ],
+      "upstream": {
+        "repository": "https://github.com/beckn/schemas",
+        "branchAtPlanning": "main",
+        "commit": "b0ffbdd409c2fbe988a344161345a88ebb11d544",
+        "path": "schema/AcceptedPaymentMethod/v2.0/attributes.yaml",
+        "rawUrl": "https://raw.githubusercontent.com/beckn/schemas/b0ffbdd409c2fbe988a344161345a88ebb11d544/schema/AcceptedPaymentMethod/v2.0/attributes.yaml",
+        "sha256": "192181c691590fdf35ddc8ff3a64ed18fa4ae36d8baa4e9b8fc2c189314ecf77"
+      },
+      "provenanceStatus": "verified",
+      "license": {
+        "declaredInDocument": [
+          {
+            "name": "CC-BY-NC-SA 4.0 International"
+          }
+        ],
+        "repositoryLicense": {
+          "repository": "https://github.com/beckn/schemas",
+          "commit": "b0ffbdd409c2fbe988a344161345a88ebb11d544",
+          "path": "LICENSE.md",
+          "rawUrl": "https://raw.githubusercontent.com/beckn/schemas/b0ffbdd409c2fbe988a344161345a88ebb11d544/LICENSE.md",
+          "sha256": "ec5bc2d54dae0ebc2c8ec5a147d0b48d48af5b3f73acdcb8e33f104a7ad4407c"
+        },
+        "reviewStatus": "proposed"
+      },
+      "target": "releases/release1/schema/vendored/beckn/schemas/AcceptedPaymentMethod/2.0/attributes.yaml",
+      "publicUrl": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/AcceptedPaymentMethod/2.0/attributes.yaml"
+    },
+    {
+      "name": "Address",
+      "version": "2.0",
+      "direct": false,
+      "requestedBy": [
+        "Location@2.0",
+        "RetailPerformance@2.1"
+      ],
+      "registryDocuments": [
+        {
+          "url": "https://schema.beckn.io/Address/2.0",
+          "sha256": "cbd663923fcbf4dc7a5050c76762320ec4db2a1b9d7ff532eab1d8442dc6b7be",
+          "title": "Address",
+          "declaredVersion": "2.0.0",
+          "declaredLicense": {
+            "name": "CC-BY-NC-SA 4.0 International"
+          }
+        },
+        {
+          "url": "https://schema.beckn.io/Address/v2.0/attributes.yaml",
+          "sha256": "cbd663923fcbf4dc7a5050c76762320ec4db2a1b9d7ff532eab1d8442dc6b7be",
+          "title": "Address",
+          "declaredVersion": "2.0.0",
+          "declaredLicense": {
+            "name": "CC-BY-NC-SA 4.0 International"
+          }
+        }
+      ],
+      "upstream": {
+        "repository": "https://github.com/beckn/schemas",
+        "branchAtPlanning": "main",
+        "commit": "b0ffbdd409c2fbe988a344161345a88ebb11d544",
+        "path": "schema/Address/v2.0/attributes.yaml",
+        "rawUrl": "https://raw.githubusercontent.com/beckn/schemas/b0ffbdd409c2fbe988a344161345a88ebb11d544/schema/Address/v2.0/attributes.yaml",
+        "sha256": "cbd663923fcbf4dc7a5050c76762320ec4db2a1b9d7ff532eab1d8442dc6b7be"
+      },
+      "provenanceStatus": "verified",
+      "license": {
+        "declaredInDocument": [
+          {
+            "name": "CC-BY-NC-SA 4.0 International"
+          }
+        ],
+        "repositoryLicense": {
+          "repository": "https://github.com/beckn/schemas",
+          "commit": "b0ffbdd409c2fbe988a344161345a88ebb11d544",
+          "path": "LICENSE.md",
+          "rawUrl": "https://raw.githubusercontent.com/beckn/schemas/b0ffbdd409c2fbe988a344161345a88ebb11d544/LICENSE.md",
+          "sha256": "ec5bc2d54dae0ebc2c8ec5a147d0b48d48af5b3f73acdcb8e33f104a7ad4407c"
+        },
+        "reviewStatus": "proposed"
+      },
+      "target": "releases/release1/schema/vendored/beckn/schemas/Address/2.0/attributes.yaml",
+      "publicUrl": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/Address/2.0/attributes.yaml"
+    },
+    {
+      "name": "Attributes",
+      "version": "2.0",
+      "direct": true,
+      "requestedBy": [
+        "schema/common/Address/v1/schema.json",
+        "schema/common/BusinessRegistration/v1/schema.json",
+        "schema/extension/trade/TradeProvider/v1/attributes.yaml",
+        "schema/extension/trade/TradeProvider/v1/schema.json"
+      ],
+      "registryDocuments": [
+        {
+          "url": "https://schema.beckn.io/Attributes/2.0/attributes.yaml",
+          "sha256": "bd9b439dcf0ac8e54702807fd488a6e4394fe92d826382f9ca2357f7f2c1354d",
+          "title": "Attributes",
+          "declaredVersion": "2.0.0",
+          "declaredLicense": {
+            "name": "CC-BY-NC-SA 4.0 International"
+          }
+        }
+      ],
+      "upstream": {
+        "repository": "https://github.com/beckn/schemas",
+        "branchAtPlanning": "main",
+        "commit": "b0ffbdd409c2fbe988a344161345a88ebb11d544",
+        "path": "schema/Attributes/v2.0/attributes.yaml",
+        "rawUrl": "https://raw.githubusercontent.com/beckn/schemas/b0ffbdd409c2fbe988a344161345a88ebb11d544/schema/Attributes/v2.0/attributes.yaml",
+        "sha256": "bd9b439dcf0ac8e54702807fd488a6e4394fe92d826382f9ca2357f7f2c1354d"
+      },
+      "provenanceStatus": "verified",
+      "license": {
+        "declaredInDocument": [
+          {
+            "name": "CC-BY-NC-SA 4.0 International"
+          }
+        ],
+        "repositoryLicense": {
+          "repository": "https://github.com/beckn/schemas",
+          "commit": "b0ffbdd409c2fbe988a344161345a88ebb11d544",
+          "path": "LICENSE.md",
+          "rawUrl": "https://raw.githubusercontent.com/beckn/schemas/b0ffbdd409c2fbe988a344161345a88ebb11d544/LICENSE.md",
+          "sha256": "ec5bc2d54dae0ebc2c8ec5a147d0b48d48af5b3f73acdcb8e33f104a7ad4407c"
+        },
+        "reviewStatus": "proposed"
+      },
+      "target": "releases/release1/schema/vendored/beckn/schemas/Attributes/2.0/attributes.yaml",
+      "publicUrl": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/Attributes/2.0/attributes.yaml"
+    },
+    {
+      "name": "CategoryCode",
+      "version": "2.0",
+      "direct": false,
+      "requestedBy": [
+        "RetailResource@2.1"
+      ],
+      "registryDocuments": [
+        {
+          "url": "https://schema.beckn.io/CategoryCode/2.0",
+          "sha256": "06f3e4a3061796e2d5f2b83e123ec77d833e2b1e2d68553d2d6ae19af9145108",
+          "title": "CategoryCode",
+          "declaredVersion": "2.0.0",
+          "declaredLicense": {
+            "name": "CC-BY-NC-SA 4.0 International"
+          }
+        }
+      ],
+      "upstream": {
+        "repository": "https://github.com/beckn/schemas",
+        "branchAtPlanning": "main",
+        "commit": "b0ffbdd409c2fbe988a344161345a88ebb11d544",
+        "path": "schema/CategoryCode/v2.0/attributes.yaml",
+        "rawUrl": "https://raw.githubusercontent.com/beckn/schemas/b0ffbdd409c2fbe988a344161345a88ebb11d544/schema/CategoryCode/v2.0/attributes.yaml",
+        "sha256": "06f3e4a3061796e2d5f2b83e123ec77d833e2b1e2d68553d2d6ae19af9145108"
+      },
+      "provenanceStatus": "verified",
+      "license": {
+        "declaredInDocument": [
+          {
+            "name": "CC-BY-NC-SA 4.0 International"
+          }
+        ],
+        "repositoryLicense": {
+          "repository": "https://github.com/beckn/schemas",
+          "commit": "b0ffbdd409c2fbe988a344161345a88ebb11d544",
+          "path": "LICENSE.md",
+          "rawUrl": "https://raw.githubusercontent.com/beckn/schemas/b0ffbdd409c2fbe988a344161345a88ebb11d544/LICENSE.md",
+          "sha256": "ec5bc2d54dae0ebc2c8ec5a147d0b48d48af5b3f73acdcb8e33f104a7ad4407c"
+        },
+        "reviewStatus": "proposed"
+      },
+      "target": "releases/release1/schema/vendored/beckn/schemas/CategoryCode/2.0/attributes.yaml",
+      "publicUrl": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/CategoryCode/2.0/attributes.yaml"
+    },
+    {
+      "name": "Contact",
+      "version": "2.0",
+      "direct": true,
+      "requestedBy": [
+        "schema/core/api/v2.0.0/ion.yaml",
+        "schema/extension/trade/TradeOffer/v1/attributes.yaml",
+        "schema/extension/trade/TradeOffer/v1/schema.json"
+      ],
+      "registryDocuments": [
+        {
+          "url": "https://schema.beckn.io/Contact/2.0",
+          "sha256": "77a25837a60c2e9870e9538958b6910f005512158f0e1d01a9648d559513df92",
+          "title": "Contact",
+          "declaredVersion": "2.0.0",
+          "declaredLicense": {
+            "name": "CC-BY-NC-SA 4.0 International"
+          }
+        }
+      ],
+      "upstream": {
+        "repository": "https://github.com/beckn/schemas",
+        "branchAtPlanning": "main",
+        "commit": "b0ffbdd409c2fbe988a344161345a88ebb11d544",
+        "path": "schema/Contact/v2.0/attributes.yaml",
+        "rawUrl": "https://raw.githubusercontent.com/beckn/schemas/b0ffbdd409c2fbe988a344161345a88ebb11d544/schema/Contact/v2.0/attributes.yaml",
+        "sha256": "77a25837a60c2e9870e9538958b6910f005512158f0e1d01a9648d559513df92"
+      },
+      "provenanceStatus": "verified",
+      "license": {
+        "declaredInDocument": [
+          {
+            "name": "CC-BY-NC-SA 4.0 International"
+          }
+        ],
+        "repositoryLicense": {
+          "repository": "https://github.com/beckn/schemas",
+          "commit": "b0ffbdd409c2fbe988a344161345a88ebb11d544",
+          "path": "LICENSE.md",
+          "rawUrl": "https://raw.githubusercontent.com/beckn/schemas/b0ffbdd409c2fbe988a344161345a88ebb11d544/LICENSE.md",
+          "sha256": "ec5bc2d54dae0ebc2c8ec5a147d0b48d48af5b3f73acdcb8e33f104a7ad4407c"
+        },
+        "reviewStatus": "proposed"
+      },
+      "target": "releases/release1/schema/vendored/beckn/schemas/Contact/2.0/attributes.yaml",
+      "publicUrl": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/Contact/2.0/attributes.yaml"
+    },
+    {
+      "name": "GeoJSONGeometry",
+      "version": "2.0",
+      "direct": false,
+      "requestedBy": [
+        "GeoJSONGeometry@2.0",
+        "Location@2.0"
+      ],
+      "registryDocuments": [
+        {
+          "url": "https://schema.beckn.io/GeoJSONGeometry/v2.0/attributes.yaml",
+          "sha256": "66628dcd6f8d470b4af2c28316e758059ecc0ddee00ed97f1427b7b6a2bff7fd",
+          "title": "GeoJSONGeometry",
+          "declaredVersion": "2.0.0",
+          "declaredLicense": {
+            "name": "CC-BY-NC-SA 4.0 International"
+          }
+        }
+      ],
+      "upstream": {
+        "repository": "https://github.com/beckn/schemas",
+        "branchAtPlanning": "main",
+        "commit": "b0ffbdd409c2fbe988a344161345a88ebb11d544",
+        "path": "schema/GeoJSONGeometry/v2.0/attributes.yaml",
+        "rawUrl": "https://raw.githubusercontent.com/beckn/schemas/b0ffbdd409c2fbe988a344161345a88ebb11d544/schema/GeoJSONGeometry/v2.0/attributes.yaml",
+        "sha256": "66628dcd6f8d470b4af2c28316e758059ecc0ddee00ed97f1427b7b6a2bff7fd"
+      },
+      "provenanceStatus": "verified",
+      "license": {
+        "declaredInDocument": [
+          {
+            "name": "CC-BY-NC-SA 4.0 International"
+          }
+        ],
+        "repositoryLicense": {
+          "repository": "https://github.com/beckn/schemas",
+          "commit": "b0ffbdd409c2fbe988a344161345a88ebb11d544",
+          "path": "LICENSE.md",
+          "rawUrl": "https://raw.githubusercontent.com/beckn/schemas/b0ffbdd409c2fbe988a344161345a88ebb11d544/LICENSE.md",
+          "sha256": "ec5bc2d54dae0ebc2c8ec5a147d0b48d48af5b3f73acdcb8e33f104a7ad4407c"
+        },
+        "reviewStatus": "proposed"
+      },
+      "target": "releases/release1/schema/vendored/beckn/schemas/GeoJSONGeometry/2.0/attributes.yaml",
+      "publicUrl": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/GeoJSONGeometry/2.0/attributes.yaml"
+    },
+    {
+      "name": "Location",
+      "version": "2.0",
+      "direct": false,
+      "requestedBy": [
+        "RetailOffer@2.1",
+        "RetailResource@2.1"
+      ],
+      "registryDocuments": [
+        {
+          "url": "https://schema.beckn.io/Location/2.0",
+          "sha256": "187c2b8df1ee6b2b8dd06c8390709c68555593e3349dbf6a7f6f2b3d34fa3820",
+          "title": "Location",
+          "declaredVersion": "2.0.0",
+          "declaredLicense": {
+            "name": "CC-BY-NC-SA 4.0 International"
+          }
+        }
+      ],
+      "upstream": {
+        "repository": "https://github.com/beckn/schemas",
+        "branchAtPlanning": "main",
+        "commit": "b0ffbdd409c2fbe988a344161345a88ebb11d544",
+        "path": "schema/Location/v2.0/attributes.yaml",
+        "rawUrl": "https://raw.githubusercontent.com/beckn/schemas/b0ffbdd409c2fbe988a344161345a88ebb11d544/schema/Location/v2.0/attributes.yaml",
+        "sha256": "187c2b8df1ee6b2b8dd06c8390709c68555593e3349dbf6a7f6f2b3d34fa3820"
+      },
+      "provenanceStatus": "verified",
+      "license": {
+        "declaredInDocument": [
+          {
+            "name": "CC-BY-NC-SA 4.0 International"
+          }
+        ],
+        "repositoryLicense": {
+          "repository": "https://github.com/beckn/schemas",
+          "commit": "b0ffbdd409c2fbe988a344161345a88ebb11d544",
+          "path": "LICENSE.md",
+          "rawUrl": "https://raw.githubusercontent.com/beckn/schemas/b0ffbdd409c2fbe988a344161345a88ebb11d544/LICENSE.md",
+          "sha256": "ec5bc2d54dae0ebc2c8ec5a147d0b48d48af5b3f73acdcb8e33f104a7ad4407c"
+        },
+        "reviewStatus": "proposed"
+      },
+      "target": "releases/release1/schema/vendored/beckn/schemas/Location/2.0/attributes.yaml",
+      "publicUrl": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/Location/2.0/attributes.yaml"
+    },
+    {
+      "name": "PriceSpecification",
+      "version": "2.0",
+      "direct": false,
+      "requestedBy": [
+        "RetailCommitment@2.1",
+        "RetailOffer@2.1"
+      ],
+      "registryDocuments": [
+        {
+          "url": "https://schema.beckn.io/PriceSpecification/2.0",
+          "sha256": "2030952a8ec9cd0039e9dfad34458e16f37e0bfaa73385d8701c753942a91777",
+          "title": "PriceSpecification",
+          "declaredVersion": "2.0.0",
+          "declaredLicense": {
+            "name": "CC-BY-NC-SA 4.0 International"
+          }
+        }
+      ],
+      "upstream": {
+        "repository": "https://github.com/beckn/schemas",
+        "branchAtPlanning": "main",
+        "commit": "b0ffbdd409c2fbe988a344161345a88ebb11d544",
+        "path": "schema/PriceSpecification/v2.0/attributes.yaml",
+        "rawUrl": "https://raw.githubusercontent.com/beckn/schemas/b0ffbdd409c2fbe988a344161345a88ebb11d544/schema/PriceSpecification/v2.0/attributes.yaml",
+        "sha256": "2030952a8ec9cd0039e9dfad34458e16f37e0bfaa73385d8701c753942a91777"
+      },
+      "provenanceStatus": "verified",
+      "license": {
+        "declaredInDocument": [
+          {
+            "name": "CC-BY-NC-SA 4.0 International"
+          }
+        ],
+        "repositoryLicense": {
+          "repository": "https://github.com/beckn/schemas",
+          "commit": "b0ffbdd409c2fbe988a344161345a88ebb11d544",
+          "path": "LICENSE.md",
+          "rawUrl": "https://raw.githubusercontent.com/beckn/schemas/b0ffbdd409c2fbe988a344161345a88ebb11d544/LICENSE.md",
+          "sha256": "ec5bc2d54dae0ebc2c8ec5a147d0b48d48af5b3f73acdcb8e33f104a7ad4407c"
+        },
+        "reviewStatus": "proposed"
+      },
+      "target": "releases/release1/schema/vendored/beckn/schemas/PriceSpecification/2.0/attributes.yaml",
+      "publicUrl": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/PriceSpecification/2.0/attributes.yaml"
+    },
+    {
+      "name": "Quantity",
+      "version": "2.0",
+      "direct": true,
+      "requestedBy": [
+        "PriceSpecification@2.0",
+        "RetailResource@2.1",
+        "schema/core/api/v2.0.0/ion.yaml",
+        "schema/extension/trade/TradePerformance/v1/attributes.yaml",
+        "schema/extension/trade/TradePerformance/v1/schema.json",
+        "schema/extension/trade/TradeResource/v1/attributes.yaml",
+        "schema/extension/trade/TradeResource/v1/schema.json"
+      ],
+      "registryDocuments": [
+        {
+          "url": "https://schema.beckn.io/Quantity/2.0",
+          "sha256": "7494fb9e0590439bf284cc224f1421630c14c94ac94be53b8fb5ba2dfa852611",
+          "title": "Quantity",
+          "declaredVersion": "2.0.0",
+          "declaredLicense": {
+            "name": "CC-BY-NC-SA 4.0 International"
+          }
+        },
+        {
+          "url": "https://schema.beckn.io/Quantity/2.0/attributes.yaml",
+          "sha256": "7494fb9e0590439bf284cc224f1421630c14c94ac94be53b8fb5ba2dfa852611",
+          "title": "Quantity",
+          "declaredVersion": "2.0.0",
+          "declaredLicense": {
+            "name": "CC-BY-NC-SA 4.0 International"
+          }
+        },
+        {
+          "url": "https://schema.beckn.io/Quantity/v2.0/attributes.yaml",
+          "sha256": "7494fb9e0590439bf284cc224f1421630c14c94ac94be53b8fb5ba2dfa852611",
+          "title": "Quantity",
+          "declaredVersion": "2.0.0",
+          "declaredLicense": {
+            "name": "CC-BY-NC-SA 4.0 International"
+          }
+        }
+      ],
+      "upstream": {
+        "repository": "https://github.com/beckn/schemas",
+        "branchAtPlanning": "main",
+        "commit": "b0ffbdd409c2fbe988a344161345a88ebb11d544",
+        "path": "schema/Quantity/v2.0/attributes.yaml",
+        "rawUrl": "https://raw.githubusercontent.com/beckn/schemas/b0ffbdd409c2fbe988a344161345a88ebb11d544/schema/Quantity/v2.0/attributes.yaml",
+        "sha256": "7494fb9e0590439bf284cc224f1421630c14c94ac94be53b8fb5ba2dfa852611"
+      },
+      "provenanceStatus": "verified",
+      "license": {
+        "declaredInDocument": [
+          {
+            "name": "CC-BY-NC-SA 4.0 International"
+          }
+        ],
+        "repositoryLicense": {
+          "repository": "https://github.com/beckn/schemas",
+          "commit": "b0ffbdd409c2fbe988a344161345a88ebb11d544",
+          "path": "LICENSE.md",
+          "rawUrl": "https://raw.githubusercontent.com/beckn/schemas/b0ffbdd409c2fbe988a344161345a88ebb11d544/LICENSE.md",
+          "sha256": "ec5bc2d54dae0ebc2c8ec5a147d0b48d48af5b3f73acdcb8e33f104a7ad4407c"
+        },
+        "reviewStatus": "proposed"
+      },
+      "target": "releases/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml",
+      "publicUrl": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml"
+    },
+    {
+      "name": "RetailCommitment",
+      "version": "2.1",
+      "direct": true,
+      "requestedBy": [
+        "schema/core/api/v2.0.0/ion.yaml",
+        "schema/extension/trade/TradeCommitment/v1/attributes.yaml",
+        "schema/extension/trade/TradeCommitment/v1/schema.json"
+      ],
+      "registryDocuments": [
+        {
+          "url": "https://schema.beckn.io/RetailCommitment/v2.1/attributes.yaml",
+          "sha256": "1cc702a28facb3e1abc3666f9e857584afc89f611c9db5c356302df921e2c54f",
+          "title": "Retail — Core Commitment Attributes (v2.1)",
+          "declaredVersion": "2.1.0",
+          "declaredLicense": null
+        }
+      ],
+      "upstream": {
+        "repository": "https://github.com/beckn/local-retail",
+        "branchAtPlanning": "main",
+        "commit": "280726e123f907173f31db840931426045fcfd52",
+        "path": "schema/RetailCommitment/v2.1/attributes.yaml",
+        "rawUrl": "https://raw.githubusercontent.com/beckn/local-retail/280726e123f907173f31db840931426045fcfd52/schema/RetailCommitment/v2.1/attributes.yaml",
+        "sha256": "1cc702a28facb3e1abc3666f9e857584afc89f611c9db5c356302df921e2c54f"
+      },
+      "provenanceStatus": "verified",
+      "license": {
+        "declaredInDocument": [
+
+        ],
+        "repositoryLicense": {
+          "repository": "https://github.com/beckn/local-retail",
+          "commit": "280726e123f907173f31db840931426045fcfd52",
+          "path": "LICENSE.md",
+          "rawUrl": "https://raw.githubusercontent.com/beckn/local-retail/280726e123f907173f31db840931426045fcfd52/LICENSE.md",
+          "sha256": "8386f4aded6116293b4a2daf378638abe4ed49406c696c12d4e8c19310aec46e"
+        },
+        "reviewStatus": "proposed"
+      },
+      "target": "releases/release1/schema/vendored/beckn/schemas/RetailCommitment/2.1/attributes.yaml",
+      "publicUrl": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailCommitment/2.1/attributes.yaml"
+    },
+    {
+      "name": "RetailConsideration",
+      "version": "2.1",
+      "direct": true,
+      "requestedBy": [
+        "schema/common/Tax/v1/attributes.yaml",
+        "schema/common/Tax/v1/schema.json",
+        "schema/core/api/v2.0.0/ion.yaml",
+        "schema/extension/trade/TradeConsideration/v1/attributes.yaml",
+        "schema/extension/trade/TradeConsideration/v1/schema.json"
+      ],
+      "registryDocuments": [
+        {
+          "url": "https://schema.beckn.io/RetailConsideration/v2.1/attributes.yaml",
+          "sha256": "f94ac0192b3fa93093c4d21c7274f3df85710575ec46339ac21075e83ae4995c",
+          "title": "Retail — Core Consideration Attributes (v2.1)",
+          "declaredVersion": "2.1.0",
+          "declaredLicense": null
+        }
+      ],
+      "upstream": {
+        "repository": "https://github.com/beckn/local-retail",
+        "branchAtPlanning": "main",
+        "commit": "280726e123f907173f31db840931426045fcfd52",
+        "path": "schema/RetailConsideration/v2.1/attributes.yaml",
+        "rawUrl": "https://raw.githubusercontent.com/beckn/local-retail/280726e123f907173f31db840931426045fcfd52/schema/RetailConsideration/v2.1/attributes.yaml",
+        "sha256": "f94ac0192b3fa93093c4d21c7274f3df85710575ec46339ac21075e83ae4995c"
+      },
+      "provenanceStatus": "verified",
+      "license": {
+        "declaredInDocument": [
+
+        ],
+        "repositoryLicense": {
+          "repository": "https://github.com/beckn/local-retail",
+          "commit": "280726e123f907173f31db840931426045fcfd52",
+          "path": "LICENSE.md",
+          "rawUrl": "https://raw.githubusercontent.com/beckn/local-retail/280726e123f907173f31db840931426045fcfd52/LICENSE.md",
+          "sha256": "8386f4aded6116293b4a2daf378638abe4ed49406c696c12d4e8c19310aec46e"
+        },
+        "reviewStatus": "proposed"
+      },
+      "target": "releases/release1/schema/vendored/beckn/schemas/RetailConsideration/2.1/attributes.yaml",
+      "publicUrl": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailConsideration/2.1/attributes.yaml"
+    },
+    {
+      "name": "RetailContract",
+      "version": "2.1",
+      "direct": true,
+      "requestedBy": [
+        "schema/core/api/v2.0.0/ion.yaml",
+        "schema/extension/trade/TradeContract/v1/attributes.yaml",
+        "schema/extension/trade/TradeContract/v1/schema.json"
+      ],
+      "registryDocuments": [
+        {
+          "url": "https://schema.beckn.io/RetailContract/v2.1/attributes.yaml",
+          "sha256": "9a426161ba86dfc0b78e6b8eb3fac8afe56e837821b49f880a33de7a5c9b2aab",
+          "title": "RetailContract Schema",
+          "declaredVersion": "2.1.0",
+          "declaredLicense": null
+        }
+      ],
+      "upstream": {
+        "repository": "https://github.com/beckn/local-retail",
+        "branchAtPlanning": "main",
+        "commit": "280726e123f907173f31db840931426045fcfd52",
+        "path": "schema/RetailContract/v2.1/attributes.yaml",
+        "rawUrl": "https://raw.githubusercontent.com/beckn/local-retail/280726e123f907173f31db840931426045fcfd52/schema/RetailContract/v2.1/attributes.yaml",
+        "sha256": "9a426161ba86dfc0b78e6b8eb3fac8afe56e837821b49f880a33de7a5c9b2aab"
+      },
+      "provenanceStatus": "verified",
+      "license": {
+        "declaredInDocument": [
+
+        ],
+        "repositoryLicense": {
+          "repository": "https://github.com/beckn/local-retail",
+          "commit": "280726e123f907173f31db840931426045fcfd52",
+          "path": "LICENSE.md",
+          "rawUrl": "https://raw.githubusercontent.com/beckn/local-retail/280726e123f907173f31db840931426045fcfd52/LICENSE.md",
+          "sha256": "8386f4aded6116293b4a2daf378638abe4ed49406c696c12d4e8c19310aec46e"
+        },
+        "reviewStatus": "proposed"
+      },
+      "target": "releases/release1/schema/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml",
+      "publicUrl": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml"
+    },
+    {
+      "name": "RetailOffer",
+      "version": "2.1",
+      "direct": true,
+      "requestedBy": [
+        "schema/core/api/v2.0.0/ion.yaml",
+        "schema/extension/trade/TradeOffer/v1/attributes.yaml",
+        "schema/extension/trade/TradeOffer/v1/schema.json"
+      ],
+      "registryDocuments": [
+        {
+          "url": "https://schema.beckn.io/RetailOffer/v2.1/attributes.yaml",
+          "sha256": "cd0e67ea8420e9cc3436e7e107d24caed855b86ecf4be7bc84274de86f0bf9aa",
+          "title": "Retail — Core Offer Attributes (v2.1)",
+          "declaredVersion": "2.1.0",
+          "declaredLicense": null
+        }
+      ],
+      "upstream": {
+        "repository": "https://github.com/beckn/local-retail",
+        "branchAtPlanning": "main",
+        "commit": "280726e123f907173f31db840931426045fcfd52",
+        "path": "schema/RetailOffer/v2.1/attributes.yaml",
+        "rawUrl": "https://raw.githubusercontent.com/beckn/local-retail/280726e123f907173f31db840931426045fcfd52/schema/RetailOffer/v2.1/attributes.yaml",
+        "sha256": "cd0e67ea8420e9cc3436e7e107d24caed855b86ecf4be7bc84274de86f0bf9aa"
+      },
+      "provenanceStatus": "verified",
+      "license": {
+        "declaredInDocument": [
+
+        ],
+        "repositoryLicense": {
+          "repository": "https://github.com/beckn/local-retail",
+          "commit": "280726e123f907173f31db840931426045fcfd52",
+          "path": "LICENSE.md",
+          "rawUrl": "https://raw.githubusercontent.com/beckn/local-retail/280726e123f907173f31db840931426045fcfd52/LICENSE.md",
+          "sha256": "8386f4aded6116293b4a2daf378638abe4ed49406c696c12d4e8c19310aec46e"
+        },
+        "reviewStatus": "proposed"
+      },
+      "target": "releases/release1/schema/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml",
+      "publicUrl": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml"
+    },
+    {
+      "name": "RetailPerformance",
+      "version": "2.1",
+      "direct": true,
+      "requestedBy": [
+        "schema/extension/trade/TradePerformance/v1/attributes.yaml",
+        "schema/extension/trade/TradePerformance/v1/schema.json"
+      ],
+      "registryDocuments": [
+        {
+          "url": "https://schema.beckn.io/RetailPerformance/2.1/attributes.yaml",
+          "sha256": "5fcd885cedd9c0f154077da5e7f4460e2b6e162a5388424ae5b30249aae15a42",
+          "title": "RetailPerformance Schema",
+          "declaredVersion": "2.1.0",
+          "declaredLicense": null
+        }
+      ],
+      "upstream": {
+        "repository": "https://github.com/beckn/local-retail",
+        "branchAtPlanning": "main",
+        "commit": "280726e123f907173f31db840931426045fcfd52",
+        "path": "schema/RetailPerformance/v2.1/attributes.yaml",
+        "rawUrl": "https://raw.githubusercontent.com/beckn/local-retail/280726e123f907173f31db840931426045fcfd52/schema/RetailPerformance/v2.1/attributes.yaml",
+        "sha256": "5fcd885cedd9c0f154077da5e7f4460e2b6e162a5388424ae5b30249aae15a42"
+      },
+      "provenanceStatus": "verified",
+      "license": {
+        "declaredInDocument": [
+
+        ],
+        "repositoryLicense": {
+          "repository": "https://github.com/beckn/local-retail",
+          "commit": "280726e123f907173f31db840931426045fcfd52",
+          "path": "LICENSE.md",
+          "rawUrl": "https://raw.githubusercontent.com/beckn/local-retail/280726e123f907173f31db840931426045fcfd52/LICENSE.md",
+          "sha256": "8386f4aded6116293b4a2daf378638abe4ed49406c696c12d4e8c19310aec46e"
+        },
+        "reviewStatus": "proposed"
+      },
+      "target": "releases/release1/schema/vendored/beckn/schemas/RetailPerformance/2.1/attributes.yaml",
+      "publicUrl": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailPerformance/2.1/attributes.yaml"
+    },
+    {
+      "name": "RetailResource",
+      "version": "2.1",
+      "direct": true,
+      "requestedBy": [
+        "schema/extension/trade/TradeResource/v1/attributes.yaml",
+        "schema/extension/trade/TradeResource/v1/schema.json"
+      ],
+      "registryDocuments": [
+        {
+          "url": "https://schema.beckn.io/RetailResource/v2.1/attributes.yaml",
+          "sha256": "c58c8297094ce41bc110e1a9cbd0127dcee9ef38f93b510adc326e6d748f38b2",
+          "title": "Retail — Core Resource Attributes (v2.1)",
+          "declaredVersion": "2.1.0",
+          "declaredLicense": null
+        }
+      ],
+      "upstream": {
+        "repository": "https://github.com/beckn/local-retail",
+        "branchAtPlanning": "main",
+        "commit": "280726e123f907173f31db840931426045fcfd52",
+        "path": "schema/RetailResource/v2.1/attributes.yaml",
+        "rawUrl": "https://raw.githubusercontent.com/beckn/local-retail/280726e123f907173f31db840931426045fcfd52/schema/RetailResource/v2.1/attributes.yaml",
+        "sha256": "c58c8297094ce41bc110e1a9cbd0127dcee9ef38f93b510adc326e6d748f38b2"
+      },
+      "provenanceStatus": "verified",
+      "license": {
+        "declaredInDocument": [
+
+        ],
+        "repositoryLicense": {
+          "repository": "https://github.com/beckn/local-retail",
+          "commit": "280726e123f907173f31db840931426045fcfd52",
+          "path": "LICENSE.md",
+          "rawUrl": "https://raw.githubusercontent.com/beckn/local-retail/280726e123f907173f31db840931426045fcfd52/LICENSE.md",
+          "sha256": "8386f4aded6116293b4a2daf378638abe4ed49406c696c12d4e8c19310aec46e"
+        },
+        "reviewStatus": "proposed"
+      },
+      "target": "releases/release1/schema/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml",
+      "publicUrl": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailResource/2.1/attributes.yaml"
+    },
+    {
+      "name": "RetailSettlement",
+      "version": "2.1",
+      "direct": true,
+      "requestedBy": [
+        "schema/extension/trade/TradeSettlement/v1/attributes.yaml",
+        "schema/extension/trade/TradeSettlement/v1/schema.json"
+      ],
+      "registryDocuments": [
+        {
+          "url": "https://schema.beckn.io/RetailSettlement/v2.1/attributes.yaml",
+          "sha256": "253d7a95849a068252360a559e9747217e6b87b213d2fb1fea7aca285306f53a",
+          "title": "Retail — Core Settlement Attributes (v2.1)",
+          "declaredVersion": "2.1.0",
+          "declaredLicense": null
+        }
+      ],
+      "upstream": {
+        "repository": "https://github.com/beckn/local-retail",
+        "branchAtPlanning": "main",
+        "commit": "280726e123f907173f31db840931426045fcfd52",
+        "path": "schema/RetailSettlement/v2.1/attributes.yaml",
+        "rawUrl": "https://raw.githubusercontent.com/beckn/local-retail/280726e123f907173f31db840931426045fcfd52/schema/RetailSettlement/v2.1/attributes.yaml",
+        "sha256": "253d7a95849a068252360a559e9747217e6b87b213d2fb1fea7aca285306f53a"
+      },
+      "provenanceStatus": "verified",
+      "license": {
+        "declaredInDocument": [
+
+        ],
+        "repositoryLicense": {
+          "repository": "https://github.com/beckn/local-retail",
+          "commit": "280726e123f907173f31db840931426045fcfd52",
+          "path": "LICENSE.md",
+          "rawUrl": "https://raw.githubusercontent.com/beckn/local-retail/280726e123f907173f31db840931426045fcfd52/LICENSE.md",
+          "sha256": "8386f4aded6116293b4a2daf378638abe4ed49406c696c12d4e8c19310aec46e"
+        },
+        "reviewStatus": "proposed"
+      },
+      "target": "releases/release1/schema/vendored/beckn/schemas/RetailSettlement/2.1/attributes.yaml",
+      "publicUrl": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailSettlement/2.1/attributes.yaml"
+    },
+    {
+      "name": "TimePeriod",
+      "version": "2.0",
+      "direct": false,
+      "requestedBy": [
+        "RetailOffer@2.1"
+      ],
+      "registryDocuments": [
+        {
+          "url": "https://schema.beckn.io/TimePeriod/2.0",
+          "sha256": "d1d365abfe4a7b81313255291a23284ea65e1e59264de6bf9aadbf3643ae6c91",
+          "title": "TimePeriod",
+          "declaredVersion": "2.0.0",
+          "declaredLicense": {
+            "name": "CC-BY-NC-SA 4.0 International"
+          }
+        }
+      ],
+      "upstream": {
+        "repository": "https://github.com/beckn/schemas",
+        "branchAtPlanning": "main",
+        "commit": "b0ffbdd409c2fbe988a344161345a88ebb11d544",
+        "path": "schema/TimePeriod/v2.0/attributes.yaml",
+        "rawUrl": "https://raw.githubusercontent.com/beckn/schemas/b0ffbdd409c2fbe988a344161345a88ebb11d544/schema/TimePeriod/v2.0/attributes.yaml",
+        "sha256": "d1d365abfe4a7b81313255291a23284ea65e1e59264de6bf9aadbf3643ae6c91"
+      },
+      "provenanceStatus": "verified",
+      "license": {
+        "declaredInDocument": [
+          {
+            "name": "CC-BY-NC-SA 4.0 International"
+          }
+        ],
+        "repositoryLicense": {
+          "repository": "https://github.com/beckn/schemas",
+          "commit": "b0ffbdd409c2fbe988a344161345a88ebb11d544",
+          "path": "LICENSE.md",
+          "rawUrl": "https://raw.githubusercontent.com/beckn/schemas/b0ffbdd409c2fbe988a344161345a88ebb11d544/LICENSE.md",
+          "sha256": "ec5bc2d54dae0ebc2c8ec5a147d0b48d48af5b3f73acdcb8e33f104a7ad4407c"
+        },
+        "reviewStatus": "proposed"
+      },
+      "target": "releases/release1/schema/vendored/beckn/schemas/TimePeriod/2.0/attributes.yaml",
+      "publicUrl": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/TimePeriod/2.0/attributes.yaml"
+    }
+  ],
+  "repositories": [
+    {
+      "repository": "https://github.com/beckn/local-retail",
+      "commit": "280726e123f907173f31db840931426045fcfd52",
+      "path": "LICENSE.md",
+      "rawUrl": "https://raw.githubusercontent.com/beckn/local-retail/280726e123f907173f31db840931426045fcfd52/LICENSE.md",
+      "sha256": "8386f4aded6116293b4a2daf378638abe4ed49406c696c12d4e8c19310aec46e"
+    },
+    {
+      "repository": "https://github.com/beckn/protocol-specifications-v2",
+      "commit": "a22300aa83796cb8dfc2b63cd9dd0e36a7f4d3a1",
+      "path": "LICENSE",
+      "rawUrl": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/a22300aa83796cb8dfc2b63cd9dd0e36a7f4d3a1/LICENSE",
+      "sha256": "ec5bc2d54dae0ebc2c8ec5a147d0b48d48af5b3f73acdcb8e33f104a7ad4407c"
+    },
+    {
+      "repository": "https://github.com/beckn/schemas",
+      "commit": "b0ffbdd409c2fbe988a344161345a88ebb11d544",
+      "path": "LICENSE.md",
+      "rawUrl": "https://raw.githubusercontent.com/beckn/schemas/b0ffbdd409c2fbe988a344161345a88ebb11d544/LICENSE.md",
+      "sha256": "ec5bc2d54dae0ebc2c8ec5a147d0b48d48af5b3f73acdcb8e33f104a7ad4407c"
+    }
+  ],
+  "summary": {
+    "directReferenceOccurrences": 139,
+    "directDocumentUrls": 10,
+    "resolvedFamilyVersions": 17,
+    "transitiveFamilyVersions": 7,
+    "verifiedFamilyVersions": 17,
+    "blockingIssueCount": 0
+  },
+  "blockingIssues": [
+
+  ],
+  "approval": {
+    "approvedAt": "2026-08-20T23:31:50Z",
+    "decision": "Use latest upstream snapshots for all Beckn files in Release 1",
+    "scope": "The immutable commits and checksums in this plan only"
+  }
+}

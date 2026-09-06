@@ -1,0 +1,49 @@
+{
+  "id": "ion-trade-commitment-v1",
+  "version": "1.0.0",
+  "domain": "trade",
+  "name": "ION Trade Commitment Extension (v1)",
+  "description": "Per-line trade attributes inherited from RetailCommitment v2.1, with line-specific replacement preference and an ION extension point.",
+  "packSchema": "./schema.json",
+  "jsonldContext": "./context.jsonld",
+  "attachmentPoints": {
+    "commitmentAttributes": [
+      "IONTradeCommitment"
+    ]
+  },
+  "extends": "beckn:Commitment",
+  "type": "AttributePack",
+  "indexing": {
+    "indexable": [
+      {
+        "path": "$.lineId"
+      },
+      {
+        "path": "$.resourceId"
+      },
+      {
+        "path": "$.offerId"
+      }
+    ],
+    "filterable": [
+      {
+        "path": "$.lineId"
+      },
+      {
+        "path": "$.resourceId"
+      }
+    ],
+    "sortable": []
+  },
+  "minimalForDiscovery": [
+    "lineId",
+    "resourceId",
+    "offerId",
+    "quantity"
+  ],
+  "x-ion-layer": {
+    "generic": "TradeCommitment",
+    "ion": "IONTradeCommitment",
+    "splitVersion": "0.7.0"
+  }
+}

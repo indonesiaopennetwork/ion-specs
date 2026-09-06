@@ -1,0 +1,48 @@
+{
+  "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeOffer/v1/context.jsonld",
+  "@type": "ion:IONTradeOffer",
+  "_comment": "Example: Electronics offer — manufacturer warranty 1 year, COD unavailable",
+  "timeToShip": "P1D",
+  "proofOfDeliveryType": "OTP",
+  "contactDetailsConsumerCare": {
+    "name": "Samsung Care Indonesia",
+    "email": "support@samsung.co.id",
+    "phone": "0800-112-8888"
+  },
+  "displayLanguage": [
+    "id",
+    "en"
+  ],
+  "policies": {
+    "returns": {
+      "allowed": true,
+      "method": "SELLER_PICKUP",
+      "evidenceRequirement": "VIDEO_UNBOXING_REQUIRED",
+      "evidenceMinPhotos": 3,
+      "policyRef": "ion://policy/return.electronics.14d-unopened-or-defective-sellerpays"
+    },
+    "cancellation": {
+      "allowedReasons": [
+        "CHANGE_OF_MIND",
+        "WRONG_ITEM_ORDERED",
+        "FOUND_BETTER_PRICE"
+      ],
+      "policyRef": "ion://policy/cancel.prepacked.free"
+    },
+    "warranty": {
+      "policyRef": "ion://policy/warranty.manufacturer.1y-distance-service"
+    },
+    "dispute": {
+      "policyRef": "ion://policy/dispute.consumer.bpsk"
+    },
+    "grievanceSla": {
+      "policyRef": "ion://policy/grievance-sla.consumer.standard"
+    },
+    "paymentTerms": {
+      "policyRef": "ion://policy/payment-terms.upfront.full"
+    }
+  },
+  "paymentConstraints": {
+    "codAvailable": false
+  }
+}

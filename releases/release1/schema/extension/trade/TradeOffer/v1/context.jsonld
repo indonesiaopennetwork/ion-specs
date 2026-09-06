@@ -1,0 +1,136 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "ion": "https://schema.ion.id/trade/offer/v1#",
+    "beckn": "https://schema.beckn.io/",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "cancellation": "rcoa:cancellation",
+    "allowedReasons": "ion:allowedReasons",
+    "returns": "rcoa:returns",
+    "evidenceRequirement": "ion:evidenceRequirement",
+    "evidenceMinPhotos": "ion:evidenceMinPhotos",
+    "warranty": "rcoa:warranty",
+    "dispute": "ion:dispute",
+    "grievanceSla": "ion:grievanceSla",
+    "paymentTerms": "ion:paymentTerms",
+    "penalty": "ion:penalty",
+    "policyRef": "rcoa:policyRef",
+    "timeToShip": "ion:timeToShip",
+    "selfPickupOtp": "ion:selfPickupOtp",
+    "selfPickupInstructions": "ion:selfPickupInstructions",
+    "proofOfDeliveryType": "ion:proofOfDeliveryType",
+    "contactDetailsConsumerCare": {
+      "@id": "ion:contactDetailsConsumerCare",
+      "@context": "https://schema.beckn.io/Contact/2.0/context.jsonld"
+    },
+    "displayLanguage": "ion:displayLanguage",
+    "weightSlabs": "ion:weightSlabs",
+    "offerType": "ion:offerType",
+    "priceModel": "ion:priceModel",
+    "minBasketAmount": "ion:minBasketAmount",
+    "maxDiscountAmount": "ion:maxDiscountAmount",
+    "voucherCode": "ion:voucherCode",
+    "usageLimitPerUser": "ion:usageLimitPerUser",
+    "customerSegment": "ion:customerSegment",
+    "paymentMethodEligibility": "ion:paymentMethodEligibility",
+    "subsidyBreakup": "ion:subsidyBreakup",
+    "priceChangeSchedule": "ion:priceChangeSchedule",
+    "reservationWindowSeconds": "ion:reservationWindowSeconds",
+    "totalStockCap": "ion:totalStockCap",
+    "perUserQuantityCap": "ion:perUserQuantityCap",
+    "queueEnabled": "ion:queueEnabled",
+    "queuePosition": "ion:queuePosition",
+    "estimatedWaitSeconds": "ion:estimatedWaitSeconds",
+    "stackingGroup": "ion:stackingGroup",
+    "stackingRules": "ion:stackingRules",
+    "codEligibilityForBuyer": "ion:codEligibilityForBuyer",
+    "codEligibilityReason": "ion:codEligibilityReason",
+    "customTermsAddendum": "ion:customTermsAddendum",
+    "brandSubsidy": "ion:brandSubsidy",
+    "cannotCombineWith": "ion:cannotCombineWith",
+    "eligibilityNote": "ion:eligibilityNote",
+    "excludedCategories": "ion:excludedCategories",
+    "maxAmount": "ion:maxAmount",
+    "maxDiscountWhenStacked": "ion:maxDiscountWhenStacked",
+    "maxKg": "ion:maxKg",
+    "method": "ion:method",
+    "minAmount": "ion:minAmount",
+    "minKg": "ion:minKg",
+    "mustCombineWith": "ion:mustCombineWith",
+    "phaseLabel": "ion:phaseLabel",
+    "platformSubsidy": "ion:platformSubsidy",
+    "priceIDR": "ion:priceIDR",
+    "priceValue": "ion:priceValue",
+    "requiredBnplProvider": "ion:requiredBnplProvider",
+    "requiresAddressVerification": "ion:requiresAddressVerification",
+    "requiresBuyerTier": "ion:requiresBuyerTier",
+    "requiresPhoneVerification": "ion:requiresPhoneVerification",
+    "sellerSubsidy": "ion:sellerSubsidy",
+    "validFrom": "ion:validFrom",
+    "validUntil": "ion:validUntil",
+    "@protected": true,
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "RetailOffer": "https://schema.beckn.io/RetailOffer",
+    "BecknOffer": "https://spec.beckn.io/vocab/v2.0.0#Offer",
+    "IONTradeOffer": "ion:IONTradeOffer",
+    "rcoa": "https://schema.beckn.io/RetailOffer#",
+    "policies": {
+      "@id": "rcoa:policies",
+      "@context": {
+        "cancellation": {
+          "@id": "rcoa:cancellation",
+          "@context": {
+            "allowedReasons": "ion:allowedReasons",
+            "policyRef": "rcoa:policyRef"
+          }
+        },
+        "returns": {
+          "@id": "rcoa:returns",
+          "@context": {
+            "allowed": "rcoa:returnAllowed",
+            "method": "rcoa:returnMethod",
+            "evidenceRequirement": "ion:evidenceRequirement",
+            "evidenceMinPhotos": "ion:evidenceMinPhotos",
+            "policyRef": "rcoa:policyRef"
+          }
+        },
+        "warranty": {
+          "@id": "rcoa:warranty",
+          "@context": {
+            "policyRef": "rcoa:policyRef"
+          }
+        },
+        "dispute": {
+          "@id": "ion:dispute",
+          "@context": {
+            "policyRef": "rcoa:policyRef"
+          }
+        },
+        "grievanceSla": {
+          "@id": "ion:grievanceSla",
+          "@context": {
+            "policyRef": "rcoa:policyRef"
+          }
+        },
+        "paymentTerms": {
+          "@id": "ion:paymentTerms",
+          "@context": {
+            "policyRef": "rcoa:policyRef"
+          }
+        },
+        "penalty": {
+          "@id": "ion:penalty",
+          "@context": {
+            "policyRef": "rcoa:policyRef"
+          }
+        }
+      }
+    },
+    "handlingTime": "ion:handlingTime",
+    "Contact": "https://schema.beckn.io/Contact"
+  }
+}

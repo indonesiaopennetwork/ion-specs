@@ -1,0 +1,252 @@
+{
+  "@context": {
+    "ion": "https://schema.ion.id/trade/performance/v1#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "beckn": "https://schema.beckn.io/",
+    "rcpa": "https://schema.beckn.io/RetailPerformance#",
+    "skos": "http://www.w3.org/2004/02/skos/core#"
+  },
+  "@graph": [
+    {
+      "@id": "ion:fulfillingLocationId",
+      "@type": "rdf:Property",
+      "rdfs:label": "fulfillingLocationId",
+      "rdfs:comment": "Identifier of the Provider operating location from which a Performance is fulfilled."
+    },
+    {
+      "@id": "ion:IONTradePerformance",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONTradePerformance",
+      "rdfs:comment": "ION trade performance extension. Extends RetailPerformance v2.1 with generic fulfillment semantics, Indonesia-specific age-verification methods, and ION-aware route stops.",
+      "rdfs:subClassOf": {
+        "@id": "rcpa:RetailPerformance"
+      },
+      "skos:broader": {
+        "@id": "beckn:Performance"
+      }
+    },
+    {
+      "@id": "rcpa:agent",
+      "@type": "rdf:Property",
+      "rdfs:label": "agent",
+      "rdfs:comment": "Agent assigned to execute the retail performance."
+    },
+    {
+      "@id": "beckn:id",
+      "@type": "rdf:Property",
+      "rdfs:label": "id",
+      "rdfs:comment": "Identifier of an entity within the performance."
+    },
+    {
+      "@id": "ion:type",
+      "@type": "rdf:Property",
+      "rdfs:label": "type",
+      "rdfs:comment": "Type discriminator for a performance-specific nested object."
+    },
+    {
+      "@id": "beckn:geo",
+      "@type": "rdf:Property",
+      "rdfs:label": "geo",
+      "rdfs:comment": "Geographic geometry associated with a performance stop."
+    },
+    {
+      "@id": "beckn:address",
+      "@type": "rdf:Property",
+      "rdfs:label": "address",
+      "rdfs:comment": "Postal address associated with a performance stop."
+    },
+    {
+      "@id": "ion:performanceMode",
+      "@type": "rdf:Property",
+      "rdfs:label": "performanceMode",
+      "rdfs:comment": "Selected mode by which the performance is executed."
+    },
+    {
+      "@id": "ion:trackingNumber",
+      "@type": "rdf:Property",
+      "rdfs:label": "trackingNumber",
+      "rdfs:comment": "Carrier-issued identifier used to track a shipment."
+    },
+    {
+      "@id": "ion:trackingUrl",
+      "@type": "rdf:Property",
+      "rdfs:label": "trackingUrl",
+      "rdfs:comment": "URL supplied for shipment tracking."
+    },
+    {
+      "@id": "ion:estimatedDeliveryTime",
+      "@type": "rdf:Property",
+      "rdfs:label": "estimatedDeliveryTime",
+      "rdfs:comment": "Current estimated date and time of delivery."
+    },
+    {
+      "@id": "ion:logisticsProviderId",
+      "@type": "rdf:Property",
+      "rdfs:label": "logisticsProviderId",
+      "rdfs:comment": "Identifier of the logistics provider responsible for the performance."
+    },
+    {
+      "@id": "ion:photo",
+      "@type": "rdf:Property",
+      "rdfs:label": "photo",
+      "rdfs:comment": "Photo used to verify the agent assigned to the performance."
+    },
+    {
+      "@id": "ion:vehicle",
+      "@type": "rdf:Property",
+      "rdfs:label": "vehicle",
+      "rdfs:comment": "Vehicle or transport details for the assigned agent."
+    },
+    {
+      "@id": "ion:registrationNumber",
+      "@type": "rdf:Property",
+      "rdfs:label": "registrationNumber",
+      "rdfs:comment": "Jurisdiction-issued vehicle registration number."
+    },
+    {
+      "@id": "ion:agentBadgeNumber",
+      "@type": "rdf:Property",
+      "rdfs:label": "agentBadgeNumber",
+      "rdfs:comment": "Physical badge number carried by the assigned agent."
+    },
+    {
+      "@id": "ion:returnQcDetails",
+      "@type": "rdf:Property",
+      "rdfs:label": "returnQcDetails",
+      "rdfs:comment": "Detailed findings supporting the inherited returnQcResult."
+    },
+    {
+      "@id": "ion:notes",
+      "@type": "rdf:Property",
+      "rdfs:label": "notes",
+      "rdfs:comment": "Explanatory notes associated with a result."
+    },
+    {
+      "@id": "ion:evidence",
+      "@type": "rdf:Property",
+      "rdfs:label": "evidence",
+      "rdfs:comment": "Typed documentary evidence supporting a recorded result."
+    },
+    {
+      "@id": "ion:slaBreaches",
+      "@type": "rdf:Property",
+      "rdfs:label": "slaBreaches",
+      "rdfs:comment": "Audit records for SLA breaches observed during the performance."
+    },
+    {
+      "@id": "ion:tatType",
+      "@type": "rdf:Property",
+      "rdfs:label": "tatType",
+      "rdfs:comment": "Turnaround-time milestone against which an SLA breach was measured."
+    },
+    {
+      "@id": "ion:expectedBy",
+      "@type": "rdf:Property",
+      "rdfs:label": "expectedBy",
+      "rdfs:comment": "Date and time by which the milestone was expected."
+    },
+    {
+      "@id": "ion:breachedAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "breachedAt",
+      "rdfs:comment": "Date and time at which the SLA breach was recorded."
+    },
+    {
+      "@id": "ion:breachDurationSeconds",
+      "@type": "rdf:Property",
+      "rdfs:label": "breachDurationSeconds",
+      "rdfs:comment": "Duration of the SLA breach in seconds."
+    },
+    {
+      "@id": "ion:ageVerification",
+      "@type": "rdf:Property",
+      "rdfs:label": "ageVerification",
+      "rdfs:comment": "Outcome of an age-verification attempt performed during the performance."
+    },
+    {
+      "@id": "ion:method",
+      "@type": "rdf:Property",
+      "rdfs:label": "method",
+      "rdfs:comment": "ION-specific method used to verify age."
+    },
+    {
+      "@id": "ion:verifiedAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "verifiedAt",
+      "rdfs:comment": "Date and time at which verification succeeded."
+    },
+    {
+      "@id": "ion:verifiedByAgentId",
+      "@type": "rdf:Property",
+      "rdfs:label": "verifiedByAgentId",
+      "rdfs:comment": "Identifier of the agent that performed verification."
+    },
+    {
+      "@id": "ion:failureReason",
+      "@type": "rdf:Property",
+      "rdfs:label": "failureReason",
+      "rdfs:comment": "Reason an age-verification attempt failed."
+    },
+    {
+      "@id": "ion:packageCount",
+      "@type": "rdf:Property",
+      "rdfs:label": "packageCount",
+      "rdfs:comment": "Number of physical packages associated with the performance."
+    },
+    {
+      "@id": "ion:totalWeight",
+      "@type": "rdf:Property",
+      "rdfs:label": "totalWeight",
+      "rdfs:comment": "Total packed weight expressed as a Quantity."
+    },
+    {
+      "@id": "ion:deliveryReceiptId",
+      "@type": "rdf:Property",
+      "rdfs:label": "deliveryReceiptId",
+      "rdfs:comment": "Identifier of the delivery receipt issued at handover."
+    },
+    {
+      "@id": "ion:stops",
+      "@type": "rdf:Property",
+      "rdfs:label": "stops",
+      "rdfs:comment": "Ordered list of stops for the performance leg."
+    },
+    {
+      "@id": "ion:location",
+      "@type": "rdf:Property",
+      "rdfs:label": "location",
+      "rdfs:comment": "Location associated with a performance stop."
+    },
+    {
+      "@id": "ion:ionAddressAttributes",
+      "@type": "rdf:Property",
+      "rdfs:label": "ionAddressAttributes",
+      "rdfs:comment": "ION-specific structured address attributes."
+    },
+    {
+      "@id": "ion:instructions",
+      "@type": "rdf:Property",
+      "rdfs:label": "instructions",
+      "rdfs:comment": "Execution instructions associated with a performance stop."
+    },
+    {
+      "@id": "ion:estimatedArrival",
+      "@type": "rdf:Property",
+      "rdfs:label": "estimatedArrival",
+      "rdfs:comment": "Estimated arrival time at a performance stop."
+    },
+    {
+      "@id": "ion:actualArrival",
+      "@type": "rdf:Property",
+      "rdfs:label": "actualArrival",
+      "rdfs:comment": "Actual arrival time at a performance stop."
+    },
+    {
+      "@id": "ion:proof",
+      "@type": "rdf:Property",
+      "rdfs:label": "proof",
+      "rdfs:comment": "Proof associated with completion of a performance stop."
+    }
+  ]
+}

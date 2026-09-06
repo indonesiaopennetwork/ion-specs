@@ -1,0 +1,62 @@
+{
+  "id": "ion-trade-pattern-storefront-v1",
+  "version": "1.0.0",
+  "sector": "trade",
+  "sectorCode": "A",
+  "status": "ready",
+  "description": "Consumer discovers, selects, and purchases a physical product. Delivery or self-pickup follows. The most common commerce pattern on ION — covers Food, Grocery, Fashion, Electronics, Beauty, FMCG.",
+  "applicableCategories": [
+    "food-qsr",
+    "grocery",
+    "fashion",
+    "electronics",
+    "beauty",
+    "fmcg",
+    "agritech"
+  ],
+  "spineFile": "./pattern.yaml",
+  "schemaPacksRequired": {
+    "common": [
+      "BusinessRegistration/v1",
+      "Payment/v1",
+      "Tax/v1",
+      "Address/v1"
+    ],
+    "trade": [
+      "TradeProvider/v1",
+      "TradeResource/v1",
+      "TradeOffer/v1",
+      "TradeConsideration/v1",
+      "TradePerformance/v1",
+      "TradeContract/v1",
+      "TradeCommitment/v1",
+      "TradeSettlement/v1"
+    ]
+  },
+  "performanceStateMachine": "schema/extension/trade/TradePerformanceStates/v1/states.yaml#standard",
+  "requiredPolicyCategories": [
+    "RETURN",
+    "CANCELLATION",
+    "WARRANTY",
+    "DISPUTE",
+    "GRIEVANCE_SLA",
+    "PAYMENT_TERMS"
+  ],
+  "policyRegistryVersion": "2.0.0",
+  "includedBranches": [],
+  "type": "Pattern",
+  "patternName": "storefront",
+  "policyRequirements": {
+    "requiredCategories": [
+      "CANCELLATION",
+      "RETURN",
+      "WARRANTY",
+      "DISPUTE",
+      "GRIEVANCE_SLA",
+      "PAYMENT_TERMS"
+    ],
+    "enforcedBy": "ONIX",
+    "enforcementPoint": "catalog/publish and on_confirm",
+    "note": "Offers on this flow MUST carry a concrete registered policyRef for each required category."
+  }
+}

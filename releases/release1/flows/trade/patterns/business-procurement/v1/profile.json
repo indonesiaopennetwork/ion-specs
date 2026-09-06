@@ -1,0 +1,27 @@
+{
+  "id": "ion-trade-pattern-business-procurement-v1",
+  "version": "1.0.0",
+  "sector": "trade",
+  "sectorCode": "A",
+  "status": "ready",
+  "description": "B2B wholesale procurement with minimum order quantities, purchase-order linkage, tax invoicing, and upfront payment.",
+  "spineFile": "./pattern.yaml",
+  "applicableCategories": ["fmcg", "electronics", "agritech", "fashion", "pharmacy", "automotive-parts"],
+  "schemaPacksRequired": {
+    "common": ["BusinessRegistration/v1", "Payment/v1", "Tax/v1", "Address/v1"],
+    "trade": ["TradeProvider/v1", "TradeResource/v1", "TradeOffer/v1", "TradeConsideration/v1", "TradePerformance/v1", "TradeContract/v1", "TradeCommitment/v1", "TradeSettlement/v1"]
+  },
+  "performanceStateMachine": "schema/extension/trade/TradePerformanceStates/v1/states.yaml#standard",
+  "requiredPolicyCategories": ["RETURN", "CANCELLATION", "WARRANTY", "DISPUTE", "GRIEVANCE_SLA", "PAYMENT_TERMS"],
+  "policyRegistryVersion": "2.0.0",
+  "includedBranches": [],
+  "type": "Pattern",
+  "patternName": "business-procurement",
+  "policyRequirements": {
+    "requiredCategories": ["CANCELLATION", "RETURN", "WARRANTY", "DISPUTE", "GRIEVANCE_SLA", "PAYMENT_TERMS"],
+    "enforcedBy": "ONIX",
+    "enforcementPoint": "catalog/publish and on_confirm",
+    "note": "Offers on this flow MUST carry a concrete registered policyRef for each required category."
+  }
+}
+

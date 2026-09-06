@@ -1,0 +1,341 @@
+openapi: 3.1.1
+info:
+  title: Retail — Core Resource Attributes (v2.1)
+  version: 2.1.0
+  description: >
+    Cross-vertical base resource attributes for retail domains.
+    Migrated from RetailCoreItemAttributes (v2) to the v2.1 generalised model.
+    Attaches to beckn:Resource via resourceAttributes.
+
+components:
+  schemas:
+    RetailResource:
+      type: object
+      x-beckn-container: resourceAttributes
+      x-jsonld:
+        "@context": "https://schema.beckn.io/RetailResource/v2.1/context.jsonld"
+        "@type": rcra:RetailResource
+      properties:
+        category:
+          allOf:
+            - $ref: "https://schema.ion.id/release1/schema/vendored/beckn/schemas/CategoryCode/2.0/attributes.yaml#/components/schemas/CategoryCode"
+          description: Taxonomy category code for the resource
+          x-jsonld-id: "rcra:category"
+        availableAt:
+          type: array
+          items:
+            $ref: "https://schema.ion.id/release1/schema/vendored/beckn/schemas/Location/2.0/attributes.yaml#/components/schemas/Location"
+          description: Physical locations where the resource is available
+          x-jsonld-id: "rcra:availableAt"
+        rateable:
+          type: boolean
+          description: Whether the resource can be rated by customers
+          x-jsonld-id: "rcra:rateable"
+        isActive:
+          type: boolean
+          description: Whether the resource is active and available for discovery
+          default: true
+          x-jsonld-id: "rcra:isActive"
+        ageRestricted:
+          type: boolean
+          description: >
+            Whether this product has a minimum age requirement for purchase
+            (e.g. alcohol, tobacco, adult products).
+          x-jsonld-id: "rcra:ageRestricted"
+        minAge:
+          type: integer
+          minimum: 0
+          description: >
+            Minimum buyer age in years required to purchase this product.
+            Only relevant when ageRestricted is true.
+          x-jsonld-id: "rcra:minAge"
+        identity:
+          type: object
+          x-jsonld-id: "rcra:identity"
+          properties:
+            brand:
+              type: string
+              x-jsonld-id: "rcra:brand"
+            originCountry:
+              type: string
+              pattern: "^[A-Z]{2,3}$"
+              description: >
+                Country of origin. Accepts ISO 3166-1 alpha-2 (e.g. IN, US) or
+                alpha-3 (e.g. IND, USA). Alpha-3 is preferred for new implementations;
+                alpha-2 is retained for backward compatibility.
+              x-jsonld-id: "rcra:originCountry"
+            model:
+              type: string
+              description: Product model name or number (e.g. "iPhone 15 Pro", "KitchenAid K400")
+              x-jsonld-id: "rcra:model"
+            modelYear:
+              type: integer
+              description: Year the product model was introduced (e.g. 2024)
+              x-jsonld-id: "rcra:modelYear"
+            sku:
+              type: string
+              description: Seller-assigned stock keeping unit identifier
+              x-jsonld-id: "rcra:sku"
+        productCodes:
+          type: array
+          description: >
+            Globally recognised product codes for this resource.
+            Used for interoperability with external catalogues, trade systems, and
+            barcode lookups. Seller-specific identifiers (e.g. internal SKU) belong
+            in identity.sku, not here.
+          items:
+            type: object
+            required: [type, value]
+            properties:
+              type:
+                type: string
+                enum: [GTIN, EAN, UPC, ISBN]
+                description: >
+                  GTIN — Global Trade Item Number (GS1; encompasses EAN-13, UPC-A, ISBN-13).
+                  EAN — European Article Number (13-digit GS1 subset).
+                  UPC — Universal Product Code (12-digit, North America).
+                  ISBN — International Standard Book Number (books and e-books).
+                x-jsonld-id: "rcra:productCodeType"
+              value:
+                type: string
+                description: The code value as a string (no spaces or hyphens)
+                x-jsonld-id: "rcra:productCodeValue"
+          x-jsonld-id: "rcra:productCodes"
+        physical:
+          type: object
+          properties:
+            weight:
+              allOf:
+                - $ref: "https://schema.ion.id/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity"
+              description: Resource weight using Beckn core Quantity
+              x-jsonld-id: "rcra:weight"
+            volume:
+              allOf:
+                - $ref: "https://schema.ion.id/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity"
+              description: Resource volume using Beckn core Quantity
+              x-jsonld-id: "rcra:volume"
+            dimensions:
+              type: object
+              description: Physical dimensions using a single unit of measure
+              required: [unit, length, breadth, height]
+              properties:
+                unit:
+                  type: string
+                  enum: [MM, CM, M, IN, FT]
+                  x-jsonld-id: "rcra:dimensionUnit"
+                length:
+                  type: number
+                  x-jsonld-id: "rcra:length"
+                breadth:
+                  type: number
+                  x-jsonld-id: "rcra:breadth"
+                height:
+                  type: number
+                  x-jsonld-id: "rcra:height"
+            appearance:
+              type: object
+              properties:
+                color:
+                  type: string
+                  x-jsonld-id: "rcra:color"
+                material:
+                  type: string
+                  x-jsonld-id: "rcra:material"
+                finish:
+                  type: string
+                  x-jsonld-id: "rcra:finish"
+          x-jsonld-id: "rcra:physical"
+        food:
+          type: object
+          properties:
+            classification:
+              type: array
+              description: >
+                One or more dietary classifications applicable to this product.
+                Values align with schema.org/RestrictedDiet (without the 'Diet' suffix)
+                where applicable — see https://schema.org/RestrictedDiet.
+                VEG, NON_VEG, and EGG follow FSSAI mandatory labelling convention
+                and are specific to Indian market deployments.
+                JAIN is a Beckn extension (not in schema.org).
+                Multiple values may apply simultaneously (e.g. HALAL + VEGAN).
+              items:
+                type: string
+                enum:
+                  - VEG           # FSSAI — no meat, no eggs, dairy allowed
+                  - NON_VEG       # FSSAI — contains meat/poultry/fish
+                  - EGG           # FSSAI — contains egg, otherwise vegetarian
+                  - HALAL         # schema:HalalDiet
+                  - KOSHER        # schema:KosherDiet
+                  - VEGAN         # schema:VeganDiet
+                  - GLUTEN_FREE   # schema:GlutenFreeDiet
+                  - HINDU         # schema:HinduDiet
+                  - JAIN          # Beckn extension
+                  - DIABETIC      # schema:DiabeticDiet
+                  - LOW_FAT       # schema:LowFatDiet
+                  - LOW_SALT      # schema:LowSaltDiet
+                  - LOW_LACTOSE   # schema:LowLactoseDiet
+                  - OTHER
+              x-jsonld-id: "rcra:foodClassification"
+          x-jsonld-id: "rcra:food"
+        packagedGoodsDeclaration:
+          type: object
+          properties:
+            manufacturerOrPacker:
+              type: object
+              properties:
+                type:
+                  type: string
+                  enum: [MANUFACTURER, PACKER, IMPORTER]
+                  x-jsonld-id: "rcra:manufacturerOrPackerType"
+                name:
+                  type: string
+                  x-jsonld-id: "rcra:manufacturerOrPackerName"
+                id:
+                  type: string
+                  x-jsonld-id: "rcra:manufacturerOrPackerId"
+                address:
+                  type: string
+                  x-jsonld-id: "rcra:manufacturerOrPackerAddress"
+            commonOrGenericName:
+              type: string
+              x-jsonld-id: "rcra:commonOrGenericName"
+            netQuantity:
+              allOf:
+                - $ref: "https://schema.ion.id/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity"
+              x-jsonld-id: "rcra:netQuantity"
+            manufacturePackingImportDate:
+              type: object
+              properties:
+                month:
+                  type: integer
+                  minimum: 1
+                  maximum: 12
+                year:
+                  type: integer
+                  minimum: 1900
+              x-jsonld-id: "rcra:manufacturePackingImportDate"
+          x-jsonld-id: "rcra:packagedGoodsDeclaration"
+        foodRegulatoryDeclaration:
+          type: object
+          properties:
+            registrations:
+              type: array
+              items:
+                type: object
+                properties:
+                  scheme:
+                    description: >
+                      Identifies the certification or regulatory scheme under which this
+                      registration was issued.
+
+                      Canonical global values are defined in the first branch of anyOf below.
+                      Use these wherever possible to ensure cross-network interoperability.
+
+                      Country-specific or network-specific schemes not listed here are also
+                      accepted via the second branch, provided they follow the UPPERCASE_UNDERSCORE
+                      naming convention (e.g. FSSAI, BIS, FDA, CE, BPOM, MUI, SNI).
+
+                      L2 schema authors extending this schema SHOULD add their market-specific
+                      values as additional enum entries in a new first-branch alongside or
+                      replacing this one, rather than relying solely on the free-string branch.
+                      This keeps L2 vocabularies machine-readable and discoverable.
+                    anyOf:
+                      - type: string
+                        title: Canonical global scheme
+                        enum:
+                          - ISO       # International Standards Organization
+                          - CODEX     # Codex Alimentarius (UN/WHO food safety)
+                          - HACCP     # Hazard Analysis Critical Control Points
+                          - HALAL     # Halal certification (certifier identified by id field)
+                          - KOSHER    # Kosher certification (certifier identified by id field)
+                          - ORGANIC   # Organic production certification (certifier in id field)
+                          - GMP       # Good Manufacturing Practice
+                          - OTHER     # Any scheme not covered above; use id field for detail
+                      - type: string
+                        title: Country-specific or network-specific scheme
+                        pattern: '^[A-Z][A-Z0-9_]*$'
+                        description: >
+                          Market-specific scheme identifier. Must be UPPERCASE with optional
+                          underscores (e.g. FSSAI, FDA, CE, BPOM). L2 schema authors should
+                          promote frequently used values to a typed enum in their extension.
+                    x-jsonld-id: "rcra:registrationScheme"
+                  id:
+                    type: string
+                    x-jsonld-id: "rcra:registrationId"
+                  role:
+                    type: string
+                    enum: [BRAND_OWNER, SELLER, IMPORTER, MANUFACTURER, PACKER]
+                    x-jsonld-id: "rcra:registrationRole"
+                  url:
+                    type: string
+                    format: uri
+                    x-jsonld-id: "rcra:registrationUrl"
+              x-jsonld-id: "rcra:registrations"
+            additives:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    enum: [CONTAINS, MAY_CONTAIN, FREE_FROM, MAX_ALLOWED, PERCENTAGE, CODE]
+                    x-jsonld-id: "rcra:additiveType"
+                  value:
+                    type: string
+                    x-jsonld-id: "rcra:additiveValue"
+                  quantity:
+                    type: string
+                    x-jsonld-id: "rcra:additiveQuantity"
+                  notes:
+                    type: string
+                    x-jsonld-id: "rcra:additiveNotes"
+              x-jsonld-id: "rcra:additives"
+          x-jsonld-id: "rcra:foodRegulatoryDeclaration"
+        warranty:
+          type: object
+          description: Warranty coverage for this product
+          x-jsonld-id: "rcra:warranty"
+          properties:
+            duration:
+              type: string
+              description: Warranty duration as ISO 8601 duration (e.g., "P1Y" for 1 year, "P2Y6M" for 2.5 years)
+              x-jsonld-id: "rcra:warrantyDuration"
+            type:
+              type: string
+              enum: [MANUFACTURER, SELLER, EXTENDED, NONE]
+              description: Type of warranty
+              x-jsonld-id: "rcra:warrantyType"
+            terms:
+              type: string
+              description: Warranty terms and conditions (e.g., coverage details, exclusions)
+              x-jsonld-id: "rcra:warrantyTerms"
+        credentials:
+          type: array
+          items:
+            type: object
+            required: [uri]
+            properties:
+              type:
+                type: string
+                x-jsonld-id: "rcra:credentialType"
+              uri:
+                type: string
+                format: uri
+                x-jsonld-id: "rcra:credentialUri"
+              issuer:
+                type: string
+                x-jsonld-id: "rcra:credentialIssuer"
+              id:
+                type: string
+                x-jsonld-id: "rcra:credentialId"
+              validFrom:
+                type: string
+                format: date
+                description: Date from which the credential is valid (ISO 8601 date)
+                x-jsonld-id: "rcra:credentialValidFrom"
+              validTo:
+                type: string
+                format: date
+                description: Date on which the credential expires (ISO 8601 date)
+                x-jsonld-id: "rcra:credentialValidTo"
+          x-jsonld-id: "rcra:credentials"

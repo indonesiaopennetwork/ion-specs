@@ -1,0 +1,280 @@
+# ION Trade Pattern — live-commerce (B2C-LIVE)
+# NOT OAS. ION pattern specification document.
+# Defines standard Beckn commerce initiated from live or attributed content.
+
+id: ion-trade-pattern-live-commerce-v1
+version: "1.0.0"
+patternName: live-commerce
+sector: ion:trade
+status: ready
+description: >
+  Consumer purchases a physical product from a live stream, OTT shoppable
+  moment, social-commerce surface, or attributed content link. The transaction
+  uses the standard Beckn catalog, select, init, confirm, and status actions.
+  Release 1 records source attribution and time-bounded offer mechanics but does
+  not model group-buy states, creator-specific commission breakup types, or
+  reconciliation amounts.
+
+applicableCategories:
+  - fashion
+  - beauty
+  - electronics
+  - fmcg
+  - home-kitchen
+  - agritech
+
+participants:
+  BAP: Buyer App Platform
+  BPP: Buyer Price Provider (seller-facing)
+  ION_CATALOG: ION Catalogue Service (Phase 1 only)
+
+phases:
+  phase1:
+    name: Catalog and live-window binding
+    communication: async pub/sub
+    description: >
+      BPP publishes live-commerce-eligible offers with a validity window. The
+      offer becomes unavailable when its schema:endDate is reached.
+    steps:
+      - step: publish_catalog
+        from: BPP
+        to: ION_CATALOG
+        direction: publish
+        requiredFields:
+          - context.domain
+          - context.bppId
+          - context.timestamp
+          - message.catalog.provider.id
+          - message.catalog.provider.descriptor.name
+          - message.catalog.provider.providerAttributes.operationalStatus.status
+          - message.catalog.provider.providerAttributes.operatingHours[]
+          - message.catalog.provider.providerAttributes.providerCategories[]
+          - message.catalog.provider.providerAttributes.businessRegistration.nib
+          - message.catalog.provider.providerAttributes.commerceChannels.supported[]
+          - message.catalog.provider.availableAt[].gps
+          - message.catalog.resources[].id
+          - message.catalog.resources[].resourceAttributes.name.id
+          - message.catalog.resources[].resourceAttributes.shortDesc.id
+          - message.catalog.resources[].resourceAttributes.resourceStructure
+          - message.catalog.resources[].resourceAttributes.availability.status
+          - message.catalog.resources[].resourceAttributes.images[]
+          - message.catalog.offers[].id
+          - message.catalog.offers[].price
+          - message.catalog.offers[].offerAttributes.validity['schema:startDate']
+          - message.catalog.offers[].offerAttributes.validity['schema:endDate']
+          - message.catalog.offers[].offerAttributes.reservationWindowSeconds
+          - message.catalog.offers[].offerAttributes.policies.cancellation.policyRef
+          - message.catalog.offers[].offerAttributes.policies.returns.allowed
+          - message.catalog.offers[].offerAttributes.policies.returns.policyRef
+          - message.catalog.offers[].offerAttributes.policies.warranty.policyRef
+          - message.catalog.offers[].offerAttributes.policies.dispute.policyRef
+          - message.catalog.offers[].offerAttributes.policies.grievanceSla.policyRef
+          - message.catalog.offers[].offerAttributes.policies.paymentTerms.policyRef
+        conditionalFields:
+          - field: message.catalog.offers[].offerAttributes.offerType
+            condition: use FLASH_SALE for a time- or quantity-limited live offer
+          - field: message.catalog.offers[].offerAttributes.totalStockCap
+            condition: present for a quantity-capped offer
+          - field: message.catalog.offers[].offerAttributes.perUserQuantityCap
+            condition: present when purchases are capped per buyer
+          - field: message.catalog.offers[].offerAttributes.queueEnabled
+            condition: present when the BPP uses a demand queue
+        schemaPacks:
+          common: [BusinessRegistration/v1, Address/v1]
+          trade: [TradeProvider/v1, TradeResource/v1, TradeOffer/v1]
+
+      - step: on_discover
+        from: ION_CATALOG
+        to: BAP
+        direction: push
+
+  phase2:
+    name: Transaction with source attribution
+    communication: direct BAP-BPP
+    steps:
+      - step: select
+        from: BAP
+        to: BPP
+        direction: request
+        description: >
+          BAP selects an offer and records the channel and available attribution
+          at the moment the consumer enters the transaction.
+        requiredFields:
+          - context.transactionId
+          - context.messageId
+          - context.domain
+          - context.bapId
+          - context.bapUri
+          - context.bppId
+          - context.bppUri
+          - context.timestamp
+          - context.ttl
+          - message.contract.participants[role=PROVIDER].id
+          - message.contract.commitments[].id
+          - message.contract.commitments[].commitmentAttributes.lineId
+          - message.contract.commitments[].commitmentAttributes.resourceId
+          - message.contract.commitments[].commitmentAttributes.offerId
+          - message.contract.commitments[].commitmentAttributes.quantity.value
+          - message.contract.commitments[].resources[].quantity.count
+          - message.contract.performance[].performanceAttributes.performanceMode
+          - message.contract.contractAttributes.source.channel
+        conditionalFields:
+          - field: message.contract.contractAttributes.source.sessionId
+            condition: present for a live or streaming session
+          - field: message.contract.contractAttributes.source.creatorId
+            condition: present for creator-attributed commerce
+          - field: message.contract.contractAttributes.source.affiliateId
+            condition: present for affiliate-attributed commerce
+          - field: message.contract.contractAttributes.source.platform
+            condition: present when content is hosted by a third-party platform
+          - field: message.contract.contractAttributes.source.contentId
+            condition: present for content-attributed commerce
+          - field: message.contract.contractAttributes.source.contentTimestampSeconds
+            condition: present for a timed shoppable-content moment
+        businessRules:
+          - >-
+            source.channel uses STREAMING_COMMERCE for live or OTT content and
+            SOCIAL_COMMERCE for social or affiliate content
+          - >-
+            BPP accepts the selection only within the offer validity
+            schema:startDate and schema:endDate window
+
+      - step: on_select
+        from: BPP
+        to: BAP
+        direction: callback
+        description: >
+          BPP returns the quote and any supported queue position while holding
+          the offer for reservationWindowSeconds.
+        requiredFields:
+          - message.contract.consideration[].considerationAttributes.breakup[]
+          - message.contract.consideration[].considerationAttributes.totalAmount
+          - message.contract.performance[].performanceAttributes.sla
+        conditionalFields:
+          - field: message.contract.commitments[].offer.offerAttributes.queuePosition
+            condition: present when queueEnabled=true
+          - field: message.contract.commitments[].offer.offerAttributes.estimatedWaitSeconds
+            condition: present when queuePosition is returned
+        schemaPacks:
+          trade: [TradeConsideration/v1, TradePerformance/v1]
+          common: [Tax/v1]
+        errors:
+          - ION-A3003
+          - ION-A3004
+
+      - step: init
+        from: BAP
+        to: BPP
+        direction: request
+        description: >
+          BAP supplies delivery and payment details and preserves the source
+          attribution selected for the transaction.
+        requiredFields:
+          - message.contract.participants[role=PROVIDER].id
+          - message.contract.commitments[].id
+          - message.contract.participants[role=BUYER].person.name
+          - message.contract.participants[role=BUYER].contact.phone
+          - message.contract.participants[role=BUYER].address
+          - message.contract.performance[].id
+          - message.contract.performance[].performanceAttributes.performanceMode
+          - message.contract.settlements[].settlementAttributes.method
+          - message.contract.settlements[].settlementAttributes.paymentRail
+          - message.contract.settlements[].settlementAttributes.collectedBy
+          - message.contract.contractAttributes.source
+        conditionalFields:
+          - field: message.contract.performance[].performanceAttributes.stops[].location.address
+            condition: required for DELIVERY
+          - field: message.contract.performance[].performanceAttributes.stops[].location.geo
+            condition: required for DELIVERY
+        schemaPacks:
+          common: [Address/v1, Payment/v1]
+          trade: [TradeContract/v1]
+
+      - step: on_init
+        from: BPP
+        to: BAP
+        direction: callback
+        description: >
+          BPP returns payment instructions and the final quote before the live
+          reservation expires.
+        requiredFields:
+          - message.contract.settlements[].settlementAttributes.methodDetail
+          - message.contract.consideration[].considerationAttributes.breakup[]
+          - message.contract.consideration[].considerationAttributes.totalAmount
+        schemaPacks:
+          common: [Payment/v1]
+
+      - step: confirm
+        from: BAP
+        to: BPP
+        direction: request
+        description: >
+          BAP confirms before reservationWindowSeconds elapses and retains the
+          source attribution agreed during selection.
+        requiredFields:
+          - message.contract.participants[role=PROVIDER].id
+          - message.contract.commitments[]
+          - message.contract.participants[role=BUYER]
+          - message.contract.performance[]
+          - message.contract.settlements[].settlementAttributes.status
+          - message.contract.contractAttributes.source
+
+      - step: on_confirm
+        from: BPP
+        to: BAP
+        direction: callback
+        description: BPP creates the order and returns the selected fulfilment location.
+        requiredFields:
+          - message.contract.id
+          - message.contract.status
+          - message.contract.performance[].id
+          - message.contract.performance[].status.descriptor.code
+          - message.contract.performance[].performanceAttributes.fulfillingLocationId
+          - message.contract.settlements[].settlementAttributes.status
+        schemaPacks:
+          common: [Payment/v1]
+          trade: [TradePerformance/v1, TradeContract/v1]
+
+  phase3:
+    name: Fulfilment
+    description: The confirmed order follows the standard physical-goods state machine.
+    stateMachine: schema/extension/trade/TradePerformanceStates/v1/states.yaml#standard
+    steps:
+      - step: on_status
+        trigger: PACKED
+        from: BPP
+        to: BAP
+        direction: unsolicited
+
+      - step: on_status
+        trigger: DISPATCHED
+        from: BPP
+        to: BAP
+        direction: unsolicited
+        requiredFields:
+          - message.contract.performance[].status.descriptor.code
+          - message.contract.performance[].performanceAttributes.trackingNumber
+          - message.contract.performance[].performanceAttributes.estimatedDeliveryTime
+
+      - step: on_status
+        trigger: OUT_FOR_DELIVERY
+        from: BPP
+        to: BAP
+        direction: unsolicited
+        requiredFields:
+          - message.contract.performance[].status.descriptor.code
+
+      - step: on_status
+        trigger: DELIVERED
+        from: BPP
+        to: BAP
+        direction: unsolicited
+        requiredFields:
+          - message.contract.performance[].status.descriptor.code
+          - message.contract.status
+
+policyRequirements:
+  cancellation:
+    policyRef: ion://policy/cancel.flash-sale.none-after-confirm
+  paymentTerms:
+    policyRef: ion://policy/payment-terms.upfront.full

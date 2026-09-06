@@ -1,0 +1,217 @@
+# ION Trade Pattern — business-procurement (B2B-PP)
+# NOT OAS. ION pattern specification document.
+
+id: ion-trade-pattern-business-procurement-v1
+version: "1.0.0"
+patternName: business-procurement
+sector: ion:trade
+status: ready
+description: >
+  A registered business buyer purchases physical goods from a distributor or
+  brand with upfront payment. Release 1 covers minimum-order enforcement, bulk
+  quantities, purchase-order linkage, buyer registration, tax-invoice
+  preferences, and the standard physical-goods fulfilment states.
+
+applicableCategories: [fmcg, electronics, agritech, fashion, pharmacy, automotive-parts]
+
+participants:
+  BAP: Business Buyer App Platform
+  BPP: Seller-facing Provider Platform
+  ION_CATALOG: ION Catalogue Service (Phase 1 only)
+
+performanceStateMachine: schema/extension/trade/TradePerformanceStates/v1/states.yaml#standard
+
+phases:
+  phase1:
+    name: Wholesale catalog
+    communication: async pub/sub
+    steps:
+      - step: publish_catalog
+        from: BPP
+        to: ION_CATALOG
+        direction: publish
+        requiredFields:
+          - context.domain
+          - context.bppId
+          - context.timestamp
+          - message.catalog.provider.id
+          - message.catalog.provider.providerAttributes.businessRegistration.nib
+          - message.catalog.provider.providerAttributes.businessRegistration.npwp
+          - message.catalog.resources[].id
+          - message.catalog.resources[].resourceAttributes.name.id
+          - message.catalog.resources[].resourceAttributes.resourceStructure
+          - message.catalog.resources[].resourceAttributes.availability.status
+          - message.catalog.offers[].id
+          - message.catalog.offers[].price
+          - message.catalog.offers[].offerAttributes.minOrderQuantity
+          - message.catalog.offers[].offerAttributes.policies.cancellation.policyRef
+          - message.catalog.offers[].offerAttributes.policies.returns.policyRef
+          - message.catalog.offers[].offerAttributes.policies.warranty.policyRef
+          - message.catalog.offers[].offerAttributes.policies.dispute.policyRef
+          - message.catalog.offers[].offerAttributes.policies.grievanceSla.policyRef
+          - message.catalog.offers[].offerAttributes.policies.paymentTerms.policyRef
+        businessRules:
+          - policies.cancellation.policyRef is ion://policy/cancel.b2b.until-dispatched-15pct
+          - policies.returns.policyRef is ion://policy/return.standard.14d-sellerpays
+          - policies.warranty.policyRef is ion://policy/warranty.manufacturer.1y-distance-service
+          - policies.dispute.policyRef is ion://policy/dispute.commercial.odr
+          - policies.grievanceSla.policyRef is ion://policy/grievance-sla.b2b.businesshours
+          - policies.paymentTerms.policyRef is ion://policy/payment-terms.upfront.full
+        schemaPacks:
+          common: [BusinessRegistration/v1]
+          trade: [TradeProvider/v1, TradeResource/v1, TradeOffer/v1]
+
+      - step: on_discover
+        from: ION_CATALOG
+        to: BAP
+        direction: push
+
+  phase2:
+    name: Quotation and contracting
+    communication: direct BAP-BPP
+    steps:
+      - step: select
+        from: BAP
+        to: BPP
+        direction: request
+        description: Buyer selects one or more wholesale lines at bulk quantities.
+        requiredFields:
+          - context.transactionId
+          - context.messageId
+          - context.bapId
+          - context.bppId
+          - message.contract.participants[role=PROVIDER].id
+          - message.contract.commitments[].id
+          - message.contract.commitments[].commitmentAttributes.resourceId
+          - message.contract.commitments[].commitmentAttributes.offerId
+          - message.contract.commitments[].commitmentAttributes.quantity.value
+          - message.contract.commitments[].resources[].quantity.count
+          - message.contract.performance[].performanceAttributes.performanceMode
+        businessRules:
+          - each selected quantity is at least the applicable offer minOrderQuantity
+
+      - step: on_select
+        from: BPP
+        to: BAP
+        direction: callback
+        description: BPP returns the wholesale quote and fulfilment SLA.
+        requiredFields:
+          - message.contract.consideration[].considerationAttributes.breakup[]
+          - message.contract.consideration[].considerationAttributes.totalAmount
+          - message.contract.performance[].performanceAttributes.sla
+        conditionalFields:
+          - field: message.contract.consideration[].considerationAttributes.breakup[].taxDetail.rate
+            condition: required on TAX breakup lines
+        schemaPacks:
+          common: [Tax/v1]
+          trade: [TradeConsideration/v1, TradePerformance/v1]
+
+      - step: init
+        from: BAP
+        to: BPP
+        direction: request
+        description: Buyer supplies delivery, registration, invoice, and payment details.
+        requiredFields:
+          - message.contract.performance[].performanceAttributes.stops[].location.address
+          - message.contract.settlements[].settlementAttributes.method
+          - message.contract.settlements[].settlementAttributes.paymentRail
+          - message.contract.settlements[].settlementAttributes.collectedBy
+          - message.contract.contractAttributes.purchaseOrderReference
+          - message.contract.contractAttributes.invoicePreferences.invoiceType
+          - message.contract.contractAttributes.invoicePreferences.taxId.scheme
+          - message.contract.contractAttributes.invoicePreferences.taxId.value
+          - message.contract.contractAttributes.buyerBusinessRegistration.npwp
+          - message.contract.contractAttributes.buyerBusinessRegistration.nib
+          - message.contract.contractAttributes.buyerBusinessRegistration.legalEntityName
+        businessRules:
+          - invoicePreferences.invoiceType is TAX_INVOICE when a Faktur Pajak is required
+        schemaPacks:
+          common: [Address/v1, BusinessRegistration/v1, Payment/v1]
+          trade: [TradeContract/v1]
+
+      - step: on_init
+        from: BPP
+        to: BAP
+        direction: callback
+        requiredFields:
+          - message.contract.settlements[].settlementAttributes.methodDetail
+          - message.contract.consideration[].considerationAttributes.totalAmount
+        schemaPacks:
+          common: [Payment/v1]
+
+      - step: confirm
+        from: BAP
+        to: BPP
+        direction: request
+        description: Buyer confirms the purchase order with upfront payment.
+        requiredFields:
+          - message.contract.settlements[].settlementAttributes.status
+          - message.contract.contractAttributes.purchaseOrderReference
+          - message.contract.contractAttributes.buyerBusinessRegistration
+
+      - step: on_confirm
+        from: BPP
+        to: BAP
+        direction: callback
+        requiredFields:
+          - message.contract.id
+          - message.contract.status
+          - message.contract.performance[].id
+          - message.contract.performance[].performanceAttributes.fulfillingLocationId
+        conditionalFields:
+          - field: message.contract.consideration[].considerationAttributes.breakup[].taxDetail.eFakturRef
+            condition: present when the PKP seller issues a Faktur Pajak
+        schemaPacks:
+          common: [BusinessRegistration/v1, Tax/v1]
+          trade: [TradeContract/v1, TradePerformance/v1]
+
+  phase3:
+    name: Bulk fulfilment
+    stateMachine: schema/extension/trade/TradePerformanceStates/v1/states.yaml#standard
+    steps:
+      - step: on_status
+        trigger: PACKED
+        from: BPP
+        to: BAP
+        direction: unsolicited
+        requiredFields:
+          - message.contract.performance[].status.descriptor.code
+        conditionalFields:
+          - field: message.contract.performance[].performanceAttributes.packageCount
+            condition: present for multi-package consignments
+          - field: message.contract.performance[].performanceAttributes.totalWeight
+            condition: present when packed weight is recorded
+
+      - step: on_status
+        trigger: DISPATCHED
+        from: BPP
+        to: BAP
+        direction: unsolicited
+        requiredFields:
+          - message.contract.performance[].status.descriptor.code
+          - message.contract.performance[].performanceAttributes.trackingNumber
+
+      - step: on_status
+        trigger: DELIVERED
+        from: BPP
+        to: BAP
+        direction: unsolicited
+        requiredFields:
+          - message.contract.performance[].status.descriptor.code
+          - message.contract.performance[].performanceAttributes.deliveryReceiptId
+          - message.contract.status
+
+policyRequirements:
+  cancellation:
+    policyRef: ion://policy/cancel.b2b.until-dispatched-15pct
+  returns:
+    policyRef: ion://policy/return.standard.14d-sellerpays
+  warranty:
+    policyRef: ion://policy/warranty.manufacturer.1y-distance-service
+  dispute:
+    policyRef: ion://policy/dispute.commercial.odr
+  grievanceSla:
+    policyRef: ion://policy/grievance-sla.b2b.businesshours
+  paymentTerms:
+    policyRef: ion://policy/payment-terms.upfront.full
+

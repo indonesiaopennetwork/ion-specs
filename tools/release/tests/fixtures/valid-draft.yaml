@@ -1,0 +1,23 @@
+schemaVersion: 1
+release: 1
+name: release1
+status: draft
+publishedAt: null
+publicBaseUrl: https://schema.ion.id/release1/
+sourceBranch: main
+contentStatus:
+  ionApi: review-required
+  common: review-required
+  trade: validation-pending
+  logistics: review-required
+  hospitality: review-required
+  finance: review-required
+  flows: review-required
+  policies: review-required
+  errors: review-required
+dependencyStatus: incomplete
+dependencies: []
+artifactChecksums: {}
+toolingCommit: null
+notes:
+  - Phase 1 validation fixture; not a published release manifest.

@@ -1,0 +1,150 @@
+{
+  "_meta": {
+    "description": "Storefront init \u2014 BAP provides delivery address and payment method. QRIS payment, delivery to South Jakarta.",
+    "pattern": "storefront",
+    "step": "init",
+    "sent_by": "BAP",
+    "received_by": "BPP",
+    "schemaPacks": [
+      "schema/common/Address/v1",
+      "schema/common/Payment/v1",
+      "schema/extension/trade/TradeContract/v1"
+    ]
+  },
+  "context": {
+    "domain": "ion:trade",
+    "action": "init",
+    "version": "2.0.0",
+    "bapId": "buyerapp.ion.id",
+    "bapUri": "https://buyerapp.ion.id/beckn",
+    "bppId": "sellerapp.ion.id",
+    "bppUri": "https://sellerapp.ion.id/beckn",
+    "networkId": "ion.id",
+    "transactionId": "9fdb667c-76c6-456a-9742-ba9caa5eb765",
+    "messageId": "msg-init-001",
+    "timestamp": "2026-04-19T10:30:00.000+07:00",
+    "ttl": "PT30S",
+    "location": {
+      "city": {
+        "code": "std:3171"
+      },
+      "country": {
+        "code": "IDN"
+      }
+    },
+    "schemaContext": [
+      "https://schema.ion.id/release1/schema/common/Address/v1/context.jsonld",
+      "https://schema.ion.id/release1/schema/common/Payment/v1/context.jsonld",
+      "https://schema.ion.id/release1/schema/extension/trade/TradeContract/v1/context.jsonld"
+    ]
+  },
+  "message": {
+    "contract": {
+      "participants": [
+        {
+          "role": "PROVIDER",
+          "id": "PROV-APOTEK-SEHAT-001"
+        },
+        {
+          "role": "BUYER",
+          "person": {
+            "name": "Ahmad Fauzi"
+          },
+          "contact": {
+            "phone": "+628123456789",
+            "email": "ahmad@example.com"
+          },
+          "address": {
+            "door": "Unit 12B",
+            "building": "Apartemen Sudirman Park",
+            "street": "Jl. KH. Mas Mansyur No. 121",
+            "city": "Jakarta Pusat",
+            "areaCode": "10220"
+          }
+        }
+      ],
+      "commitments": [
+        {
+          "id": "L01",
+          "status": {
+            "descriptor": {
+              "code": "DRAFT"
+            }
+          },
+          "resources": [
+            {
+              "id": "RES-PANADOL-500MG-STRIP"
+            }
+          ],
+          "offer": {
+            "id": "OFFER-PANADOL-001",
+            "provider": {
+              "id": "PROV-APOTEK-SEHAT-001",
+              "descriptor": {
+                "name": "Apotek Sehat Mandiri"
+              }
+            }
+          }
+        }
+      ],
+      "performance": [
+        {
+          "id": "PERF-001",
+          "performanceAttributes": {
+            "@context": "https://schema.ion.id/release1/schema/extension/trade/TradePerformance/v1/context.jsonld",
+            "@type": "ion:IONTradePerformance",
+            "performanceMode": "DELIVERY",
+            "stops": [
+              {
+                "type": "END",
+                "location": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      106.82,
+                      -6.21
+                    ]
+                  },
+                  "address": {
+                    "streetAddress": "Unit 12B, Apartemen Sudirman Park, Jl. KH. Mas Mansyur No. 121",
+                    "addressLocality": "Jakarta Pusat",
+                    "addressRegion": "DKI Jakarta",
+                    "postalCode": "10220",
+                    "addressCountry": "ID"
+                  },
+                  "ionAddressAttributes": {
+                    "@context": "https://schema.ion.id/release1/schema/common/Address/v1/context.jsonld",
+                    "@type": "ion:IONAddress",
+                    "provinsiCode": "BPS-31",
+                    "kabupatenCode": "3171",
+                    "kelurahan": "Karet Tengsin",
+                    "kecamatan": "Tanah Abang",
+                    "rt": "005",
+                    "rw": "003"
+                  }
+                }
+              }
+            ],
+            "supportedPerformanceModes": [
+              "DELIVERY"
+            ]
+          }
+        }
+      ],
+      "settlements": [
+        {
+          "settlementAttributes": {
+            "@context": "https://schema.ion.id/release1/schema/common/Payment/v1/context.jsonld",
+            "@type": "ion:IONPayment",
+            "method": "QRIS",
+            "paymentRail": "QRIS",
+            "collectedBy": "BAP",
+            "timing": "ON_ORDER",
+            "status": "PENDING",
+            "currency": "IDR"
+          }
+        }
+      ]
+    }
+  }
+}

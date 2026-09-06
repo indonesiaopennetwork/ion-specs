@@ -1,0 +1,199 @@
+{
+  "_meta": {
+    "description": "Storefront publish_catalog — BPP publishes a physical goods catalog. Example: Apotek Sehat Mandiri pharmacy publishing Panadol (TRC-health-beauty).",
+    "pattern": "storefront",
+    "step": "publish_catalog",
+    "sent_by": "BPP",
+    "received_by": "ION Catalog Service",
+    "schemaPacks": [
+      "schema/common/BusinessRegistration/v1",
+      "schema/extension/trade/TradeProvider/v1",
+      "schema/extension/trade/TradeResource/v1",
+      "schema/extension/trade/TradeOffer/v1"
+    ]
+  },
+  "context": {
+    "domain": "ion:trade",
+    "action": "catalog_publish",
+    "version": "2.0.0",
+    "bapId": "buyerapp.ion.id",
+    "bapUri": "https://buyerapp.ion.id/beckn",
+    "bppId": "sellerapp.ion.id",
+    "bppUri": "https://sellerapp.ion.id/beckn",
+    "networkId": "ion.id",
+    "transactionId": "9fdb667c-76c6-456a-9742-ba9caa5eb765",
+    "messageId": "msg-catalog-publish-001",
+    "timestamp": "2026-04-19T10:30:00.000+07:00",
+    "ttl": "PT30S",
+    "location": {
+      "city": {
+        "code": "std:3171"
+      },
+      "country": {
+        "code": "IDN"
+      }
+    },
+    "schemaContext": [
+      "https://schema.ion.id/release1/schema/extension/trade/TradeResource/v1/context.jsonld",
+      "https://schema.ion.id/release1/schema/extension/trade/TradeOffer/v1/context.jsonld",
+      "https://schema.ion.id/release1/schema/extension/trade/TradeProvider/v1/context.jsonld"
+    ]
+  },
+  "message": {
+    "catalog": {
+      "provider": {
+        "id": "PROV-APOTEK-SEHAT-001",
+        "descriptor": {
+          "name": "Apotek Sehat Mandiri"
+        },
+        "providerAttributes": {
+          "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeProvider/v1/context.jsonld",
+          "@type": "ion:IONTradeProvider",
+          "operationalStatus": {
+            "status": "OPEN"
+          },
+          "operatingHours": [
+            {
+              "type": "ORDER",
+              "dayFrom": 1,
+              "dayTo": 6,
+              "startTime": "08:00:00+07:00",
+              "endTime": "21:00:00+07:00"
+            },
+            {
+              "type": "ORDER",
+              "dayFrom": 7,
+              "dayTo": 7,
+              "startTime": "09:00:00+07:00",
+              "endTime": "18:00:00+07:00"
+            }
+          ],
+          "providerCategories": [
+            "FMCG"
+          ],
+          "businessRegistration": {
+            "nib": "1234567890123"
+          },
+          "invoicing": {
+            "model": "CENTRAL",
+            "entityId": "PROV-APOTEK-SEHAT-001"
+          },
+          "verification": {
+            "status": "APPROVED",
+            "level": "STANDARD"
+          }
+        },
+        "availableAt": [
+          {
+            "id": "LOC-KEMANG-001",
+            "gps": "-6.2604,106.8111"
+          }
+        ]
+      },
+      "resources": [
+        {
+          "id": "RES-PANADOL-500MG-STRIP",
+          "descriptor": {
+            "name": "Panadol 500mg Strip 4 Tablet",
+            "shortDesc": "Analgesik dan antipiretik OTC. Untuk dewasa dan anak >12 tahun.",
+            "longDesc": "Panadol 500mg mengandung paracetamol 500mg per tablet. Digunakan untuk meredakan demam, sakit kepala, dan nyeri ringan hingga sedang. Tersedia dalam strip 4 tablet. Tidak memerlukan resep dokter."
+          },
+          "resourceAttributes": {
+            "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeResource/v1/context.jsonld",
+            "@type": "ion:IONTradeResource",
+            "crc": "TRC-health-beauty",
+            "resourceStructure": "PLAIN",
+            "resourceTangibility": "PHYSICAL",
+            "logisticsServiceType": "DOMESTIC_SURFACE",
+            "ageRestricted": false,
+            "countryOfOrigin": "IDN",
+            "images": [
+              "https://cdn.apotek-sehat.id/panadol-500mg.jpg"
+            ],
+            "availability": {
+              "status": "IN_STOCK",
+              "maxOrderQty": 10,
+              "backorderAllowed": false
+            },
+            "identity": {
+              "brand": "GSK",
+              "sku": "PANADOL-500MG-STRIP4"
+            },
+            "packaged": {
+              "netQuantity": {
+                "value": 4,
+                "unit": "PIECE"
+              },
+              "manufacturerOrPacker": {
+                "type": "MANUFACTURER",
+                "name": "PT Sterling Products Indonesia",
+                "address": "Jl. Raya Bogor Km 38, Depok"
+              },
+              "expiryDate": "2027-12-31",
+              "commonOrGenericName": "Paracetamol 500mg"
+            },
+            "regulatory": {
+              "registrations": [
+                {
+                  "scheme": "KEMENKES",
+                  "id": "DTL8707002337A1",
+                  "role": "MANUFACTURER",
+                  "validUntil": "2028-01-01"
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "offers": [
+        {
+          "id": "OFFER-PANADOL-001",
+          "resourceIds": [
+            "RES-PANADOL-500MG-STRIP"
+          ],
+          "price": {
+            "value": 8500,
+            "currency": "IDR"
+          },
+          "offerAttributes": {
+            "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeOffer/v1/context.jsonld",
+            "@type": "ion:IONTradeOffer",
+            "policies": {
+              "returns": {
+                "allowed": false,
+                "policyRef": "ion://policy/return.standard.7d-sellerpays"
+              },
+              "cancellation": {
+                "policyRef": "ion://policy/cancel.prepacked.free"
+              },
+              "warranty": {
+                "policyRef": "ion://policy/warranty.standard.none"
+              },
+              "dispute": {
+                "policyRef": "ion://policy/dispute.consumer.bpsk"
+              },
+              "grievanceSla": {
+                "policyRef": "ion://policy/grievance-sla.consumer.standard"
+              },
+              "paymentTerms": {
+                "policyRef": "ion://policy/payment-terms.upfront.full"
+              }
+            },
+            "timeToShip": "PT2H",
+            "paymentConstraints": {
+              "codAvailable": true
+            },
+            "contactDetailsConsumerCare": {
+              "name": "Customer Service",
+              "email": "cs@apotek-sehat.id",
+              "phone": "+6221-5555-1234"
+            },
+            "displayLanguage": [
+              "id"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

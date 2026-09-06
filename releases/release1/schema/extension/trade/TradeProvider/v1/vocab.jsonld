@@ -1,0 +1,251 @@
+{
+  "@context": {
+    "ion": "https://schema.ion.id/trade/provider/v1#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "beckn": "https://schema.beckn.io/",
+    "skos": "http://www.w3.org/2004/02/skos/core#"
+  },
+  "@graph": [
+    {
+      "@id": "ion:IONTradeProvider",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONTradeProvider",
+      "rdfs:comment": "ION trade-provider extension carried by Provider.providerAttributes. Extends Beckn Attributes with generic provider operations and Indonesia-specific registration, trust, verification-tier, and category-licensing attributes.",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Attributes"
+      },
+      "skos:broader": {
+        "@id": "beckn:Provider"
+      }
+    },
+    {
+      "@id": "ion:invoicing",
+      "@type": "rdf:Property",
+      "rdfs:label": "invoicing",
+      "rdfs:comment": "Provider-level invoicing arrangement."
+    },
+    {
+      "@id": "ion:model",
+      "@type": "rdf:Property",
+      "rdfs:label": "model",
+      "rdfs:comment": "Model governing the invoicing arrangement."
+    },
+    {
+      "@id": "ion:entityId",
+      "@type": "rdf:Property",
+      "rdfs:label": "entityId",
+      "rdfs:comment": "Identifier of the entity responsible for issuing invoices."
+    },
+    {
+      "@id": "ion:operationalStatus",
+      "@type": "rdf:Property",
+      "rdfs:label": "operationalStatus",
+      "rdfs:comment": "Current catalog-visible operating state of the provider."
+    },
+    {
+      "@id": "ion:status",
+      "@type": "rdf:Property",
+      "rdfs:label": "status",
+      "rdfs:comment": "Status within the enclosing provider fact."
+    },
+    {
+      "@id": "ion:until",
+      "@type": "rdf:Property",
+      "rdfs:label": "until",
+      "rdfs:comment": "Expected end of a temporary operating state."
+    },
+    {
+      "@id": "ion:operatingHours",
+      "@type": "rdf:Property",
+      "rdfs:label": "operatingHours",
+      "rdfs:comment": "Recurring weekly operating windows."
+    },
+    {
+      "@id": "ion:locationId",
+      "@type": "rdf:Property",
+      "rdfs:label": "locationId",
+      "rdfs:comment": "Identifier of a Provider.availableAt location."
+    },
+    {
+      "@id": "ion:type",
+      "@type": "rdf:Property",
+      "rdfs:label": "type",
+      "rdfs:comment": "Type of operating window."
+    },
+    {
+      "@id": "ion:dayFrom",
+      "@type": "rdf:Property",
+      "rdfs:label": "dayFrom",
+      "rdfs:comment": "First applicable day of the week."
+    },
+    {
+      "@id": "ion:dayTo",
+      "@type": "rdf:Property",
+      "rdfs:label": "dayTo",
+      "rdfs:comment": "Last applicable day of the week."
+    },
+    {
+      "@id": "ion:startTime",
+      "@type": "rdf:Property",
+      "rdfs:label": "startTime",
+      "rdfs:comment": "Start time of an operating window."
+    },
+    {
+      "@id": "ion:endTime",
+      "@type": "rdf:Property",
+      "rdfs:label": "endTime",
+      "rdfs:comment": "End time of an operating window."
+    },
+    {
+      "@id": "ion:closures",
+      "@type": "rdf:Property",
+      "rdfs:label": "closures",
+      "rdfs:comment": "Exceptional dates on which the provider or location is closed."
+    },
+    {
+      "@id": "ion:date",
+      "@type": "rdf:Property",
+      "rdfs:label": "date",
+      "rdfs:comment": "Calendar date of a closure."
+    },
+    {
+      "@id": "ion:serviceabilityByCategory",
+      "@type": "rdf:Property",
+      "rdfs:label": "serviceabilityByCategory",
+      "rdfs:comment": "Provider-level geographic serviceability override for a category."
+    },
+    {
+      "@id": "beckn:geo",
+      "@type": "rdf:Property",
+      "rdfs:label": "geo",
+      "rdfs:comment": "Geographic serviceability geometry for a provider category."
+    },
+    {
+      "@id": "ion:categoryId",
+      "@type": "rdf:Property",
+      "rdfs:label": "categoryId",
+      "rdfs:comment": "Identifier of an applicable trade category."
+    },
+    {
+      "@id": "ion:averagePreparationTime",
+      "@type": "rdf:Property",
+      "rdfs:label": "averagePreparationTime",
+      "rdfs:comment": "Provider-level average preparation duration."
+    },
+    {
+      "@id": "ion:providerCategories",
+      "@type": "rdf:Property",
+      "rdfs:label": "providerCategories",
+      "rdfs:comment": "Category identifiers in which the provider operates."
+    },
+    {
+      "@id": "ion:logistics",
+      "@type": "rdf:Property",
+      "rdfs:label": "logistics",
+      "rdfs:comment": "Provider-level logistics arrangement and preference."
+    },
+    {
+      "@id": "ion:preferredProviderId",
+      "@type": "rdf:Property",
+      "rdfs:label": "preferredProviderId",
+      "rdfs:comment": "Identifier of the preferred logistics provider."
+    },
+    {
+      "@id": "ion:managedByMarketplace",
+      "@type": "rdf:Property",
+      "rdfs:label": "managedByMarketplace",
+      "rdfs:comment": "Whether the marketplace normally orchestrates logistics."
+    },
+    {
+      "@id": "ion:commerceChannels",
+      "@type": "rdf:Property",
+      "rdfs:label": "commerceChannels",
+      "rdfs:comment": "Optional commerce channels supported by the provider."
+    },
+    {
+      "@id": "ion:supported",
+      "@type": "rdf:Property",
+      "rdfs:label": "supported",
+      "rdfs:comment": "Supported channel identifiers."
+    },
+    {
+      "@id": "ion:authorizedStreamerIds",
+      "@type": "rdf:Property",
+      "rdfs:label": "authorizedStreamerIds",
+      "rdfs:comment": "Participant identifiers authorized for live-commerce sessions."
+    },
+    {
+      "@id": "ion:verification",
+      "@type": "rdf:Property",
+      "rdfs:label": "verification",
+      "rdfs:comment": "Catalog-visible provider verification summary."
+    },
+    {
+      "@id": "ion:validUntil",
+      "@type": "rdf:Property",
+      "rdfs:label": "validUntil",
+      "rdfs:comment": "Date until which verification or a licence remains valid."
+    },
+    {
+      "@id": "ion:caveats",
+      "@type": "rdf:Property",
+      "rdfs:label": "caveats",
+      "rdfs:comment": "Outstanding caveats on provider verification."
+    },
+    {
+      "@id": "ion:businessRegistration",
+      "@type": "rdf:Property",
+      "rdfs:label": "businessRegistration",
+      "rdfs:comment": "Indonesian business identity composed from IONBusinessRegistration."
+    },
+    {
+      "@id": "ion:trustMarks",
+      "@type": "rdf:Property",
+      "rdfs:label": "trustMarks",
+      "rdfs:comment": "Signed or otherwise verifiable trust marks awarded to the provider."
+    },
+    {
+      "@id": "ion:level",
+      "@type": "rdf:Property",
+      "rdfs:label": "level",
+      "rdfs:comment": "ION provider-verification tier."
+    },
+    {
+      "@id": "ion:categoryLicenses",
+      "@type": "rdf:Property",
+      "rdfs:label": "categoryLicenses",
+      "rdfs:comment": "Indonesian category-specific operating licences."
+    },
+    {
+      "@id": "ion:categoryIds",
+      "@type": "rdf:Property",
+      "rdfs:label": "categoryIds",
+      "rdfs:comment": "Provider category identifiers to which a licence applies."
+    },
+    {
+      "@id": "ion:licenseType",
+      "@type": "rdf:Property",
+      "rdfs:label": "licenseType",
+      "rdfs:comment": "Type of category licence."
+    },
+    {
+      "@id": "ion:licenseNumber",
+      "@type": "rdf:Property",
+      "rdfs:label": "licenseNumber",
+      "rdfs:comment": "Identifier assigned to a category licence."
+    },
+    {
+      "@id": "ion:issuingAuthority",
+      "@type": "rdf:Property",
+      "rdfs:label": "issuingAuthority",
+      "rdfs:comment": "Authority that issued the category licence."
+    },
+    {
+      "@id": "ion:evidence",
+      "@type": "rdf:Property",
+      "rdfs:label": "evidence",
+      "rdfs:comment": "Documentary evidence for the category licence."
+    }
+  ]
+}

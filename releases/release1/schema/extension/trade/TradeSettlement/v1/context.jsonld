@@ -1,0 +1,54 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@protected": true,
+    "ion": "https://schema.ion.id/trade/settlement/v1#",
+    "rcsa": "https://schema.beckn.io/RetailSettlement#",
+    "beckn": "https://schema.beckn.io/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "Settlement": "beckn:Settlement",
+    "RetailSettlement": "rcsa:RetailSettlement",
+    "IONTradeSettlement": "ion:IONTradeSettlement",
+    "gateway": {
+      "@id": "rcsa:gateway",
+      "@context": {
+        "name": "rcsa:gatewayName",
+        "transactionId": "rcsa:gatewayTransactionId",
+        "url": {
+          "@id": "rcsa:gatewayUrl",
+          "@type": "@id"
+        }
+      }
+    },
+    "method": {
+      "@id": "rcsa:method",
+      "@protected": false
+    },
+    "paymentRail": "rcsa:paymentRail",
+    "settledAt": "rcsa:settledAt",
+    "settledAmount": "rcsa:settledAmount",
+    "currency": "rcsa:currency",
+    "refund": {
+      "@id": "rcsa:refund",
+      "@context": {
+        "amount": "rcsa:refundAmount",
+        "method": "rcsa:refundMethod",
+        "timelineDays": "rcsa:refundTimelineDays",
+        "status": "rcsa:refundStatus"
+      }
+    },
+    "adjustments": {
+      "@id": "rcsa:adjustments",
+      "@context": {
+        "type": "rcsa:adjustmentType",
+        "amount": "rcsa:adjustmentAmount",
+        "description": "rcsa:adjustmentDescription"
+      }
+    },
+    "reconciliationId": "rcsa:reconciliationId",
+    "reconciliationStatus": "rcsa:reconciliationStatus"
+  }
+}

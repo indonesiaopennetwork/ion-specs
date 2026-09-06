@@ -1,6 +1,92 @@
-# Contributing Guidelines
+# Contributing to the ION Network Specification
 
-1. Create a feature branch
-2. Submit a pull request
-3. Ensure tests pass
-4. Obtain repo-governance approval
+Changes in this repository affect schemas, validators, SDKs, network services,
+and integrators. Keep pull requests small, explicit about compatibility, and
+backed by the relevant validation commands.
+
+## Choose the correct target
+
+- A draft release may be edited inside its `releases/releaseN/` directory.
+- A published release is immutable. Make every correction in a new integer
+  release; never edit or delete the published directory.
+- The repository does not maintain separate root-level `schema/`, `flows/`,
+  `policies/`, or `errors/` source trees. Future normative work belongs in the
+  active draft release.
+- Only published releases may be assigned to `next`, `current`, or LTS. Channel
+  changes do not authorize edits to their immutable contents.
+
+## Schema changes
+
+Follow [`docs/ION_Schema_Style_Guide.md`](docs/ION_Schema_Style_Guide.md) and
+[`docs/ION_Schema_Design_Guide.md`](docs/ION_Schema_Design_Guide.md).
+
+For every changed pack:
+
+1. keep `attributes.yaml`, `schema.json`, `context.jsonld`, `vocab.jsonld`,
+   `profile.json`, examples, renderer metadata, and README content aligned;
+2. preserve public schema names, property names, enum values, JSON-LD terms, and
+   IRIs unless the change is explicitly breaking;
+3. use absolute release-qualified `schema.ion.id` dependency references in
+   released `attributes.yaml` and `schema.json` files;
+4. keep semantic IRIs stable and separate from document locations;
+5. do not edit vendored Beckn files except through the reviewed vendoring
+   workflow; and
+6. explain any changes to required fields or object openness.
+
+## Flows, policies, and errors
+
+Treat these artifacts as connected to the schemas they reference:
+
+- flow profile targets and schema paths must resolve;
+- policy references must be concrete registered IRIs;
+- policy IRIs and error codes must be unique and stable; and
+- generated registries must agree with their source files.
+
+Run the relevant generators when changing registry sources:
+
+```bash
+ruby tools/release/generate_release_registries.rb --write releases/releaseN
+ruby tools/release/record_artifact_checksums.rb --write releases/releaseN
+```
+
+Review generated diffs and include them in the same pull request.
+
+## Validation
+
+Run the complete local gate before opening a pull request:
+
+```bash
+ruby tools/release/validate_release.rb releases/release1
+```
+
+The command is the same entry point used by GitHub Actions. For a publication
+change, also run:
+
+```bash
+ruby tools/release/validate_release.rb --publication releases/release1
+```
+
+Schema pack changes should additionally be checked with the ION testbed
+validator:
+
+```bash
+cd /path/to/ion-testbed/tools/schemav2validator
+go run ./cmd/schemav2validator schema-dir /path/to/ion-specs/releases/release1/schema/extension/trade/
+```
+
+The external validator is not bundled into this repository, so record the exact
+command and result in the pull request.
+
+## Pull requests
+
+Include:
+
+- the affected release and content area;
+- whether the change is compatible, additive, or breaking;
+- schema, flow, policy, error, documentation, and tooling impacts;
+- commands actually run and their results; and
+- any intentionally deferred work.
+
+Changes to release scope, publication status, channel assignment, vendored
+dependencies, semantic IRIs, required fields, or public schema names require ION
+Council review.

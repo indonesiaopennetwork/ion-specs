@@ -1,0 +1,505 @@
+{
+  "@context": {
+    "ion": "https://schema.ion.id/trade/offer/v1#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "beckn": "https://schema.beckn.io/",
+    "rcoa": "https://schema.beckn.io/RetailOffer#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "owl": "http://www.w3.org/2002/07/owl#"
+  },
+  "@graph": [
+    {
+      "@id": "ion:IONTradeOffer",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONTradeOffer",
+      "rdfs:comment": "ION trade offer extension. Extends Beckn RetailOffer with generic trade offer mechanics and explicitly marked Indonesia-specific policy, language, logistics-pricing, and payment-method attributes.",
+      "rdfs:subClassOf": {
+        "@id": "https://schema.beckn.io/RetailOffer"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Offer"
+      }
+    },
+    {
+      "@id": "rcoa:policies",
+      "@type": "rdf:Property",
+      "rdfs:label": "policies",
+      "rdfs:comment": "Retail offer policy groups extended by this vocabulary."
+    },
+    {
+      "@id": "rcoa:cancellation",
+      "@type": "rdf:Property",
+      "rdfs:label": "cancellation",
+      "rdfs:comment": "Retail offer cancellation policy extended with ION cancellation reasons."
+    },
+    {
+      "@id": "rcoa:returns",
+      "@type": "rdf:Property",
+      "rdfs:label": "returns",
+      "rdfs:comment": "Retail offer returns policy extended with ION evidence requirements."
+    },
+    {
+      "@id": "rcoa:warranty",
+      "@type": "rdf:Property",
+      "rdfs:label": "warranty",
+      "rdfs:comment": "Retail offer warranty policy extended with an ION policy reference."
+    },
+    {
+      "@id": "rcoa:policyRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "policyRef",
+      "rdfs:comment": "Reference to a registered policy URI."
+    },
+    {
+      "@id": "ion:allowedReasons",
+      "@type": "rdf:Property",
+      "rdfs:label": "allowedReasons",
+      "rdfs:comment": "Seller-declared reasons for which cancellation is accepted when the inherited cancellation policy allows cancellation."
+    },
+    {
+      "@id": "ion:timeToShip",
+      "@type": "rdf:Property",
+      "rdfs:label": "timeToShip",
+      "rdfs:comment": "Lead time from order confirmation to shipment dispatch. ISO 8601 duration. Used for delivery promise calculation.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeOffer"
+      }
+    },
+    {
+      "@id": "ion:selfPickupOtp",
+      "@type": "rdf:Property",
+      "rdfs:label": "selfPickupOtp",
+      "rdfs:comment": "Whether OTP verification is required when consumer picks up order. If true, BPP generates deliveryOtp in performanceAttributes.\n",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeOffer"
+      }
+    },
+    {
+      "@id": "ion:selfPickupInstructions",
+      "@type": "rdf:Property",
+      "rdfs:label": "selfPickupInstructions",
+      "rdfs:comment": "Instructions for self-pickup — counter number, floor, collection point.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeOffer"
+      }
+    },
+    {
+      "@id": "ion:proofOfDeliveryType",
+      "@type": "rdf:Property",
+      "rdfs:label": "proofOfDeliveryType",
+      "rdfs:comment": "Type of delivery confirmation proof required.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeOffer"
+      }
+    },
+    {
+      "@id": "ion:contactDetailsConsumerCare",
+      "@type": "rdf:Property",
+      "rdfs:label": "contactDetailsConsumerCare",
+      "rdfs:comment": "Structured consumer-care contact displayed for pre- and post-purchase support.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeOffer"
+      },
+      "rdfs:range": {
+        "@id": "https://schema.beckn.io/Contact"
+      }
+    },
+    {
+      "@id": "ion:displayLanguage",
+      "@type": "rdf:Property",
+      "rdfs:label": "displayLanguage",
+      "rdfs:comment": "Languages in which this offer's catalog content is available. \"id\" always present. \"en\" required for XB commerce pattern.\n",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeOffer"
+      }
+    },
+    {
+      "@id": "ion:weightSlabs",
+      "@type": "rdf:Property",
+      "rdfs:label": "weightSlabs",
+      "rdfs:comment": "Weight-based pricing tiers for catalogued logistics offers.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeOffer"
+      }
+    },
+    {
+      "@id": "ion:offerType",
+      "@type": "rdf:Property",
+      "rdfs:label": "offerType",
+      "rdfs:comment": "Commercial offer mechanic. AUCTION identifies bid-based offers; FLASH_SALE identifies time- or quantity-limited sale events.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeOffer"
+      }
+    },
+    {
+      "@id": "ion:priceModel",
+      "@type": "rdf:Property",
+      "rdfs:label": "priceModel",
+      "rdfs:comment": "How pricing is determined for this offer.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeOffer"
+      }
+    },
+    {
+      "@id": "ion:minBasketAmount",
+      "@type": "rdf:Property",
+      "rdfs:label": "minBasketAmount",
+      "rdfs:comment": "Minimum basket value in IDR for offer to be valid.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeOffer"
+      }
+    },
+    {
+      "@id": "ion:maxDiscountAmount",
+      "@type": "rdf:Property",
+      "rdfs:label": "maxDiscountAmount",
+      "rdfs:comment": "Maximum discount cap in IDR for percentage offers.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeOffer"
+      }
+    },
+    {
+      "@id": "ion:voucherCode",
+      "@type": "rdf:Property",
+      "rdfs:label": "voucherCode",
+      "rdfs:comment": "Voucher or promo code to activate offer.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeOffer"
+      }
+    },
+    {
+      "@id": "ion:usageLimitPerUser",
+      "@type": "rdf:Property",
+      "rdfs:label": "usageLimitPerUser",
+      "rdfs:comment": "Maximum times this offer can be used by a single user.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeOffer"
+      }
+    },
+    {
+      "@id": "ion:customerSegment",
+      "@type": "rdf:Property",
+      "rdfs:label": "customerSegment",
+      "rdfs:comment": "Segment of customers eligible for this offer.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeOffer"
+      }
+    },
+    {
+      "@id": "ion:paymentMethodEligibility",
+      "@type": "rdf:Property",
+      "rdfs:label": "paymentMethodEligibility",
+      "rdfs:comment": "Structured payment method eligibility. Each entry declares minAmount/maxAmount constraints, required buyer tier, excluded categories. BAP checks buyer context + order amount against every entry; applies only those that pass all constraints. Empty array means all methods eligible.\n",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeOffer"
+      }
+    },
+    {
+      "@id": "ion:subsidyBreakup",
+      "@type": "rdf:Property",
+      "rdfs:label": "subsidyBreakup",
+      "rdfs:comment": "Who funds the discount/promotion.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeOffer"
+      }
+    },
+    {
+      "@id": "ion:priceChangeSchedule",
+      "@type": "rdf:Property",
+      "rdfs:label": "priceChangeSchedule",
+      "rdfs:comment": "Price validity timeline for a campaign. Use one entry for a single price window and multiple entries when the price changes during the campaign. BAPs MUST render countdown UI and compute the correct price at transaction time. Entries MUST NOT overlap and must be sorted ascending by validFrom.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeOffer"
+      }
+    },
+    {
+      "@id": "ion:reservationWindowSeconds",
+      "@type": "rdf:Property",
+      "rdfs:label": "reservationWindowSeconds",
+      "rdfs:comment": "Seconds for which the BPP will hold availability and the on_select price quote. Default 300. BPP soft-reserves at on_select, hard-reserves at on_init. After window expires, availability is released and any subsequent /confirm for this messageId returns ION-3006.\n",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeOffer"
+      }
+    },
+    {
+      "@id": "ion:totalStockCap",
+      "@type": "rdf:Property",
+      "rdfs:label": "totalStockCap",
+      "rdfs:comment": "Absolute total quantity available under this offer. When reached, all subsequent /select calls return ION-3008. Distinct from resource.availability.maxOrderQty (per-order cap).\n",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeOffer"
+      }
+    },
+    {
+      "@id": "ion:perUserQuantityCap",
+      "@type": "rdf:Property",
+      "rdfs:label": "perUserQuantityCap",
+      "rdfs:comment": "Maximum units a single buyer can purchase under this offer across all transactions (enforced by BPP). Distinct from usageLimitPerUser which is number of separate redemptions.\n",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeOffer"
+      }
+    },
+    {
+      "@id": "ion:queueEnabled",
+      "@type": "rdf:Property",
+      "rdfs:label": "queueEnabled",
+      "rdfs:comment": "Whether BPP uses a queue/throttle mechanism when demand exceeds supply. When true, on_select may return queuePosition.\n",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeOffer"
+      }
+    },
+    {
+      "@id": "ion:queuePosition",
+      "@type": "rdf:Property",
+      "rdfs:label": "queuePosition",
+      "rdfs:comment": "Consumer's current position in the purchase queue. 0 = at front. Returned in on_select when queueEnabled=true.\n",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeOffer"
+      }
+    },
+    {
+      "@id": "ion:estimatedWaitSeconds",
+      "@type": "rdf:Property",
+      "rdfs:label": "estimatedWaitSeconds",
+      "rdfs:comment": "Estimated wait time before this consumer reaches front of queue.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeOffer"
+      }
+    },
+    {
+      "@id": "ion:stackingGroup",
+      "@type": "rdf:Property",
+      "rdfs:label": "stackingGroup",
+      "rdfs:comment": "Voucher stacking group. Vouchers from different groups stack by default. Within a single group only one voucher can apply per order unless stackingRules override.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeOffer"
+      }
+    },
+    {
+      "@id": "ion:stackingRules",
+      "@type": "rdf:Property",
+      "rdfs:label": "stackingRules",
+      "rdfs:comment": "Explicit voucher stacking rules. Used when offer has complex combination logic beyond the default group rules.\n",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeOffer"
+      }
+    },
+    {
+      "@id": "ion:codEligibilityForBuyer",
+      "@type": "rdf:Property",
+      "rdfs:label": "codEligibilityForBuyer",
+      "rdfs:comment": "BPP-evaluated COD eligibility for the specific buyer in this transaction. Returned in on_select. Distinct from paymentConstraints.codAvailable which is offer-level availability. Allows BPP to decline COD for new buyers, previous COD failures, high-value items exceeding buyer's verified tier, etc.\n",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeOffer"
+      }
+    },
+    {
+      "@id": "ion:codEligibilityReason",
+      "@type": "rdf:Property",
+      "rdfs:label": "codEligibilityReason",
+      "rdfs:comment": "Reason for the codEligibilityForBuyer decision.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeOffer"
+      }
+    },
+    {
+      "@id": "ion:evidenceRequirement",
+      "@type": "rdf:Property",
+      "rdfs:label": "evidenceRequirement",
+      "rdfs:comment": "Evidence required from buyer when initiating a return. VIDEO_UNBOXING_REQUIRED is standard for high-value electronics. PHYSICAL_INSPECTION is used for high-value items (>IDR 10M) where seller sends inspector before accepting return.\n"
+    },
+    {
+      "@id": "ion:evidenceMinPhotos",
+      "@type": "rdf:Property",
+      "rdfs:label": "evidenceMinPhotos",
+      "rdfs:comment": "Minimum number of evidence photos required."
+    },
+    {
+      "@id": "ion:handlingTime",
+      "@type": "rdf:Property",
+      "rdfs:label": "handlingTime",
+      "rdfs:comment": "Time from order confirmation until the package is ready for logistics. Expressed as an ISO 8601 duration.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeOffer"
+      }
+    },
+    {
+      "@id": "ion:customTermsAddendum",
+      "@type": "rdf:Property",
+      "rdfs:label": "customTermsAddendum",
+      "rdfs:comment": "Free-text addendum for edge cases (e.g. watchmaker offering lifetime service). Supplements the declared policy IRIs but cannot contradict them. If addendum contradicts base policy, base policy wins and addendum is informational only. BAP displays addendum below the structured policy terms.\n",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeOffer"
+      }
+    },
+    {
+      "@id": "ion:brandSubsidy",
+      "@type": "rdf:Property",
+      "rdfs:label": "brandSubsidy",
+      "rdfs:comment": "Property brandSubsidy."
+    },
+    {
+      "@id": "ion:cannotCombineWith",
+      "@type": "rdf:Property",
+      "rdfs:label": "cannotCombineWith",
+      "rdfs:comment": "Offer IDs with which this offer cannot be combined."
+    },
+    {
+      "@id": "ion:eligibilityNote",
+      "@type": "rdf:Property",
+      "rdfs:label": "eligibilityNote",
+      "rdfs:comment": "Optional human-readable explanation"
+    },
+    {
+      "@id": "ion:excludedCategories",
+      "@type": "rdf:Property",
+      "rdfs:label": "excludedCategories",
+      "rdfs:comment": "Category codes excluded from this method"
+    },
+    {
+      "@id": "ion:maxAmount",
+      "@type": "rdf:Property",
+      "rdfs:label": "maxAmount",
+      "rdfs:comment": "Maximum order value in IDR (BI cap for QRIS is 10M)"
+    },
+    {
+      "@id": "ion:maxDiscountWhenStacked",
+      "@type": "rdf:Property",
+      "rdfs:label": "maxDiscountWhenStacked",
+      "rdfs:comment": "Cap on total discount when multiple offers stack (IDR)."
+    },
+    {
+      "@id": "ion:maxKg",
+      "@type": "rdf:Property",
+      "rdfs:label": "maxKg",
+      "rdfs:comment": "Property maxKg."
+    },
+    {
+      "@id": "ion:method",
+      "@type": "rdf:Property",
+      "rdfs:label": "method",
+      "rdfs:comment": "Property method."
+    },
+    {
+      "@id": "ion:minAmount",
+      "@type": "rdf:Property",
+      "rdfs:label": "minAmount",
+      "rdfs:comment": "Minimum order value in IDR for this method to be eligible"
+    },
+    {
+      "@id": "ion:minKg",
+      "@type": "rdf:Property",
+      "rdfs:label": "minKg",
+      "rdfs:comment": "Property minKg."
+    },
+    {
+      "@id": "ion:mustCombineWith",
+      "@type": "rdf:Property",
+      "rdfs:label": "mustCombineWith",
+      "rdfs:comment": "Offer IDs that must also be applied for this offer to activate."
+    },
+    {
+      "@id": "ion:phaseLabel",
+      "@type": "rdf:Property",
+      "rdfs:label": "phaseLabel",
+      "rdfs:comment": "Human label e.g. \"Jam pertama harga hemat\""
+    },
+    {
+      "@id": "ion:platformSubsidy",
+      "@type": "rdf:Property",
+      "rdfs:label": "platformSubsidy",
+      "rdfs:comment": "Property platformSubsidy."
+    },
+    {
+      "@id": "ion:priceIDR",
+      "@type": "rdf:Property",
+      "rdfs:label": "priceIDR",
+      "rdfs:comment": "Property priceIDR."
+    },
+    {
+      "@id": "ion:priceValue",
+      "@type": "rdf:Property",
+      "rdfs:label": "priceValue",
+      "rdfs:comment": "IDR amount valid in this window"
+    },
+    {
+      "@id": "ion:requiredBnplProvider",
+      "@type": "rdf:Property",
+      "rdfs:label": "requiredBnplProvider",
+      "rdfs:comment": "Specific BNPL providers allowed (when method=BNPL)"
+    },
+    {
+      "@id": "ion:requiresAddressVerification",
+      "@type": "rdf:Property",
+      "rdfs:label": "requiresAddressVerification",
+      "rdfs:comment": "Whether buyer must have a verified delivery address"
+    },
+    {
+      "@id": "ion:requiresBuyerTier",
+      "@type": "rdf:Property",
+      "rdfs:label": "requiresBuyerTier",
+      "rdfs:comment": "Buyer tier(s) eligible for this method"
+    },
+    {
+      "@id": "ion:requiresPhoneVerification",
+      "@type": "rdf:Property",
+      "rdfs:label": "requiresPhoneVerification",
+      "rdfs:comment": "Property requiresPhoneVerification."
+    },
+    {
+      "@id": "ion:sellerSubsidy",
+      "@type": "rdf:Property",
+      "rdfs:label": "sellerSubsidy",
+      "rdfs:comment": "Property sellerSubsidy."
+    },
+    {
+      "@id": "ion:validFrom",
+      "@type": "rdf:Property",
+      "rdfs:label": "validFrom",
+      "rdfs:comment": "Property validFrom."
+    },
+    {
+      "@id": "ion:validUntil",
+      "@type": "rdf:Property",
+      "rdfs:label": "validUntil",
+      "rdfs:comment": "Property validUntil."
+    },
+    {
+      "@id": "ion:dispute",
+      "@type": "rdf:Property",
+      "rdfs:label": "dispute",
+      "rdfs:comment": "ION dispute-resolution policy category.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeOffer"
+      }
+    },
+    {
+      "@id": "ion:grievanceSla",
+      "@type": "rdf:Property",
+      "rdfs:label": "grievanceSla",
+      "rdfs:comment": "ION grievance SLA policy category.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeOffer"
+      }
+    },
+    {
+      "@id": "ion:paymentTerms",
+      "@type": "rdf:Property",
+      "rdfs:label": "paymentTerms",
+      "rdfs:comment": "ION payment-terms policy category.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeOffer"
+      }
+    },
+    {
+      "@id": "ion:penalty",
+      "@type": "rdf:Property",
+      "rdfs:label": "penalty",
+      "rdfs:comment": "Optional ION per-offer penalty-policy override category.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeOffer"
+      }
+    }
+  ]
+}

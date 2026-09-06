@@ -1,0 +1,642 @@
+{
+  "@context": {
+    "ion": "https://schema.ion.id/trade/resource/v1#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "beckn": "https://schema.beckn.io/",
+    "rcra": "https://schema.beckn.io/RetailResource#",
+    "schema": "https://schema.org/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "owl": "http://www.w3.org/2002/07/owl#"
+  },
+  "@graph": [
+    {
+      "@id": "ion:IONTradeResource",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONTradeResource",
+      "rdfs:comment": "ION trade resource extension. Extends Beckn RetailResource with fields useful for retail across geographies and with explicitly marked Indonesia-specific regulatory registrations (BPOM, MUI, SNI), geographic indication certification (DJKI), digital goods categories (pulsa, PLN, BPJS), and data residency requirements under UU 27/2022 PDP Law.",
+      "rdfs:subClassOf": {
+        "@id": "https://schema.beckn.io/RetailResource"
+      },
+      "skos:broader": {
+        "@id": "https://schema.beckn.io/RetailResource"
+      }
+    },
+    {
+      "@id": "ion:LocalisedText",
+      "@type": "rdfs:Class",
+      "rdfs:label": "LocalisedText",
+      "rdfs:comment": "Language-keyed text object for multilingual content. The 'id' key carries Bahasa Indonesia text and is always required. The 'en' key carries English text and is required for cross-border patterns.",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Resource"
+      },
+      "skos:broader": {
+        "@id": "beckn:Resource"
+      }
+    },
+    {
+      "@id": "ion:name",
+      "@type": "rdf:Property",
+      "rdfs:label": "name",
+      "rdfs:comment": "Display name of the resource as a localised text object. Minimum: name.id (Bahasa Indonesia). name.en required for cross-border pattern. Rendered as the product title in consumer-facing interfaces.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeResource"
+      },
+      "rdfs:range": {
+        "@id": "ion:LocalisedText"
+      }
+    },
+    {
+      "@id": "ion:menuCategory",
+      "@type": "rdf:Property",
+      "rdfs:label": "menuCategory",
+      "rdfs:comment": "Menu or category section this resource belongs to. Drives display order and grouping in BAP interfaces. Required for food and beverage providers.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeResource"
+      }
+    },
+    {
+      "@id": "ion:preparationTime",
+      "@type": "rdf:Property",
+      "rdfs:label": "preparationTime",
+      "rdfs:comment": "ISO 8601 duration from order confirmation to item ready for pickup or dispatch. Used for SLA computation and estimated delivery time display. Applicable to made-to-order food and custom-built products.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeResource"
+      }
+    },
+    {
+      "@id": "rcra:food",
+      "@type": "rdf:Property",
+      "rdfs:label": "food",
+      "rdfs:comment": "Packaged food product attributes for filtering and regulatory compliance. Covers dietary classification, allergens, cuisine type, and spice level. Used for FMCG packaged food and grocery products sold from warehouse stock.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeResource"
+      }
+    },
+    {
+      "@id": "ion:preparation",
+      "@type": "rdf:Property",
+      "rdfs:label": "preparation",
+      "rdfs:comment": "Preparation, storage, and shelf-life instructions for the resource. Applicable to food, beverage, perishable, and made-to-order products.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeResource"
+      }
+    },
+    {
+      "@id": "ion:fashion",
+      "@type": "rdf:Property",
+      "rdfs:label": "fashion",
+      "rdfs:comment": "Fashion and apparel attributes for filtering and size guidance. Covers gender, size, fabric, and fabric composition (SNI-regulated). Descriptive attributes such as fitType and careInstructions belong in Descriptor.longDesc.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeResource"
+      }
+    },
+    {
+      "@id": "ion:electronics",
+      "@type": "rdf:Property",
+      "rdfs:label": "electronics",
+      "rdfs:comment": "Consumer electronics technical specifications for deterministic filtering and regulatory compliance. Covers OS type, connectivity standards, wattage, and BSN energy efficiency rating. Descriptive specs belong in Descriptor.longDesc.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeResource"
+      }
+    },
+    {
+      "@id": "ion:beauty",
+      "@type": "rdf:Property",
+      "rdfs:label": "beauty",
+      "rdfs:comment": "Beauty and personal care product attributes for filtering and compliance under PerBPOM 23/2019. Covers conscious/preference labels, formulation, skin type, hair type, SPF, gender, and volume.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeResource"
+      }
+    },
+    {
+      "@id": "ion:agritech",
+      "@type": "rdf:Property",
+      "rdfs:label": "agritech",
+      "rdfs:comment": "Agricultural and fresh produce attributes. Covers harvest date, produce grade, pesticide declaration, organic certification, and unit of measure for weight-sold agricultural products.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeResource"
+      }
+    },
+    {
+      "@id": "ion:pharmacy",
+      "@type": "rdf:Property",
+      "rdfs:label": "pharmacy",
+      "rdfs:comment": "Pharmaceutical and OTC medicine attributes under PerBPOM Nomor 4 Tahun 2018. Covers prescription requirements, dosage form, active ingredients with per-ingredient strength, and cold chain requirements.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeResource"
+      }
+    },
+    {
+      "@id": "ion:installation",
+      "@type": "rdf:Property",
+      "rdfs:label": "installation",
+      "rdfs:comment": "Installation service information for products requiring professional setup. Indicates whether the seller provides installation and includes notes for the installer.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeResource"
+      }
+    },
+    {
+      "@id": "ion:usage",
+      "@type": "rdf:Property",
+      "rdfs:label": "usage",
+      "rdfs:comment": "Usage constraints and compatibility information. Covers indoor-only restrictions and compatibility with other products or infrastructure.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeResource"
+      }
+    },
+    {
+      "@id": "rcra:warranty",
+      "@type": "rdf:Property",
+      "rdfs:label": "warranty",
+      "rdfs:comment": "Warranty terms for the resource. Covers manufacturer warranty, seller warranty, and extended warranty with duration, type, and terms.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeResource"
+      }
+    },
+    {
+      "@id": "ion:crc",
+      "@type": "rdf:Property",
+      "rdfs:label": "crc",
+      "rdfs:comment": "ION Catalogue Resource Category code. Classifies the resource within the ION item taxonomy and determines which attribute sub-objects are mandatory at catalog/publish time.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeResource"
+      }
+    },
+    {
+      "@id": "ion:regulatory",
+      "@type": "rdf:Property",
+      "rdfs:label": "regulatory",
+      "rdfs:comment": "Indonesian regulatory registrations and food safety declarations. Covers BPOM (MD/ML/TR), MUI halal certification, SNI standards, SP-PIRT, KEMENKES, and SIUP. All governed by Indonesian regulatory authorities.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeResource"
+      }
+    },
+    {
+      "@id": "ion:regionOfOrigin",
+      "@type": "rdf:Property",
+      "rdfs:label": "regionOfOrigin",
+      "rdfs:comment": "ISO 3166-2 sub-national region code for geographic indication products under UU 20/2016 tentang Merek dan Indikasi Geografis. Supporting evidence is supplied through the inherited credentials property.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeResource"
+      }
+    },
+    {
+      "@id": "ion:digital",
+      "@type": "rdf:Property",
+      "rdfs:label": "digital",
+      "rdfs:comment": "Digital goods attributes specific to Indonesian digital commerce. Covers Indonesian operator-specific categories: mobile pulsa (Telkomsel, XL, Indosat), PLN electricity tokens, PDAM water bills, BPJS insurance payments, and popular Indonesian game voucher titles.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeResource"
+      }
+    },
+    {
+      "@id": "ion:dataResidency",
+      "@type": "rdf:Property",
+      "rdfs:label": "dataResidency",
+      "rdfs:comment": "Data residency requirement under Indonesian Personal Data Protection Law (UU 27/2022 tentang Pelindungan Data Pribadi). DOMESTIC_ONLY requires all PII and transaction data to be processed within Indonesia. Required for pharmacy, health-data, and financial-services categories.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeResource"
+      }
+    },
+    {
+      "@id": "ion:activeIngredients",
+      "@type": "rdf:Property",
+      "rdfs:label": "activeIngredients",
+      "rdfs:comment": "Active ingredients in a pharmaceutical product. Each entry identifies the ingredient by name and may declare its strength using the canonical Quantity schema."
+    },
+    {
+      "@id": "ion:ingredient",
+      "@type": "rdf:Property",
+      "rdfs:label": "ingredient",
+      "rdfs:comment": "Name of an active pharmaceutical ingredient."
+    },
+    {
+      "@id": "rcra:additives",
+      "@type": "rdf:Property",
+      "rdfs:label": "additives",
+      "rdfs:comment": "Property additives."
+    },
+    {
+      "@id": "rcra:ageRestricted",
+      "@type": "rdf:Property",
+      "rdfs:label": "ageRestricted",
+      "rdfs:comment": "Whether product requires age verification at purchase"
+    },
+    {
+      "@id": "ion:allergens",
+      "@type": "rdf:Property",
+      "rdfs:label": "allergens",
+      "rdfs:comment": "Property allergens."
+    },
+    {
+      "@id": "ion:backImage",
+      "@type": "rdf:Property",
+      "rdfs:label": "backImage",
+      "rdfs:comment": "Back-of-pack statutory requirements image"
+    },
+    {
+      "@id": "ion:cancellable",
+      "@type": "rdf:Property",
+      "rdfs:label": "cancellable",
+      "rdfs:comment": "Whether cancellation is possible before delivery"
+    },
+    {
+      "@id": "rcra:foodClassification",
+      "@type": "rdf:Property",
+      "rdfs:label": "classification",
+      "rdfs:comment": "Property classification."
+    },
+    {
+      "@id": "ion:coldChainRequired",
+      "@type": "rdf:Property",
+      "rdfs:label": "coldChainRequired",
+      "rdfs:comment": "Property coldChainRequired."
+    },
+    {
+      "@id": "ion:compatibleWith",
+      "@type": "rdf:Property",
+      "rdfs:label": "compatibleWith",
+      "rdfs:comment": "Property compatibleWith."
+    },
+    {
+      "@id": "ion:connectivity",
+      "@type": "rdf:Property",
+      "rdfs:label": "connectivity",
+      "rdfs:comment": "Property connectivity."
+    },
+    {
+      "@id": "ion:conscious",
+      "@type": "rdf:Property",
+      "rdfs:label": "conscious",
+      "rdfs:comment": "Property conscious."
+    },
+    {
+      "@id": "rcra:credentials",
+      "@type": "rdf:Property",
+      "rdfs:label": "credentials",
+      "rdfs:comment": "Property credentials."
+    },
+    {
+      "@id": "ion:cuisineType",
+      "@type": "rdf:Property",
+      "rdfs:label": "cuisineType",
+      "rdfs:comment": "Property cuisineType."
+    },
+    {
+      "@id": "ion:deliveryMethod",
+      "@type": "rdf:Property",
+      "rdfs:label": "deliveryMethod",
+      "rdfs:comment": "PUSH_TO_TARGET: delivered directly to consumer account (pulsa to phone number, PLN token to meter, in-game currency to game account). CODE_TO_BUYER: redemption code sent to buyer to redeem later. ACCOUNT_CREDIT: credited to buyer's wallet/account. QR_VOUCHER: scannable QR redeemable at merchant."
+    },
+    {
+      "@id": "ion:denomination",
+      "@type": "rdf:Property",
+      "rdfs:label": "denomination",
+      "rdfs:comment": "Voucher or top-up denomination, expressed using the canonical Quantity schema.",
+      "rdfs:range": {
+        "@id": "schema:QuantitativeValue"
+      }
+    },
+    {
+      "@id": "ion:digitalCategory",
+      "@type": "rdf:Property",
+      "rdfs:label": "digitalCategory",
+      "rdfs:comment": "Type of digital good. MOBILE_PULSA/DATA covered by Indonesian operator regulations; GAME_VOUCHER includes Mobile Legends, Free Fire, Valorant, Genshin currencies; STREAMING_VOUCHER for Netflix/Disney+ Hotstar/Spotify access codes."
+    },
+    {
+      "@id": "ion:dosageForm",
+      "@type": "rdf:Property",
+      "rdfs:label": "dosageForm",
+      "rdfs:comment": "Open pharmaceutical dosage-form value. Common suggested values include TABLET, CAPSULE, SYRUP, INJECTION, OINTMENT, DROPS, INHALER, SUPPOSITORY, and PATCH."
+    },
+    {
+      "@id": "rcra:warrantyDuration",
+      "@type": "rdf:Property",
+      "rdfs:label": "duration",
+      "rdfs:comment": "ISO 8601 duration. Minimum P1Y for electronics."
+    },
+    {
+      "@id": "ion:en",
+      "@type": "rdf:Property",
+      "rdfs:label": "en",
+      "rdfs:comment": "English text"
+    },
+    {
+      "@id": "ion:energyRating",
+      "@type": "rdf:Property",
+      "rdfs:label": "energyRating",
+      "rdfs:comment": "BSN energy efficiency star rating"
+    },
+    {
+      "@id": "ion:expiryAfterPurchase",
+      "@type": "rdf:Property",
+      "rdfs:label": "expiryAfterPurchase",
+      "rdfs:comment": "ISO 8601 duration — how long the voucher is valid from purchase"
+    },
+    {
+      "@id": "ion:fabric",
+      "@type": "rdf:Property",
+      "rdfs:label": "fabric",
+      "rdfs:comment": "Property fabric."
+    },
+    {
+      "@id": "ion:fabricComposition",
+      "@type": "rdf:Property",
+      "rdfs:label": "fabricComposition",
+      "rdfs:comment": "Property fabricComposition."
+    },
+    {
+      "@id": "rcra:foodRegulatoryDeclaration",
+      "@type": "rdf:Property",
+      "rdfs:label": "foodRegulatoryDeclaration",
+      "rdfs:comment": "Property foodRegulatoryDeclaration."
+    },
+    {
+      "@id": "ion:formulation",
+      "@type": "rdf:Property",
+      "rdfs:label": "formulation",
+      "rdfs:comment": "Property formulation."
+    },
+    {
+      "@id": "ion:freshProduce",
+      "@type": "rdf:Property",
+      "rdfs:label": "freshProduce",
+      "rdfs:comment": "Property freshProduce."
+    },
+    {
+      "@id": "ion:gender",
+      "@type": "rdf:Property",
+      "rdfs:label": "gender",
+      "rdfs:comment": "Property gender."
+    },
+    {
+      "@id": "ion:hairType",
+      "@type": "rdf:Property",
+      "rdfs:label": "hairType",
+      "rdfs:comment": "Property hairType."
+    },
+    {
+      "@id": "ion:harvestDate",
+      "@type": "rdf:Property",
+      "rdfs:label": "harvestDate",
+      "rdfs:comment": "Property harvestDate."
+    },
+    {
+      "@id": "ion:id",
+      "@type": "rdf:Property",
+      "rdfs:label": "id",
+      "rdfs:comment": "Bahasa Indonesia text"
+    },
+    {
+      "@id": "ion:imageUrl",
+      "@type": "rdf:Property",
+      "rdfs:label": "imageUrl",
+      "rdfs:comment": "Property imageUrl."
+    },
+    {
+      "@id": "ion:indoorOnly",
+      "@type": "rdf:Property",
+      "rdfs:label": "indoorOnly",
+      "rdfs:comment": "Property indoorOnly."
+    },
+    {
+      "@id": "ion:instructions",
+      "@type": "rdf:Property",
+      "rdfs:label": "instructions",
+      "rdfs:comment": "Property instructions."
+    },
+    {
+      "@id": "rcra:credentialIssuer",
+      "@type": "rdf:Property",
+      "rdfs:label": "issuer",
+      "rdfs:comment": "Property issuer."
+    },
+    {
+      "@id": "ion:netQuantityDeclaration",
+      "@type": "rdf:Property",
+      "rdfs:label": "netQuantityDeclaration",
+      "rdfs:comment": "Property netQuantityDeclaration."
+    },
+    {
+      "@id": "ion:notes",
+      "@type": "rdf:Property",
+      "rdfs:label": "notes",
+      "rdfs:comment": "Property notes."
+    },
+    {
+      "@id": "ion:nutrient",
+      "@type": "rdf:Property",
+      "rdfs:label": "nutrient",
+      "rdfs:comment": "Property nutrient."
+    },
+    {
+      "@id": "ion:nutrition",
+      "@type": "rdf:Property",
+      "rdfs:label": "nutrition",
+      "rdfs:comment": "Structured nutritional information whose nutrient values are expressed using the canonical Quantity schema."
+    },
+    {
+      "@id": "ion:operatorOrIssuer",
+      "@type": "rdf:Property",
+      "rdfs:label": "operatorOrIssuer",
+      "rdfs:comment": "Issuing operator or brand. For MOBILE_PULSA: TELKOMSEL, XL, INDOSAT, TRI, SMARTFREN. For ELECTRICITY_TOKEN: PLN. For GAME_VOUCHER: Moonton, Garena, Riot, etc."
+    },
+    {
+      "@id": "ion:osType",
+      "@type": "rdf:Property",
+      "rdfs:label": "osType",
+      "rdfs:comment": "Property osType."
+    },
+    {
+      "@id": "ion:pesticideDeclaration",
+      "@type": "rdf:Property",
+      "rdfs:label": "pesticideDeclaration",
+      "rdfs:comment": "Property pesticideDeclaration."
+    },
+    {
+      "@id": "ion:preference",
+      "@type": "rdf:Property",
+      "rdfs:label": "preference",
+      "rdfs:comment": "Property preference."
+    },
+    {
+      "@id": "ion:prescriptionRequired",
+      "@type": "rdf:Property",
+      "rdfs:label": "prescriptionRequired",
+      "rdfs:comment": "Property prescriptionRequired."
+    },
+    {
+      "@id": "ion:produceGrade",
+      "@type": "rdf:Property",
+      "rdfs:label": "produceGrade",
+      "rdfs:comment": "Property produceGrade."
+    },
+    {
+      "@id": "ion:providedBySeller",
+      "@type": "rdf:Property",
+      "rdfs:label": "providedBySeller",
+      "rdfs:comment": "Property providedBySeller."
+    },
+    {
+      "@id": "ion:redemptionUrl",
+      "@type": "rdf:Property",
+      "rdfs:label": "redemptionUrl",
+      "rdfs:comment": "URL for redemption (streaming service activation, game code page)"
+    },
+    {
+      "@id": "ion:refundable",
+      "@type": "rdf:Property",
+      "rdfs:label": "refundable",
+      "rdfs:comment": "Whether the digital good is refundable. Most pulsa/top-up is non-refundable once delivered to target. Vouchers may be refundable if unredeemed."
+    },
+    {
+      "@id": "ion:registrations",
+      "@type": "rdf:Property",
+      "rdfs:label": "registrations",
+      "rdfs:comment": "Property registrations."
+    },
+    {
+      "@id": "ion:role",
+      "@type": "rdf:Property",
+      "rdfs:label": "role",
+      "rdfs:comment": "Property role."
+    },
+    {
+      "@id": "ion:scheme",
+      "@type": "rdf:Property",
+      "rdfs:label": "scheme",
+      "rdfs:comment": "Property scheme."
+    },
+    {
+      "@id": "ion:sequence",
+      "@type": "rdf:Property",
+      "rdfs:label": "sequence",
+      "rdfs:comment": "Property sequence."
+    },
+    {
+      "@id": "ion:shelfLife",
+      "@type": "rdf:Property",
+      "rdfs:label": "shelfLife",
+      "rdfs:comment": "ISO 8601 duration"
+    },
+    {
+      "@id": "ion:size",
+      "@type": "rdf:Property",
+      "rdfs:label": "size",
+      "rdfs:comment": "Property size."
+    },
+    {
+      "@id": "ion:sizeChart",
+      "@type": "rdf:Property",
+      "rdfs:label": "sizeChart",
+      "rdfs:comment": "Property sizeChart."
+    },
+    {
+      "@id": "ion:skinType",
+      "@type": "rdf:Property",
+      "rdfs:label": "skinType",
+      "rdfs:comment": "Property skinType."
+    },
+    {
+      "@id": "ion:spf",
+      "@type": "rdf:Property",
+      "rdfs:label": "spf",
+      "rdfs:comment": "Property spf."
+    },
+    {
+      "@id": "ion:spiceLevel",
+      "@type": "rdf:Property",
+      "rdfs:label": "spiceLevel",
+      "rdfs:comment": "Property spiceLevel."
+    },
+    {
+      "@id": "ion:storage",
+      "@type": "rdf:Property",
+      "rdfs:label": "storage",
+      "rdfs:comment": "Property storage."
+    },
+    {
+      "@id": "ion:strength",
+      "@type": "rdf:Property",
+      "rdfs:label": "strength",
+      "rdfs:comment": "Strength of an individual active ingredient, expressed using the canonical Quantity schema.",
+      "rdfs:range": {
+        "@id": "schema:QuantitativeValue"
+      }
+    },
+    {
+      "@id": "rcra:warrantyTerms",
+      "@type": "rdf:Property",
+      "rdfs:label": "terms",
+      "rdfs:comment": "Property terms."
+    },
+    {
+      "@id": "rcra:credentialType",
+      "@type": "rdf:Property",
+      "rdfs:label": "type",
+      "rdfs:comment": "Property type."
+    },
+    {
+      "@id": "schema:unitCode",
+      "@type": "rdf:Property",
+      "rdfs:label": "unitCode",
+      "rdfs:comment": "Property unitCode."
+    },
+    {
+      "@id": "ion:unitOfMeasure",
+      "@type": "rdf:Property",
+      "rdfs:label": "unitOfMeasure",
+      "rdfs:comment": "Property unitOfMeasure."
+    },
+    {
+      "@id": "schema:Number",
+      "@type": "rdf:Property",
+      "rdfs:label": "unitQuantity",
+      "rdfs:comment": "Property unitQuantity."
+    },
+    {
+      "@id": "schema:unitText",
+      "@type": "rdf:Property",
+      "rdfs:label": "unitText",
+      "rdfs:comment": "Human-readable unit expression used by the canonical Quantity schema."
+    },
+    {
+      "@id": "rcra:credentialUri",
+      "@type": "rdf:Property",
+      "rdfs:label": "uri",
+      "rdfs:comment": "Property uri."
+    },
+    {
+      "@id": "ion:url",
+      "@type": "rdf:Property",
+      "rdfs:label": "url",
+      "rdfs:comment": "Property url."
+    },
+    {
+      "@id": "ion:validUntil",
+      "@type": "rdf:Property",
+      "rdfs:label": "validUntil",
+      "rdfs:comment": "Property validUntil."
+    },
+    {
+      "@id": "ion:value",
+      "@type": "rdf:Property",
+      "rdfs:label": "value",
+      "rdfs:comment": "Property value."
+    },
+    {
+      "@id": "ion:voltage",
+      "@type": "rdf:Property",
+      "rdfs:label": "voltage",
+      "rdfs:comment": "Property voltage."
+    },
+    {
+      "@id": "ion:wattage",
+      "@type": "rdf:Property",
+      "rdfs:label": "wattage",
+      "rdfs:comment": "Power consumption watts"
+    }
+  ]
+}

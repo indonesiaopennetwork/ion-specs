@@ -1,0 +1,73 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@protected": true,
+    "ion": "https://schema.ion.id/trade/provider/v1#",
+    "beckn": "https://schema.beckn.io/",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+
+    "Provider": "beckn:Provider",
+    "Attributes": "beckn:Attributes",
+    "IONTradeProvider": "ion:IONTradeProvider",
+
+    "invoicing": "ion:invoicing",
+    "model": "ion:model",
+    "entityId": "ion:entityId",
+    "operationalStatus": "ion:operationalStatus",
+    "status": "ion:status",
+    "until": {
+      "@id": "ion:until",
+      "@type": "xsd:dateTime"
+    },
+    "operatingHours": "ion:operatingHours",
+    "locationId": "ion:locationId",
+    "type": "ion:type",
+    "dayFrom": "ion:dayFrom",
+    "dayTo": "ion:dayTo",
+    "startTime": {
+      "@id": "ion:startTime",
+      "@type": "xsd:time"
+    },
+    "endTime": {
+      "@id": "ion:endTime",
+      "@type": "xsd:time"
+    },
+    "closures": "ion:closures",
+    "date": {
+      "@id": "ion:date",
+      "@type": "xsd:date"
+    },
+    "serviceabilityByCategory": "ion:serviceabilityByCategory",
+    "categoryId": "ion:categoryId",
+    "geo": "beckn:geo",
+    "averagePreparationTime": "ion:averagePreparationTime",
+    "providerCategories": "ion:providerCategories",
+    "logistics": "ion:logistics",
+    "preferredProviderId": "ion:preferredProviderId",
+    "managedByMarketplace": "ion:managedByMarketplace",
+    "commerceChannels": "ion:commerceChannels",
+    "supported": "ion:supported",
+    "authorizedStreamerIds": "ion:authorizedStreamerIds",
+    "verification": "ion:verification",
+    "validUntil": {
+      "@id": "ion:validUntil",
+      "@type": "xsd:date"
+    },
+    "caveats": "ion:caveats",
+
+    "businessRegistration": "ion:businessRegistration",
+    "trustMarks": "ion:trustMarks",
+    "level": "ion:level",
+    "categoryLicenses": "ion:categoryLicenses",
+    "categoryIds": "ion:categoryIds",
+    "licenseType": "ion:licenseType",
+    "licenseNumber": "ion:licenseNumber",
+    "issuingAuthority": "ion:issuingAuthority",
+    "evidence": "ion:evidence"
+  }
+}

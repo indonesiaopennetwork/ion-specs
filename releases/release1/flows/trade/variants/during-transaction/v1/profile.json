@@ -1,0 +1,43 @@
+{
+  "id": "ion-trade-variant-during-transaction-v1",
+  "version": "1.0.0",
+  "branchName": "during-transaction",
+  "status": "ready",
+  "description": "Release 1 transaction-time fulfilment, payment, split-performance, and cancellation-term branches.",
+  "branchFile": "./variant.yaml",
+  "applicablePatterns": [
+    "storefront",
+    "made-to-order",
+    "business-procurement",
+    "marketplace-inhouse",
+    "marketplace-listed"
+  ],
+  "includedSubBranches": [
+    "fulfillment-type",
+    "payment-prepaid-BAP-collected",
+    "payment-COD-BAP-collected",
+    "payment-COD-BPP-collected",
+    "multi-fulfillment",
+    "cancellation-terms"
+  ],
+  "excludedSubBranches": [
+    "payment-prepaid-BPP-collected",
+    "on-network-LSP",
+    "technical-cancellation-confirm-failure-BAP",
+    "technical-cancellation-confirm-failure-BPP"
+  ],
+  "schemaPacksRequired": {
+    "common": ["Payment/v1"],
+    "trade": ["TradeOffer/v1", "TradeCommitment/v1", "TradeConsideration/v1", "TradePerformance/v1"]
+  },
+  "type": "Variant",
+  "variantName": "during-transaction",
+  "sector": "ion:trade",
+  "policyRequirements": {
+    "requiredCategories": ["PAYMENT_TERMS"],
+    "enforcedBy": "ONIX",
+    "enforcementPoint": "catalog/publish and on_confirm",
+    "note": "Payment branches use the concrete payment-terms policy selected by their parent pattern."
+  }
+}
+

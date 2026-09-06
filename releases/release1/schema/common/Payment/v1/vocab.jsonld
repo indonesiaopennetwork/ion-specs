@@ -1,0 +1,654 @@
+{
+  "@context": {
+    "ion": "https://schema.ion.id/core/payment/v1#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "beckn": "https://schema.beckn.io/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "owl": "http://www.w3.org/2002/07/owl#"
+  },
+  "@graph": [
+    {
+      "@id": "ion:Payment",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Payment",
+      "rdfs:comment": "Network-agnostic generic layer for Payment. Inherits from Beckn core Attributes.",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Settlement"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Settlement"
+      }
+    },
+    {
+      "@id": "ion:IONPayment",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONPayment",
+      "rdfs:comment": "ION-specific layer for Indonesian payment declarations. Extends the network-agnostic Payment layer.",
+      "rdfs:subClassOf": {
+        "@id": "ion:Payment"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Settlement"
+      }
+    },
+    {
+      "@id": "ion:method",
+      "@type": "rdf:Property",
+      "rdfs:label": "method",
+      "rdfs:comment": "Which network participant collects payment from consumer."
+    },
+    {
+      "@id": "ion:collectedBy",
+      "@type": "rdf:Property",
+      "rdfs:label": "collectedBy",
+      "rdfs:comment": "Which network participant collects payment from consumer."
+    },
+    {
+      "@id": "ion:timing",
+      "@type": "rdf:Property",
+      "rdfs:label": "timing",
+      "rdfs:comment": "When payment is collected relative to fulfilment."
+    },
+    {
+      "@id": "ion:status",
+      "@type": "rdf:Property",
+      "rdfs:label": "status",
+      "rdfs:comment": "Payment amount in IDR"
+    },
+    {
+      "@id": "ion:amount",
+      "@type": "rdf:Property",
+      "rdfs:label": "amount",
+      "rdfs:comment": "Payment amount in IDR"
+    },
+    {
+      "@id": "ion:currency",
+      "@type": "rdf:Property",
+      "rdfs:label": "currency",
+      "rdfs:comment": "Timestamp of successful payment confirmation"
+    },
+    {
+      "@id": "ion:paidAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "paidAt",
+      "rdfs:comment": "Timestamp of successful payment confirmation"
+    },
+    {
+      "@id": "ion:gatewayRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "gatewayRef",
+      "rdfs:comment": "Payment gateway transaction reference ID"
+    },
+    {
+      "@id": "ion:methodDetail",
+      "@type": "rdf:Property",
+      "rdfs:label": "methodDetail",
+      "rdfs:comment": "Specific rail used for this payment. Enables downstream routing and reconciliation regardless"
+    },
+    {
+      "@id": "ion:QRIS",
+      "@type": "rdfs:Class",
+      "rdfs:label": "QRIS",
+      "rdfs:comment": "Quick Response Code Indonesian Standard payment",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Settlement"
+      }
+    },
+    {
+      "@id": "ion:qrisType",
+      "@type": "rdf:Property",
+      "rdfs:label": "qrisType",
+      "rdfs:comment": "STATIC: single fixed QR, same for all transactions. DYNAMIC: per-transaction QR with embedded amount.\n"
+    },
+    {
+      "@id": "ion:merchantId",
+      "@type": "rdf:Property",
+      "rdfs:label": "merchantId",
+      "rdfs:comment": "QRIS merchant identifier from acquiring bank"
+    },
+    {
+      "@id": "ion:nmid",
+      "@type": "rdf:Property",
+      "rdfs:label": "nmid",
+      "rdfs:comment": "National Merchant ID assigned by Bank Indonesia"
+    },
+    {
+      "@id": "ion:terminalId",
+      "@type": "rdf:Property",
+      "rdfs:label": "terminalId",
+      "rdfs:comment": "Terminal/POS identifier for multi-terminal merchants"
+    },
+    {
+      "@id": "ion:qrisString",
+      "@type": "rdf:Property",
+      "rdfs:label": "qrisString",
+      "rdfs:comment": "Full QRIS string for QR code rendering"
+    },
+    {
+      "@id": "ion:expiresAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "expiresAt",
+      "rdfs:comment": "Expiry for DYNAMIC QRIS. UTC (ISO 8601)."
+    },
+    {
+      "@id": "ion:VirtualAccount",
+      "@type": "rdfs:Class",
+      "rdfs:label": "VirtualAccount",
+      "rdfs:comment": "VirtualAccount",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Settlement"
+      }
+    },
+    {
+      "@id": "ion:bankCode",
+      "@type": "rdf:Property",
+      "rdfs:label": "bankCode",
+      "rdfs:comment": "Bank issuing the virtual account"
+    },
+    {
+      "@id": "ion:vaNumber",
+      "@type": "rdf:Property",
+      "rdfs:label": "vaNumber",
+      "rdfs:comment": "Virtual account number to be paid to"
+    },
+    {
+      "@id": "ion:amount",
+      "@type": "rdf:Property",
+      "rdfs:label": "amount",
+      "rdfs:comment": "Amount encoded in VA (for fixed-amount VA)"
+    },
+    {
+      "@id": "ion:currency",
+      "@type": "rdf:Property",
+      "rdfs:label": "currency",
+      "rdfs:comment": "Timestamp of successful payment confirmation"
+    },
+    {
+      "@id": "ion:expiresAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "expiresAt",
+      "rdfs:comment": "Expiry for DYNAMIC QRIS. UTC (ISO 8601)."
+    },
+    {
+      "@id": "ion:EWallet",
+      "@type": "rdfs:Class",
+      "rdfs:label": "EWallet",
+      "rdfs:comment": "EWallet",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Settlement"
+      }
+    },
+    {
+      "@id": "ion:provider",
+      "@type": "rdf:Property",
+      "rdfs:label": "provider",
+      "rdfs:comment": "E-wallet provider identifier"
+    },
+    {
+      "@id": "ion:accountRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "accountRef",
+      "rdfs:comment": "Consumer's wallet account reference (phone or wallet ID)"
+    },
+    {
+      "@id": "ion:amount",
+      "@type": "rdf:Property",
+      "rdfs:label": "amount",
+      "rdfs:comment": "Payment amount in IDR"
+    },
+    {
+      "@id": "ion:currency",
+      "@type": "rdf:Property",
+      "rdfs:label": "currency",
+      "rdfs:comment": "Timestamp of successful payment confirmation"
+    },
+    {
+      "@id": "ion:expiresAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "expiresAt",
+      "rdfs:comment": "Expiry for DYNAMIC QRIS. UTC (ISO 8601)."
+    },
+    {
+      "@id": "ion:deepLink",
+      "@type": "rdf:Property",
+      "rdfs:label": "deepLink",
+      "rdfs:comment": "Deep link to open wallet app for payment"
+    },
+    {
+      "@id": "ion:CashOnDelivery",
+      "@type": "rdfs:Class",
+      "rdfs:label": "CashOnDelivery",
+      "rdfs:comment": "Runtime COD collection state. Offer-level COD policy fields (OTP required, denominations accepted, buyer daily limit, hold period, reconciliation variance) are declared per-offer in schema/extensions/logistics/offer/v1 — they govern how COD is accepted, not the per-transaction collection record.",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Settlement"
+      }
+    },
+    {
+      "@id": "ion:collectionAmount",
+      "@type": "rdf:Property",
+      "rdfs:label": "collectionAmount",
+      "rdfs:comment": "Expected cash amount to collect from consumer"
+    },
+    {
+      "@id": "ion:currency",
+      "@type": "rdf:Property",
+      "rdfs:label": "currency",
+      "rdfs:comment": "Timestamp of successful payment confirmation"
+    },
+    {
+      "@id": "ion:changeIssuedBy",
+      "@type": "rdf:Property",
+      "rdfs:label": "changeIssuedBy",
+      "rdfs:comment": "Who provides change to consumer"
+    },
+    {
+      "@id": "ion:maxCodAmount",
+      "@type": "rdf:Property",
+      "rdfs:label": "maxCodAmount",
+      "rdfs:comment": "Maximum COD value allowed per ION network policy"
+    },
+    {
+      "@id": "ion:BankTransfer",
+      "@type": "rdfs:Class",
+      "rdfs:label": "BankTransfer",
+      "rdfs:comment": "BankTransfer",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Settlement"
+      }
+    },
+    {
+      "@id": "ion:bankCode",
+      "@type": "rdf:Property",
+      "rdfs:label": "bankCode",
+      "rdfs:comment": "Bank issuing the virtual account"
+    },
+    {
+      "@id": "ion:accountNumber",
+      "@type": "rdf:Property",
+      "rdfs:label": "accountNumber",
+      "rdfs:comment": "Recipient bank account number"
+    },
+    {
+      "@id": "ion:accountName",
+      "@type": "rdf:Property",
+      "rdfs:label": "accountName",
+      "rdfs:comment": "Recipient account holder name"
+    },
+    {
+      "@id": "ion:transferType",
+      "@type": "rdf:Property",
+      "rdfs:label": "transferType",
+      "rdfs:comment": "BI-FAST, RTGS, or SKN bank settlement"
+    },
+    {
+      "@id": "ion:BISettlement",
+      "@type": "rdfs:Class",
+      "rdfs:label": "BISettlement",
+      "rdfs:comment": "BI-FAST, RTGS, or SKN bank settlement",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Settlement"
+      }
+    },
+    {
+      "@id": "ion:settlementType",
+      "@type": "rdf:Property",
+      "rdfs:label": "settlementType",
+      "rdfs:comment": "BI_FAST: real-time settlement, max IDR 250 million per transaction. RTGS: high-value same-day settlement, unlimited amount. SKN: batch clearing, lower value transactions.\n"
+    },
+    {
+      "@id": "ion:biRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "biRef",
+      "rdfs:comment": "BI clearing reference number"
+    },
+    {
+      "@id": "ion:settlementAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "settlementAt",
+      "rdfs:comment": "Settlement timestamp in UTC"
+    },
+    {
+      "@id": "ion:beneficiaryName",
+      "@type": "rdf:Property",
+      "rdfs:label": "beneficiaryName",
+      "rdfs:comment": "Indonesian equivalent — bank routing code"
+    },
+    {
+      "@id": "ion:beneficiaryBank",
+      "@type": "rdf:Property",
+      "rdfs:label": "beneficiaryBank",
+      "rdfs:comment": "Indonesian equivalent — bank routing code"
+    },
+    {
+      "@id": "ion:beneficiaryAccount",
+      "@type": "rdf:Property",
+      "rdfs:label": "beneficiaryAccount",
+      "rdfs:comment": "BNPL provider name"
+    },
+    {
+      "@id": "ion:ifscEquivalent",
+      "@type": "rdf:Property",
+      "rdfs:label": "ifscEquivalent",
+      "rdfs:comment": "Indonesian equivalent — bank routing code"
+    },
+    {
+      "@id": "ion:BNPL",
+      "@type": "rdfs:Class",
+      "rdfs:label": "BNPL",
+      "rdfs:comment": "BNPL",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Settlement"
+      }
+    },
+    {
+      "@id": "ion:provider",
+      "@type": "rdf:Property",
+      "rdfs:label": "provider",
+      "rdfs:comment": "E-wallet provider identifier"
+    },
+    {
+      "@id": "ion:tenure",
+      "@type": "rdf:Property",
+      "rdfs:label": "tenure",
+      "rdfs:comment": "Repayment tenure in months"
+    },
+    {
+      "@id": "ion:installmentAmount",
+      "@type": "rdf:Property",
+      "rdfs:label": "installmentAmount",
+      "rdfs:comment": "Per-installment amount in IDR"
+    },
+    {
+      "@id": "ion:interestRate",
+      "@type": "rdf:Property",
+      "rdfs:label": "interestRate",
+      "rdfs:comment": "Monthly interest rate as decimal e.g. 0.02 = 2%"
+    },
+    {
+      "@id": "ion:totalRepayment",
+      "@type": "rdf:Property",
+      "rdfs:label": "totalRepayment",
+      "rdfs:comment": "Total repayment amount including interest"
+    },
+    {
+      "@id": "ion:currency",
+      "@type": "rdf:Property",
+      "rdfs:label": "currency",
+      "rdfs:comment": "Timestamp of successful payment confirmation"
+    },
+    {
+      "@id": "ion:firstPaymentDate",
+      "@type": "rdf:Property",
+      "rdfs:label": "firstPaymentDate",
+      "rdfs:comment": "Last 4 digits of card for display"
+    },
+    {
+      "@id": "ion:CardPayment",
+      "@type": "rdfs:Class",
+      "rdfs:label": "CardPayment",
+      "rdfs:comment": "CardPayment",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Settlement"
+      }
+    },
+    {
+      "@id": "ion:cardType",
+      "@type": "rdf:Property",
+      "rdfs:label": "cardType",
+      "rdfs:comment": "Last 4 digits of card for display"
+    },
+    {
+      "@id": "ion:scheme",
+      "@type": "rdf:Property",
+      "rdfs:label": "scheme",
+      "rdfs:comment": "Last 4 digits of card for display"
+    },
+    {
+      "@id": "ion:maskedPan",
+      "@type": "rdf:Property",
+      "rdfs:label": "maskedPan",
+      "rdfs:comment": "Last 4 digits of card for display"
+    },
+    {
+      "@id": "ion:bankIssuer",
+      "@type": "rdf:Property",
+      "rdfs:label": "bankIssuer",
+      "rdfs:comment": "Card-issuing bank name"
+    },
+    {
+      "@id": "ion:gatewayRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "gatewayRef",
+      "rdfs:comment": "Payment gateway transaction reference ID"
+    },
+    {
+      "@id": "ion:CreditTerms",
+      "@type": "rdfs:Class",
+      "rdfs:label": "CreditTerms",
+      "rdfs:comment": "Credit-based payment terms for deferred-payment scenarios.",
+      "rdfs:subClassOf": {
+        "@id": "ion:IONPayment"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Settlement"
+      }
+    },
+    {
+      "@id": "ion:Refund",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Refund",
+      "rdfs:comment": "Refund record attached to a payment declaration when a settlement is fully or partially refunded.",
+      "rdfs:subClassOf": {
+        "@id": "ion:IONPayment"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Settlement"
+      }
+    },
+    {
+      "@id": "ion:InvoiceReference",
+      "@type": "rdfs:Class",
+      "rdfs:label": "InvoiceReference",
+      "rdfs:comment": "Invoice document references for proforma and commercial invoices associated with a payment.",
+      "rdfs:subClassOf": {
+        "@id": "ion:IONPayment"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Settlement"
+      }
+    },
+    {
+      "@id": "ion:ProcessingFee",
+      "@type": "rdfs:Class",
+      "rdfs:label": "ProcessingFee",
+      "rdfs:comment": "Per-transaction processing fee charged by the payment gateway or collecting party.",
+      "rdfs:subClassOf": {
+        "@id": "ion:IONPayment"
+      },
+      "skos:broader": {
+        "@id": "https://spec.beckn.io/vocab/v2.0.0#Settlement"
+      }
+    },
+    {
+      "@id": "ion:paymentRail",
+      "@type": "rdf:Property",
+      "rdfs:label": "paymentRail",
+      "rdfs:comment": "Specific rail used for this payment. Enables downstream routing and reconciliation regardless of higher-level method. Example: method=BANK_TRANSFER with paymentRail=BI_FAST."
+    },
+    {
+      "@id": "ion:paymentGatewayProvider",
+      "@type": "rdf:Property",
+      "rdfs:label": "paymentGatewayProvider",
+      "rdfs:comment": "Payment gateway aggregator used to route this payment. Declared per transaction. Implementations may use one or more of these aggregators or direct bank/ewallet APIs."
+    },
+    {
+      "@id": "ion:creditTerms",
+      "@type": "rdf:Property",
+      "rdfs:label": "creditTerms",
+      "rdfs:comment": "creditTerms property."
+    },
+    {
+      "@id": "ion:refund",
+      "@type": "rdf:Property",
+      "rdfs:label": "refund",
+      "rdfs:comment": "refund property."
+    },
+    {
+      "@id": "ion:invoice",
+      "@type": "rdf:Property",
+      "rdfs:label": "invoice",
+      "rdfs:comment": "invoice property."
+    },
+    {
+      "@id": "ion:processingFee",
+      "@type": "rdf:Property",
+      "rdfs:label": "processingFee",
+      "rdfs:comment": "processingFee property."
+    },
+    {
+      "@id": "ion:collectionAmountCollected",
+      "@type": "rdf:Property",
+      "rdfs:label": "collectionAmountCollected",
+      "rdfs:comment": "Actual cash amount the carrier collected"
+    },
+    {
+      "@id": "ion:collectionTimestamp",
+      "@type": "rdf:Property",
+      "rdfs:label": "collectionTimestamp",
+      "rdfs:comment": "UTC timestamp of cash handover at delivery"
+    },
+    {
+      "@id": "ion:collectionReceiptRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "collectionReceiptRef",
+      "rdfs:comment": "Receipt reference for the collected cash (scan, photo URL, or receipt ID)"
+    },
+    {
+      "@id": "ion:partialCollectionReason",
+      "@type": "rdf:Property",
+      "rdfs:label": "partialCollectionReason",
+      "rdfs:comment": "partialCollectionReason property."
+    },
+    {
+      "@id": "ion:creditTermsDays",
+      "@type": "rdf:Property",
+      "rdfs:label": "creditTermsDays",
+      "rdfs:comment": "Net payment terms in days from invoice date (e.g. 30 for NET-30, 60 for NET-60)"
+    },
+    {
+      "@id": "ion:paymentDueDate",
+      "@type": "rdf:Property",
+      "rdfs:label": "paymentDueDate",
+      "rdfs:comment": "Computed due date for this specific invoice"
+    },
+    {
+      "@id": "ion:creditLimit",
+      "@type": "rdf:Property",
+      "rdfs:label": "creditLimit",
+      "rdfs:comment": "Total credit limit extended to buyer under the governing FWA / contract"
+    },
+    {
+      "@id": "ion:creditAvailable",
+      "@type": "rdf:Property",
+      "rdfs:label": "creditAvailable",
+      "rdfs:comment": "Credit currently available after open invoices — for ION Central validation at /init"
+    },
+    {
+      "@id": "ion:dunningSchedule",
+      "@type": "rdf:Property",
+      "rdfs:label": "dunningSchedule",
+      "rdfs:comment": "Reminder schedule leading up to and past due date"
+    },
+    {
+      "@id": "ion:daysRelativeToDueDate",
+      "@type": "rdf:Property",
+      "rdfs:label": "daysRelativeToDueDate",
+      "rdfs:comment": "Negative before due, positive after"
+    },
+    {
+      "@id": "ion:channel",
+      "@type": "rdf:Property",
+      "rdfs:label": "channel",
+      "rdfs:comment": "channel property."
+    },
+    {
+      "@id": "ion:refundAmount",
+      "@type": "rdf:Property",
+      "rdfs:label": "refundAmount",
+      "rdfs:comment": "Refunded amount in IDR"
+    },
+    {
+      "@id": "ion:refundReason",
+      "@type": "rdf:Property",
+      "rdfs:label": "refundReason",
+      "rdfs:comment": "refundReason property."
+    },
+    {
+      "@id": "ion:refundTimeline",
+      "@type": "rdf:Property",
+      "rdfs:label": "refundTimeline",
+      "rdfs:comment": "Expected time-to-land (ISO 8601 duration, e.g. PT24H, P7D)"
+    },
+    {
+      "@id": "ion:refundMethod",
+      "@type": "rdf:Property",
+      "rdfs:label": "refundMethod",
+      "rdfs:comment": "REFUND_TO_ORIGINAL is the default (MATI — Merchant Automatically To Instrument). Fallbacks apply when original instrument is unavailable (e.g. expired card)."
+    },
+    {
+      "@id": "ion:refundInitiatedAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "refundInitiatedAt",
+      "rdfs:comment": "refundInitiatedAt property."
+    },
+    {
+      "@id": "ion:refundSettledAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "refundSettledAt",
+      "rdfs:comment": "refundSettledAt property."
+    },
+    {
+      "@id": "ion:invoiceReference",
+      "@type": "rdf:Property",
+      "rdfs:label": "invoiceReference",
+      "rdfs:comment": "Seller-issued commercial invoice number"
+    },
+    {
+      "@id": "ion:invoiceIssuedAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "invoiceIssuedAt",
+      "rdfs:comment": "invoiceIssuedAt property."
+    },
+    {
+      "@id": "ion:proformaInvoiceReference",
+      "@type": "rdf:Property",
+      "rdfs:label": "proformaInvoiceReference",
+      "rdfs:comment": "Proforma invoice number (pre-shipment, for credit terms)"
+    },
+    {
+      "@id": "ion:invoiceUrl",
+      "@type": "rdf:Property",
+      "rdfs:label": "invoiceUrl",
+      "rdfs:comment": "URL to PDF invoice (access-controlled, time-limited)"
+    },
+    {
+      "@id": "ion:borneBy",
+      "@type": "rdf:Property",
+      "rdfs:label": "borneBy",
+      "rdfs:comment": "Which party bears this fee"
+    },
+    {
+      "@id": "ion:splitDetail",
+      "@type": "rdf:Property",
+      "rdfs:label": "splitDetail",
+      "rdfs:comment": "When borneBy=SPLIT, how the fee is split"
+    },
+    {
+      "@id": "ion:party",
+      "@type": "rdf:Property",
+      "rdfs:label": "party",
+      "rdfs:comment": "party property."
+    }
+  ]
+}

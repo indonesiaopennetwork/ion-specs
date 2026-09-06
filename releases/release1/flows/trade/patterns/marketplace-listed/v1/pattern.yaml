@@ -1,0 +1,192 @@
+# ION Trade Pattern — marketplace-listed (MP-IL)
+# NOT OAS. ION pattern specification document.
+
+id: ion-trade-pattern-marketplace-listed-v1
+version: "1.0.0"
+patternName: marketplace-listed
+sector: ion:trade
+status: ready
+description: >
+  A third-party marketplace is the buyer-facing BAP and routes a transaction to
+  the selected independent seller BPP. The seller owns inventory and physical
+  fulfilment. The marketplace may collect payment and disclose its transaction
+  commission as a PLATFORM_FEE consideration line.
+
+applicableCategories: [all]
+
+participants:
+  MARKETPLACE_BAP: Buyer-facing marketplace platform
+  SELLER_BPP: Independent seller platform
+  ION_CATALOG: ION Catalogue Service (Phase 1 only)
+
+performanceStateMachine: schema/extension/trade/TradePerformanceStates/v1/states.yaml#standard
+
+phases:
+  phase1:
+    name: Independent seller catalog
+    communication: async pub/sub
+    steps:
+      - step: publish_catalog
+        from: SELLER_BPP
+        to: ION_CATALOG
+        direction: publish
+        description: Each independent seller publishes its own catalog.
+        requiredFields:
+          - context.domain
+          - context.bppId
+          - context.timestamp
+          - message.catalog.provider.id
+          - message.catalog.provider.providerAttributes.operationalStatus.status
+          - message.catalog.provider.providerAttributes.businessRegistration.nib
+          - message.catalog.resources[].id
+          - message.catalog.resources[].resourceAttributes.name.id
+          - message.catalog.resources[].resourceAttributes.resourceStructure
+          - message.catalog.resources[].resourceAttributes.availability.status
+          - message.catalog.offers[].id
+          - message.catalog.offers[].price
+          - message.catalog.offers[].offerAttributes.policies.cancellation.policyRef
+          - message.catalog.offers[].offerAttributes.policies.returns.policyRef
+          - message.catalog.offers[].offerAttributes.policies.warranty.policyRef
+          - message.catalog.offers[].offerAttributes.policies.dispute.policyRef
+          - message.catalog.offers[].offerAttributes.policies.grievanceSla.policyRef
+          - message.catalog.offers[].offerAttributes.policies.paymentTerms.policyRef
+        businessRules:
+          - policies.cancellation.policyRef is ion://policy/cancel.standard.until-dispatched
+          - policies.returns.policyRef is ion://policy/return.standard.14d-sellerpays
+          - policies.warranty.policyRef is ion://policy/warranty.standard.none
+          - policies.dispute.policyRef is ion://policy/dispute.consumer.bpsk
+          - policies.grievanceSla.policyRef is ion://policy/grievance-sla.consumer.standard
+          - policies.paymentTerms.policyRef is ion://policy/payment-terms.upfront.full
+        schemaPacks:
+          common: [BusinessRegistration/v1]
+          trade: [TradeProvider/v1, TradeResource/v1, TradeOffer/v1]
+
+      - step: on_discover
+        from: ION_CATALOG
+        to: MARKETPLACE_BAP
+        direction: push
+
+  phase2:
+    name: Routed transaction
+    communication: direct marketplace BAP-seller BPP
+    steps:
+      - step: select
+        from: MARKETPLACE_BAP
+        to: SELLER_BPP
+        direction: request
+        description: Marketplace routes selection to the seller identified by context.bppId.
+        requiredFields:
+          - context.transactionId
+          - context.messageId
+          - context.bapId
+          - context.bppId
+          - message.contract.participants[role=PROVIDER].id
+          - message.contract.commitments[].id
+          - message.contract.commitments[].commitmentAttributes.resourceId
+          - message.contract.commitments[].commitmentAttributes.offerId
+          - message.contract.commitments[].resources[].quantity.count
+          - message.contract.performance[].performanceAttributes.performanceMode
+
+      - step: on_select
+        from: SELLER_BPP
+        to: MARKETPLACE_BAP
+        direction: callback
+        description: Seller returns the quote, including any disclosed marketplace fee.
+        requiredFields:
+          - message.contract.consideration[].considerationAttributes.breakup[]
+          - message.contract.consideration[].considerationAttributes.totalAmount
+          - message.contract.performance[].performanceAttributes.sla
+        conditionalFields:
+          - field: message.contract.consideration[].considerationAttributes.breakup[type=PLATFORM_FEE]
+            condition: present when the marketplace charges a transaction-level platform fee
+        schemaPacks:
+          common: [Tax/v1]
+          trade: [TradeConsideration/v1, TradePerformance/v1]
+
+      - step: init
+        from: MARKETPLACE_BAP
+        to: SELLER_BPP
+        direction: request
+        description: Marketplace supplies buyer delivery and payment details.
+        requiredFields:
+          - message.contract.participants[role=BUYER].person.name
+          - message.contract.participants[role=BUYER].contact
+          - message.contract.performance[].performanceAttributes.stops[].location.address
+          - message.contract.settlements[].settlementAttributes.method
+          - message.contract.settlements[].settlementAttributes.paymentRail
+          - message.contract.settlements[].settlementAttributes.collectedBy
+        businessRules:
+          - settlementAttributes.collectedBy is BAP when the marketplace collects consumer payment
+        schemaPacks:
+          common: [Address/v1, Payment/v1]
+
+      - step: on_init
+        from: SELLER_BPP
+        to: MARKETPLACE_BAP
+        direction: callback
+        requiredFields:
+          - message.contract.settlements[].settlementAttributes.methodDetail
+          - message.contract.consideration[].considerationAttributes.totalAmount
+
+      - step: confirm
+        from: MARKETPLACE_BAP
+        to: SELLER_BPP
+        direction: request
+        requiredFields:
+          - message.contract.commitments[]
+          - message.contract.participants[role=BUYER]
+          - message.contract.settlements[].settlementAttributes.status
+
+      - step: on_confirm
+        from: SELLER_BPP
+        to: MARKETPLACE_BAP
+        direction: callback
+        requiredFields:
+          - message.contract.id
+          - message.contract.status
+          - message.contract.performance[].id
+          - message.contract.performance[].performanceAttributes.fulfillingLocationId
+        schemaPacks:
+          common: [Payment/v1]
+          trade: [TradeContract/v1, TradePerformance/v1]
+
+  phase3:
+    name: Seller fulfilment
+    stateMachine: schema/extension/trade/TradePerformanceStates/v1/states.yaml#standard
+    steps:
+      - step: on_status
+        trigger: PACKED
+        from: SELLER_BPP
+        to: MARKETPLACE_BAP
+        direction: unsolicited
+      - step: on_status
+        trigger: DISPATCHED
+        from: SELLER_BPP
+        to: MARKETPLACE_BAP
+        direction: unsolicited
+        requiredFields:
+          - message.contract.performance[].status.descriptor.code
+          - message.contract.performance[].performanceAttributes.trackingNumber
+      - step: on_status
+        trigger: DELIVERED
+        from: SELLER_BPP
+        to: MARKETPLACE_BAP
+        direction: unsolicited
+        requiredFields:
+          - message.contract.performance[].status.descriptor.code
+          - message.contract.status
+
+policyRequirements:
+  cancellation:
+    policyRef: ion://policy/cancel.standard.until-dispatched
+  returns:
+    policyRef: ion://policy/return.standard.14d-sellerpays
+  warranty:
+    policyRef: ion://policy/warranty.standard.none
+  dispute:
+    policyRef: ion://policy/dispute.consumer.bpsk
+  grievanceSla:
+    policyRef: ion://policy/grievance-sla.consumer.standard
+  paymentTerms:
+    policyRef: ion://policy/payment-terms.upfront.full
+

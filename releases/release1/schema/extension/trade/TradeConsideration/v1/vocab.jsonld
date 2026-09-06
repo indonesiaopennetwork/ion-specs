@@ -1,0 +1,38 @@
+{
+  "@context": {
+    "ion": "https://schema.ion.id/trade/consideration/v1#",
+    "iontax": "https://schema.ion.id/core/tax/v1#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "beckn": "https://schema.beckn.io/",
+    "rccna": "https://schema.beckn.io/RetailConsideration#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "owl": "http://www.w3.org/2002/07/owl#"
+  },
+  "@graph": [
+    {
+      "@id": "ion:IONTradeConsideration",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONTradeConsideration",
+      "rdfs:comment": "ION trade consideration extension. Extends RetailConsideration v2.1 and refines inherited breakup tax details with the shared IONTaxDetail schema.",
+      "rdfs:subClassOf": {
+        "@id": "rccna:RetailConsideration"
+      },
+      "skos:broader": {
+        "@id": "beckn:Consideration"
+      }
+    },
+    {
+      "@id": "rccna:breakup",
+      "@type": "rdf:Property",
+      "rdfs:label": "breakup",
+      "rdfs:comment": "Retail consideration price breakup refined by this vocabulary."
+    },
+    {
+      "@id": "rccna:taxDetail",
+      "@type": "rdf:Property",
+      "rdfs:label": "taxDetail",
+      "rdfs:comment": "Tax detail associated with a consideration breakup entry."
+    }
+  ]
+}
