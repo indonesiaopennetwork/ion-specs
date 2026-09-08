@@ -98,10 +98,9 @@ Read [`CONTRIBUTING.md`](CONTRIBUTING.md), the
 schema names, properties, JSON-LD IRIs, policy IRIs, and error codes as public
 interfaces.
 
-Architecture and migration decisions are documented in:
+Architecture decisions are documented in:
 
 - [`docs/ION_Release_Architecture.md`](docs/ION_Release_Architecture.md)
-- [`docs/ION_Release1_Migration_Inventory.md`](docs/ION_Release1_Migration_Inventory.md)
 
 ## License
 
