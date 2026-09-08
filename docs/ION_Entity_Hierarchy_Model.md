@@ -160,7 +160,7 @@ A TSP can hold a profile in multiple sectors — one `TSP / sector` profile per 
 Six sectors, each governed by the ION governance team:
 
 | Sector | Core activity | Principle | `context.domain` |
-|---|---|---|
+|---|---|---|---|
 | **Trade** | Buying & selling goods | Buyer ends up owning a thing | `ion:trade` |
 | **Hospitality** | Experiences & lifestyle services | Time-bounded reservation of capacity | `ion:hospitality` |
 | **Logistics** | Moving & storing goods | Movement and storage of goods | `ion:logistics` |
@@ -568,7 +568,7 @@ This table shows which CRCs typically appear under each Segment and which patter
 ### Trade
 
 | Category Code | Category Name | Suggested Patterns | Variants (beyond happy flow) |
-|---|---|---|
+|---|---|---|---|
 | `TRD-01` | Grocery, FMCG & Quick Commerce | `storefront`, `subscription`, `live-commerce` | `cash-on-delivery`, `self-pickup`, `redelivery-attempts`, `mid-transaction-changes` |
 | `TRD-02` | E-commerce & Digital Marketplaces | `storefront`, `marketplace-listed`, `marketplace-inhouse`, `live-commerce`, `digital-goods` | `cash-on-delivery`, `self-pickup`, `mid-transaction-changes`, `return-to-sender-handoff` |
 | `TRD-03` | Specialty Retail | `storefront`, `made-to-order`, `live-commerce` | `cash-on-delivery`, `self-pickup`, `mid-transaction-changes`, `return-to-sender-handoff` |
@@ -580,7 +580,7 @@ This table shows which CRCs typically appear under each Segment and which patter
 ### Hospitality
 
 | Category Code | Category Name | Suggested Patterns | Variants (beyond happy flow) |
-|---|---|---|
+|---|---|---|---|
 | `HSP-01` | Hotels & Accommodation | `reservation` | `early-checkin`, `late-checkout`, `mid-transaction-changes` |
 | `HSP-02` | Short-Stay & Alternative Accommodation | `reservation`, `marketplace-listed` | `early-checkin`, `late-checkout`, `mid-transaction-changes` |
 | `HSP-03` | Travel Platforms & OTAs | `reservation`, `experience-booking`, `marketplace-listed` | `mid-transaction-changes` |
@@ -592,7 +592,7 @@ This table shows which CRCs typically appear under each Segment and which patter
 ### Logistics
 
 | Category Code | Category Name | Suggested Patterns | Variants (beyond happy flow) |
-|---|---|---|
+|---|---|---|---|
 | `LOG-01` | Last-Mile & Courier Delivery | `parcel`, `hyperlocal` | `cash-on-delivery`, `sender-drop-off`, `redelivery-attempts`, `return-to-sender-handoff`, `delivery-time-kyc` |
 | `LOG-02` | Freight Transport | `freight` | `mid-transaction-changes` |
 | `LOG-03` | Warehousing & Fulfilment | `warehouse` | `mid-transaction-changes` |
@@ -602,7 +602,7 @@ This table shows which CRCs typically appear under each Segment and which patter
 ### Mobility
 
 | Category Code | Category Name | Suggested Patterns | Variants (beyond happy flow) |
-|---|---|---|
+|---|---|---|---|
 | `MOB-01` | Ride-Hailing & On-Demand Transport | `on-demand-ride` | `advance-ride-booking`, `mid-journey-stop-change` |
 | `MOB-02` | Mass Transit & Scheduled Transport | `scheduled-journey`, `pass` | `seat-upgrade`, `mid-transaction-changes` |
 | `MOB-03` | Aviation — Passenger | `scheduled-journey`, `charter` | `seat-upgrade`, `mid-transaction-changes` |
@@ -611,7 +611,7 @@ This table shows which CRCs typically appear under each Segment and which patter
 ### Finance
 
 | Category Code | Category Name | Suggested Patterns | Variants (beyond happy flow) |
-|---|---|---|
+|---|---|---|---|
 | `FIN-01` | Banking | `account-opening`, `payment`, `service-activation` | `joint-account`, `mid-transaction-changes` |
 | `FIN-02` | Lending & Consumer Credit | `loan-application` | `partial-disbursement`, `top-up-loan`, `early-settlement`, `mid-transaction-changes` |
 | `FIN-03` | Payments & E-money | `payment` | `split-payment`, `mid-transaction-changes` |
@@ -623,7 +623,7 @@ This table shows which CRCs typically appear under each Segment and which patter
 ### Services
 
 | Category Code | Category Name | Suggested Patterns | Variants (beyond happy flow) |
-|---|---|---|
+|---|---|---|---|
 | `SVC-01` | Technology & Digital Services | `subscription`, `project-order`, `engagement-booking` | `scope-change`, `mid-transaction-changes` |
 | `SVC-02` | Telecom & Connectivity | `subscription`, `service-activation` | `plan-change`, `mid-transaction-changes` |
 | `SVC-03` | Professional & Advisory Services | `engagement-booking`, `retainer`, `project-order` | `scope-change`, `mid-transaction-changes` |
@@ -730,7 +730,7 @@ CRCs are ION-owned item classifications. GPC L0 mapping is a crosswalk for selle
 #### Trade CRCs (`TRC`)
 
 | Code | ION Name | GPC L0 Mapping | Status |
-|---|---|---|
+|---|---|---|---|
 | `TRC-fashion` | Fashion & Accessories | Apparel & Accessories | ACTIVE |
 | `TRC-electronics` | Electronics & Gadgets | Electronics · Cameras & Optics | ACTIVE |
 | `TRC-food-bev` | Food, Beverages & Tobacco | Food, Beverages & Tobacco | ACTIVE |
@@ -754,7 +754,7 @@ CRCs are ION-owned item classifications. GPC L0 mapping is a crosswalk for selle
 #### Hospitality CRCs (`HSC`)
 
 | Code | ION Name | GPC L0 Mapping | Status |
-|---|---|---|
+|---|---|---|---|
 | `HSC-accommodation` | Accommodation | — | ACTIVE |
 | `HSC-restaurant` | Restaurant & Dining | — | ACTIVE |
 | `HSC-restaurant-ordering` | Restaurant & Food Ordering | — | ACTIVE |
@@ -764,7 +764,7 @@ CRCs are ION-owned item classifications. GPC L0 mapping is a crosswalk for selle
 #### Logistics CRCs (`LGC`)
 
 | Code | ION Name | GPC L0 Mapping | Status |
-|---|---|---|
+|---|---|---|---|
 | `LGC-lastmile` | Last-Mile Delivery | — | ACTIVE |
 | `LGC-freight` | Freight Transport | — | ACTIVE |
 | `LGC-international` | Sea & Air Freight | — | ACTIVE |
@@ -774,7 +774,7 @@ CRCs are ION-owned item classifications. GPC L0 mapping is a crosswalk for selle
 #### Mobility CRCs (`MOC`)
 
 | Code | ION Name | GPC L0 Mapping | Status |
-|---|---|---|
+|---|---|---|---|
 | `MOC-ride` | Ride-Hailing | — | ACTIVE |
 | `MOC-scheduled` | Scheduled Transport | — | ACTIVE |
 | `MOC-rental` | Vehicle Rental | — | ACTIVE |
@@ -783,7 +783,7 @@ CRCs are ION-owned item classifications. GPC L0 mapping is a crosswalk for selle
 #### Finance CRCs (`FNC`)
 
 | Code | ION Name | GPC L0 Mapping | Status |
-|---|---|---|
+|---|---|---|---|
 | `FNC-lending` | Lending & Credit | — | ACTIVE |
 | `FNC-insurance` | Insurance | — | ACTIVE |
 | `FNC-payments` | Payments & E-money | — | ACTIVE |
@@ -793,7 +793,7 @@ CRCs are ION-owned item classifications. GPC L0 mapping is a crosswalk for selle
 #### Services CRCs (`SVRC`)
 
 | Code | ION Name | GPC L0 Mapping | Status |
-|---|---|---|
+|---|---|---|---|
 | `SVRC-tech` | Technology & Digital Services | — | ACTIVE |
 | `SVRC-professional` | Professional & Advisory | — | ACTIVE |
 | `SVRC-healthcare` | Healthcare & Wellness Services | — | ACTIVE |
@@ -823,7 +823,7 @@ CRCs are ION-owned item classifications. GPC L0 mapping is a crosswalk for selle
 > ✓ = variant applies to one or more patterns in this sector. Applicable pattern(s) shown in each cell. Blank = not applicable.
 
 | Variant | trade | hospitality | logistics | mobility | finance | services |
-|---|---|---|---|---|---|
+|---|---|---|---|---|---|---|
 | `cash-on-delivery` | `storefront` | `delivery-order` | `parcel` · `hyperlocal` | | | |
 | `self-pickup` | `storefront` · `made-to-order` | `delivery-order` | | | | |
 | `sender-drop-off` | | | `parcel` | | | |
