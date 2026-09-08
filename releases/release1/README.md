@@ -9,40 +9,6 @@ until the ION Council approves the release and changes its status to `published`
 Publication will assign Release 1 to the `next` channel and begin its operational
 stabilization period; it will not automatically make Release 1 `current`.
 
-## Current state
-
-Migration Phases 3 and 4 moved all nine Trade packs and the four common packs
-required by Trade into this draft, then vendored the Beckn dependencies at
-immutable upstream commits. Active schema references now use Release 1 public
-URLs, and the graph resolves offline.
-
-Phase 5 validated the standalone Trade packs and the four common packs required by
-Trade, including their JSON-LD documents and all 17 example objects. Phase 6
-explicitly excluded the unreconciled `ion.yaml` aggregate and the Logistics,
-Hospitality, and Finance sectors from Release 1. Those artifacts are absent from
-the release, and the repository does not retain separate root-level normative
-copies.
-
-Phase 8A added the independently reviewable connected Trade baseline:
-Storefront v1, 67 Trade or cross-sector policy terms, and 8 Trade errors whose
-schema and flow targets are present in this release. Phase 8B added the
-Made-to-Order v1 flow after reconciling its schema-pack names, category boundary,
-MTO state-machine target, and concrete cancellation policy. Phase 8C added the
-standard-action subset of Live Commerce v1 and restored its two release-local
-errors, bringing the included error count to 10.
-Phase 8D added the standard-action, target-free subset of Digital Goods v1 for
-electronically delivered vouchers and subscriptions. Push-to-target, account
-credit, and digital top-up transactions remain outside Release 1 because no
-transaction-level delivery-target schema exists in Release 1.
-Phase 8E added Business Procurement, Marketplace In-house, and Marketplace
-Listed using the existing Release 1 schema packs. Cross-Border, Government,
-Forward Auction, and Reverse Auction were reviewed and deferred because their
-defining objects or state semantics are not available within the Trade release
-boundary.
-Phase 8F began variant migration with the During-Transaction v1 family. Six
-sub-branches were included using existing Release 1 objects; four branches were
-excluded for callback misuse, missing Contract lifecycle, non-Beckn escalation,
-or Logistics dependencies.
 
 ## Protocol dependency
 
