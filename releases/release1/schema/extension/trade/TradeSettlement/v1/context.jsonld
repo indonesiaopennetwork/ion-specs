@@ -49,6 +49,8 @@
       }
     },
     "reconciliationId": "rcsa:reconciliationId",
-    "reconciliationStatus": "rcsa:reconciliationStatus"
+    "reconciliationStatus": "rcsa:reconciliationStatus",
+    "settlementBasis": "ion:settlementBasis",
+    "settlementWindow": "ion:settlementWindow"
   }
 }

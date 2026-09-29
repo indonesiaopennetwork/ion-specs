@@ -25,9 +25,10 @@ components:
       description: >
         ION trade settlement attributes. Inherits RetailSettlement v2.1 and
         exposes its fields through property-level references so the local
-        OpenAPI and JSON-LD artifacts remain aligned. The former ION-specific
-        layer defined no additional properties, so no x-attr-ion-layer markers
-        are needed.
+        OpenAPI and JSON-LD artifacts remain aligned, and adds the ION
+        settlement due-date terms settlementBasis and settlementWindow.
+        Properties originating in the ION-specific layer are identified by
+        x-attr-ion-layer: ion.
       x-ion-layer: ion
       x-ion-split-version: "0.7.0"
       x-recommended-parent: Settlement.settlementAttributes
@@ -60,11 +61,34 @@ components:
           $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailSettlement/2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/reconciliationId
         reconciliationStatus:
           $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailSettlement/2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/reconciliationStatus
+        settlementBasis:
+          type: string
+          x-attr-ion-layer: ion
+          enum:
+            - ON_CONFIRMATION
+            - AFTER_SHIPMENT
+            - AFTER_DELIVERY
+            - AFTER_RETURN_WINDOW
+          description: >
+            Contract lifecycle event from which the settlement falls due.
+            ON_CONFIRMATION starts at order confirmation, AFTER_SHIPMENT at
+            hand-over to logistics, AFTER_DELIVERY at confirmed delivery, and
+            AFTER_RETURN_WINDOW when the applicable return window closes.
+          example: AFTER_DELIVERY
+        settlementWindow:
+          type: string
+          format: duration
+          x-attr-ion-layer: ion
+          description: >
+            ISO 8601 duration, measured from the settlementBasis event, within
+            which the collector must settle with the receiver.
+          example: P1D
       #
       # Payment intent, collection timing, collector, payment status, and
       # instrument details are modeled by core/payment/v1 IONPayment.
-      # Reconciliation calculations, settlement basis, and disputes are
-      # modeled by core/reconcile/v1 IONReconcile.
+      # Settlement basis and settlement window are owned by this pack in
+      # Release 1. Reconciliation calculations and disputes are modeled by
+      # core/reconcile/v1 IONReconcile.
       # Domestic ION policy: currency is IDR unless an applicable cross-border
       # agreement explicitly permits another ISO 4217 settlement currency.
       # Removed duplicate payment declarations previously owned here:

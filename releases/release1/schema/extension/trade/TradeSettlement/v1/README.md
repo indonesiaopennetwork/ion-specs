@@ -9,8 +9,8 @@
 ## Purpose
 
 Represents the discharge of a trade consideration. `TradeSettlement` inherits
-the canonical `RetailSettlement v2.1` shape, and `IONTradeSettlement` provides
-an ION-specific extension point without repeating inherited fields.
+the canonical `RetailSettlement v2.1` shape, and `IONTradeSettlement` adds the
+ION settlement due-date terms without repeating inherited fields.
 
 The inherited schema defines:
 
@@ -26,6 +26,26 @@ The inherited schema defines:
 | `adjustments` | Post-transaction settlement adjustments |
 | `reconciliationId` | Cross-party reconciliation identifier |
 | `reconciliationStatus` | Reconciliation lifecycle state |
+
+## ION settlement terms
+
+These properties are marked `x-attr-ion-layer: ion`:
+
+| Field | Type | Meaning |
+|---|---|---|
+| `settlementBasis` | enum | Lifecycle event from which the settlement falls due |
+| `settlementWindow` | ISO 8601 duration | Time after the `settlementBasis` event within which the collector settles with the receiver |
+
+| `settlementBasis` | Window starts at |
+|---|---|
+| `ON_CONFIRMATION` | Order confirmation |
+| `AFTER_SHIPMENT` | Hand-over to logistics |
+| `AFTER_DELIVERY` | Confirmed delivery |
+| `AFTER_RETURN_WINDOW` | Close of the applicable return window |
+
+For example, `"settlementBasis": "AFTER_DELIVERY"` with
+`"settlementWindow": "P1D"` means settlement is due within one day of
+confirmed delivery. Both fields are optional.
 
 RetailSettlement requires `method`, `settledAt`, `settledAmount`, and
 `currency`. These inherited requirements cannot be relaxed through `allOf`.
@@ -52,8 +72,8 @@ cross-border, and domestic flows require rails such as `RTGS`, `SKN`, `SWIFT`,
 
 - `core/payment/v1` owns buyer-facing payment declaration fields such as
   collector, collection timing, payment status, and typed instrument details.
-- `core/reconcile/v1` owns reconciliation calculations, settlement basis,
-  disputes, tax withholding, and detailed reconciliation adjustments.
+- `core/reconcile/v1` owns reconciliation calculations, disputes, tax
+  withholding, and detailed reconciliation adjustments.
 - `trade/consideration/v1` owns monetary obligations and price changes,
   including additional charges created by an exchange or contract update.
 
@@ -79,3 +99,4 @@ another ISO 4217 currency.
 |---|---|---|
 | v1 | 2026-06-02 | Initial release |
 | v1 cleanup | 2026-07-23 | Inherited RetailSettlement v2.1 and removed duplicate payment and reconciliation fields |
+| v1 | 2026-09-29 | Added optional ION-layer `settlementBasis` and `settlementWindow` |

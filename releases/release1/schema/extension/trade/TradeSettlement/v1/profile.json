@@ -23,6 +23,9 @@
       },
       {
         "path": "$.reconciliationStatus"
+      },
+      {
+        "path": "$.settlementBasis"
       }
     ],
     "filterable": [
@@ -37,6 +40,9 @@
       },
       {
         "path": "$.reconciliationStatus"
+      },
+      {
+        "path": "$.settlementBasis"
       }
     ],
     "sortable": [
