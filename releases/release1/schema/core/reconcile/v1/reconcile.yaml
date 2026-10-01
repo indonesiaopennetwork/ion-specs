@@ -1,0 +1,378 @@
+openapi: 3.1.1
+info:
+  title: ION Settlement Reconciliation API
+  version: 1.0.0
+  description: >
+    ION network extension to Beckn Protocol v2.0.0 for end-of-day settlement
+    reconciliation between a Provider Node (BPP) and a Consumer Node (BAP).
+
+
+    This file extends Beckn; it does not copy or embed it. Every Beckn type is
+    referenced from the Release 1 vendored contract at
+    https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml.
+    Validate this file together with that contract; do not merge them.
+
+
+    It adds two endpoints to the core Beckn endpoints: `/reconcile` (BPP to BAP)
+    and `/on_reconcile` (BAP to BPP). Settlement-level reconciliation state
+    (`reconciliationId`, `reconciliationStatus`, `settlementBasis`,
+    `settlementWindow`, and `refund`) is carried on each contract settlement's
+    `settlementAttributes`. This file owns the `SettlementBasis` and
+    `SettlementWindow` definitions; sector settlement packs reference them.
+
+
+    Beckn v2.0 terminology applies: Consumer Node (CN) replaces BAP and
+    Provider Node (PN) replaces BPP; the wire-level fields `bapId` and `bppId`
+    are retained.
+  contact:
+    name: ION Network
+    url: https://schema.ion.id
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+
+servers:
+  - url: https://{subscriberUrl}
+    description: Base URL of the receiving network participant (resolved via the registry).
+    variables:
+      subscriberUrl:
+        default: example.beckn.io
+
+tags:
+  - name: Post-Fulfillment
+    description: Settlement reconciliation between Provider and Consumer NPs.
+
+paths:
+  /reconcile:
+    post:
+      summary: PN submits the day's due settlements to a CN for reconciliation
+      operationId: reconcile
+      tags: [Post-Fulfillment]
+      description: >
+        Sent by the BPP to one BAP — normally once per settlement date (end
+        of day), again the same day for contracts that fell due later — listing
+        every contract between them whose settlement is due on that date.
+        `context.transactionId` identifies the reconciliation batch (it spans
+        many order transactions and is not any one contract's transactionId);
+        `context.bapId` / `context.bppId` identify the pair being reconciled.
+
+
+        Callback relationship: the BAP MUST answer with `/on_reconcile`
+        correlated by `context.messageId`. It MAY first answer
+        `reconciliationStatus: PENDING` (received, being checked) and send a
+        further unsolicited `/on_reconcile` once it has agreed and paid.
+      parameters:
+        - $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/parameters/AuthorizationHeader'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [context, message]
+              properties:
+                context:
+                  allOf:
+                    - $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Context'
+                    - type: object
+                      properties:
+                        action:
+                          type: string
+                          const: reconcile
+                message:
+                  $ref: '#/components/schemas/ReconcileAction'
+      responses:
+        '200':
+          $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/responses/Ack'
+        '400':
+          $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/responses/NackBadRequest'
+        '401':
+          $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/responses/NackUnauthorized'
+        '409':
+          $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/responses/NackConflict'
+        '500':
+          $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/responses/ServerError'
+
+  /on_reconcile:
+    post:
+      summary: CN returns its reconciliation outcome and payout to the PN
+      operationId: on_reconcile
+      tags: [Post-Fulfillment]
+      description: >
+        Sent by the BAP to the BPP in response to `/reconcile` (same
+        `context.transactionId`), or unsolicited later for the same
+        `reconciliationId` once the outcome or payout changes. Carries the
+        BAP's verdict per contract, its own settlement summary, and the
+        payout once the BAP has agreed — the gateway's release of
+        `netPayable` from the held funds to the seller.
+      parameters:
+        - $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/parameters/AuthorizationHeader'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [context, message]
+              properties:
+                context:
+                  allOf:
+                    - $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Context'
+                    - type: object
+                      properties:
+                        action:
+                          type: string
+                          const: on_reconcile
+                message:
+                  $ref: '#/components/schemas/OnReconcileAction'
+      responses:
+        '200':
+          $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/responses/Ack'
+        '400':
+          $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/responses/NackBadRequest'
+        '401':
+          $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/responses/NackUnauthorized'
+        '500':
+          $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/responses/ServerError'
+
+components:
+  schemas:
+    ReconcileAction:
+      title: Reconcile Action
+      description: >
+        The PN's claim for one settlement date against one CN: the due
+        contracts and what they add up to.
+      type: object
+      additionalProperties: false
+      required: [reconciliationId, settlementDate, contracts, settlementSummary]
+      properties:
+        reconciliationId:
+          type: string
+          description: >
+            Identifier of this reconciliation batch, unique per batch: the
+            settlement date and UTC send time, plus the BAP —
+            recon-<YYYY-MM-DD>T<HHMMSS>Z-<bapId>. Also written to every
+            included settlement's settlementAttributes.reconciliationId.
+          examples: ['recon-2026-09-30T170000Z-onix-bap-x7m2wmy7nq-et.a.run.app']
+        settlementDate:
+          type: string
+          format: date
+          description: The date whose due settlements this batch reconciles.
+        contracts:
+          type: array
+          minItems: 1
+          description: >
+            The due contracts, each as the PN currently holds it (status,
+            commitments, consideration, settlements) — the same Contract
+            object as in /confirm, /on_cancel and /on_update. Settlements
+            being reconciled in this batch carry
+            settlementAttributes.reconciliationId = this batch and
+            reconciliationStatus = PENDING; settlements reconciled in an
+            earlier batch keep their earlier reconciliationId and status.
+            Every refund settlement carries refund.source.
+          items:
+            $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Contract'
+        settlementSummary:
+          $ref: '#/components/schemas/SettlementSummary'
+
+    OnReconcileAction:
+      title: On Reconcile Action
+      description: >
+        The CN's reconciliation outcome for a batch: per-contract verdicts,
+        its own summary of what it owes, and the payout once made.
+      type: object
+      additionalProperties: false
+      required: [reconciliationId, reconciliationStatus, contracts]
+      properties:
+        reconciliationId:
+          type: string
+          description: The reconciliationId of the /reconcile being answered.
+        reconciliationStatus:
+          type: string
+          enum: [PENDING, AGREED, DISPUTED, ADJUSTED]
+          description: >
+            Batch-level outcome. PENDING — received, still being checked.
+            AGREED — every contract agreed as claimed. DISPUTED — at least one
+            contract is disputed and nothing is paid yet. ADJUSTED — settled
+            at amounts differing from the claim (see contracts[].adjustedAmount).
+        contracts:
+          type: array
+          description: The CN's verdict for every contract in the batch.
+          items:
+            $ref: '#/components/schemas/ContractReconciliation'
+        settlementSummary:
+          description: >
+            The CN's own computation of the summary. When it differs from the
+            PN's, the differing contracts are DISPUTED or ADJUSTED.
+          $ref: '#/components/schemas/SettlementSummary'
+        payout:
+          $ref: '#/components/schemas/Payout'
+
+    ContractReconciliation:
+      title: Contract Reconciliation
+      description: The CN's verdict on one contract of the batch.
+      type: object
+      additionalProperties: false
+      required: [contractId, reconciliationStatus]
+      properties:
+        contractId:
+          $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Contract/properties/id'
+        reconciliationStatus:
+          type: string
+          enum: [AGREED, DISPUTED, ADJUSTED]
+        claimedAmount:
+          type: number
+          description: This contract's contribution to the PN's netPayable.
+        adjustedAmount:
+          type: number
+          description: The amount the CN accepts, when ADJUSTED.
+        dispute:
+          description: Why the contract is DISPUTED or ADJUSTED (code + human-readable text).
+          $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Descriptor'
+
+    SettlementSummary:
+      title: Settlement Summary
+      description: >
+        Totals over the settlements reconciled in the batch, for one BAP.
+        Invariants:
+        totalSettledAmount = totalPaidAmount − totalGatewayRefundAmount, and
+        netPayable = totalSettledAmount — the amount the payment gateway
+        releases from the held funds to the BPP when the BAP agrees.
+        totalProviderRefundAmount (refunds the BPP paid from its own account
+        after an earlier release) is reported for verification and does not
+        change netPayable. totalFeesRetained is the part of
+        totalSettledAmount made of cancellation / restocking fees.
+      type: object
+      additionalProperties: false
+      required:
+        - bapId
+        - bppId
+        - currency
+        - settlementDate
+        - contractCount
+        - totalPaidAmount
+        - totalGatewayRefundAmount
+        - totalProviderRefundAmount
+        - totalSettledAmount
+        - netPayable
+      properties:
+        bapId:
+          type: string
+        bppId:
+          type: string
+        currency:
+          type: string
+          pattern: '^[A-Z]{3}$'
+          description: ISO 4217 code; IDR for domestic ION trade.
+        settlementDate:
+          type: string
+          format: date
+        settlementBasis:
+          description: >
+            The payout basis of the contracts in the batch, as carried on their
+            settlements' settlementAttributes.settlementBasis.
+          $ref: '#/components/schemas/SettlementBasis'
+        settlementWindow:
+          description: >
+            The payout window (ISO 8601 duration) of the contracts in the batch,
+            as carried on their settlements' settlementAttributes.settlementWindow.
+          $ref: '#/components/schemas/SettlementWindow'
+        contractCount:
+          type: integer
+          minimum: 1
+        totalPaidAmount:
+          type: number
+          description: >
+            Sum of the payment settlements (those without a refund object)
+            reconciled in this batch — the buyer payments held by the gateway.
+        totalGatewayRefundAmount:
+          type: number
+          description: >
+            Sum of refund.amount over the batch's refund settlements with
+            refund.source = PAYMENT_GATEWAY — refunded from the held funds.
+        totalProviderRefundAmount:
+          type: number
+          description: >
+            Sum of refund.amount over the batch's refund settlements with
+            refund.source = PROVIDER — refunded by the BPP from its own account
+            after an earlier release. Informational; not deducted.
+        totalFeesRetained:
+          type: number
+          description: Sum of cancellation and restocking fees on the batch's contracts (part of totalSettledAmount).
+        totalSettledAmount:
+          type: number
+          description: totalPaidAmount − totalGatewayRefundAmount.
+        netPayable:
+          type: number
+          description: >
+            Amount the gateway releases to the BPP for this batch
+            (= totalSettledAmount). Zero for a batch that only reports
+            provider-paid refunds.
+
+    SettlementBasis:
+      title: Settlement Basis
+      description: >
+        Contract lifecycle event from which a settlement falls due.
+        ON_CONFIRMATION starts at order confirmation, AFTER_SHIPMENT at
+        hand-over to logistics, AFTER_DELIVERY at confirmed delivery, and
+        AFTER_RETURN_WINDOW when the applicable return window closes.
+      type: string
+      enum:
+        - ON_CONFIRMATION
+        - AFTER_SHIPMENT
+        - AFTER_DELIVERY
+        - AFTER_RETURN_WINDOW
+      examples: [AFTER_DELIVERY]
+
+    SettlementWindow:
+      title: Settlement Window
+      description: >
+        ISO 8601 duration, measured from the SettlementBasis event, within
+        which the collector must settle with the receiver.
+      type: string
+      format: duration
+      examples: [P1D]
+
+    RefundSource:
+      title: Refund Source
+      description: >
+        Extension to RetailSettlement's settlementAttributes.refund: who paid
+        the refund. PAYMENT_GATEWAY — from the funds the gateway still holds
+        (refund before the contract was reconciled). PROVIDER — by the BPP from
+        its own account (refund after the funds were released to it).
+      type: string
+      enum: [PAYMENT_GATEWAY, PROVIDER]
+
+    Payout:
+      title: Payout
+      description: >
+        The release of netPayable from the payment gateway's held funds to the
+        PN's account, instructed by the CN when it agrees.
+      type: object
+      additionalProperties: false
+      required: [status, amount, currency]
+      properties:
+        status:
+          type: string
+          enum: [COMMITTED, COMPLETE]
+          description: COMMITTED — release instructed to the gateway; COMPLETE — funds received by the PN.
+        amount:
+          type: number
+        currency:
+          type: string
+          pattern: '^[A-Z]{3}$'
+        paidAt:
+          type: string
+          format: date-time
+        method:
+          type: string
+          description: Same value set as RetailSettlement.method (e.g. BANK_TRANSFER, ONLINE).
+        gateway:
+          type: object
+          description: The gateway's reference for the release (as RetailSettlement.gateway).
+          required: [name, transactionId]
+          properties:
+            name:
+              type: string
+            transactionId:
+              type: string

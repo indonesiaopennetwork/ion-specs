@@ -62,13 +62,8 @@ components:
         reconciliationStatus:
           $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailSettlement/2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/reconciliationStatus
         settlementBasis:
-          type: string
+          $ref: https://schema.ion.id/release1/schema/core/reconcile/v1/reconcile.yaml#/components/schemas/SettlementBasis
           x-attr-ion-layer: ion
-          enum:
-            - ON_CONFIRMATION
-            - AFTER_SHIPMENT
-            - AFTER_DELIVERY
-            - AFTER_RETURN_WINDOW
           description: >
             Contract lifecycle event from which the settlement falls due.
             ON_CONFIRMATION starts at order confirmation, AFTER_SHIPMENT at
@@ -76,8 +71,7 @@ components:
             AFTER_RETURN_WINDOW when the applicable return window closes.
           example: AFTER_DELIVERY
         settlementWindow:
-          type: string
-          format: duration
+          $ref: https://schema.ion.id/release1/schema/core/reconcile/v1/reconcile.yaml#/components/schemas/SettlementWindow
           x-attr-ion-layer: ion
           description: >
             ISO 8601 duration, measured from the settlementBasis event, within
@@ -86,8 +80,10 @@ components:
       #
       # Payment intent, collection timing, collector, payment status, and
       # instrument details are modeled by core/payment/v1 IONPayment.
-      # Settlement basis and settlement window are owned by this pack in
-      # Release 1. Reconciliation calculations and disputes are modeled by
+      # Settlement basis and settlement window are defined by
+      # core/reconcile/v1 SettlementBasis and SettlementWindow and referenced
+      # here so settlements and reconciliation summaries share one value set.
+      # Reconciliation calculations and disputes are modeled by
       # core/reconcile/v1 IONReconcile.
       # Domestic ION policy: currency is IDR unless an applicable cross-border
       # agreement explicitly permits another ISO 4217 settlement currency.

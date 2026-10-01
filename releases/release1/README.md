@@ -44,6 +44,10 @@ sub-branches were included using existing Release 1 objects; four branches were
 excluded for callback misuse, missing Contract lifecycle, non-Beckn escalation,
 or Logistics dependencies.
 
+The settlement reconciliation API (`/reconcile`, `/on_reconcile`) was added at
+`schema/core/reconcile/v1/reconcile.yaml` as a standalone network extension to
+the vendored Beckn contract. It does not reintroduce the `ion.yaml` aggregate.
+
 ## Protocol dependency
 
 Release 1 includes the vendored Beckn Protocol contract used by its schemas:

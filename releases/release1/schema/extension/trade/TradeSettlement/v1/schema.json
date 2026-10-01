@@ -57,20 +57,13 @@
           "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailSettlement/2.1/attributes.yaml#/components/schemas/RetailSettlement/properties/reconciliationStatus"
         },
         "settlementBasis": {
-          "type": "string",
+          "$ref": "https://schema.ion.id/release1/schema/core/reconcile/v1/reconcile.yaml#/components/schemas/SettlementBasis",
           "x-attr-ion-layer": "ion",
-          "enum": [
-            "ON_CONFIRMATION",
-            "AFTER_SHIPMENT",
-            "AFTER_DELIVERY",
-            "AFTER_RETURN_WINDOW"
-          ],
           "description": "Contract lifecycle event from which the settlement falls due. ON_CONFIRMATION starts at order confirmation, AFTER_SHIPMENT at hand-over to logistics, AFTER_DELIVERY at confirmed delivery, and AFTER_RETURN_WINDOW when the applicable return window closes.",
           "example": "AFTER_DELIVERY"
         },
         "settlementWindow": {
-          "type": "string",
-          "format": "duration",
+          "$ref": "https://schema.ion.id/release1/schema/core/reconcile/v1/reconcile.yaml#/components/schemas/SettlementWindow",
           "x-attr-ion-layer": "ion",
           "description": "ISO 8601 duration, measured from the settlementBasis event, within which the collector must settle with the receiver.",
           "example": "P1D"
