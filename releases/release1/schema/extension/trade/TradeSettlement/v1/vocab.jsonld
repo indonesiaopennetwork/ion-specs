@@ -110,6 +110,24 @@
       "rdfs:domain": {
         "@id": "ion:IONTradeSettlement"
       }
+    },
+    {
+      "@id": "ion:settlementBasis",
+      "@type": "rdf:Property",
+      "rdfs:label": "settlementBasis",
+      "rdfs:comment": "Contract lifecycle event from which the settlement falls due.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeSettlement"
+      }
+    },
+    {
+      "@id": "ion:settlementWindow",
+      "@type": "rdf:Property",
+      "rdfs:label": "settlementWindow",
+      "rdfs:comment": "ISO 8601 duration, measured from the settlementBasis event, within which the collector must settle with the receiver.",
+      "rdfs:domain": {
+        "@id": "ion:IONTradeSettlement"
+      }
     }
   ]
 }
