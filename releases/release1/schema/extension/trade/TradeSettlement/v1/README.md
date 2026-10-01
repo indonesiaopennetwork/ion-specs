@@ -29,7 +29,11 @@ The inherited schema defines:
 
 ## ION settlement terms
 
-These properties are marked `x-attr-ion-layer: ion`:
+These properties are marked `x-attr-ion-layer: ion`. Their value sets are
+defined once by the
+[settlement reconciliation API](../../../../core/reconcile/v1/README.md)
+(`SettlementBasis` and `SettlementWindow`) and referenced here, so settlements
+and reconciliation summaries use the same values:
 
 | Field | Type | Meaning |
 |---|---|---|
@@ -100,3 +104,4 @@ another ISO 4217 currency.
 | v1 | 2026-06-02 | Initial release |
 | v1 cleanup | 2026-07-23 | Inherited RetailSettlement v2.1 and removed duplicate payment and reconciliation fields |
 | v1 | 2026-09-29 | Added optional ION-layer `settlementBasis` and `settlementWindow` |
+| v1 | 2026-10-01 | `settlementBasis` and `settlementWindow` now reference `core/reconcile/v1` definitions; values unchanged |

@@ -1,5 +1,10 @@
 # Release 1 core API scope
 
-Release 1 does not include the unreconciled ION-native `ion.yaml` aggregate.
-This directory is retained to make the release schema layout explicit; the
-manifest records `ionApi: excluded` and no Release 1 core API URL is published.
+Release 1 does not include the unreconciled ION-native `ion.yaml` aggregate;
+the manifest records `ionApi: excluded`.
+
+This directory holds standalone ION network extension APIs that extend the
+vendored Beckn Protocol contract by reference:
+
+- [`reconcile/v1/`](reconcile/v1/README.md) — settlement reconciliation between
+  a Provider Node and a Consumer Node (`/reconcile`, `/on_reconcile`).
