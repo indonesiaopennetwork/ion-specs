@@ -1,0 +1,16 @@
+{
+  "@context": "https://schema.ion.id/release1/schema/common/Payment/v1/context.jsonld",
+  "@type": "ion:IONPayment",
+  "method": "QRIS",
+  "paymentRail": "QRIS",
+  "collectedBy": "BAP",
+  "timing": "ON_ORDER",
+  "status": "PENDING",
+  "currency": "IDR",
+  "amount": 98900,
+  "settlementAccount": {
+    "bankCode": "BCA",
+    "accountNumber": "1234567890",
+    "accountName": "PT Warung Pizza Nusantara"
+  }
+}

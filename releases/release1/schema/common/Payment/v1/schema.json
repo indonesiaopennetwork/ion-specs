@@ -163,6 +163,14 @@
     },
     "processingFee": {
       "$ref": "#/components/schemas/ProcessingFee"
+    },
+    "settlementAccount": {
+      "allOf": [
+        {
+          "$ref": "#/components/schemas/BankTransfer"
+        }
+      ],
+      "description": "Bank account of the payee network participant, where settlement payouts for this contract are sent. The payee is the participant that did not collect the buyer payment: the BPP declares its account in on_init when collectedBy is BAP, and the BAP declares its account in init when collectedBy is BPP. Reconciliation passes it to SEAM for the PJP payout. transferType does not apply."
     }
   },
   "required": [

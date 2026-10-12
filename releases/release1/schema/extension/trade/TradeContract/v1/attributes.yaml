@@ -5,8 +5,9 @@ info:
     Trade-sector contract attributes. Inherits buyer instructions, delivery
     preferences, gifting, invoice preferences, loyalty, quote reference, and
     source attribution from RetailContract v2.1. Adds contract-level purchase
-    order, parent-contract, cancellation, subscription, gifting-recipient, and
-    source-attribution refinements. Attaches to:
+    order, parent-contract, cancellation, subscription, gifting-recipient,
+    source-attribution, and settlement-term (settlement basis, settlement
+    window, finder fee) refinements. Attaches to:
     beckn:Contract.contractAttributes.
   version: 1.0.0
   license:
@@ -248,6 +249,67 @@ components:
             organisation when business identity is required for procurement,
             credit, or tax invoicing.
           # x-ion-condition: Required by network policy for applicable B2B procurement patterns
+
+
+        settlementBasis:
+          $ref: https://schema.ion.id/release1/schema/core/reconcile/v1/reconcile.yaml#/components/schemas/SettlementBasis
+          x-attr-ion-layer: ion
+          description: >
+            Contract lifecycle event from which the settlement falls due, as
+            agreed in init and on_init. ON_CONFIRMATION starts at order
+            confirmation, AFTER_SHIPMENT at hand-over to logistics,
+            AFTER_DELIVERY at confirmed delivery, and AFTER_RETURN_WINDOW when
+            the applicable return window closes.
+          example: AFTER_DELIVERY
+
+        settlementWindow:
+          $ref: https://schema.ion.id/release1/schema/core/reconcile/v1/reconcile.yaml#/components/schemas/SettlementWindow
+          x-attr-ion-layer: ion
+          description: >
+            ISO 8601 duration, measured from the settlementBasis event, within
+            which the collector must settle with the receiver.
+          example: P1D
+
+        finderFee:
+          x-attr-ion-layer: ion
+          type: object
+          additionalProperties: false
+          required: [feeType, feeValue]
+          description: >
+            Fee the Consumer Node (BAP) earns for bringing the order, agreed in
+            init and on_init. Reconciliation computes the fee amount from these
+            terms and reports it as the contract's commission.
+          properties:
+            feeType:
+              type: string
+              enum: [PERCENT, AMOUNT]
+              description: >
+                PERCENT applies feeValue as a percentage of the appliesTo base.
+                AMOUNT is a fixed fee in the contract currency.
+              example: PERCENT
+            feeValue:
+              type: number
+              minimum: 0
+              description: >
+                Fee percentage (0-100) when feeType is PERCENT; fee amount in the
+                contract currency when feeType is AMOUNT.
+              example: 3
+            appliesTo:
+              type: string
+              enum: [ITEM_TOTAL, ORDER_TOTAL]
+              description: >
+                Base for a PERCENT fee. ITEM_TOTAL is the item value excluding
+                delivery, packing, and taxes; ORDER_TOTAL is the full
+                consideration. Ignored when feeType is AMOUNT.
+              example: ITEM_TOTAL
+          if:
+            properties:
+              feeType:
+                const: PERCENT
+          then:
+            properties:
+              feeValue:
+                maximum: 100
 
       # Faktur Pajak reference moved to
       # Consideration.breakup[].taxDetail.eFakturRef.

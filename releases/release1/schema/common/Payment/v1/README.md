@@ -21,6 +21,18 @@ Indonesian payment method objects and PaymentDeclaration wrapper.
 Wraps the specific payment instrument with transaction-level context:
 `method`, `collectedBy`, `timing`, `status`, `amount`, `paidAt`, `gatewayRef`, `methodDetail`
 
+## Settlement account
+
+`settlementAccount` carries the payee's bank account (`bankCode`,
+`accountNumber`, `accountName`, using the `BankTransfer` shape) so SEAM can
+instruct the PJP payout after [reconciliation](../../../core/reconcile/v1/README.md).
+The payee is the participant that did not collect the buyer payment:
+
+| `collectedBy` | Payee | Declared in |
+|---|---|---|
+| `BAP` | BPP | `on_init` |
+| `BPP` | BAP | `init` |
+
 ## Implementation guidance carried over from the excluded aggregate
 
 The unreconciled `ion.yaml` draft previously treated the following fields as
@@ -46,3 +58,4 @@ codes included in this release.
 | Version | Date | Summary |
 |---|---|---|
 | v1 | 2026-06-02 | Initial release |
+| v1 | 2026-10-12 | Added `settlementAccount` for the payee's payout bank account |

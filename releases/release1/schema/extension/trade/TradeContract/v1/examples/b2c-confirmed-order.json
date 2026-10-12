@@ -24,5 +24,12 @@
   "invoicePreferences": {
     "email": "buyer@example.com",
     "invoiceType": "RECEIPT"
+  },
+  "settlementBasis": "AFTER_DELIVERY",
+  "settlementWindow": "P1D",
+  "finderFee": {
+    "feeType": "PERCENT",
+    "feeValue": 3,
+    "appliesTo": "ITEM_TOTAL"
   }
 }
