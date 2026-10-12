@@ -219,61 +219,19 @@
           "x-attr-ion-layer": "ion"
         },
         "settlementBasis": {
-          "$ref": "https://schema.ion.id/release1/schema/core/reconcile/v1/reconcile.yaml#/components/schemas/SettlementBasis",
+          "$ref": "https://schema.ion.id/release1/schema/core/reconcile/v1/attributes.yaml#/components/schemas/SettlementBasis",
           "description": "Contract lifecycle event from which the settlement falls due, as agreed in init and on_init. ON_CONFIRMATION starts at order confirmation, AFTER_SHIPMENT at hand-over to logistics, AFTER_DELIVERY at confirmed delivery, and AFTER_RETURN_WINDOW when the applicable return window closes.",
           "x-attr-ion-layer": "ion"
         },
         "settlementWindow": {
-          "$ref": "https://schema.ion.id/release1/schema/core/reconcile/v1/reconcile.yaml#/components/schemas/SettlementWindow",
+          "$ref": "https://schema.ion.id/release1/schema/core/reconcile/v1/attributes.yaml#/components/schemas/SettlementWindow",
           "description": "ISO 8601 duration, measured from the settlementBasis event, within which the settlement must be paid out.",
           "x-attr-ion-layer": "ion"
         },
         "finderFee": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "feeType",
-            "feeValue"
-          ],
-          "description": "Fee the Consumer Node (BAP) earns for bringing the order, agreed in init and on_init. Reconciliation computes the fee amount from these terms and reports it as the contract's commission.",
-          "x-attr-ion-layer": "ion",
-          "properties": {
-            "feeType": {
-              "type": "string",
-              "enum": [
-                "PERCENT",
-                "AMOUNT"
-              ],
-              "description": "PERCENT applies feeValue as a percentage of the appliesTo base. AMOUNT is a fixed fee in the contract currency."
-            },
-            "feeValue": {
-              "type": "number",
-              "minimum": 0,
-              "description": "Fee percentage (0-100) when feeType is PERCENT; fee amount in the contract currency when feeType is AMOUNT."
-            },
-            "appliesTo": {
-              "type": "string",
-              "enum": [
-                "ITEM_TOTAL",
-                "ORDER_TOTAL"
-              ],
-              "description": "Base for a PERCENT fee. ITEM_TOTAL is the item value excluding delivery, packing, and taxes; ORDER_TOTAL is the full consideration. Ignored when feeType is AMOUNT."
-            }
-          },
-          "if": {
-            "properties": {
-              "feeType": {
-                "const": "PERCENT"
-              }
-            }
-          },
-          "then": {
-            "properties": {
-              "feeValue": {
-                "maximum": 100
-              }
-            }
-          }
+          "$ref": "https://schema.ion.id/release1/schema/core/reconcile/v1/attributes.yaml#/components/schemas/FinderFee",
+          "description": "Fee the Consumer Node (BAP) earns for bringing the order, agreed in init and on_init. Reconciliation computes the fee amount from these terms and reports it as the settlement's commission.",
+          "x-attr-ion-layer": "ion"
         }
       },
       "x-ion-closed-extensions": false

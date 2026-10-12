@@ -7,4 +7,5 @@ This directory holds standalone ION network extension APIs that extend the
 vendored Beckn Protocol contract by reference:
 
 - [`reconcile/v1/`](reconcile/v1/README.md) — settlement reconciliation between
-  a Provider Node and a Consumer Node (`/reconcile`, `/on_reconcile`).
+  the BAP and BPP of an order: the `/reconcile` and `/on_reconcile` API and the
+  `IONSettlementReconciliation` attribute pack.

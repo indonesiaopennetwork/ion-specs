@@ -59,8 +59,10 @@ to compute each contract's payout. These properties are marked
 | `finderFee.feeValue` | number | Percentage (0-100) or fixed amount in the contract currency |
 | `finderFee.appliesTo` | `ITEM_TOTAL` \| `ORDER_TOTAL` | Base for a `PERCENT` fee |
 
-`settlementBasis` and `settlementWindow` reference the `SettlementBasis` and
-`SettlementWindow` definitions owned by `core/reconcile/v1`.
+`settlementBasis`, `settlementWindow`, and `finderFee` reference the
+`SettlementBasis`, `SettlementWindow`, and `FinderFee` definitions owned by the
+`core/reconcile/v1` attribute pack, which reconciliation repeats on each
+settlement.
 
 | `settlementBasis` | Window starts at |
 |---|---|

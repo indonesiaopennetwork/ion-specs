@@ -252,7 +252,7 @@ components:
 
 
         settlementBasis:
-          $ref: https://schema.ion.id/release1/schema/core/reconcile/v1/reconcile.yaml#/components/schemas/SettlementBasis
+          $ref: https://schema.ion.id/release1/schema/core/reconcile/v1/attributes.yaml#/components/schemas/SettlementBasis
           x-attr-ion-layer: ion
           description: >
             Contract lifecycle event from which the settlement falls due, as
@@ -263,7 +263,7 @@ components:
           example: AFTER_DELIVERY
 
         settlementWindow:
-          $ref: https://schema.ion.id/release1/schema/core/reconcile/v1/reconcile.yaml#/components/schemas/SettlementWindow
+          $ref: https://schema.ion.id/release1/schema/core/reconcile/v1/attributes.yaml#/components/schemas/SettlementWindow
           x-attr-ion-layer: ion
           description: >
             ISO 8601 duration, measured from the settlementBasis event, within
@@ -271,45 +271,12 @@ components:
           example: P1D
 
         finderFee:
+          $ref: https://schema.ion.id/release1/schema/core/reconcile/v1/attributes.yaml#/components/schemas/FinderFee
           x-attr-ion-layer: ion
-          type: object
-          additionalProperties: false
-          required: [feeType, feeValue]
           description: >
             Fee the Consumer Node (BAP) earns for bringing the order, agreed in
             init and on_init. Reconciliation computes the fee amount from these
-            terms and reports it as the contract's commission.
-          properties:
-            feeType:
-              type: string
-              enum: [PERCENT, AMOUNT]
-              description: >
-                PERCENT applies feeValue as a percentage of the appliesTo base.
-                AMOUNT is a fixed fee in the contract currency.
-              example: PERCENT
-            feeValue:
-              type: number
-              minimum: 0
-              description: >
-                Fee percentage (0-100) when feeType is PERCENT; fee amount in the
-                contract currency when feeType is AMOUNT.
-              example: 3
-            appliesTo:
-              type: string
-              enum: [ITEM_TOTAL, ORDER_TOTAL]
-              description: >
-                Base for a PERCENT fee. ITEM_TOTAL is the item value excluding
-                delivery, packing, and taxes; ORDER_TOTAL is the full
-                consideration. Ignored when feeType is AMOUNT.
-              example: ITEM_TOTAL
-          if:
-            properties:
-              feeType:
-                const: PERCENT
-          then:
-            properties:
-              feeValue:
-                maximum: 100
+            terms and reports it as the settlement's commission.
 
       # Faktur Pajak reference moved to
       # Consideration.breakup[].taxDetail.eFakturRef.

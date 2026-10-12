@@ -6,6 +6,7 @@
     "ionid": "https://schema.ion.id/core/identity/v1#",
     "rcca": "https://schema.beckn.io/RetailContract#",
     "beckn": "https://schema.beckn.io/",
+    "ionrec": "https://schema.ion.id/core/reconcile/v1#",
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
     "skos": "http://www.w3.org/2004/02/skos/core#",
@@ -105,11 +106,15 @@
         "spPIRTNumber": "ionid:spPIRTNumber"
       }
     },
-    "settlementBasis": "ion:settlementBasis",
-    "settlementWindow": "ion:settlementWindow",
-    "finderFee": "ion:finderFee",
-    "feeType": "ion:feeType",
-    "feeValue": "ion:feeValue",
-    "appliesTo": "ion:appliesTo"
+    "settlementBasis": "ionrec:settlementBasis",
+    "settlementWindow": "ionrec:settlementWindow",
+    "finderFee": {
+      "@id": "ionrec:finderFee",
+      "@context": {
+        "feeType": "ionrec:feeType",
+        "feeValue": "ionrec:feeValue",
+        "appliesTo": "ionrec:appliesTo"
+      }
+    }
   }
 }

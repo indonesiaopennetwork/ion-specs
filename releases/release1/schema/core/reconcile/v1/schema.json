@@ -1,0 +1,295 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schema.ion.id/release1/schema/core/reconcile/v1",
+  "title": "ION Core Settlement Reconciliation Schema Pack v1",
+  "description": "JSON Schema 2020-12 mirror of the core/reconcile/v1 attribute pack. The root resolves to IONSettlementReconciliation.",
+  "type": "object",
+  "$ref": "#/$defs/IONSettlementReconciliation",
+  "$defs": {
+    "IONSettlementReconciliation": {
+      "type": "object",
+      "title": "IONSettlementReconciliation",
+      "description": "One participant's reconciliation figures for a contract's settlement. The buyer's payment is held at the PJP; the figures split it. Invariant: orderAmount.value = netPayable.value + commission.value + withholdingAmount.value + refundAmount.value. On agreement SEAM instructs the PJP to pay netPayable to the BPP and commission to the BAP, return refundAmount to the buyer, and keep withholdingAmount. collectedBy, currency, and settlementAccounts reuse the IONPayment definitions.\n",
+      "x-ion-layer": "ion",
+      "x-recommended-parent": "Settlement.settlementAttributes",
+      "additionalProperties": true,
+      "x-jsonld": {
+        "@context": "https://schema.ion.id/release1/schema/core/reconcile/v1/context.jsonld",
+        "@type": "ion:IONSettlementReconciliation"
+      },
+      "x-beckn-attaches-to": "Settlement.settlementAttributes",
+      "required": [
+        "currency",
+        "orderAmount",
+        "commission",
+        "netPayable",
+        "settlementAccounts"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "commission": {
+                "properties": {
+                  "value": {
+                    "exclusiveMinimum": 0
+                  }
+                },
+                "required": [
+                  "value"
+                ]
+              }
+            },
+            "required": [
+              "commission"
+            ]
+          },
+          "then": {
+            "properties": {
+              "settlementAccounts": {
+                "contains": {
+                  "type": "object",
+                  "properties": {
+                    "holderRole": {
+                      "const": "BAP"
+                    }
+                  },
+                  "required": [
+                    "holderRole"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "accord": {
+                "const": true
+              }
+            },
+            "required": [
+              "accord"
+            ]
+          },
+          "then": {
+            "required": [
+              "dueDate"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "accord": {
+                "const": false
+              }
+            },
+            "required": [
+              "accord"
+            ]
+          },
+          "then": {
+            "required": [
+              "dispute"
+            ]
+          }
+        }
+      ],
+      "properties": {
+        "collectedBy": {
+          "$ref": "https://schema.ion.id/release1/schema/common/Payment/v1/attributes.yaml#/components/schemas/IONPayment/properties/collectedBy"
+        },
+        "currency": {
+          "$ref": "https://schema.ion.id/release1/schema/common/Payment/v1/attributes.yaml#/components/schemas/IONPayment/properties/currency"
+        },
+        "settlementAccounts": {
+          "allOf": [
+            {
+              "$ref": "https://schema.ion.id/release1/schema/common/Payment/v1/attributes.yaml#/components/schemas/IONPayment/properties/settlementAccounts"
+            }
+          ],
+          "minItems": 1,
+          "contains": {
+            "type": "object",
+            "properties": {
+              "holderRole": {
+                "const": "BPP"
+              }
+            },
+            "required": [
+              "holderRole"
+            ]
+          },
+          "description": "Payout accounts as declared on IONPayment.settlementAccounts in the order. The BPP account is always required; the BAP account is required when commission is greater than zero.\n"
+        },
+        "settlementBasis": {
+          "$ref": "#/$defs/SettlementBasis"
+        },
+        "settlementWindow": {
+          "$ref": "#/$defs/SettlementWindow"
+        },
+        "finderFee": {
+          "$ref": "#/$defs/FinderFee"
+        },
+        "orderAmount": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/ReconAmount"
+            }
+          ],
+          "description": "Gross amount the buyer paid for the contract, held at the PJP."
+        },
+        "commission": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/ReconAmount"
+            }
+          ],
+          "description": "BAP finder fee for the contract, computed from finderFee; the PJP pays it to the BAP. Zero when no finder fee was agreed.\n"
+        },
+        "withholdingAmount": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/ReconAmount"
+            }
+          ],
+          "description": "Amount the PJP keeps back, for example against returns."
+        },
+        "refundAmount": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/ReconAmount"
+            }
+          ],
+          "description": "Total the PJP returns to the buyer for the contract."
+        },
+        "netPayable": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/ReconAmount"
+            }
+          ],
+          "description": "Amount the PJP pays to the BPP for this contract: orderAmount − commission − withholdingAmount − refundAmount.\n"
+        },
+        "accord": {
+          "type": "boolean",
+          "description": "Set only in /on_reconcile. true — the counterparty agrees with the figures it received; both participants have agreed and SEAM triggers the payout. false — it disagrees; see diffValue and dispute.\n"
+        },
+        "dueDate": {
+          "type": "string",
+          "format": "date",
+          "description": "Date by which the payout is due. Required when accord is true."
+        },
+        "dispute": {
+          "$ref": "#/$defs/Dispute"
+        }
+      },
+      "x-ion-closed-extensions": false
+    },
+    "ReconAmount": {
+      "type": "object",
+      "title": "ReconAmount",
+      "description": "One settlement component. In /on_reconcile, diffValue is the counterparty's value minus the value in the /reconcile being answered; it is present only when the two differ.\n",
+      "additionalProperties": false,
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Component amount in the settlement currency."
+        },
+        "diffValue": {
+          "type": "number",
+          "description": "Counterparty's value minus the value it is answering, when they differ."
+        }
+      }
+    },
+    "Dispute": {
+      "type": "object",
+      "title": "Dispute",
+      "description": "Why the counterparty disagrees with a contract's figures. Required when accord is false.",
+      "additionalProperties": false,
+      "required": [
+        "code"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Short machine-readable reason, for example COMMISSION_MISMATCH."
+        },
+        "description": {
+          "type": "string",
+          "description": "Human-readable explanation of the disagreement."
+        }
+      }
+    },
+    "FinderFee": {
+      "type": "object",
+      "title": "FinderFee",
+      "description": "Fee the Consumer Node (BAP) earns for bringing the order, agreed in init and on_init. Reconciliation computes the fee amount from these terms and reports it as the contract's commission.\n",
+      "additionalProperties": false,
+      "required": [
+        "feeType",
+        "feeValue"
+      ],
+      "properties": {
+        "feeType": {
+          "type": "string",
+          "enum": [
+            "PERCENT",
+            "AMOUNT"
+          ],
+          "description": "PERCENT applies feeValue as a percentage of the appliesTo base. AMOUNT is a fixed fee in the contract currency.\n"
+        },
+        "feeValue": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Fee percentage (0-100) when feeType is PERCENT; fee amount in the contract currency when feeType is AMOUNT.\n"
+        },
+        "appliesTo": {
+          "type": "string",
+          "enum": [
+            "ITEM_TOTAL",
+            "ORDER_TOTAL"
+          ],
+          "description": "Base for a PERCENT fee. ITEM_TOTAL is the item value excluding delivery, packing, and taxes; ORDER_TOTAL is the full consideration. Ignored when feeType is AMOUNT.\n"
+        }
+      },
+      "if": {
+        "properties": {
+          "feeType": {
+            "const": "PERCENT"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "feeValue": {
+            "maximum": 100
+          }
+        }
+      }
+    },
+    "SettlementBasis": {
+      "title": "SettlementBasis",
+      "description": "Contract lifecycle event from which a settlement falls due. ON_CONFIRMATION starts at order confirmation, AFTER_SHIPMENT at hand-over to logistics, AFTER_DELIVERY at confirmed delivery, and AFTER_RETURN_WINDOW when the applicable return window closes.\n",
+      "type": "string",
+      "enum": [
+        "ON_CONFIRMATION",
+        "AFTER_SHIPMENT",
+        "AFTER_DELIVERY",
+        "AFTER_RETURN_WINDOW"
+      ]
+    },
+    "SettlementWindow": {
+      "title": "SettlementWindow",
+      "description": "ISO 8601 duration, measured from the SettlementBasis event, within which the settlement must be paid out.\n",
+      "type": "string",
+      "format": "duration"
+    }
+  }
+}

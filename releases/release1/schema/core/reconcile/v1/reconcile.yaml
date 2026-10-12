@@ -17,8 +17,11 @@ info:
     ION has no separate settle or report API. Reconciliation, agreement, and
     the payout trigger are all carried by `/reconcile` and `/on_reconcile`:
 
-    1. Either participant (BAP or BPP) sends `/reconcile` with its figures for
-       each contract whose settlement falls due on `settlementDate`.
+    1. Either participant (BAP or BPP) sends `/reconcile` with each contract
+       whose settlement falls due on `settlementDate`. Each contract is a
+       Beckn `Contract`; the sender's figures are in its
+       `settlements[].settlementAttributes` as `IONSettlementReconciliation`
+       (defined in attributes.yaml in this directory).
 
     2. The counterparty answers with `/on_reconcile`, setting `accord` per
        contract. `accord: true` means both participants agree on that
@@ -38,11 +41,16 @@ info:
        through the PJP's webhook, which is outside this specification.
 
 
-    The settlement terms used to compute the figures (`settlementBasis`,
-    `settlementWindow`, and `finderFee`) are agreed in `init` and `on_init`
-    on `IONTradeContract`. The participants' bank accounts
-    (`settlementAccounts`) are declared on `IONPayment` in
-    `Contract.settlements[]`.
+    The settlement terms (`settlementBasis`, `settlementWindow`, and
+    `finderFee`) are agreed in `init` and `on_init` on `IONTradeContract`,
+    and the participants' bank accounts (`settlementAccounts`) on
+    `IONPayment`. `IONSettlementReconciliation` repeats them so each
+    settlement is self-contained.
+
+
+    A contract in these messages is a snapshot that carries reconciliation
+    figures. It does not update the contract: `commitments` are included only
+    because Beckn requires them, and receivers MUST NOT treat them as a change.
 
 
     Beckn v2.0 terminology applies: Consumer Node (CN) replaces BAP and
@@ -169,7 +177,7 @@ components:
     ReconcileAction:
       title: Reconcile Action
       description: >
-        The sender's settlement figures for one settlement date against one
+        The sender's reconciliation figures for one settlement date against one
         counterparty: the due contracts and their batch totals.
       type: object
       additionalProperties: false
@@ -190,17 +198,17 @@ components:
         contracts:
           type: array
           minItems: 1
-          description: The sender's figures for each due contract.
+          description: The due contracts, each carrying the sender's figures on its settlements.
           items:
-            $ref: '#/components/schemas/ContractSettlement'
+            $ref: '#/components/schemas/ReconcileContract'
         settlementSummary:
           $ref: '#/components/schemas/SettlementSummary'
 
     OnReconcileAction:
       title: On Reconcile Action
       description: >
-        The counterparty's answer to a reconciliation round: its verdict and
-        figures for every contract in the round.
+        The counterparty's answer to a reconciliation round: its figures and
+        accord for every contract in the round.
       type: object
       additionalProperties: false
       required: [reconciliationId, reconciliationStatus, contracts]
@@ -212,193 +220,58 @@ components:
           type: string
           enum: [AGREED, PARTIALLY_AGREED, DISPUTED]
           description: >
-            Batch-level outcome. AGREED — every contract has accord true.
-            PARTIALLY_AGREED — some contracts have accord true; those proceed
-            to payout while the rest continue to another round. DISPUTED — no
-            contract has accord true.
+            Batch-level outcome. AGREED — every settlement has accord true.
+            PARTIALLY_AGREED — some do; those proceed to payout while the rest
+            continue to another round. DISPUTED — none do.
         contracts:
           type: array
           minItems: 1
-          description: The counterparty's verdict for every contract in the round.
+          description: The counterparty's figures and accord for every contract in the round.
           items:
-            $ref: '#/components/schemas/ContractReconciliation'
+            $ref: '#/components/schemas/OnReconcileContract'
         settlementSummary:
           description: The counterparty's own batch totals.
           $ref: '#/components/schemas/SettlementSummary'
 
-    ContractSettlement:
-      title: Contract Settlement
+    ReconcileContract:
+      title: Reconcile Contract
       description: >
-        One participant's settlement figures for one contract. The buyer's
-        payment for the contract is held at the PJP; the figures split it.
-        Invariant: orderAmount.value = netPayable.value + commission.value +
-        withholdingAmount.value + sum(taxes[].value) + refundAmount.value.
-        On agreement the PJP pays netPayable to the BPP and commission to the
-        BAP, returns refundAmount to the buyer, and keeps withholdingAmount.
-      type: object
-      required:
-        - contractId
-        - settlementId
-        - currency
-        - orderAmount
-        - commission
-        - netPayable
-        - settlementAccounts
-      properties:
-        contractId:
-          $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Contract/properties/id'
-        settlementId:
-          description: >
-            Id of the contract's payment record (Contract.settlements[].id)
-            whose held funds this settlement pays out.
-          $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Settlement/properties/id'
-        collectedBy:
-          description: >
-            Participant whose checkout collected the buyer payment into the
-            PJP, as declared on IONPayment.collectedBy. Informational: the
-            funds are held at the PJP whichever participant collected them.
-          $ref: 'https://schema.ion.id/release1/schema/common/Payment/v1/attributes.yaml#/components/schemas/IONPayment/properties/collectedBy'
-        currency:
-          type: string
-          pattern: '^[A-Z]{3}$'
-          description: ISO 4217 code for every amount in this contract; IDR for domestic ION trade.
-        settlementBasis:
-          $ref: '#/components/schemas/SettlementBasis'
-        settlementWindow:
-          $ref: '#/components/schemas/SettlementWindow'
-        orderAmount:
-          description: Gross amount the buyer paid for the contract, held at the PJP.
-          $ref: '#/components/schemas/ReconAmount'
-        commission:
-          description: >
-            BAP finder fee for the contract, computed from
-            IONTradeContract.finderFee; the PJP pays it to the BAP. Zero when
-            no finder fee was agreed.
-          $ref: '#/components/schemas/ReconAmount'
-        withholdingAmount:
-          description: Amount the PJP keeps back, for example against returns.
-          $ref: '#/components/schemas/ReconAmount'
-        taxes:
-          type: array
-          description: Taxes withheld from the BPP's proceeds, one entry per tax regime.
-          items:
-            $ref: '#/components/schemas/TaxDeduction'
-        refundAmount:
-          description: Total the PJP returns to the buyer for the contract.
-          $ref: '#/components/schemas/ReconAmount'
-        netPayable:
-          description: >
-            Amount the PJP pays to the BPP for this contract: orderAmount −
-            commission − withholdingAmount − sum(taxes) − refundAmount.
-          $ref: '#/components/schemas/ReconAmount'
-        settlementAccounts:
-          type: array
-          minItems: 1
-          description: >
-            Payout accounts as declared on IONPayment.settlementAccounts in the
-            order. The BPP account is always required; the BAP account is
-            required when commission is greater than zero.
-          items:
-            $ref: 'https://schema.ion.id/release1/schema/common/Payment/v1/attributes.yaml#/components/schemas/SettlementAccount'
-          contains:
-            type: object
-            properties:
-              holderRole:
-                const: BPP
-            required: [holderRole]
-        contract:
-          description: >
-            Optional copy of the contract as the sender holds it (status,
-            commitments, consideration, settlements), for verification.
-          $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Contract'
-      if:
-        properties:
-          commission:
-            properties:
-              value:
-                exclusiveMinimum: 0
-            required: [value]
-        required: [commission]
-      then:
-        properties:
-          settlementAccounts:
-            contains:
-              type: object
-              properties:
-                holderRole:
-                  const: BAP
-              required: [holderRole]
-
-    ContractReconciliation:
-      title: Contract Reconciliation
-      description: >
-        The counterparty's verdict on one contract: its own figures (with
-        diffValue where they differ from the round being answered) and accord.
+        A Beckn Contract snapshot whose settlements carry reconciliation
+        figures. id identifies the contract; each settlement's id identifies
+        the payment record whose PJP-held funds it pays out.
       allOf:
-        - $ref: '#/components/schemas/ContractSettlement'
+        - $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Contract'
         - type: object
-          required: [accord]
+          required: [id, settlements]
           properties:
-            accord:
-              type: boolean
-              description: >
-                true — the counterparty agrees with the figures in /reconcile;
-                both participants have agreed and SEAM triggers the payout.
-                false — it disagrees; see diffValue and dispute.
-            dueDate:
-              type: string
-              format: date
-              description: Date by which the payout is due. Required when accord is true.
-            dispute:
-              description: Why the counterparty disagrees (code and human-readable text). Required when accord is false.
-              $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Descriptor'
-          if:
-            properties:
-              accord:
-                const: true
-            required: [accord]
-          then:
-            required: [dueDate]
-          else:
-            required: [dispute]
+            settlements:
+              type: array
+              minItems: 1
+              items:
+                type: object
+                required: [id, settlementAttributes]
+                properties:
+                  settlementAttributes:
+                    $ref: 'https://schema.ion.id/release1/schema/core/reconcile/v1/attributes.yaml#/components/schemas/IONSettlementReconciliation'
 
-    ReconAmount:
-      title: Reconciliation Amount
-      description: >
-        One settlement component. In /on_reconcile, diffValue is the
-        counterparty's value minus the value in the /reconcile being answered;
-        it is present only when the two differ.
-      type: object
-      additionalProperties: false
-      required: [value]
-      properties:
-        value:
-          type: number
-          minimum: 0
-        diffValue:
-          type: number
-
-    TaxDeduction:
-      title: Tax Deduction
-      description: A tax withheld from the payout under one Indonesian tax regime.
-      type: object
-      additionalProperties: false
-      required: [taxRegime, value]
-      properties:
-        taxRegime:
-          $ref: 'https://schema.ion.id/release1/schema/common/Tax/v1/attributes.yaml#/components/schemas/IONTaxDetail/properties/taxRegime'
-        value:
-          type: number
-          minimum: 0
-        diffValue:
-          type: number
-          description: Counterparty's value minus the value in /reconcile, when they differ.
+    OnReconcileContract:
+      title: On Reconcile Contract
+      description: A ReconcileContract whose settlements also carry the counterparty's accord.
+      allOf:
+        - $ref: '#/components/schemas/ReconcileContract'
+        - type: object
+          properties:
+            settlements:
+              items:
+                properties:
+                  settlementAttributes:
+                    required: [accord]
 
     SettlementSummary:
       title: Settlement Summary
       description: >
-        Batch totals over the contracts in the message, for cross-checking.
-        Payouts are per contract (ContractSettlement.netPayable); there is no
+        Batch totals over the settlements in the message, for cross-checking.
+        Payouts are per settlement (netPayable and commission); there is no
         batch-level payable.
       type: object
       additionalProperties: false
@@ -411,8 +284,8 @@ components:
         - totalOrderAmount
         - totalCommission
         - totalWithholding
-        - totalTax
         - totalRefund
+        - totalNetPayable
       properties:
         bapId:
           type: string
@@ -430,40 +303,16 @@ components:
           minimum: 1
         totalOrderAmount:
           type: number
-          description: Sum of contracts[].orderAmount.value.
+          description: Sum of orderAmount.value over the batch's settlements.
         totalCommission:
           type: number
-          description: Sum of contracts[].commission.value.
+          description: Sum of commission.value — total the PJP pays to the BAP.
         totalWithholding:
           type: number
-          description: Sum of contracts[].withholdingAmount.value.
-        totalTax:
-          type: number
-          description: Sum of contracts[].taxes[].value.
+          description: Sum of withholdingAmount.value.
         totalRefund:
           type: number
-          description: Sum of contracts[].refundAmount.value.
-
-    SettlementBasis:
-      title: Settlement Basis
-      description: >
-        Contract lifecycle event from which a settlement falls due.
-        ON_CONFIRMATION starts at order confirmation, AFTER_SHIPMENT at
-        hand-over to logistics, AFTER_DELIVERY at confirmed delivery, and
-        AFTER_RETURN_WINDOW when the applicable return window closes.
-      type: string
-      enum:
-        - ON_CONFIRMATION
-        - AFTER_SHIPMENT
-        - AFTER_DELIVERY
-        - AFTER_RETURN_WINDOW
-      examples: [AFTER_DELIVERY]
-
-    SettlementWindow:
-      title: Settlement Window
-      description: >
-        ISO 8601 duration, measured from the SettlementBasis event, within
-        which the settlement must be paid out.
-      type: string
-      format: duration
-      examples: [P1D]
+          description: Sum of refundAmount.value.
+        totalNetPayable:
+          type: number
+          description: Sum of netPayable.value — total the PJP pays to the BPP.

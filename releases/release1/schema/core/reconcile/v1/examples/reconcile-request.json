@@ -18,78 +18,150 @@
     "settlementDate": "2026-09-30",
     "contracts": [
       {
-        "contractId": "0f8b6d3e-2c4a-4b8e-9d1f-6a7b8c9d0e1f",
-        "settlementId": "PAY-2026-00012345",
-        "collectedBy": "BAP",
-        "currency": "IDR",
-        "settlementBasis": "AFTER_DELIVERY",
-        "settlementWindow": "P1D",
-        "orderAmount": {
-          "value": 98900
-        },
-        "commission": {
-          "value": 2670
-        },
-        "withholdingAmount": {
-          "value": 0
-        },
-        "taxes": [],
-        "refundAmount": {
-          "value": 0
-        },
-        "netPayable": {
-          "value": 96230
-        },
-        "settlementAccounts": [
+        "id": "0f8b6d3e-2c4a-4b8e-9d1f-6a7b8c9d0e1f",
+        "commitments": [
           {
-            "holderRole": "BAP",
-            "bankCode": "MANDIRI",
-            "accountNumber": "1370012345678",
-            "accountName": "PT Buyer App Indonesia"
-          },
+            "id": "L01",
+            "status": {
+              "descriptor": {
+                "code": "CLOSED"
+              }
+            },
+            "resources": [
+              {
+                "id": "PIZZA-PEPPERONI-LARGE",
+                "quantity": {
+                  "count": 1
+                }
+              }
+            ],
+            "offer": {
+              "id": "OFFER-PIZZA-001",
+              "resourceIds": [
+                "PIZZA-PEPPERONI-LARGE"
+              ]
+            }
+          }
+        ],
+        "settlements": [
           {
-            "holderRole": "BPP",
-            "bankCode": "BCA",
-            "accountNumber": "1234567890",
-            "accountName": "PT Warung Pizza Nusantara"
+            "id": "PAY-2026-00012345",
+            "settlementAttributes": {
+              "@context": "https://schema.ion.id/release1/schema/core/reconcile/v1/context.jsonld",
+              "@type": "ion:IONSettlementReconciliation",
+              "collectedBy": "BAP",
+              "currency": "IDR",
+              "settlementBasis": "AFTER_DELIVERY",
+              "settlementWindow": "P1D",
+              "finderFee": {
+                "feeType": "PERCENT",
+                "feeValue": 3,
+                "appliesTo": "ITEM_TOTAL"
+              },
+              "orderAmount": {
+                "value": 98900
+              },
+              "commission": {
+                "value": 2670
+              },
+              "withholdingAmount": {
+                "value": 0
+              },
+              "refundAmount": {
+                "value": 0
+              },
+              "netPayable": {
+                "value": 96230
+              },
+              "settlementAccounts": [
+                {
+                  "holderRole": "BAP",
+                  "bankCode": "MANDIRI",
+                  "accountNumber": "1370012345678",
+                  "accountName": "PT Buyer App Indonesia"
+                },
+                {
+                  "holderRole": "BPP",
+                  "bankCode": "BCA",
+                  "accountNumber": "1234567890",
+                  "accountName": "PT Warung Pizza Nusantara"
+                }
+              ]
+            }
           }
         ]
       },
       {
-        "contractId": "5a1e9c7b-3d2f-4e6a-8b0c-1d2e3f4a5b6c",
-        "settlementId": "PAY-2026-00012346",
-        "collectedBy": "BAP",
-        "currency": "IDR",
-        "settlementBasis": "AFTER_DELIVERY",
-        "settlementWindow": "P1D",
-        "orderAmount": {
-          "value": 150000
-        },
-        "commission": {
-          "value": 4200
-        },
-        "withholdingAmount": {
-          "value": 0
-        },
-        "taxes": [],
-        "refundAmount": {
-          "value": 20000
-        },
-        "netPayable": {
-          "value": 125800
-        },
-        "settlementAccounts": [
+        "id": "5a1e9c7b-3d2f-4e6a-8b0c-1d2e3f4a5b6c",
+        "commitments": [
           {
-            "holderRole": "BAP",
-            "bankCode": "MANDIRI",
-            "accountNumber": "1370012345678",
-            "accountName": "PT Buyer App Indonesia"
-          },
+            "id": "L01",
+            "status": {
+              "descriptor": {
+                "code": "CLOSED"
+              }
+            },
+            "resources": [
+              {
+                "id": "GARLIC-BREAD",
+                "quantity": {
+                  "count": 1
+                }
+              }
+            ],
+            "offer": {
+              "id": "OFFER-BREAD-001",
+              "resourceIds": [
+                "GARLIC-BREAD"
+              ]
+            }
+          }
+        ],
+        "settlements": [
           {
-            "holderRole": "BPP",
-            "bankCode": "BCA",
-            "accountNumber": "1234567890",
-            "accountName": "PT Warung Pizza Nusantara"
+            "id": "PAY-2026-00012346",
+            "settlementAttributes": {
+              "@context": "https://schema.ion.id/release1/schema/core/reconcile/v1/context.jsonld",
+              "@type": "ion:IONSettlementReconciliation",
+              "collectedBy": "BAP",
+              "currency": "IDR",
+              "settlementBasis": "AFTER_DELIVERY",
+              "settlementWindow": "P1D",
+              "finderFee": {
+                "feeType": "PERCENT",
+                "feeValue": 3,
+                "appliesTo": "ITEM_TOTAL"
+              },
+              "orderAmount": {
+                "value": 150000
+              },
+              "commission": {
+                "value": 4200
+              },
+              "withholdingAmount": {
+                "value": 0
+              },
+              "refundAmount": {
+                "value": 20000
+              },
+              "netPayable": {
+                "value": 125800
+              },
+              "settlementAccounts": [
+                {
+                  "holderRole": "BAP",
+                  "bankCode": "MANDIRI",
+                  "accountNumber": "1370012345678",
+                  "accountName": "PT Buyer App Indonesia"
+                },
+                {
+                  "holderRole": "BPP",
+                  "bankCode": "BCA",
+                  "accountNumber": "1234567890",
+                  "accountName": "PT Warung Pizza Nusantara"
+                }
+              ]
+            }
           }
         ]
       }
@@ -103,8 +175,8 @@
       "totalOrderAmount": 248900,
       "totalCommission": 6870,
       "totalWithholding": 0,
-      "totalTax": 0,
-      "totalRefund": 20000
+      "totalRefund": 20000,
+      "totalNetPayable": 222030
     }
   }
 }

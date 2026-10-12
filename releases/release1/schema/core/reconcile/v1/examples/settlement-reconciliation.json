@@ -1,0 +1,44 @@
+{
+  "@context": "https://schema.ion.id/release1/schema/core/reconcile/v1/context.jsonld",
+  "@type": "ion:IONSettlementReconciliation",
+  "collectedBy": "BAP",
+  "currency": "IDR",
+  "settlementBasis": "AFTER_DELIVERY",
+  "settlementWindow": "P1D",
+  "finderFee": {
+    "feeType": "PERCENT",
+    "feeValue": 3,
+    "appliesTo": "ITEM_TOTAL"
+  },
+  "orderAmount": {
+    "value": 98900
+  },
+  "commission": {
+    "value": 2670
+  },
+  "withholdingAmount": {
+    "value": 0
+  },
+  "refundAmount": {
+    "value": 0
+  },
+  "netPayable": {
+    "value": 96230
+  },
+  "settlementAccounts": [
+    {
+      "holderRole": "BAP",
+      "bankCode": "MANDIRI",
+      "accountNumber": "1370012345678",
+      "accountName": "PT Buyer App Indonesia"
+    },
+    {
+      "holderRole": "BPP",
+      "bankCode": "BCA",
+      "accountNumber": "1234567890",
+      "accountName": "PT Warung Pizza Nusantara"
+    }
+  ],
+  "accord": true,
+  "dueDate": "2026-10-01"
+}

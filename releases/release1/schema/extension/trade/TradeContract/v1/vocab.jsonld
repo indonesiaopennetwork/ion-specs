@@ -7,7 +7,8 @@
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
     "skos": "http://www.w3.org/2004/02/skos/core#",
-    "owl": "http://www.w3.org/2002/07/owl#"
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "ionrec": "https://schema.ion.id/core/reconcile/v1#"
   },
   "@graph": [
     {
@@ -206,40 +207,22 @@
       "rdfs:comment": "Verified Indonesian business registration of the buying organisation."
     },
     {
-      "@id": "ion:settlementBasis",
+      "@id": "ionrec:settlementBasis",
       "@type": "rdf:Property",
       "rdfs:label": "settlementBasis",
       "rdfs:comment": "Contract lifecycle event from which the settlement falls due, as agreed in init and on_init. ON_CONFIRMATION starts at order confirmation, AFTER_SHIPMENT at hand-over to logistics, AFTER_DELIVERY at confirmed delivery, and AFTER_RETURN_WINDOW when the applicable return window closes."
     },
     {
-      "@id": "ion:settlementWindow",
+      "@id": "ionrec:settlementWindow",
       "@type": "rdf:Property",
       "rdfs:label": "settlementWindow",
       "rdfs:comment": "ISO 8601 duration, measured from the settlementBasis event, within which the settlement must be paid out."
     },
     {
-      "@id": "ion:finderFee",
+      "@id": "ionrec:finderFee",
       "@type": "rdf:Property",
       "rdfs:label": "finderFee",
       "rdfs:comment": "Fee the Consumer Node (BAP) earns for bringing the order, agreed in init and on_init. Reconciliation computes the fee amount from these terms and reports it as the contract's commission."
-    },
-    {
-      "@id": "ion:feeType",
-      "@type": "rdf:Property",
-      "rdfs:label": "feeType",
-      "rdfs:comment": "PERCENT applies feeValue as a percentage of the appliesTo base. AMOUNT is a fixed fee in the contract currency."
-    },
-    {
-      "@id": "ion:feeValue",
-      "@type": "rdf:Property",
-      "rdfs:label": "feeValue",
-      "rdfs:comment": "Fee percentage (0-100) when feeType is PERCENT; fee amount in the contract currency when feeType is AMOUNT."
-    },
-    {
-      "@id": "ion:appliesTo",
-      "@type": "rdf:Property",
-      "rdfs:label": "appliesTo",
-      "rdfs:comment": "Base for a PERCENT fee. ITEM_TOTAL is the item value excluding delivery, packing, and taxes; ORDER_TOTAL is the full consideration. Ignored when feeType is AMOUNT."
     }
   ]
 }

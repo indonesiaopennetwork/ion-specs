@@ -347,7 +347,7 @@ artifactChecksums:
   policies/warranty/v1/refurbished-30d.yaml: e161f615ae77a97b07c7c9711d2a1c6d465b3e8e4c42de8e7a4c2f6edf7cd5ae
   policies/warranty/v1/seller-1y.yaml: 0bc3de3679c0dbffe040182a66f5a7ff549d7d20458731bcdb299b59d30a692b
   policies/warranty/v1/seller-replacement-only.yaml: 568229e444130a390c594214ab474d73875c6ba6b174989cf24f18de03518cd3
-  schema/README.md: 147b6495b407da176b52bee2285d6b21bd73e32f8f7b9709015e515b30ef1427
+  schema/README.md: b4660baad2519589a6d620cc215938a5ce702b49173649ef81184a111a6d24fd
   schema/common/Address/v1/README.md: 2fa4c86279f15d02962729d295d37a42f08cc4d532bfaf82daa8740c135be29a
   schema/common/Address/v1/attributes.yaml: f5c720e050738df2cbc4e88bc09fb56f420a709e4f98012698c7400bc0d95763
   schema/common/Address/v1/context.jsonld: ca4f63bc42c0d989fc574dfad9f78a83e73577481bc73613a942083c16b10038
@@ -390,11 +390,19 @@ artifactChecksums:
   schema/common/Tax/v1/renderer.json: 1a9ded8be9f70a1049acd7c442614073f0e769ea1f5f7fcf59915c2bc804b307
   schema/common/Tax/v1/schema.json: 5b0745489fe0d8b65f782e14c71e6b299152eabec3dcde2628578646d8f7cb27
   schema/common/Tax/v1/vocab.jsonld: e7524c2efc5db3d00542998ec428e7441b6b1ec664d103e977ad2c2a1f3d16f0
-  schema/core/README.md: 895ee2256b16f23e4a571f914b05b455988729b2627a726bd8dfd62b07145894
-  schema/core/reconcile/v1/README.md: 4c891bd4c039b7b0b5daeee127d03e8b602bd9a0839c7657f0f1a901a4e74dc6
-  schema/core/reconcile/v1/examples/on-reconcile-response.json: a375b13c3a00fb72de2954264959ed815805e76e0a08d7e81661c596869768ab
-  schema/core/reconcile/v1/examples/reconcile-request.json: e32d8a682333b172d2dda9e0b7db7b52d410785c633e00e960c36c159fa680b3
-  schema/core/reconcile/v1/reconcile.yaml: 1088d83bab0b88848345dfc2a15542fe36f420288e69f34f6236447bb00ce0a1
+  schema/core/README.md: f9a1447c7c93f6ab86b62f35654bbc2ff7ae61c197c4d6f755fdd54e00108934
+  schema/core/reconcile/README.md: d163a5d6b57510f71b2bfd0a8b65e6fb131f7c28119ccfa63fe6366f5657a1e2
+  schema/core/reconcile/v1/README.md: 293496e02dab97850bba501417c3074ad7093ac8c91f8027b2955eef8d2b5b82
+  schema/core/reconcile/v1/attributes.yaml: 3c3a23647871412ff864f79f3162c5d12c9ec1afce1a849b85ddeb3b839f5106
+  schema/core/reconcile/v1/context.jsonld: 9a4cd2a3a72edeac17a639b80a1593e65ab2334533eab7156dcb4c8c0c752e2d
+  schema/core/reconcile/v1/examples/on-reconcile-response.json: de1bab3c3daa0c3eb8cda537857533a8b0801472a0b7d432168e76e673e14037
+  schema/core/reconcile/v1/examples/reconcile-request.json: a80c116251fc10eddcd69d93076207256ffdd05d14190f88aaa333be273ee7ef
+  schema/core/reconcile/v1/examples/settlement-reconciliation.json: 1e6de3a165aca578a8d482d49a9b620582acd5e0f2c8296b391d5963dade0c5b
+  schema/core/reconcile/v1/profile.json: aef881aaeeeedcfe27d3e0f1d4089afdd9b77ffcf7a2b30adf9bbb607a74b63e
+  schema/core/reconcile/v1/reconcile.yaml: c3f6fcf0631c873b2e25f6867177ae3f98ff7a1ac02901a71d8f9c9b46146a9b
+  schema/core/reconcile/v1/renderer.json: 10b92191262474ab5ac02a96f5532718663f5bbee368984e0212876fad1a3e9f
+  schema/core/reconcile/v1/schema.json: b8fe40f4f7d94df84671307c8bf31dd53a2be2f92aac41867e697c873dd6d181
+  schema/core/reconcile/v1/vocab.jsonld: 162956e918230d4e45fe82677eff8fd80bfd7d50c16b89e2f41800041c710caa
   schema/extension/trade/TradeCommitment/v1/README.md: 879069e3d8ca170bad7ac9586592a6b17793ac48504664e1a375655531dd9aa3
   schema/extension/trade/TradeCommitment/v1/attributes.yaml: fa0d51e8162f0f3adbcd0352220322c82f1e7cbd44b4d260a8df83e021e3f7ec
   schema/extension/trade/TradeCommitment/v1/context.jsonld: 62f8aad5c9d897d6a0b684a5bfd2e552e7a70106e4f885d2f32bbc156e060a1c
@@ -416,16 +424,16 @@ artifactChecksums:
   schema/extension/trade/TradeConsideration/v1/renderer.json: 221c46a8ded28c7c4c457beb58714af5e749bea42ae523f14877d3ff2c0374a8
   schema/extension/trade/TradeConsideration/v1/schema.json: 32b727a32b068c54dd47a1204763097962bb781181d8a7bd3f8c6cf35478ea30
   schema/extension/trade/TradeConsideration/v1/vocab.jsonld: e52a8706c0c09760e40129aa728e48757ecd6bb2e5094b07f647f5d3276c28f5
-  schema/extension/trade/TradeContract/v1/README.md: d7773c98a82e7c8fc993a585931f363f00e1e71547fd75686019141b9b4d61f0
-  schema/extension/trade/TradeContract/v1/attributes.yaml: 0c1a89078bb0893fda3eed241550c576b598d5e6c54b88386b97e6c271d66c2f
-  schema/extension/trade/TradeContract/v1/context.jsonld: 0d5e8de046d9650ce3fb4e30ebce252d9e449ca6d8a50b0eee6bb21b0ccafc9a
+  schema/extension/trade/TradeContract/v1/README.md: fafb47aa4a7f2232c5ef5f99431637487df02e11031a19b12befb09d6f029cdf
+  schema/extension/trade/TradeContract/v1/attributes.yaml: f3f40e0929c8eb21aea380108a3880ed3a76d2a5ba1ef8c0cf3c65a8b7c90c87
+  schema/extension/trade/TradeContract/v1/context.jsonld: a9eb6c1b872890ad764506c415dbb96bcae1d7ea9824f5fa58f602068062c887
   schema/extension/trade/TradeContract/v1/docs/01-overview.md: 844057916e5c76067bb457aaa94da266f0f2c74c5d36f4b1376636d2d54fde9a
   schema/extension/trade/TradeContract/v1/docs/README.md: 5b2138175b257f78a3e88cd329e460fbe43aaabf9293b4f5f9a81223ef845acf
   schema/extension/trade/TradeContract/v1/examples/b2c-confirmed-order.json: c2154740a00924b89602b0a9b4544228f0eaf7f46c78c14b3c46bcd1a74dfedc
   schema/extension/trade/TradeContract/v1/profile.json: 78ccc518faa4eda4184adebb0056a41fc30dd44b0048499c5f1abcf998eda6f4
   schema/extension/trade/TradeContract/v1/renderer.json: a672a62b451bb4d9525457a318fb8f8456b47610a0078dea0febaa64660072f2
-  schema/extension/trade/TradeContract/v1/schema.json: 6f502e1c3007400b6c3abbe967b492a9b2d785647b8cab71f83e9cf522846360
-  schema/extension/trade/TradeContract/v1/vocab.jsonld: 380813faec9a8893780839002539771596bd9f260f79978f8a6491ae5aeb79a2
+  schema/extension/trade/TradeContract/v1/schema.json: 5deb5d1199d61424f04f5d04390183ef9e51ddd2b9a94a3a27c28c6281a26289
+  schema/extension/trade/TradeContract/v1/vocab.jsonld: c0b50619ddf89e6036c270e47390329a29424cf966eb1c6c8b2d654b14608afb
   schema/extension/trade/TradeOffer/v1/README.md: fbdb6b6c1a81bc769b761554bb165d26c4ec835b7d6899934979aa5ccaef2057
   schema/extension/trade/TradeOffer/v1/attributes.yaml: fe925292f4ef8871d85ea08574caa1982c394c591db7ab70154e0b5fb7c5db53
   schema/extension/trade/TradeOffer/v1/context.jsonld: 7e5bd61207c77eba4b8b19089156743ea20ce419279369127679dd4a3328e2e1
