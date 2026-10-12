@@ -12,6 +12,7 @@ BAP -> select -> BPP -> on_select
 BAP -> init -> BPP -> on_init
 BAP -> confirm -> BPP -> on_confirm
 BPP -> on_status [PACKED, DISPATCHED, OUT_FOR_DELIVERY, DELIVERED]
+BPP -> reconcile -> BAP -> on_reconcile    (after the settlement falls due)
 ```
 
 Release 1 does not include the former cross-cutting branches or the other Trade
@@ -31,10 +32,14 @@ later uses to compute each contract's payout:
 | `confirm`, `on_confirm` | BAP, BPP | The agreed terms and both accounts, carried into the binding contract |
 
 The buyer's QRIS payment is held at the PJP, not in either participant's
-account. After the order is reconciled, the PJP pays the BPP its proceeds and
-the BAP its finder fee into these accounts. The `/reconcile` and
-`/on_reconcile` exchange itself runs after fulfilment and is not part of this
-flow.
+account. After delivery and the agreed one-day window, the BPP sends
+[`reconcile_request.json`](examples/reconcile_request.json) with its figures:
+order 98900, a 3% finder fee of 2670 on the 89000 item total, and BPP proceeds
+of 96230. The BAP answers with
+[`on_reconcile_response.json`](examples/on_reconcile_response.json) and
+`accord: true`, so SEAM instructs the PJP to pay 96230 to the BPP and 2670 to
+the BAP. Either participant may start reconciliation; a disagreement example is
+in the [reconciliation pack](../../../../../schema/core/reconcile/v1/README.md).
 
 ## Included schema packs
 
@@ -56,6 +61,10 @@ flow.
 - [BusinessRegistration](../../../../../schema/common/BusinessRegistration/v1/README.md)
 - [Payment](../../../../../schema/common/Payment/v1/README.md)
 - [Tax](../../../../../schema/common/Tax/v1/README.md)
+
+### Core
+
+- [Settlement reconciliation](../../../../../schema/core/reconcile/v1/README.md)
 
 The earlier `localization`, `identity`, and `product-compliance` declarations were
 not retained: Identity is represented by Business Registration, while the copied

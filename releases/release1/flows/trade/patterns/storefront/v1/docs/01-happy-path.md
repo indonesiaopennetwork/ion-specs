@@ -3,4 +3,4 @@
 See [`pattern.yaml`](../pattern.yaml) for the complete step-by-step happy path
 with required and conditional fields per API call.
 
-Full narrative walkthrough: consumer searches → selects item → enters address → picks payment → confirms → receives delivery notifications → item delivered.
+Full narrative walkthrough: consumer searches → selects item → enters address → picks payment → confirms → receives delivery notifications → item delivered → the BPP and BAP reconcile the settlement and SEAM triggers the PJP payout.

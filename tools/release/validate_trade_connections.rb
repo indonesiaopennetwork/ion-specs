@@ -85,7 +85,11 @@ walk = lambda do |value, source|
       if %w[schemaPacks schemaPacksRequired].include?(key) && child.is_a?(Hash)
         child.each do |group, packs|
           Array(packs).each do |pack|
-            prefix = group == "common" ? "schema/common" : "schema/extension/#{group}"
+            prefix = case group
+                     when "common" then "schema/common"
+                     when "core" then "schema/core"
+                     else "schema/extension/#{group}"
+                     end
             target = release_root.join(prefix, pack.to_s)
             errors << "#{relative.call(source)}: schema pack does not exist: #{prefix}/#{pack}" unless target.directory?
           end

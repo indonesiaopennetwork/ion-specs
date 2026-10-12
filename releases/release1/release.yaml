@@ -257,22 +257,24 @@ artifactChecksums:
   flows/trade/patterns/marketplace-listed/v1/docs/README.md: dc9f9ad4255e3e8d21749ec6aaa36f20d59677247ecac7f9c16deb2d44135a1a
   flows/trade/patterns/marketplace-listed/v1/pattern.yaml: a1abb4739b7adf6e7137b8fe4110704b7504b0c3e421261c7ad0ead684ff4ff0
   flows/trade/patterns/marketplace-listed/v1/profile.json: 5a1fbc2d72edf5df3f40c91ffd951f57894f149925043b356c321f5b97dfe0a3
-  flows/trade/patterns/storefront/v1/README.md: 2d23443de655d1691a61ea0ca331981698d11a1545bde59311d9567f23a2d358
-  flows/trade/patterns/storefront/v1/docs/01-happy-path.md: 7c049f1e33ea97447f146f6d547c44237c2bc2be7b4c3c04ea7f41949c73ecd2
+  flows/trade/patterns/storefront/v1/README.md: 841d0bab7bfbd770a3deb560483c8b3cad1f28ef167b9ad5b899f81aa50ecab2
+  flows/trade/patterns/storefront/v1/docs/01-happy-path.md: ed906dbe3a5e3ad884ec8b4c35a2007f91eb8261eb6d55c233021e2d608783dc
   flows/trade/patterns/storefront/v1/docs/README.md: 3f7122022e694e50b79d0c487178e97b70a4e35f17d95923d81074492124a54c
-  flows/trade/patterns/storefront/v1/examples/confirm_request.json: 9ec3d99de1c445a86e98c0dcaed4d13ef3f80cd578ee87ce1d3ef0ef6aa52c81
+  flows/trade/patterns/storefront/v1/examples/confirm_request.json: 75d72ef3c4183a8f3fe38d642dce0dec4c11ebb16b214f094a1ea093a2895898
   flows/trade/patterns/storefront/v1/examples/init_request.json: 68b2e3f8388901108061093da0595d2acb7a718c11020746cee3e6b11e99be54
-  flows/trade/patterns/storefront/v1/examples/on_confirm_response.json: 1b946c1e1a307f21d4dcb9ca361041312060bd9f3c06f3b20e62747c3dde2a03
-  flows/trade/patterns/storefront/v1/examples/on_init_response.json: 8f61d465f329c7c2069fef510eae0c2bcc06932bc7d8f67bdfbdb140271b02bf
+  flows/trade/patterns/storefront/v1/examples/on_confirm_response.json: 0caaca421363b50b8ebc3ef1963e686c0bd7be0d5d46866b9ff0b39818e6401f
+  flows/trade/patterns/storefront/v1/examples/on_init_response.json: 2f170ceda084191fb1a868605919fca6f4fa7bcf86c2403a07ff1bf71162bdb1
+  flows/trade/patterns/storefront/v1/examples/on_reconcile_response.json: 05d23ad9da64a54c3ccb2ac8bd7805378e7851780d79224f5e969c1850f35b5f
   flows/trade/patterns/storefront/v1/examples/on_select_response.json: b5e6f8881fb51afa28946bb016aaa67ab12f596b9a7a90f3b7808971e9a71aa8
   flows/trade/patterns/storefront/v1/examples/on_status_DELIVERED.json: 63d115ad8ce216bbc74e3683ba2c7147708279f9647484adadd5ec8e23be1265
   flows/trade/patterns/storefront/v1/examples/on_status_DISPATCHED.json: 0c612ee006a83a097ffc5f5337976f0432fb35ac02025af2122ed9194bac6d48
   flows/trade/patterns/storefront/v1/examples/on_status_OUT_FOR_DELIVERY.json: bfbe7bf9b8533b20a611b99ec0dc12ef9bba9a81246438f16e6a533639a8aa9c
   flows/trade/patterns/storefront/v1/examples/on_status_PACKED.json: e4be2e699308df1a6acd7a2e450cffa93ac2a20905162cc2b2e806c1c8902ee9
   flows/trade/patterns/storefront/v1/examples/publish_catalog.json: 0bc3bd8f61c3c1b5e816bd332a1507a12d3f09cc6d4c9973036448b1eda5a6c8
+  flows/trade/patterns/storefront/v1/examples/reconcile_request.json: dd88c1e52401be9d99209bd0dc5b16a7333f36bd09c86f5229d02c1c778e51db
   flows/trade/patterns/storefront/v1/examples/select_request.json: 8df037f27d199590815180e4049c6bebbe9b2ef92f6725d933f589a415509cd5
-  flows/trade/patterns/storefront/v1/pattern.yaml: 4a1642071bce86e4241be08b8d777b74a9d0b9c0a5983980c3b8f2b2f114839f
-  flows/trade/patterns/storefront/v1/profile.json: a26ba3aa54b3a6500f3f50071053d7e723fdcab6ceb32a4f931dbdb6524c13e7
+  flows/trade/patterns/storefront/v1/pattern.yaml: e61879209129ff2743f98f3e0bed53e11efcc1f7b141a397758fc1de14a9a3ce
+  flows/trade/patterns/storefront/v1/profile.json: 73c8580260e3a2b37da8c101b90574a34166af955e5a593fcf66fcca6b7a49bb
   flows/trade/variants/during-transaction/v1/README.md: f2b7b684ffc8d82ee9001f7ba2d235b1150d7561b1c7aef605f4fe630628794d
   flows/trade/variants/during-transaction/v1/docs/01-overview.md: b18a2f2096c79d69e65c0f161465e1fa16a1f886e7176f0868469a4833990025
   flows/trade/variants/during-transaction/v1/docs/README.md: 3a10bc924fcad39c30e7feb80995a79f7e17eb4d0cea2123db7a6a1b5d658d23
@@ -375,7 +377,7 @@ artifactChecksums:
   schema/common/Payment/v1/docs/01-overview.md: 33e1c56584658930f291218c49e511b205c8c2231e542645e961ec5c378518d3
   schema/common/Payment/v1/docs/README.md: 573ef67e841b89bf31e5f266529ff20c51e279bf6bf1407fa7cdff9d8564da61
   schema/common/Payment/v1/examples/ewallet-payment.json: 16d0aba906cb7e1717e6af6f1d6de248589b391cd6c522bb080254773f81a517
-  schema/common/Payment/v1/examples/settlement-accounts.json: bfaeb9da3c4a80d9b6bdd2cb3ea17070a04e3c87a80d6d443a2fd78e2b7c6167
+  schema/common/Payment/v1/examples/settlement-accounts.json: 2d9e9e7efef191c48df9734cae13e42392ebdf5ffa53a77370e12317b6d41002
   schema/common/Payment/v1/profile.json: d47603d315de1077d34de1ceaed06002c8c5a799686a96fe87a2fbee89dd60e4
   schema/common/Payment/v1/renderer.json: 1640137624bf96938ffbde5b28001a2c1a27aa487940a774b9051dde8b2f6829
   schema/common/Payment/v1/schema.json: 63a28df2d58175ff7baef5e78d7f2ff0abe143452e8c626a07cc0d3b3b8c3bcb
@@ -395,11 +397,11 @@ artifactChecksums:
   schema/core/reconcile/v1/README.md: 293496e02dab97850bba501417c3074ad7093ac8c91f8027b2955eef8d2b5b82
   schema/core/reconcile/v1/attributes.yaml: 3c3a23647871412ff864f79f3162c5d12c9ec1afce1a849b85ddeb3b839f5106
   schema/core/reconcile/v1/context.jsonld: 9a4cd2a3a72edeac17a639b80a1593e65ab2334533eab7156dcb4c8c0c752e2d
-  schema/core/reconcile/v1/examples/on-reconcile-response.json: de1bab3c3daa0c3eb8cda537857533a8b0801472a0b7d432168e76e673e14037
-  schema/core/reconcile/v1/examples/reconcile-request.json: a80c116251fc10eddcd69d93076207256ffdd05d14190f88aaa333be273ee7ef
-  schema/core/reconcile/v1/examples/settlement-reconciliation.json: 1e6de3a165aca578a8d482d49a9b620582acd5e0f2c8296b391d5963dade0c5b
+  schema/core/reconcile/v1/examples/on-reconcile-response.json: 0f1520cde6b2042c44830ea97e69abab9a5e264ef6d92ceb56438c20dde5662f
+  schema/core/reconcile/v1/examples/reconcile-request.json: c797ebfa40c587f8a63a8e50904c1626e3405722b0e67b24645725bdefb4ca1a
+  schema/core/reconcile/v1/examples/settlement-reconciliation.json: b998428b1e527c2c0ba49877728f5234ed81baf6df35d13995e7bfe526b577bd
   schema/core/reconcile/v1/profile.json: aef881aaeeeedcfe27d3e0f1d4089afdd9b77ffcf7a2b30adf9bbb607a74b63e
-  schema/core/reconcile/v1/reconcile.yaml: c3f6fcf0631c873b2e25f6867177ae3f98ff7a1ac02901a71d8f9c9b46146a9b
+  schema/core/reconcile/v1/reconcile.yaml: e81ee3b16e0bf7d4e4fc7d8d09260b987c79500ce834401903774bbd4e239a91
   schema/core/reconcile/v1/renderer.json: 10b92191262474ab5ac02a96f5532718663f5bbee368984e0212876fad1a3e9f
   schema/core/reconcile/v1/schema.json: b8fe40f4f7d94df84671307c8bf31dd53a2be2f92aac41867e697c873dd6d181
   schema/core/reconcile/v1/vocab.jsonld: 162956e918230d4e45fe82677eff8fd80bfd7d50c16b89e2f41800041c710caa

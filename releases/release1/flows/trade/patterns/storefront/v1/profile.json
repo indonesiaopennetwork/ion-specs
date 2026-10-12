@@ -4,7 +4,7 @@
   "sector": "trade",
   "sectorCode": "A",
   "status": "ready",
-  "description": "Consumer discovers, selects, and purchases a physical product. Delivery or self-pickup follows. The most common commerce pattern on ION — covers Food, Grocery, Fashion, Electronics, Beauty, FMCG.",
+  "description": "Consumer discovers, selects, and purchases a physical product. Delivery or self-pickup follows. The most common commerce pattern on ION \u2014 covers Food, Grocery, Fashion, Electronics, Beauty, FMCG.",
   "applicableCategories": [
     "food-qsr",
     "grocery",
@@ -31,6 +31,9 @@
       "TradeContract/v1",
       "TradeCommitment/v1",
       "TradeSettlement/v1"
+    ],
+    "core": [
+      "reconcile/v1"
     ]
   },
   "performanceStateMachine": "schema/extension/trade/TradePerformanceStates/v1/states.yaml#standard",
