@@ -97,7 +97,12 @@
             "currency": "IDR",
             "amount": 9435,
             "paidAt": "2026-04-19T10:32:15.000+07:00",
-            "gatewayRef": "GW-QRIS-2026041900001"
+            "gatewayRef": "GW-QRIS-2026041900001",
+            "settlementAccount": {
+              "bankCode": "BCA",
+              "accountNumber": "8730012345",
+              "accountName": "PT Apotek Sehat Mandiri"
+            }
           }
         }
       ],
@@ -107,6 +112,13 @@
         "buyerBusinessRegistration": {
           "npwp": "1234567890123456",
           "nib": "1234567890123"
+        },
+        "settlementBasis": "AFTER_DELIVERY",
+        "settlementWindow": "P1D",
+        "finderFee": {
+          "feeType": "PERCENT",
+          "feeValue": 3,
+          "appliesTo": "ITEM_TOTAL"
         }
       }
     }

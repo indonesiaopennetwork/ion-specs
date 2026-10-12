@@ -157,7 +157,13 @@ phases:
           - message.contract.settlements[].settlementAttributes.method
           - message.contract.settlements[].settlementAttributes.paymentRail
           - message.contract.settlements[].settlementAttributes.collectedBy
+          - message.contract.contractAttributes.settlementBasis
+          - message.contract.contractAttributes.settlementWindow
         conditionalFields:
+          - field: message.contract.contractAttributes.finderFee
+            condition: if the BAP charges a finder fee
+          - field: message.contract.settlements[].settlementAttributes.settlementAccount
+            condition: if collectedBy is BPP (the BAP is the payee)
           - field: message.contract.contractAttributes.invoicePreferences
             condition: if buyer wants tax invoice
           - field: message.contract.contractAttributes.deliveryPreferences
@@ -172,14 +178,22 @@ phases:
         from: BPP
         to: BAP
         direction: callback
-        description: BPP returns payment instructions. Final quote confirmed.
+        description: >-
+          BPP returns payment instructions and accepts the settlement terms.
+          Final quote confirmed.
         requiredFields:
           - message.contract.settlements[].settlementAttributes.methodDetail
           - message.contract.consideration[].considerationAttributes.breakup[]
           - message.contract.consideration[].considerationAttributes.totalAmount
           - message.contract.settlements[].settlementAttributes.amount
           - message.contract.settlements[].settlementAttributes.currency
+          - message.contract.contractAttributes.settlementBasis
+          - message.contract.contractAttributes.settlementWindow
         conditionalFields:
+          - field: message.contract.contractAttributes.finderFee
+            condition: if a finder fee was proposed in init
+          - field: message.contract.settlements[].settlementAttributes.settlementAccount
+            condition: if collectedBy is BAP (the BPP is the payee)
           - field: message.contract.settlements[].settlementAttributes.methodDetail.qrisString
             condition: for QRIS method
           - field: message.contract.settlements[].settlementAttributes.methodDetail.vaNumber
@@ -188,6 +202,7 @@ phases:
             condition: for EWALLET method
         schemaPacks:
           common: [Payment/v1]
+          trade: [TradeConsideration/v1, TradeContract/v1]
 
       - step: confirm
         from: BAP

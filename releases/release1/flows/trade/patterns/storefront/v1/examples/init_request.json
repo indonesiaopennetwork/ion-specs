@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "description": "Storefront init \u2014 BAP provides delivery address and payment method. QRIS payment, delivery to South Jakarta.",
+    "description": "Storefront init \u2014 BAP provides delivery address and payment method. QRIS payment, delivery to South Jakarta. BAP proposes settlement terms: due one day after delivery, 3% finder fee on the item total.",
     "pattern": "storefront",
     "step": "init",
     "sent_by": "BAP",
@@ -144,7 +144,18 @@
             "currency": "IDR"
           }
         }
-      ]
+      ],
+      "contractAttributes": {
+        "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeContract/v1/context.jsonld",
+        "@type": "ion:IONTradeContract",
+        "settlementBasis": "AFTER_DELIVERY",
+        "settlementWindow": "P1D",
+        "finderFee": {
+          "feeType": "PERCENT",
+          "feeValue": 3,
+          "appliesTo": "ITEM_TOTAL"
+        }
+      }
     }
   }
 }

@@ -1,13 +1,14 @@
 {
   "_meta": {
-    "description": "Storefront on_init \u2014 BPP returns QRIS payment string and final quote.",
+    "description": "Storefront on_init \u2014 BPP returns QRIS payment string and final quote. BPP accepts the settlement terms and declares its payout account (the BAP collects, so the BPP is the payee).",
     "pattern": "storefront",
     "step": "on_init",
     "sent_by": "BPP",
     "received_by": "BAP",
     "schemaPacks": [
       "schema/common/Payment/v1",
-      "schema/extension/trade/TradeConsideration/v1"
+      "schema/extension/trade/TradeConsideration/v1",
+      "schema/extension/trade/TradeContract/v1"
     ]
   },
   "context": {
@@ -115,10 +116,26 @@
               "qrisString": "00020101021226580014ID.CO.BCA.WWW011893600014301234560208INV00010303UMI51440014ID.CO.QRIS.WWW0215ID20200340123450303UMI5204581253033605405943505802ID5916APOTEK SEHAT MSI6013JAKARTA PUSAT61051022062560703A0163043C2E",
               "merchantId": "QRIS-APOTEK-SEHAT-001",
               "expiresAt": "2026-04-19T10:45:00.000+07:00"
+            },
+            "settlementAccount": {
+              "bankCode": "BCA",
+              "accountNumber": "8730012345",
+              "accountName": "PT Apotek Sehat Mandiri"
             }
           }
         }
-      ]
+      ],
+      "contractAttributes": {
+        "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeContract/v1/context.jsonld",
+        "@type": "ion:IONTradeContract",
+        "settlementBasis": "AFTER_DELIVERY",
+        "settlementWindow": "P1D",
+        "finderFee": {
+          "feeType": "PERCENT",
+          "feeValue": 3,
+          "appliesTo": "ITEM_TOTAL"
+        }
+      }
     }
   }
 }
