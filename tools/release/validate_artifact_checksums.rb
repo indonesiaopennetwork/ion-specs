@@ -6,7 +6,7 @@ require "pathname"
 require "yaml"
 
 module IonArtifactChecksums
-  ARTIFACT_ROOTS = %w[schema flows policies errors].freeze
+  ARTIFACT_ROOTS = %w[schema flows errors].freeze
 
   module_function
 

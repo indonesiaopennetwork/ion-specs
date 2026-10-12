@@ -6,7 +6,7 @@ require "time"
 require "yaml"
 
 module IonReleaseManifest
-  CONTENT_AREAS = %w[ionApi common trade logistics hospitality finance flows policies errors].freeze
+  CONTENT_AREAS = %w[ionApi common trade logistics hospitality finance flows errors].freeze
   CONTENT_STATES = %w[review-required validation-pending validated excluded].freeze
   RELEASE_STATUSES = %w[draft published].freeze
   DEPENDENCY_STATUSES = %w[incomplete complete].freeze

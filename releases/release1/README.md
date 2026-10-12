@@ -24,8 +24,9 @@ the release, and the repository does not retain separate root-level normative
 copies.
 
 Phase 8A added the independently reviewable connected Trade baseline:
-Storefront v1, 67 Trade or cross-sector policy terms, and 8 Trade errors whose
-schema and flow targets are present in this release. Phase 8B added the
+Storefront v1 and 8 Trade errors whose schema and flow targets are present in
+this release. Its policy references resolve against the shared root policy
+registry, which is governed outside the integer release cycle. Phase 8B added the
 Made-to-Order v1 flow after reconciling its schema-pack names, category boundary,
 MTO state-machine target, and concrete cancellation policy. Phase 8C added the
 standard-action subset of Live Commerce v1 and restored its two release-local
@@ -55,7 +56,9 @@ schema/vendored/beckn/protocol/v2.0.0/beckn.yaml
 Release 1 does not publish `ion.yaml` or a merged `ion-full.yaml`. Its normative
 ION-owned schemas are the standalone packs under `schema/common/` and
 `schema/extension/trade/`. Pinned dependencies live under `schema/vendored/`;
-the scoped `flows/`, `policies/`, and `errors/` trees remain release-level peers.
+the scoped `flows/` and `errors/` trees remain release-level peers. Policies are
+resolved from the repository-level registry at
+`https://schema.ion.id/policies/registry.json`.
 
 ```text
 release1/
@@ -65,7 +68,6 @@ release1/
     extension/
     vendored/
   flows/
-  policies/
   errors/
 ```
 
@@ -90,7 +92,8 @@ Validate the draft manifest:
 ```bash
 ruby tools/release/validate_manifest.rb releases/release1/release.yaml
 ruby tools/release/validate_offline_refs.rb releases/release1
-ruby tools/release/generate_release_registries.rb releases/release1
+ruby tools/policies/generate_registry.rb
+ruby tools/release/generate_error_registry.rb releases/release1
 ruby tools/release/validate_trade_connections.rb releases/release1
 ```
 

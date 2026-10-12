@@ -6,6 +6,8 @@
 
 **Public URL namespace amended:** 2026-08-26
 
+**Policy registry placement amended:** 2026-10-12
+
 **Decision owners:** ION Council
 
 **Related policy:** `docs/ION_Release_Channel_Policy.md`
@@ -19,7 +21,8 @@ for later versions is authored in the active draft for a future integer release.
 
 The goals are to ensure that every ION release is:
 
-- complete, including all normative specifications and vendored dependencies;
+- complete for all release-owned specifications and vendored dependencies, with
+  explicit references to independently governed shared policies;
 - permanently available under a release-specific public URL;
 - reproducible and independently verifiable;
 - isolated from changes made for later releases; and
@@ -42,12 +45,13 @@ releases/release1/
 releases/release2/
 ```
 
-Each release directory is a complete, permanent specification bundle. Once a
+Each release directory is a complete, permanent versioned specification bundle.
+It may reference the independently governed shared policy registry. Once a
 release is published, its files MUST NOT be modified or removed. A correction or
 clarification to a published release MUST be issued in a new release directory.
 
-Each release keeps its four principal specification areas at the release root:
-`schema/`, `flows/`, `policies/`, and `errors/`. Schema-owned content is not
+Each release keeps its three principal specification areas at the release root:
+`schema/`, `flows/`, and `errors/`. Schema-owned content is not
 flattened beside those areas: `core/`, `common/`, `extension/`, and `vendored/`
 all live below the release's `schema/` directory.
 
@@ -67,7 +71,6 @@ release:
 
 - schemas and vendored schema dependencies;
 - error definitions and generated error registries;
-- policy definitions and generated policy registries;
 - transaction flows and their release-specific examples;
 - implementation-facing documentation that describes the release's wire format,
   validation behavior, signing requirements, sectors, or integration process.
@@ -75,6 +78,7 @@ release:
 The following repository-level material remains outside `releases/`:
 
 - release creation, validation, generation, and maintenance tools;
+- shared policy definitions and the generated policy registry;
 - repository governance and contribution instructions;
 - architecture decisions and schema authoring guidance for future work;
 - working notes, review responses, migration plans, and unresolved observations;
@@ -91,6 +95,10 @@ GOVERNANCE.md
 docs/
   ION_Release_Architecture.md
   <architecture and contributor documentation>
+
+policies/
+  <versioned policy terms>
+  registry.json
 
 tools/
   <release-aware repository tooling>
@@ -130,7 +138,6 @@ releases/
           schemas/<SchemaName>/<upstream-version>/attributes.yaml
 
     flows/
-    policies/
     errors/
     docs/
 ```
@@ -147,15 +154,20 @@ an excluded area MUST NOT appear in the release directory. In particular, a
 release may omit the aggregate `schema/core/api/.../ion.yaml` when `ionApi` is
 `excluded`; standalone validated schema packs remain valid release content.
 
-### Normative release registries and flows
+### Normative registries and flows
 
-Error codes, policy terms, and transaction-flow requirements affect protocol
-behavior and compatibility. The `errors/`, `policies/`, and `flows/` directories
-therefore belong inside each release. They MUST remain aligned with the schemas in
-that release. Generated registries belong alongside their source definitions in
-the release, even when root-level tooling is used to generate them.
+Error codes and transaction-flow requirements affect release behavior and
+compatibility. The `errors/` and `flows/` directories therefore belong inside
+each release and MUST remain aligned with the schemas in that release. Generated
+error registries belong alongside their release-local source definitions.
 
-There MUST NOT be a second editable copy of these normative directories at the
+Policy terms have an independent governance and versioning lifecycle. Their one
+canonical editable source tree is root `policies/`; the generated registry is
+published at `https://schema.ion.id/policies/registry.json`. Releases reference
+stable `ion://policy/...` semantic IRIs and MAY link to root policy documents,
+but MUST NOT copy policy sources or registries into a release directory.
+
+There MUST NOT be a second editable copy of release-owned flows or errors at the
 repository root. Work on the next release happens in its draft release directory.
 Published release copies remain unchanged.
 
@@ -237,6 +249,21 @@ https://schema.ion.id/release1/<path>
 The public URL contract is independent of the backing implementation. ION may
 later serve the same immutable paths from protected Git tags, object storage, or a
 schema registry without changing consumer-facing URLs.
+
+Policies use a separate root namespace because they are not part of the integer
+release lifecycle:
+
+```text
+Repository path:
+policies/return/v1/standard-7d-sellerpays.yaml
+
+Public URL:
+https://schema.ion.id/policies/return/v1/standard-7d-sellerpays.yaml
+```
+
+The root policy namespace maps to the canonical `policies/` tree on `main`.
+Policy document versions and stable `ion://policy/...` identifiers govern policy
+compatibility independently of release publication and channel promotion.
 
 ## Schema reference rules
 
@@ -344,7 +371,6 @@ contentStatus:
   hospitality: review-required
   finance: review-required
   flows: review-required
-  policies: review-required
   errors: review-required
 dependencyStatus: incomplete
 dependencies: []
@@ -454,10 +480,12 @@ principles:
 4. Move the normative specification into `releases/release1/` without maintaining
    a second editable source tree.
 5. Rewrite resolvable references to the `release1` public namespace.
-6. Move normative flows, policies, errors, and implementation documentation into
-   the release; classify remaining documentation as repository-level material.
-7. Update release-aware root tooling and regenerate mirrors, registries, and
-   examples without creating root-level normative copies.
+6. Move normative flows, errors, and implementation documentation into the
+   release; keep policies in their canonical root registry and classify remaining
+   documentation as repository-level material.
+7. Update release-aware root tooling and regenerate mirrors, release error
+   registries, the shared policy registry, and examples without creating
+   duplicate normative copies.
 8. Prove local, offline, and public-URL resolution before publication.
 
 Cleanup unrelated to producing a correct first release should be deferred so that

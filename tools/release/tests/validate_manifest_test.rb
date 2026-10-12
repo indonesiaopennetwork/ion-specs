@@ -36,6 +36,14 @@ class ValidateManifestTest < Minitest::Test
     assert_includes IonReleaseManifest.validate(@manifest), "draft publishedAt must be null"
   end
 
+  def test_policy_status_is_not_part_of_release_manifest
+    @manifest["contentStatus"]["policies"] = "validated"
+
+    errors = IonReleaseManifest.validate(@manifest)
+
+    assert_includes errors, "contentStatus has unknown areas: policies"
+  end
+
   def test_published_release_rejects_pending_content_and_dependencies
     @manifest["status"] = "published"
     @manifest["publishedAt"] = "2026-08-21T00:00:00Z"
