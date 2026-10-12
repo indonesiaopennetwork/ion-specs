@@ -119,7 +119,7 @@
     "contentStatus": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["ionApi", "common", "trade", "logistics", "hospitality", "finance", "flows", "policies", "errors"],
+      "required": ["ionApi", "common", "trade", "logistics", "hospitality", "finance", "flows", "errors"],
       "properties": {
         "ionApi": { "$ref": "#/$defs/contentState" },
         "common": { "$ref": "#/$defs/contentState" },
@@ -128,14 +128,13 @@
         "hospitality": { "$ref": "#/$defs/contentState" },
         "finance": { "$ref": "#/$defs/contentState" },
         "flows": { "$ref": "#/$defs/contentState" },
-        "policies": { "$ref": "#/$defs/contentState" },
         "errors": { "$ref": "#/$defs/contentState" }
       }
     },
     "publishedContentStatus": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["ionApi", "common", "trade", "logistics", "hospitality", "finance", "flows", "policies", "errors"],
+      "required": ["ionApi", "common", "trade", "logistics", "hospitality", "finance", "flows", "errors"],
       "properties": {
         "ionApi": { "enum": ["validated", "excluded"] },
         "common": { "enum": ["validated", "excluded"] },
@@ -144,7 +143,6 @@
         "hospitality": { "enum": ["validated", "excluded"] },
         "finance": { "enum": ["validated", "excluded"] },
         "flows": { "enum": ["validated", "excluded"] },
-        "policies": { "enum": ["validated", "excluded"] },
         "errors": { "enum": ["validated", "excluded"] }
       }
     },

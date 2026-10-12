@@ -161,6 +161,6 @@ Developers who want to understand the underlying structure can still read every 
 
 ## Implementation status
 
-Both tools are **specified but not yet implemented**. The specification above defines the complete interface and output format. Implementation follows the same pattern as the existing `errors/generate_registry.py` and `policies/generate_registry.py` scripts — reading structured YAML and producing developer-facing output.
+Both tools are **specified but not yet implemented**. The specification above defines the complete interface and output format. Implementation should follow the same structured-input approach as `tools/release/generate_error_registry.rb` and `tools/policies/generate_registry.rb` — reading YAML and producing deterministic developer-facing output.
 
 Contributors interested in implementing these tools should open an Issue referencing this README.

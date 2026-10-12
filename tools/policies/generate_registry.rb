@@ -1,38 +1,36 @@
 #!/usr/bin/env ruby
 
-require "date"
 require "find"
 require "json"
 require "optparse"
 require "pathname"
 require "yaml"
 
-module IonReleaseRegistries
+module IonPolicyRegistry
   TRADE_POLICY_CATEGORIES = %w[return warranty].freeze
   REQUIRED_POLICY_FIELDS = %w[iri version status displayText].freeze
 
   module_function
 
-  def build(release_root)
-    root = Pathname.new(File.expand_path(release_root))
-    [build_policy_registry(root), build_error_registry(root)]
-  end
-
-  def build_policy_registry(root)
+  def build(repository_root)
+    root = Pathname.new(File.expand_path(repository_root))
     policies = []
     errors = []
     seen = {}
+
     policy_source_paths(root).each do |path|
       YAML.load_stream(File.read(path).delete_prefix("\uFEFF")).compact.each do |document|
         unless document.is_a?(Hash)
           errors << "#{relative(root, path)}: policy document must be an object"
           next
         end
+
         missing = REQUIRED_POLICY_FIELDS.reject { |field| document.key?(field) }
         unless missing.empty?
           errors << "#{relative(root, path)}: missing #{missing.join(', ')}"
           next
         end
+
         iri = document["iri"]
         errors << "duplicate policy IRI: #{iri}" if seen[iri]
         seen[iri] = path
@@ -61,11 +59,12 @@ module IonReleaseRegistries
     rescue Psych::SyntaxError => e
       errors << "#{relative(root, path)}: #{e.message.lines.first.strip}"
     end
+
     policies.sort_by! { |policy| policy["iri"] }
     by_category = policies.group_by { |policy| policy["category"] }.transform_values(&:length)
     by_sector = policies.group_by { |policy| policy["sector"] }.transform_values(&:length)
     registry = {
-      "_generated" => "Do not edit directly. Run tools/release/generate_release_registries.rb --write releases/#{root.basename}.",
+      "_generated" => "Do not edit directly. Run tools/policies/generate_registry.rb --write.",
       "_scheme" => "ion://policy/{category}.{sector-or-scope}.{variant-name}",
       "version" => "2.0.0",
       "totalPolicies" => policies.length,
@@ -74,34 +73,6 @@ module IonReleaseRegistries
       "policies" => policies
     }
     [root.join("policies/registry.json"), registry, errors]
-  end
-
-  def build_error_registry(root)
-    path = root.join("errors/trade.yaml")
-    errors = []
-    entries = YAML.safe_load(File.read(path), permitted_classes: [Date, Time], aliases: true)
-    unless entries.is_a?(Array)
-      errors << "errors/trade.yaml: top level must be an array"
-      entries = []
-    end
-    codes = entries.map { |entry| entry["code"] }
-    codes.group_by { |code| code }.select { |_, values| values.length > 1 }.each_key do |code|
-      errors << "duplicate error code: #{code}"
-    end
-    entries.each do |entry|
-      errors << "invalid Trade error code: #{entry['code']}" unless entry["code"].to_s.match?(/\AION-A\d{4,}\z/)
-    end
-    registry = {
-      "_generated" => "Do not edit directly. Run tools/release/generate_release_registries.rb --write releases/#{root.basename}.",
-      "_source" => "errors/trade.yaml",
-      "version" => "2.0.0",
-      "sector" => "trade",
-      "count" => entries.length,
-      "errors" => entries
-    }
-    [root.join("errors/registry.json"), registry, errors]
-  rescue Errno::ENOENT, Psych::SyntaxError => e
-    [root.join("errors/registry.json"), {}, ["errors/trade.yaml: #{e.message.lines.first.strip}"]]
   end
 
   def relative(root, path)
@@ -126,27 +97,24 @@ end
 if $PROGRAM_NAME == __FILE__
   options = { write: false }
   OptionParser.new do |parser|
-    parser.on("--write", "Write deterministic registry files") { options[:write] = true }
+    parser.on("--write", "Write the deterministic policy registry") { options[:write] = true }
   end.parse!(ARGV)
-  release_root = ARGV.fetch(0, "releases/release1")
-  failures = []
-  IonReleaseRegistries.build(release_root).each do |path, registry, errors|
-    failures.concat(errors)
-    rendered = JSON.pretty_generate(registry) + "\n"
-    if options[:write]
-      path.dirname.mkpath
-      path.write(rendered)
-      puts "generated #{path}: #{registry['totalPolicies'] || registry['count']} entries"
-    elsif !path.file?
-      failures << "generated registry is missing: #{path}"
-    elsif path.read != rendered
-      failures << "generated registry is stale: #{path}"
-    else
-      puts "generated registry is current: #{path}"
-    end
+  repository_root = ARGV.fetch(0, ".")
+  path, registry, errors = IonPolicyRegistry.build(repository_root)
+  rendered = JSON.pretty_generate(registry) + "\n"
+  if options[:write]
+    path.dirname.mkpath
+    path.write(rendered)
+    puts "generated #{path}: #{registry['totalPolicies']} entries"
+  elsif !path.file?
+    errors << "generated registry is missing: #{path}"
+  elsif path.read != rendered
+    errors << "generated registry is stale: #{path}"
+  else
+    puts "generated registry is current: #{path}"
   end
-  unless failures.empty?
-    failures.each { |failure| warn "ERROR: #{failure}" }
+  unless errors.empty?
+    errors.each { |failure| warn "ERROR: #{failure}" }
     exit 1
   end
 end

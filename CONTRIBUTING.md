@@ -9,9 +9,10 @@ backed by the relevant validation commands.
 - A draft release may be edited inside its `releases/releaseN/` directory.
 - A published release is immutable. Make every correction in a new integer
   release; never edit or delete the published directory.
-- The repository does not maintain separate root-level `schema/`, `flows/`,
-  `policies/`, or `errors/` source trees. Future normative work belongs in the
-  active draft release.
+- The repository does not maintain separate root-level `schema/`, `flows/`, or
+  `errors/` source trees. Future work in those areas belongs in the active draft
+  release. Policies are maintained in the root `policies/` tree outside the
+  integer release cycle.
 - Only published releases may be assigned to `next`, `current`, or LTS. Channel
   changes do not authorize edits to their immutable contents.
 
@@ -45,7 +46,8 @@ Treat these artifacts as connected to the schemas they reference:
 Run the relevant generators when changing registry sources:
 
 ```bash
-ruby tools/release/generate_release_registries.rb --write releases/releaseN
+ruby tools/policies/generate_registry.rb --write
+ruby tools/release/generate_error_registry.rb --write releases/releaseN
 ruby tools/release/record_artifact_checksums.rb --write releases/releaseN
 ```
 

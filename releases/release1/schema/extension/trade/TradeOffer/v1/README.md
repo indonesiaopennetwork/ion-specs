@@ -63,7 +63,7 @@ lists the required fields at each included API step.
 
 ## Common rejection reasons
 
-See the Release 1 [policy registry](../../../../../policies/README.md) for included
+See the shared [policy registry](../../../../../../../policies/README.md) for registered
 IRIs and the [Trade error registry](../../../../../errors/README.md) for included
 errors.
 

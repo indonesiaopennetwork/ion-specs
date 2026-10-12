@@ -14,7 +14,6 @@ module IonReleaseScope
     "hospitality" => ["schema/extension/hospitality"],
     "finance" => ["schema/extension/finance"],
     "flows" => ["flows/trade"],
-    "policies" => ["policies"],
     "errors" => ["errors"]
   }.freeze
 
@@ -29,6 +28,10 @@ module IonReleaseScope
     FORBIDDEN_FLAT_SCHEMA_PATHS.each do |directory|
       path = root.join(directory)
       errors << "schema content must be nested under schema/: #{directory}" if path.exist?
+    end
+
+    if root.join("policies").exist?
+      errors << "shared policies must not be copied into a release: policies"
     end
 
     CONTENT_PATHS.each do |area, patterns|

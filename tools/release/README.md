@@ -33,10 +33,12 @@ permanent integer releases. It is not copied into individual release bundles.
   previews changes unless passed `--apply`.
 - `sync_schema_pack_jsonld.rb` synchronizes a pack's local JSON-LD types and
   properties with its authoritative `attributes.yaml`; it is dry-run by default.
-- `validate_trade_connections.rb` checks Trade flow targets, concrete policy
-  references, policy registry uniqueness, and generated Trade error views.
-- `generate_release_registries.rb` deterministically generates or checks the
-  release-local policy and Trade error registries.
+- `validate_trade_connections.rb` checks Trade flow targets, concrete references
+  against the shared root policy registry, policy registry uniqueness, and the
+  generated Trade error view.
+- `generate_error_registry.rb` deterministically generates or checks the
+  release-local Trade error registry. The shared policy registry is maintained by
+  `tools/policies/generate_registry.rb`.
 - `record_artifact_checksums.rb` records or checks the complete artifact
   inventory under the release's normative content trees.
 - `validate_release_scope.rb` ensures validated content is present and excluded
@@ -101,7 +103,8 @@ ruby tools/release/tests/validate_public_urls_test.rb
 ruby tools/release/tests/validate_artifact_checksums_test.rb
 ruby tools/release/tests/validate_release_scope_test.rb
 ruby tools/release/tests/validate_release_immutability_test.rb
-ruby tools/release/tests/generate_release_registries_test.rb
+ruby tools/release/tests/generate_error_registry_test.rb
+ruby tools/policies/tests/generate_registry_test.rb
 ```
 
 ## Propose vendored dependencies
