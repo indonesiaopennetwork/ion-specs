@@ -28,18 +28,20 @@ info:
     3. For a contract with `accord: false`, the initiator sends a new
        `/reconcile` round with revised figures.
 
-    4. When a contract reaches `accord: true`, SEAM (Settlement Assurance
-       Mechanism) instructs the PJP (Penyelenggara Jasa Pembayaran) to pay the
-       contract's `netPayable` from `payerId` to `payeeId`, into
-       `payeeAccount`. SEAM may net agreed contracts between the same pair into
-       a single transfer. Payout status reaches the participants through the
-       PJP's webhook, which is outside this specification.
+    4. The buyer's payment is held at the PJP (Penyelenggara Jasa
+       Pembayaran), not in a participant's account. When a contract reaches
+       `accord: true`, SEAM (Settlement Assurance Mechanism) instructs the PJP
+       to pay it out of the held funds: `netPayable` to the BPP, `commission`
+       to the BAP, each into the participant's account in
+       `settlementAccounts`. SEAM may combine agreed contracts into a single
+       transfer per participant. Payout status reaches the participants
+       through the PJP's webhook, which is outside this specification.
 
 
     The settlement terms used to compute the figures (`settlementBasis`,
     `settlementWindow`, and `finderFee`) are agreed in `init` and `on_init`
-    on `IONTradeContract`. The collector (`collectedBy`) and the payee's bank
-    account (`settlementAccount`) are declared on `IONPayment` in
+    on `IONTradeContract`. The participants' bank accounts
+    (`settlementAccounts`) are declared on `IONPayment` in
     `Contract.settlements[]`.
 
 
@@ -127,8 +129,8 @@ paths:
       description: >
         Sent by the receiver of `/reconcile` back to its sender, correlated by
         `context.messageId`. For each contract it sets `accord`. A contract
-        with `accord: true` is agreed by both participants and is released to
-        SEAM for payout through the PJP. A contract with `accord: false`
+        with `accord: true` is agreed by both participants, and SEAM instructs
+        the PJP to pay it out of the held funds. A contract with `accord: false`
         carries the counterparty's own figures, a `diffValue` on each differing
         component, and a `dispute` reason; the initiator may then send a new
         `/reconcile` round for it.
@@ -227,37 +229,35 @@ components:
     ContractSettlement:
       title: Contract Settlement
       description: >
-        One participant's settlement figures for one contract. Each contract
-        settles in one direction only: the collector (payerId) pays the other
-        participant (payeeId). Invariant: netPayable.value =
-        orderAmount.value − commission.value − withholdingAmount.value −
-        sum(taxes[].value) − refundAmount.value.
+        One participant's settlement figures for one contract. The buyer's
+        payment for the contract is held at the PJP; the figures split it.
+        Invariant: orderAmount.value = netPayable.value + commission.value +
+        withholdingAmount.value + sum(taxes[].value) + refundAmount.value.
+        On agreement the PJP pays netPayable to the BPP and commission to the
+        BAP, returns refundAmount to the buyer, and keeps withholdingAmount.
       type: object
       required:
         - contractId
-        - collectedBy
-        - payerId
-        - payeeId
+        - settlementId
         - currency
         - orderAmount
         - commission
         - netPayable
-        - payeeAccount
+        - settlementAccounts
       properties:
         contractId:
           $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Contract/properties/id'
+        settlementId:
+          description: >
+            Id of the contract's payment record (Contract.settlements[].id)
+            whose held funds this settlement pays out.
+          $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Settlement/properties/id'
         collectedBy:
           description: >
-            Participant that collected the buyer payment for this contract, as
-            declared on IONPayment.collectedBy in the order. The collector is
-            the payer.
+            Participant whose checkout collected the buyer payment into the
+            PJP, as declared on IONPayment.collectedBy. Informational: the
+            funds are held at the PJP whichever participant collected them.
           $ref: 'https://schema.ion.id/release1/schema/common/Payment/v1/attributes.yaml#/components/schemas/IONPayment/properties/collectedBy'
-        payerId:
-          type: string
-          description: Subscriber ID of the participant that pays netPayable (the collector).
-        payeeId:
-          type: string
-          description: Subscriber ID of the participant that receives netPayable.
         currency:
           type: string
           pattern: '^[A-Z]{3}$'
@@ -267,39 +267,67 @@ components:
         settlementWindow:
           $ref: '#/components/schemas/SettlementWindow'
         orderAmount:
-          description: Gross amount the buyer paid for the contract (the consideration total).
+          description: Gross amount the buyer paid for the contract, held at the PJP.
           $ref: '#/components/schemas/ReconAmount'
         commission:
           description: >
             BAP finder fee for the contract, computed from
-            IONTradeContract.finderFee. Zero when no finder fee was agreed.
+            IONTradeContract.finderFee; the PJP pays it to the BAP. Zero when
+            no finder fee was agreed.
           $ref: '#/components/schemas/ReconAmount'
         withholdingAmount:
-          description: Amount held back by the payer, for example against returns.
+          description: Amount the PJP keeps back, for example against returns.
           $ref: '#/components/schemas/ReconAmount'
         taxes:
           type: array
-          description: Taxes withheld by the payer from the payout, one entry per tax regime.
+          description: Taxes withheld from the BPP's proceeds, one entry per tax regime.
           items:
             $ref: '#/components/schemas/TaxDeduction'
         refundAmount:
-          description: Total refunded to the buyer for the contract.
+          description: Total the PJP returns to the buyer for the contract.
           $ref: '#/components/schemas/ReconAmount'
         netPayable:
           description: >
-            Amount the payer owes the payee for this contract. SEAM instructs
-            the PJP to pay it once the contract reaches accord true.
+            Amount the PJP pays to the BPP for this contract: orderAmount −
+            commission − withholdingAmount − sum(taxes) − refundAmount.
           $ref: '#/components/schemas/ReconAmount'
-        payeeAccount:
+        settlementAccounts:
+          type: array
+          minItems: 1
           description: >
-            Payee's bank account for the payout, as declared on
-            IONPayment.settlementAccount in the order.
-          $ref: 'https://schema.ion.id/release1/schema/common/Payment/v1/attributes.yaml#/components/schemas/BankTransfer'
+            Payout accounts as declared on IONPayment.settlementAccounts in the
+            order. The BPP account is always required; the BAP account is
+            required when commission is greater than zero.
+          items:
+            $ref: 'https://schema.ion.id/release1/schema/common/Payment/v1/attributes.yaml#/components/schemas/SettlementAccount'
+          contains:
+            type: object
+            properties:
+              holderRole:
+                const: BPP
+            required: [holderRole]
         contract:
           description: >
             Optional copy of the contract as the sender holds it (status,
             commitments, consideration, settlements), for verification.
           $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Contract'
+      if:
+        properties:
+          commission:
+            properties:
+              value:
+                exclusiveMinimum: 0
+            required: [value]
+        required: [commission]
+      then:
+        properties:
+          settlementAccounts:
+            contains:
+              type: object
+              properties:
+                holderRole:
+                  const: BAP
+              required: [holderRole]
 
     ContractReconciliation:
       title: Contract Reconciliation
@@ -435,7 +463,7 @@ components:
       title: Settlement Window
       description: >
         ISO 8601 duration, measured from the SettlementBasis event, within
-        which the collector must settle with the receiver.
+        which the settlement must be paid out.
       type: string
       format: duration
       examples: [P1D]

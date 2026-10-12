@@ -651,10 +651,22 @@
       "rdfs:comment": "party property."
     },
     {
-      "@id": "ion:settlementAccount",
+      "@id": "ion:SettlementAccount",
+      "@type": "rdfs:Class",
+      "rdfs:label": "SettlementAccount",
+      "rdfs:comment": "A network participant's bank account for settlement payouts from the PJP."
+    },
+    {
+      "@id": "ion:settlementAccounts",
       "@type": "rdf:Property",
-      "rdfs:label": "settlementAccount",
-      "rdfs:comment": "Bank account of the payee network participant, where settlement payouts for this contract are sent. The payee is the participant that did not collect the buyer payment: the BPP declares its account in on_init when collectedBy is BAP, and the BAP declares its account in init when collectedBy is BPP. Reconciliation passes it to SEAM for the PJP payout."
+      "rdfs:label": "settlementAccounts",
+      "rdfs:comment": "Bank accounts where the PJP pays this contract's settlement out of the funds it holds, one per receiving network participant. The BAP declares its account (for the finder fee) in init; the BPP declares its account (for the order proceeds) in on_init and echoes the BAP's. Reconciliation passes them to SEAM for the PJP payout."
+    },
+    {
+      "@id": "ion:holderRole",
+      "@type": "rdf:Property",
+      "rdfs:label": "holderRole",
+      "rdfs:comment": "Network participant (BAP or BPP) that owns the settlement account and receives payouts into it."
     }
   ]
 }

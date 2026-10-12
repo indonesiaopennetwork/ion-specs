@@ -13,6 +13,7 @@ Indonesian payment method objects and PaymentDeclaration wrapper.
 | EWallet | OVO, DANA, GoPay, LinkAja, ShopeePay, AstraPay, Sakuku |
 | CashOnDelivery | COD with collection amount and change instructions |
 | BankTransfer | Direct bank transfer |
+| SettlementAccount | A participant's bank account for PJP settlement payouts |
 | BISettlement | BI-FAST / RTGS / SKN interbank settlement |
 | BNPL | Buy Now Pay Later (Kredivo, Akulaku, etc.) |
 | CardPayment | Credit/debit card (Visa, Mastercard, JCB, UnionPay) |
@@ -21,17 +22,21 @@ Indonesian payment method objects and PaymentDeclaration wrapper.
 Wraps the specific payment instrument with transaction-level context:
 `method`, `collectedBy`, `timing`, `status`, `amount`, `paidAt`, `gatewayRef`, `methodDetail`
 
-## Settlement account
+## Settlement accounts
 
-`settlementAccount` carries the payee's bank account (`bankCode`,
-`accountNumber`, `accountName`, using the `BankTransfer` shape) so SEAM can
-instruct the PJP payout after [reconciliation](../../../core/reconcile/v1/README.md).
-The payee is the participant that did not collect the buyer payment:
+In ION the buyer's payment is held at the PJP, not in a network participant's
+account. After [reconciliation](../../../core/reconcile/v1/README.md), SEAM
+instructs the PJP to pay each contract's settlement from those funds into the
+participants' accounts. `settlementAccounts[]` carries one `SettlementAccount`
+per receiving participant:
 
-| `collectedBy` | Payee | Declared in |
+| `holderRole` | Receives | Declared in |
 |---|---|---|
-| `BAP` | BPP | `on_init` |
-| `BPP` | BAP | `init` |
+| `BAP` | Finder fee (`commission`) | `init` |
+| `BPP` | Order proceeds (`netPayable`) | `on_init`, which also echoes the BAP's account |
+
+Each entry carries `bankCode`, `accountNumber`, and `accountName`, with the
+same meanings as in `BankTransfer`.
 
 ## Implementation guidance carried over from the excluded aggregate
 
@@ -58,4 +63,4 @@ codes included in this release.
 | Version | Date | Summary |
 |---|---|---|
 | v1 | 2026-06-02 | Initial release |
-| v1 | 2026-10-12 | Added `settlementAccount` for the payee's payout bank account |
+| v1 | 2026-10-12 | Added `settlementAccounts` (`SettlementAccount` per BAP/BPP) for PJP settlement payouts |

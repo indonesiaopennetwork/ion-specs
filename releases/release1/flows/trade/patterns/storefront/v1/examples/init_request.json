@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "description": "Storefront init \u2014 BAP provides delivery address and payment method. QRIS payment, delivery to South Jakarta. BAP proposes settlement terms: due one day after delivery, 3% finder fee on the item total.",
+    "description": "Storefront init \u2014 BAP provides delivery address and payment method. QRIS payment, delivery to South Jakarta. BAP proposes settlement terms: due one day after delivery, 3% finder fee on the item total. It declares its own payout account for the finder fee.",
     "pattern": "storefront",
     "step": "init",
     "sent_by": "BAP",
@@ -141,7 +141,15 @@
             "collectedBy": "BAP",
             "timing": "ON_ORDER",
             "status": "PENDING",
-            "currency": "IDR"
+            "currency": "IDR",
+            "settlementAccounts": [
+              {
+                "holderRole": "BAP",
+                "bankCode": "MANDIRI",
+                "accountNumber": "1370098765432",
+                "accountName": "PT Buyer App Indonesia"
+              }
+            ]
           }
         }
       ],

@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "description": "Storefront on_init \u2014 BPP returns QRIS payment string and final quote. BPP accepts the settlement terms and declares its payout account (the BAP collects, so the BPP is the payee).",
+    "description": "Storefront on_init \u2014 BPP returns QRIS payment string and final quote. BPP accepts the settlement terms and adds its payout account next to the BAP's; the PJP holds the payment and pays both after reconciliation.",
     "pattern": "storefront",
     "step": "on_init",
     "sent_by": "BPP",
@@ -117,11 +117,20 @@
               "merchantId": "QRIS-APOTEK-SEHAT-001",
               "expiresAt": "2026-04-19T10:45:00.000+07:00"
             },
-            "settlementAccount": {
-              "bankCode": "BCA",
-              "accountNumber": "8730012345",
-              "accountName": "PT Apotek Sehat Mandiri"
-            }
+            "settlementAccounts": [
+              {
+                "holderRole": "BAP",
+                "bankCode": "MANDIRI",
+                "accountNumber": "1370098765432",
+                "accountName": "PT Buyer App Indonesia"
+              },
+              {
+                "holderRole": "BPP",
+                "bankCode": "BCA",
+                "accountNumber": "8730012345",
+                "accountName": "PT Apotek Sehat Mandiri"
+              }
+            ]
           }
         }
       ],

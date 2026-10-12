@@ -19,9 +19,8 @@
     "contracts": [
       {
         "contractId": "0f8b6d3e-2c4a-4b8e-9d1f-6a7b8c9d0e1f",
+        "settlementId": "PAY-2026-00012345",
         "collectedBy": "BAP",
-        "payerId": "bap.example.id",
-        "payeeId": "bpp.example.id",
         "currency": "IDR",
         "settlementBasis": "AFTER_DELIVERY",
         "settlementWindow": "P1D",
@@ -41,19 +40,27 @@
         "netPayable": {
           "value": 96230
         },
-        "payeeAccount": {
-          "bankCode": "BCA",
-          "accountNumber": "1234567890",
-          "accountName": "PT Warung Pizza Nusantara"
-        },
+        "settlementAccounts": [
+          {
+            "holderRole": "BAP",
+            "bankCode": "MANDIRI",
+            "accountNumber": "1370012345678",
+            "accountName": "PT Buyer App Indonesia"
+          },
+          {
+            "holderRole": "BPP",
+            "bankCode": "BCA",
+            "accountNumber": "1234567890",
+            "accountName": "PT Warung Pizza Nusantara"
+          }
+        ],
         "accord": true,
         "dueDate": "2026-10-01"
       },
       {
         "contractId": "5a1e9c7b-3d2f-4e6a-8b0c-1d2e3f4a5b6c",
+        "settlementId": "PAY-2026-00012346",
         "collectedBy": "BAP",
-        "payerId": "bap.example.id",
-        "payeeId": "bpp.example.id",
         "currency": "IDR",
         "settlementBasis": "AFTER_DELIVERY",
         "settlementWindow": "P1D",
@@ -75,11 +82,20 @@
           "value": 125500,
           "diffValue": -300
         },
-        "payeeAccount": {
-          "bankCode": "BCA",
-          "accountNumber": "1234567890",
-          "accountName": "PT Warung Pizza Nusantara"
-        },
+        "settlementAccounts": [
+          {
+            "holderRole": "BAP",
+            "bankCode": "MANDIRI",
+            "accountNumber": "1370012345678",
+            "accountName": "PT Buyer App Indonesia"
+          },
+          {
+            "holderRole": "BPP",
+            "bankCode": "BCA",
+            "accountNumber": "1234567890",
+            "accountName": "PT Warung Pizza Nusantara"
+          }
+        ],
         "accord": false,
         "dispute": {
           "code": "COMMISSION_MISMATCH",

@@ -54,7 +54,7 @@ to compute each contract's payout. These properties are marked
 | Field | Type | Meaning |
 |---|---|---|
 | `settlementBasis` | enum | Lifecycle event from which the settlement falls due |
-| `settlementWindow` | ISO 8601 duration | Time after the `settlementBasis` event within which the collector settles with the receiver |
+| `settlementWindow` | ISO 8601 duration | Time after the `settlementBasis` event within which the settlement is paid out |
 | `finderFee.feeType` | `PERCENT` \| `AMOUNT` | How the BAP's finder fee is expressed |
 | `finderFee.feeValue` | number | Percentage (0-100) or fixed amount in the contract currency |
 | `finderFee.appliesTo` | `ITEM_TOTAL` \| `ORDER_TOTAL` | Base for a `PERCENT` fee |
@@ -80,8 +80,8 @@ total:
 }
 ```
 
-The payee's bank account is not a contract term; it travels as
-`IONPayment.settlementAccount` on `Contract.settlements[]`.
+The participants' payout bank accounts are not contract terms; they travel as
+`IONPayment.settlementAccounts` on `Contract.settlements[]`.
 
 Use inherited `invoicePreferences.taxId` for an invoice tax identifier:
 

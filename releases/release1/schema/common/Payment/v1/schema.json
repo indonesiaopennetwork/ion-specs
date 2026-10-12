@@ -164,13 +164,12 @@
     "processingFee": {
       "$ref": "#/components/schemas/ProcessingFee"
     },
-    "settlementAccount": {
-      "allOf": [
-        {
-          "$ref": "#/components/schemas/BankTransfer"
-        }
-      ],
-      "description": "Bank account of the payee network participant, where settlement payouts for this contract are sent. The payee is the participant that did not collect the buyer payment: the BPP declares its account in on_init when collectedBy is BAP, and the BAP declares its account in init when collectedBy is BPP. Reconciliation passes it to SEAM for the PJP payout. transferType does not apply."
+    "settlementAccounts": {
+      "type": "array",
+      "description": "Bank accounts where the PJP pays this contract's settlement out of the funds it holds, one per receiving network participant. The BAP declares its account (for the finder fee) in init; the BPP declares its account (for the order proceeds) in on_init and echoes the BAP's. Reconciliation passes them to SEAM for the PJP payout.",
+      "items": {
+        "$ref": "#/components/schemas/SettlementAccount"
+      }
     }
   },
   "required": [
@@ -396,6 +395,36 @@
             "x-ion-condition": "Required when collectionAmountCollected < collectionAmount"
           }
         }
+      },
+      "SettlementAccount": {
+        "type": "object",
+        "title": "Settlement Account",
+        "description": "A network participant's bank account for settlement payouts from the PJP.",
+        "additionalProperties": false,
+        "properties": {
+          "holderRole": {
+            "type": "string",
+            "enum": [
+              "BAP",
+              "BPP"
+            ],
+            "description": "Network participant that owns the account and receives payouts into it."
+          },
+          "bankCode": {
+            "$ref": "#/components/schemas/BankTransfer/properties/bankCode"
+          },
+          "accountNumber": {
+            "$ref": "#/components/schemas/BankTransfer/properties/accountNumber"
+          },
+          "accountName": {
+            "$ref": "#/components/schemas/BankTransfer/properties/accountName"
+          }
+        },
+        "required": [
+          "holderRole",
+          "bankCode",
+          "accountNumber"
+        ]
       },
       "BankTransfer": {
         "type": "object",

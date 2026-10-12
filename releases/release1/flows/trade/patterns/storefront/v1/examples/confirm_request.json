@@ -98,11 +98,20 @@
             "amount": 9435,
             "paidAt": "2026-04-19T10:32:15.000+07:00",
             "gatewayRef": "GW-QRIS-2026041900001",
-            "settlementAccount": {
-              "bankCode": "BCA",
-              "accountNumber": "8730012345",
-              "accountName": "PT Apotek Sehat Mandiri"
-            }
+            "settlementAccounts": [
+              {
+                "holderRole": "BAP",
+                "bankCode": "MANDIRI",
+                "accountNumber": "1370098765432",
+                "accountName": "PT Buyer App Indonesia"
+              },
+              {
+                "holderRole": "BPP",
+                "bankCode": "BCA",
+                "accountNumber": "8730012345",
+                "accountName": "PT Apotek Sehat Mandiri"
+              }
+            ]
           }
         }
       ],

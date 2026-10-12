@@ -162,8 +162,8 @@ phases:
         conditionalFields:
           - field: message.contract.contractAttributes.finderFee
             condition: if the BAP charges a finder fee
-          - field: message.contract.settlements[].settlementAttributes.settlementAccount
-            condition: if collectedBy is BPP (the BAP is the payee)
+          - field: message.contract.settlements[].settlementAttributes.settlementAccounts[holderRole=BAP]
+            condition: if the BAP charges a finder fee (the PJP pays it into this account)
           - field: message.contract.contractAttributes.invoicePreferences
             condition: if buyer wants tax invoice
           - field: message.contract.contractAttributes.deliveryPreferences
@@ -189,11 +189,12 @@ phases:
           - message.contract.settlements[].settlementAttributes.currency
           - message.contract.contractAttributes.settlementBasis
           - message.contract.contractAttributes.settlementWindow
+          - message.contract.settlements[].settlementAttributes.settlementAccounts[holderRole=BPP]
         conditionalFields:
           - field: message.contract.contractAttributes.finderFee
             condition: if a finder fee was proposed in init
-          - field: message.contract.settlements[].settlementAttributes.settlementAccount
-            condition: if collectedBy is BAP (the BPP is the payee)
+          - field: message.contract.settlements[].settlementAttributes.settlementAccounts[holderRole=BAP]
+            condition: echoed if the BAP declared it in init
           - field: message.contract.settlements[].settlementAttributes.methodDetail.qrisString
             condition: for QRIS method
           - field: message.contract.settlements[].settlementAttributes.methodDetail.vaNumber

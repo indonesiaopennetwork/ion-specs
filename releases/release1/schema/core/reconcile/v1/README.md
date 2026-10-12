@@ -42,11 +42,20 @@ Sender (BAP or BPP)                     Counterparty
   ◀──────────── /on_reconcile ─────────
 ```
 
-1. When a contract reaches `accord: true`, SEAM (Settlement Assurance
-   Mechanism) instructs the PJP (Penyelenggara Jasa Pembayaran) to pay its
-   `netPayable` from `payerId` to `payeeId`, into `payeeAccount`.
-2. SEAM may net agreed contracts between the same pair into a single transfer;
-   the wire carries `netPayable` per contract only.
+1. The buyer's payment is held at the PJP (Penyelenggara Jasa Pembayaran), not
+   in a participant's account. When a contract reaches `accord: true`, SEAM
+   (Settlement Assurance Mechanism) instructs the PJP to pay it out of the held
+   funds into the accounts in `settlementAccounts`:
+
+   | Recipient | Receives |
+   |---|---|
+   | BPP | `netPayable` |
+   | BAP | `commission` |
+   | Buyer | `refundAmount` |
+   | Stays at the PJP | `withholdingAmount` |
+
+2. SEAM may combine agreed contracts into a single transfer per participant;
+   the wire carries the figures per contract only.
 3. Payout status reaches the participants through the PJP's webhook, which is
    outside this specification.
 4. A batch can be `PARTIALLY_AGREED`: its agreed contracts proceed to payout
@@ -54,23 +63,23 @@ Sender (BAP or BPP)                     Counterparty
 
 ## Per-contract figures
 
-Each contract settles in one direction only: the collector pays the other
-participant. Participants validate this before sending.
+The figures split the buyer's payment held at the PJP:
+`orderAmount = netPayable + commission + withholdingAmount + Σ taxes + refundAmount`.
 
 | Field | Meaning |
 |---|---|
 | `contractId` | Beckn `Contract.id` |
-| `collectedBy` | `BAP`, `BPP`, or `LSP`, from `IONPayment.collectedBy` |
-| `payerId`, `payeeId` | Subscriber IDs of the collector and of the participant it pays |
+| `settlementId` | `Contract.settlements[].id` of the payment record whose held funds are paid out |
+| `collectedBy` | Informational: whose checkout collected the payment into the PJP (`IONPayment.collectedBy`) |
 | `currency` | ISO 4217 code for all amounts; `IDR` for domestic trade |
 | `settlementBasis`, `settlementWindow` | Due-date terms agreed on `IONTradeContract` |
-| `orderAmount` | Gross amount the buyer paid |
-| `commission` | BAP finder fee, computed from `IONTradeContract.finderFee` |
-| `withholdingAmount` | Amount held back by the payer, for example against returns |
-| `taxes[]` | Taxes withheld from the payout, by `taxRegime` (for example `PPH22`, `PPH23`) |
-| `refundAmount` | Total refunded to the buyer |
-| `netPayable` | `orderAmount − commission − withholdingAmount − Σ taxes − refundAmount` |
-| `payeeAccount` | Payee's bank account, from `IONPayment.settlementAccount` |
+| `orderAmount` | Gross amount the buyer paid, held at the PJP |
+| `commission` | BAP finder fee, computed from `IONTradeContract.finderFee`; paid to the BAP |
+| `withholdingAmount` | Amount the PJP keeps back, for example against returns |
+| `taxes[]` | Taxes withheld from the BPP's proceeds, by `taxRegime` (for example `PPH22`, `PPH23`) |
+| `refundAmount` | Total the PJP returns to the buyer |
+| `netPayable` | Paid to the BPP: `orderAmount − commission − withholdingAmount − Σ taxes − refundAmount` |
+| `settlementAccounts[]` | Payout accounts from `IONPayment.settlementAccounts`: the BPP's always, the BAP's when `commission` > 0 |
 | `contract` | Optional copy of the Beckn `Contract` as the sender holds it |
 
 Every amount is a `ReconAmount` with `value` and, in `/on_reconcile`, a
@@ -108,7 +117,7 @@ is no batch-level payable.
 | Input | Agreed in | Defined by |
 |---|---|---|
 | `settlementBasis`, `settlementWindow`, `finderFee` | `init` / `on_init` | [`IONTradeContract`](../../../extension/trade/TradeContract/v1/README.md) on `Contract.contractAttributes` |
-| `collectedBy`, `settlementAccount` | `init` / `on_init` | [`IONPayment`](../../../common/Payment/v1/README.md) on `Contract.settlements[]` |
+| `settlementAccounts` (BAP in `init`, BPP in `on_init`) | `init` / `on_init` | [`IONPayment`](../../../common/Payment/v1/README.md) on `Contract.settlements[]` |
 
 This API owns the `SettlementBasis` and `SettlementWindow` definitions;
 `IONTradeContract` references them, so the order terms and the reconciliation
@@ -117,7 +126,7 @@ figures share one value set.
 ## Examples
 
 - [`examples/reconcile-request.json`](examples/reconcile-request.json) — the
-  BPP reconciles two BAP-collected contracts.
+  BPP reconciles two contracts whose payments are held at the PJP.
 - [`examples/on-reconcile-response.json`](examples/on-reconcile-response.json)
   — the BAP agrees with one contract and disputes the commission on the other
   (`PARTIALLY_AGREED`).

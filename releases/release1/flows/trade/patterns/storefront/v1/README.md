@@ -26,14 +26,15 @@ later uses to compute each contract's payout:
 
 | Step | Sender | Carries |
 |---|---|---|
-| `init` | BAP | `contractAttributes.settlementBasis`, `settlementWindow`, and `finderFee` (proposed) |
-| `on_init` | BPP | The same terms (accepted), plus `settlementAttributes.settlementAccount` — the payee's bank account |
-| `confirm`, `on_confirm` | BAP, BPP | The agreed terms and account, carried into the binding contract |
+| `init` | BAP | `contractAttributes.settlementBasis`, `settlementWindow`, and `finderFee` (proposed); the BAP's `settlementAccounts` entry for the finder fee |
+| `on_init` | BPP | The same terms (accepted), plus the BPP's `settlementAccounts` entry next to the BAP's |
+| `confirm`, `on_confirm` | BAP, BPP | The agreed terms and both accounts, carried into the binding contract |
 
-In the examples the BAP collects the QRIS payment (`collectedBy: BAP`), so the
-BPP is the payee and declares its account in `on_init`. When the BPP collects,
-the BAP declares its account in `init`. The `/reconcile` and `/on_reconcile`
-exchange itself runs after fulfilment and is not part of this flow.
+The buyer's QRIS payment is held at the PJP, not in either participant's
+account. After the order is reconciled, the PJP pays the BPP its proceeds and
+the BAP its finder fee into these accounts. The `/reconcile` and
+`/on_reconcile` exchange itself runs after fulfilment and is not part of this
+flow.
 
 ## Included schema packs
 

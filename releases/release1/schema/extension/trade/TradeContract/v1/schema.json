@@ -225,7 +225,7 @@
         },
         "settlementWindow": {
           "$ref": "https://schema.ion.id/release1/schema/core/reconcile/v1/reconcile.yaml#/components/schemas/SettlementWindow",
-          "description": "ISO 8601 duration, measured from the settlementBasis event, within which the collector must settle with the receiver.",
+          "description": "ISO 8601 duration, measured from the settlementBasis event, within which the settlement must be paid out.",
           "x-attr-ion-layer": "ion"
         },
         "finderFee": {
