@@ -4,19 +4,17 @@ on:
   pull_request:
     paths:
       - "releases/**"
-      - "flows/trade/**"
       - "policies/**"
-      - "errors/**"
       - "tools/release/**"
+      - "tools/policies/**"
       - ".github/workflows/release-validation.yml"
   push:
     branches: [main]
     paths:
       - "releases/**"
-      - "flows/trade/**"
       - "policies/**"
-      - "errors/**"
       - "tools/release/**"
+      - "tools/policies/**"
       - ".github/workflows/release-validation.yml"
   workflow_dispatch:
     inputs:

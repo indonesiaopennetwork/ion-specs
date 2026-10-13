@@ -4,6 +4,8 @@
 
 **Inventory date:** 2026-08-21
 
+**Policy placement amended:** 2026-10-12
+
 **Target:** `releases/release1/`
 
 **Related decision:** `docs/ION_Release_Architecture.md`
@@ -18,8 +20,9 @@ It deliberately separates:
 
 1. **Mechanical migration** — moving files and rewriting paths without changing
    protocol meaning.
-2. **Semantic review** — correcting or approving schemas, flows, policies, errors,
-   and examples before publication.
+2. **Semantic review** — correcting or approving schemas, flows, errors, and
+   examples before publication, while validating policy references against the
+   independently governed root registry.
 3. **Publication** — changing the release manifest from `draft` to `published` and
    making the release immutable.
 
@@ -47,8 +50,9 @@ The following decisions are already accepted:
 - Cross-sector extension packs move from the confusing `core` classification to
   `common` in the release structure.
 - Common repository documentation remains in the root `docs/` directory.
-- Errors, policies, and flows are versioned with the release.
-- Each release root contains `schema/`, `flows/`, `policies/`, and `errors/`;
+- Errors and flows are versioned with the release. Policies remain in the root
+  `policies/` tree and are governed independently of integer releases.
+- Each release root contains `schema/`, `flows/`, and `errors/`;
   `core/`, `common/`, `extension/`, and `vendored/` are nested under `schema/`.
 - Repository tooling remains at the root and becomes release-aware.
 
@@ -65,7 +69,8 @@ The initial confidence classification supplied for this migration is:
 | Finance schemas | Review required | Correct and approve separately before publication |
 | Reserved sectors | Documentation only | Do not imply normative support without schemas and approval |
 | `ion.yaml` | Mixed content | Reconcile embedded components and registry declarations with approved release scope |
-| Flows, policies, errors | Review follows dependencies | Approve only after referenced schemas and identifiers are stable |
+| Flows and errors | Review follows dependencies | Approve only after referenced schemas and identifiers are stable |
+| Shared policies | Independent lifecycle | Keep at root and validate release references against the shared registry |
 
 `Trusted baseline` does not mean validation may be skipped. It means Trade is the
 reference implementation against which migration tooling and release conventions
@@ -89,7 +94,6 @@ contentStatus:
   hospitality: review-required
   finance: review-required
   flows: review-required
-  policies: review-required
   errors: review-required
 dependencyStatus: incomplete
 dependencies: []
@@ -235,8 +239,8 @@ The current `policies/` tree contains:
 - one generator script; and
 - supporting README material.
 
-Policy source YAML and the generated registry move into the draft release. The
-generator script moves to root tooling and must accept an explicit release path.
+Policy source YAML and the generated registry remain in the canonical root tree.
+The generator moves to `tools/policies/` and operates independently of a release.
 Duplicate basenames exist across sector and cross-sector directories. They are not
 automatically errors, but their policy IRIs and generated registry keys must be
 checked for uniqueness before publication.
@@ -300,7 +304,6 @@ releases/
           schemas/<SchemaName>/<upstream-version>/attributes.yaml
 
     flows/
-    policies/
     errors/
 ```
 
@@ -319,7 +322,7 @@ only if genuinely release-specific documentation is identified.
 | `schema/extensions/trade/` | `releases/release1/schema/extension/trade/` | Moved and normalized to approved public schema names |
 | Other `schema/extensions/<sector>/` | Excluded | Retain outside Release 1 as non-normative future-release work |
 | `flows/` | `releases/release1/flows/` | Move normative content; rewrite pack identifiers and links |
-| `policies/` | `releases/release1/policies/` | Move sources and registry, excluding generator script |
+| `policies/` | `policies/` | Keep sources and registry at the repository root; do not copy them into a release |
 | `errors/` | `releases/release1/errors/` | Move sources and registries, excluding generator script |
 
 The initial move must preserve file content except where a path must change to
@@ -524,8 +527,9 @@ Before publication, root tooling must provide:
    - compare `attributes.yaml` with `schema.json`;
    - validate JSON-LD documents and examples.
 5. **Registry generation**
-   - generate policy and error registries for an explicit release root;
-   - verify committed generated output is current.
+   - generate the shared policy registry independently of releases;
+   - generate error registries for an explicit release root;
+   - verify all committed generated output is current.
 6. **Immutability enforcement**
    - reject modification or deletion of a release whose manifest is published.
 
@@ -602,7 +606,8 @@ Review Logistics, Hospitality, and Finance as separate workstreams. For each are
 1. settle canonical pack names and remove or merge duplicates;
 2. correct schema semantics and metadata;
 3. validate examples and JSON-LD;
-4. reconcile flows, policies, errors, and `ion.yaml` declarations; and
+4. reconcile flows and errors with the shared policy registry and `ion.yaml`
+   declarations; and
 5. mark the area `validated` or `excluded`.
 
 #### Phase 6 baseline audit (2026-08-21)
@@ -666,8 +671,8 @@ Phase 6 therefore proceeds as three semantic workstreams, in this order:
    each pack;
 3. regenerate or reconcile `schema.json`, context, vocabulary, profile, and
    renderer artifacts from that authority;
-4. validate examples, then reconcile the sector's flows, policies, errors, and
-   embedded `ion.yaml` components; and
+4. validate examples, then reconcile the sector's flows and errors with the
+   shared policy registry and embedded `ion.yaml` components; and
 5. only then copy the sector into Release 1 and change its manifest state from
    `review-required` to `validated` (or explicitly `excluded`).
 
@@ -705,10 +710,11 @@ the source material is obsolete or a request to delete it.
    material.
 
 Phase 7 is complete. It identified one substantive publication-preparation task
-that must not be hidden inside a repository-documentation change: the current
-root Trade flows, policy registry, and error registry still contain stale URLs
-and dependencies on common packs excluded from Release 1. They require a scoped
-reconciliation before they can be moved into the self-contained release.
+that must not be hidden inside a repository-documentation change: the then-root
+Trade flows, policy registry, and error registry contained stale URLs and
+dependencies on common packs excluded from Release 1. The flows and errors
+required scoped reconciliation before moving into the release; policies required
+independent cleanup in their canonical root registry.
 
 ### Phase 8 — Publish
 
@@ -719,15 +725,18 @@ against the Release 1 schema scope:
 
 - `flows/trade/patterns/storefront/v1/` is the sole included flow. Its pack names,
   release document URLs, and state-machine target resolve within Release 1.
-- `policies/` contains 67 source terms selected from the working registry because
-  they are classified as Trade or cross-sector: 28 Trade and 39 cross-sector.
+- The root `policies/` tree contains 67 shared terms classified as Trade or
+  cross-sector: 28 Trade and 39 cross-sector. Release 1 references this registry
+  but does not contain a policy copy.
 - `errors/trade.yaml` contains 8 errors whose schema and flow references exist in
   Release 1. Seven errors tied to `live-commerce`, `digital-goods`, or `returns`
   were deliberately omitted with those flows.
-- Both release registries are deterministic products of
-  `tools/release/generate_release_registries.rb` and are checked for freshness.
-- The release manifest records `flows`, `policies`, and `errors` as `validated`,
-  and its checksum inventory covers all files under the normative release trees.
+- The root policy registry and release error registry are deterministic products
+  of `tools/policies/generate_registry.rb` and
+  `tools/release/generate_error_registry.rb`, respectively, and are checked for
+  freshness.
+- The release manifest records `flows` and `errors` as `validated`, and its
+  checksum inventory covers all files under the normative release trees.
 
 The complete root material remains available for later comparison. Once Release
 1 is published, any newly approved omitted object must be introduced in
@@ -737,10 +746,11 @@ Phase 8A does not publish the release. Council approval, final publication
 metadata, the protected tag, and the production `main` mapping remain Phase 8
 tasks.
 
-The subsequent layout correction restored the repository's top-level
-specification boundaries inside the release: `schema/`, `flows/`, `policies/`,
-and `errors/`. All common, core, extension, and vendored schema material and
-public URLs now live below `releases/release1/schema/`.
+The subsequent layout correction restored the release-owned top-level
+specification boundaries: `schema/`, `flows/`, and `errors/`. Policies were later
+moved back to their canonical repository-root lifecycle. All common, core,
+extension, and vendored schema material and public URLs remain below
+`releases/release1/schema/`.
 
 #### Phase 8B — Add Made-to-Order v1 (2026-08-23)
 
@@ -917,8 +927,8 @@ Publication is permitted only when:
 - every unvalidated area is explicitly `excluded` and absent from the normative
   release contract;
 - `ionApi` is validated and present or explicitly excluded and absent;
-- the approved Trade flows, policies, and errors are reconciled and stored inside
-  the release;
+- the approved Trade flows and errors are stored inside the release and their
+  policy references resolve against the shared root registry;
 - no schema `$ref` resolves outside Release 1;
 - local offline validation passes;
 - generated registries are current;

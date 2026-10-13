@@ -92,9 +92,11 @@ appear as channels.
 ## Draft Development
 
 The highest active draft is the feature-development release. It may change until
-the Council selects it for publication. Normative changes include schemas,
-flows, policies, errors, vendored dependencies, release-local documentation,
-generated registries, and manifest fields that affect the release contract.
+the Council selects it for publication. Normative release changes include
+schemas, flows, errors, vendored dependencies, release-local documentation,
+generated release registries, and manifest fields that affect the release
+contract. Shared policies evolve under their own governance outside this channel
+lifecycle.
 
 A draft carries no permanence or support guarantee. Validation may pass while a
 release remains a draft, but passing validation does not publish it or assign it

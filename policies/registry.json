@@ -1,5 +1,5 @@
 {
-  "_generated": "Do not edit directly. Run tools/release/generate_release_registries.rb --write releases/release1.",
+  "_generated": "Do not edit directly. Run tools/policies/generate_registry.rb --write.",
   "_scheme": "ion://policy/{category}.{sector-or-scope}.{variant-name}",
   "version": "2.0.0",
   "totalPolicies": 67,

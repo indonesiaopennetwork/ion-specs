@@ -3,10 +3,10 @@
 require "fileutils"
 require "minitest/autorun"
 require "tmpdir"
-require_relative "../generate_release_registries"
+require_relative "../generate_registry"
 
-class GenerateReleaseRegistriesTest < Minitest::Test
-  def test_builds_release_local_policy_and_error_views
+class GeneratePolicyRegistryTest < Minitest::Test
+  def test_builds_root_policy_registry
     Dir.mktmpdir do |root|
       policy_dir = File.join(root, "policies", "return", "v1")
       FileUtils.mkdir_p(policy_dir)
@@ -18,18 +18,11 @@ class GenerateReleaseRegistriesTest < Minitest::Test
           id: Pengembalian tujuh hari
           en: Seven day return
       YAML
-      FileUtils.mkdir_p(File.join(root, "errors"))
-      File.write(File.join(root, "errors", "trade.yaml"), <<~YAML)
-        - code: ION-A2001
-          title: { en: Invalid resource }
-      YAML
-
-      policy, error = IonReleaseRegistries.build(root)
-      assert_empty policy[2]
-      assert_equal 1, policy[1]["totalPolicies"]
-      assert_equal "trade", policy[1]["policies"][0]["sector"]
-      assert_empty error[2]
-      assert_equal 1, error[1]["count"]
+      _, registry, errors = IonPolicyRegistry.build(root)
+      assert_empty errors
+      assert_equal 1, registry["totalPolicies"]
+      assert_equal "trade", registry["policies"][0]["sector"]
+      assert_equal "policies/return/v1/standard.yaml", registry["policies"][0]["docPath"]
     end
   end
 
@@ -45,10 +38,8 @@ class GenerateReleaseRegistriesTest < Minitest::Test
           displayText: { id: Tujuh hari }
         YAML
       end
-      FileUtils.mkdir_p(File.join(root, "errors"))
-      File.write(File.join(root, "errors", "trade.yaml"), "[]\n")
-      policy, = IonReleaseRegistries.build(root)
-      assert policy[2].any? { |error| error.include?("duplicate policy IRI") }
+      _, _, errors = IonPolicyRegistry.build(root)
+      assert errors.any? { |error| error.include?("duplicate policy IRI") }
     end
   end
 end

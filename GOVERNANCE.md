@@ -38,8 +38,11 @@ three months is a planning estimate rather than a governance commitment.
 ## Change process
 
 1. Open an issue describing the proposed behavior and compatibility impact.
-2. Make the change in the applicable draft release.
-3. Run `ruby tools/release/validate_release.rb <release-directory>`.
+2. Make release-owned changes in the applicable draft release. Make policy
+   changes in the canonical root `policies/` tree under the independent policy
+   governance process.
+3. Run `ruby tools/release/validate_release.rb <release-directory>`; this also
+   verifies the shared policy registry and release policy references.
 4. Obtain review from the responsible schema or sector working group.
 5. Obtain Council approval for scope, breaking, or publication changes.
 6. Merge the approved draft into `main`.
@@ -65,4 +68,5 @@ Released ION schema extensions must:
 Release 1 includes Trade, its four validated common packs, and vendored Beckn
 dependencies. `ion.yaml`, Logistics, Hospitality, and Finance are explicitly
 excluded. If published, Release 1 will first enter the `next` channel and begin
-its stabilization period.
+its stabilization period. Its policy references resolve against the shared root
+policy registry, which is not part of Release 1 or its channel lifecycle.

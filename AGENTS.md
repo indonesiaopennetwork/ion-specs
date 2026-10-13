@@ -42,20 +42,22 @@ similar files) as authoritative project state. They may be local and stale.
   publishes it into the `next` channel, changes
   `releases/release1/release.yaml` to `published` on `main`, and creates the
   protected release tag.
-- The release layout is `releases/release1/{schema,flows,policies,errors}`. Within
+- The release layout is `releases/release1/{schema,flows,errors}`. Within
   `schema/`, the content classes are `core/`, `common/`, `extension/`, and
   `vendored/`; do not flatten them back to the release root.
 - Release 1 contains nine Trade packs, four common packs required by Trade, seven
-  Trade v1 reference flows, the During-Transaction v1 variant, 67 included policy
-  terms, 10 Trade errors, and its pinned Beckn dependency closure.
+  Trade v1 reference flows, the During-Transaction v1 variant, 10 Trade errors,
+  and its pinned Beckn dependency closure. The 67 shared policy terms live under
+  root `policies/` outside the release cycle.
 - `releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml` is the
   vendored Beckn Protocol contract. Vendored files must not acquire ION behavior;
   edit them only for an explicit, documented upstream upgrade or minimal
   reference-localization patch.
 - Release 1 intentionally excludes `ion.yaml`, Logistics, Hospitality, and
   Finance. Their artifacts are absent from the release.
-- The repository has no separate root `schema/`, `flows/`, `policies/`, or
-  `errors/` source trees. Normative work belongs in the active draft release.
+- The repository has no separate root `schema/`, `flows/`, or `errors/` source
+  trees. Normative work in those areas belongs in the active draft release.
+  Root `policies/` is the canonical policy source and registry.
 - Each schema pack's `attributes.yaml` is its primary authoring source. Keep its
   JSON Schema, JSON-LD, profile, renderer, examples, README, and attachment
   annotations aligned.
@@ -131,9 +133,11 @@ similar files) as authoritative project state. They may be local and stale.
   ruby tools/release/validate_release.rb --publication releases/release1
   ```
 
-- When policy or error source files change, regenerate their release-local views
-  with `ruby tools/release/generate_release_registries.rb --write
-  releases/release1`, review them, and then refresh artifact checksums with
+- When policy sources change, regenerate the shared registry with
+  `ruby tools/policies/generate_registry.rb --write`. When error source files
+  change, regenerate their release-local views with
+  `ruby tools/release/generate_error_registry.rb --write releases/release1`,
+  review them, and then refresh release artifact checksums with
   `ruby tools/release/record_artifact_checksums.rb --write releases/release1`.
 - The external deep schema validator is maintained in the ION testbed. In this
   workspace it can be run with:

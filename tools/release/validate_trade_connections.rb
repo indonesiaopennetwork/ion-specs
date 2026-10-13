@@ -2,10 +2,19 @@
 
 require "date"
 require "json"
+require "optparse"
 require "pathname"
 require "yaml"
 
+options = {}
+OptionParser.new do |parser|
+  parser.on("--repository-root PATH", "Repository root containing the shared policies directory") do |path|
+    options[:repository_root] = path
+  end
+end.parse!(ARGV)
+
 release_root = Pathname.new(File.expand_path(ARGV.fetch(0, "releases/release1")))
+repository_root = Pathname.new(File.expand_path(options.fetch(:repository_root, File.expand_path("../..", __dir__))))
 errors = []
 
 unless release_root.directory?
@@ -22,8 +31,10 @@ rescue JSON::ParserError, Psych::SyntaxError => e
 end
 
 relative = ->(path) { Pathname.new(path).relative_path_from(release_root).to_s }
+repository_relative = ->(path) { Pathname.new(path).relative_path_from(repository_root).to_s }
 manifest = load_document.call(release_root.join("release.yaml").to_s) || {}
 public_base_url = manifest["publicBaseUrl"].to_s
+policy_public_base_url = "https://schema.ion.id/policies/"
 
 flow_files = Dir[release_root.join("flows/trade/**/*.{yaml,yml,json}").to_s].sort
 flow_documents = flow_files.to_h { |path| [path, load_document.call(path)] }
@@ -45,31 +56,31 @@ flow_documents.each do |path, document|
   end
 end
 
-policy_files = Dir[release_root.join("policies/**/v1/**/*.yaml").to_s].reject { |path| File.basename(path) == "_schema.yaml" }.sort
+policy_files = Dir[repository_root.join("policies/**/v1/**/*.yaml").to_s].reject { |path| File.basename(path) == "_schema.yaml" }.sort
 source_iris = []
 policy_files.each do |path|
   YAML.load_stream(File.read(path).delete_prefix("\uFEFF")).compact.each do |document|
     unless document.is_a?(Hash) && document["iri"]
-      errors << "#{relative.call(path)}: policy document has no iri"
+      errors << "#{repository_relative.call(path)}: policy document has no iri"
       next
     end
     source_iris << document["iri"]
-    errors << "#{relative.call(path)}: missing displayText.id" unless document.dig("displayText", "id")
+    errors << "#{repository_relative.call(path)}: missing displayText.id" unless document.dig("displayText", "id")
   end
 rescue Psych::SyntaxError => e
-  errors << "#{relative.call(path)}: parse error: #{e.message.lines.first.strip}"
+  errors << "#{repository_relative.call(path)}: parse error: #{e.message.lines.first.strip}"
 end
 source_iris.group_by { |iri| iri }.select { |_, values| values.length > 1 }.each_key do |iri|
   errors << "duplicate policy IRI: #{iri}"
 end
 
-policy_registry = load_document.call(release_root.join("policies/registry.json").to_s) || {}
+policy_registry = load_document.call(repository_root.join("policies/registry.json").to_s) || {}
 registry_policies = policy_registry.fetch("policies", [])
 registry_iris = registry_policies.map { |entry| entry["iri"] }
 (source_iris.uniq - registry_iris).each { |iri| errors << "policy missing from registry: #{iri}" }
 (registry_iris - source_iris.uniq).each { |iri| errors << "registry policy has no source: #{iri}" }
 registry_policies.each do |entry|
-  path = release_root.join(entry["docPath"].to_s)
+  path = repository_root.join(entry["docPath"].to_s)
   errors << "policy registry docPath does not exist: #{entry['docPath']}" unless path.file?
 end
 
@@ -101,12 +112,15 @@ walk = lambda do |value, source|
     value.each { |child| walk.call(child, source) }
   when String
     if value.start_with?("https://schema.ion.id/")
-      unless value.start_with?(public_base_url)
+      if value.start_with?(policy_public_base_url)
+        target = repository_root.join(value.delete_prefix("https://schema.ion.id/").split("#", 2).first)
+        errors << "#{relative.call(source)}: policy URL target does not exist: #{value}" unless target.exist?
+      elsif value.start_with?(public_base_url)
+        target = release_root.join(value.delete_prefix(public_base_url).split("#", 2).first)
+        errors << "#{relative.call(source)}: release URL target does not exist: #{value}" unless target.exist?
+      else
         errors << "#{relative.call(source)}: non-release schema.ion.id URL: #{value}"
-        return
       end
-      target = release_root.join(value.delete_prefix(public_base_url).split("#", 2).first)
-      errors << "#{relative.call(source)}: release URL target does not exist: #{value}" unless target.exist?
     end
   end
 end
@@ -122,7 +136,17 @@ trade_errors.each do |entry|
   %w[schema_ref flow_ref].each do |key|
     reference = entry[key]
     next unless reference.is_a?(String)
-    target = release_root.join(reference.split("#", 2).first)
+    target = if reference.start_with?(policy_public_base_url)
+               repository_root.join(reference.delete_prefix("https://schema.ion.id/").split("#", 2).first)
+             elsif reference.match?(%r{\Ahttps?://})
+               nil
+             else
+               release_root.join(reference.split("#", 2).first)
+             end
+    if target.nil?
+      errors << "#{entry['code']}: #{key} uses an unsupported external target: #{reference}"
+      next
+    end
     errors << "#{entry['code']}: #{key} target does not exist: #{reference}" unless target.exist?
   end
 end

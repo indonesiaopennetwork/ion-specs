@@ -37,19 +37,21 @@ and unchannelled until the Council publishes it into the `next` channel on `main
 - [`releases/release1/flows/trade/`](releases/release1/flows/trade/) — the
   seven validated Trade v1 reference flows and the reviewed During-Transaction
   v1 variant.
-- [`releases/release1/policies/registry.json`](releases/release1/policies/registry.json)
-  — 67 included Trade and cross-sector policy terms.
+- [`policies/registry.json`](policies/registry.json) — 67 shared Trade and
+  cross-sector policy terms governed outside the integer release cycle.
 - [`releases/release1/errors/registry.json`](releases/release1/errors/registry.json)
   — 10 Trade errors with release-local targets.
 
 Release 1 excludes `ion.yaml`, Logistics, Hospitality, and Finance. The repository
-does not maintain separate editable `schema/`, `flows/`, `policies/`, or `errors/`
-trees at its root. Future normative work belongs in the draft directory for the
-release that will publish it.
+does not maintain separate editable `schema/`, `flows/`, or `errors/` trees at
+its root. Policies are the exception: their canonical sources and generated
+registry live in root `policies/` and evolve independently of integer releases.
 
 ## Repository structure
 
 ```text
+policies/                         Shared policy sources and registry
+
 releases/
   release1/                    Draft release bundle
     release.yaml
@@ -59,7 +61,6 @@ releases/
       extension/trade/         Validated Trade packs
       vendored/beckn/          Pinned release-local dependencies
     flows/trade/               Seven flows plus reviewed Trade variants
-    policies/                  Included policy sources and registry
     errors/                    Included Trade errors and registry
 
 docs/                          Architecture and contributor documentation
@@ -79,6 +80,9 @@ These URLs mirror repository paths below `releases/`; the repository-only
 top-level `releases/` segment is omitted from the public URL. JSON-LD semantic
 IRIs may continue to use their stable vocabulary namespaces; they are not
 dependency locations.
+
+Policy documents use their independent root namespace, for example
+`https://schema.ion.id/policies/return/v1/standard-7d-sellerpays.yaml`.
 
 ## Documentation
 

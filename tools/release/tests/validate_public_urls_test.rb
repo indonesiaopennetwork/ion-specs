@@ -46,4 +46,36 @@ class ValidatePublicUrlsTest < Minitest::Test
       assert errors.any? { |error| error.include?("public URL falls outside https://schema.ion.id/release9/") }
     end
   end
+
+  def test_allows_root_policy_urls
+    Dir.mktmpdir do |repository_root|
+      release_root = File.join(repository_root, "releases/release9")
+      FileUtils.mkdir_p(release_root)
+      FileUtils.mkdir_p(File.join(repository_root, "policies"))
+      File.write(File.join(repository_root, "policies/registry.json"), "{}\n")
+      File.write(
+        File.join(release_root, "example.json"),
+        '{"policy":"https://schema.ion.id/policies/registry.json"}'
+      )
+      manifest = { "publicBaseUrl" => "https://schema.ion.id/release9/" }
+
+      assert_empty IonReleasePublicUrls.validate(release_root, manifest, repository_root: repository_root)
+    end
+  end
+
+  def test_trims_json_escaped_newline_after_policy_url
+    Dir.mktmpdir do |repository_root|
+      release_root = File.join(repository_root, "releases/release9")
+      FileUtils.mkdir_p(release_root)
+      FileUtils.mkdir_p(File.join(repository_root, "policies"))
+      File.write(File.join(repository_root, "policies/registry.json"), "{}\n")
+      File.write(
+        File.join(release_root, "example.json"),
+        '{"description":"See https://schema.ion.id/policies/registry.json.\\n"}'
+      )
+      manifest = { "publicBaseUrl" => "https://schema.ion.id/release9/" }
+
+      assert_empty IonReleasePublicUrls.validate(release_root, manifest, repository_root: repository_root)
+    end
+  end
 end
