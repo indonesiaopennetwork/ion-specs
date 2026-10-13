@@ -38,6 +38,13 @@ per receiving participant:
 Each entry carries `bankCode`, `accountNumber`, and `accountName`, with the
 same meanings as in `BankTransfer`.
 
+In Release 1 Trade orders, the payment settlement's `settlementAttributes` is
+[`IONSettlementReconciliation`](../../../core/reconcile/v1/README.md) from
+`init` on. It reuses this pack's definitions and JSON-LD IRIs for
+`settlementAccounts` and for the payment fields (`method`, `paymentRail`,
+`paymentGatewayProvider`, `methodDetail`, `collectedBy`, `timing`, `status`,
+`currency`, `paidAt`, `gatewayRef`), and states the amount as `orderAmount`.
+
 ## Implementation guidance carried over from the excluded aggregate
 
 The unreconciled `ion.yaml` draft previously treated the following fields as

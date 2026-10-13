@@ -64,10 +64,11 @@ components:
       # Payment intent, collection timing, collector, payment status, and
       # instrument details are modeled by core/payment/v1 IONPayment.
       # Settlement terms agreed during init/on_init (settlementBasis,
-      # settlementWindow, finderFee) are modeled by trade/contract/v1
-      # IONTradeContract. They moved there from this pack because
-      # RetailSettlement requires settledAt and settledAmount, so this pack
-      # cannot appear before the order is settled.
+      # settlementWindow, finderFee) are modeled by core/reconcile/v1
+      # IONSettlementReconciliation, the order's payment settlement from
+      # init. They moved there from this pack because RetailSettlement
+      # requires settledAt and settledAmount, so this pack cannot appear
+      # before the order is settled.
       # Reconciliation calculations and disputes are modeled by
       # core/reconcile/v1.
       # Domestic ION policy: currency is IDR unless an applicable cross-border

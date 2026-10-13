@@ -13,7 +13,7 @@
       "@id": "ion:IONSettlementReconciliation",
       "@type": "rdfs:Class",
       "rdfs:label": "IONSettlementReconciliation",
-      "rdfs:comment": "One participant's reconciliation figures for a contract's settlement. The buyer's payment is held at the PJP; the figures split it. Invariant: orderAmount.value = netPayable.value + commission.value + withholdingAmount.value + refundAmount.value. On agreement SEAM instructs the PJP to pay netPayable to the BPP and commission to the BAP, return refundAmount to the buyer, and keep withholdingAmount. collectedBy, currency, and settlementAccounts reuse the IONPayment definitions."
+      "rdfs:comment": "The order's settlement, carried as one object from init to reconciliation. The BAP declares it in init (finderFee terms, its payout account, payment method, status PENDING, and estimated figures); the BPP answers in on_init (settlementBasis, settlementWindow, finderFee.feeAmount, its payout account, and the figures on its final price); the BAP records the payment in confirm (status PAID, paidAt, gatewayRef, orderAmount = amount paid); the BPP keeps the figures current in on_cancel and on_update; and each participant sends its figures in /reconcile and /on_reconcile. Before reconciliation the figures are estimates. The buyer's payment is held at the PJP; the figures split it. Invariant: orderAmount.value = netPayable.value + commission.value + withholdingAmount.value + refundAmount.value. On agreement SEAM instructs the PJP to pay netPayable to the BPP and commission to the BAP, return refundAmount to the buyer, and keep withholdingAmount. The payment fields reuse the IONPayment definitions."
     },
     {
       "@id": "ion:ReconAmount",
@@ -56,6 +56,54 @@
       "@type": "rdf:Property",
       "rdfs:label": "currency",
       "rdfs:comment": "ISO 4217 currency of every amount in the settlement (IONPayment.currency)."
+    },
+    {
+      "@id": "ionpay:method",
+      "@type": "rdf:Property",
+      "rdfs:label": "method",
+      "rdfs:comment": "Payment method the buyer uses (IONPayment.method)."
+    },
+    {
+      "@id": "ionpay:paymentRail",
+      "@type": "rdf:Property",
+      "rdfs:label": "paymentRail",
+      "rdfs:comment": "Payment rail that carries the buyer payment (IONPayment.paymentRail)."
+    },
+    {
+      "@id": "ionpay:paymentGatewayProvider",
+      "@type": "rdf:Property",
+      "rdfs:label": "paymentGatewayProvider",
+      "rdfs:comment": "Payment gateway that processes the buyer payment (IONPayment.paymentGatewayProvider)."
+    },
+    {
+      "@id": "ionpay:methodDetail",
+      "@type": "rdf:Property",
+      "rdfs:label": "methodDetail",
+      "rdfs:comment": "Instrument-specific payment details, such as the QRIS string or virtual account number (IONPayment.methodDetail)."
+    },
+    {
+      "@id": "ionpay:timing",
+      "@type": "rdf:Property",
+      "rdfs:label": "timing",
+      "rdfs:comment": "When the payment is collected relative to fulfilment (IONPayment.timing)."
+    },
+    {
+      "@id": "ionpay:status",
+      "@type": "rdf:Property",
+      "rdfs:label": "status",
+      "rdfs:comment": "Payment status: PENDING until the buyer pays, then PAID (IONPayment.status)."
+    },
+    {
+      "@id": "ionpay:paidAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "paidAt",
+      "rdfs:comment": "Timestamp of successful payment confirmation; required when status is PAID (IONPayment.paidAt)."
+    },
+    {
+      "@id": "ionpay:gatewayRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "gatewayRef",
+      "rdfs:comment": "Payment gateway transaction reference (IONPayment.gatewayRef)."
     },
     {
       "@id": "ionpay:settlementAccounts",
@@ -136,7 +184,7 @@
       "@id": "ion:netPayable",
       "@type": "rdf:Property",
       "rdfs:label": "netPayable",
-      "rdfs:comment": "Amount the PJP pays to the BPP for this contract: orderAmount \u2212 commission \u2212 withholdingAmount \u2212 refundAmount.",
+      "rdfs:comment": "Amount the PJP pays to the BPP for this contract: orderAmount − commission − withholdingAmount − refundAmount.",
       "rdfs:domain": {
         "@id": "ion:IONSettlementReconciliation"
       }
@@ -145,7 +193,7 @@
       "@id": "ion:accord",
       "@type": "rdf:Property",
       "rdfs:label": "accord",
-      "rdfs:comment": "Set only in /on_reconcile. true \u2014 the counterparty agrees with the figures it received; both participants have agreed and SEAM triggers the payout. false \u2014 it disagrees; see diffValue and dispute.",
+      "rdfs:comment": "Set only in /on_reconcile. true — the counterparty agrees with the figures it received; both participants have agreed and SEAM triggers the payout. false — it disagrees; see diffValue and dispute.",
       "rdfs:domain": {
         "@id": "ion:IONSettlementReconciliation"
       }

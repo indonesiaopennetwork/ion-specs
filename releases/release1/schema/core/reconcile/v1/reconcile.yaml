@@ -28,24 +28,27 @@ info:
        contract's figures; `accord: false` carries the counterparty's own
        figures, the per-component `diffValue`, and a `dispute` reason.
 
-    3. For a contract with `accord: false`, the initiator sends a new
-       `/reconcile` round with revised figures.
+    3. A batch is agreed as a whole or not at all. Only when every contract
+       has `accord: true` is the batch `AGREED` and paid out. Otherwise it is
+       `DISPUTED`, no contract in it is agreed, and the initiator sends all
+       of its contracts again in a new `/reconcile` round, with the same
+       `reconciliationId`, until the counterparty agrees with every one.
 
     4. The buyer's payment is held at the PJP (Penyelenggara Jasa
-       Pembayaran), not in a participant's account. When a contract reaches
-       `accord: true`, SEAM (Settlement Assurance Mechanism) instructs the PJP
-       to pay it out of the held funds: `netPayable` to the BPP, `commission`
-       to the BAP, each into the participant's account in
+       Pembayaran), not in a participant's account. When a batch is
+       `AGREED`, SEAM (Settlement Assurance Mechanism) instructs the PJP to
+       pay each of its contracts out of the held funds: `netPayable` to the
+       BPP, `commission` to the BAP, each into the participant's account in
        `settlementAccounts`. SEAM may combine agreed contracts into a single
        transfer per participant. Payout status reaches the participants
        through the PJP's webhook, which is outside this specification.
 
 
-    The settlement terms (`settlementBasis`, `settlementWindow`, and
-    `finderFee`) are agreed in `init` and `on_init` on `IONTradeContract`,
-    and the participants' bank accounts (`settlementAccounts`) on
-    `IONPayment`. `IONSettlementReconciliation` repeats them so each
-    settlement is self-contained.
+    `IONSettlementReconciliation` is the order's payment settlement from
+    `init` on: the settlement terms (`settlementBasis`, `settlementWindow`,
+    and `finderFee`) and the participants' bank accounts
+    (`settlementAccounts`) are agreed on it in `init` and `on_init`, and
+    reconciliation sends the same object with each participant's figures.
 
 
     A contract in these messages is a snapshot that carries reconciliation
@@ -88,8 +91,9 @@ paths:
         Sent by either participant of an order (BAP or BPP) to its
         counterparty, normally once per settlement date, listing every contract
         between them whose settlement falls due on that date, with the sender's
-        figures for each. Also sent again for the same contracts as a new round
-        after the counterparty disagrees.
+        figures for each. When the counterparty disputes any contract, the
+        whole batch is sent again, with the same reconciliationId and all of
+        its contracts, as a new round.
 
 
         `context.bapId` and `context.bppId` are always the BAP and BPP of the
@@ -141,11 +145,11 @@ paths:
       description: >
         Sent by the receiver of `/reconcile` back to its sender, correlated by
         `context.messageId`. For each contract it sets `accord`. A contract
-        with `accord: true` is agreed by both participants, and SEAM instructs
-        the PJP to pay it out of the held funds. A contract with `accord: false`
-        carries the counterparty's own figures, a `diffValue` on each differing
-        component, and a `dispute` reason; the initiator may then send a new
-        `/reconcile` round for it.
+        with `accord: false` carries the counterparty's own figures, a
+        `diffValue` on each differing component, and a `dispute` reason. The
+        batch is agreed only when every contract has `accord: true`; SEAM then
+        instructs the PJP to pay them all out of the held funds. Otherwise the
+        initiator sends the whole batch again as a new `/reconcile` round.
       parameters:
         - $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/parameters/AuthorizationHeader'
       requestBody:
@@ -222,11 +226,11 @@ components:
           description: The reconciliationId of the /reconcile being answered.
         reconciliationStatus:
           type: string
-          enum: [AGREED, PARTIALLY_AGREED, DISPUTED]
+          enum: [AGREED, DISPUTED]
           description: >
-            Batch-level outcome. AGREED — every settlement has accord true.
-            PARTIALLY_AGREED — some do; those proceed to payout while the rest
-            continue to another round. DISPUTED — none do.
+            Batch-level outcome. AGREED — every contract has accord true;
+            all of them proceed to payout. DISPUTED — at least one has accord
+            false; none proceeds, and the sender sends the whole batch again.
         contracts:
           type: array
           minItems: 1
@@ -234,8 +238,12 @@ components:
           items:
             $ref: '#/components/schemas/OnReconcileContract'
         settlementSummary:
-          description: The counterparty's own batch totals.
-          $ref: '#/components/schemas/SettlementSummary'
+          description: >
+            The counterparty's own batch totals, with agreedCount and
+            disputedCount.
+          allOf:
+            - $ref: '#/components/schemas/SettlementSummary'
+            - required: [agreedCount, disputedCount]
 
     ReconcileContract:
       title: Reconcile Contract
@@ -313,6 +321,18 @@ components:
         contractCount:
           type: integer
           minimum: 1
+        agreedCount:
+          type: integer
+          minimum: 0
+          description: >
+            /on_reconcile only: contracts whose settlements all have accord
+            true. agreedCount + disputedCount = contractCount.
+        disputedCount:
+          type: integer
+          minimum: 0
+          description: >
+            /on_reconcile only: contracts with a settlement whose accord is
+            false.
         totalOrderAmount:
           type: number
           description: Sum of orderAmount.value over the batch's settlements.

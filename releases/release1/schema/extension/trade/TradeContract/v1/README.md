@@ -44,48 +44,6 @@ inherited tax ID, company name, and email properties.
 | `invoicePreferences.invoiceType` | Requested ION invoice-document type |
 | `buyerBusinessRegistration` | Composed Indonesian buyer registration |
 
-## Settlement terms
-
-Agreed between the Consumer Node (BAP) and Provider Node (BPP) in `init` and
-`on_init`, and used by [settlement reconciliation](../../../../core/reconcile/v1/README.md)
-to compute each contract's payout. These properties are marked
-`x-attr-ion-layer: ion`.
-
-| Field | Type | Meaning |
-|---|---|---|
-| `settlementBasis` | enum | Lifecycle event from which the settlement falls due |
-| `settlementWindow` | ISO 8601 duration | Time after the `settlementBasis` event within which the settlement is paid out |
-| `finderFee.feeType` | `PERCENT` \| `AMOUNT` | How the BAP's finder fee is expressed |
-| `finderFee.feeValue` | number | Percentage (0-100) or fixed amount in the contract currency |
-| `finderFee.appliesTo` | `ITEM_TOTAL` \| `ORDER_TOTAL` | Base for a `PERCENT` fee |
-| `finderFee.feeAmount` | number | The resulting fee in the contract currency. The BPP computes it in `on_init` and recomputes it in `on_cancel` / `on_update` when items are cancelled or returned. |
-
-`settlementBasis`, `settlementWindow`, and `finderFee` reference the
-`SettlementBasis`, `SettlementWindow`, and `FinderFee` definitions owned by the
-`core/reconcile/v1` attribute pack, which reconciliation repeats on each
-settlement.
-
-| `settlementBasis` | Window starts at |
-|---|---|
-| `ON_CONFIRMATION` | Order confirmation |
-| `AFTER_SHIPMENT` | Hand-over to logistics |
-| `AFTER_DELIVERY` | Confirmed delivery |
-| `AFTER_RETURN_WINDOW` | Close of the applicable return window |
-
-Example — settle within one day of delivery, with a 3% finder fee on an item
-total of 89,000:
-
-```json
-{
-  "settlementBasis": "AFTER_DELIVERY",
-  "settlementWindow": "P1D",
-  "finderFee": { "feeType": "PERCENT", "feeValue": 3, "appliesTo": "ITEM_TOTAL", "feeAmount": 2670 }
-}
-```
-
-The participants' payout bank accounts are not contract terms; they travel as
-`IONPayment.settlementAccounts` on `Contract.settlements[]`.
-
 Use inherited `invoicePreferences.taxId` for an invoice tax identifier:
 
 ```json
@@ -106,7 +64,7 @@ Use inherited `invoicePreferences.taxId` for an invoice tax identifier:
 - Cancellation and dispute eligibility remain Offer policy.
 - Faktur Pajak references belong to `IONTaxDetail.eFakturRef`.
 - Customs declarations belong to the associated `IONLogisticsContract`.
-- Detailed reconciliation belongs to `core/reconcile/v1`.
+- Detailed reconciliation belongs to `IONReconcile`.
 
 ## Conditional requirements
 
@@ -126,4 +84,3 @@ shared schema. Important policy conditions include:
 |---|---|---|
 | v1 | 2026-06-02 | Initial release |
 | v1 cleanup | 2026-07-23 | Aligned with RetailContract and relocated component-owned fields |
-| v1 | 2026-10-12 | Added settlement terms `settlementBasis` and `settlementWindow` (moved from `IONTradeSettlement`) and `finderFee` |

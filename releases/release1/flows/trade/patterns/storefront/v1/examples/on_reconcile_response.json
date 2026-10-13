@@ -125,6 +125,8 @@
       "currency": "IDR",
       "settlementDate": "2026-04-20",
       "contractCount": 1,
+      "agreedCount": 1,
+      "disputedCount": 0,
       "totalOrderAmount": 98900,
       "totalCommission": 2670,
       "totalWithholding": 0,

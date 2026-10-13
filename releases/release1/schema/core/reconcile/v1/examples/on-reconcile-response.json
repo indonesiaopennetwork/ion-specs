@@ -15,7 +15,7 @@
   },
   "message": {
     "reconciliationId": "recon-2026-09-30T170000Z-bpp.example.id",
-    "reconciliationStatus": "PARTIALLY_AGREED",
+    "reconciliationStatus": "DISPUTED",
     "contracts": [
       {
         "id": "0f8b6d3e-2c4a-4b8e-9d1f-6a7b8c9d0e1f",
@@ -183,6 +183,8 @@
       "currency": "IDR",
       "settlementDate": "2026-09-30",
       "contractCount": 2,
+      "agreedCount": 1,
+      "disputedCount": 1,
       "totalOrderAmount": 248900,
       "totalCommission": 7170,
       "totalWithholding": 0,

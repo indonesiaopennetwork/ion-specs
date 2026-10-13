@@ -217,21 +217,6 @@
           ],
           "description": "Verified Indonesian business registration of the buying organisation.",
           "x-attr-ion-layer": "ion"
-        },
-        "settlementBasis": {
-          "$ref": "https://schema.ion.id/release1/schema/core/reconcile/v1/attributes.yaml#/components/schemas/SettlementBasis",
-          "description": "Contract lifecycle event from which the settlement falls due, as agreed in init and on_init. ON_CONFIRMATION starts at order confirmation, AFTER_SHIPMENT at hand-over to logistics, AFTER_DELIVERY at confirmed delivery, and AFTER_RETURN_WINDOW when the applicable return window closes.",
-          "x-attr-ion-layer": "ion"
-        },
-        "settlementWindow": {
-          "$ref": "https://schema.ion.id/release1/schema/core/reconcile/v1/attributes.yaml#/components/schemas/SettlementWindow",
-          "description": "ISO 8601 duration, measured from the settlementBasis event, within which the settlement must be paid out.",
-          "x-attr-ion-layer": "ion"
-        },
-        "finderFee": {
-          "$ref": "https://schema.ion.id/release1/schema/core/reconcile/v1/attributes.yaml#/components/schemas/FinderFee",
-          "description": "Fee the Consumer Node (BAP) earns for bringing the order, agreed in init and on_init. Reconciliation computes the fee amount from these terms and reports it as the settlement's commission.",
-          "x-attr-ion-layer": "ion"
         }
       },
       "x-ion-closed-extensions": false

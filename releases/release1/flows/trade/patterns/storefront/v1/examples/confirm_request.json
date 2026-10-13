@@ -7,8 +7,8 @@
     "received_by": "BPP",
     "schemaPacks": [
       "schema/common/BusinessRegistration/v1",
-      "schema/common/Payment/v1",
-      "schema/extension/trade/TradeContract/v1"
+      "schema/extension/trade/TradeContract/v1",
+      "schema/core/reconcile/v1"
     ]
   },
   "context": {
@@ -33,9 +33,9 @@
       }
     },
     "schemaContext": [
-      "https://schema.ion.id/release1/schema/common/Payment/v1/context.jsonld",
       "https://schema.ion.id/release1/schema/extension/trade/TradeContract/v1/context.jsonld",
-      "https://schema.ion.id/release1/schema/common/BusinessRegistration/v1/context.jsonld"
+      "https://schema.ion.id/release1/schema/common/BusinessRegistration/v1/context.jsonld",
+      "https://schema.ion.id/release1/schema/core/reconcile/v1/context.jsonld"
     ]
   },
   "message": {
@@ -87,17 +87,39 @@
       "settlements": [
         {
           "settlementAttributes": {
-            "@context": "https://schema.ion.id/release1/schema/common/Payment/v1/context.jsonld",
-            "@type": "ion:IONPayment",
+            "@context": "https://schema.ion.id/release1/schema/core/reconcile/v1/context.jsonld",
+            "@type": "ion:IONSettlementReconciliation",
             "method": "QRIS",
             "paymentRail": "QRIS",
             "collectedBy": "BAP",
             "timing": "ON_ORDER",
             "status": "PAID",
-            "currency": "IDR",
-            "amount": 9435,
             "paidAt": "2026-04-19T10:32:15.000+07:00",
             "gatewayRef": "GW-QRIS-2026041900001",
+            "currency": "IDR",
+            "settlementBasis": "AFTER_DELIVERY",
+            "settlementWindow": "P1D",
+            "finderFee": {
+              "feeType": "PERCENT",
+              "feeValue": 3,
+              "appliesTo": "ITEM_TOTAL",
+              "feeAmount": 255
+            },
+            "orderAmount": {
+              "value": 9435
+            },
+            "commission": {
+              "value": 255
+            },
+            "withholdingAmount": {
+              "value": 0
+            },
+            "refundAmount": {
+              "value": 0
+            },
+            "netPayable": {
+              "value": 9180
+            },
             "settlementAccounts": [
               {
                 "holderRole": "BAP",
@@ -121,14 +143,6 @@
         "buyerBusinessRegistration": {
           "npwp": "1234567890123456",
           "nib": "1234567890123"
-        },
-        "settlementBasis": "AFTER_DELIVERY",
-        "settlementWindow": "P1D",
-        "finderFee": {
-          "feeType": "PERCENT",
-          "feeValue": 3,
-          "appliesTo": "ITEM_TOTAL",
-          "feeAmount": 255
         }
       }
     }

@@ -141,7 +141,10 @@ phases:
         from: BAP
         to: BPP
         direction: request
-        description: BAP provides delivery address, payment method, and performance mode.
+        description: >-
+          BAP provides delivery address, payment method, and performance mode.
+          The payment settlement is the order's IONSettlementReconciliation,
+          with the proposed finder fee and figures estimated on the quote.
         requiredFields:
           - message.contract.participants[role=PROVIDER].id
           - message.contract.commitments[].id
@@ -157,10 +160,13 @@ phases:
           - message.contract.settlements[].settlementAttributes.method
           - message.contract.settlements[].settlementAttributes.paymentRail
           - message.contract.settlements[].settlementAttributes.collectedBy
-          - message.contract.contractAttributes.settlementBasis
-          - message.contract.contractAttributes.settlementWindow
+          - message.contract.settlements[].settlementAttributes.status
+          - message.contract.settlements[].settlementAttributes.currency
+          - message.contract.settlements[].settlementAttributes.orderAmount
+          - message.contract.settlements[].settlementAttributes.commission
+          - message.contract.settlements[].settlementAttributes.netPayable
         conditionalFields:
-          - field: message.contract.contractAttributes.finderFee
+          - field: message.contract.settlements[].settlementAttributes.finderFee
             condition: if the BAP charges a finder fee
           - field: message.contract.settlements[].settlementAttributes.settlementAccounts[holderRole=BAP]
             condition: if the BAP charges a finder fee (the PJP pays it into this account)
@@ -171,29 +177,32 @@ phases:
           - field: message.contract.contractAttributes.gift
             condition: if gifting is declared
         schemaPacks:
-          common: [Address/v1, Payment/v1]
+          common: [Address/v1]
           trade: [TradeContract/v1]
+          core: [reconcile/v1]
 
       - step: on_init
         from: BPP
         to: BAP
         direction: callback
         description: >-
-          BPP returns payment instructions and accepts the settlement terms.
-          Final quote confirmed.
+          BPP returns payment instructions and sets the settlement terms on
+          the payment settlement. Final quote confirmed.
         requiredFields:
           - message.contract.settlements[].settlementAttributes.methodDetail
           - message.contract.consideration[].considerationAttributes.breakup[]
           - message.contract.consideration[].considerationAttributes.totalAmount
-          - message.contract.settlements[].settlementAttributes.amount
           - message.contract.settlements[].settlementAttributes.currency
-          - message.contract.contractAttributes.settlementBasis
-          - message.contract.contractAttributes.settlementWindow
+          - message.contract.settlements[].settlementAttributes.settlementBasis
+          - message.contract.settlements[].settlementAttributes.settlementWindow
+          - message.contract.settlements[].settlementAttributes.orderAmount
+          - message.contract.settlements[].settlementAttributes.commission
+          - message.contract.settlements[].settlementAttributes.netPayable
           - message.contract.settlements[].settlementAttributes.settlementAccounts[holderRole=BPP]
         conditionalFields:
-          - field: message.contract.contractAttributes.finderFee
+          - field: message.contract.settlements[].settlementAttributes.finderFee
             condition: if a finder fee was proposed in init
-          - field: message.contract.contractAttributes.finderFee.feeAmount
+          - field: message.contract.settlements[].settlementAttributes.finderFee.feeAmount
             condition: if a finder fee was proposed in init (computed by the BPP from the final price)
           - field: message.contract.settlements[].settlementAttributes.settlementAccounts[holderRole=BAP]
             condition: echoed if the BAP declared it in init
@@ -204,8 +213,8 @@ phases:
           - field: message.contract.settlements[].settlementAttributes.methodDetail.deepLink
             condition: for EWALLET method
         schemaPacks:
-          common: [Payment/v1]
-          trade: [TradeConsideration/v1, TradeContract/v1]
+          trade: [TradeConsideration/v1]
+          core: [reconcile/v1]
 
       - step: confirm
         from: BAP
@@ -219,6 +228,8 @@ phases:
           - message.contract.performance[]
           - message.contract.settlements[].settlementAttributes.status
           - message.contract.settlements[].settlementAttributes.method
+          - message.contract.settlements[].settlementAttributes.paidAt
+          - message.contract.settlements[].settlementAttributes.orderAmount
           - message.contract.contractAttributes.buyerBusinessRegistration.npwp
           - message.contract.contractAttributes.buyerBusinessRegistration.nib
 
@@ -242,8 +253,8 @@ phases:
           - field: message.contract.contractAttributes.subscription.billingCycle
             condition: for B2C-SUB commerce pattern
         schemaPacks:
-          common: [Payment/v1]
           trade: [TradePerformance/v1, TradeContract/v1]
+          core: [reconcile/v1]
 
   phase3:
     name: Fulfilment
@@ -296,8 +307,10 @@ phases:
     communication: >-
       Either participant sends reconcile once the settlement falls due
       (settlementBasis + settlementWindow); the counterparty answers with
-      on_reconcile. The buyer payment is held at the PJP; on accord SEAM
-      instructs the PJP payout.
+      on_reconcile. The buyer payment is held at the PJP. A batch is agreed
+      as a whole: when every contract has accord true SEAM instructs the PJP
+      payout; otherwise the sender resends the whole batch with the same
+      reconciliationId.
     steps:
       - step: reconcile
         from: BPP
@@ -336,11 +349,13 @@ phases:
           - message.reconciliationId
           - message.reconciliationStatus
           - message.contracts[].settlements[].settlementAttributes.accord
+          - message.settlementSummary.agreedCount
+          - message.settlementSummary.disputedCount
         conditionalFields:
           - field: message.contracts[].settlements[].settlementAttributes.dueDate
             condition: if accord is true
           - field: message.contracts[].settlements[].settlementAttributes.dispute
-            condition: if accord is false (the sender then sends a new reconcile round)
+            condition: if accord is false (the batch is DISPUTED and the sender resends all of its contracts)
           - field: message.contracts[].settlements[].settlementAttributes.*.diffValue
             condition: if accord is false and the counterparty's value differs
         schemaPacks:

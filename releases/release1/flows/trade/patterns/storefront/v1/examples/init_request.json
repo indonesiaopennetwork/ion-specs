@@ -1,14 +1,14 @@
 {
   "_meta": {
-    "description": "Storefront init \u2014 BAP provides delivery address and payment method. QRIS payment, delivery to South Jakarta. BAP proposes settlement terms: due one day after delivery, 3% finder fee on the item total. It declares its own payout account for the finder fee.",
+    "description": "Storefront init \u2014 BAP provides delivery address and payment method. QRIS payment, delivery to South Jakarta. The payment settlement is the order's IONSettlementReconciliation: the BAP proposes a 3% finder fee on the item total, declares its own payout account for it, and estimates the figures on the on_select quote.",
     "pattern": "storefront",
     "step": "init",
     "sent_by": "BAP",
     "received_by": "BPP",
     "schemaPacks": [
       "schema/common/Address/v1",
-      "schema/common/Payment/v1",
-      "schema/extension/trade/TradeContract/v1"
+      "schema/extension/trade/TradeContract/v1",
+      "schema/core/reconcile/v1"
     ]
   },
   "context": {
@@ -34,8 +34,8 @@
     },
     "schemaContext": [
       "https://schema.ion.id/release1/schema/common/Address/v1/context.jsonld",
-      "https://schema.ion.id/release1/schema/common/Payment/v1/context.jsonld",
-      "https://schema.ion.id/release1/schema/extension/trade/TradeContract/v1/context.jsonld"
+      "https://schema.ion.id/release1/schema/extension/trade/TradeContract/v1/context.jsonld",
+      "https://schema.ion.id/release1/schema/core/reconcile/v1/context.jsonld"
     ]
   },
   "message": {
@@ -134,14 +134,34 @@
       "settlements": [
         {
           "settlementAttributes": {
-            "@context": "https://schema.ion.id/release1/schema/common/Payment/v1/context.jsonld",
-            "@type": "ion:IONPayment",
+            "@context": "https://schema.ion.id/release1/schema/core/reconcile/v1/context.jsonld",
+            "@type": "ion:IONSettlementReconciliation",
             "method": "QRIS",
             "paymentRail": "QRIS",
             "collectedBy": "BAP",
             "timing": "ON_ORDER",
             "status": "PENDING",
             "currency": "IDR",
+            "finderFee": {
+              "feeType": "PERCENT",
+              "feeValue": 3,
+              "appliesTo": "ITEM_TOTAL"
+            },
+            "orderAmount": {
+              "value": 9435
+            },
+            "commission": {
+              "value": 255
+            },
+            "withholdingAmount": {
+              "value": 0
+            },
+            "refundAmount": {
+              "value": 0
+            },
+            "netPayable": {
+              "value": 9180
+            },
             "settlementAccounts": [
               {
                 "holderRole": "BAP",
@@ -152,18 +172,7 @@
             ]
           }
         }
-      ],
-      "contractAttributes": {
-        "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeContract/v1/context.jsonld",
-        "@type": "ion:IONTradeContract",
-        "settlementBasis": "AFTER_DELIVERY",
-        "settlementWindow": "P1D",
-        "finderFee": {
-          "feeType": "PERCENT",
-          "feeValue": 3,
-          "appliesTo": "ITEM_TOTAL"
-        }
-      }
+      ]
     }
   }
 }

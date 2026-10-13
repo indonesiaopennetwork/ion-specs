@@ -21,15 +21,16 @@ aggregate is outside this flow.
 
 ## Settlement terms
 
-`init` and `on_init` agree the terms that
-[settlement reconciliation](../../../../../schema/core/reconcile/v1/README.md)
-later uses to compute each contract's payout:
+The order's payment settlement is one
+[`IONSettlementReconciliation`](../../../../../schema/core/reconcile/v1/README.md)
+object from `init` to reconciliation. It carries the payment, the settlement
+terms, the payout accounts, and the figures:
 
 | Step | Sender | Carries |
 |---|---|---|
-| `init` | BAP | `contractAttributes.settlementBasis`, `settlementWindow`, and `finderFee` (proposed); the BAP's `settlementAccounts` entry for the finder fee |
-| `on_init` | BPP | The same terms (accepted) with `finderFee.feeAmount` computed from the final price, plus the BPP's `settlementAccounts` entry next to the BAP's |
-| `confirm`, `on_confirm` | BAP, BPP | The agreed terms and both accounts, carried into the binding contract |
+| `init` | BAP | The payment method, `status: PENDING`, the proposed `finderFee`, the BAP's `settlementAccounts` entry for it, and figures estimated on the `on_select` quote |
+| `on_init` | BPP | `settlementBasis`, `settlementWindow`, `finderFee.feeAmount` computed from the final price, the figures on that price, the QRIS `methodDetail`, and the BPP's `settlementAccounts` entry next to the BAP's |
+| `confirm`, `on_confirm` | BAP, BPP | `status: PAID`, `paidAt`, `gatewayRef`, and `orderAmount` as the amount paid, with the agreed terms and both accounts |
 
 The buyer's QRIS payment is held at the PJP, not in either participant's
 account. After delivery and the agreed one-day window, the BPP sends
@@ -37,9 +38,10 @@ account. After delivery and the agreed one-day window, the BPP sends
 order 98900, a 3% finder fee of 2670 on the 89000 item total, and BPP proceeds
 of 96230. The BAP answers with
 [`on_reconcile_response.json`](examples/on_reconcile_response.json) and
-`accord: true`, so SEAM instructs the PJP to pay 96230 to the BPP and 2670 to
-the BAP. Either participant may start reconciliation; a disagreement example is
-in the [reconciliation pack](../../../../../schema/core/reconcile/v1/README.md).
+`accord: true`, so the batch is `AGREED` and SEAM instructs the PJP to pay
+96230 to the BPP and 2670 to the BAP. Either participant may start
+reconciliation; a disputed batch, which the sender resends whole, is shown in
+the [reconciliation pack](../../../../../schema/core/reconcile/v1/README.md).
 
 ## Included schema packs
 

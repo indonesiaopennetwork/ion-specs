@@ -1,7 +1,13 @@
 {
   "@context": "https://schema.ion.id/release1/schema/core/reconcile/v1/context.jsonld",
   "@type": "ion:IONSettlementReconciliation",
+  "method": "QRIS",
+  "paymentRail": "QRIS",
   "collectedBy": "BAP",
+  "timing": "ON_ORDER",
+  "status": "PAID",
+  "paidAt": "2026-09-29T10:30:58.000+07:00",
+  "gatewayRef": "GW-QRIS-9876543210",
   "currency": "IDR",
   "settlementBasis": "AFTER_DELIVERY",
   "settlementWindow": "P1D",

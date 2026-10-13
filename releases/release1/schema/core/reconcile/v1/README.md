@@ -5,7 +5,7 @@ This directory holds two artifacts:
 | File | What it is |
 |---|---|
 | [`reconcile.yaml`](reconcile.yaml) | OpenAPI 3.1.1 network extension to Beckn Protocol v2.0.0: the `/reconcile` and `/on_reconcile` endpoints |
-| [`attributes.yaml`](attributes.yaml) | Attribute pack: `IONSettlementReconciliation` on `Settlement.settlementAttributes`, plus the `SettlementBasis`, `SettlementWindow`, and `FinderFee` definitions that `IONTradeContract` references |
+| [`attributes.yaml`](attributes.yaml) | Attribute pack: `IONSettlementReconciliation`, the order's payment settlement on `Settlement.settlementAttributes` from `init` to reconciliation, with its `SettlementBasis`, `SettlementWindow`, and `FinderFee` definitions |
 
 Public URLs:
 
@@ -83,14 +83,14 @@ payout trigger all run through these two endpoints.
 Sender (BAP or BPP)                     Counterparty
   ── /reconcile (figures) ─────────────▶
   ◀──────────── /on_reconcile ─────────  accord per settlement
-       accord: true  → agreed by both; SEAM instructs the PJP payout
-       accord: false → counterparty figures + diffValue + dispute
-  ── /reconcile (revised figures) ─────▶  next round for disputed settlements
-  ◀──────────── /on_reconcile ─────────
+       all accord: true  → AGREED; SEAM instructs the PJP payout of all
+       any accord: false → DISPUTED; nothing is paid out
+  ── /reconcile (whole batch again) ───▶  same reconciliationId, next round
+  ◀──────────── /on_reconcile ─────────  … until AGREED
 ```
 
 The buyer's payment is held at the PJP (Penyelenggara Jasa Pembayaran), not in
-a participant's account. When a settlement reaches `accord: true`, SEAM
+a participant's account. When a batch is `AGREED`, SEAM
 (Settlement Assurance Mechanism) instructs the PJP to pay it out of the held
 funds into the accounts in `settlementAccounts`:
 
@@ -103,8 +103,10 @@ funds into the accounts in `settlementAccounts`:
 
 SEAM may combine agreed settlements into a single transfer per participant.
 Payout status reaches the participants through the PJP's webhook, which is
-outside this specification. A batch can be `PARTIALLY_AGREED`: its agreed
-settlements proceed to payout while the rest continue to another round.
+outside this specification. A batch is agreed as a whole or not at all: if
+any contract has `accord: false`, the batch is `DISPUTED`, none of its
+contracts is paid out, and the sender sends all of them again, with the same
+`reconciliationId`, until every one has `accord: true`.
 
 ## `IONSettlementReconciliation`
 
@@ -115,13 +117,14 @@ Invariant:
 |---|---|
 | `collectedBy` | Informational: whose checkout collected the payment into the PJP (`IONPayment.collectedBy`) |
 | `currency` | ISO 4217 code for all amounts (`IONPayment.currency`; `IDR`) |
-| `settlementBasis`, `settlementWindow`, `finderFee` | The settlement terms agreed on `IONTradeContract` in `init`/`on_init`, repeated so the settlement is self-contained |
-| `orderAmount` | Gross amount the buyer paid, held at the PJP |
+| `method`, `paymentRail`, `timing`, `status`, `paidAt`, `gatewayRef`, ... | The payment (`IONPayment` definitions) |
+| `settlementBasis`, `settlementWindow`, `finderFee` | The settlement terms agreed in `init`/`on_init` |
+| `orderAmount` | Gross amount the buyer pays, held at the PJP; the amount paid from `confirm` on |
 | `commission` | BAP finder fee; paid to the BAP. Equals `finderFee.feeAmount` |
 | `withholdingAmount` | Amount the PJP keeps back, for example against returns |
 | `refundAmount` | Total the PJP returns to the buyer |
 | `netPayable` | Paid to the BPP: `orderAmount − commission − withholdingAmount − refundAmount` |
-| `settlementAccounts[]` | Payout accounts from `IONPayment.settlementAccounts`: the BPP's always, the BAP's when `commission` > 0 |
+| `settlementAccounts[]` | Payout accounts: the BAP's in `init` (required when `commission` > 0), the BPP's from `on_init` |
 | `accord` | `/on_reconcile` only (required there): `true` agrees with the figures received; `false` disagrees |
 | `dueDate` | Payout due date; required when `accord` is `true` |
 | `dispute` | `{code, description}`; required when `accord` is `false` |
@@ -130,30 +133,47 @@ Every amount is a `ReconAmount` with `value` and, in `/on_reconcile`, a
 `diffValue` (counterparty's value minus the value it is answering) when the two
 differ. No tax is withheld from payouts in Release 1.
 
-`reconciliationStatus` summarises the batch: `AGREED`, `PARTIALLY_AGREED`, or
-`DISPUTED`. `SettlementSummary` carries batch totals for cross-checking,
-including `totalNetPayable` (to the BPP) and `totalCommission` (to the BAP).
+`reconciliationStatus` summarises the batch: `AGREED` (every contract has
+`accord: true`) or `DISPUTED`. `SettlementSummary` carries batch totals for
+cross-checking, including `totalNetPayable` (to the BPP) and `totalCommission` (to the BAP).
+In `/on_reconcile` it also counts the answer: `agreedCount` (contracts with
+`accord: true`) and `disputedCount` (`accord: false`).
 
-## Where the inputs come from
+## One settlement object through the order
 
-| Input | Agreed in | Defined by |
+`IONSettlementReconciliation` is the order's settlement from `init` on, carried
+as the `settlementAttributes` of the contract's payment settlement:
+
+| Step | Sender | Adds or changes |
 |---|---|---|
-| `settlementBasis`, `settlementWindow`, `finderFee` (terms and `feeAmount`) | `init` / `on_init`; `feeAmount` recomputed in `on_cancel` / `on_update` | [`IONTradeContract`](../../../extension/trade/TradeContract/v1/README.md) on `Contract.contractAttributes` |
-| `settlementAccounts` (BAP in `init`, BPP in `on_init`) | `init` / `on_init` | [`IONPayment`](../../../common/Payment/v1/README.md) on `Contract.settlements[]` |
+| `init` | BAP | `finderFee` terms, its `settlementAccounts` entry, `method`, `paymentRail`, `collectedBy`, `timing`, `status: PENDING`, figures estimated on the quoted price |
+| `on_init` | BPP | `settlementBasis`, `settlementWindow`, `finderFee.feeAmount`, its account, the figures on its final price |
+| `confirm` | BAP | `status: PAID`, `paidAt`, `gatewayRef`; `orderAmount` is the amount paid |
+| `on_cancel`, `on_update` | BPP | `finderFee.feeAmount`, `commission`, `refundAmount`, `netPayable` |
+| `/reconcile`, `/on_reconcile` | either | each participant's figures, `accord` in the answer |
 
-This pack owns the `SettlementBasis`, `SettlementWindow`, and `FinderFee`
-definitions; `IONTradeContract` references them, so the order terms and the
-reconciliation figures share one definition and one JSON-LD IRI.
+The figures are estimates until reconciliation. The payment fields (`method`,
+`paymentRail`, `paymentGatewayProvider`, `methodDetail`, `timing`, `status`,
+`paidAt`, `gatewayRef`) reuse the `IONPayment` definitions. The BPP account is
+required once `status` is not `PENDING`; `paidAt` is required when `status` is
+`PAID`.
+
+The settlement terms (`settlementBasis`, `settlementWindow`, `finderFee`) live
+only here, on the payment settlement; `IONTradeContract` does not carry them.
+Settlement accounts and the payment fields reuse the
+[`IONPayment`](../../../common/Payment/v1/README.md) definitions and JSON-LD
+IRIs, and `orderAmount` takes the place of `IONPayment.amount`.
 
 ## Examples
 
 - [`examples/reconcile-request.json`](examples/reconcile-request.json) — the
   BPP reconciles two contracts whose payments are held at the PJP.
 - [`examples/on-reconcile-response.json`](examples/on-reconcile-response.json)
-  — the BAP agrees with one settlement and disputes the commission on the other
-  (`PARTIALLY_AGREED`).
+  — the BAP agrees with one settlement and disputes the commission on the
+  other, so the batch is `DISPUTED` and the BPP sends both again.
 - [`examples/settlement-reconciliation.json`](examples/settlement-reconciliation.json)
-  — one `IONSettlementReconciliation` bag with `accord: true`.
+  — one `IONSettlementReconciliation` bag for a paid QRIS order, with
+  `accord: true`.
 
 ## Not in Release 1
 

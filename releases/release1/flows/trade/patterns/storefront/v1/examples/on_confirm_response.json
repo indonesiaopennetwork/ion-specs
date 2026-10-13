@@ -8,11 +8,11 @@
     "becknAction": "OnConfirmAction",
     "schemaPacks": [
       "schema/common/BusinessRegistration/v1",
-      "schema/common/Payment/v1",
       "schema/extension/trade/TradePerformance/v1",
       "schema/extension/trade/TradeContract/v1",
       "schema/extension/trade/TradeConsideration/v1",
-      "schema/extension/trade/TradeCommitment/v1"
+      "schema/extension/trade/TradeCommitment/v1",
+      "schema/core/reconcile/v1"
     ]
   },
   "context": {
@@ -42,7 +42,7 @@
       "https://schema.ion.id/release1/schema/extension/trade/TradeConsideration/v1/context.jsonld",
       "https://schema.ion.id/release1/schema/extension/trade/TradeCommitment/v1/context.jsonld",
       "https://schema.ion.id/release1/schema/common/BusinessRegistration/v1/context.jsonld",
-      "https://schema.ion.id/release1/schema/common/Payment/v1/context.jsonld"
+      "https://schema.ion.id/release1/schema/core/reconcile/v1/context.jsonld"
     ]
   },
   "message": {
@@ -231,16 +231,38 @@
           "considerationId": "CONSID-ORD-2026-00012345",
           "status": "COMMITTED",
           "settlementAttributes": {
-            "@context": "https://schema.ion.id/release1/schema/common/Payment/v1/context.jsonld",
-            "@type": "ion:IONPayment",
+            "@context": "https://schema.ion.id/release1/schema/core/reconcile/v1/context.jsonld",
+            "@type": "ion:IONSettlementReconciliation",
             "method": "QRIS",
             "collectedBy": "BAP",
             "timing": "ON_ORDER",
             "status": "PAID",
-            "amount": 98900,
-            "currency": "IDR",
             "paidAt": "2026-04-19T10:30:58.000+07:00",
             "gatewayRef": "GW-QRIS-9876543210",
+            "currency": "IDR",
+            "settlementBasis": "AFTER_DELIVERY",
+            "settlementWindow": "P1D",
+            "finderFee": {
+              "feeType": "PERCENT",
+              "feeValue": 3,
+              "appliesTo": "ITEM_TOTAL",
+              "feeAmount": 2670
+            },
+            "orderAmount": {
+              "value": 98900
+            },
+            "commission": {
+              "value": 2670
+            },
+            "withholdingAmount": {
+              "value": 0
+            },
+            "refundAmount": {
+              "value": 0
+            },
+            "netPayable": {
+              "value": 96230
+            },
             "settlementAccounts": [
               {
                 "holderRole": "BAP",
@@ -268,15 +290,7 @@
         "invoicePreferences": {
           "invoiceType": "RECEIPT"
         },
-        "buyerInstructions": "Tinggalkan di depan pintu jika tidak ada di rumah.",
-        "settlementBasis": "AFTER_DELIVERY",
-        "settlementWindow": "P1D",
-        "finderFee": {
-          "feeType": "PERCENT",
-          "feeValue": 3,
-          "appliesTo": "ITEM_TOTAL",
-          "feeAmount": 2670
-        }
+        "buyerInstructions": "Tinggalkan di depan pintu jika tidak ada di rumah."
       }
     }
   }
