@@ -142,7 +142,8 @@
         "finderFee": {
           "feeType": "PERCENT",
           "feeValue": 3,
-          "appliesTo": "ITEM_TOTAL"
+          "appliesTo": "ITEM_TOTAL",
+          "feeAmount": 255
         }
       }
     }

@@ -193,6 +193,8 @@ phases:
         conditionalFields:
           - field: message.contract.contractAttributes.finderFee
             condition: if a finder fee was proposed in init
+          - field: message.contract.contractAttributes.finderFee.feeAmount
+            condition: if a finder fee was proposed in init (computed by the BPP from the final price)
           - field: message.contract.settlements[].settlementAttributes.settlementAccounts[holderRole=BAP]
             condition: echoed if the BAP declared it in init
           - field: message.contract.settlements[].settlementAttributes.methodDetail.qrisString

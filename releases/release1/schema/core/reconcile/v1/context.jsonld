@@ -43,6 +43,7 @@
     "description": "ion:description",
     "feeType": "ion:feeType",
     "feeValue": "ion:feeValue",
-    "appliesTo": "ion:appliesTo"
+    "appliesTo": "ion:appliesTo",
+    "feeAmount": "ion:feeAmount"
   }
 }

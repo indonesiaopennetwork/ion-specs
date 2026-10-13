@@ -58,6 +58,7 @@ to compute each contract's payout. These properties are marked
 | `finderFee.feeType` | `PERCENT` \| `AMOUNT` | How the BAP's finder fee is expressed |
 | `finderFee.feeValue` | number | Percentage (0-100) or fixed amount in the contract currency |
 | `finderFee.appliesTo` | `ITEM_TOTAL` \| `ORDER_TOTAL` | Base for a `PERCENT` fee |
+| `finderFee.feeAmount` | number | The resulting fee in the contract currency. The BPP computes it in `on_init` and recomputes it in `on_cancel` / `on_update` when items are cancelled or returned. |
 
 `settlementBasis`, `settlementWindow`, and `finderFee` reference the
 `SettlementBasis`, `SettlementWindow`, and `FinderFee` definitions owned by the
@@ -71,14 +72,14 @@ settlement.
 | `AFTER_DELIVERY` | Confirmed delivery |
 | `AFTER_RETURN_WINDOW` | Close of the applicable return window |
 
-Example — settle within one day of delivery, with a 3% finder fee on the item
-total:
+Example — settle within one day of delivery, with a 3% finder fee on an item
+total of 89,000:
 
 ```json
 {
   "settlementBasis": "AFTER_DELIVERY",
   "settlementWindow": "P1D",
-  "finderFee": { "feeType": "PERCENT", "feeValue": 3, "appliesTo": "ITEM_TOTAL" }
+  "finderFee": { "feeType": "PERCENT", "feeValue": 3, "appliesTo": "ITEM_TOTAL", "feeAmount": 2670 }
 }
 ```
 

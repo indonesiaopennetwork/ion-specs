@@ -147,7 +147,7 @@
               "$ref": "#/$defs/ReconAmount"
             }
           ],
-          "description": "BAP finder fee for the contract, computed from finderFee; the PJP pays it to the BAP. Zero when no finder fee was agreed.\n"
+          "description": "BAP finder fee for the contract, equal to finderFee.feeAmount; the PJP pays it to the BAP. Zero when no finder fee was agreed.\n"
         },
         "withholdingAmount": {
           "allOf": [
@@ -230,7 +230,7 @@
     "FinderFee": {
       "type": "object",
       "title": "FinderFee",
-      "description": "Fee the Consumer Node (BAP) earns for bringing the order, agreed in init and on_init. Reconciliation computes the fee amount from these terms and reports it as the contract's commission.\n",
+      "description": "Fee the Consumer Node (BAP) earns for bringing the order, agreed in init and on_init: the terms (feeType, feeValue, appliesTo) and the resulting feeAmount. Reconciliation reports it as the contract's commission.\n",
       "additionalProperties": false,
       "required": [
         "feeType",
@@ -257,6 +257,11 @@
             "ORDER_TOTAL"
           ],
           "description": "Base for a PERCENT fee. ITEM_TOTAL is the item value excluding delivery, packing, and taxes; ORDER_TOTAL is the full consideration. Ignored when feeType is AMOUNT.\n"
+        },
+        "feeAmount": {
+          "type": "number",
+          "minimum": 0,
+          "description": "The fee in the contract currency, computed from feeType, feeValue, and appliesTo on the contract as it stands. The BPP sets it in on_init and recomputes it in on_cancel and on_update when items are cancelled or returned. At reconciliation the settlement's commission.value equals it.\n"
         }
       },
       "if": {

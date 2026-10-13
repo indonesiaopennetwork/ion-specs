@@ -53,7 +53,7 @@ figures:
         "currency": "IDR",
         "settlementBasis": "AFTER_DELIVERY",
         "settlementWindow": "P1D",
-        "finderFee": { "feeType": "PERCENT", "feeValue": 3, "appliesTo": "ITEM_TOTAL" },
+        "finderFee": { "feeType": "PERCENT", "feeValue": 3, "appliesTo": "ITEM_TOTAL", "feeAmount": 2670 },
         "orderAmount": { "value": 98900 },
         "commission": { "value": 2670 },
         "withholdingAmount": { "value": 0 },
@@ -117,7 +117,7 @@ Invariant:
 | `currency` | ISO 4217 code for all amounts (`IONPayment.currency`; `IDR`) |
 | `settlementBasis`, `settlementWindow`, `finderFee` | The settlement terms agreed on `IONTradeContract` in `init`/`on_init`, repeated so the settlement is self-contained |
 | `orderAmount` | Gross amount the buyer paid, held at the PJP |
-| `commission` | BAP finder fee computed from `finderFee`; paid to the BAP |
+| `commission` | BAP finder fee; paid to the BAP. Equals `finderFee.feeAmount` |
 | `withholdingAmount` | Amount the PJP keeps back, for example against returns |
 | `refundAmount` | Total the PJP returns to the buyer |
 | `netPayable` | Paid to the BPP: `orderAmount − commission − withholdingAmount − refundAmount` |
@@ -138,7 +138,7 @@ including `totalNetPayable` (to the BPP) and `totalCommission` (to the BAP).
 
 | Input | Agreed in | Defined by |
 |---|---|---|
-| `settlementBasis`, `settlementWindow`, `finderFee` | `init` / `on_init` | [`IONTradeContract`](../../../extension/trade/TradeContract/v1/README.md) on `Contract.contractAttributes` |
+| `settlementBasis`, `settlementWindow`, `finderFee` (terms and `feeAmount`) | `init` / `on_init`; `feeAmount` recomputed in `on_cancel` / `on_update` | [`IONTradeContract`](../../../extension/trade/TradeContract/v1/README.md) on `Contract.contractAttributes` |
 | `settlementAccounts` (BAP in `init`, BPP in `on_init`) | `init` / `on_init` | [`IONPayment`](../../../common/Payment/v1/README.md) on `Contract.settlements[]` |
 
 This pack owns the `SettlementBasis`, `SettlementWindow`, and `FinderFee`

@@ -113,7 +113,8 @@
       "@context": {
         "feeType": "ionrec:feeType",
         "feeValue": "ionrec:feeValue",
-        "appliesTo": "ionrec:appliesTo"
+        "appliesTo": "ionrec:appliesTo",
+        "feeAmount": "ionrec:feeAmount"
       }
     }
   }

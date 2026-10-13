@@ -28,7 +28,7 @@ later uses to compute each contract's payout:
 | Step | Sender | Carries |
 |---|---|---|
 | `init` | BAP | `contractAttributes.settlementBasis`, `settlementWindow`, and `finderFee` (proposed); the BAP's `settlementAccounts` entry for the finder fee |
-| `on_init` | BPP | The same terms (accepted), plus the BPP's `settlementAccounts` entry next to the BAP's |
+| `on_init` | BPP | The same terms (accepted) with `finderFee.feeAmount` computed from the final price, plus the BPP's `settlementAccounts` entry next to the BAP's |
 | `confirm`, `on_confirm` | BAP, BPP | The agreed terms and both accounts, carried into the binding contract |
 
 The buyer's QRIS payment is held at the PJP, not in either participant's
