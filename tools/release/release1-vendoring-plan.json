@@ -11,7 +11,7 @@
   "protocol": {
     "name": "BecknProtocol",
     "version": "2.0.0",
-    "existingCandidate": "releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml",
+    "existingCandidate": "releases/release1/schema/core/api/v2.0.0/ion-beckn.yaml",
     "candidateSha256": "00ddcc9a930f77dd41eb0802de9c34d86e4ff42e0a3f542bbdaf3a42f7deb4c3",
     "candidatePayloadSha256": "e1a39f2389fc48c9c1187edbfc838078cea0958f6ac5cf1cdc8d6de113cf3011",
     "vendoringHeaderPresent": true,

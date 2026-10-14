@@ -172,7 +172,12 @@
         "vendoredPath": {
           "allOf": [
             { "$ref": "#/$defs/releaseRelativePath" },
-            { "pattern": "^schema/vendored/" }
+            {
+              "anyOf": [
+                { "pattern": "^schema/vendored/" },
+                { "const": "schema/core/api/v2.0.0/ion-beckn.yaml" }
+              ]
+            }
           ]
         },
         "upstreamSha256": { "$ref": "#/$defs/sha256" },

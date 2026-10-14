@@ -12,7 +12,7 @@ Authoritative conventions for pack authors. All contributions must follow this g
 
 | Layer | Location | What goes here |
 |---|---|---|
-| L1 | `beckn.yaml` (external) | Beckn core — never modified |
+| L1 | `releases/release1/schema/core/api/v2.0.0/ion-beckn.yaml` | ION-owned Beckn-derived core protocol contract |
 | L2 | `schema/core/v2/api/v2.0.0/ion.yaml` | Unreleased ION network profile overlay |
 | L3 | `schema/core/v2/api/v2.0.0/ion.yaml` → `paths:` block | Unreleased `/raise` family (6 endpoints) + `/reconcile` + `/on_reconcile` |
 | L4 | `schema/extensions/core/*/v1/` | Cross-sector attribute packs |
@@ -76,7 +76,7 @@ x-beckn-attaches-to: BecknObject.attributesSlot
 ### allOf with Beckn Attributes base (required)
 ```yaml
 allOf:
-  - $ref: https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Attributes
+  - $ref: https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/schemas/Attributes
 ```
 
 **Never use the external GitHub URL or a repository-relative path in a released

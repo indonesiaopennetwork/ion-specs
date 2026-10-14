@@ -163,7 +163,7 @@
               "type": "array",
               "description": "Documents or media supporting the quality-control findings.",
               "items": {
-                "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Document"
+                "$ref": "https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/schemas/Document"
               }
             }
           }
@@ -220,7 +220,7 @@
               "type": "array",
               "description": "Evidence retained under the applicable privacy, security, and data-residency policy.",
               "items": {
-                "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Document"
+                "$ref": "https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/schemas/Document"
               }
             },
             "failureReason": {
@@ -290,10 +290,10 @@
                 "description": "ION-aware location composed from Beckn geographic and postal-address shapes plus Indonesian subdivisions.",
                 "properties": {
                   "geo": {
-                    "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/GeoJSONGeometry"
+                    "$ref": "https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/schemas/GeoJSONGeometry"
                   },
                   "address": {
-                    "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Address"
+                    "$ref": "https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/schemas/Address"
                   },
                   "ionAddressAttributes": {
                     "$ref": "https://schema.ion.id/release1/schema/common/Address/v1/attributes.yaml#/components/schemas/IONAddress"
@@ -312,7 +312,7 @@
                 "format": "date-time"
               },
               "proof": {
-                "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Document",
+                "$ref": "https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/schemas/Document",
                 "description": "Documentary proof associated with completion of this stop."
               }
             }

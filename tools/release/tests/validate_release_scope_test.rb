@@ -29,6 +29,18 @@ class ValidateReleaseScopeTest < Minitest::Test
     end
   end
 
+  def test_versioned_ion_beckn_api_satisfies_validated_ion_api_scope
+    Dir.mktmpdir do |root|
+      FileUtils.mkdir_p(File.join(root, "schema/core/api/v2.0.0"))
+      File.write(File.join(root, "schema/core/api/v2.0.0/ion-beckn.yaml"), "openapi: 3.1.0\n")
+      manifest = { "contentStatus" => statuses.merge("ionApi" => "validated") }
+
+      errors = IonReleaseScope.validate(root, manifest)
+
+      refute_includes errors, "validated content is absent for ionApi"
+    end
+  end
+
   def test_flat_schema_directory_is_rejected
     Dir.mktmpdir do |root|
       FileUtils.mkdir_p(File.join(root, "schema/common"))

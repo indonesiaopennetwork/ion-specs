@@ -45,7 +45,7 @@
         "parentContractId": {
           "allOf": [
             {
-              "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Contract/properties/id"
+              "$ref": "https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/schemas/Contract/properties/id"
             }
           ],
           "description": "Identifier of the parent Contract when this Contract is a child transaction."
@@ -58,7 +58,7 @@
             "reason": {
               "allOf": [
                 {
-                  "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Descriptor"
+                  "$ref": "https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/schemas/Descriptor"
                 }
               ],
               "description": "Machine- and human-readable cancellation reason."
@@ -68,7 +68,7 @@
               "uniqueItems": true,
               "description": "Core Commitment IDs affected by a partial cancellation.",
               "items": {
-                "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml#/components/schemas/Commitment/properties/id"
+                "$ref": "https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/schemas/Commitment/properties/id"
               }
             },
             "forced": {
