@@ -278,7 +278,7 @@
       "properties": {
         "code": {
           "type": "string",
-          "description": "Short machine-readable reason, for example COMMISSION_MISMATCH."
+          "description": "Short machine-readable reason, for example COMMISSION_MISMATCH. SETTLEMENT_WINDOW_NOT_REACHED marks a contract sent before its settlement window, which is sent again once due.\n"
         },
         "description": {
           "type": "string",

@@ -33,6 +33,10 @@ info:
        `DISPUTED`, no contract in it is agreed, and the initiator sends all
        of its contracts again in a new `/reconcile` round, with the same
        `reconciliationId`, until the counterparty agrees with every one.
+       A contract sent before its settlement window is answered
+       `accord: false` with the dispute code `SETTLEMENT_WINDOW_NOT_REACHED`
+       and left out of the outcome; it is sent again once due. A batch in
+       which every contract was sent early is `PENDING`.
 
     4. The buyer's payment is held at the PJP (Penyelenggara Jasa
        Pembayaran), not in a participant's account. When a batch is
@@ -224,11 +228,15 @@ components:
           description: The reconciliationId of the /reconcile being answered.
         reconciliationStatus:
           type: string
-          enum: [AGREED, DISPUTED]
+          enum: [AGREED, DISPUTED, PENDING]
           description: >
-            Batch-level outcome. AGREED — every contract has accord true;
-            all of them proceed to payout. DISPUTED — at least one has accord
-            false; none proceeds, and the sender sends the whole batch again.
+            Batch-level outcome, over the contracts that are due. AGREED —
+            every one has accord true; all of them proceed to payout.
+            DISPUTED — at least one has accord false; none proceeds, and the
+            sender sends the whole batch again. PENDING — none was due: every
+            contract was sent before its settlement window (dispute code
+            SETTLEMENT_WINDOW_NOT_REACHED) and is sent again once due. A
+            contract sent early never counts towards AGREED or DISPUTED.
         contracts:
           type: array
           minItems: 1
@@ -330,7 +338,9 @@ components:
           minimum: 0
           description: >
             /on_reconcile only: contracts with a settlement whose accord is
-            false.
+            false, including contracts sent before their settlement window
+            (SETTLEMENT_WINDOW_NOT_REACHED), which do not affect
+            reconciliationStatus.
         totalOrderAmount:
           type: number
           description: Sum of orderAmount.value over the batch's settlements.

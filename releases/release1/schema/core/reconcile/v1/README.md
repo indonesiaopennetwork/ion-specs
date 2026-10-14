@@ -85,6 +85,7 @@ Sender (BAP or BPP)                     Counterparty
   ◀──────────── /on_reconcile ─────────  accord per settlement
        all accord: true  → AGREED; SEAM instructs the PJP payout of all
        any accord: false → DISPUTED; nothing is paid out
+       all sent early    → PENDING; each is sent again once due
   ── /reconcile (whole batch again) ───▶  same reconciliationId, next round
   ◀──────────── /on_reconcile ─────────  … until AGREED
 ```
@@ -106,7 +107,11 @@ Payout status reaches the participants through the PJP's webhook, which is
 outside this specification. A batch is agreed as a whole or not at all: if
 any contract has `accord: false`, the batch is `DISPUTED`, none of its
 contracts is paid out, and the sender sends all of them again, with the same
-`reconciliationId`, until every one has `accord: true`.
+`reconciliationId`, until every one has `accord: true`. A contract sent before
+its settlement window is answered `accord: false` with the dispute code
+`SETTLEMENT_WINDOW_NOT_REACHED`; it doesn't count towards the outcome and is
+sent again once due. A batch whose contracts were all sent early is
+`PENDING`.
 
 ## `IONSettlementReconciliation`
 

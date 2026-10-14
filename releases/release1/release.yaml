@@ -329,16 +329,16 @@ artifactChecksums:
   schema/core/README.md: 296221a79cf1a33e80e96fa839a8d818ed0446ab10dff7b0a73828440d3f7785
   schema/core/api/v2.0.0/ion-beckn.yaml: 87567ff9b849b0705505a85af86a5899625759cbcfa87775a85aed86e392511a
   schema/core/reconcile/README.md: d163a5d6b57510f71b2bfd0a8b65e6fb131f7c28119ccfa63fe6366f5657a1e2
-  schema/core/reconcile/v1/README.md: 83d4bbe500a873eebd5d3a124f30a99fe5be810f52af8c0351a09de1c15d8097
-  schema/core/reconcile/v1/attributes.yaml: 1b3745356863dd7848c0e4fafcb5595e276b68e76468f63096e07a6d3ea0fd8a
+  schema/core/reconcile/v1/README.md: a8d379313e2cd53a198cfbcca0f0eb653c5f56b740d6204153261d42934b071d
+  schema/core/reconcile/v1/attributes.yaml: a4bc1e111808e0fcd7ab854aa63aa6cad282a16cb1411810edb9ed48d6fc68a9
   schema/core/reconcile/v1/context.jsonld: 640aaff5217af1493a71dc1dc7361074d17b88797a8722d922777a69124cad55
   schema/core/reconcile/v1/examples/on-reconcile-response.json: c5c393591303c4da3bdcc5c6d801d1418e30caacc2d7a14c4d21e0b41b674807
   schema/core/reconcile/v1/examples/reconcile-request.json: e36c267c0b263598128be4a7ddcf1e19d2033aebb9e0f48aed3c688fa9c25029
   schema/core/reconcile/v1/examples/settlement-reconciliation.json: 34e3a67b590a6e31a4e69e0a3545310f06f45077fbb3e86f28e2ed2348f0469e
   schema/core/reconcile/v1/profile.json: aef881aaeeeedcfe27d3e0f1d4089afdd9b77ffcf7a2b30adf9bbb607a74b63e
-  schema/core/reconcile/v1/reconcile.yaml: 187fafd80fede7391ff2b2ef78102742f6c1e8302adba52a477fe5164ddc24dd
+  schema/core/reconcile/v1/reconcile.yaml: 2afbb9273131563c241628a5f573a4d7a225746e6c3e180253e65de8e8b6508a
   schema/core/reconcile/v1/renderer.json: 10b92191262474ab5ac02a96f5532718663f5bbee368984e0212876fad1a3e9f
-  schema/core/reconcile/v1/schema.json: 15ed93f95740a8a13b3382377ae51012f8fd6ab581908a2a3b2a274ee695ebe1
+  schema/core/reconcile/v1/schema.json: '086ca39e7f37b9dde6d1ee81a2a5b6519eac67d058948f611953e24d61d0a0e3'
   schema/core/reconcile/v1/vocab.jsonld: 89ab019e2e644163a29bfa79880490e6374a9041d912e24e3df864d597d6e58c
   schema/extension/trade/TradeCommitment/v1/README.md: 879069e3d8ca170bad7ac9586592a6b17793ac48504664e1a375655531dd9aa3
   schema/extension/trade/TradeCommitment/v1/attributes.yaml: fa0d51e8162f0f3adbcd0352220322c82f1e7cbd44b4d260a8df83e021e3f7ec
