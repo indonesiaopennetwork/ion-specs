@@ -12,7 +12,7 @@
       "schema/extension/trade/TradeContract/v1",
       "schema/extension/trade/TradeConsideration/v1",
       "schema/extension/trade/TradeCommitment/v1",
-      "schema/core/reconcile/v1"
+      "schema/common/Settlement/v1"
     ]
   },
   "context": {
@@ -42,7 +42,7 @@
       "https://schema.ion.id/release1/schema/extension/trade/TradeConsideration/v1/context.jsonld",
       "https://schema.ion.id/release1/schema/extension/trade/TradeCommitment/v1/context.jsonld",
       "https://schema.ion.id/release1/schema/common/BusinessRegistration/v1/context.jsonld",
-      "https://schema.ion.id/release1/schema/core/reconcile/v1/context.jsonld"
+      "https://schema.ion.id/release1/schema/common/Settlement/v1/context.jsonld"
     ]
   },
   "message": {
@@ -231,7 +231,7 @@
           "considerationId": "CONSID-ORD-2026-00012345",
           "status": "COMMITTED",
           "settlementAttributes": {
-            "@context": "https://schema.ion.id/release1/schema/core/reconcile/v1/context.jsonld",
+            "@context": "https://schema.ion.id/release1/schema/common/Settlement/v1/context.jsonld",
             "@type": "ion:IONSettlementReconciliation",
             "method": "QRIS",
             "collectedBy": "BAP",

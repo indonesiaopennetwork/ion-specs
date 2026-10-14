@@ -177,9 +177,8 @@ phases:
           - field: message.contract.contractAttributes.gift
             condition: if gifting is declared
         schemaPacks:
-          common: [Address/v1]
+          common: [Address/v1, Settlement/v1]
           trade: [TradeContract/v1]
-          core: [reconcile/v1]
 
       - step: on_init
         from: BPP
@@ -213,8 +212,8 @@ phases:
           - field: message.contract.settlements[].settlementAttributes.methodDetail.deepLink
             condition: for EWALLET method
         schemaPacks:
+          common: [Settlement/v1]
           trade: [TradeConsideration/v1]
-          core: [reconcile/v1]
 
       - step: confirm
         from: BAP
@@ -253,8 +252,8 @@ phases:
           - field: message.contract.contractAttributes.subscription.billingCycle
             condition: for B2C-SUB commerce pattern
         schemaPacks:
+          common: [Settlement/v1]
           trade: [TradePerformance/v1, TradeContract/v1]
-          core: [reconcile/v1]
 
   phase3:
     name: Fulfilment
@@ -335,7 +334,7 @@ phases:
           - field: message.contracts[].settlements[].settlementAttributes.settlementAccounts[holderRole=BAP]
             condition: if commission is greater than zero
         schemaPacks:
-          core: [reconcile/v1]
+          common: [Settlement/v1]
 
       - step: on_reconcile
         from: BAP
@@ -359,7 +358,7 @@ phases:
           - field: message.contracts[].settlements[].settlementAttributes.*.diffValue
             condition: if accord is false and the counterparty's value differs
         schemaPacks:
-          core: [reconcile/v1]
+          common: [Settlement/v1]
 
 variantWindows:
   during-transaction:

@@ -20,7 +20,8 @@
       "BusinessRegistration/v1",
       "Payment/v1",
       "Tax/v1",
-      "Address/v1"
+      "Address/v1",
+      "Settlement/v1"
     ],
     "trade": [
       "TradeProvider/v1",
@@ -31,9 +32,6 @@
       "TradeContract/v1",
       "TradeCommitment/v1",
       "TradeSettlement/v1"
-    ],
-    "core": [
-      "reconcile/v1"
     ]
   },
   "performanceStateMachine": "schema/extension/trade/TradePerformanceStates/v1/states.yaml#standard",

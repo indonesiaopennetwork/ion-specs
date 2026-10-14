@@ -52,12 +52,12 @@ cross-border, and domestic flows require rails such as `RTGS`, `SKN`, `SWIFT`,
 
 - `core/payment/v1` owns buyer-facing payment declaration fields such as
   collector, collection timing, payment status, and typed instrument details.
-- `core/reconcile/v1` `IONSettlementReconciliation` carries the settlement
+- `common/Settlement/v1` `IONSettlementReconciliation` carries the settlement
   terms agreed during `init` and `on_init` (`settlementBasis`,
   `settlementWindow`, and `finderFee`) on the order's payment settlement.
   They cannot live here because RetailSettlement requires `settledAt` and
   `settledAmount`, which do not exist before the order is settled.
-- `core/reconcile/v1` owns reconciliation calculations, disputes, tax
+- `common/Settlement/v1` owns reconciliation calculations, disputes, tax
   withholding, and the per-contract settlement breakdown.
 - `trade/consideration/v1` owns monetary obligations and price changes,
   including additional charges created by an exchange or contract update.
@@ -85,4 +85,4 @@ another ISO 4217 currency.
 | v1 | 2026-06-02 | Initial release |
 | v1 cleanup | 2026-07-23 | Inherited RetailSettlement v2.1 and removed duplicate payment and reconciliation fields |
 | v1 | 2026-09-29 | Added optional ION-layer `settlementBasis` and `settlementWindow` |
-| v1 | 2026-10-12 | Moved `settlementBasis` and `settlementWindow` to `IONSettlementReconciliation` (`core/reconcile/v1`) so they can be agreed in `init`/`on_init` |
+| v1 | 2026-10-12 | Moved `settlementBasis` and `settlementWindow` to `IONSettlementReconciliation` (`common/Settlement/v1`) so they can be agreed in `init`/`on_init` |

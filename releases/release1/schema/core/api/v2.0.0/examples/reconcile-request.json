@@ -47,7 +47,7 @@
           {
             "id": "PAY-2026-00012345",
             "settlementAttributes": {
-              "@context": "https://schema.ion.id/release1/schema/core/reconcile/v1/context.jsonld",
+              "@context": "https://schema.ion.id/release1/schema/common/Settlement/v1/context.jsonld",
               "@type": "ion:IONSettlementReconciliation",
               "collectedBy": "BAP",
               "currency": "IDR",
@@ -122,7 +122,7 @@
           {
             "id": "PAY-2026-00012346",
             "settlementAttributes": {
-              "@context": "https://schema.ion.id/release1/schema/core/reconcile/v1/context.jsonld",
+              "@context": "https://schema.ion.id/release1/schema/common/Settlement/v1/context.jsonld",
               "@type": "ion:IONSettlementReconciliation",
               "collectedBy": "BAP",
               "currency": "IDR",

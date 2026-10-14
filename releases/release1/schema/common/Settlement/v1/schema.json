@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://schema.ion.id/release1/schema/core/reconcile/v1",
-  "title": "ION Core Settlement Reconciliation Schema Pack v1",
-  "description": "JSON Schema 2020-12 mirror of the core/reconcile/v1 attribute pack. The root resolves to IONSettlementReconciliation.",
+  "$id": "https://schema.ion.id/release1/schema/common/Settlement/v1",
+  "title": "ION Settlement Schema Pack v1",
+  "description": "JSON Schema 2020-12 mirror of the common/Settlement/v1 attribute pack. The root resolves to IONSettlementReconciliation.",
   "type": "object",
   "$ref": "#/$defs/IONSettlementReconciliation",
   "$defs": {
@@ -14,7 +14,7 @@
       "x-recommended-parent": "Settlement.settlementAttributes",
       "additionalProperties": true,
       "x-jsonld": {
-        "@context": "https://schema.ion.id/release1/schema/core/reconcile/v1/context.jsonld",
+        "@context": "https://schema.ion.id/release1/schema/common/Settlement/v1/context.jsonld",
         "@type": "ion:IONSettlementReconciliation"
       },
       "x-beckn-attaches-to": "Settlement.settlementAttributes",

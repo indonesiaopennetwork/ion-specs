@@ -25,7 +25,7 @@ Wraps the specific payment instrument with transaction-level context:
 ## Settlement accounts
 
 In ION the buyer's payment is held at the PJP, not in a network participant's
-account. After [reconciliation](../../../core/reconcile/v1/README.md), SEAM
+account. After [reconciliation](../../../core/README.md#settlement-reconciliation), SEAM
 instructs the PJP to pay each contract's settlement from those funds into the
 participants' accounts. `settlementAccounts[]` carries one `SettlementAccount`
 per receiving participant:
@@ -39,7 +39,7 @@ Each entry carries `bankCode`, `accountNumber`, and `accountName`, with the
 same meanings as in `BankTransfer`.
 
 In Release 1 Trade orders, the payment settlement's `settlementAttributes` is
-[`IONSettlementReconciliation`](../../../core/reconcile/v1/README.md) from
+[`IONSettlementReconciliation`](../../Settlement/v1/README.md) from
 `init` on. It reuses this pack's definitions and JSON-LD IRIs for
 `settlementAccounts` and for the payment fields (`method`, `paymentRail`,
 `paymentGatewayProvider`, `methodDetail`, `collectedBy`, `timing`, `status`,

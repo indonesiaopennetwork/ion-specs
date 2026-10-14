@@ -6,7 +6,7 @@
     "sent_by": "BAP",
     "received_by": "BPP",
     "schemaPacks": [
-      "schema/core/reconcile/v1"
+      "schema/common/Settlement/v1"
     ]
   },
   "context": {
@@ -33,7 +33,7 @@
       }
     },
     "schemaContext": [
-      "https://schema.ion.id/release1/schema/core/reconcile/v1/context.jsonld"
+      "https://schema.ion.id/release1/schema/common/Settlement/v1/context.jsonld"
     ]
   },
   "message": {
@@ -71,7 +71,7 @@
             "id": "PAY-2026-00012345",
             "considerationId": "CONSID-ORD-2026-00012345",
             "settlementAttributes": {
-              "@context": "https://schema.ion.id/release1/schema/core/reconcile/v1/context.jsonld",
+              "@context": "https://schema.ion.id/release1/schema/common/Settlement/v1/context.jsonld",
               "@type": "ion:IONSettlementReconciliation",
               "collectedBy": "BAP",
               "currency": "IDR",

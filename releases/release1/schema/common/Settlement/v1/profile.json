@@ -1,8 +1,8 @@
 {
-  "id": "ion-core-reconcile-v1",
+  "id": "ion-core-settlement-v1",
   "version": "1.0.0",
   "domain": "ion-core",
-  "name": "ION Core Settlement Reconciliation Extension (v1)",
+  "name": "ION Settlement Extension (v1)",
   "description": "Per-settlement reconciliation figures for PJP payouts, and the settlement-term definitions (settlement basis, settlement window, finder fee).",
   "packSchema": "./schema.json",
   "jsonldContext": "./context.jsonld",

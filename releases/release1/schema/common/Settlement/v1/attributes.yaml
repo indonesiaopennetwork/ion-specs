@@ -1,12 +1,12 @@
 openapi: 3.1.1
 info:
-  title: ION Core Settlement Reconciliation Extension (v1)
+  title: ION Settlement Extension (v1)
   description: >
     Settlement reconciliation attributes. IONSettlementReconciliation is the
     order's payment settlement, carried as Settlement.settlementAttributes
     from init through confirm, cancellation and updates, and on each contract
-    in the /reconcile and /on_reconcile messages defined by reconcile.yaml in
-    this directory. It carries the settlement terms (SettlementBasis,
+    in the /reconcile and /on_reconcile messages defined by
+    core/api/v2.0.0/ion-additional.yaml. It carries the settlement terms (SettlementBasis,
     SettlementWindow, FinderFee) defined here. Attaches to:
     beckn:Settlement.settlementAttributes.
   version: 1.0.0
@@ -43,7 +43,7 @@ components:
       x-recommended-parent: Settlement.settlementAttributes
       additionalProperties: true
       x-jsonld:
-        '@context': 'https://schema.ion.id/release1/schema/core/reconcile/v1/context.jsonld'
+        '@context': 'https://schema.ion.id/release1/schema/common/Settlement/v1/context.jsonld'
         '@type': ion:IONSettlementReconciliation
       x-beckn-attaches-to: Settlement.settlementAttributes
       required:

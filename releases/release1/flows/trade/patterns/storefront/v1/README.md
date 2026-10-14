@@ -22,7 +22,7 @@ aggregate is outside this flow.
 ## Settlement terms
 
 The order's payment settlement is one
-[`IONSettlementReconciliation`](../../../../../schema/core/reconcile/v1/README.md)
+[`IONSettlementReconciliation`](../../../../../schema/common/Settlement/v1/README.md)
 object from `init` to reconciliation. It carries the payment, the settlement
 terms, the payout accounts, and the figures:
 
@@ -41,7 +41,7 @@ of 96230. The BAP answers with
 `accord: true`, so the batch is `AGREED` and SEAM instructs the PJP to pay
 96230 to the BPP and 2670 to the BAP. Either participant may start
 reconciliation; a disputed batch, which the sender resends whole, is shown in
-the [reconciliation pack](../../../../../schema/core/reconcile/v1/README.md).
+the [reconciliation API docs](../../../../../schema/core/README.md#settlement-reconciliation).
 
 ## Included schema packs
 
@@ -63,10 +63,10 @@ the [reconciliation pack](../../../../../schema/core/reconcile/v1/README.md).
 - [BusinessRegistration](../../../../../schema/common/BusinessRegistration/v1/README.md)
 - [Payment](../../../../../schema/common/Payment/v1/README.md)
 - [Tax](../../../../../schema/common/Tax/v1/README.md)
+- [Settlement](../../../../../schema/common/Settlement/v1/README.md)
 
-### Core
-
-- [Settlement reconciliation](../../../../../schema/core/reconcile/v1/README.md)
+The reconcile phase uses the `/reconcile` and `/on_reconcile` endpoints of
+[`core/api/v2.0.0/ion-additional.yaml`](../../../../../schema/core/README.md#settlement-reconciliation).
 
 The earlier `localization`, `identity`, and `product-compliance` declarations were
 not retained: Identity is represented by Business Registration, while the copied

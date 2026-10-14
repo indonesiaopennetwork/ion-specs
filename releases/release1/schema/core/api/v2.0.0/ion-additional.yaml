@@ -1,17 +1,24 @@
 openapi: 3.1.1
 info:
-  title: ION Settlement Reconciliation API
+  title: ION Additional API
   version: 1.0.0
   description: >
-    ION network extension to Beckn Protocol v2.0.0 for settlement
-    reconciliation between the two network participants of an order: the
-    Consumer Node (BAP) and the Provider Node (BPP).
+    ION network endpoints that Beckn Protocol v2.0.0 does not define. This
+    file holds every such endpoint in Release 1; new ION endpoints are added
+    here rather than in separate files.
 
 
     This file extends Beckn; it does not copy or embed it. Every Beckn type is
     referenced from the Release 1 ION Beckn contract at
     https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml.
     Validate this file together with that contract; do not merge them.
+
+
+    ## Settlement reconciliation (`/reconcile`, `/on_reconcile`)
+
+
+    Settlement reconciliation runs between the two network participants of an
+    order: the Consumer Node (BAP) and the Provider Node (BPP).
 
 
     ION has no separate settle or report API. Reconciliation, agreement, and
@@ -21,7 +28,7 @@ info:
        whose settlement falls due on `settlementDate`. Each contract is a
        Beckn `Contract`; the sender's figures are in its
        `settlements[].settlementAttributes` as `IONSettlementReconciliation`
-       (defined in attributes.yaml in this directory).
+       (defined by the common/Settlement/v1 attribute pack).
 
     2. The counterparty answers with `/on_reconcile`, setting `accord` per
        contract. `accord: true` means both participants agree on that
@@ -274,7 +281,7 @@ components:
                   id:
                     $ref: 'https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/schemas/Settlement/properties/id'
                   settlementAttributes:
-                    $ref: 'https://schema.ion.id/release1/schema/core/reconcile/v1/attributes.yaml#/components/schemas/IONSettlementReconciliation'
+                    $ref: 'https://schema.ion.id/release1/schema/common/Settlement/v1/attributes.yaml#/components/schemas/IONSettlementReconciliation'
 
     OnReconcileContract:
       title: On Reconcile Contract
