@@ -110,10 +110,10 @@ releases/
     NOTICES.md
 
     schema/
-      core/                  # API contract present only when ionApi is included
+      core/                  # ION-owned API contracts
         api/
           v2.0.0/
-            ion.yaml
+            ion-beckn.yaml
 
       common/
         <SchemaName>/
@@ -134,7 +134,6 @@ releases/
 
       vendored/
         beckn/
-          protocol/v2.0.0/beckn.yaml
           schemas/<SchemaName>/<upstream-version>/attributes.yaml
 
     flows/

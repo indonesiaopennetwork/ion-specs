@@ -7,7 +7,7 @@ module IonReleaseScope
   FORBIDDEN_FLAT_SCHEMA_PATHS = %w[core common extension vendored].freeze
 
   CONTENT_PATHS = {
-    "ionApi" => ["schema/core/api/*/ion.yaml"],
+    "ionApi" => ["schema/core/api/*/ion-beckn.yaml"],
     "common" => ["schema/common"],
     "trade" => ["schema/extension/trade"],
     "logistics" => ["schema/extension/logistics"],
