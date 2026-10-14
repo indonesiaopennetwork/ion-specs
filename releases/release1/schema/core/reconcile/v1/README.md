@@ -16,8 +16,8 @@ https://schema.ion.id/release1/schema/core/reconcile/v1/context.jsonld
 ```
 
 Both extend Beckn by `$ref` and do not copy it. Validate them together with
-the vendored contract at
-`https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml`.
+the ION Beckn contract at
+`https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml`.
 
 ## Endpoints
 

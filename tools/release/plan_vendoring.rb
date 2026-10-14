@@ -356,7 +356,7 @@ module IonVendoringPlan
       current_head = repository_head(repo, branch)
       commit = @protocol_selection == "latest" ? current_head : historical_commit
       raw_url = "https://raw.githubusercontent.com/#{repo}/#{commit}/#{path}"
-      local_path = File.join(@release_root, "schema/vendored/beckn/protocol/v2.0.0/beckn.yaml")
+      local_path = File.join(@release_root, "schema/core/api/v2.0.0/ion-beckn.yaml")
       local_body = File.file?(local_path) ? File.read(local_path) : nil
       local_sha = local_body && Digest::SHA256.hexdigest(local_body)
       candidate_payload = local_body && IonVendoringPlan.strip_vendoring_header(local_body)

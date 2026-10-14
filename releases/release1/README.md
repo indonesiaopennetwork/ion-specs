@@ -51,15 +51,16 @@ the vendored Beckn contract. It does not reintroduce the `ion.yaml` aggregate.
 
 ## Protocol dependency
 
-Release 1 includes the vendored Beckn Protocol contract used by its schemas:
+Release 1 includes the ION-owned Beckn-derived protocol contract used by its schemas:
 
 ```text
-schema/vendored/beckn/protocol/v2.0.0/beckn.yaml
+schema/core/api/v2.0.0/ion-beckn.yaml
 ```
 
 Release 1 does not publish `ion.yaml` or a merged `ion-full.yaml`. Its normative
-ION-owned schemas are the standalone packs under `schema/common/` and
-`schema/extension/trade/`. Pinned dependencies live under `schema/vendored/`;
+ION-owned schemas are the core API contract, the standalone packs under
+`schema/common/`, and the packs under `schema/extension/trade/`. Pinned schema
+dependencies live under `schema/vendored/`;
 the scoped `flows/` and `errors/` trees remain release-level peers. Policies are
 resolved from the repository-level registry at
 `https://schema.ion.id/policies/registry.json`.

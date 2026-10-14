@@ -6,8 +6,8 @@
     {
       "kind": "vendored-protocol",
       "source": "schema/core/v2/api/v2.0.0/beckn.yaml",
-      "target": "releases/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml",
-      "publicUrl": "https://schema.ion.id/release1/schema/vendored/beckn/protocol/v2.0.0/beckn.yaml",
+      "target": "releases/release1/schema/core/api/v2.0.0/ion-beckn.yaml",
+      "publicUrl": "https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml",
       "pathStatus": "approved",
       "contentStatus": "provenance-pending"
     },

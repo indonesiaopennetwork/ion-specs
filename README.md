@@ -19,7 +19,8 @@ in the network and is based on Beckn Protocol 2.0.0.
 Release 1 is limited to the standalone Trade schema packs, the common packs they
 require, the settlement reconciliation API, the scoped Storefront, Made-to-Order, Live Commerce, Digital Goods,
 Business Procurement, Marketplace In-house, and Marketplace Listed flows and
-connected registries, and pinned vendored Beckn dependencies. It remains mutable
+connected registries, the ION-owned Beckn-derived API contract, and pinned
+vendored Beckn schema dependencies. It remains mutable
 and unchannelled until the Council publishes it into the `next` channel on `main`.
 
 - [`releases/release1/release.yaml`](releases/release1/release.yaml) — scope,
@@ -32,8 +33,10 @@ and unchannelled until the Council publishes it into the `next` channel on `main
   settlement reconciliation API (`/reconcile`, `/on_reconcile`).
 - [`releases/release1/schema/common/`](releases/release1/schema/common/) — Address, Business
   Registration, Payment, and Tax packs required by Trade.
+- [`releases/release1/schema/core/api/v2.0.0/ion-beckn.yaml`](releases/release1/schema/core/api/v2.0.0/ion-beckn.yaml) —
+  the ION-owned Beckn-derived protocol contract.
 - [`releases/release1/schema/vendored/beckn/`](releases/release1/schema/vendored/beckn/) —
-  immutable upstream protocol and schema dependencies.
+  immutable upstream schema dependencies.
 - [`releases/release1/flows/trade/`](releases/release1/flows/trade/) — the
   seven validated Trade v1 reference flows and the reviewed During-Transaction
   v1 variant.
@@ -56,7 +59,8 @@ releases/
   release1/                    Draft release bundle
     release.yaml
     schema/
-      core/                    Reconcile API; ion.yaml excluded in Release 1
+      core/api/v2.0.0/ion-beckn.yaml  ION-owned Beckn-derived API contract
+      core/reconcile/v1/       Reconcile API and settlement attribute pack
       common/                  Validated common packs used by Trade
       extension/trade/         Validated Trade packs
       vendored/beckn/          Pinned release-local dependencies

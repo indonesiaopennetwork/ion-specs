@@ -126,8 +126,10 @@ module IonReleaseManifest
     unless safe_relative_path?(dependency["vendoredPath"])
       errors << "dependency #{index} vendoredPath must be release-relative"
     end
-    unless dependency["vendoredPath"].to_s.start_with?("schema/vendored/")
-      errors << "dependency #{index} vendoredPath must be under schema/vendored/"
+    dependency_path = dependency["vendoredPath"].to_s
+    protocol_core_path = dependency["type"] == "protocol" && dependency_path == "schema/core/api/v2.0.0/ion-beckn.yaml"
+    unless dependency_path.start_with?("schema/vendored/") || protocol_core_path
+      errors << "dependency #{index} vendoredPath must be under schema/vendored/ or use schema/core/api/v2.0.0/ion-beckn.yaml for the protocol"
     end
     errors << "dependency #{index} transformations must be an array" unless dependency["transformations"].is_a?(Array)
   end
