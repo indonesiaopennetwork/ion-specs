@@ -24,9 +24,13 @@ dependencies:
   upstreamUrl: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/a22300aa83796cb8dfc2b63cd9dd0e36a7f4d3a1/api/v2.0.0/beckn.yaml
   vendoredPath: schema/core/api/v2.0.0/ion-beckn.yaml
   upstreamSha256: 5afc7586ef1fbc378ea6abb139292dbe85750e4c5ea1a2fd410a40479aadc0f0
-  releasedSha256: 5afc7586ef1fbc378ea6abb139292dbe85750e4c5ea1a2fd410a40479aadc0f0
+  releasedSha256: 87567ff9b849b0705505a85af86a5899625759cbcfa87775a85aed86e392511a
   license: CC-BY-NC-SA-4.0
-  transformations: []
+  transformations:
+  - Forked the upstream Beckn Protocol 2.0.0 contract into the ION core API.
+  - Removed the deprecated centralized Cataloging Service actor, its catalog API endpoints,
+    and components used only by those endpoints; aligned remaining discovery prose with
+    the NFH-014 decentralized catalog model.
 - name: AcceptedPaymentMethod
   type: schema
   upstreamVersion: '2.0'
@@ -408,7 +412,7 @@ artifactChecksums:
   schema/vendored/beckn/licenses/local-retail/LICENSE.md: 8386f4aded6116293b4a2daf378638abe4ed49406c696c12d4e8c19310aec46e
   schema/vendored/beckn/licenses/protocol-specifications-v2/LICENSE: ec5bc2d54dae0ebc2c8ec5a147d0b48d48af5b3f73acdcb8e33f104a7ad4407c
   schema/vendored/beckn/licenses/schemas/LICENSE.md: ec5bc2d54dae0ebc2c8ec5a147d0b48d48af5b3f73acdcb8e33f104a7ad4407c
-  schema/core/api/v2.0.0/ion-beckn.yaml: 5afc7586ef1fbc378ea6abb139292dbe85750e4c5ea1a2fd410a40479aadc0f0
+  schema/core/api/v2.0.0/ion-beckn.yaml: 87567ff9b849b0705505a85af86a5899625759cbcfa87775a85aed86e392511a
   schema/vendored/beckn/schemas/AcceptedPaymentMethod/2.0/attributes.yaml: 192181c691590fdf35ddc8ff3a64ed18fa4ae36d8baa4e9b8fc2c189314ecf77
   schema/vendored/beckn/schemas/Address/2.0/attributes.yaml: cbd663923fcbf4dc7a5050c76762320ec4db2a1b9d7ff532eab1d8442dc6b7be
   schema/vendored/beckn/schemas/Attributes/2.0/attributes.yaml: bd9b439dcf0ac8e54702807fd488a6e4394fe92d826382f9ca2357f7f2c1354d
