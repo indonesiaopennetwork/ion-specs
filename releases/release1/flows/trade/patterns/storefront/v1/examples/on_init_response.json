@@ -1,13 +1,13 @@
 {
   "_meta": {
-    "description": "Storefront on_init \u2014 BPP returns QRIS payment string and final quote.",
+    "description": "Storefront on_init \u2014 BPP returns QRIS payment string and final quote. On the payment settlement the BPP sets the settlement terms (due one day after delivery), computes the finder fee amount from its final price, restates the figures, and adds its payout account next to the BAP's; the PJP holds the payment and pays both after reconciliation.",
     "pattern": "storefront",
     "step": "on_init",
     "sent_by": "BPP",
     "received_by": "BAP",
     "schemaPacks": [
-      "schema/common/Payment/v1",
-      "schema/extension/trade/TradeConsideration/v1"
+      "schema/extension/trade/TradeConsideration/v1",
+      "schema/common/Settlement/v1"
     ]
   },
   "context": {
@@ -32,8 +32,8 @@
       }
     },
     "schemaContext": [
-      "https://schema.ion.id/release1/schema/common/Payment/v1/context.jsonld",
-      "https://schema.ion.id/release1/schema/extension/trade/TradeConsideration/v1/context.jsonld"
+      "https://schema.ion.id/release1/schema/extension/trade/TradeConsideration/v1/context.jsonld",
+      "https://schema.ion.id/release1/schema/common/Settlement/v1/context.jsonld"
     ]
   },
   "message": {
@@ -101,21 +101,57 @@
       "settlements": [
         {
           "settlementAttributes": {
-            "@context": "https://schema.ion.id/release1/schema/common/Payment/v1/context.jsonld",
-            "@type": "ion:IONPayment",
+            "@context": "https://schema.ion.id/release1/schema/common/Settlement/v1/context.jsonld",
+            "@type": "ion:IONSettlementReconciliation",
             "method": "QRIS",
             "paymentRail": "QRIS",
             "collectedBy": "BAP",
             "timing": "ON_ORDER",
             "status": "PENDING",
-            "currency": "IDR",
-            "amount": 9435,
             "methodDetail": {
               "qrisType": "DYNAMIC",
               "qrisString": "00020101021226580014ID.CO.BCA.WWW011893600014301234560208INV00010303UMI51440014ID.CO.QRIS.WWW0215ID20200340123450303UMI5204581253033605405943505802ID5916APOTEK SEHAT MSI6013JAKARTA PUSAT61051022062560703A0163043C2E",
               "merchantId": "QRIS-APOTEK-SEHAT-001",
               "expiresAt": "2026-04-19T10:45:00.000+07:00"
-            }
+            },
+            "currency": "IDR",
+            "settlementBasis": "AFTER_DELIVERY",
+            "settlementWindow": "P1D",
+            "finderFee": {
+              "feeType": "PERCENT",
+              "feeValue": 3,
+              "appliesTo": "ITEM_TOTAL",
+              "feeAmount": 255
+            },
+            "orderAmount": {
+              "value": 9435
+            },
+            "commission": {
+              "value": 255
+            },
+            "withholdingAmount": {
+              "value": 0
+            },
+            "refundAmount": {
+              "value": 0
+            },
+            "netPayable": {
+              "value": 9180
+            },
+            "settlementAccounts": [
+              {
+                "holderRole": "BAP",
+                "bankCode": "MANDIRI",
+                "accountNumber": "1370098765432",
+                "accountName": "PT Buyer App Indonesia"
+              },
+              {
+                "holderRole": "BPP",
+                "bankCode": "BCA",
+                "accountNumber": "8730012345",
+                "accountName": "PT Seller App Indonesia"
+              }
+            ]
           }
         }
       ]

@@ -1,0 +1,133 @@
+{
+  "_meta": {
+    "description": "Storefront reconcile \u2014 after delivery the BPP (seller app) sends its settlement figures for the confirmed QRIS order. The PJP holds 98900; the BPP claims 96230 and the BAP's 3% finder fee on the 89000 item total is 2670.",
+    "pattern": "storefront",
+    "step": "reconcile",
+    "sent_by": "BPP",
+    "received_by": "BAP",
+    "schemaPacks": [
+      "schema/common/Settlement/v1"
+    ]
+  },
+  "context": {
+    "domain": "ion:trade",
+    "action": "reconcile",
+    "version": "2.0.0",
+    "bapId": "buyerapp.ion.id",
+    "bapUri": "https://buyerapp.ion.id/beckn",
+    "bppId": "sellerapp.ion.id",
+    "bppUri": "https://sellerapp.ion.id/beckn",
+    "senderId": "sellerapp.ion.id",
+    "receiverId": "buyerapp.ion.id",
+    "networkId": "ion.id",
+    "transactionId": "c3d9e2a1-5b7f-4e8c-9a1d-2f3e4b5c6d7e",
+    "messageId": "5e6f7a8b-9c0d-4e1f-8a2b-3c4d5e6f7a8b",
+    "timestamp": "2026-04-20T17:00:00.000+07:00",
+    "ttl": "PT30S",
+    "location": {
+      "city": {
+        "code": "std:3171"
+      },
+      "country": {
+        "code": "IDN"
+      }
+    },
+    "schemaContext": [
+      "https://schema.ion.id/release1/schema/common/Settlement/v1/context.jsonld"
+    ]
+  },
+  "message": {
+    "reconciliationId": "recon-2026-04-20T100000Z-sellerapp.ion.id",
+    "settlementDate": "2026-04-20",
+    "contracts": [
+      {
+        "id": "4f9c2b7e-1a3d-4e5f-8b6a-9c0d1e2f3a4b",
+        "commitments": [
+          {
+            "id": "L01",
+            "status": {
+              "descriptor": {
+                "code": "CLOSED"
+              }
+            },
+            "resources": [
+              {
+                "id": "PIZZA-PEPPERONI-LARGE",
+                "quantity": {
+                  "count": 1
+                }
+              }
+            ],
+            "offer": {
+              "id": "OFFER-PIZZA-001",
+              "resourceIds": [
+                "PIZZA-PEPPERONI-LARGE"
+              ]
+            }
+          }
+        ],
+        "settlements": [
+          {
+            "id": "PAY-2026-00012345",
+            "considerationId": "CONSID-ORD-2026-00012345",
+            "settlementAttributes": {
+              "@context": "https://schema.ion.id/release1/schema/common/Settlement/v1/context.jsonld",
+              "@type": "ion:IONSettlementReconciliation",
+              "collectedBy": "BAP",
+              "currency": "IDR",
+              "settlementBasis": "AFTER_DELIVERY",
+              "settlementWindow": "P1D",
+              "finderFee": {
+                "feeType": "PERCENT",
+                "feeValue": 3,
+                "appliesTo": "ITEM_TOTAL",
+                "feeAmount": 2670
+              },
+              "orderAmount": {
+                "value": 98900
+              },
+              "commission": {
+                "value": 2670
+              },
+              "withholdingAmount": {
+                "value": 0
+              },
+              "refundAmount": {
+                "value": 0
+              },
+              "netPayable": {
+                "value": 96230
+              },
+              "settlementAccounts": [
+                {
+                  "holderRole": "BAP",
+                  "bankCode": "MANDIRI",
+                  "accountNumber": "1370098765432",
+                  "accountName": "PT Buyer App Indonesia"
+                },
+                {
+                  "holderRole": "BPP",
+                  "bankCode": "BCA",
+                  "accountNumber": "8730012345",
+                  "accountName": "PT Seller App Indonesia"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "settlementSummary": {
+      "bapId": "buyerapp.ion.id",
+      "bppId": "sellerapp.ion.id",
+      "currency": "IDR",
+      "settlementDate": "2026-04-20",
+      "contractCount": 1,
+      "totalOrderAmount": 98900,
+      "totalCommission": 2670,
+      "totalWithholding": 0,
+      "totalRefund": 0,
+      "totalNetPayable": 96230
+    }
+  }
+}

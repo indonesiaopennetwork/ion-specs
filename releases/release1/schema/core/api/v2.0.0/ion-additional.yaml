@@ -1,0 +1,365 @@
+openapi: 3.1.1
+info:
+  title: ION Additional API
+  version: 1.0.0
+  description: >
+    ION network endpoints that Beckn Protocol v2.0.0 does not define. This
+    file holds every such endpoint in Release 1; new ION endpoints are added
+    here rather than in separate files.
+
+
+    This file extends Beckn; it does not copy or embed it. Every Beckn type is
+    referenced from the Release 1 ION Beckn contract at
+    https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml.
+    Validate this file together with that contract; do not merge them.
+
+
+    ## Settlement reconciliation (`/reconcile`, `/on_reconcile`)
+
+
+    Settlement reconciliation runs between the two network participants of an
+    order: the Consumer Node (BAP) and the Provider Node (BPP).
+
+
+    ION has no separate settle or report API. Reconciliation, agreement, and
+    the payout trigger are all carried by `/reconcile` and `/on_reconcile`:
+
+    1. Either participant (BAP or BPP) sends `/reconcile` with each contract
+       whose settlement falls due on `settlementDate`. Each contract is a
+       Beckn `Contract`; the sender's figures are in its
+       `settlements[].settlementAttributes` as `IONSettlementReconciliation`
+       (defined by the common/Settlement/v1 attribute pack).
+
+    2. The counterparty answers with `/on_reconcile`, setting `accord` per
+       contract. `accord: true` means both participants agree on that
+       contract's figures; `accord: false` carries the counterparty's own
+       figures, the per-component `diffValue`, and a `dispute` reason.
+
+    3. A batch is agreed as a whole or not at all. Only when every contract
+       has `accord: true` is the batch `AGREED` and paid out. Otherwise it is
+       `DISPUTED`, no contract in it is agreed, and the initiator sends all
+       of its contracts again in a new `/reconcile` round, with the same
+       `reconciliationId`, until the counterparty agrees with every one.
+       A contract sent before its settlement window is answered
+       `accord: false` with the dispute code `SETTLEMENT_WINDOW_NOT_REACHED`
+       and left out of the outcome; it is sent again once due. A batch in
+       which every contract was sent early is `PENDING`.
+
+    4. The buyer's payment is held at the PJP (Penyelenggara Jasa
+       Pembayaran), not in a participant's account. When a batch is
+       `AGREED`, SEAM (Settlement Assurance Mechanism) instructs the PJP to
+       pay each of its contracts out of the held funds: `netPayable` to the
+       BPP, `commission` to the BAP, each into the participant's account in
+       `settlementAccounts`. SEAM may combine agreed contracts into a single
+       transfer per participant. Payout status reaches the participants
+       through the PJP's webhook, which is outside this specification.
+
+
+    `IONSettlementReconciliation` is the order's payment settlement from
+    `init` on: the settlement terms (`settlementBasis`, `settlementWindow`,
+    and `finderFee`) and the participants' bank accounts
+    (`settlementAccounts`) are agreed on it in `init` and `on_init`, and
+    reconciliation sends the same object with each participant's figures.
+
+
+    A contract in these messages is a snapshot that carries reconciliation
+    figures. It does not update the contract: `commitments` are included only
+    because Beckn requires them, and receivers MUST NOT treat them as a change.
+
+
+    Beckn v2.0 terminology applies: Consumer Node (CN) replaces BAP and
+    Provider Node (PN) replaces BPP; the wire-level fields `bapId` and `bppId`
+    are retained.
+  contact:
+    name: ION Network
+    url: https://schema.ion.id
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+
+servers:
+  - url: https://{subscriberUrl}
+    description: Base URL of the receiving network participant (resolved via the registry).
+    variables:
+      subscriberUrl:
+        default: example.beckn.io
+
+# As in the ION Beckn contract: requests are authenticated by the signed
+# Authorization header parameter, not an OpenAPI security scheme.
+security: []
+
+tags:
+  - name: Post-Fulfillment
+    description: Settlement reconciliation between the BAP and BPP of an order.
+
+paths:
+  /reconcile:
+    post:
+      summary: A participant submits its settlement figures for the due contracts
+      operationId: reconcile
+      tags: [Post-Fulfillment]
+      description: >
+        Sent by either participant of an order (BAP or BPP) to its
+        counterparty, normally once per settlement date, listing every contract
+        between them whose settlement falls due on that date, with the sender's
+        figures for each. When the counterparty disputes any contract, the
+        whole batch is sent again, with the same reconciliationId and all of
+        its contracts, as a new round.
+
+
+        `context.bapId` and `context.bppId` are always the BAP and BPP of the
+        original orders, whoever sends. `context.senderId` and
+        `context.receiverId` identify the actual sender and receiver.
+        `context.transactionId` identifies the reconciliation exchange; it is
+        not any one contract's transactionId.
+
+
+        Callback relationship: the receiver MUST answer with `/on_reconcile`
+        correlated by `context.messageId`.
+      parameters:
+        - $ref: 'https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/parameters/AuthorizationHeader'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [context, message]
+              properties:
+                context:
+                  allOf:
+                    - $ref: 'https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/schemas/Context'
+                    - type: object
+                      properties:
+                        action:
+                          type: string
+                          const: reconcile
+                message:
+                  $ref: '#/components/schemas/ReconcileAction'
+      responses:
+        '200':
+          $ref: 'https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/responses/Ack'
+        '400':
+          $ref: 'https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/responses/NackBadRequest'
+        '401':
+          $ref: 'https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/responses/NackUnauthorized'
+        '500':
+          $ref: 'https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/responses/ServerError'
+
+  /on_reconcile:
+    post:
+      summary: The counterparty agrees or disagrees with each contract's figures
+      operationId: on_reconcile
+      tags: [Post-Fulfillment]
+      description: >
+        Sent by the receiver of `/reconcile` back to its sender, correlated by
+        `context.messageId`. For each contract it sets `accord`. A contract
+        with `accord: false` carries the counterparty's own figures, a
+        `diffValue` on each differing component, and a `dispute` reason. The
+        batch is agreed only when every contract has `accord: true`; SEAM then
+        instructs the PJP to pay them all out of the held funds. Otherwise the
+        initiator sends the whole batch again as a new `/reconcile` round.
+      parameters:
+        - $ref: 'https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/parameters/AuthorizationHeader'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [context, message]
+              properties:
+                context:
+                  allOf:
+                    - $ref: 'https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/schemas/Context'
+                    - type: object
+                      properties:
+                        action:
+                          type: string
+                          const: on_reconcile
+                message:
+                  $ref: '#/components/schemas/OnReconcileAction'
+      responses:
+        '200':
+          $ref: 'https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/responses/Ack'
+        '400':
+          $ref: 'https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/responses/NackBadRequest'
+        '401':
+          $ref: 'https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/responses/NackUnauthorized'
+        '500':
+          $ref: 'https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/responses/ServerError'
+
+components:
+  schemas:
+    ReconcileAction:
+      title: Reconcile Action
+      description: >
+        The sender's reconciliation figures for one settlement date against one
+        counterparty: the due contracts and their batch totals.
+      type: object
+      additionalProperties: false
+      required: [reconciliationId, settlementDate, contracts, settlementSummary]
+      properties:
+        reconciliationId:
+          type: string
+          description: >
+            Identifier of the reconciliation batch, unique per batch: the
+            settlement date and UTC send time of the first round, plus the
+            sender's subscriber ID — recon-<YYYY-MM-DD>T<HHMMSS>Z-<senderId>.
+            Later rounds for the same contracts reuse it.
+          examples: ['recon-2026-09-30T170000Z-bpp.example.id']
+        settlementDate:
+          type: string
+          format: date
+          description: The date whose due settlements this batch reconciles.
+        contracts:
+          type: array
+          minItems: 1
+          description: The due contracts, each carrying the sender's figures on its settlements.
+          items:
+            $ref: '#/components/schemas/ReconcileContract'
+        settlementSummary:
+          $ref: '#/components/schemas/SettlementSummary'
+
+    OnReconcileAction:
+      title: On Reconcile Action
+      description: >
+        The counterparty's answer to a reconciliation round: its figures and
+        accord for every contract in the round.
+      type: object
+      additionalProperties: false
+      required: [reconciliationId, reconciliationStatus, contracts]
+      properties:
+        reconciliationId:
+          type: string
+          description: The reconciliationId of the /reconcile being answered.
+        reconciliationStatus:
+          type: string
+          enum: [AGREED, DISPUTED, PENDING]
+          description: >
+            Batch-level outcome, over the contracts that are due. AGREED —
+            every one has accord true; all of them proceed to payout.
+            DISPUTED — at least one has accord false; none proceeds, and the
+            sender sends the whole batch again. PENDING — none was due: every
+            contract was sent before its settlement window (dispute code
+            SETTLEMENT_WINDOW_NOT_REACHED) and is sent again once due. A
+            contract sent early never counts towards AGREED or DISPUTED.
+        contracts:
+          type: array
+          minItems: 1
+          description: The counterparty's figures and accord for every contract in the round.
+          items:
+            $ref: '#/components/schemas/OnReconcileContract'
+        settlementSummary:
+          description: >
+            The counterparty's own batch totals, with agreedCount and
+            disputedCount.
+          allOf:
+            - $ref: '#/components/schemas/SettlementSummary'
+            - required: [agreedCount, disputedCount]
+
+    ReconcileContract:
+      title: Reconcile Contract
+      description: >
+        A Beckn Contract snapshot whose settlements carry reconciliation
+        figures. id identifies the contract; each settlement's id identifies
+        the payment record whose PJP-held funds it pays out.
+      allOf:
+        - $ref: 'https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/schemas/Contract'
+        - type: object
+          required: [id, settlements]
+          properties:
+            id:
+              $ref: 'https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/schemas/Contract/properties/id'
+            settlements:
+              type: array
+              minItems: 1
+              items:
+                type: object
+                required: [id, settlementAttributes]
+                properties:
+                  id:
+                    $ref: 'https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/schemas/Settlement/properties/id'
+                  settlementAttributes:
+                    $ref: 'https://schema.ion.id/release1/schema/common/Settlement/v1/attributes.yaml#/components/schemas/IONSettlementReconciliation'
+
+    OnReconcileContract:
+      title: On Reconcile Contract
+      description: A ReconcileContract whose settlements also carry the counterparty's accord.
+      allOf:
+        - $ref: '#/components/schemas/ReconcileContract'
+        - type: object
+          properties:
+            settlements:
+              items:
+                properties:
+                  settlementAttributes:
+                    type: object
+                    required: [accord]
+                    properties:
+                      accord:
+                        type: boolean
+
+    SettlementSummary:
+      title: Settlement Summary
+      description: >
+        Batch totals over the settlements in the message, for cross-checking.
+        Payouts are per settlement (netPayable and commission); there is no
+        batch-level payable.
+      type: object
+      additionalProperties: false
+      required:
+        - bapId
+        - bppId
+        - currency
+        - settlementDate
+        - contractCount
+        - totalOrderAmount
+        - totalCommission
+        - totalWithholding
+        - totalRefund
+        - totalNetPayable
+      properties:
+        bapId:
+          type: string
+        bppId:
+          type: string
+        currency:
+          type: string
+          pattern: '^[A-Z]{3}$'
+          description: ISO 4217 code; IDR for domestic ION trade.
+        settlementDate:
+          type: string
+          format: date
+        contractCount:
+          type: integer
+          minimum: 1
+        agreedCount:
+          type: integer
+          minimum: 0
+          description: >
+            /on_reconcile only: contracts whose settlements all have accord
+            true. agreedCount + disputedCount = contractCount.
+        disputedCount:
+          type: integer
+          minimum: 0
+          description: >
+            /on_reconcile only: contracts with a settlement whose accord is
+            false, including contracts sent before their settlement window
+            (SETTLEMENT_WINDOW_NOT_REACHED), which do not affect
+            reconciliationStatus.
+        totalOrderAmount:
+          type: number
+          description: Sum of orderAmount.value over the batch's settlements.
+        totalCommission:
+          type: number
+          description: Sum of commission.value — total the PJP pays to the BAP.
+        totalWithholding:
+          type: number
+          description: Sum of withholdingAmount.value.
+        totalRefund:
+          type: number
+          description: Sum of refundAmount.value.
+        totalNetPayable:
+          type: number
+          description: Sum of netPayable.value — total the PJP pays to the BPP.

@@ -1,0 +1,294 @@
+openapi: 3.1.1
+info:
+  title: ION Settlement Extension (v1)
+  description: >
+    Settlement reconciliation attributes. IONSettlementReconciliation is the
+    order's payment settlement, carried as Settlement.settlementAttributes
+    from init through confirm, cancellation and updates, and on each contract
+    in the /reconcile and /on_reconcile messages defined by
+    core/api/v2.0.0/ion-additional.yaml. It carries the settlement terms (SettlementBasis,
+    SettlementWindow, FinderFee) defined here. Attaches to:
+    beckn:Settlement.settlementAttributes.
+  version: 1.0.0
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    name: ION Network
+    url: https://schema.ion.id
+
+components:
+  schemas:
+    IONSettlementReconciliation:
+      type: object
+      title: IONSettlementReconciliation
+      description: >
+        The order's settlement, carried as one object from init to
+        reconciliation. The BAP declares it in init (finderFee terms, its
+        payout account, payment method, status PENDING, and estimated
+        figures); the BPP answers in on_init (settlementBasis,
+        settlementWindow, finderFee.feeAmount, its payout account, and the
+        figures on its final price); the BAP records the payment in confirm
+        (status PAID, paidAt, gatewayRef, orderAmount = amount paid); the BPP
+        keeps the figures current in on_cancel and on_update; and each
+        participant sends its figures in /reconcile and /on_reconcile. Before
+        reconciliation the figures are estimates. The buyer's payment is held
+        at the PJP; the figures split it. Invariant: orderAmount.value =
+        netPayable.value + commission.value + withholdingAmount.value +
+        refundAmount.value. On agreement SEAM instructs the PJP to pay
+        netPayable to the BPP and commission to the BAP, return refundAmount
+        to the buyer, and keep withholdingAmount. The payment fields reuse
+        the IONPayment definitions.
+      x-ion-layer: ion
+      x-recommended-parent: Settlement.settlementAttributes
+      additionalProperties: true
+      x-jsonld:
+        '@context': 'https://schema.ion.id/release1/schema/common/Settlement/v1/context.jsonld'
+        '@type': ion:IONSettlementReconciliation
+      x-beckn-attaches-to: Settlement.settlementAttributes
+      required:
+        - currency
+        - orderAmount
+        - commission
+        - netPayable
+        - settlementAccounts
+      allOf:
+        - if:
+            properties:
+              commission:
+                properties:
+                  value:
+                    exclusiveMinimum: 0
+                required: [value]
+            required: [commission]
+          then:
+            properties:
+              settlementAccounts:
+                contains:
+                  type: object
+                  properties:
+                    holderRole:
+                      const: BAP
+                  required: [holderRole]
+        - if:
+            properties:
+              accord:
+                const: true
+            required: [accord]
+          then:
+            required: [dueDate]
+        - if:
+            properties:
+              accord:
+                const: false
+            required: [accord]
+          then:
+            required: [dispute]
+        - if:
+            properties:
+              status:
+                const: PENDING
+            required: [status]
+          else:
+            properties:
+              settlementAccounts:
+                contains:
+                  type: object
+                  properties:
+                    holderRole:
+                      const: BPP
+                  required: [holderRole]
+        - if:
+            properties:
+              status:
+                const: PAID
+            required: [status]
+          then:
+            required: [paidAt]
+      properties:
+        collectedBy:
+          $ref: https://schema.ion.id/release1/schema/common/Payment/v1/attributes.yaml#/components/schemas/IONPayment/properties/collectedBy
+        currency:
+          $ref: https://schema.ion.id/release1/schema/common/Payment/v1/attributes.yaml#/components/schemas/IONPayment/properties/currency
+        settlementAccounts:
+          allOf:
+            - $ref: https://schema.ion.id/release1/schema/common/Payment/v1/attributes.yaml#/components/schemas/IONPayment/properties/settlementAccounts
+          minItems: 1
+          description: >
+            Payout accounts, one per receiving participant: the BAP declares
+            its account in init, the BPP adds its own in on_init. The BPP
+            account is required once the payment is no longer PENDING; the
+            BAP account is required when commission is greater than zero.
+        method:
+          $ref: https://schema.ion.id/release1/schema/common/Payment/v1/attributes.yaml#/components/schemas/IONPayment/properties/method
+        paymentRail:
+          $ref: https://schema.ion.id/release1/schema/common/Payment/v1/attributes.yaml#/components/schemas/IONPayment/properties/paymentRail
+        paymentGatewayProvider:
+          $ref: https://schema.ion.id/release1/schema/common/Payment/v1/attributes.yaml#/components/schemas/IONPayment/properties/paymentGatewayProvider
+        methodDetail:
+          $ref: https://schema.ion.id/release1/schema/common/Payment/v1/attributes.yaml#/components/schemas/IONPayment/properties/methodDetail
+        timing:
+          $ref: https://schema.ion.id/release1/schema/common/Payment/v1/attributes.yaml#/components/schemas/IONPayment/properties/timing
+        status:
+          $ref: https://schema.ion.id/release1/schema/common/Payment/v1/attributes.yaml#/components/schemas/IONPayment/properties/status
+        paidAt:
+          $ref: https://schema.ion.id/release1/schema/common/Payment/v1/attributes.yaml#/components/schemas/IONPayment/properties/paidAt
+        gatewayRef:
+          $ref: https://schema.ion.id/release1/schema/common/Payment/v1/attributes.yaml#/components/schemas/IONPayment/properties/gatewayRef
+        settlementBasis:
+          $ref: '#/components/schemas/SettlementBasis'
+        settlementWindow:
+          $ref: '#/components/schemas/SettlementWindow'
+        finderFee:
+          $ref: '#/components/schemas/FinderFee'
+        orderAmount:
+          allOf:
+            - $ref: '#/components/schemas/ReconAmount'
+          description: >
+            Gross amount the buyer pays for the contract, held at the PJP: the
+            order total in init and on_init, the amount paid from confirm on.
+        commission:
+          allOf:
+            - $ref: '#/components/schemas/ReconAmount'
+          description: >
+            BAP finder fee for the contract, equal to finderFee.feeAmount; the
+            PJP pays it to the BAP. Zero when no finder fee was agreed.
+        withholdingAmount:
+          allOf:
+            - $ref: '#/components/schemas/ReconAmount'
+          description: Amount the PJP keeps back, for example against returns.
+        refundAmount:
+          allOf:
+            - $ref: '#/components/schemas/ReconAmount'
+          description: Total the PJP returns to the buyer for the contract.
+        netPayable:
+          allOf:
+            - $ref: '#/components/schemas/ReconAmount'
+          description: >
+            Amount the PJP pays to the BPP for this contract: orderAmount −
+            commission − withholdingAmount − refundAmount.
+        accord:
+          type: boolean
+          description: >
+            Set only in /on_reconcile. true — the counterparty agrees with the
+            figures it received; false — it disagrees (see diffValue and
+            dispute). The batch is agreed, and SEAM triggers the payout, only
+            when every contract in it has accord true.
+        dueDate:
+          type: string
+          format: date
+          description: Date by which the payout is due. Required when accord is true.
+        dispute:
+          $ref: '#/components/schemas/Dispute'
+      x-ion-closed-extensions: false
+
+    ReconAmount:
+      type: object
+      title: ReconAmount
+      description: >
+        One settlement component. In /on_reconcile, diffValue is the
+        counterparty's value minus the value in the /reconcile being answered;
+        it is present only when the two differ.
+      additionalProperties: false
+      required: [value]
+      properties:
+        value:
+          type: number
+          minimum: 0
+          description: Component amount in the settlement currency.
+        diffValue:
+          type: number
+          description: Counterparty's value minus the value it is answering, when they differ.
+
+    Dispute:
+      type: object
+      title: Dispute
+      description: Why the counterparty disagrees with a contract's figures. Required when accord is false.
+      additionalProperties: false
+      required: [code]
+      properties:
+        code:
+          type: string
+          description: >
+            Short machine-readable reason, for example COMMISSION_MISMATCH.
+            SETTLEMENT_WINDOW_NOT_REACHED marks a contract sent before its
+            settlement window, which is sent again once due.
+        description:
+          type: string
+          description: Human-readable explanation of the disagreement.
+
+    FinderFee:
+      type: object
+      title: FinderFee
+      description: >
+        Fee the Consumer Node (BAP) earns for bringing the order, agreed in
+        init and on_init: the terms (feeType, feeValue, appliesTo) and the
+        resulting feeAmount. Reconciliation reports it as the contract's
+        commission.
+      additionalProperties: false
+      required: [feeType, feeValue]
+      properties:
+        feeType:
+          type: string
+          enum: [PERCENT, AMOUNT]
+          description: >
+            PERCENT applies feeValue as a percentage of the appliesTo base.
+            AMOUNT is a fixed fee in the contract currency.
+          example: PERCENT
+        feeValue:
+          type: number
+          minimum: 0
+          description: >
+            Fee percentage (0-100) when feeType is PERCENT; fee amount in the
+            contract currency when feeType is AMOUNT.
+          example: 3
+        appliesTo:
+          type: string
+          enum: [ITEM_TOTAL, ORDER_TOTAL]
+          description: >
+            Base for a PERCENT fee. ITEM_TOTAL is the item value excluding
+            delivery, packing, and taxes; ORDER_TOTAL is the full
+            consideration. Ignored when feeType is AMOUNT.
+          example: ITEM_TOTAL
+        feeAmount:
+          type: number
+          minimum: 0
+          description: >
+            The fee in the contract currency, computed from feeType, feeValue,
+            and appliesTo on the contract as it stands. The BPP sets it in
+            on_init and recomputes it in on_cancel and on_update when items
+            are cancelled or returned. At reconciliation the settlement's
+            commission.value equals it.
+          example: 2670
+      if:
+        properties:
+          feeType:
+            const: PERCENT
+      then:
+        properties:
+          feeValue:
+            maximum: 100
+
+    SettlementBasis:
+      title: SettlementBasis
+      description: >
+        Contract lifecycle event from which a settlement falls due.
+        ON_CONFIRMATION starts at order confirmation, AFTER_SHIPMENT at
+        hand-over to logistics, AFTER_DELIVERY at confirmed delivery, and
+        AFTER_RETURN_WINDOW when the applicable return window closes.
+      type: string
+      enum:
+        - ON_CONFIRMATION
+        - AFTER_SHIPMENT
+        - AFTER_DELIVERY
+        - AFTER_RETURN_WINDOW
+      example: AFTER_DELIVERY
+
+    SettlementWindow:
+      title: SettlementWindow
+      description: >
+        ISO 8601 duration, measured from the SettlementBasis event, within
+        which the settlement must be paid out.
+      type: string
+      format: duration
+      example: P1D

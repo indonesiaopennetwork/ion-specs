@@ -12,11 +12,36 @@ BAP -> select -> BPP -> on_select
 BAP -> init -> BPP -> on_init
 BAP -> confirm -> BPP -> on_confirm
 BPP -> on_status [PACKED, DISPATCHED, OUT_FOR_DELIVERY, DELIVERED]
+BPP -> reconcile -> BAP -> on_reconcile    (after the settlement falls due)
 ```
 
 Release 1 does not include the former cross-cutting branches or the other Trade
-patterns. In particular, `raise` and `reconcile` behavior from the excluded
-`ion.yaml` aggregate is outside this flow.
+patterns. In particular, `raise` behavior from the excluded `ion.yaml`
+aggregate is outside this flow.
+
+## Settlement terms
+
+The order's payment settlement is one
+[`IONSettlementReconciliation`](../../../../../schema/common/Settlement/v1/README.md)
+object from `init` to reconciliation. It carries the payment, the settlement
+terms, the payout accounts, and the figures:
+
+| Step | Sender | Carries |
+|---|---|---|
+| `init` | BAP | The payment method, `status: PENDING`, the proposed `finderFee`, the BAP's `settlementAccounts` entry for it, and figures estimated on the `on_select` quote |
+| `on_init` | BPP | `settlementBasis`, `settlementWindow`, `finderFee.feeAmount` computed from the final price, the figures on that price, the QRIS `methodDetail`, and the BPP's `settlementAccounts` entry next to the BAP's |
+| `confirm`, `on_confirm` | BAP, BPP | `status: PAID`, `paidAt`, `gatewayRef`, and `orderAmount` as the amount paid, with the agreed terms and both accounts |
+
+The buyer's QRIS payment is held at the PJP, not in either participant's
+account. After delivery and the agreed one-day window, the BPP sends
+[`reconcile_request.json`](examples/reconcile_request.json) with its figures:
+order 98900, a 3% finder fee of 2670 on the 89000 item total, and BPP proceeds
+of 96230. The BAP answers with
+[`on_reconcile_response.json`](examples/on_reconcile_response.json) and
+`accord: true`, so the batch is `AGREED` and SEAM instructs the PJP to pay
+96230 to the BPP and 2670 to the BAP. Either participant may start
+reconciliation; a disputed batch, which the sender resends whole, is shown in
+the [reconciliation API docs](../../../../../schema/core/README.md#settlement-reconciliation).
 
 ## Included schema packs
 
@@ -38,6 +63,10 @@ patterns. In particular, `raise` and `reconcile` behavior from the excluded
 - [BusinessRegistration](../../../../../schema/common/BusinessRegistration/v1/README.md)
 - [Payment](../../../../../schema/common/Payment/v1/README.md)
 - [Tax](../../../../../schema/common/Tax/v1/README.md)
+- [Settlement](../../../../../schema/common/Settlement/v1/README.md)
+
+The reconcile phase uses the `/reconcile` and `/on_reconcile` endpoints of
+[`core/api/v2.0.0/ion-additional.yaml`](../../../../../schema/core/README.md#settlement-reconciliation).
 
 The earlier `localization`, `identity`, and `product-compliance` declarations were
 not retained: Identity is represented by Business Registration, while the copied

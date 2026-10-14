@@ -141,7 +141,10 @@ phases:
         from: BAP
         to: BPP
         direction: request
-        description: BAP provides delivery address, payment method, and performance mode.
+        description: >-
+          BAP provides delivery address, payment method, and performance mode.
+          The payment settlement is the order's IONSettlementReconciliation,
+          with the proposed finder fee and figures estimated on the quote.
         requiredFields:
           - message.contract.participants[role=PROVIDER].id
           - message.contract.commitments[].id
@@ -157,7 +160,16 @@ phases:
           - message.contract.settlements[].settlementAttributes.method
           - message.contract.settlements[].settlementAttributes.paymentRail
           - message.contract.settlements[].settlementAttributes.collectedBy
+          - message.contract.settlements[].settlementAttributes.status
+          - message.contract.settlements[].settlementAttributes.currency
+          - message.contract.settlements[].settlementAttributes.orderAmount
+          - message.contract.settlements[].settlementAttributes.commission
+          - message.contract.settlements[].settlementAttributes.netPayable
         conditionalFields:
+          - field: message.contract.settlements[].settlementAttributes.finderFee
+            condition: if the BAP charges a finder fee
+          - field: message.contract.settlements[].settlementAttributes.settlementAccounts[holderRole=BAP]
+            condition: if the BAP charges a finder fee (the PJP pays it into this account)
           - field: message.contract.contractAttributes.invoicePreferences
             condition: if buyer wants tax invoice
           - field: message.contract.contractAttributes.deliveryPreferences
@@ -165,21 +177,34 @@ phases:
           - field: message.contract.contractAttributes.gift
             condition: if gifting is declared
         schemaPacks:
-          common: [Address/v1, Payment/v1]
+          common: [Address/v1, Settlement/v1]
           trade: [TradeContract/v1]
 
       - step: on_init
         from: BPP
         to: BAP
         direction: callback
-        description: BPP returns payment instructions. Final quote confirmed.
+        description: >-
+          BPP returns payment instructions and sets the settlement terms on
+          the payment settlement. Final quote confirmed.
         requiredFields:
           - message.contract.settlements[].settlementAttributes.methodDetail
           - message.contract.consideration[].considerationAttributes.breakup[]
           - message.contract.consideration[].considerationAttributes.totalAmount
-          - message.contract.settlements[].settlementAttributes.amount
           - message.contract.settlements[].settlementAttributes.currency
+          - message.contract.settlements[].settlementAttributes.settlementBasis
+          - message.contract.settlements[].settlementAttributes.settlementWindow
+          - message.contract.settlements[].settlementAttributes.orderAmount
+          - message.contract.settlements[].settlementAttributes.commission
+          - message.contract.settlements[].settlementAttributes.netPayable
+          - message.contract.settlements[].settlementAttributes.settlementAccounts[holderRole=BPP]
         conditionalFields:
+          - field: message.contract.settlements[].settlementAttributes.finderFee
+            condition: if a finder fee was proposed in init
+          - field: message.contract.settlements[].settlementAttributes.finderFee.feeAmount
+            condition: if a finder fee was proposed in init (computed by the BPP from the final price)
+          - field: message.contract.settlements[].settlementAttributes.settlementAccounts[holderRole=BAP]
+            condition: echoed if the BAP declared it in init
           - field: message.contract.settlements[].settlementAttributes.methodDetail.qrisString
             condition: for QRIS method
           - field: message.contract.settlements[].settlementAttributes.methodDetail.vaNumber
@@ -187,7 +212,8 @@ phases:
           - field: message.contract.settlements[].settlementAttributes.methodDetail.deepLink
             condition: for EWALLET method
         schemaPacks:
-          common: [Payment/v1]
+          common: [Settlement/v1]
+          trade: [TradeConsideration/v1]
 
       - step: confirm
         from: BAP
@@ -201,6 +227,8 @@ phases:
           - message.contract.performance[]
           - message.contract.settlements[].settlementAttributes.status
           - message.contract.settlements[].settlementAttributes.method
+          - message.contract.settlements[].settlementAttributes.paidAt
+          - message.contract.settlements[].settlementAttributes.orderAmount
           - message.contract.contractAttributes.buyerBusinessRegistration.npwp
           - message.contract.contractAttributes.buyerBusinessRegistration.nib
 
@@ -224,7 +252,7 @@ phases:
           - field: message.contract.contractAttributes.subscription.billingCycle
             condition: for B2C-SUB commerce pattern
         schemaPacks:
-          common: [Payment/v1]
+          common: [Settlement/v1]
           trade: [TradePerformance/v1, TradeContract/v1]
 
   phase3:
@@ -272,6 +300,65 @@ phases:
         conditionalFields:
           - field: message.contract.performance[].performanceAttributes.deliveryProofUrl
             condition: if proofOfDeliveryType=PHOTO
+
+  phase4:
+    name: Settlement reconciliation
+    communication: >-
+      Either participant sends reconcile once the settlement falls due
+      (settlementBasis + settlementWindow); the counterparty answers with
+      on_reconcile. The buyer payment is held at the PJP. A batch is agreed
+      as a whole: when every contract has accord true SEAM instructs the PJP
+      payout; otherwise the sender resends the whole batch with the same
+      reconciliationId.
+    steps:
+      - step: reconcile
+        from: BPP
+        to: BAP
+        direction: request
+        description: >-
+          BPP sends its settlement figures for the delivered order. The BAP
+          may send reconcile instead; context.bapId and context.bppId stay
+          those of the order, and context.senderId identifies the sender.
+        requiredFields:
+          - message.reconciliationId
+          - message.settlementDate
+          - message.contracts[].id
+          - message.contracts[].commitments[]
+          - message.contracts[].settlements[].id
+          - message.contracts[].settlements[].settlementAttributes.orderAmount
+          - message.contracts[].settlements[].settlementAttributes.commission
+          - message.contracts[].settlements[].settlementAttributes.netPayable
+          - message.contracts[].settlements[].settlementAttributes.settlementAccounts[holderRole=BPP]
+          - message.settlementSummary
+        conditionalFields:
+          - field: message.contracts[].settlements[].settlementAttributes.settlementAccounts[holderRole=BAP]
+            condition: if commission is greater than zero
+        schemaPacks:
+          common: [Settlement/v1]
+
+      - step: on_reconcile
+        from: BAP
+        to: BPP
+        direction: callback
+        description: >-
+          BAP agrees with the figures (accord true). Both participants have
+          agreed, so SEAM instructs the PJP to pay netPayable to the BPP and
+          commission to the BAP. Payout status arrives by PJP webhook.
+        requiredFields:
+          - message.reconciliationId
+          - message.reconciliationStatus
+          - message.contracts[].settlements[].settlementAttributes.accord
+          - message.settlementSummary.agreedCount
+          - message.settlementSummary.disputedCount
+        conditionalFields:
+          - field: message.contracts[].settlements[].settlementAttributes.dueDate
+            condition: if accord is true
+          - field: message.contracts[].settlements[].settlementAttributes.dispute
+            condition: if accord is false (the batch is DISPUTED and the sender resends all of its contracts)
+          - field: message.contracts[].settlements[].settlementAttributes.*.diffValue
+            condition: if accord is false and the counterparty's value differs
+        schemaPacks:
+          common: [Settlement/v1]
 
 variantWindows:
   during-transaction:

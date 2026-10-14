@@ -1,0 +1,292 @@
+{
+  "@context": {
+    "ion": "https://schema.ion.id/core/settlement/v1#",
+    "ionpay": "https://schema.ion.id/core/payment/v1#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "beckn": "https://schema.beckn.io/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "owl": "http://www.w3.org/2002/07/owl#"
+  },
+  "@graph": [
+    {
+      "@id": "ion:IONSettlementReconciliation",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONSettlementReconciliation",
+      "rdfs:comment": "The order's settlement, carried as one object from init to reconciliation. The BAP declares it in init (finderFee terms, its payout account, payment method, status PENDING, and estimated figures); the BPP answers in on_init (settlementBasis, settlementWindow, finderFee.feeAmount, its payout account, and the figures on its final price); the BAP records the payment in confirm (status PAID, paidAt, gatewayRef, orderAmount = amount paid); the BPP keeps the figures current in on_cancel and on_update; and each participant sends its figures in /reconcile and /on_reconcile. Before reconciliation the figures are estimates. The buyer's payment is held at the PJP; the figures split it. Invariant: orderAmount.value = netPayable.value + commission.value + withholdingAmount.value + refundAmount.value. On agreement SEAM instructs the PJP to pay netPayable to the BPP and commission to the BAP, return refundAmount to the buyer, and keep withholdingAmount. The payment fields reuse the IONPayment definitions."
+    },
+    {
+      "@id": "ion:ReconAmount",
+      "@type": "rdfs:Class",
+      "rdfs:label": "ReconAmount",
+      "rdfs:comment": "One settlement component. In /on_reconcile, diffValue is the counterparty's value minus the value in the /reconcile being answered; it is present only when the two differ."
+    },
+    {
+      "@id": "ion:Dispute",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Dispute",
+      "rdfs:comment": "Why the counterparty disagrees with a contract's figures. Required when accord is false."
+    },
+    {
+      "@id": "ion:FinderFee",
+      "@type": "rdfs:Class",
+      "rdfs:label": "FinderFee",
+      "rdfs:comment": "Fee the Consumer Node (BAP) earns for bringing the order, agreed in init and on_init: the terms (feeType, feeValue, appliesTo) and the resulting feeAmount. Reconciliation reports it as the contract's commission."
+    },
+    {
+      "@id": "ion:SettlementBasis",
+      "@type": "rdfs:Class",
+      "rdfs:label": "SettlementBasis",
+      "rdfs:comment": "Contract lifecycle event from which a settlement falls due. ON_CONFIRMATION starts at order confirmation, AFTER_SHIPMENT at hand-over to logistics, AFTER_DELIVERY at confirmed delivery, and AFTER_RETURN_WINDOW when the applicable return window closes."
+    },
+    {
+      "@id": "ion:SettlementWindow",
+      "@type": "rdfs:Class",
+      "rdfs:label": "SettlementWindow",
+      "rdfs:comment": "ISO 8601 duration, measured from the SettlementBasis event, within which the settlement must be paid out."
+    },
+    {
+      "@id": "ionpay:collectedBy",
+      "@type": "rdf:Property",
+      "rdfs:label": "collectedBy",
+      "rdfs:comment": "Network participant whose checkout collected the buyer payment into the PJP (IONPayment.collectedBy)."
+    },
+    {
+      "@id": "ionpay:currency",
+      "@type": "rdf:Property",
+      "rdfs:label": "currency",
+      "rdfs:comment": "ISO 4217 currency of every amount in the settlement (IONPayment.currency)."
+    },
+    {
+      "@id": "ionpay:method",
+      "@type": "rdf:Property",
+      "rdfs:label": "method",
+      "rdfs:comment": "Payment method the buyer uses (IONPayment.method)."
+    },
+    {
+      "@id": "ionpay:paymentRail",
+      "@type": "rdf:Property",
+      "rdfs:label": "paymentRail",
+      "rdfs:comment": "Payment rail that carries the buyer payment (IONPayment.paymentRail)."
+    },
+    {
+      "@id": "ionpay:paymentGatewayProvider",
+      "@type": "rdf:Property",
+      "rdfs:label": "paymentGatewayProvider",
+      "rdfs:comment": "Payment gateway that processes the buyer payment (IONPayment.paymentGatewayProvider)."
+    },
+    {
+      "@id": "ionpay:methodDetail",
+      "@type": "rdf:Property",
+      "rdfs:label": "methodDetail",
+      "rdfs:comment": "Instrument-specific payment details, such as the QRIS string or virtual account number (IONPayment.methodDetail)."
+    },
+    {
+      "@id": "ionpay:timing",
+      "@type": "rdf:Property",
+      "rdfs:label": "timing",
+      "rdfs:comment": "When the payment is collected relative to fulfilment (IONPayment.timing)."
+    },
+    {
+      "@id": "ionpay:status",
+      "@type": "rdf:Property",
+      "rdfs:label": "status",
+      "rdfs:comment": "Payment status: PENDING until the buyer pays, then PAID (IONPayment.status)."
+    },
+    {
+      "@id": "ionpay:paidAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "paidAt",
+      "rdfs:comment": "Timestamp of successful payment confirmation; required when status is PAID (IONPayment.paidAt)."
+    },
+    {
+      "@id": "ionpay:gatewayRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "gatewayRef",
+      "rdfs:comment": "Payment gateway transaction reference (IONPayment.gatewayRef)."
+    },
+    {
+      "@id": "ionpay:settlementAccounts",
+      "@type": "rdf:Property",
+      "rdfs:label": "settlementAccounts",
+      "rdfs:comment": "Payout accounts as declared on IONPayment.settlementAccounts in the order. The BPP account is always required; the BAP account is required when commission is greater than zero."
+    },
+    {
+      "@id": "ionpay:holderRole",
+      "@type": "rdf:Property",
+      "rdfs:label": "holderRole",
+      "rdfs:comment": "Network participant (BAP or BPP) that owns a settlement account and receives payouts into it (IONPayment SettlementAccount.holderRole)."
+    },
+    {
+      "@id": "ion:settlementBasis",
+      "@type": "rdf:Property",
+      "rdfs:label": "settlementBasis",
+      "rdfs:comment": "Contract lifecycle event from which a settlement falls due. ON_CONFIRMATION starts at order confirmation, AFTER_SHIPMENT at hand-over to logistics, AFTER_DELIVERY at confirmed delivery, and AFTER_RETURN_WINDOW when the applicable return window closes.",
+      "rdfs:domain": {
+        "@id": "ion:IONSettlementReconciliation"
+      }
+    },
+    {
+      "@id": "ion:settlementWindow",
+      "@type": "rdf:Property",
+      "rdfs:label": "settlementWindow",
+      "rdfs:comment": "ISO 8601 duration, measured from the SettlementBasis event, within which the settlement must be paid out.",
+      "rdfs:domain": {
+        "@id": "ion:IONSettlementReconciliation"
+      }
+    },
+    {
+      "@id": "ion:finderFee",
+      "@type": "rdf:Property",
+      "rdfs:label": "finderFee",
+      "rdfs:comment": "Fee the Consumer Node (BAP) earns for bringing the order, agreed in init and on_init: the terms (feeType, feeValue, appliesTo) and the resulting feeAmount. Reconciliation reports it as the contract's commission.",
+      "rdfs:domain": {
+        "@id": "ion:IONSettlementReconciliation"
+      }
+    },
+    {
+      "@id": "ion:orderAmount",
+      "@type": "rdf:Property",
+      "rdfs:label": "orderAmount",
+      "rdfs:comment": "Gross amount the buyer paid for the contract, held at the PJP.",
+      "rdfs:domain": {
+        "@id": "ion:IONSettlementReconciliation"
+      }
+    },
+    {
+      "@id": "ion:commission",
+      "@type": "rdf:Property",
+      "rdfs:label": "commission",
+      "rdfs:comment": "BAP finder fee for the contract, equal to finderFee.feeAmount; the PJP pays it to the BAP. Zero when no finder fee was agreed.",
+      "rdfs:domain": {
+        "@id": "ion:IONSettlementReconciliation"
+      }
+    },
+    {
+      "@id": "ion:withholdingAmount",
+      "@type": "rdf:Property",
+      "rdfs:label": "withholdingAmount",
+      "rdfs:comment": "Amount the PJP keeps back, for example against returns.",
+      "rdfs:domain": {
+        "@id": "ion:IONSettlementReconciliation"
+      }
+    },
+    {
+      "@id": "ion:refundAmount",
+      "@type": "rdf:Property",
+      "rdfs:label": "refundAmount",
+      "rdfs:comment": "Total the PJP returns to the buyer for the contract.",
+      "rdfs:domain": {
+        "@id": "ion:IONSettlementReconciliation"
+      }
+    },
+    {
+      "@id": "ion:netPayable",
+      "@type": "rdf:Property",
+      "rdfs:label": "netPayable",
+      "rdfs:comment": "Amount the PJP pays to the BPP for this contract: orderAmount − commission − withholdingAmount − refundAmount.",
+      "rdfs:domain": {
+        "@id": "ion:IONSettlementReconciliation"
+      }
+    },
+    {
+      "@id": "ion:accord",
+      "@type": "rdf:Property",
+      "rdfs:label": "accord",
+      "rdfs:comment": "Set only in /on_reconcile. true — the counterparty agrees with the figures it received; both participants have agreed and SEAM triggers the payout. false — it disagrees; see diffValue and dispute.",
+      "rdfs:domain": {
+        "@id": "ion:IONSettlementReconciliation"
+      }
+    },
+    {
+      "@id": "ion:dueDate",
+      "@type": "rdf:Property",
+      "rdfs:label": "dueDate",
+      "rdfs:comment": "Date by which the payout is due. Required when accord is true.",
+      "rdfs:domain": {
+        "@id": "ion:IONSettlementReconciliation"
+      }
+    },
+    {
+      "@id": "ion:dispute",
+      "@type": "rdf:Property",
+      "rdfs:label": "dispute",
+      "rdfs:comment": "Why the counterparty disagrees with a contract's figures. Required when accord is false.",
+      "rdfs:domain": {
+        "@id": "ion:IONSettlementReconciliation"
+      }
+    },
+    {
+      "@id": "ion:value",
+      "@type": "rdf:Property",
+      "rdfs:label": "value",
+      "rdfs:comment": "Component amount in the settlement currency.",
+      "rdfs:domain": {
+        "@id": "ion:ReconAmount"
+      }
+    },
+    {
+      "@id": "ion:diffValue",
+      "@type": "rdf:Property",
+      "rdfs:label": "diffValue",
+      "rdfs:comment": "Counterparty's value minus the value it is answering, when they differ.",
+      "rdfs:domain": {
+        "@id": "ion:ReconAmount"
+      }
+    },
+    {
+      "@id": "ion:code",
+      "@type": "rdf:Property",
+      "rdfs:label": "code",
+      "rdfs:comment": "Short machine-readable reason, for example COMMISSION_MISMATCH.",
+      "rdfs:domain": {
+        "@id": "ion:Dispute"
+      }
+    },
+    {
+      "@id": "ion:description",
+      "@type": "rdf:Property",
+      "rdfs:label": "description",
+      "rdfs:comment": "Human-readable explanation of the disagreement.",
+      "rdfs:domain": {
+        "@id": "ion:Dispute"
+      }
+    },
+    {
+      "@id": "ion:feeType",
+      "@type": "rdf:Property",
+      "rdfs:label": "feeType",
+      "rdfs:comment": "PERCENT applies feeValue as a percentage of the appliesTo base. AMOUNT is a fixed fee in the contract currency.",
+      "rdfs:domain": {
+        "@id": "ion:FinderFee"
+      }
+    },
+    {
+      "@id": "ion:feeValue",
+      "@type": "rdf:Property",
+      "rdfs:label": "feeValue",
+      "rdfs:comment": "Fee percentage (0-100) when feeType is PERCENT; fee amount in the contract currency when feeType is AMOUNT.",
+      "rdfs:domain": {
+        "@id": "ion:FinderFee"
+      }
+    },
+    {
+      "@id": "ion:appliesTo",
+      "@type": "rdf:Property",
+      "rdfs:label": "appliesTo",
+      "rdfs:comment": "Base for a PERCENT fee. ITEM_TOTAL is the item value excluding delivery, packing, and taxes; ORDER_TOTAL is the full consideration. Ignored when feeType is AMOUNT.",
+      "rdfs:domain": {
+        "@id": "ion:FinderFee"
+      }
+    },
+    {
+      "@id": "ion:feeAmount",
+      "@type": "rdf:Property",
+      "rdfs:label": "feeAmount",
+      "rdfs:comment": "The fee in the contract currency, computed from feeType, feeValue, and appliesTo on the contract as it stands. The BPP sets it in on_init and recomputes it in on_cancel and on_update when items are cancelled or returned. At reconciliation the settlement's commission.value equals it.",
+      "rdfs:domain": {
+        "@id": "ion:FinderFee"
+      }
+    }
+  ]
+}

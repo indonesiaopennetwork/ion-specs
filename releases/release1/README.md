@@ -45,6 +45,13 @@ sub-branches were included using existing Release 1 objects; four branches were
 excluded for callback misuse, missing Contract lifecycle, non-Beckn escalation,
 or Logistics dependencies.
 
+ION endpoints that Beckn does not define live in one file,
+`schema/core/api/v2.0.0/ion-additional.yaml`, which extends `ion-beckn.yaml` by
+reference. Release 1 adds the settlement reconciliation endpoints
+(`/reconcile`, `/on_reconcile`) there, with their `IONSettlementReconciliation`
+attribute pack at `schema/common/Settlement/v1`. This does not reintroduce the
+`ion.yaml` aggregate.
+
 ## Protocol dependency
 
 Release 1 includes the ION-owned Beckn-derived protocol contract used by its schemas:

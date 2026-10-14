@@ -8,11 +8,11 @@
     "becknAction": "OnConfirmAction",
     "schemaPacks": [
       "schema/common/BusinessRegistration/v1",
-      "schema/common/Payment/v1",
       "schema/extension/trade/TradePerformance/v1",
       "schema/extension/trade/TradeContract/v1",
       "schema/extension/trade/TradeConsideration/v1",
-      "schema/extension/trade/TradeCommitment/v1"
+      "schema/extension/trade/TradeCommitment/v1",
+      "schema/common/Settlement/v1"
     ]
   },
   "context": {
@@ -42,12 +42,12 @@
       "https://schema.ion.id/release1/schema/extension/trade/TradeConsideration/v1/context.jsonld",
       "https://schema.ion.id/release1/schema/extension/trade/TradeCommitment/v1/context.jsonld",
       "https://schema.ion.id/release1/schema/common/BusinessRegistration/v1/context.jsonld",
-      "https://schema.ion.id/release1/schema/common/Payment/v1/context.jsonld"
+      "https://schema.ion.id/release1/schema/common/Settlement/v1/context.jsonld"
     ]
   },
   "message": {
     "contract": {
-      "id": "ORD-2026-00012345",
+      "id": "4f9c2b7e-1a3d-4e5f-8b6a-9c0d1e2f3a4b",
       "status": {
         "code": "ACTIVE"
       },
@@ -231,16 +231,52 @@
           "considerationId": "CONSID-ORD-2026-00012345",
           "status": "COMMITTED",
           "settlementAttributes": {
-            "@context": "https://schema.ion.id/release1/schema/common/Payment/v1/context.jsonld",
-            "@type": "ion:IONPayment",
+            "@context": "https://schema.ion.id/release1/schema/common/Settlement/v1/context.jsonld",
+            "@type": "ion:IONSettlementReconciliation",
             "method": "QRIS",
             "collectedBy": "BAP",
             "timing": "ON_ORDER",
             "status": "PAID",
-            "amount": 98900,
-            "currency": "IDR",
             "paidAt": "2026-04-19T10:30:58.000+07:00",
-            "gatewayRef": "GW-QRIS-9876543210"
+            "gatewayRef": "GW-QRIS-9876543210",
+            "currency": "IDR",
+            "settlementBasis": "AFTER_DELIVERY",
+            "settlementWindow": "P1D",
+            "finderFee": {
+              "feeType": "PERCENT",
+              "feeValue": 3,
+              "appliesTo": "ITEM_TOTAL",
+              "feeAmount": 2670
+            },
+            "orderAmount": {
+              "value": 98900
+            },
+            "commission": {
+              "value": 2670
+            },
+            "withholdingAmount": {
+              "value": 0
+            },
+            "refundAmount": {
+              "value": 0
+            },
+            "netPayable": {
+              "value": 96230
+            },
+            "settlementAccounts": [
+              {
+                "holderRole": "BAP",
+                "bankCode": "MANDIRI",
+                "accountNumber": "1370098765432",
+                "accountName": "PT Buyer App Indonesia"
+              },
+              {
+                "holderRole": "BPP",
+                "bankCode": "BCA",
+                "accountNumber": "8730012345",
+                "accountName": "PT Seller App Indonesia"
+              }
+            ]
           }
         }
       ],

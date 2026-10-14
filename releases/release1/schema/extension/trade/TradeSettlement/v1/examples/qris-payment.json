@@ -12,7 +12,5 @@
   "settledAmount": 150000,
   "currency": "IDR",
   "reconciliationId": "RECON-2026-TRD-00012345",
-  "reconciliationStatus": "PENDING",
-  "settlementBasis": "AFTER_DELIVERY",
-  "settlementWindow": "P1D"
+  "reconciliationStatus": "PENDING"
 }

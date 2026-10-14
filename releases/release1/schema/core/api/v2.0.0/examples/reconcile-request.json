@@ -1,0 +1,184 @@
+{
+  "context": {
+    "action": "reconcile",
+    "version": "2.0.0",
+    "bapId": "bap.example.id",
+    "bapUri": "https://bap.example.id/beckn",
+    "bppId": "bpp.example.id",
+    "bppUri": "https://bpp.example.id/beckn",
+    "senderId": "bpp.example.id",
+    "receiverId": "bap.example.id",
+    "transactionId": "7d0c5c2e-6a0e-4f4b-9b0e-3c1f2a9d8e10",
+    "messageId": "b1c2d3e4-0000-4000-8000-000000000001",
+    "networkId": "ion.id",
+    "timestamp": "2026-09-30T17:00:00Z"
+  },
+  "message": {
+    "reconciliationId": "recon-2026-09-30T170000Z-bpp.example.id",
+    "settlementDate": "2026-09-30",
+    "contracts": [
+      {
+        "id": "0f8b6d3e-2c4a-4b8e-9d1f-6a7b8c9d0e1f",
+        "commitments": [
+          {
+            "id": "L01",
+            "status": {
+              "descriptor": {
+                "code": "CLOSED"
+              }
+            },
+            "resources": [
+              {
+                "id": "PIZZA-PEPPERONI-LARGE",
+                "quantity": {
+                  "count": 1
+                }
+              }
+            ],
+            "offer": {
+              "id": "OFFER-PIZZA-001",
+              "resourceIds": [
+                "PIZZA-PEPPERONI-LARGE"
+              ]
+            }
+          }
+        ],
+        "settlements": [
+          {
+            "id": "PAY-2026-00012345",
+            "settlementAttributes": {
+              "@context": "https://schema.ion.id/release1/schema/common/Settlement/v1/context.jsonld",
+              "@type": "ion:IONSettlementReconciliation",
+              "collectedBy": "BAP",
+              "currency": "IDR",
+              "settlementBasis": "AFTER_DELIVERY",
+              "settlementWindow": "P1D",
+              "finderFee": {
+                "feeType": "PERCENT",
+                "feeValue": 3,
+                "appliesTo": "ITEM_TOTAL",
+                "feeAmount": 2670
+              },
+              "orderAmount": {
+                "value": 98900
+              },
+              "commission": {
+                "value": 2670
+              },
+              "withholdingAmount": {
+                "value": 0
+              },
+              "refundAmount": {
+                "value": 0
+              },
+              "netPayable": {
+                "value": 96230
+              },
+              "settlementAccounts": [
+                {
+                  "holderRole": "BAP",
+                  "bankCode": "MANDIRI",
+                  "accountNumber": "1370012345678",
+                  "accountName": "PT Buyer App Indonesia"
+                },
+                {
+                  "holderRole": "BPP",
+                  "bankCode": "BCA",
+                  "accountNumber": "1234567890",
+                  "accountName": "PT Seller App Indonesia"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "5a1e9c7b-3d2f-4e6a-8b0c-1d2e3f4a5b6c",
+        "commitments": [
+          {
+            "id": "L01",
+            "status": {
+              "descriptor": {
+                "code": "CLOSED"
+              }
+            },
+            "resources": [
+              {
+                "id": "GARLIC-BREAD",
+                "quantity": {
+                  "count": 1
+                }
+              }
+            ],
+            "offer": {
+              "id": "OFFER-BREAD-001",
+              "resourceIds": [
+                "GARLIC-BREAD"
+              ]
+            }
+          }
+        ],
+        "settlements": [
+          {
+            "id": "PAY-2026-00012346",
+            "settlementAttributes": {
+              "@context": "https://schema.ion.id/release1/schema/common/Settlement/v1/context.jsonld",
+              "@type": "ion:IONSettlementReconciliation",
+              "collectedBy": "BAP",
+              "currency": "IDR",
+              "settlementBasis": "AFTER_DELIVERY",
+              "settlementWindow": "P1D",
+              "finderFee": {
+                "feeType": "PERCENT",
+                "feeValue": 3,
+                "appliesTo": "ITEM_TOTAL",
+                "feeAmount": 4200
+              },
+              "orderAmount": {
+                "value": 150000
+              },
+              "commission": {
+                "value": 4200
+              },
+              "withholdingAmount": {
+                "value": 0
+              },
+              "refundAmount": {
+                "value": 20000
+              },
+              "netPayable": {
+                "value": 125800
+              },
+              "settlementAccounts": [
+                {
+                  "holderRole": "BAP",
+                  "bankCode": "MANDIRI",
+                  "accountNumber": "1370012345678",
+                  "accountName": "PT Buyer App Indonesia"
+                },
+                {
+                  "holderRole": "BPP",
+                  "bankCode": "BCA",
+                  "accountNumber": "1234567890",
+                  "accountName": "PT Seller App Indonesia"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "settlementSummary": {
+      "bapId": "bap.example.id",
+      "bppId": "bpp.example.id",
+      "currency": "IDR",
+      "settlementDate": "2026-09-30",
+      "contractCount": 2,
+      "totalOrderAmount": 248900,
+      "totalCommission": 6870,
+      "totalWithholding": 0,
+      "totalRefund": 20000,
+      "totalNetPayable": 222030
+    }
+  }
+}

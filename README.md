@@ -17,7 +17,7 @@ in the network and is based on Beckn Protocol 2.0.0.
 ### Release 1 (draft)
 
 Release 1 is limited to the standalone Trade schema packs, the common packs they
-require, the scoped Storefront, Made-to-Order, Live Commerce, Digital Goods,
+require, the settlement reconciliation API, the scoped Storefront, Made-to-Order, Live Commerce, Digital Goods,
 Business Procurement, Marketplace In-house, and Marketplace Listed flows and
 connected registries, the ION-owned Beckn-derived API contract, and pinned
 vendored Beckn schema dependencies. It remains mutable
@@ -29,8 +29,12 @@ and unchannelled until the Council publishes it into the `next` channel on `main
   contents and validation commands.
 - [`releases/release1/schema/extension/trade/`](releases/release1/schema/extension/trade/) —
   nine validated Trade packs.
+- [`releases/release1/schema/core/api/v2.0.0/ion-additional.yaml`](releases/release1/schema/core/api/v2.0.0/ion-additional.yaml) —
+  ION endpoints that Beckn does not define, starting with settlement
+  reconciliation (`/reconcile`, `/on_reconcile`).
 - [`releases/release1/schema/common/`](releases/release1/schema/common/) — Address, Business
-  Registration, Payment, and Tax packs required by Trade.
+  Registration, Payment, and Tax packs required by Trade, and the Settlement
+  pack used by reconciliation.
 - [`releases/release1/schema/core/api/v2.0.0/ion-beckn.yaml`](releases/release1/schema/core/api/v2.0.0/ion-beckn.yaml) —
   the ION-owned Beckn-derived protocol contract.
 - [`releases/release1/schema/vendored/beckn/`](releases/release1/schema/vendored/beckn/) —
@@ -57,7 +61,8 @@ releases/
   release1/                    Draft release bundle
     release.yaml
     schema/
-      core/api/v2.0.0/ion-beckn.yaml  ION-owned Beckn-derived API contract
+      core/api/v2.0.0/ion-beckn.yaml       ION-owned Beckn-derived API contract
+      core/api/v2.0.0/ion-additional.yaml  ION endpoints Beckn does not define
       common/                  Validated common packs used by Trade
       extension/trade/         Validated Trade packs
       vendored/beckn/          Pinned release-local dependencies

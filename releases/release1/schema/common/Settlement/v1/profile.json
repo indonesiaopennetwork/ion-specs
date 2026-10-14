@@ -1,0 +1,43 @@
+{
+  "id": "ion-core-settlement-v1",
+  "version": "1.0.0",
+  "domain": "ion-core",
+  "name": "ION Settlement Extension (v1)",
+  "description": "Per-settlement reconciliation figures for PJP payouts, and the settlement-term definitions (settlement basis, settlement window, finder fee).",
+  "packSchema": "./schema.json",
+  "jsonldContext": "./context.jsonld",
+  "attachmentPoints": {
+    "settlementAttributes": [
+      "IONSettlementReconciliation"
+    ]
+  },
+  "extends": "beckn:Settlement",
+  "type": "AttributePack",
+  "indexing": {
+    "indexable": [
+      {
+        "path": "$.accord"
+      },
+      {
+        "path": "$.dueDate"
+      },
+      {
+        "path": "$.settlementBasis"
+      }
+    ],
+    "filterable": [
+      {
+        "path": "$.accord"
+      },
+      {
+        "path": "$.collectedBy"
+      }
+    ],
+    "sortable": [
+      {
+        "path": "$.dueDate"
+      }
+    ]
+  },
+  "minimalForDiscovery": []
+}

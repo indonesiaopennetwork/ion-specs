@@ -163,6 +163,13 @@
     },
     "processingFee": {
       "$ref": "#/components/schemas/ProcessingFee"
+    },
+    "settlementAccounts": {
+      "type": "array",
+      "description": "Bank accounts where the PJP pays this contract's settlement out of the funds it holds, one per receiving network participant. The BAP declares its account (for the finder fee) in init; the BPP declares its account (for the order proceeds) in on_init and echoes the BAP's. Reconciliation passes them to SEAM for the PJP payout.",
+      "items": {
+        "$ref": "#/components/schemas/SettlementAccount"
+      }
     }
   },
   "required": [
@@ -388,6 +395,36 @@
             "x-ion-condition": "Required when collectionAmountCollected < collectionAmount"
           }
         }
+      },
+      "SettlementAccount": {
+        "type": "object",
+        "title": "Settlement Account",
+        "description": "A network participant's bank account for settlement payouts from the PJP.",
+        "additionalProperties": false,
+        "properties": {
+          "holderRole": {
+            "type": "string",
+            "enum": [
+              "BAP",
+              "BPP"
+            ],
+            "description": "Network participant that owns the account and receives payouts into it."
+          },
+          "bankCode": {
+            "$ref": "#/components/schemas/BankTransfer/properties/bankCode"
+          },
+          "accountNumber": {
+            "$ref": "#/components/schemas/BankTransfer/properties/accountNumber"
+          },
+          "accountName": {
+            "$ref": "#/components/schemas/BankTransfer/properties/accountName"
+          }
+        },
+        "required": [
+          "holderRole",
+          "bankCode",
+          "accountNumber"
+        ]
       },
       "BankTransfer": {
         "type": "object",
