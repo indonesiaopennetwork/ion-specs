@@ -7,7 +7,7 @@
 > **Organizational reference:** `beckn/logistics` at
 > `4d98c3c9b7244f32f3a900272adc990d870df0bf`  
 > **Current coverage:** `LogisticsResource`, `LogisticsProvider`,
-> `LogisticsParticipant`, `LogisticsOffer`
+> `LogisticsParticipant`, `LogisticsOffer`, `LogisticsCommitment`
 
 This internal ledger records the ownership and migration disposition of every
 field in the legacy ION Logistics packs before normative Release 1 artifacts are
@@ -671,14 +671,125 @@ them wholesale:
 | Legacy ION `LogisticsOffer` | `under review` | Use as the field source while applying the ownership, typing, and policy corrections in this ledger. |
 | Release 1 `LogisticsOffer` | `suitable for later release` | Author after the seven named decisions are resolved or explicitly deferred from the pack. |
 
+## `LogisticsCommitment` v1
+
+### Sources and attachment point
+
+- Legacy schema: `schema/extensions/logistics/commitment/v1/attributes.yaml`
+- Legacy schema name: `LogisticsCommitment`
+- Approved Release 1 pack name: `LogisticsCommitment`
+- Attachment point: `Commitment.commitmentAttributes`
+- Beckn v2 core ownership: `Commitment` owns `id`, lifecycle status, selected
+  `resources[]`, selected `offer`, and `commitmentAttributes`.
+- Beckn Logistics organizational references: `Package`, `Consignment`,
+  `DeliverySlot`, and `Vehicle`. No current Beckn Logistics Commitment schema is
+  an approved dependency.
+- Pinned Beckn retail reference: `RetailCommitment/2.1` demonstrates line-level
+  references and typed quantity, but Logistics must not inherit the retail pack.
+
+The pinned core `Commitment.resources[]` declaration requires each embedded
+Resource to have `id` and `quantity`, while the pinned core `Resource` schema
+does not declare `quantity`. This is a machine-readable core inconsistency, not
+permission to preserve all legacy duplicate line fields. Phase 4 must resolve or
+explicitly work around it before authoring the pack.
+
+### Named decisions
+
+| ID | Decision required | Phase 3 default |
+|---|---|---|
+| `LOG-CMT-001` | How committed Resource quantity is represented given the pinned core inconsistency | Prefer core `Commitment.resources[]` and a corrected typed quantity contract. Do not duplicate Resource and Offer identity in commitment attributes merely to bypass the inconsistency. |
+| `LOG-CMT-002` | Whether aggregate package count, weight, and volume are transmitted or derived | Derive aggregates from committed Logistics Resources or Packages by default. Retain a declared snapshot only if audit, rating, or capacity allocation requires an authoritative value. |
+| `LOG-CMT-003` | How allocation-specific container, inventory, capacity, and Ro-Ro facts are organized | Use typed `CargoAllocation`, `InventoryAllocation`, `CapacityReservation`, and Resource references rather than one flat line object. |
+| `LOG-CMT-004` | Where free-text handling instructions belong | Prefer structured handling declarations on `LogisticsPackage`; retain commitment-specific instructions only when the consumer must communicate an operational instruction not represented by the selected Resource. |
+| `LOG-CMT-005` | How a child logistics transaction links to a parent commitment or contract | Keep a typed parent reference only after its identifier scope and cross-contract relationship are defined. Coordinate with `LogisticsContract`. |
+
+### Organizational alignment
+
+| Beckn organizational concept | Useful boundary | ION treatment |
+|---|---|---|
+| `Package` | Physical unit and handling facts | Reference committed `LogisticsPackage` Resources. Do not copy weight, volume, or vehicle facts into Commitment unless an explicit immutable snapshot is required. |
+| `Consignment` | Commercial grouping and transport identifiers | Use `CargoAllocation` for container and seal facts established during booking. Keep the full consignment definition with the Resource. |
+| `DeliverySlot` | Selected service window | Record a selected window identifier or typed requested window rather than repeating the offer's recurring schedule. |
+| `Vehicle` | Carrier transport asset | Do not use it for Ro-Ro cargo. Reference the selected `VehicleCargo` Resource instead of duplicating its registration. |
+| `RetailCommitment` | Line identifier, Resource/Offer references, quantity | Use only as evidence that typed quantities and references are preferable; core Logistics ownership takes precedence and retail inheritance is inappropriate. |
+
+The proposed Release 1 organization is:
+
+```text
+Commitment (core)
+  id
+  resources[]
+  offer
+  commitmentAttributes -> LogisticsCommitment
+
+LogisticsCommitment
+  cargoAllocation -> CargoAllocation
+  inventoryAllocations[] -> InventoryAllocation
+  capacityReservation -> CapacityReservation
+  requestedServiceWindow
+  specialInstructions (only if LOG-CMT-004 retains it)
+  parentReference (only if LOG-CMT-005 resolves it)
+```
+
+These are components inside the `LogisticsCommitment` pack, not new release
+packs or copied Beckn schemas.
+
+### Field ownership and disposition
+
+Every property path from the legacy `LogisticsCommitment` schema is listed
+below.
+
+| Legacy field path | Class | Proposed owner | Release 1 disposition |
+|---|---|---|---|
+| `@context`, `@type` | `CORE` | `LogisticsCommitment` | Keep through the inherited Beckn `Attributes` extension contract; update the context URL and type to the Release 1 pack. |
+| `lineId` | `CORE` | `Commitment.id` | Remove the duplicate line identifier and use the core Commitment identifier. |
+| `resourceId` | `CORE` | `Commitment.resources[].id` | Remove the duplicate field and use the selected core Resource references, subject to `LOG-CMT-001`. |
+| `offerId` | `CORE` | `Commitment.offer.id` | Remove the duplicate field and use the selected core Offer reference. |
+| `packageCount` | `DEFER` | Derived aggregate (`LOG-CMT-002`) | Derive from committed Packages by default; if retained as a declared snapshot, use pinned `Quantity/2.0`. |
+| `totalWeight` | `DEFER` | Derived aggregate or `CapacityReservation` | Derive from committed Package weights unless an authoritative booked-weight snapshot is required. |
+| `totalWeight.value`, `totalWeight.unit` | `LEGACY` | Derived aggregate or `CapacityReservation` | Replace the ad hoc measurement pair with pinned `Quantity/2.0` if the parent is retained. |
+| `totalVolume` | `DEFER` | Derived aggregate or `CapacityReservation` | Derive from committed Package or Consignment measurements unless a booked-volume snapshot is required. |
+| `totalVolume.value`, `totalVolume.unit` | `LEGACY` | Derived aggregate or `CapacityReservation` | Replace the ad hoc measurement pair with pinned `Quantity/2.0` if the parent is retained. |
+| `specialInstructions` | `DEFER` | `LogisticsCommitment.specialInstructions` | Resolve `LOG-CMT-004`; keep only transaction-specific operational prose that cannot be represented by structured Package handling fields. |
+| `containerReference`, `sealNumber` | `LOGISTICS` | `CargoAllocation` | Keep allocation-specific container and seal identifiers established during freight booking. |
+| `skuId` | `LEGACY` | `InventoryAllocation.resourceId` | Replace the SKU-specific duplicate with a reference to the committed inventory Resource. |
+| `quantity` | `DEFER` | Core committed Resource quantity (`LOG-CMT-001`) | Replace the untyped integer with the resolved core quantity representation; do not maintain a competing attribute value. |
+| `lotNumber`, `expiryDate` | `LOGISTICS` | `InventoryAllocation` | Keep lot allocation and expiry facts when selection binds a specific inventory lot. |
+| `capacityUnits`, `capacityUnitType` | `LEGACY` | `CapacityReservation.quantity` | Replace parallel value/type fields with pinned `Quantity/2.0` and a controlled capacity unit code. |
+| `requestedDepartureDate` | `LEGACY` | `LogisticsCommitment.requestedServiceWindow` | Replace the date-only field with a selected service-window identifier or pinned `TimePeriod/2.0`. |
+| `vehicleRegistration` | `LEGACY` | Selected `VehicleCargo` Resource reference | Do not duplicate a sensitive or mutable vehicle identifier; reference the committed Ro-Ro cargo Resource. |
+| `parentCommitmentId` | `DEFER` | `LogisticsCommitment.parentReference` | Resolve identifier scope and cross-contract semantics under `LOG-CMT-005` before retaining it. |
+
+### Requirements that belong to flows or policies
+
+The legacy pack declares no root required array, but its README assigns
+pattern-specific presence rules. Those rules belong to flows:
+
+| Legacy rule group | Class | Phase 4 treatment |
+|---|---|---|
+| Package count, weight, and instructions for parcel commitments | `FLOW` | Require only the selected Resource references and any non-derivable snapshot or instruction needed by the parcel flow. |
+| Container, seal, weight, volume, capacity, and departure facts for freight | `FLOW` | Require the applicable `CargoAllocation`, `CapacityReservation`, and requested window fields at the step when they become known. |
+| Vehicle registration for Ro-Ro | `FLOW` | Require a selected `VehicleCargo` Resource reference rather than repeating registration. |
+| SKU quantity, lot, and expiry for warehouse commitments | `FLOW` | Require `InventoryAllocation` entries for flows that bind specific lots; expiry requirements depend on the Resource category and policy. |
+| Parent commitment for spawned dispatches | `FLOW` | Require only in a defined parent-child warehouse dispatch flow after `LOG-CMT-005` is resolved. |
+
+### Upstream reconciliation outcome
+
+| Candidate | Current status | Later action |
+|---|---|---|
+| Official Beckn Logistics v2 Commitment schema aligned to current Beckn core | `absent` | Compare allocation, selected-slot, capacity, and parent-reference semantics when an official compatible schema is published. |
+| Current Beckn Logistics `Package`, `Consignment`, `DeliverySlot`, and `Vehicle` | `incompatible` as dependencies; useful organizationally | Use their boundaries to distinguish selected Resources from booking allocations; do not copy schemas or older-core mappings. |
+| Pinned `RetailCommitment/2.1` | `incompatible` as a Logistics parent; useful structurally | Reuse pinned common types where applicable, but do not inherit retail-specific commitment fields. |
+| Legacy ION `LogisticsCommitment` | `under review` | Use as the field source while removing core duplication and reorganizing allocation facts. |
+| Release 1 `LogisticsCommitment` | `suitable for later release` | Author after the five named decisions and the core quantity inconsistency are resolved or explicitly deferred. |
+
 ## Remaining pack inventories
 
 The following legacy packs still require the same field-by-field review before
 Phase 3 is complete:
 
-1. `LogisticsCommitment`
-2. `LogisticsConsideration`
-3. `LogisticsContract`
-4. `LogisticsPerformance`
-5. `LogisticsTracking`
-6. `LogisticsPerformanceStates`
+1. `LogisticsConsideration`
+2. `LogisticsContract`
+3. `LogisticsPerformance`
+4. `LogisticsTracking`
+5. `LogisticsPerformanceStates`
