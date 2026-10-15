@@ -10,6 +10,9 @@ permanent integer releases. It is not copied into individual release bundles.
 - `release1-path-map.json` records approved mechanical source-to-target paths for
   the primary API files, Trade packs, and the common packs directly referenced by
   Trade.
+- `release1-logistics-path-map.json` records the approved paths for migrating the
+  Logistics packs from the separately checked-out legacy ION repository. It also
+  pins the source repository and revision used for the migration.
 - `validate_manifest.rb` validates cross-field rules that JSON Schema cannot fully
   express, including agreement between `release`, `name`, and `publicBaseUrl`.
 - `validate_path_map.rb` verifies mapping uniqueness, the required pre- or
@@ -79,6 +82,20 @@ ruby tools/release/validate_path_map.rb --require-targets tools/release/release1
 Before applying a migration, use `--require-sources`. After applying it, use
 `--require-targets`. Source validation is the default for compatibility with the
 Phase 1 workflow.
+
+The Logistics migration reads from a separate legacy checkout, so pass its root
+explicitly when validating source paths:
+
+```bash
+ruby tools/release/validate_path_map.rb --require-sources --source-root C:\work\ion\repos\ion-specs-ion-launch tools/release/release1-logistics-path-map.json
+```
+
+Once all mapped Logistics targets have been created, validate them against this
+repository without `--source-root`:
+
+```bash
+ruby tools/release/validate_path_map.rb --require-targets tools/release/release1-logistics-path-map.json
+```
 
 Commands that publish a draft into `next`, deploy it, or otherwise treat it as
 permanent must use the publication gate:

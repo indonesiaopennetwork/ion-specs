@@ -7,6 +7,7 @@ require_relative "../validate_path_map"
 
 class ValidatePathMapTest < Minitest::Test
   PATH_MAP = File.expand_path("../release1-path-map.json", __dir__)
+  LOGISTICS_PATH_MAP = File.expand_path("../release1-logistics-path-map.json", __dir__)
 
   def setup
     @path_map = IonReleasePathMap.load(PATH_MAP)
@@ -15,6 +16,14 @@ class ValidatePathMapTest < Minitest::Test
   def test_release1_path_map
     assert_empty IonReleasePathMap.validate(@path_map)
     assert_equal 14, @path_map.fetch("mappings").size
+  end
+
+  def test_release1_logistics_path_map
+    logistics_path_map = IonReleasePathMap.load(LOGISTICS_PATH_MAP)
+
+    assert_empty IonReleasePathMap.validate(logistics_path_map)
+    assert_equal 10, logistics_path_map.fetch("mappings").size
+    assert logistics_path_map.fetch("mappings").all? { |mapping| mapping.fetch("kind") == "logistics-pack" }
   end
 
   def test_duplicate_targets_are_rejected
@@ -61,6 +70,23 @@ class ValidatePathMapTest < Minitest::Test
 
       refute_includes errors, "mapping 0 target does not exist: #{target}"
       assert_includes errors, "mapping 1 target does not exist: #{@path_map['mappings'][1]['target']}"
+    end
+  end
+
+  def test_source_root_can_differ_from_target_repository_root
+    Dir.mktmpdir do |repository_root|
+      Dir.mktmpdir do |source_root|
+        path_map = @path_map.merge("mappings" => [@path_map["mappings"][0]])
+        source = path_map["mappings"][0]["source"]
+        FileUtils.mkdir_p(File.dirname(File.join(source_root, source)))
+        FileUtils.touch(File.join(source_root, source))
+
+        assert_empty IonReleasePathMap.validate(
+          path_map,
+          repository_root: repository_root,
+          source_root: source_root
+        )
+      end
     end
   end
 end
