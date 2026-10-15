@@ -167,8 +167,8 @@ Tooling changes must precede the artifacts they are intended to protect.
 ### Phase 3 — Produce the field and ownership inventory
 
 **Status:** In progress — `LogisticsResource`, `LogisticsProvider`,
-`LogisticsParticipant`, `LogisticsOffer`, and `LogisticsCommitment` inventoried
-on 2026-10-16
+`LogisticsParticipant`, `LogisticsOffer`, `LogisticsCommitment`, and
+`LogisticsConsideration` inventoried on 2026-10-16
 
 Before moving a pack, classify every legacy field as one of:
 

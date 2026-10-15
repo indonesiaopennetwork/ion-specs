@@ -7,7 +7,8 @@
 > **Organizational reference:** `beckn/logistics` at
 > `4d98c3c9b7244f32f3a900272adc990d870df0bf`  
 > **Current coverage:** `LogisticsResource`, `LogisticsProvider`,
-> `LogisticsParticipant`, `LogisticsOffer`, `LogisticsCommitment`
+> `LogisticsParticipant`, `LogisticsOffer`, `LogisticsCommitment`,
+> `LogisticsConsideration`
 
 This internal ledger records the ownership and migration disposition of every
 field in the legacy ION Logistics packs before normative Release 1 artifacts are
@@ -783,13 +784,183 @@ pattern-specific presence rules. Those rules belong to flows:
 | Legacy ION `LogisticsCommitment` | `under review` | Use as the field source while removing core duplication and reorganizing allocation facts. |
 | Release 1 `LogisticsCommitment` | `suitable for later release` | Author after the five named decisions and the core quantity inconsistency are resolved or explicitly deferred. |
 
+## `LogisticsConsideration` v1
+
+### Sources and attachment point
+
+- Legacy schema: `schema/extensions/logistics/consideration/v1/attributes.yaml`
+- Legacy schema name: `LogisticsConsideration`
+- Approved Release 1 pack name: `LogisticsConsideration`
+- Attachment point: `Consideration.considerationAttributes`
+- Beckn v2 core ownership: `Consideration` owns `id`, lifecycle status, and
+  `considerationAttributes`. Its description explicitly directs monetary
+  considerations to the pinned `PriceSpecification/2.0` schema.
+- Pinned monetary parent: `PriceSpecification/2.0` owns `currency`, total
+  `value`, `applicableQuantity`, and generic `components[]`.
+- Beckn Logistics organizational references: `Fare`, `FareBreakup`, and
+  `Receipt`. They are not approved Release 1 dependencies.
+- Existing ION common references: `Tax/v1`, `Payment/v1`, and `Settlement/v1`.
+
+The legacy pack combines four different lifecycle concerns in one flat object:
+the quoted or agreed logistics price, calculation inputs, post-performance
+charges, and COD collection/remittance. Release 1 must separate those concerns
+rather than reproduce the legacy shape.
+
+The legacy `freight-pricing.json` example also does not validate against its
+own authoring schema: it uses `breakup[].title` and nested `price` objects where
+the schema declares `titleType`, numeric `amount`, and per-line `currency`; it
+uses an object for `totalAmount` where the schema declares a number. The example
+is evidence of intended meaning only and must not be copied into Phase 4.
+
+### Named decisions
+
+| ID | Decision required | Phase 3 default |
+|---|---|---|
+| `LOG-CNS-001` | Which schema supplies the canonical monetary shape | Inherit pinned `PriceSpecification/2.0`; map legacy `totalAmount` to `value` and `breakup` to refined `components[]`. Do not create a second total or currency representation. |
+| `LOG-CNS-002` | How detailed logistics charge kinds are represented | Refine each generic PriceSpecification component with a `chargeCode` and optional typed calculation detail. Retain the generic component `type` for broad classification; do not use a human title as the machine code. |
+| `LOG-CNS-003` | How estimated, agreed, revised, and final amounts are distinguished | Prefer separate lifecycle Consideration records and core status. Add a valuation-stage or predecessor reference only if flows cannot identify the stage and revision chain unambiguously. Do not keep parallel original/revised totals by default. |
+| `LOG-CNS-004` | Where COD fee, collection, and remittance facts belong | Keep the COD service fee as a price component. Move collected amount, remittance amount, batch, timestamp, and method to Settlement/Payment modeling after defining a COD collection record; they are not price attributes. |
+| `LOG-CNS-005` | How tax and customs amounts reuse shared tax modeling | Use charge components for duty and tax amounts. Reuse or generalize `IONTaxDetail` only after removing its RetailConsideration-specific parent-path assumption; do not duplicate top-level PPN fields. |
+| `LOG-CNS-006` | How insurance price and coverage are separated | Keep the insurance premium as a charge component. Keep coverage amount with the selected insurance terms or policy in Offer/Contract, not in monetary consideration attributes. |
+| `LOG-CNS-007` | Whether adjustment components use signed values and how their calculation is audited | Define one sign convention for discounts, credits, rebates, refunds, and positive surcharges. Retain calculation basis/rate only where an audit or dispute flow needs it; otherwise derive it from the selected Offer and component value. |
+
+### Organizational alignment
+
+| Beckn or ION concept | Useful boundary | ION treatment |
+|---|---|---|
+| Pinned `PriceSpecification` | Currency, total value, applicable quantity, and component list | Use as the normative parent and vocabulary for the monetary shape. |
+| Beckn Logistics `Fare` | One logistics price containing base freight, surcharges, taxes, discounts, and a breakup | Follow the single-price boundary, but do not copy its duplicate flat amount fields or depend on the current schema. |
+| Beckn Logistics `FareBreakup` | A charge line with a broad type and detailed meaning | Adopt the separation between generic component type and logistics charge code. Use the pinned PriceSpecification component as the base. |
+| Beckn Logistics `Receipt` | Payment and delivery acknowledgement after execution | Treat as evidence that payment transaction and receipt facts are later-lifecycle documents, not consideration price fields. Do not copy its schema. |
+| ION `Tax/v1` | Indonesian tax classification, rate, inclusivity, taxable base, and e-Faktur reference | Reuse after `LOG-CNS-005` confirms a logistics-compatible attachment path or generalizes the common pack. |
+| ION `Payment/v1` and `Settlement/v1` | Payment declaration, payout terms, and reconciliation | Reuse for actual movement and reconciliation of money. Extend deliberately for COD collection/remittance rather than embedding it in the price. |
+
+The proposed Release 1 organization is:
+
+```text
+Consideration (core)
+  id
+  status
+  considerationAttributes -> LogisticsConsideration
+
+LogisticsConsideration (inherits PriceSpecification/2.0)
+  currency                  (inherited)
+  value                     (inherited total)
+  applicableQuantity        (inherited)
+  components[] -> LogisticsChargeComponent
+
+LogisticsChargeComponent (refines a PriceSpecification component)
+  type                      (generic UNIT/TAX/DELIVERY/DISCOUNT/FEE/SURCHARGE)
+  value, currency           (inherited)
+  description               (inherited human-readable label)
+  chargeCode                (logistics-specific machine code)
+  calculation               (optional basis/rate audit detail)
+  taxDetail                 (only after LOG-CNS-005)
+```
+
+`LogisticsChargeComponent` and any calculation detail are components inside the
+`LogisticsConsideration` pack, not separate packs or copied Beckn Logistics
+schemas. COD collection/remittance records are intentionally outside this
+structure.
+
+### Charge-code organization
+
+The legacy `titleType` enum is useful source material, but its members should
+be organized under broad component types rather than treated as 66 unrelated
+top-level price fields:
+
+| Generic component type | Representative legacy charge codes | Notes |
+|---|---|---|
+| `DELIVERY` or `UNIT` | `FREIGHT_BASE`, `MINIMUM_CHARGE` | The exact generic type for minimum charge must be fixed with the sign and calculation rules. |
+| `SURCHARGE` | `FUEL_SURCHARGE`, `PEAK_SEASON_SURCHARGE`, `REMOTE_AREA_SURCHARGE`, `OVERSIZE_SURCHARGE`, `WEIGHT_DIFF_ADJUSTMENT` | Calculation basis/rate is optional audit detail; the amount remains the component value. |
+| `FEE` | `COD_CHARGE`, `HANDLING_FEE`, `STORAGE_FEE`, `PICK_PACK_FEE`, `DOCUMENTATION_FEE` | More specific legacy COD fee variants may remain charge codes without becoming top-level properties. |
+| `TAX` | `PPN_TAX`, `PPNBM_TAX`, `PPH_23_WITHHOLDING`, `STAMP_DUTY`, `CUSTOMS_DUTY` | Tax rate, taxable base, and regime belong in tax detail when applicable. Customs duties may require a distinct duty classification. |
+| `DISCOUNT` | `DISCOUNT`, `VOLUME_REBATE`, `SLA_REBATE`, `CREDIT_NOTE`, `PPN_DIBEBASKAN_CREDIT` | Resolve the signed-value convention under `LOG-CNS-007`; do not encode sign only in the charge code. |
+
+All legacy enum values remain source candidates for the Phase 4 controlled
+vocabulary. This table organizes them; it does not silently discard values not
+shown as representatives.
+
+### Field ownership and disposition
+
+Every property path from the legacy `LogisticsConsideration` schema is listed
+below.
+
+| Legacy field path | Class | Proposed owner | Release 1 disposition |
+|---|---|---|---|
+| `@context`, `@type` | `CORE` | `LogisticsConsideration` | Keep through the inherited Beckn `Attributes` extension contract; update the context URL and type to the Release 1 pack. |
+| `breakup` | `LEGACY` | `LogisticsConsideration.components[]` | Replace with the inherited PriceSpecification component list refined as `LogisticsChargeComponent`. |
+| `breakup[].titleType` | `LOGISTICS` | `LogisticsChargeComponent.chargeCode` | Keep the machine-readable logistics charge meaning; pair it with the inherited generic component `type`. |
+| `breakup[].amount` | `LEGACY` | `LogisticsChargeComponent.value` | Rename to the inherited component value. |
+| `breakup[].currency` | `CORE` | `LogisticsChargeComponent.currency` | Reuse the inherited component currency; require consistency with the parent currency unless a multi-currency rule is explicitly defined. |
+| `breakup[].ppnRate` | `COMMON` | `LogisticsChargeComponent.taxDetail.rate` | Replace with shared tax detail after `LOG-CNS-005`; meaningful only for a tax component. |
+| `totalAmount` | `CORE` | `LogisticsConsideration.value` | Replace with inherited PriceSpecification total value. |
+| `currency` | `CORE` | `LogisticsConsideration.currency` | Reuse inherited ISO 4217 currency. |
+| `freightBase` | `LEGACY` | `components[chargeCode=FREIGHT_BASE].value` | Remove the duplicate flat total and express it once as a component. |
+| `fuelSurcharge` | `LEGACY` | `components[chargeCode=FUEL_SURCHARGE].value` | Remove the duplicate flat total and express it once as a component. |
+| `fuelSurchargeRate` | `DEFER` | `LogisticsChargeComponent.calculation.rate` | Retain only if the transaction must audit the applied rate; otherwise derive it from the selected Offer's formula and component value. |
+| `codCharge` | `LEGACY` | `components[chargeCode=COD_CHARGE].value` | Keep the logistics service fee as one component, not a duplicate flat amount. |
+| `codAmountCollected` | `COMMON` | Future COD collection record under Settlement/Payment | Move the actual collected amount out of Consideration; resolve the common-pack extension under `LOG-CNS-004`. |
+| `codRemittanceAmount` | `COMMON` | Future COD remittance record under Settlement | Move the actual remitted amount out of Consideration and reconcile it through Settlement. |
+| `codRemittanceBatchRef` | `COMMON` | Future COD remittance record under Settlement | Move the batch reference with the remittance record. |
+| `codRemittanceTimestamp` | `COMMON` | Future COD remittance record under Settlement | Move the remittance event time with the remittance record. |
+| `codRemittanceMethod` | `COMMON` | Payment/Settlement method | Replace the logistics-local enum with the applicable shared payment method and rail representation. |
+| `insurancePremium` | `LEGACY` | `components[chargeCode=INSURANCE_PREMIUM].value` | Keep the premium as one charge component. |
+| `insuranceCoverageAmount` | `DEFER` | Selected insurance terms in Offer/Contract | Move the insured coverage limit out of price attributes under `LOG-CNS-006`. |
+| `dutyEstimate` | `LEGACY` | Estimated `CUSTOMS_DUTY` component | Express as a component on the estimated Consideration rather than a parallel top-level amount. |
+| `taxEstimate` | `LEGACY` | Estimated tax component(s) | Express each tax as a component on the estimated Consideration with tax detail where applicable. |
+| `actualDuty` | `LEGACY` | Final or revised `CUSTOMS_DUTY` component | Express on the later lifecycle Consideration; do not keep estimated and actual fields side by side. |
+| `actualTax` | `LEGACY` | Final or revised tax component(s) | Express on the later lifecycle Consideration; preserve tax-regime detail rather than one undifferentiated total where known. |
+| `revisedAmount` | `LEGACY` | Successor `LogisticsConsideration.value` | Replace with the canonical total on a revised Consideration under `LOG-CNS-003`. |
+| `revisionBreakup` | `LEGACY` | Successor `LogisticsConsideration.components[]` | Replace with canonical components on the revised Consideration. |
+| `revisionBreakup[].titleType` | `LOGISTICS` | Successor component `chargeCode` | Use the same controlled charge vocabulary as the original Consideration. |
+| `revisionBreakup[].originalAmount` | `DEFER` | Revision audit record or predecessor component | Derive by comparing predecessor and successor Considerations unless an explicit audit snapshot is required. |
+| `revisionBreakup[].revisedAmount` | `LEGACY` | Successor component `value` | Use the revised component's canonical value. |
+| `revisionBreakup[].diff` | `DEFER` | Derived revision delta | Derive from predecessor and successor values unless the protocol requires an asserted delta. |
+| `weightDiffAdjustment` | `LEGACY` | `components[chargeCode=WEIGHT_DIFF_ADJUSTMENT].value` | Express once as a positive or negative adjustment component according to `LOG-CNS-007`. |
+| `addressChangeSurcharge` | `LEGACY` | `components[chargeCode=ADDRESS_CHANGE_SURCHARGE].value` | Add the missing controlled charge code and express the amount as a component. |
+| `rescheduleFee` | `LEGACY` | `components[chargeCode=RESCHEDULE_FEE].value` | Add the missing controlled charge code and express the amount as a component. |
+| `failedPickupFee` | `LEGACY` | `components[chargeCode=FAILED_PICKUP_FEE].value` | Express once as a component. |
+| `storageFee` | `LEGACY` | `components[chargeCode=STORAGE_FEE].value` | Express once as a component. |
+| `pickPackFee` | `LEGACY` | `components[chargeCode=PICK_PACK_FEE].value` | Express once as a component. |
+| `valueAddedServiceFee` | `LEGACY` | One or more value-added-service components | Prefer specific service charge codes; use the aggregate code only when the constituent services are unavailable. |
+| `ppnRate` | `COMMON` | PPN component `taxDetail.rate` | Remove the duplicate consideration-level field and use shared tax detail on the PPN component. |
+| `ppnAmount` | `LEGACY` | PPN component `value` | Remove the duplicate consideration-level field and use the tax component value. |
+
+### Requirements that belong to flows or policies
+
+The legacy schema requires `breakup` and `totalAmount`, while the README adds
+lifecycle-specific rules. Phase 4 should translate them as follows:
+
+| Legacy rule group | Class | Phase 4 treatment |
+|---|---|---|
+| Freight price returned during selection and initialization | `FLOW` | Require canonical `currency`, `value`, and applicable components at the steps where the provider quotes or agrees a monetary Consideration. |
+| PPN rate required for taxable lines | `FLOW` / `POLICY` | Require tax detail on applicable tax components; source the current rate from policy or regulation, never a hardcoded example. |
+| Duty and tax estimate at selection, actual amount after customs clearance | `FLOW` | Carry estimated and later revised/final Considerations at their respective events; use the same component codes and stable revision semantics. |
+| Weight discrepancy revision | `FLOW` | Send a revised Consideration through the update flow and link or correlate it to the prior value according to `LOG-CNS-003`. |
+| COD collection reported at delivery and remittance reported later | `FLOW` | Carry collection/remittance through Performance, Payment, or Settlement artifacts once `LOG-CNS-004` defines the common record; do not mutate price attributes into a remittance ledger. |
+| Conditional operational fees | `FLOW` / `POLICY` | Add the corresponding component only after the triggering event and applicable agreed policy; charge-code presence is not permission to levy a fee. |
+| Total and component arithmetic | `POLICY` | Validate currency consistency, component sign convention, and total calculation using a validator or policy rule rather than duplicating derived flat fields. |
+
+### Upstream reconciliation outcome
+
+| Candidate | Current status | Later action |
+|---|---|---|
+| Official Beckn Logistics v2 Consideration schema aligned to current Beckn core | `absent` | Compare fare, component taxonomy, lifecycle-stage, and revision semantics when an official compatible schema is published. |
+| Pinned `PriceSpecification/2.0` | `suitable for Release 1` | Use as the normative parent for total, currency, applicable quantity, and components. |
+| Current Beckn Logistics `Fare` and `FareBreakup` | `incompatible` as dependencies; useful organizationally | Use the single-fare and typed-breakup boundaries, but do not copy duplicate amounts, India-specific examples, or current external references. |
+| Current Beckn Logistics `Receipt` | `incompatible` as a dependency; useful organizationally | Keep receipt and payment acknowledgement outside Consideration; revisit only with a compatible document model. |
+| ION `Tax/v1` | `under review` for Logistics reuse | Generalize or add a compatible attachment seam before referencing it from a PriceSpecification component. |
+| ION `Payment/v1` and `Settlement/v1` | `partially reusable` | Reuse existing payment and reconciliation concepts; design the missing COD collection/remittance record separately. |
+| Legacy ION `LogisticsConsideration` | `under review` | Use as the charge and flow source while removing duplicate totals and separating lifecycle concerns. |
+| Release 1 `LogisticsConsideration` | `suitable for later release` | Author after the seven named decisions are resolved or explicitly deferred. |
+
 ## Remaining pack inventories
 
 The following legacy packs still require the same field-by-field review before
 Phase 3 is complete:
 
-1. `LogisticsConsideration`
-2. `LogisticsContract`
-3. `LogisticsPerformance`
-4. `LogisticsTracking`
-5. `LogisticsPerformanceStates`
+1. `LogisticsContract`
+2. `LogisticsPerformance`
+3. `LogisticsTracking`
+4. `LogisticsPerformanceStates`
