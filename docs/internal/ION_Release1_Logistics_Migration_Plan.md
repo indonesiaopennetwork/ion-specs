@@ -166,10 +166,11 @@ Tooling changes must precede the artifacts they are intended to protect.
 
 ### Phase 3 — Produce the field and ownership inventory
 
-**Status:** In progress — `LogisticsResource`, `LogisticsProvider`,
+**Status:** Complete — `LogisticsResource`, `LogisticsProvider`,
 `LogisticsParticipant`, `LogisticsOffer`, `LogisticsCommitment`,
 `LogisticsConsideration`, `LogisticsContract`, `LogisticsPerformance`, and
-`LogisticsTracking` inventoried on 2026-10-16
+`LogisticsTracking` plus the `LogisticsPerformanceStates` registry inventoried
+on 2026-10-16
 
 Before moving a pack, classify every legacy field as one of:
 
@@ -203,7 +204,10 @@ become available progressively:
 10. `LogisticsPerformanceStates`
 
 Each schema-pack commit must include the complete pack fileset, documentation,
-and at least one valid example. Do not commit placeholder generated artifacts.
+and at least one valid example. `LogisticsPerformanceStates` is a registry, not
+a schema pack; its commit must instead include the registry, documentation,
+validator coverage, and graph/flow-reference tests. Do not commit placeholder
+generated artifacts.
 
 For each pack:
 

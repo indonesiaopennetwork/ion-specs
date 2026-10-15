@@ -1,6 +1,6 @@
 # Release 1 Logistics upstream-alignment ledger
 
-> **Status:** In progress  
+> **Status:** Phase 3 complete
 > **Target:** ION Release 1 draft  
 > **Legacy source:** `indonesiaopennetwork/ion-specs` at
 > `33e6b4c40feabecf6b0f6a827b488ff82998c735`  
@@ -9,7 +9,7 @@
 > **Current coverage:** `LogisticsResource`, `LogisticsProvider`,
 > `LogisticsParticipant`, `LogisticsOffer`, `LogisticsCommitment`,
 > `LogisticsConsideration`, `LogisticsContract`, `LogisticsPerformance`,
-> `LogisticsTracking`
+> `LogisticsTracking`, `LogisticsPerformanceStates`
 
 This internal ledger records the ownership and migration disposition of every
 field in the legacy ION Logistics packs before normative Release 1 artifacts are
@@ -1586,9 +1586,197 @@ them as follows:
 | Legacy ION `LogisticsTracking` | `under review` | Use as the access-mode and snapshot source while removing core URL duplication, inline secrets, embedded profiles, and provider-specific geometry. |
 | Release 1 `LogisticsTracking` | `suitable for later release` | Author after the six named decisions and core Contract-reference inconsistency are resolved or explicitly deferred. |
 
-## Remaining pack inventories
+## `LogisticsPerformanceStates` v1
 
-The following legacy packs still require the same field-by-field review before
-Phase 3 is complete:
+### Sources and artifact boundary
 
-1. `LogisticsPerformanceStates`
+- Legacy registry:
+  `schema/extensions/logistics/performance-states/v1/states.yaml`
+- Legacy documentation:
+  `schema/extensions/logistics/performance-states/v1/README.md`
+- Approved Release 1 artifact name: `LogisticsPerformanceStates`
+- Runtime owner: `Performance.status.code` plus Logistics flow validation.
+- Artifact kind: versioned state-machine registry, not an OpenAPI schema pack
+  and not an `Attributes` attachment.
+- Legacy scope: 10 machines, 133 state occurrences, 81 distinct state codes,
+  and 146 directed transition edges.
+- Beckn Logistics organizational references: local status enums on `Shipment`,
+  `TrackingUpdate`, `Waypoint`, and `Alert`. The current repository has no
+  equivalent canonical multi-pattern transition registry.
+
+The Beckn Logistics objects are useful vocabulary references, but not a source
+that ION can inherit. Only five of the ten current `Shipment.status` values,
+four of nine `TrackingUpdate.status` values, one of four `Waypoint.status`
+values, and none of the three `Alert.status` values exactly overlap the 81 ION
+state codes. More importantly, those Beckn schemas declare independent enums;
+they do not define allowed transitions, terminal outcomes, required data,
+guards, side effects, or Contract-status aggregation.
+
+The legacy profile incorrectly claims an attachment to
+`beckn:performance-states Attributes`, and the root README describes an
+attribute pack with nonexistent `attributes.yaml`, `schema.json`, JSON-LD, and
+renderer artifacts. Release 1 must publish and validate this as a distinct
+registry artifact, as already anticipated by the migration plan.
+
+### Named decisions
+
+| ID | Decision required | Phase 3 default |
+|---|---|---|
+| `LOG-STATE-001` | Where and how the artifact is published | Treat it as a release-local, versioned state-machine registry referenced by Logistics flows. Do not invent a Beckn attachment point or generated schema-pack files. |
+| `LOG-STATE-002` | What machine-readable grammar and validator govern the registry | Define a formal registry grammar and dedicated validator covering unique IDs, initial state, target existence, reachability, terminal consistency, required-field references, typed triggers/effects, and flow references. |
+| `LOG-STATE-003` | How ION state codes relate to Beckn Logistics status enums | Maintain ION's richer pattern-specific vocabulary and document optional coarse mappings. Do not copy or claim equivalence with the current independent Beckn enums. |
+| `LOG-STATE-004` | How terminal state and terminal outcome are represented | Use one authoritative per-state terminal declaration with a typed outcome such as SUCCESS, CANCELLED, FAILED, RETURNED, TRANSFERRED, or DISPUTED. Remove the competing machine-level terminal list or generate it. |
+| `LOG-STATE-005` | How multiple Performance outcomes determine core `Contract.status` | Define an aggregation rule across all required Performances. A single terminal Performance must not complete or cancel a multi-performance Contract incorrectly. |
+| `LOG-STATE-006` | How state-specific required data is referenced | Replace bare legacy field names with stable semantic requirement IDs or schema JSON Pointers targeting the reorganized `LogisticsPerformance`, Contract relationship, proof, and warehouse structures. |
+| `LOG-STATE-007` | How variants, guards, side effects, and follow-up work are represented | Replace free-text `triggers[]` with typed `flowRefs[]`, `guards[]`, and `effects[]`. Refund release and storage billing are effects; reverse/customs/attempt handling are flow references; cold-chain/reweigh conditions are guards. |
+| `LOG-STATE-008` | Where rider-identity disclosure rules belong | Keep disclosure authorization in flow/privacy policy keyed by state and assignment model, not as an unqualified graph boolean. |
+| `LOG-STATE-009` | Whether topology and reverse flows are separate machines or composed variants | Keep separate machines only when transition graphs materially differ; define reusable fragments/composition for shared delivery, attempt, RTO, and customs sequences to prevent drift. |
+| `LOG-STATE-010` | How registry changes remain compatible after publication | Version machine IDs and state semantics as public contracts. Additive transitions require review; renamed/removed states or changed terminal outcomes require a new release. |
+
+### Organizational alignment with Beckn Logistics
+
+| Beckn Logistics object | Current status vocabulary | ION treatment |
+|---|---|---|
+| `Shipment` | Ten coarse shipment states; five exact ION overlaps | Use only as a coarse comparison vocabulary. Core Performance already owns status, and ION needs pattern-specific execution states. |
+| `TrackingUpdate` | Nine event-status values; four exact ION overlaps | Treat as evidence that tracking events may expose a coarse status, not as the canonical transition graph. |
+| `Waypoint` | Four stop-local states; one exact ION overlap | Keep stop state local to route execution. Do not merge it automatically into aggregate Performance state. |
+| `Alert` | Three alert-lifecycle states and separate alert types | Keep alert lifecycle distinct from Performance lifecycle; an alert may be open while Performance remains in a normal or exception state. |
+| Beckn Logistics canonical state-machine registry | Absent | Reconcile later if an official compatible registry is published. |
+
+The proposed Release 1 registry shape is:
+
+```text
+registryVersion
+machines
+  <machineId>
+    description
+    initialState
+    states
+      <stateCode>
+        category
+        contractStatusContribution
+        terminalOutcome (only when terminal)
+        transitions[]
+          to
+          guards[]
+          flowRefs[]
+          effects[]
+        requirements[]
+          requirementId
+          targetPointer
+        disclosurePolicyRefs[]
+```
+
+The exact syntax remains a Phase 4 decision, but the semantic separation is
+required. A validator should be able to resolve every reference without
+parsing human prose.
+
+### Legacy machine inventory and disposition
+
+All ten legacy machines are included below.
+
+| Legacy machine ID | Scope | Release 1 disposition |
+|---|---|---|
+| `hyperlocal-pre-assigned` | Hyperlocal delivery with rider assigned at confirmation | Keep as a candidate machine; externalize disclosure policy and repair terminal declarations. |
+| `hyperlocal-fifo` | Hyperlocal FIFO assignment at pickup | Keep if assignment timing changes the graph materially; otherwise compose the assignment/disclosure difference over a shared hyperlocal graph. |
+| `parcel-p2p` | Direct parcel delivery | Keep as a topology-specific candidate or compose from parcel fragments. |
+| `parcel-p2h2p` | Parcel through one hub | Keep as a topology-specific candidate; repair unreachable disposal outcome. |
+| `parcel-p2h2h2p` | Parcel through origin and destination hubs | Keep as a topology-specific candidate; repair unreachable disposal outcome. |
+| `parcel-reverse-qc` | Consumer return with origin QC | Keep as a child reverse-Contract machine; classify disputed termination separately from success. |
+| `freight-capacity` | Capacity-based road/ocean/air/rail/river execution | Keep; separate return-flow launch from terminal outcome and align leg milestones with LogisticsPerformance. |
+| `roro` | Roll-on/Roll-off port and sailing execution | Keep; decide whether missed sailing is recoverable, terminal, or launches rebooking. |
+| `xb` | Export, international transit, import customs, and domestic delivery | Keep; repair missing RTO target and model rejection/destruction/remediation outcomes explicitly. |
+| `warehouse-inventory` | Storage and inventory execution rather than transit | Keep as a distinct machine; model dispatch as child work and define expiry/return entry paths. |
+
+### Legacy graph defects requiring Phase 4 resolution
+
+The following findings come from a mechanical graph audit of `states.yaml`:
+
+| Machine | Finding | Required resolution |
+|---|---|---|
+| `hyperlocal-pre-assigned`, `hyperlocal-fifo` | Machine-level terminal list names `FAILED`, but neither graph defines that state. Both define terminal `RETURNED_TO_ORIGIN` without listing it. | Define explicit failure/return outcomes or remove the stale entries; use one terminal source of truth. |
+| `hyperlocal-fifo` | `CANCELLED` is declared but unreachable from the initial path. | Add the intended cancellation transitions or remove the state. |
+| `parcel-p2h2p`, `parcel-p2h2h2p` | `RTO_DISPOSED` is terminal but unreachable. | Add the policy-controlled disposal transition or remove the state for these topologies. |
+| `freight-capacity` | `FREIGHT_RETURN_INITIATED` is listed as terminal, explicitly marked `terminal: false`, and unreachable. | Treat it as a typed transition/effect into a child reverse flow, or define its next states. |
+| `roro` | `MISSED_SAILING` is listed as terminal but explicitly marked non-terminal; `CANCELLED` is unreachable. | Define rebooking/cancellation transitions and one authoritative outcome. |
+| `xb` | `DELIVERY_ATTEMPT_FAILED` targets undefined `RTO_INITIATED`; `DESTROY_IN_PLACE` is terminal but unreachable. | Add explicit, policy-guarded remediation states/transitions or link to a child reverse/destruction flow. |
+| `warehouse-inventory` | `RETURN_TO_SENDER` is terminal but omitted from the terminal list; `STORAGE_CONTRACT_EXPIRED` is unreachable. | Reconcile terminal metadata and define the expiry/return entry transitions. |
+
+The legacy flow references also disagree with the registry:
+
+| Legacy flow reference | Registry result | Phase 4 treatment |
+|---|---|---|
+| Parcel pattern `#parcel` | No such machine; three topology-specific parcel IDs exist | Select the machine from the confirmed routing topology using an explicit resolvable reference. |
+| Hyperlocal pattern `#hyperlocal-fifo OR #hyperlocal-pre-assigned` | Not a single valid fragment/reference | Define deterministic selection based on assignment model. |
+| Reverse variant `#hyperlocal-reverse`, `#freight-reverse`, `#xb-reverse` | No such machines | Add reviewed child reverse machines or point to existing valid machines; do not leave dangling references. |
+| Reverse variant `#parcel-reverse-qc` | Resolves | Preserve after graph and terminal-outcome validation. |
+
+### Structural-field disposition
+
+| Legacy registry field | Class | Release 1 disposition |
+|---|---|---|
+| `states` | `LEGACY` | Rename to `machines` or otherwise make clear that its children are state machines, not individual states. |
+| `<machine>.description` | `LOGISTICS` | Keep concise machine scope documentation. |
+| `<machine>.terminal` | `LEGACY` | Remove or generate from per-state terminal outcomes under `LOG-STATE-004`. |
+| `<machine>.transitions` | `LEGACY` | Rename/restructure as a state map so each node owns its outgoing transitions and metadata. |
+| `<state>.next` | `LOGISTICS` | Keep as typed transition targets and validate that every target exists. |
+| `<state>.terminal` | `LEGACY` | Replace boolean with typed `terminalOutcome`; absence means non-terminal. |
+| `<state>.requiredFields` | `LEGACY` | Replace bare names with resolvable requirement IDs or JSON Pointers under `LOG-STATE-006`. |
+| `<state>.triggers` | `LEGACY` | Split free text into typed guards, flow references, and effects under `LOG-STATE-007`. |
+| `<state>.exposesRiderIdentity` | `POLICY` | Replace with privacy/disclosure policy references evaluated against assignment model and caller authorization. |
+| `<state>.description` | `LOGISTICS` | Keep only state-specific semantics not already defined by the state code/catalog. |
+
+The 14 distinct legacy `requiredFields` names are all review inputs, not valid
+future pointers. `agentDetails`, proof and timestamp fields, `hubId`,
+`manifestVerified`, warehouse quantity/picking fields, and
+`transportContractReference` were reorganized during the LogisticsPerformance
+and LogisticsContract inventories. Phase 4 must map them to assignments,
+events, proofs, stops, warehouse execution, and Contract relationships.
+
+### Contract-status aggregation and flow ownership
+
+The legacy README's direct mapping from one terminal Performance state to core
+`Contract.status` is insufficient when a Contract has multiple Performances.
+Release 1 needs a deterministic aggregation rule covering at least:
+
+- all required Performances completed successfully;
+- one required Performance cancelled while others remain active;
+- a return or replacement child Contract while the original is complete;
+- a terminal dispute, customs rejection, missed sailing, or failed pickup;
+- warehouse storage that spawns multiple child transport Contracts; and
+- optional/supporting Performances that must not block completion.
+
+State-specific required data and transition guards belong to flow validation.
+Policy determines eligibility, disclosure, fees, and timeouts. The registry
+provides stable codes and graph semantics but must not embed prose that only a
+human can interpret.
+
+### Upstream reconciliation outcome
+
+| Candidate | Current status | Later action |
+|---|---|---|
+| Official Beckn Logistics v2 state-machine registry aligned to current Beckn core | `absent` | Compare machine/state identifiers, terminal outcomes, and transition semantics if an official registry is published. |
+| Current Beckn Logistics `Shipment`, `TrackingUpdate`, `Waypoint`, and `Alert` enums | `incompatible` as canonical state machines; useful vocabulary references | Document coarse mappings where useful while preserving distinct object lifecycles and ION's validated graphs. |
+| Core `Performance.status` and `Contract.status` | `suitable for Release 1` with aggregation rules | Carry detailed state in `Performance.status.code`; define deterministic multi-performance contribution to the four core Contract states. |
+| Legacy ION `LogisticsPerformanceStates` | `under review` | Use as the scenario/state source while repairing graph defects, stale field references, free-text triggers, profile claims, and dangling flow references. |
+| Release 1 `LogisticsPerformanceStates` | `suitable for later release` | Author only with the dedicated grammar, validator, graph tests, flow-reference tests, and ten named decisions resolved or explicitly deferred. |
+
+## Phase 3 completion
+
+Phase 3 is complete. The ledger now covers all nine Logistics extension-point
+packs plus the standalone performance-state registry:
+
+1. `LogisticsResource`
+2. `LogisticsProvider`
+3. `LogisticsParticipant`
+4. `LogisticsOffer`
+5. `LogisticsCommitment`
+6. `LogisticsConsideration`
+7. `LogisticsContract`
+8. `LogisticsPerformance`
+9. `LogisticsTracking`
+10. `LogisticsPerformanceStates`
+
+Phase 4 can now proceed as vertical slices in the migration-plan order. Each
+slice must resolve or explicitly defer its named decisions before normative
+artifacts are authored.
