@@ -6,7 +6,7 @@
 > `33e6b4c40feabecf6b0f6a827b488ff82998c735`  
 > **Organizational reference:** `beckn/logistics` at
 > `4d98c3c9b7244f32f3a900272adc990d870df0bf`  
-> **Current coverage:** `LogisticsResource`
+> **Current coverage:** `LogisticsResource`, `LogisticsProvider`
 
 This internal ledger records the ownership and migration disposition of every
 field in the legacy ION Logistics packs before normative Release 1 artifacts are
@@ -220,17 +220,162 @@ because they appeared in the legacy schema.
 | Legacy ION `LogisticsShipment` | `under review` | Use only as the migration source; Phase 4 must apply this ledger rather than copying it verbatim. |
 | Release 1 `LogisticsResource` | `suitable for later release` | Author only after the four named decisions are resolved or explicitly deferred from the pack. |
 
+## `LogisticsProvider` v1
+
+### Sources and attachment point
+
+- Legacy schema:
+  `schema/extensions/logistics/provider/v1/attributes.yaml`
+- Legacy schema name: `LogisticsProvider`
+- Approved Release 1 pack name: `LogisticsProvider`
+- Attachment point: `Provider.providerAttributes`
+- Beckn v2 core ownership: `Provider` owns `id`, `descriptor`, `availableAt`,
+  and `providerAttributes`; `Catalog` separately owns catalog identity,
+  contents, provider, and validity.
+- Beckn Logistics organizational references: `Carrier`, `Operator`, and `Hub`.
+  These are useful conceptual boundaries but are not Release 1 dependencies.
+
+### Named decisions
+
+| ID | Decision required | Phase 3 default |
+|---|---|---|
+| `LOG-PROV-001` | Where catalog version, publication, delta, and rate-card metadata belongs | Do not place it in Provider attributes. Reuse core `Catalog.validity`; defer additional catalog-publication metadata until the catalog publication contract has an approved extension point. |
+| `LOG-PROV-002` | How carrier, operator, forwarder, aggregator, and warehouse roles are represented | Replace the single category and aggregator boolean with a `providerRoles` collection inspired by Beckn's separate `Carrier` and `Operator` concepts. Do not copy their schemas. |
+| `LOG-PROV-003` | How service coverage is represented across countries and administrative systems | Define geography-neutral `ServiceCoverage` using core geometry or location identifiers; compose ION `Address` subdivisions only in the ION layer. |
+| `LOG-PROV-004` | How provider sites and warehouses relate to core locations | Keep addresses in `Provider.availableAt`; define `LogisticsHub` records that reference those location IDs and carry logistics-specific site capabilities. |
+| `LOG-PROV-005` | How licences and association memberships are asserted | Reuse `IONBusinessRegistration` for NIB and SIUP. Represent other licences and memberships as typed, verifiable credentials rather than status booleans. |
+
+### Organizational alignment
+
+The current Beckn Logistics repository offers three useful boundaries:
+
+| Beckn organizational concept | Useful boundary | ION treatment |
+|---|---|---|
+| `Carrier` | Transport provider, supported services, coverage, fleet, and hubs | Use as inspiration for logistics capabilities and `ServiceCoverage`; do not copy identity, tax, or India-specific fields. |
+| `Operator` | Entity coordinating a logistics network or multiple carriers | Use as inspiration for the `OPERATOR` and `AGGREGATOR` provider roles. Operational counts remain out of the schema unless a concrete protocol need is established. |
+| `Hub` | Logistics facility with a location, type, capacity, and facilities | Define an independent `LogisticsHub` component referencing `Provider.availableAt` rather than embedding another address. |
+
+The proposed Release 1 organization is:
+
+```text
+LogisticsProvider
+  providerRoles[]
+  supportedPatterns[]
+  supportedTransportModes[]
+  serviceCoverage[] -> ServiceCoverage
+  capabilities -> LogisticsCapabilities
+  operatingHours[]
+  closures[]
+  fleetProfile
+  hubs[] -> LogisticsHub
+  businessRegistration -> IONBusinessRegistration
+  credentials[]
+
+ServiceCoverage
+  coverageType
+  geo or locationIds
+  ionSubdivisions (ION layer only)
+
+LogisticsHub
+  locationId -> Provider.availableAt[*].id
+  hubType
+  capacity
+  bonded
+  facilities[]
+```
+
+These are components inside the `LogisticsProvider` pack. They do not introduce
+separate Release 1 packs or assert compatibility with the current Beckn
+Logistics repository.
+
+### Field ownership and disposition
+
+Every property path from the legacy `LogisticsProvider` schema is listed below.
+Paths grouped in one row assign the same classification, proposed component,
+and disposition to each explicitly named child.
+
+| Legacy field path | Class | Proposed owner | Release 1 disposition |
+|---|---|---|---|
+| `@context`, `@type` | `CORE` | `LogisticsProvider` | Keep through the inherited Beckn `Attributes` extension contract; update the context URL and type to the Release 1 pack. |
+| `catalogVersion`, `catalogPublishedAt` | `DEFER` | Catalog publication contract (`LOG-PROV-001`) | Remove from Provider attributes. Catalog versioning and publication timestamps describe a catalog artifact, not the provider. |
+| `catalogValidFrom`, `catalogValidUntil` | `CORE` | `Catalog.validity` | Replace with the core `Catalog.validity` `TimePeriod`; do not duplicate it in Provider attributes. |
+| `rateCardEffectiveFrom`, `rateCardEffectiveUntil` | `DEFER` | Catalog or Offer (`LOG-PROV-001`) | Remove from Provider attributes. Resolve whether validity applies to a catalog or individual offers before authoring. |
+| `catalogChangelogUrl` | `LEGACY` | `Catalog.descriptor.docs` candidate | Do not retain a bare URL. If published on the protocol, represent the changelog as a core `Document` associated with the catalog descriptor. |
+| `catalogDeltaReference` | `DEFER` | Catalog publication contract (`LOG-PROV-001`) | Keep outside Provider attributes until delta retrieval and immutable catalog identity are specified. |
+| `nibRegistered` | `LEGACY` | `IONBusinessRegistration` | Remove the boolean; derive registration from a validated `nib` value or credential. |
+| `nibNumber` | `COMMON` | `IONBusinessRegistration.nib` | Reuse the existing common-pack field and its validation constraints. |
+| `siupNumber` | `COMMON` | `IONBusinessRegistration.siupNumber` | Reuse the existing common-pack field, which already documents SIUP as a legacy licence. |
+| `alfiMembership`, `asperindoMembership` | `ION` | `LogisticsProvider.credentials[]` | Replace unverifiable booleans with typed membership credentials under `LOG-PROV-005`. |
+| `providerCategory` | `LOGISTICS` | `LogisticsProvider.providerRoles[]` | Replace the single closed category with one or more logistics roles. Preserve carrier, forwarder, aggregator, marketplace-logistics, 3PL, 4PL, and warehouse-operator concepts during vocabulary review. |
+| `aggregatorModel` | `LEGACY` | `LogisticsProvider.providerRoles[]` | Remove as redundant when the provider declares the `AGGREGATOR` role. |
+| `patternsSupported` | `LOGISTICS` | `LogisticsProvider.supportedPatterns[]` | Keep as discoverable logistics-pattern capability; align values to the eventual Release 1 flow registry rather than copying Beckn service-type enums. |
+| `modesSupported` | `LOGISTICS` | `LogisticsProvider.supportedTransportModes[]` | Keep as geography-neutral transport-mode capability. Distinguish transport modes from vehicle types during vocabulary review. |
+| `coverage` | `LOGISTICS` | `ServiceCoverage` | Keep the serviceability concept but replace embedded country-specific fields with reusable geometry or location references under `LOG-PROV-003`. |
+| `coverage[].coverageType` | `LOGISTICS` | `ServiceCoverage.coverageType` | Keep pickup, delivery, and bidirectional coverage semantics. |
+| `coverage[].provinsiCode` | `COMMON` | `IONServiceCoverage.ionSubdivisions.provinsiCode` | Reuse the common `IONAddress` subdivision field only in the ION-specific layer. |
+| `coverage[].cityCode` | `DEFER` | `IONServiceCoverage.ionSubdivisions` | Resolve whether this means a core location ID, BPS kabupaten/kota code, or another registry before retaining it. |
+| `coverage[].pincodes` | `LEGACY` | `ServiceCoverage` | Replace India-specific terminology with core geometry, location identifiers, or explicitly defined `postalCodes`. |
+| `coldChainCertified`, `coldChainTemperatureZones` | `LOGISTICS` | `LogisticsCapabilities.coldChain` | Keep as cold-chain capability facts, but represent certification evidence through credentials rather than relying only on a boolean. |
+| `hazmatCertified`, `hazmatClasses` | `LOGISTICS` | `LogisticsCapabilities.dangerousGoods` | Keep supported dangerous-goods classes; represent certification evidence through credentials. |
+| `highValueCapable` | `LOGISTICS` | `LogisticsCapabilities.highValue` | Keep as a discoverable enhanced-security capability, with thresholds and evidence defined by offer or policy. |
+| `beaCukaiLicenceNumber` | `ION` | `LogisticsProvider.credentials[]` | Keep the Indonesian customs-broker licence as a typed credential, not a standalone field. |
+| `operatingHours` | `LOGISTICS` | `LogisticsProvider.operatingHours[]` | Keep recurring operating windows, aligned with the existing ION provider-hours shape and optionally scoped to an `availableAt` location. |
+| `operatingHours[].day` | `LEGACY` | `LogisticsProvider.operatingHours[]` | Replace the closed day-name enum with the existing ION numeric `dayFrom`/`dayTo` convention. |
+| `operatingHours[].opens`, `operatingHours[].closes` | `LEGACY` | `LogisticsProvider.operatingHours[]` | Rename to the existing ION `startTime` and `endTime` convention. |
+| `holidayCalendar` | `LOGISTICS` | `LogisticsProvider.closures[]` | Keep exceptional closure dates using the existing ION provider `closures` organization and optional location scope. |
+| `pickupCutoffTimes` | `DEFER` | Logistics Offer or corridor service level | Do not assume provider ownership; cutoff time normally varies by corridor and offered service. Resolve with the Offer inventory. |
+| `pickupCutoffTimes[].corridor`, `pickupCutoffTimes[].serviceLevel`, `pickupCutoffTimes[].cutoffTime` | `DEFER` | Logistics Offer or corridor service level | Move with the parent cutoff rule if retained; reference defined corridor and service-level identifiers rather than free text. |
+| `fleetType` | `LOGISTICS` | `LogisticsProvider.fleetProfile` | Keep the fleet-sourcing model, inspired by the carrier boundary but independent of individual transport assets. |
+| `maxDeliveryRadiusKm` | `LEGACY` | `ServiceCoverage` | Replace the unit-suffixed scalar with a measured coverage constraint or geometry in `ServiceCoverage`. |
+| `warehouseLocations` | `LOGISTICS` | `LogisticsProvider.hubs[]` | Replace embedded warehouse locations with `LogisticsHub` records referencing core `Provider.availableAt` locations. |
+| `warehouseLocations[].locationId` | `CORE` | `LogisticsHub.locationId` -> `Provider.availableAt[*].id` | Keep only as a reference to the core provider location. |
+| `warehouseLocations[].address` | `LEGACY` | `Provider.availableAt` | Remove the untyped duplicate address; the core provider location owns address and geometry. |
+| `warehouseLocations[].warehouseType` | `LOGISTICS` | `LogisticsHub.hubType` | Keep the facility classification, using the organizational name `hubType`. |
+| `warehouseLocations[].totalCapacityCbm` | `LEGACY` | `LogisticsHub.capacity` | Replace the unit-suffixed scalar with a typed quantity and a declared unit code. |
+| `warehouseLocations[].bondedStatus` | `LOGISTICS` | `LogisticsHub.bonded` | Keep as a structured customs-facility fact; credential evidence belongs in `credentials[]`. |
+| `fwaApplicable` | `POLICY` | Offer or Contract policy reference | Remove the provider boolean. Framework-agreement applicability is governed by the applicable offer/contract and policy reference. |
+
+No field should be copied from the Beckn `Carrier`, `Operator`, or `Hub`
+schemas. Their organization informs boundaries only. In particular, India GST,
+PAN, pincode, and India-specific vehicle or facility examples are not ION
+concepts.
+
+### Requirements that belong to flows or policies
+
+The legacy schema's unconditional and conditional presence rules are not
+reusable field ownership:
+
+| Legacy rule | Class | Phase 4 treatment |
+|---|---|---|
+| Catalog version and publication timestamps always required | `LEGACY` | Remove from Provider. Any future requirement belongs to the catalog publication contract. |
+| NIB registration always required | `POLICY` | Reuse `IONBusinessRegistration`; ION onboarding policy determines when validated registration is mandatory. |
+| Provider category, patterns, modes, coverage, and hours always required | `FLOW` | Declare the minimum provider-discovery fields in Logistics catalog flows, not in the shared schema. |
+| SIUP required above an UMKM tier | `POLICY` | Govern through Indonesian licensing policy and `IONBusinessRegistration`; do not encode the threshold in this pack. |
+| Cold-chain zones required when certified | `FLOW` | Express as a same-component conditional only if the final shape retains a certification-status field; credential validity remains policy. |
+| Dangerous-goods classes required when certified or serving dangerous goods | `FLOW` | Require supported classes in relevant catalog and dangerous-goods flows; certification validity remains policy. |
+| Customs-broker licence required for cross-border providers | `POLICY` | Require the applicable credential through cross-border participation policy. |
+| Warehouse sites required for warehouse providers | `FLOW` | Express in the warehouse catalog flow after `LOG-PROV-004` is finalized. |
+| Delivery radius required for hyperlocal providers | `FLOW` | Require an applicable `ServiceCoverage` constraint in hyperlocal discovery, not the legacy scalar field. |
+
+### Upstream reconciliation outcome
+
+| Candidate | Current status | Later action |
+|---|---|---|
+| Official Beckn Logistics v2 Provider schema aligned to current Beckn core | `absent` | Compare provider roles, coverage, capabilities, and site organization when an official compatible schema is published. |
+| Current Beckn Logistics `Carrier`, `Operator`, and `Hub` schemas | `incompatible` as dependencies; useful organizationally | Retain the class boundaries as design input, but do not copy their fields, India-specific identifiers, required arrays, or older core mappings. |
+| Legacy ION `LogisticsProvider` | `under review` | Use only as the field source; apply common-pack reuse and the ownership corrections in this ledger. |
+| Release 1 `LogisticsProvider` | `suitable for later release` | Author after the five named decisions are resolved or explicitly deferred from the pack. |
+
 ## Remaining pack inventories
 
 The following legacy packs still require the same field-by-field review before
 Phase 3 is complete:
 
-1. `LogisticsProvider`
-2. `LogisticsParticipant`
-3. `LogisticsOffer`
-4. `LogisticsCommitment`
-5. `LogisticsConsideration`
-6. `LogisticsContract`
-7. `LogisticsPerformance`
-8. `LogisticsTracking`
-9. `LogisticsPerformanceStates`
+1. `LogisticsParticipant`
+2. `LogisticsOffer`
+3. `LogisticsCommitment`
+4. `LogisticsConsideration`
+5. `LogisticsContract`
+6. `LogisticsPerformance`
+7. `LogisticsTracking`
+8. `LogisticsPerformanceStates`
