@@ -9,7 +9,7 @@ contentStatus:
   ionApi: review-required
   common: validated
   trade: validated
-  logistics: excluded
+  logistics: review-required
   hospitality: excluded
   finance: excluded
   flows: validated

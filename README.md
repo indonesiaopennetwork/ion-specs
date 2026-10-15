@@ -16,12 +16,15 @@ in the network and is based on Beckn Protocol 2.0.0.
 
 ### Release 1 (draft)
 
-Release 1 is limited to the standalone Trade schema packs, the common packs they
-require, the settlement reconciliation API, the scoped Storefront, Made-to-Order, Live Commerce, Digital Goods,
-Business Procurement, Marketplace In-house, and Marketplace Listed flows and
-connected registries, the ION-owned Beckn-derived API contract, and pinned
-vendored Beckn schema dependencies. It remains mutable
-and unchannelled until the Council publishes it into the `next` channel on `main`.
+Release 1 currently contains the standalone Trade schema packs, the common packs
+they require, the settlement reconciliation API, the scoped Storefront,
+Made-to-Order, Live Commerce, Digital Goods, Business Procurement, Marketplace
+In-house, and Marketplace Listed flows and connected registries, the ION-owned
+Beckn-derived API contract, and pinned vendored Beckn schema dependencies.
+Logistics has been reopened for independent review and migration into this draft;
+no Logistics artifact is included merely by that scope change. Release 1 remains
+mutable and unchannelled until the Council publishes it into the `next` channel
+on `main`.
 
 - [`releases/release1/release.yaml`](releases/release1/release.yaml) — scope,
   dependency provenance, checksums, and publication state.
@@ -47,7 +50,9 @@ and unchannelled until the Council publishes it into the `next` channel on `main
 - [`releases/release1/errors/registry.json`](releases/release1/errors/registry.json)
   — 10 Trade errors with release-local targets.
 
-Release 1 excludes `ion.yaml`, Logistics, Hospitality, and Finance. The repository
+Release 1 excludes `ion.yaml`, Hospitality, and Finance. Logistics is
+`review-required`: its legacy material is being reviewed independently and is not
+normative until migrated, validated, and added to the release. The repository
 does not maintain separate editable `schema/`, `flows/`, or `errors/` trees at
 its root. Policies are the exception: their canonical sources and generated
 registry live in root `policies/` and evolve independently of integer releases.

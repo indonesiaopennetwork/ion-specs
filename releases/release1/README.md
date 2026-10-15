@@ -3,7 +3,8 @@
 > **Status: DRAFT — not published or assigned to a release channel.**
 
 This directory is the working envelope for the first permanent integer release of
-the ION Trade specification. It is mutable while `release.yaml` has
+the ION Trade specification and the Logistics material under independent review
+for this draft. It is mutable while `release.yaml` has
 `status: draft`. Its contents and public URLs carry no compatibility guarantee
 until the ION Council approves the release and changes its status to `published`.
 Publication will assign Release 1 to the `next` channel and begin its operational
@@ -19,9 +20,11 @@ URLs, and the graph resolves offline.
 Phase 5 validated the standalone Trade packs and the four common packs required by
 Trade, including their JSON-LD documents and all 17 example objects. Phase 6
 explicitly excluded the unreconciled `ion.yaml` aggregate and the Logistics,
-Hospitality, and Finance sectors from Release 1. Those artifacts are absent from
-the release, and the repository does not retain separate root-level normative
-copies.
+Hospitality, and Finance sectors from Release 1. On 16 October 2026, Logistics
+was reopened as `review-required` so its legacy material can be migrated and
+validated independently. This status change does not include any Logistics
+artifact by itself. `ion.yaml`, Hospitality, and Finance remain excluded, and the
+repository does not retain separate root-level normative copies.
 
 Phase 8A added the independently reviewable connected Trade baseline:
 Storefront v1 and 8 Trade errors whose schema and flow targets are present in
@@ -61,9 +64,10 @@ schema/core/api/v2.0.0/ion-beckn.yaml
 ```
 
 Release 1 does not publish `ion.yaml` or a merged `ion-full.yaml`. Its normative
-ION-owned schemas are the core API contract, the standalone packs under
-`schema/common/`, and the packs under `schema/extension/trade/`. Pinned schema
-dependencies live under `schema/vendored/`;
+ION-owned schemas currently present are the core API contract, the standalone
+packs under `schema/common/`, and the packs under `schema/extension/trade/`.
+Logistics packs will be added under `schema/extension/logistics/` only after
+individual review and validation. Pinned schema dependencies live under `schema/vendored/`;
 the scoped `flows/` and `errors/` trees remain release-level peers. Policies are
 resolved from the repository-level registry at
 `https://schema.ion.id/policies/registry.json`.

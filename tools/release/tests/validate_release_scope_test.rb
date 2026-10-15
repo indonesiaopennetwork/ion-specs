@@ -29,6 +29,47 @@ class ValidateReleaseScopeTest < Minitest::Test
     end
   end
 
+  def test_logistics_flow_is_rejected_while_logistics_is_excluded
+    Dir.mktmpdir do |root|
+      create_validated_baseline(root)
+      FileUtils.mkdir_p(File.join(root, "flows/logistics"))
+
+      errors = IonReleaseScope.validate(root, "contentStatus" => statuses)
+
+      assert_includes errors, "excluded content is present for logistics: flows/logistics"
+    end
+  end
+
+  def test_review_required_logistics_allows_logistics_flow
+    Dir.mktmpdir do |root|
+      create_validated_baseline(root)
+      FileUtils.mkdir_p(File.join(root, "flows/logistics"))
+      manifest = {
+        "contentStatus" => statuses.merge("logistics" => "review-required")
+      }
+
+      errors = IonReleaseScope.validate(root, manifest)
+
+      refute errors.any? { |error| error.include?("excluded content is present for logistics") }
+    end
+  end
+
+  def test_validated_flow_scope_accepts_logistics_flow
+    Dir.mktmpdir do |root|
+      FileUtils.mkdir_p(File.join(root, "schema/common"))
+      FileUtils.mkdir_p(File.join(root, "schema/extension/trade"))
+      FileUtils.mkdir_p(File.join(root, "flows/logistics"))
+      FileUtils.mkdir_p(File.join(root, "errors"))
+      manifest = {
+        "contentStatus" => statuses.merge("logistics" => "review-required")
+      }
+
+      errors = IonReleaseScope.validate(root, manifest)
+
+      refute_includes errors, "validated content is absent for flows"
+    end
+  end
+
   def test_versioned_ion_beckn_api_satisfies_validated_ion_api_scope
     Dir.mktmpdir do |root|
       FileUtils.mkdir_p(File.join(root, "schema/core/api/v2.0.0"))
@@ -70,6 +111,13 @@ class ValidateReleaseScopeTest < Minitest::Test
   end
 
   private
+
+  def create_validated_baseline(root)
+    FileUtils.mkdir_p(File.join(root, "schema/common"))
+    FileUtils.mkdir_p(File.join(root, "schema/extension/trade"))
+    FileUtils.mkdir_p(File.join(root, "flows/trade"))
+    FileUtils.mkdir_p(File.join(root, "errors"))
+  end
 
   def statuses
     {

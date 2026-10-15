@@ -134,6 +134,8 @@ set before inclusion.
 
 ### Phase 1 — Reopen Logistics scope safely
 
+**Status:** Complete — 2026-10-16
+
 1. Change `contentStatus.logistics` in `release.yaml` from `excluded` to
    `review-required`.
 2. Update the Release 1 README, root README, changelog, and migration inventory

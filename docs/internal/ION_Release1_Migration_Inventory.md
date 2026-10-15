@@ -695,6 +695,19 @@ decision is recorded as follows:
 This completes Phase 6. Exclusion is a Release 1 scope decision, not a claim that
 the source material is obsolete or a request to delete it.
 
+#### Logistics scope reopened (2026-10-16)
+
+While Release 1 remains a draft, its working scope was amended to reopen
+Logistics as `review-required`. This reverses only the Logistics exclusion
+recorded above; `ionApi`, Hospitality, and Finance remain excluded.
+
+No Logistics artifact became normative through this status change. The new
+migration proceeds from the pinned legacy ION Logistics material directly onto
+the Release 1 Beckn Protocol v2 extension points. The incomplete external Beckn
+Logistics domain repository is comparison material, not a Release 1 dependency.
+The execution plan is recorded in
+`docs/internal/ION_Release1_Logistics_Migration_Plan.md`.
+
 ### Phase 7 — Update repository-level material
 
 1. [x] Added a manually runnable release gate at
