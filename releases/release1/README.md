@@ -134,5 +134,5 @@ ruby tools/release/validate_release.rb --publication releases/release1
 This command intentionally fails while Release 1 remains a draft.
 
 See `docs/ION_Release_Architecture.md` and
-`docs/ION_Release1_Migration_Inventory.md` for the governing decision and migration
+`docs/internal/ION_Release1_Migration_Inventory.md` for the governing decision and migration
 plan.

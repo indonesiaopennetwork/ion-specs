@@ -16,7 +16,7 @@ files, in this order:
    provenance, checksums, and publication state.
 5. `releases/release1/README.md` for the Release 1 contents and validation entry
    points.
-6. `docs/ION_Release1_Migration_Inventory.md` for completed migration work,
+6. `docs/internal/ION_Release1_Migration_Inventory.md` for completed migration work,
    exclusions, and deferred work.
 7. `tools/release/README.md` for release construction and validation tooling.
 8. `docs/ION_Schema_Style_Guide.md` and `docs/ION_Schema_Design_Guide.md` before

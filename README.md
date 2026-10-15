@@ -113,7 +113,7 @@ interfaces.
 Architecture and migration decisions are documented in:
 
 - [`docs/ION_Release_Architecture.md`](docs/ION_Release_Architecture.md)
-- [`docs/ION_Release1_Migration_Inventory.md`](docs/ION_Release1_Migration_Inventory.md)
+- [`docs/internal/ION_Release1_Migration_Inventory.md`](docs/internal/ION_Release1_Migration_Inventory.md)
 
 ## License
 

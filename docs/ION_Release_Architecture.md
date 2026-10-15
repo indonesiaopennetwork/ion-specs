@@ -467,7 +467,7 @@ the authority for the target release architecture.
 ## Migration principles
 
 The migration to `release1` will be performed separately from this decision. It
-is inventoried in `docs/ION_Release1_Migration_Inventory.md` and must follow these
+is inventoried in `docs/internal/ION_Release1_Migration_Inventory.md` and must follow these
 principles:
 
 1. Inventory and classify existing URLs as schema references, context document
