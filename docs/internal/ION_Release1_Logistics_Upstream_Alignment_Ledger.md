@@ -8,7 +8,7 @@
 > `4d98c3c9b7244f32f3a900272adc990d870df0bf`  
 > **Current coverage:** `LogisticsResource`, `LogisticsProvider`,
 > `LogisticsParticipant`, `LogisticsOffer`, `LogisticsCommitment`,
-> `LogisticsConsideration`
+> `LogisticsConsideration`, `LogisticsContract`
 
 This internal ledger records the ownership and migration disposition of every
 field in the legacy ION Logistics packs before normative Release 1 artifacts are
@@ -955,12 +955,238 @@ lifecycle-specific rules. Phase 4 should translate them as follows:
 | Legacy ION `LogisticsConsideration` | `under review` | Use as the charge and flow source while removing duplicate totals and separating lifecycle concerns. |
 | Release 1 `LogisticsConsideration` | `suitable for later release` | Author after the seven named decisions are resolved or explicitly deferred. |
 
+## `LogisticsContract` v1
+
+### Sources and attachment point
+
+- Legacy schema: `schema/extensions/logistics/contract/v1/attributes.yaml`
+- Legacy schema name: `LogisticsContract`
+- Approved Release 1 pack name: `LogisticsContract`
+- Attachment point: `Contract.contractAttributes`
+- Beckn v2 core ownership: `Contract` owns `id`, descriptor, commitments,
+  considerations, participants, performances, settlements, lifecycle status,
+  and `contractAttributes`.
+- Existing Release 1 references: `IONBusinessRegistration`, `IONTaxDetail`,
+  `IONPayment`, `IONSettlementReconciliation`, core `Descriptor`, core
+  `Document`, pinned `Quantity`, and pinned `TimePeriod`.
+- Beckn Logistics organizational references: `Consignment`, `SupportCase`,
+  `Proof`, `ReturnPolicy`, `CancellationPolicy`, and `Receipt`. They are not
+  approved Release 1 dependencies.
+- Local structural reference: `IONTradeContract` demonstrates property-level
+  reuse of invoice preferences, composed business registration, typed parent
+  linkage, and one normalized cancellation object. Logistics must not inherit
+  the retail or Trade contract pack.
+
+The legacy pack is not one stable contract shape. It combines agreement
+bindings, billing identity, payment terms, insurance, disputes and claims,
+execution measurements, reverse-logistics requests, customs artifacts, and
+one-off action responses. Phase 4 must preserve the ideas while relocating
+facts to the core object or extension point that owns their lifecycle.
+
+The legacy `parcel-contract.json` example does not validate against its own
+authoring schema: `contractType`, `origin`, `destination`, `serviceLevel`, and
+`agreedRate` are not declared properties. Those values already map more cleanly
+to selected Resources, Commitments, Performances, Offers, and Considerations and
+must not be added to the new contract pack merely to preserve the example.
+
+Four intended annotations are also indented under `properties` in the legacy
+schema and therefore become literal payload properties named
+`x-ion-condition`: one each at the root, under `withholdingTax`, under
+`cargoInsurance`, and under `beaCukaiDeclaration`. They are migration defects,
+not public fields. Their rules must move to flow or policy validation.
+
+### Named decisions
+
+| ID | Decision required | Phase 3 default |
+|---|---|---|
+| `LOG-CON-001` | How Framework Agreement, parent, reverse, and reservation relationships are represented | Use typed `AgreementBinding` or `ContractRelationship` entries with relationship kind and globally meaningful reference scope. Coordinate the parent edge with `LOG-CMT-005`; do not retain unrelated string fields. |
+| `LOG-CON-002` | How transaction-party business and billing identity is carried | Compose `IONBusinessRegistration` and the pinned reusable invoice-preference property where transaction-specific identity is required. Do not duplicate legacy NPWP/NIB formats or provider onboarding records. |
+| `LOG-CON-003` | How invoice, tax, withholding, stamp-duty, credit, and payment facts are split | Keep invoice requests on Contract, price/tax amounts on Consideration, payment and credit terms on Settlement/Payment, reconciliation amounts on Settlement, and issued documents as typed Document references. Extend common packs only where a genuine gap remains. |
+| `LOG-CON-004` | How selected cargo insurance terms are represented | Use one `CargoInsuranceAgreement` with policy reference, underwriter Participant reference, insured party, typed monetary limits, coverage extensions, and validity. The premium remains a Consideration component. |
+| `LOG-CON-005` | How multiple disputes and claims are persisted | Replace singleton dispute/claim fields with repeatable `LogisticsCase` records inspired by Beckn Logistics `SupportCase`; use core Support for interaction and core Documents for evidence. Define one coherent case status model. |
+| `LOG-CON-006` | Where observed weight and temperature exceptions live | Record measurements and exception events on Logistics Performance or Tracking. Contract cases may reference those observations but must not duplicate their raw telemetry. |
+| `LOG-CON-007` | How reverse logistics and inventory release create downstream work | Represent them as child Contracts, Commitments, Resources, and Performances connected by typed relationships. Do not encode an imperative request as parallel arrays in the parent contract. |
+| `LOG-CON-008` | How Incoterms and customs compliance are organized | Keep agreed Incoterms in `CrossBorderTerms`; organize declaration metadata and document references in `CustomsCompliance`; keep item classification on Resources and execution milestones on Performance. |
+| `LOG-CON-009` | How cancellation and operational resolution decisions are recorded | Use one typed cancellation record aligned with `IONTradeContract` where applicable. Event-specific resolutions belong to the triggering Performance/update flow or a LogisticsCase, not unrelated flat strings. |
+| `LOG-CON-010` | Whether transaction-time eKYC state is transmitted | Prefer a minimal Participant verification assertion or credential reference and keep sensitive evidence off-network. Do not expose rejection narratives or duplicate provider onboarding state in Contract attributes. |
+
+### Organizational alignment
+
+| Beckn or ION concept | Useful boundary | ION treatment |
+|---|---|---|
+| Core `Contract` | Canonical commitments, considerations, participants, performances, settlements, status, and descriptor documents | Reference these core members instead of copying shipment, price, party, execution, or payment facts into contract attributes. |
+| `IONTradeContract` | Parent linkage, composed business identity, invoice preference refinement, and normalized cancellation | Follow these local structural patterns where semantics are cross-sector; do not inherit the Trade or Retail pack. |
+| Beckn Logistics `Consignment` | Commercial grouping and shipment identity | Keep consignment facts with Logistics Resources and core Commitments; the Contract binds them rather than reproducing them. |
+| Beckn Logistics `SupportCase` | Repeatable issue record with type, status, evidence, claim, and resolution | Use as naming and grouping inspiration for `LogisticsCase`, while aligning interaction with core Support and evidence with core Document. |
+| Beckn Logistics `Proof` | Typed evidence associated with an execution event | Use core Document and Logistics Performance evidence structures; do not copy media URLs into Contract cases. |
+| Beckn Logistics `ReturnPolicy` and `CancellationPolicy` | Terms governing eligibility, fees, and resolutions | Keep terms in Offer policy references. Contract records the selected policy reference and actual request/outcome only. |
+| ION common tax, payment, settlement, and business-registration packs | Cross-sector Indonesian compliance and money movement | Reuse these owners rather than defining Logistics-only NPWP, tax, credit, invoice, or reconciliation shapes. |
+
+The proposed Release 1 organization is:
+
+```text
+Contract (core)
+  id, descriptor
+  commitments[], consideration[], participants[]
+  performance[], settlements[], status
+  contractAttributes -> LogisticsContract
+
+LogisticsContract
+  relationships[] -> ContractRelationship
+  buyerBusinessRegistration (only when transaction-specific)
+  invoicePreferences
+  cargoInsurance -> CargoInsuranceAgreement
+  crossBorderTerms -> CrossBorderTerms
+  customsCompliance -> CustomsCompliance
+  cases[] -> LogisticsCase
+  cancellation
+```
+
+These are components inside the `LogisticsContract` pack unless a named
+decision explicitly moves them to a common pack. Raw execution observations,
+payment events, and child-work requests are intentionally outside this shape.
+
+### Field ownership and disposition
+
+Every property path from the legacy `LogisticsContract` schema is listed below.
+
+| Legacy field path | Class | Proposed owner | Release 1 disposition |
+|---|---|---|---|
+| `@context`, `@type` | `CORE` | `LogisticsContract` | Keep through the Beckn `Attributes` extension contract; update the context URL and type to the Release 1 pack. |
+| `fwaReference` | `DEFER` | `ContractRelationship` or agreement binding | Replace the unscoped policy IRI with a typed Framework Agreement binding after `LOG-CON-001` defines identifier and version semantics. |
+| `parentContractReference` | `DEFER` | `ContractRelationship` | Replace with a typed parent relationship coordinated with `LOG-CMT-005`. |
+| `npwp`, `nib` | `COMMON` | `buyerBusinessRegistration` / referenced Participant | Replace the duplicated legacy formats with `IONBusinessRegistration`; the legacy punctuated 15-digit NPWP pattern is incompatible with the current 16-digit common definition. |
+| `invoicePreferences` | `COMMON` | `LogisticsContract.invoicePreferences` | Reuse the pinned invoice-preference shape at property level and add only Logistics-required refinements; do not inherit the Retail contract. |
+| `invoicePreferences.fakturaRequired` | `LEGACY` | `invoicePreferences.invoiceType` | Replace the boolean with an explicit tax-invoice request type. |
+| `invoicePreferences.fakturaReference`, `invoicePreferences.fakturaStatus`, `invoicePreferences.fakturaPenggantiForReference` | `COMMON` | Tax detail and issued tax-invoice Document | Move issued Faktur Pajak identity and replacement state out of preferences; reuse `IONTaxDetail.eFakturRef` and add a common typed document only if the replacement lifecycle must be exchanged. |
+| `invoicePreferences.invoicingModel` | `DEFER` | Invoice preference or Framework Agreement | Retain only if consolidated/FWA billing cannot be derived from the governing agreement and settlement schedule. |
+| `invoicePreferences.coretaxIntegration` | `LEGACY` | Implementation detail | Remove the provider-system boolean from the public contract. |
+| `invoicePreferences.coretaxTransactionId` | `DEFER` | Issued tax-invoice Document | Retain only as a regulated external-system reference in a typed document, never as evidence that an implementation uses Coretax. |
+| `withholdingTax` | `LEGACY` | Consideration tax component plus Settlement and Documents | Remove the parallel aggregate object and distribute its facts to their lifecycle owners under `LOG-CON-003`. |
+| `withholdingTax.applicable` | `POLICY` | Applicable tax policy / presence of PPH component | Derive applicability from party and transaction facts; do not transmit a competing boolean. |
+| `withholdingTax.rate` | `COMMON` | PPH component `IONTaxDetail.rate` | Reuse shared tax detail on the applicable Consideration component. |
+| `withholdingTax.withheldAmount` | `COMMON` | `IONSettlementReconciliation.withholdingAmount` | Move the realized withheld amount to Settlement; the tax component carries the agreed tax amount. |
+| `withholdingTax.buktiPotongReference`, `withholdingTax.buktiPotongDate`, `withholdingTax.buktiPotongDocumentUrl` | `DEFER` | Typed withholding-certificate Document | Preserve as document metadata only after a common certificate shape is defined; use access-controlled core Document references. |
+| `withholdingTax.withheldBy` | `COMMON` | Settlement participant/account responsibility | Replace the role-only enum with a core Participant reference or the shared settlement responsibility model. |
+| `withholdingTax.remittedToDjp`, `withholdingTax.djpRemittanceReference` | `COMMON` | Settlement/tax-remittance evidence | Move post-payment remittance state and reference out of Contract terms. |
+| `withholdingTax.x-ion-condition` | `LEGACY` | Flow or policy rule | Remove the accidentally declared payload property and preserve the intended condition in validation policy. |
+| `ppnExemption` | `DEFER` | Tax detail plus `TaxExemptionEvidence` | Generalize the common Tax pack if exemption authority, evidence, and validity must be transmitted. |
+| `ppnExemption.applicable` | `POLICY` | `IONTaxDetail.taxRegime` | Use `EXEMPT` and the presence of exemption evidence rather than a duplicate boolean. |
+| `ppnExemption.reason`, `ppnExemption.exemptionLicenceReference`, `ppnExemption.validUntil` | `ION` | `TaxExemptionEvidence` | Preserve Indonesia-specific exemption classification, authority reference, and validity in a typed common tax evidence object after `LOG-CON-003`. |
+| `stampDuty` | `LEGACY` | Consideration component plus e-Meterai Document | Split the tax amount from issued stamp evidence. |
+| `stampDuty.applicable` | `POLICY` | Stamp-duty policy / component presence | Derive applicability; do not transmit a competing boolean. |
+| `stampDuty.amount` | `COMMON` | Consideration tax/fee component value | Do not hardcode the legacy default; source the applicable amount from current policy. |
+| `stampDuty.eMeteraiReference` | `ION` | Typed e-Meterai Document | Preserve the regulated reference as document metadata when issued. |
+| `creditTermsDays`, `paymentDueDate` | `COMMON` | `IONPayment.creditTerms` | Reuse `CreditTerms` under `Settlement.settlementAttributes`; do not duplicate payment terms on Contract attributes. |
+| `ekycFormReference`, `ekycStatus`, `ekycVerificationTimestamp`, `ekycRejectionReason` | `DEFER` | Participant verification assertion | Resolve `LOG-CON-010`; expose only the minimum result and credential reference needed for the transaction, with sensitive form and rejection detail off-network. |
+| `cargoInsurance` | `LOGISTICS` | `CargoInsuranceAgreement` | Keep selected cargo coverage as a typed contract component under `LOG-CON-004`. |
+| `cargoInsurance.policyReference` | `POLICY` | `CargoInsuranceAgreement.policyRef` | Keep a governed policy reference with stable IRI semantics. |
+| `cargoInsurance.insuranceScope` | `LOGISTICS` | `CargoInsuranceAgreement.coverageScope` | Keep the selected ICC or other coverage scope in a controlled vocabulary. |
+| `cargoInsurance.underwriterSubscriberId` | `CORE` | `Contract.participants[].id` | Reference the underwriter Participant; do not create a second party identifier. |
+| `cargoInsurance.underwriterName` | `CORE` | Underwriter Participant descriptor | Remove the duplicate legal/display name. |
+| `cargoInsurance.underwriterPolicyNumber` | `LOGISTICS` | `CargoInsuranceAgreement.policyNumber` | Keep the insurer-issued policy identifier, distinct from the ION policy IRI. |
+| `cargoInsurance.insuredParty` | `LOGISTICS` | `CargoInsuranceAgreement.insuredParticipantId` | Replace the closed role-only enum with a core Participant reference, retaining role as descriptive classification if needed. |
+| `cargoInsurance.coverageAmount`, `cargoInsurance.currency`, `cargoInsurance.deductible` | `LOGISTICS` | Typed monetary limits in `CargoInsuranceAgreement` | Keep coverage and deductible with one explicit currency using a reusable monetary shape. |
+| `cargoInsurance.premiumAmount` | `LEGACY` | Insurance-premium Consideration component | Remove the duplicate amount from Contract terms. |
+| `cargoInsurance.validFrom`, `cargoInsurance.validUntil` | `LOGISTICS` | `CargoInsuranceAgreement.validity` | Replace parallel timestamps with pinned `TimePeriod/2.0`. |
+| `cargoInsurance.warRiskAddition`, `cargoInsurance.strikeRiskAddition`, `cargoInsurance.generalAverageParticipation` | `LOGISTICS` | `CargoInsuranceAgreement.coverageExtensions[]` | Replace parallel booleans with controlled selected coverage extensions. |
+| `cargoInsurance.transitClauseExtension` | `DEFER` | Policy clause or coverage extension | Prefer a governed clause/document reference over unstructured legal text. |
+| `cargoInsurance.x-ion-condition` | `LEGACY` | Flow or policy rule | Remove the accidentally declared payload property and preserve the intended freight/cross-border condition in policy. |
+| `disputeReason`, `disputeReason.policyIri`, `disputeReason.description` | `LEGACY` | `LogisticsCase.reason` | Replace the singleton object with a case reason containing a policy reference and core Descriptor-compatible description. |
+| `disputeState` | `LEGACY` | `LogisticsCase.status` | Replace the mixed dispute/claim enum with one coherent per-case lifecycle. |
+| `disputeResolution`, `disputeResolution.outcome`, `disputeResolution.resolvedAt` | `LEGACY` | `LogisticsCase.resolution` | Move the outcome and resolution timestamp into the applicable repeatable case. |
+| `disputeResolution.settlementAmount` | `COMMON` | Case resolution plus Consideration/Settlement | Keep an offered or agreed amount as a typed monetary value, and record actual discharge through Settlement. |
+| `claimType` | `LOGISTICS` | `LogisticsCase.type` | Keep the issue classification on each case rather than once per Contract. |
+| `claimDetail` | `LEGACY` | `LogisticsCase.claim` | Replace the singleton claim object with a typed section of the applicable case. |
+| `claimDetail.policyIri`, `claimDetail.description` | `POLICY` | `LogisticsCase.policyRef` and descriptor | Preserve the governing policy reference and concise claim description. |
+| `claimDetail.claimedAmount` | `LOGISTICS` | `LogisticsCase.claimedAmount` | Keep as a typed monetary amount using the Contract currency or an explicit currency. |
+| `claimDetail.evidenceUrls`, `claimDetail.evidenceType` | `CORE` | `LogisticsCase.evidence[]` using core `Document` | Replace parallel URL/type fields with typed, secured Document references. |
+| `claimDetail.reportedAt` | `LOGISTICS` | `LogisticsCase.reportedAt` | Keep the case creation/reporting timestamp. |
+| `claimAssessment`, `claimAssessment.outcome`, `claimAssessment.rejectionReason`, `claimAssessment.inspectionRequired` | `LOGISTICS` | `LogisticsCase.assessment` | Keep one assessment per case; use a controlled outcome and concise rationale, with inspection represented as a linked Performance when scheduled. |
+| `claimAssessment.offeredSettlement` | `LOGISTICS` | `LogisticsCase.assessment.offeredAmount` | Keep as a typed monetary offer; actual payment remains a Settlement. |
+| `claimResolution`, `claimResolution.decision` | `LOGISTICS` | `LogisticsCase.resolution` | Keep the claimant's response or escalation decision in the case lifecycle. |
+| `addressChangeReason`, `addressUnserviceableResolution` | `FLOW` | Logistics Performance exception or `LogisticsCase` | Record against the address/serviceability exception that triggered the decision; selected new address belongs to the updated Performance. |
+| `returnReason`, `returnReason.code`, `returnReason.policyIri`, `returnReason.description` | `LEGACY` | Reverse `LogisticsCase.reason` and governing return policy | Normalize as a Descriptor-compatible reason plus policy reference; do not maintain a separate return-only reason shape. |
+| `returnItems`, `returnItems[].resourceId`, `returnItems[].quantity` | `CORE` | Child reverse Contract commitments/resources | Replace the duplicate line list with core Commitment Resource references and typed quantities under `LOG-CON-007`. |
+| `reverseContractReference` | `DEFER` | `ContractRelationship` | Replace with a typed `REVERSE_OF` or `GENERATED_RETURN` relationship. |
+| `excursionDetail` | `LEGACY` | Logistics Performance exception event | Move the raw cold-chain observation out of Contract attributes under `LOG-CON-006`. |
+| `excursionDetail.detectedAt`, `excursionDetail.location` | `LEGACY` | Performance event time and core Location | Use typed event timestamp and Location rather than an unstructured location string. |
+| `excursionDetail.measuredTemperature`, `excursionDetail.declaredMin`, `excursionDetail.declaredMax` | `LEGACY` | Typed temperature Measurements | Replace unitless numbers with typed quantities and reference the agreed Resource/Offer range. |
+| `excursionDetail.excursionDurationMinutes` | `LEGACY` | Typed duration on Performance event | Replace the minutes-only integer with an ISO 8601 duration. |
+| `excursionResolution`, `excursionResolution.decision` | `FLOW` | Performance exception resolution or `LogisticsCase` | Record the decision in the exception/claim flow, not as a singleton Contract field. |
+| `discrepancyDetail` | `LEGACY` | Logistics Performance measurement event | Move the weight discrepancy observation out of Contract attributes. |
+| `discrepancyDetail.declaredWeight`, `discrepancyDetail.measuredWeight` | `LEGACY` | Typed weight Measurements | Replace unitless numbers with pinned `Quantity/2.0`; reference the declared Resource measurement where possible. |
+| `discrepancyDetail.measurementTimestamp`, `discrepancyDetail.measurementLocation` | `LOGISTICS` | Performance measurement event | Keep the timestamp and controlled operational point on the event. |
+| `discrepancyDetail.scalePhotoUrl` | `CORE` | Performance evidence using core `Document` | Replace the raw URL with secured typed evidence. |
+| `discrepancyDetail.measuredDimensions` | `LEGACY` | Typed dimensional measurement | The legacy object has no declared shape; replace it with the same typed dimensions used by the measured Resource. |
+| `disputeCounter`, `disputeCounter.counterWeight` | `LEGACY` | `LogisticsCase.counterproposal` | Keep a typed counter-measurement only when a case disputes the provider observation. |
+| `disputeCounter.evidenceUrls`, `disputeCounter.evidenceType` | `CORE` | `LogisticsCase.evidence[]` using core `Document` | Replace parallel evidence fields with typed Documents. |
+| `inventoryReleaseRequest` | `FLOW` | New child Contract/Commitment request | Do not persist an imperative request shape in the parent Contract under `LOG-CON-007`. |
+| `inventoryReleaseRequest.skus`, `inventoryReleaseRequest.quantities` | `LEGACY` | Child Commitment Resource references and quantities | Replace fragile parallel arrays with paired core Resource entries and typed quantities. |
+| `inventoryReleaseRequest.destinationType`, `inventoryReleaseRequest.destinationAddress` | `LEGACY` | Child Logistics Performance destination | Replace the enum plus untyped object with the selected destination role and core Address/Location on the child execution. |
+| `incoterms`, `incotermsVersion`, `incotermsNamedPlace` | `LOGISTICS` | `CrossBorderTerms` | Keep the agreed rule, edition, and named place as one structured trade-term component. |
+| `x-ion-condition` | `LEGACY` | Cross-border flow rule | Remove the accidentally declared root payload property and require `CrossBorderTerms` only in applicable flows. |
+| `beaCukaiDeclaration` | `ION` | `CustomsCompliance.declaration` | Keep Indonesia customs declaration metadata as a structured compliance component. |
+| `beaCukaiDeclaration.declarationType`, `beaCukaiDeclaration.declarationNumber`, `beaCukaiDeclaration.declarationDate`, `beaCukaiDeclaration.ceisaReceiptNumber` | `ION` | Customs declaration identity and receipt | Keep controlled declaration type and CEISA-issued identifiers/date. |
+| `beaCukaiDeclaration.nikDeclarant` | `DEFER` | Declarant Participant/credential reference | Avoid transmitting raw NIK; reference the authorized declarant and retain sensitive identity off-network. |
+| `beaCukaiDeclaration.hsCodeTariffPost` | `LEGACY` | Logistics Resource customs classification | Move item-specific HS/tariff classification to each affected Resource rather than one Contract-wide string. |
+| `beaCukaiDeclaration.cifValueIdr`, `beaCukaiDeclaration.exchangeRateUsed` | `ION` | `CustomsCompliance.valuation` | Keep declared customs valuation and applied official exchange rate with explicit source/date and currency semantics. |
+| `beaCukaiDeclaration.x-ion-condition` | `LEGACY` | Cross-border flow or policy rule | Remove the accidentally declared payload property and preserve the intended CEISA condition in validation. |
+| `inatradePermits` | `ION` | `CustomsCompliance.permits[]` | Keep regulated permit references as typed compliance documents. |
+| `inatradePermits[].permitType`, `inatradePermits[].permitNumber`, `inatradePermits[].issuingMinistry`, `inatradePermits[].validUntil` | `ION` | Permit Document metadata | Keep controlled permit identity, issuer, and validity. |
+| `inatradePermits[].documentUrl` | `CORE` | Core `Document.url` | Use an access-controlled typed Document reference. |
+| `lartasClassification` | `ION` | Logistics Resource regulatory classification | Move prohibited/restricted-goods classification to each affected Resource; Contract policy validates the aggregate shipment. |
+| `aseanSingleWindowReference` | `ION` | `CustomsCompliance` document/reference | Keep the external clearance reference when applicable. |
+| `fumigationCertificate` | `LOGISTICS` | `CustomsCompliance.certificates[]` | Keep as a typed compliance Document when wood packaging requires it. |
+| `fumigationCertificate.certificateNumber`, `fumigationCertificate.treatmentType`, `fumigationCertificate.treatmentDate`, `fumigationCertificate.facilityCode` | `LOGISTICS` | Fumigation certificate metadata | Preserve the certificate identity and ISPM 15 treatment metadata. |
+| `fumigationCertificate.documentUrl` | `CORE` | Core `Document.url` | Use an access-controlled typed Document reference. |
+| `phytosanitaryCertificate` | `LOGISTICS` | `CustomsCompliance.certificates[]` | Keep as a typed compliance Document for applicable agricultural Resources. |
+| `phytosanitaryCertificate.certificateNumber`, `phytosanitaryCertificate.issuingAuthority` | `LOGISTICS` | Phytosanitary certificate metadata | Preserve certificate identity and issuer. |
+| `phytosanitaryCertificate.documentUrl` | `CORE` | Core `Document.url` | Use an access-controlled typed Document reference. |
+| `xbReturnDecision` | `FLOW` | Customs-rejection `LogisticsCase` or child Contract relationship | Record the chosen resolution after rejection and create a child Contract when movement is required. |
+| `cancellationReason` | `LEGACY` | `LogisticsContract.cancellation.reason` | Normalize to the same cancellation boundary used by `IONTradeContract`. |
+| `cancellationReason.id` | `LEGACY` | Cancellation reason `Descriptor.code` or policy reference | Remove the second reason identifier; use one machine-readable code and a separate policy reference when needed. |
+| `cancellationReason.descriptor`, `cancellationReason.descriptor.code`, `cancellationReason.descriptor.shortDesc` | `CORE` | Core `Descriptor` | Replace the partial inline Descriptor with a core schema reference. |
+| `cancellationReasonCode` | `LEGACY` | Cancellation reason `Descriptor.code` | Remove the third duplicate reason code. |
+| `pickupFailedResolution` | `FLOW` | Pickup-failure Performance exception or cancellation | Record the decision in the triggering flow; cancellation uses the normalized cancellation object. |
+| `buyerResolutionDeadline` | `FLOW` | Applicable `LogisticsCase` or exception event | Keep only when a response deadline is communicated for a specific case/event. |
+| `codPartialReason` | `FLOW` | COD collection exception / `LogisticsCase.reason` | Record against the partial-collection event and COD settlement record, not as an unscoped Contract string. |
+
+### Requirements that belong to flows or policies
+
+The legacy schema has no root `required` list, while its descriptions and README
+assign numerous conditional requirements. Those rules belong to flows and
+policies:
+
+| Legacy rule group | Class | Phase 4 treatment |
+|---|---|---|
+| FWA-governed pricing, credit, and policy inheritance | `FLOW` / `POLICY` | Require a resolvable agreement binding in applicable B2B flows and validate selected Offer, Consideration, and Settlement terms against it. |
+| B2B identity, tax invoice, withholding, and stamp duty | `FLOW` / `POLICY` | Compose current common schemas and require them only for the applicable party, tax, invoice, and value thresholds. |
+| Named cargo insurance and freight/cross-border coverage | `FLOW` / `POLICY` | Require `CargoInsuranceAgreement` when selected terms or regulation demand it; verify the underwriter Participant and coverage period. |
+| Dispute and claim progression | `FLOW` | Define case creation, evidence exchange, assessment, resolution, and escalation transitions for each independent case. |
+| Temperature excursion and weight discrepancy | `FLOW` | Report typed observations on Performance/Tracking, then create or update a referenced case when the observation is disputed or claimed. |
+| Reverse shipment and inventory release | `FLOW` | Create child core Contracts and Commitments with typed relationships; validate that referenced Resources and quantities belong to the parent transaction. |
+| Incoterms, customs declaration, permits, LARTAS, and certificates | `FLOW` / `POLICY` | Require only for applicable cross-border routes and Resource categories; validate document validity and authority at the step where each artifact becomes available. |
+| Cancellation, failed pickup, address failure, partial COD, and customs rejection | `FLOW` | Carry request reason and resolution in the triggering API flow, then persist only the normalized outcome or case/child relationship needed for contract history. |
+| Sensitive identity and evidence URLs | `POLICY` | Apply data minimization, access control, and residency rules; prefer participant or Document references over raw identity values and public URLs. |
+
+### Upstream reconciliation outcome
+
+| Candidate | Current status | Later action |
+|---|---|---|
+| Official Beckn Logistics v2 Contract schema aligned to current Beckn core | `absent` | Compare agreement binding, insurance, case, cross-border, and cancellation organization when an official compatible schema is published. |
+| Core `Contract`, `Document`, `Support`, `Performance`, and `Settlement` | `suitable for Release 1` with gaps | Use their lifecycle ownership directly; fill only Logistics-specific case and agreement gaps. |
+| `IONTradeContract` | `incompatible` as a parent; useful local precedent | Reuse cross-sector property patterns or extract common structures without importing retail semantics. |
+| ION common business-registration, tax, payment, and settlement packs | `partially reusable` | Compose existing definitions and generalize only the identified tax-document, COD, and certificate gaps. |
+| Current Beckn Logistics `SupportCase`, `Proof`, `ReturnPolicy`, `CancellationPolicy`, `Receipt`, and `Consignment` | `incompatible` as dependencies; useful organizationally | Use their semantic boundaries as review input without copying schemas, v1-shaped examples, or older-core mappings. |
+| Legacy ION `LogisticsContract` | `under review` | Use as the scenario inventory while removing duplicated core data, action payloads, raw telemetry, and common-pack concepts. |
+| Release 1 `LogisticsContract` | `suitable for later release` | Author after the ten named decisions are resolved or explicitly deferred. |
+
 ## Remaining pack inventories
 
 The following legacy packs still require the same field-by-field review before
 Phase 3 is complete:
 
-1. `LogisticsContract`
-2. `LogisticsPerformance`
-3. `LogisticsTracking`
-4. `LogisticsPerformanceStates`
+1. `LogisticsPerformance`
+2. `LogisticsTracking`
+3. `LogisticsPerformanceStates`
