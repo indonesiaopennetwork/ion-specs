@@ -8,7 +8,7 @@
 > `4d98c3c9b7244f32f3a900272adc990d870df0bf`  
 > **Current coverage:** `LogisticsResource`, `LogisticsProvider`,
 > `LogisticsParticipant`, `LogisticsOffer`, `LogisticsCommitment`,
-> `LogisticsConsideration`, `LogisticsContract`
+> `LogisticsConsideration`, `LogisticsContract`, `LogisticsPerformance`
 
 This internal ledger records the ownership and migration disposition of every
 field in the legacy ION Logistics packs before normative Release 1 artifacts are
@@ -1182,11 +1182,277 @@ policies:
 | Legacy ION `LogisticsContract` | `under review` | Use as the scenario inventory while removing duplicated core data, action payloads, raw telemetry, and common-pack concepts. |
 | Release 1 `LogisticsContract` | `suitable for later release` | Author after the ten named decisions are resolved or explicitly deferred. |
 
+## `LogisticsPerformance` v1
+
+### Sources and attachment point
+
+- Legacy schema: `schema/extensions/logistics/performance/v1/attributes.yaml`
+- Legacy schema name: `LogisticsPerformance`
+- Approved Release 1 pack name: `LogisticsPerformance`
+- Attachment point: `Performance.performanceAttributes`
+- Beckn v2 core ownership: `Performance` owns `id`, lifecycle `status`, the
+  `commitmentIds[]` it satisfies, and `performanceAttributes`.
+- Existing Release 1 references: core `Descriptor`, core `Document`, core
+  `Location`, core `Participant`, pinned `Address`, pinned `Quantity`, and
+  pinned `TimePeriod`.
+- Beckn Logistics organizational references: `Shipment`, `LogisticsRoute`,
+  `Waypoint`, `TrackingUpdate`, `Alert`, `Proof`, `Driver`, `Vehicle`, and
+  `DeliverySlot`. They are not approved Release 1 dependencies.
+- Local structural reference: `IONTradePerformance` demonstrates core Document
+  evidence, typed quantities, assigned-agent refinement, stops, and SLA breach
+  records. Logistics must not inherit the retail or Trade pack.
+
+`LogisticsPerformance` is the ION shipment-execution aggregate corresponding
+organizationally to Beckn Logistics `Shipment`. It should not wrap another
+top-level Shipment object: the core Performance already supplies the execution
+identity, status, and Commitment linkage.
+
+The legacy pack also overlaps the separate `LogisticsTracking` pack. Core
+`Tracking` owns the live URL or streaming handle, high-level active state, and
+`trackingAttributes`; Performance owns the durable execution plan, milestones,
+observations, proofs, and history. A current-location snapshot may appear in a
+Tracking response but must not become a second Performance state history.
+
+The legacy `parcel-delivery-status.json` example does not validate against its
+own schema. It uses undeclared `currentState`, `lastUpdateAt`, and
+`estimatedDeliveryAt` properties; the schema instead declares core Performance
+status, multiple timing records, and `estimatedDeliveryTime`. Phase 4 must build
+a new example from the selected model.
+
+The legacy authoring file contains 34 textual `x-ion-condition` occurrences.
+Twenty-four are repeated keys at the root `properties` indentation, so YAML
+parsing collapses them into one literal payload property named
+`x-ion-condition`. Two more are similarly nested as payload properties under
+financial attribution and state timing. Correctly scoped annotations still do
+not replace flow requirements. None of these condition strings should be
+migrated as data fields.
+
+### Named decisions
+
+| ID | Decision required | Phase 3 default |
+|---|---|---|
+| `LOG-PERF-001` | How AWB, booking, bill-of-lading, ticket, storage, and per-leg carrier identifiers are represented | Use repeatable typed `ServiceReference` and Document references rather than mutually exclusive flat strings. Preserve issuer and scope where needed. |
+| `LOG-PERF-002` | How pickup windows, route legs, stops, schedules, milestones, and actual times are organized | Use `PickupExecution`, ordered `RouteLeg`/stop components, pinned `TimePeriod`, and timestamped `PerformanceEvent` milestones. Do not maintain parallel date/window/timestamp fields when one typed structure suffices. |
+| `LOG-PERF-003` | How pickup, delivery, handoff, label, manifest, and acknowledgement evidence is represented | Use typed `LogisticsProof` records backed by core `Document`, Location, timestamp, and Participant references. Never expose raw OTPs, unrestricted media URLs, or inline label bytes by default. |
+| `LOG-PERF-004` | How assigned agents, carriers, vehicles, hubs, and facilities are referenced | Use core Contract Participant IDs and Logistics Resource/location references. Keep only transaction-time assignment facts; do not duplicate names, plates, photos, or provider identities. |
+| `LOG-PERF-005` | Boundary between Performance history and live Tracking | Performance keeps durable events and observations. Core Tracking plus `LogisticsTracking` keeps the URL/stream handle, credentials, refresh guidance, current location snapshot, and live ETA. |
+| `LOG-PERF-006` | How temperature, weight, dimensions, capacity, emissions, and other measurements are typed | Use pinned `Quantity/2.0` with controlled unit codes and a timestamp/location/device envelope. Avoid unitless values and parallel value/unit objects. |
+| `LOG-PERF-007` | Which capacity facts belong to Commitment versus execution | Requested/proposed capacity, hold, and confirmation belong to selection/Commitment. Performance records actual allocation/use and loading/manifest milestones, linked to the committed reservation. |
+| `LOG-PERF-008` | How delivery attempts, customs holds, discrepancies, and excursions are represented | Use repeatable `PerformanceEvent`/`LogisticsAlert` records with reason, time, location, evidence, deadline, and resolution reference. Create a Contract `LogisticsCase` only when an event becomes a dispute or claim. |
+| `LOG-PERF-009` | How warehouse receipt, picking, allocation, ready-to-ship, and handoff are represented | Use typed inventory execution and handoff records referencing Resources, Commitments, Participants, Locations, and child Contract relationships. Remove parallel SKU/quantity arrays and gateway-routing internals. |
+| `LOG-PERF-010` | How current state, transition history, dwell commitments, and SLA breach evidence relate to the state registry | Core `Performance.status` is current state. Keep normalized transition and breach history; derive live dwell/time-remaining/cascade projections. Coordinate codes and transitions with `LogisticsPerformanceStates`. |
+| `LOG-PERF-011` | Whether and how shipment sustainability evidence remains in this pack | Retain a typed `SustainabilityReport` component for the draft, using quantities and evidence references; plan later extraction if the GLEC/CSRD model becomes independently reusable. Carbon credits/offset purchases remain separate Resources, Contracts, and Settlements. |
+| `LOG-PERF-012` | Where leg-level financial attribution belongs | Allocate charges through Consideration components and discharge through Settlement, referencing route-leg IDs when needed. Performance must not carry a second billing ledger. |
+
+### Organizational alignment
+
+| Beckn or ION concept | Useful boundary | ION treatment |
+|---|---|---|
+| Core `Performance` | Execution identity, current status, and Commitment linkage | Use directly; never duplicate `currentState`, performance identity, or committed Resource links. |
+| Beckn Logistics `Shipment` | One execution aggregate containing route, proof, alerts, and shipment progress | Treat `LogisticsPerformance` as this aggregate rather than nesting or copying `Shipment`. |
+| Beckn Logistics `LogisticsRoute` and `Waypoint` | Ordered route, legs/stops, locations, schedule, and actual arrival/departure | Use similar named internal components with core Location and typed timing. |
+| Beckn Logistics `Proof` | Typed evidence for pickup, delivery, and handoff | Use the boundary but back evidence with core Document and privacy-aware verification results. |
+| Beckn Logistics `TrackingUpdate` and `Alert` | Timestamped progress or exception event | Use as organizational inspiration for durable `PerformanceEvent`/`LogisticsAlert` history; do not import their older-core identifiers or duplicate live Tracking. |
+| Beckn Logistics `Driver` and `Vehicle` | Assigned human and transport asset | Reference Contract Participants and Logistics Resources instead of copying identity/profile fields. |
+| `IONTradePerformance` | Stops, assigned-agent extensions, core Document evidence, typed quantities, and SLA breach history | Reuse cross-sector shapes or extract shared components where appropriate; do not inherit retail modes or requirements. |
+
+The proposed Release 1 organization is:
+
+```text
+Performance (core)
+  id
+  status
+  commitmentIds[]
+  performanceAttributes -> LogisticsPerformance
+
+LogisticsPerformance
+  serviceReferences[] -> ServiceReference
+  pickup -> PickupExecution
+  route -> LogisticsRoute
+    legs[] -> RouteLeg
+    stops[] -> LogisticsStop
+  events[] -> PerformanceEvent / LogisticsAlert
+  assignments[] -> LogisticsAssignment
+  proofs[] -> LogisticsProof
+  measurements[] -> LogisticsMeasurement
+  attempts[] -> DeliveryAttempt
+  warehouseExecution -> WarehouseExecution
+  sla -> SLAExecution
+  sustainability -> SustainabilityReport
+```
+
+These named structures are internal components of the
+`LogisticsPerformance` pack unless a later common extraction is approved.
+`LogisticsTracking` remains a separate pack attached to core Tracking.
+
+### Field ownership and disposition
+
+Every property path from the legacy `LogisticsPerformance` schema is listed
+below.
+
+| Legacy field path | Class | Proposed owner | Release 1 disposition |
+|---|---|---|---|
+| `@context`, `@type` | `CORE` | `LogisticsPerformance` | Keep through the Beckn `Attributes` extension contract; update the context URL and type to the Release 1 pack. |
+| `awbNumber`, `bookingReference`, `billOfLadingReference`, `ticketReference`, `storageContractReference` | `LOGISTICS` | `serviceReferences[]` | Replace pattern-specific flat identifiers with typed references under `LOG-PERF-001`. |
+| `x-ion-condition` | `LEGACY` | Flow requirements | Remove the duplicate root property produced by misplaced annotations and restate each applicable rule in flows. |
+| `awbAllocationMode`, `preAllocatedAwbBlockRef` | `LOGISTICS` | AWB `ServiceReference` allocation metadata | Keep allocation mode and block reference only for an AWB reference; require the block only for pre-allocation. |
+| `pickupModel` | `LOGISTICS` | `PickupExecution.model` | Keep the selected pickup operating model. |
+| `requestedPickupDate`, `requestedPickupWindow`, `requestedPickupWindow.from`, `requestedPickupWindow.until` | `LEGACY` | `PickupExecution.requestedWindow` | Replace split date/time fields with pinned `TimePeriod/2.0`; time-only windows require an associated date and time zone. |
+| `confirmedPickupDate`, `confirmedPickupWindow`, `confirmedPickupWindow.from`, `confirmedPickupWindow.until` | `LEGACY` | `PickupExecution.confirmedWindow` | Replace parallel date/window fields with one date-time TimePeriod. |
+| `pickupBatchId` | `LOGISTICS` | `PickupExecution.batchReference` | Keep the provider-issued bulk-pickup grouping reference. |
+| `pickupBatchShipmentCount` | `DEFER` | Derived batch aggregate | Derive from the batch manifest unless an asserted count is required for audit. |
+| `pickupAgentPointId` | `LOGISTICS` | `PickupExecution.lodgementLocationId` | Reference the selected Provider location or Logistics Resource. |
+| `pickupLodgementTimestamp` | `LOGISTICS` | Lodgement `PerformanceEvent.timestamp` | Record as the actual counter/locker handoff event. |
+| `appliedCutoffs` | `LOGISTICS` | `PickupExecution.appliedCutoffs[]` | Keep resolved transaction deadlines separately from recurring Offer schedules. |
+| `appliedCutoffs[].cutoffType`, `appliedCutoffs[].deadline`, `appliedCutoffs[].status` | `LOGISTICS` | `AppliedCutoff` | Keep the controlled cutoff kind, absolute deadline, and observed outcome. |
+| `appliedCutoffs[].timeRemaining` | `LEGACY` | Derived at presentation time | Remove the volatile duration; derive it from the deadline and current time. |
+| `appliedCutoffs[].lateAcceptancePolicy` | `POLICY` | Selected Offer policy reference | Do not repeat policy terms on Performance; record an exception outcome event if late acceptance occurs. |
+| `appliedCutoffs[].description` | `CORE` | Applied-cutoff Descriptor | Keep only concise human-readable context not already conveyed by the code or policy. |
+| `shippingLabelUrl`, `shippingLabelFormat` | `CORE` | Label core `Document` | Replace the parallel fields with a typed Document carrying URL, MIME/standard, and label format metadata. |
+| `shippingLabelBytes` | `DEFER` | Secured label Document/content endpoint | Do not inline printer payload bytes by default; retain only if an explicit size, security, and transport contract is defined. |
+| `routingTopology` | `LOGISTICS` | `LogisticsRoute.topology` | Keep the confirmed high-level topology when it affects expected stops or state transitions. |
+| `estimatedTAT` | `DEFER` | Derived route estimate / SLA | Prefer estimated arrival plus the selected SLA; retain a duration only if its start event is explicit. |
+| `estimatedDeliveryTime` | `LOGISTICS` | Destination stop `estimatedArrival` | Keep one current delivery estimate on the final stop or route summary. |
+| `scheduledDeparture`, `scheduledArrival` | `LOGISTICS` | Route or leg schedule | Place scheduled times on the applicable route leg/stop rather than the aggregate when multiple legs exist. |
+| `pickupTimestamp`, `deliveryTimestamp` | `LOGISTICS` | Pickup/delivery `PerformanceEvent.timestamp` | Record actual milestones as events and derive summary timestamps if needed. |
+| `proofOfPickupType`, `proofOfDeliveryType` | `LEGACY` | `LogisticsProof.type` | Remove duplicate selector fields; each proof record declares its own type and milestone. |
+| `proofOfPickup`, `proofOfDelivery` | `LEGACY` | `proofs[]` | Replace two ad hoc objects with repeatable typed proof records. |
+| `proofOfPickup.type`, `proofOfDelivery.type` | `LOGISTICS` | `LogisticsProof.type` | Use one controlled proof-type vocabulary. |
+| `proofOfPickup.value`, `proofOfDelivery.value` | `DEFER` | Core `Document` or verification result | Replace untyped/raw values with secured evidence or a non-secret verification outcome. |
+| `proofOfPickup.timestamp`, `proofOfDelivery.timestamp` | `LOGISTICS` | `LogisticsProof.capturedAt` | Keep the evidence capture time. |
+| `proofOfPickup.gps`, `proofOfDelivery.gps` | `LEGACY` | `LogisticsProof.location` | Replace an untyped string with core Location/GeoJSON. |
+| `proofOfPickup.capturedBy` | `CORE` | `LogisticsProof.capturedByParticipantId` | Reference the assigned Participant rather than embedding identity. |
+| `proofOfDelivery.signatory`, `proofOfDelivery.signatoryRelation` | `DEFER` | `LogisticsProof.recipient` | Minimize personal data; keep a Participant reference or recipient role/relationship only when policy requires it. |
+| `deliveryOtp` | `DEFER` | Off-network handoff credential / proof verification | Never echo the usable OTP in Performance updates. Exchange it through an approved secret channel and record only verification outcome/evidence. |
+| `trackingUrl` | `CORE` | `Tracking.url` | Remove the duplicate Performance field and use core Tracking. |
+| `liveGps`, `liveGps.lat`, `liveGps.lng`, `liveGps.timestamp`, `liveGps.accuracy` | `LEGACY` | `LogisticsTracking.currentLocation` | Move the live snapshot to the Tracking extension and use typed geometry/accuracy units. |
+| `lastScanTimestamp`, `lastScanLocation` | `LEGACY` | Latest scan `PerformanceEvent` | Replace the lossy last-only pair with event history; use core Location. |
+| `agentDetails` | `LEGACY` | `assignments[]` | Replace the embedded profile with transaction-time assignment references. |
+| `agentDetails.name`, `agentDetails.phoneProxy`, `agentDetails.photoUrl` | `CORE` | Assigned Participant and secured descriptor/document | Do not duplicate identity; disclose only minimized presentation/contact data allowed at the current state. |
+| `agentDetails.vehicleType`, `agentDetails.vehiclePlate` | `CORE` | Assigned Vehicle Resource | Reference the transport asset rather than copying type and registration. |
+| `hubId` | `LOGISTICS` | Event/stop Logistics Resource or location reference | Associate the hub with the applicable event or route stop, not the entire aggregate. |
+| `legs` | `LOGISTICS` | `LogisticsRoute.legs[]` | Keep ordered execution legs for multimodal journeys. |
+| `legs[].legId`, `legs[].legSequence`, `legs[].legType` | `LOGISTICS` | `RouteLeg` identity/order/type | Keep stable leg identity, explicit order, and controlled leg role. |
+| `legs[].origin`, `legs[].destination` | `LEGACY` | `RouteLeg.origin` / `RouteLeg.destination` using core Location | Replace the inline location objects with typed locations/stops. |
+| `legs[].origin.locationType`, `legs[].destination.locationType` | `LOGISTICS` | Route stop role/facility type | Keep one controlled facility/stop classification. |
+| `legs[].origin.locationCode`, `legs[].destination.locationCode` | `LOGISTICS` | Route stop external code | Keep UN/LOCODE, IATA, or facility code with an explicit code scheme. |
+| `legs[].origin.address`, `legs[].destination.address` | `CORE` | Core/pinned Address on Location | Replace untyped objects with the approved Address shape and ION address extension where needed. |
+| `legs[].carrierId` | `CORE` | `RouteLeg.carrierParticipantId` | Reference a Contract Participant. |
+| `legs[].carrierName`, `legs[].carrierType` | `LEGACY` | Carrier Participant descriptor/role | Remove duplicate name and infer or retain role through Participant attributes. |
+| `legs[].vesselOrFlightRef` | `DEFER` | Assigned transport Resource/reference | Split vessel, voyage, flight, rail, or fleet identifiers into typed asset/service references rather than one ambiguous string. |
+| `legs[].subBookingReference`, `legs[].masterBillReference`, `legs[].houseBillReference` | `LOGISTICS` | Leg-scoped `ServiceReference` / Document | Keep typed booking and transport-document identifiers scoped to the issuing carrier and leg. |
+| `legs[].scheduledDeparture`, `legs[].scheduledArrival`, `legs[].actualDeparture`, `legs[].actualArrival` | `LOGISTICS` | `RouteLeg` schedule and milestone events | Keep planned times on the leg and actual times as events; use consistent time-zone-aware date-times. |
+| `legs[].legStatus` | `DEFER` | Route-leg status Descriptor | Align with the canonical Performance state registry and avoid a conflicting miniature state machine. |
+| `legs[].financialAttribution` | `LEGACY` | Consideration/Settlement allocation keyed by leg ID | Remove the billing sub-ledger from Performance under `LOG-PERF-012`. |
+| `legs[].financialAttribution.billingFromSubscriberId`, `legs[].financialAttribution.billingToSubscriberId` | `CORE` | Consideration/Settlement Participant references | Replace subscriber strings with core Participant references in the financial owner. |
+| `legs[].financialAttribution.legAmount`, `legs[].financialAttribution.currency` | `COMMON` | Leg-attributed Consideration component | Express the amount once in the canonical monetary shape. |
+| `legs[].financialAttribution.x-ion-condition` | `LEGACY` | Flow rule | Remove the accidentally declared payload property. |
+| `temperatureReading` | `LEGACY` | `measurements[]` temperature observation | Replace the singleton object with repeatable typed measurements. |
+| `temperatureReading.value`, `temperatureReading.unit` | `LEGACY` | Pinned `Quantity/2.0` | Use a controlled temperature unit code rather than the one-value enum. |
+| `temperatureReading.timestamp` | `LOGISTICS` | Measurement timestamp | Keep when the observation was made. |
+| `temperatureReading.location` | `LEGACY` | Measurement core Location | Replace the free-text location with a typed reference. |
+| `temperatureReading.deviceId` | `LOGISTICS` | Measurement device Resource/reference | Keep traceability to the calibrated sensing device where required. |
+| `temperatureReading.excursionDetected` | `DEFER` | Derived limit evaluation / exception event | Derive from the agreed range and measurement; emit an exception event when the result is authoritative. |
+| `coldChainIntegrityVerified` | `DEFER` | Cold-chain assessment/attestation | Replace the aggregate boolean with a signed assessment referencing the underlying measurement interval and evidence. |
+| `actualWeight` | `LEGACY` | `measurements[]` weight observation | Replace the singleton object with a typed measurement. |
+| `actualWeight.value`, `actualWeight.unit` | `LEGACY` | Pinned `Quantity/2.0` | Use controlled weight unit codes. |
+| `actualWeight.measuredAt`, `actualWeight.measurementTimestamp` | `LOGISTICS` | Measurement event location role and timestamp | Keep the operational point and observation time; link evidence when disputed. |
+| `reservedCapacity`, `reservedCapacity.quantity`, `reservedCapacity.unit`, `reservedCapacity.reservationToken` | `DEFER` | `LogisticsCommitment.capacityReservation` | Move selection-time reservation quantity/token to Commitment under `LOG-PERF-007`; Performance may reference it. |
+| `reservationHoldUntil`, `proposedDeparture`, `requestedDepartureDate`, `capacityConfirmed` | `DEFER` | Commitment/service-window negotiation | Move pre-confirmation hold and proposed/requested schedule to Commitment; confirmation is derived from the active Commitment. |
+| `manifestVerified` | `LOGISTICS` | Manifest-verification `PerformanceEvent` / proof | Replace the boolean with timestamped verification evidence. |
+| `loadingTimestamp`, `departureTimestamp`, `arrivalTimestamp` | `LOGISTICS` | Performance milestone events | Record actual loading/departure/arrival against the relevant leg or stop. |
+| `requestedSailing` | `DEFER` | Commitment requested service window | Keep the requested sailing with selection/Commitment. |
+| `confirmedSailing` | `LOGISTICS` | Route-leg schedule / service reference | Keep the confirmed sailing on the booked leg. |
+| `boardingWindow`, `boardingWindow.from`, `boardingWindow.until` | `LEGACY` | Route stop `TimePeriod` | Replace the ad hoc object with pinned `TimePeriod/2.0`. |
+| `boardingGate` | `LOGISTICS` | Boarding stop/location detail | Keep the assigned gate on the applicable route stop. |
+| `customsHoldReason` | `FLOW` | Customs-hold `LogisticsAlert.reason` | Record as a typed exception event and link the customs declaration/case. |
+| `customsResolutionPath` | `FLOW` | Alert/case resolution | Record the chosen resolution against the customs-hold event; create child work where re-export/destruction requires it. |
+| `estimatedClearanceDuration` | `DEFER` | Customs stop estimated resolution | Keep only with an explicit estimation timestamp and start basis; prefer a revised stop ETA. |
+| `attemptNumber`, `ndrReasonCode`, `ndrTimestamp`, `attemptsRemaining`, `buyerResolutionDeadline` | `LOGISTICS` | `attempts[]` / delivery-attempt alert | Replace aggregate counters and last-event fields with repeatable attempt records; derive remaining attempts from policy and history. |
+| `valueAddedServicesSelected` | `CORE` | Commitment Resources/Offer selection | Move selected services to Commitment; Performance events record their execution outcomes. |
+| `expectedReceiptDate` | `LOGISTICS` | Warehouse receipt schedule | Keep as a date-time/window with time-zone semantics where operationally relevant. |
+| `inboundReceiptTimestamp` | `LOGISTICS` | Warehouse receipt event | Keep the actual receipt milestone. |
+| `receivedQuantities` | `LOGISTICS` | `WarehouseExecution.receipts[]` | Keep Resource-level received-versus-expected observations without SKU-specific coupling. |
+| `receivedQuantities[].skuId` | `LEGACY` | Receipt `resourceId` | Reference the committed inventory Resource. |
+| `receivedQuantities[].receivedQty`, `receivedQuantities[].expectedQty` | `LEGACY` | Receipt typed quantities | Replace integers with pinned Quantity and derive expected quantity from the Commitment when possible. |
+| `inboundDiscrepancy` | `LEGACY` | Warehouse discrepancy alert/case | Replace the singleton object with a typed event referencing affected receipt lines. |
+| `inboundDiscrepancy.hasDiscrepancy` | `LEGACY` | Presence/status of discrepancy event | Remove the redundant boolean. |
+| `inboundDiscrepancy.discrepancyDetail` | `DEFER` | Alert Descriptor / Contract case | Keep concise event description; detailed dispute evidence belongs to `LogisticsCase`. |
+| `pickedSkus` | `LEGACY` | `WarehouseExecution.inventoryMovements[]` | Replace SKU-specific lines with Resource-referenced inventory movement records. |
+| `pickedSkus[].skuId`, `pickedSkus[].quantity` | `LEGACY` | Inventory movement Resource ID and typed Quantity | Reference the Resource and use pinned Quantity. |
+| `warehouseLocationAllocated` | `LOGISTICS` | Warehouse allocation Location/slot reference | Keep only the minimum facility/bin reference appropriate for the receiving parties. |
+| `capacityAllocated` | `LEGACY` | Warehouse allocation measurements | Replace the ad hoc aggregate with typed capacity quantities. |
+| `capacityAllocated.cbm`, `capacityAllocated.pallets` | `LEGACY` | Pinned Quantity entries | Use controlled volume and pallet unit codes. |
+| `inboundInstructions` | `DEFER` | Commitment instructions / warehouse stop instructions | Keep only execution-specific instructions not already agreed in the Commitment or Resource handling data. |
+| `transportContractReference` | `DEFER` | Core Contract relationship | Move child transport linkage to `LogisticsContract.relationships[]`. |
+| `readyToShip` | `CORE` | `Performance.status` | Represent readiness as a canonical state, not a duplicate boolean. |
+| `readyToShipTimestamp` | `LOGISTICS` | READY_FOR_PICKUP transition event | Keep the state-entry timestamp in history. |
+| `readyToShipBy` | `CORE` | Transition actor Participant ID | Replace the role-only enum with the Participant that asserted readiness. |
+| `rtsPickupToken` | `DEFER` | Off-network handoff credential | Do not expose the usable token in status payloads; record only verification evidence at handoff. |
+| `parentWarehouseContractRef`, `spawnedTransportContractRefs` | `DEFER` | Core Contract relationships | Move parent/child links to typed relationships under `LOG-CON-001`. |
+| `parentWarehouseCommitmentRefs` | `CORE` | `Performance.commitmentIds[]` or child Contract relationship | Use core Commitment IDs; avoid a second warehouse-specific list. |
+| `dispatchOriginWarehouseBppId` | `CORE` | Contract Participant/Provider reference | Reference the warehouse Participant rather than duplicating network identity. |
+| `rtsNotificationRouting` | `LEGACY` | Network routing layer | Remove gateway/BPP routing mechanics from the domain Performance schema. |
+| `rtsNotificationRouting.warehouseBppEmits`, `rtsNotificationRouting.transportBppReceives`, `rtsNotificationRouting.ionGatewayRoutingRequired` | `LEGACY` | Protocol routing configuration | Derive from sender/recipient context and registry routing; do not transmit booleans/IDs as performance facts. |
+| `rtsNotificationRouting.handoffEvidence` | `LEGACY` | `LogisticsProof` / handoff events | Preserve domain acknowledgement evidence without the routing wrapper. |
+| `rtsNotificationRouting.handoffEvidence.warehouseConfirmedAt`, `rtsNotificationRouting.handoffEvidence.transportAcknowledgedAt` | `LOGISTICS` | Handoff event timestamps | Keep the producer confirmation and receiver acknowledgement as distinct events. |
+| `rtsNotificationRouting.handoffEvidence.rtsAcknowledgementRef` | `LOGISTICS` | Handoff proof/document reference | Keep a typed acknowledgement reference when required. |
+| `slaStatus` | `DEFER` | `SLAExecution` derived summary | Derive from applicable commitments and breach history; retain only if a signed point-in-time assessment is required. |
+| `currentStateTimingStatus` | `LEGACY` | Core status plus `SLAExecution` | Remove the parallel current-state snapshot and keep authoritative transition/breach records. |
+| `currentStateTimingStatus.currentState` | `CORE` | `Performance.status.code` | Remove the duplicate state value. |
+| `currentStateTimingStatus.enteredAt` | `LOGISTICS` | Latest state-transition event | Derive from normalized history. |
+| `currentStateTimingStatus.maxDwellDuration`, `currentStateTimingStatus.alertThresholdDuration` | `POLICY` | Selected Offer SLA/timing commitment | Reference the agreed commitment; do not copy policy inputs on each update. |
+| `currentStateTimingStatus.dwellSoFar`, `currentStateTimingStatus.timeRemainingInCommitment` | `LEGACY` | Derived values | Compute from transition time, current time, and committed duration. |
+| `currentStateTimingStatus.dwellStatus`, `currentStateTimingStatus.cascadeEffect` | `DEFER` | SLA assessment/forecast event | Keep only when an authoritative assessment or forecast is exchanged, with calculation time and method. |
+| `currentStateTimingStatus.x-ion-condition` | `LEGACY` | Flow/policy rule | Remove the accidentally declared payload property. |
+| `stateTimingHistory` | `LOGISTICS` | `SLAExecution.stateHistory[]` | Keep normalized state transition and dwell evidence. |
+| `stateTimingHistory[].state`, `stateTimingHistory[].enteredAt`, `stateTimingHistory[].exitedAt` | `CORE` | State code and transition timestamps | Use codes from `LogisticsPerformanceStates` and time-zone-aware timestamps. |
+| `stateTimingHistory[].dwellDuration` | `DEFER` | Derived transition duration | Derive from entered/exited timestamps unless an asserted duration is necessary for audit. |
+| `stateTimingHistory[].maxDwellCommitment` | `POLICY` | Referenced SLA commitment | Avoid copying the Offer term; retain the policy/version reference used for evaluation. |
+| `stateTimingHistory[].wasBreached`, `stateTimingHistory[].breachDuration` | `LOGISTICS` | SLA breach record | Replace boolean-plus-optional-duration with a breach record present only when breached. |
+| `sustainabilityReport` | `DEFER` | `SustainabilityReport` | Retain as an internal component for this draft under `LOG-PERF-011`, with future extraction noted. |
+| `sustainabilityReport.carbonEmissionKgCO2e` | `LEGACY` | Typed CO2e Quantity | Replace the unit-encoded property name with Quantity using a controlled kg CO2e unit. |
+| `sustainabilityReport.carbonEmissionCalculationMethod`, `sustainabilityReport.carbonCalculationScope`, `sustainabilityReport.fuelType` | `LOGISTICS` | `SustainabilityReport` methodology fields | Keep controlled calculation method, boundary, and fuel classification with version/evidence where applicable. |
+| `sustainabilityReport.fuelConsumptionLitres`, `sustainabilityReport.safAllocationLitres` | `LEGACY` | Typed fuel Quantity entries | Replace unit-encoded numeric properties with Quantity. |
+| `sustainabilityReport.carbonOffsetPurchased` | `LEGACY` | Referenced carbon-credit Contract/Settlement | Remove the unsupported boolean; an offset claim must reference the acquired/retired credit and evidence. |
+| `sustainabilityReport.carbonOffsetRegistryReference` | `DEFER` | Carbon-credit Resource/retirement Document | Keep only as a typed external registry reference with verification evidence. |
+| `sustainabilityReport.carbonOffsetAmountKgCO2e` | `LEGACY` | Typed retired-credit Quantity | Replace the unit-encoded number and link it to the retirement record. |
+| `sustainabilityReport.greenCertification` | `DEFER` | Core Documents/credentials | Replace bare strings with verifiable certification references and validity. |
+| `hygieneProtocolApplied` | `DEFER` | Operational attestations/evidence | Keep applied protocol codes only with issuer, time, and evidence when a flow or policy requires attestation. |
+
+### Requirements that belong to flows or policies
+
+The legacy schema has no root `required` list, but its duplicated annotations
+and README assign many fields to specific states and patterns. Phase 4 should
+translate them as follows:
+
+| Legacy rule group | Class | Phase 4 treatment |
+|---|---|---|
+| Pattern-specific shipment/service identifier | `FLOW` | Require the applicable typed ServiceReference at confirmation, with issuer and scope. |
+| Pickup model, requested/confirmed window, batch, or counter lodgement | `FLOW` | Require only the structures relevant to the selected pickup model and record actual handoff as an event. |
+| Labels, proofs, OTP, manifests, and handoff acknowledgement | `FLOW` / `POLICY` | Exchange typed Documents or verification results at the state where produced; apply privacy, authentication, size, and retention rules. |
+| Multileg route and carrier schedule | `FLOW` | Require ordered legs and assigned Participant/Resource references only for applicable freight or multimodal patterns. |
+| Cold-chain, weight, dimensional, and capacity measurements | `FLOW` / `POLICY` | Require typed observations when the Resource/Offer policy calls for them; emit exception events when agreed limits are exceeded. |
+| Customs hold, delivery attempts, and operational exceptions | `FLOW` | Append events with reason, deadline, evidence, and resolution; promote to a Contract case only when disputed or claimed. |
+| Warehouse receipt, picking, allocation, ready-to-ship, and cross-BPP handoff | `FLOW` | Use Resource-referenced execution records and core relationships; keep protocol routing outside the domain payload. |
+| State timing and SLA | `FLOW` / `POLICY` | Validate transitions against `LogisticsPerformanceStates`, calculate dwell against the selected Offer terms, and persist breach evidence rather than volatile counters. |
+| Sustainability and hygiene attestations | `FLOW` / `POLICY` | Require only for opted-in or regulated programs, with methodology, issuer, validity, and supporting evidence. |
+
+### Upstream reconciliation outcome
+
+| Candidate | Current status | Later action |
+|---|---|---|
+| Official Beckn Logistics v2 Performance/Shipment schema aligned to current Beckn core | `absent` | Compare route, proof, alert, measurement, assignment, and history semantics when an official compatible schema is published. |
+| Core `Performance`, `Tracking`, `Document`, `Location`, and Participant/Commitment linkage | `suitable for Release 1` | Use directly and keep their lifecycle boundaries explicit. |
+| Current Beckn Logistics `Shipment`, `Route`, `Waypoint`, `TrackingUpdate`, `Alert`, `Proof`, `Driver`, `Vehicle`, and `DeliverySlot` | `incompatible` as dependencies; useful organizationally | Use their semantic boundaries and names as review input without copying older-core IDs, duplicated status, or live-tracking state. |
+| `IONTradePerformance` | `incompatible` as a parent; useful local precedent | Reuse or extract cross-sector stops, evidence, assignment, quantity, and SLA patterns without importing retail modes. |
+| Legacy ION `LogisticsPerformance` | `under review` | Use as the scenario inventory while removing live Tracking, selection-time Commitment data, common financial data, raw credentials, and routing internals. |
+| Release 1 `LogisticsPerformance` | `suitable for later release` | Author after the twelve named decisions and the Performance/Tracking boundary are resolved or explicitly deferred. |
+
 ## Remaining pack inventories
 
 The following legacy packs still require the same field-by-field review before
 Phase 3 is complete:
 
-1. `LogisticsPerformance`
-2. `LogisticsTracking`
-3. `LogisticsPerformanceStates`
+1. `LogisticsTracking`
+2. `LogisticsPerformanceStates`

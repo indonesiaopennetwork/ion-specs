@@ -168,7 +168,8 @@ Tooling changes must precede the artifacts they are intended to protect.
 
 **Status:** In progress — `LogisticsResource`, `LogisticsProvider`,
 `LogisticsParticipant`, `LogisticsOffer`, `LogisticsCommitment`, and
-`LogisticsConsideration`, and `LogisticsContract` inventoried on 2026-10-16
+`LogisticsConsideration`, `LogisticsContract`, and `LogisticsPerformance`
+inventoried on 2026-10-16
 
 Before moving a pack, classify every legacy field as one of:
 
