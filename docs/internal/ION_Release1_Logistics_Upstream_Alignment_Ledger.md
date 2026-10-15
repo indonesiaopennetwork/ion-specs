@@ -8,7 +8,8 @@
 > `4d98c3c9b7244f32f3a900272adc990d870df0bf`  
 > **Current coverage:** `LogisticsResource`, `LogisticsProvider`,
 > `LogisticsParticipant`, `LogisticsOffer`, `LogisticsCommitment`,
-> `LogisticsConsideration`, `LogisticsContract`, `LogisticsPerformance`
+> `LogisticsConsideration`, `LogisticsContract`, `LogisticsPerformance`,
+> `LogisticsTracking`
 
 This internal ledger records the ownership and migration disposition of every
 field in the legacy ION Logistics packs before normative Release 1 artifacts are
@@ -1449,10 +1450,145 @@ translate them as follows:
 | Legacy ION `LogisticsPerformance` | `under review` | Use as the scenario inventory while removing live Tracking, selection-time Commitment data, common financial data, raw credentials, and routing internals. |
 | Release 1 `LogisticsPerformance` | `suitable for later release` | Author after the twelve named decisions and the Performance/Tracking boundary are resolved or explicitly deferred. |
 
+## `LogisticsTracking` v1
+
+### Sources and attachment point
+
+- Legacy schema: `schema/extensions/logistics/tracking/v1/attributes.yaml`
+- Legacy schema name: `LogisticsTracking`
+- Approved Release 1 pack name: `LogisticsTracking`
+- Attachment point: `Tracking.trackingAttributes`
+- Beckn v2 core ownership: `Tracking` owns the Contract reference, active or
+  inactive status, tracking URL/stream handle, and `trackingAttributes`.
+- Existing Release 1 references: core `Tracking`, core `Contract`, core
+  `Participant`, core `GeoJSONGeometry`, core `Document`, and pinned `Quantity`.
+- Beckn Logistics organizational references: `TrackingUpdate`,
+  `LogisticsRoute`, `Driver`, and `Vehicle`. They are not approved Release 1
+  dependencies.
+- Coordinated Release 1 pack: `LogisticsPerformance` owns durable route,
+  assignment, milestone, observation, proof, and exception history.
+
+Core Tracking intends `contract` to be an ID-only reference, but its
+machine-readable schema composes the full core Contract and adds `required:
+[id]`. Because core Contract separately requires `commitments`, the resulting
+schema still requires commitments in the tracking reference. This is a core
+schema inconsistency, not permission to duplicate the full Contract in every
+tracking response. Phase 4 must correct or explicitly work around it.
+
+The legacy `gps-tracking.json` example also does not validate against its own
+extension schema. It declares `trackingUrl`, which belongs to core
+`Tracking.url`, and `pollingIntervalSeconds`, while the schema declares
+`refreshIntervalSeconds`. It also shows only the extension object rather than
+the enclosing core Tracking object. Phase 4 needs a complete replacement
+example.
+
+### Named decisions
+
+| ID | Decision required | Phase 3 default |
+|---|---|---|
+| `LOG-TRK-001` | How the core Tracking Contract-reference inconsistency is resolved | Correct core Tracking to reference an ID-only Contract shape, or add an approved local reference schema. Do not require or echo the full Contract merely to satisfy the current `allOf`. |
+| `LOG-TRK-002` | How transport mechanism and tracking capabilities are distinguished | Replace the mixed `trackingType` enum with a transport `mode` and optional `capabilities[]`. Core `Tracking.url` remains the actual endpoint/handle. |
+| `LOG-TRK-003` | How authenticated tracking access is represented safely | Declare an authentication scheme, credential reference, and expiry only when needed. Never place reusable bearer tokens or API keys directly in schema examples, logs, or durable Contract/Performance history. |
+| `LOG-TRK-004` | How a point-in-time location/ETA snapshot is typed and interpreted | Use a timestamped `TrackingSnapshot` with GeoJSON Point, typed accuracy/speed, bounded heading, and absolute estimated arrival. Treat it as transient, not canonical Performance history. |
+| `LOG-TRK-005` | Which route, agent, and vehicle facts may appear in Tracking | Keep planned route and assignment in LogisticsPerformance. Tracking may carry references and a current/remaining route geometry only when required for the live response; it must not duplicate profiles or registrations. |
+| `LOG-TRK-006` | How carrier handoff and endpoint templates are represented | Identify the endpoint owner/carrier Participant when useful. Keep reusable URL templates in Provider/Offer capability metadata, and send only the resolved core Tracking URL per transaction. |
+
+### Organizational alignment
+
+| Beckn or ION concept | Useful boundary | ION treatment |
+|---|---|---|
+| Core `Tracking` | Contract reference, active state, and URL/stream handle | Use directly and remove all extension-level duplicates. |
+| Beckn Logistics `TrackingUpdate` | Timestamped status/location event | Use as organizational evidence for snapshot naming, but durable updates belong to LogisticsPerformance events rather than the tracking handle. |
+| Beckn Logistics `LogisticsRoute` | Planned route and geometry | Keep the authoritative route on LogisticsPerformance; Tracking may return a current or remaining geometry snapshot only. |
+| Beckn Logistics `Driver` and `Vehicle` | Assigned human and asset | Use Contract Participant and Logistics Resource references from Performance; do not repeat names, phones, plates, or photos in Tracking. |
+| `LogisticsPerformance` Phase 3 model | Durable assignment, route, event, and observation history | Tracking references that execution state and supplies only access metadata or a transient snapshot. |
+
+The proposed Release 1 organization is:
+
+```text
+Tracking (core)
+  contract -> ID-only Contract reference (after LOG-TRK-001)
+  status
+  url
+  trackingAttributes -> LogisticsTracking
+
+LogisticsTracking
+  mode
+  capabilities[]
+  refreshInterval
+  access -> TrackingAccess
+  eventTypes[]
+  snapshot -> TrackingSnapshot
+    location
+    observedAt
+    accuracy
+    heading
+    speed
+    estimatedArrivalAt
+    assignment references
+  currentRouteGeometry (optional)
+  endpointOwnerParticipantId (optional)
+```
+
+`TrackingAccess` and `TrackingSnapshot` are internal components of the
+`LogisticsTracking` pack. They do not create a second event history.
+
+### Field ownership and disposition
+
+Every property path from the legacy `LogisticsTracking` schema is listed below.
+
+| Legacy field path | Class | Proposed owner | Release 1 disposition |
+|---|---|---|---|
+| `@context`, `@type` | `CORE` | `LogisticsTracking` | Keep through the Beckn `Attributes` extension contract; update the context URL and type to the Release 1 pack. |
+| `trackingType` | `LEGACY` | `LogisticsTracking.mode` and `capabilities[]` | Split transport mechanism from data capability under `LOG-TRK-002`; `LIVE_GPS` is a capability while URL, polling, webhook, and WebSocket describe access modes. |
+| `refreshIntervalSeconds` | `LEGACY` | `LogisticsTracking.refreshInterval` | Replace the unit-encoded integer with an ISO 8601 duration and require it only for polling or snapshot-refresh modes. |
+| `credentials` | `DEFER` | `TrackingAccess` | Replace the inline credentials object with safe access metadata under `LOG-TRK-003`. |
+| `credentials.type` | `LOGISTICS` | `TrackingAccess.authScheme` | Keep a controlled authentication-scheme identifier when the endpoint is not anonymously accessible. |
+| `credentials.value` | `DEFER` | Secure credential delivery / reference | Do not embed reusable secrets in the tracking extension; use a short-lived signed URL or an approved out-of-band credential reference. |
+| `credentials.validUntil` | `LOGISTICS` | `TrackingAccess.expiresAt` | Keep the access expiry for short-lived handles or credential references. |
+| `webhookEvents` | `LOGISTICS` | `LogisticsTracking.eventTypes[]` | Keep the subscribed event categories for webhook/event-stream modes; align state-change values with `LogisticsPerformanceStates`. |
+| `currentLocation` | `LEGACY` | `TrackingSnapshot.location` plus snapshot metadata | Replace the ad hoc location object with a timestamped typed snapshot. |
+| `currentLocation.latitude`, `currentLocation.longitude` | `LEGACY` | Core `GeoJSONGeometry` Point | Replace parallel coordinates with a standards-based Point geometry. |
+| `currentLocation.timestamp` | `LOGISTICS` | `TrackingSnapshot.observedAt` | Keep the observation timestamp so consumers can judge staleness. |
+| `currentLocation.accuracyMeters` | `LEGACY` | `TrackingSnapshot.accuracy` | Replace the unit-encoded number with pinned Quantity using a metre unit code. |
+| `currentLocation.heading` | `LOGISTICS` | `TrackingSnapshot.heading` | Keep with explicit degree semantics, a 0–360 constraint, and the observation timestamp. |
+| `currentLocation.speedKmh` | `LEGACY` | `TrackingSnapshot.speed` | Replace the unit-encoded number with pinned Quantity using a speed unit code. |
+| `etaMinutes` | `LEGACY` | `TrackingSnapshot.estimatedArrivalAt` | Prefer an absolute, time-zone-aware estimate; derive relative minutes at presentation time. |
+| `routePolyline` | `LEGACY` | `LogisticsTracking.currentRouteGeometry` | Replace provider-specific encoded polyline text with GeoJSON LineString when a live/remaining route snapshot is required; planned route remains on Performance. |
+| `agentDetails` | `LEGACY` | Tracking snapshot assignment references | Remove the duplicated embedded profile under `LOG-TRK-005`. |
+| `agentDetails.name`, `agentDetails.phone`, `agentDetails.photoUrl`, `agentDetails.languagesSpoken` | `CORE` | Assigned Contract Participant / Performance assignment | Reference the assigned Participant and apply state-based data minimization; do not copy presentation/contact/profile data into Tracking. |
+| `agentDetails.vehicleType`, `agentDetails.vehiclePlate` | `CORE` | Assigned Vehicle Resource / Performance assignment | Reference the transport Resource rather than duplicating its type or registration. |
+| `trackingHandoffToCarrier` | `LEGACY` | `endpointOwnerParticipantId` / resolved core URL | Remove the redundant boolean; a distinct endpoint owner indicates carrier handoff. |
+| `carrierTrackingUrlPattern` | `DEFER` | Provider/Offer tracking capability metadata | Move reusable templates out of transaction Tracking. Core `Tracking.url` carries the resolved endpoint. |
+
+### Requirements that belong to flows or policies
+
+The legacy schema requires `trackingType` and uses correctly scoped
+`x-ion-condition` annotations on several properties. Phase 4 should translate
+them as follows:
+
+| Legacy rule group | Class | Phase 4 treatment |
+|---|---|---|
+| Tracking mode and core URL | `FLOW` | Require core `url`, core `status`, and the selected mode in `/on_track`; validate that the URL scheme is compatible with the mode. |
+| Polling refresh interval | `FLOW` | Require only for polling/snapshot modes and enforce network minimums to prevent abusive polling. |
+| Webhook event selection | `FLOW` | Require only for webhook or event-stream modes and align event codes with Performance states/alerts. |
+| Authenticated endpoint access | `FLOW` / `POLICY` | Require safe access metadata only when needed; enforce short expiry, redaction, transport security, and secret-handling policy. |
+| Current location, ETA, route geometry, and assignment references | `FLOW` / `POLICY` | Include only when authorized for the current Performance state; enforce precision, freshness, minimization, and retention limits. |
+| Carrier handoff | `FLOW` | Return the resolved carrier-owned core URL and optional owner Participant reference; never require clients to expand a URL template. |
+
+### Upstream reconciliation outcome
+
+| Candidate | Current status | Later action |
+|---|---|---|
+| Official Beckn Logistics v2 Tracking extension aligned to current Beckn core | `absent` | Compare access mode, snapshot, privacy, and carrier-handoff semantics when an official compatible schema is published. |
+| Core `Tracking` | `suitable for Release 1` after a reference fix | Use status, URL, and attributes directly; resolve the Contract reference inconsistency under `LOG-TRK-001`. |
+| Current Beckn Logistics `TrackingUpdate`, `LogisticsRoute`, `Driver`, and `Vehicle` | `incompatible` as dependencies; useful organizationally | Use their event, geometry, and assignment boundaries without copying older-core identity/status structures. |
+| Legacy ION `LogisticsTracking` | `under review` | Use as the access-mode and snapshot source while removing core URL duplication, inline secrets, embedded profiles, and provider-specific geometry. |
+| Release 1 `LogisticsTracking` | `suitable for later release` | Author after the six named decisions and core Contract-reference inconsistency are resolved or explicitly deferred. |
+
 ## Remaining pack inventories
 
 The following legacy packs still require the same field-by-field review before
 Phase 3 is complete:
 
-1. `LogisticsTracking`
-2. `LogisticsPerformanceStates`
+1. `LogisticsPerformanceStates`
