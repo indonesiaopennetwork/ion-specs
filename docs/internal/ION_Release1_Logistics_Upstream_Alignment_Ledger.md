@@ -7,7 +7,7 @@
 > **Organizational reference:** `beckn/logistics` at
 > `4d98c3c9b7244f32f3a900272adc990d870df0bf`  
 > **Current coverage:** `LogisticsResource`, `LogisticsProvider`,
-> `LogisticsParticipant`
+> `LogisticsParticipant`, `LogisticsOffer`
 
 This internal ledger records the ownership and migration disposition of every
 field in the legacy ION Logistics packs before normative Release 1 artifacts are
@@ -490,15 +490,195 @@ silently introduced during migration:
 | Mapped legacy ION `LogisticsParticipantAddendum` | `under review` | Use as the three-field migration source, subject to typed credential organization and the role decision. |
 | Release 1 `LogisticsParticipant` | `suitable for later release` | Author after the four named decisions are resolved or explicitly deferred from the pack. |
 
+## `LogisticsOffer` v1
+
+### Sources and attachment point
+
+- Legacy schema: `schema/extensions/logistics/offer/v1/attributes.yaml`
+- Legacy schema name: `LogisticsOffer`
+- Approved Release 1 pack name: `LogisticsOffer`
+- Attachment point: `Offer.offerAttributes`
+- Beckn v2 core ownership: `Offer` owns identity, description, provider,
+  covered Resource identifiers, add-ons, proposed Considerations, validity, and
+  the domain extension bag.
+- Beckn Logistics organizational references: `Fare`, `FareBreakup`,
+  `DeliverySlot`, `CancellationPolicy`, `ReturnPolicy`, and `Route`. These are
+  review inputs, not Release 1 dependencies.
+
+### Named decisions
+
+| ID | Decision required | Phase 3 default |
+|---|---|---|
+| `LOG-OFFER-001` | How a published rate card relates to core Offer Considerations and the final calculated fare | Keep calculation inputs in a `LogisticsRateCard`; use core `Offer.considerations` for published price snapshots and Contract Considerations for agreed amounts. Do not use Beckn `Fare` as the rate-card schema. |
+| `LOG-OFFER-002` | How pricing zones and distance limits reuse provider coverage | Reference or specialize the `ServiceCoverage` organization from `LogisticsProvider`; keep Indonesian subdivisions only in the ION layer. |
+| `LOG-OFFER-003` | How pickup windows, operational cutoffs, departures, and bookable slots are represented | Define `PickupTerms`, `OperationalCutoff`, and `ServiceWindow`; use Beckn `DeliverySlot` only as organizational inspiration and keep mutable remaining capacity out of static catalog offers. |
+| `LOG-OFFER-004` | Where API rate limits, latency commitments, bulk calls, and push delays belong | Defer them from the Offer pack. They describe protocol endpoint or participant service levels and require an approved technical-capability contract. |
+| `LOG-OFFER-005` | How offer-level COD capability composes the common Payment model | Define `CodTerms`, reuse the common `IONPayment` COD method and typed monetary shapes, and keep runtime cash collection in Settlement attributes. |
+| `LOG-OFFER-006` | Which SLA facts are structured offer commitments and which are policy | Keep durations, state references, and measurement bases in `ServiceLevelCommitment`; move executable formulas, escalation consequences, and breach remedies to policy references. |
+| `LOG-OFFER-007` | How Framework Agreement applicability and targeted visibility are represented | Do not retain the `fwaApplicable` boolean alone. The pinned core Offer has no `availableTo` field despite the legacy README claim; defer until an approved targeting or policy-binding mechanism exists. |
+
+### Organizational alignment
+
+| Beckn organizational concept | Useful boundary | ION treatment |
+|---|---|---|
+| `Fare` and `FareBreakup` | Calculated total and price components | Use core Consideration plus pinned `PriceSpecification` for published and agreed money. `LogisticsRateCard` separately describes how a quote is calculated. |
+| `DeliverySlot` | Offered or agreed service window | Use `ServiceWindow` for recurring offer windows. Actual availability and remaining capacity belong in selection or execution responses. |
+| `CancellationPolicy` and `ReturnPolicy` | Distinct policy concerns | Keep ION registry IRIs grouped under `LogisticsPolicyReferences`; do not copy inline conditions, fees, or India-specific examples. |
+| `Route` | Origin, destination, waypoints, mode, and duration | Keep offer-level topology and corridor eligibility thin. Concrete planned routes belong to Logistics Performance. |
+
+The proposed Release 1 organization is:
+
+```text
+LogisticsOffer
+  serviceDefinition
+  rateCard -> LogisticsRateCard
+  negotiationTerms
+  pickupTerms -> PickupTerms
+  cutoffs[] -> OperationalCutoff
+  capacityTerms
+  serviceWindows[] -> ServiceWindow
+  codTerms -> CodTerms
+  serviceLevelCommitment
+  warehouseTerms
+  roRoTerms
+  crossBorderTerms
+  policyReferences -> LogisticsPolicyReferences
+
+LogisticsRateCard
+  rateLogic
+  pricingZones[]
+  weightTiers[]
+  chargeableWeight
+  modifiers[]
+```
+
+These are components inside the `LogisticsOffer` pack. They are not copied
+Beckn schemas and do not create new release packs.
+
+### Field ownership and disposition
+
+Every property path parsed from the legacy `LogisticsOffer` schema is listed
+below. Repeated `x-ion-condition` annotations were accidentally indented under
+`properties`; YAML parsers collapse those duplicate keys to one top-level field,
+while another occurs inside `overallTatCommitment`. Both parsed paths are
+explicitly classified as legacy defects.
+
+| Legacy field path | Class | Proposed owner | Release 1 disposition |
+|---|---|---|---|
+| `@context`, `@type` | `CORE` | `LogisticsOffer` | Keep through the inherited Beckn `Attributes` extension contract; update the context URL and type to the Release 1 pack. |
+| `serviceLevel`, `transportMode`, `routingTopology` | `LOGISTICS` | `LogisticsOffer.serviceDefinition` | Keep as geography-neutral service characteristics; review vocabularies against included Logistics flows and distinguish transport mode from vehicle type. |
+| `x-ion-condition` | `LEGACY` | None | Remove the misplaced annotations that parse as a property named `x-ion-condition`. Re-express applicable requirements in flows or correctly scoped schema conditionals. |
+| `rateLogic` | `LOGISTICS` | `LogisticsRateCard.rateLogic` | Keep the calculation-model discriminator under `LOG-OFFER-001`. |
+| `zones` | `LOGISTICS` | `LogisticsRateCard.pricingZones[]` | Keep zone-based rating, aligned with reusable `ServiceCoverage` identifiers under `LOG-OFFER-002`. |
+| `zones[].zoneId`, `zones[].corridors` | `LOGISTICS` | `LogisticsRateCard.pricingZones[]` | Keep stable identifiers; corridors must reference defined origin/destination coverage rather than free-text routes. |
+| `zones[].provinsiCodes` | `COMMON` | `IONPricingZone.ionSubdivisions` | Reuse common ION Address province codes only in the ION-specific layer. |
+| `zones[].baseRatePerKg`, `zones[].currency` | `LEGACY` | `LogisticsRateCard.pricingZones[].price` | Replace separate amount and default-IDR fields with pinned `PriceSpecification`; the generic layer must not default currency to IDR. |
+| `weightTiers` | `LOGISTICS` | `LogisticsRateCard.weightTiers[]` | Keep tiered weight pricing. |
+| `weightTiers[].maxKg` | `LEGACY` | `LogisticsRateCard.weightTiers[].maximumWeight` | Replace the unit-suffixed scalar with pinned `Quantity/2.0`. |
+| `weightTiers[].ratePerKg`, `weightTiers[].minimumCharge` | `LEGACY` | `LogisticsRateCard.weightTiers[]` | Replace untyped monetary scalars with `PriceSpecification` values and explicit applicability quantities. |
+| `dimensionalWeightFactor`, `chargeableWeightRule` | `LOGISTICS` | `LogisticsRateCard.chargeableWeight` | Keep the structured calculation inputs. The factor requires an explicitly defined unit convention. |
+| `minimumChargeableAmount` | `LEGACY` | `LogisticsRateCard.minimumCharge` | Replace the currency-less scalar with `PriceSpecification`. |
+| `fuelSurchargeFormula` | `POLICY` | `LogisticsPolicyReferences` | Remove executable free text; reference a registered surcharge policy or use structured rate modifiers. |
+| `rateModifiers` | `LOGISTICS` | `LogisticsRateCard.modifiers[]` | Keep structured conditional rate components. |
+| `rateModifiers[].modifierType`, `rateModifiers[].basis`, `rateModifiers[].percentOfBase` | `LOGISTICS` | `LogisticsRateCard.modifiers[]` | Keep as machine-actionable modifier semantics. |
+| `rateModifiers[].amount`, `rateModifiers[].currency`, `rateModifiers[].minimumAmount`, `rateModifiers[].maximumAmount` | `LEGACY` | `LogisticsRateCard.modifiers[].price` | Replace parallel monetary scalars with `PriceSpecification`. |
+| `rateModifiers[].appliesWhen` | `POLICY` | `LogisticsRateCard.modifiers[].policyRef` | Replace human-readable trigger logic with structured applicability fields or a policy reference. |
+| `rateModifiers[].validFrom`, `rateModifiers[].validUntil` | `LEGACY` | `LogisticsRateCard.modifiers[].validity` | Replace the timestamp pair with pinned `TimePeriod/2.0`. |
+| `selectRequired`, `quoteValidityWindow` | `LOGISTICS` | `LogisticsOffer.negotiationTerms` | Keep the firm-quote requirement and quote lifetime; flows must define the allowed action sequence. |
+| `pickupModels` | `LOGISTICS` | `PickupTerms.models[]` | Keep supported pickup arrangements. |
+| `pickupWindowGranularityMinutes` | `LEGACY` | `PickupTerms.windowGranularity` | Replace the unit-suffixed integer with an ISO 8601 duration. |
+| `bulkPickupMaxShipments` | `LOGISTICS` | `PickupTerms.bulkMaximum` | Keep as a bulk-pickup constraint using a typed quantity. |
+| `sameDayPickupCutoffTime` | `LEGACY` | `OperationalCutoff` | Remove the duplicate special-case field and express it as a typed cutoff entry. |
+| `dropOffLocationsUrl` | `LEGACY` | Core location references | Replace the external directory URL with identifiers for applicable Provider locations or Hubs. |
+| `cutoffs` | `LOGISTICS` | `OperationalCutoff[]` | Keep the reusable cutoff schedule. |
+| `cutoffs[].cutoffType`, `cutoffs[].cutoffBasis` | `LOGISTICS` | `OperationalCutoff` | Keep as cutoff discriminators. |
+| `cutoffs[].localTime`, `cutoffs[].timezone`, `cutoffs[].applicableDays`, `cutoffs[].offsetBeforeDeparture`, `cutoffs[].departureReferenceEvent`, `cutoffs[].weeklyDay`, `cutoffs[].weeklyTime` | `LOGISTICS` | `OperationalCutoff` | Keep structured timing alternatives; Phase 4 must enforce the fields appropriate to each basis. |
+| `cutoffs[].lookupUrl` | `LEGACY` | Deferred schedule discovery | Do not introduce an unspecified side-channel API. Represent known cutoffs in the offer or define a separate protocol capability. |
+| `cutoffs[].appliesToOriginPorts`, `cutoffs[].appliesToConsolidationTypes`, `cutoffs[].appliesToHazmat`, `cutoffs[].appliesToReefer` | `LOGISTICS` | `OperationalCutoff.applicability` | Keep structured applicability filters using stable location and vocabulary codes. |
+| `cutoffs[].lateAcceptancePolicy` | `LOGISTICS` | `OperationalCutoff.lateAcceptance` | Keep the outcome discriminator; fee and approval consequences may reference policy. |
+| `cutoffs[].lateFee` | `LOGISTICS` | `OperationalCutoff.lateAcceptance.fee` | Keep the conditional late-fee concept using a standard monetary representation. |
+| `cutoffs[].lateFee.amount`, `cutoffs[].lateFee.currency`, `cutoffs[].lateFee.basis` | `LEGACY` | `OperationalCutoff.lateAcceptance.fee` | Replace the ad hoc money object with `PriceSpecification` plus a defined basis. |
+| `cutoffs[].gracePeriod` | `LOGISTICS` | `OperationalCutoff.lateAcceptance` | Keep as an ISO 8601 duration. |
+| `cutoffs[].description` | `LEGACY` | Offer descriptor or policy description | Move narrative notes out of machine-actionable cutoff attributes. |
+| `awbAllocationModel`, `awbBlockAllocationSupported`, `labelFormatsSupported` | `LOGISTICS` | `LogisticsOffer.documentTerms` | Keep machine-actionable shipment-document and identifier capabilities. |
+| `bulkApiSupported`, `maxBulkBatchSize` | `DEFER` | Technical capability contract (`LOG-OFFER-004`) | Do not promise batched `/confirm` behavior through a business offer without an approved API contract. |
+| `apiRateLimitPerSecond` | `DEFER` | Technical capability contract (`LOG-OFFER-004`) | Move API throttling out of Logistics business terms. |
+| `apiSlaCommitment` | `DEFER` | Technical capability contract (`LOG-OFFER-004`) | Move endpoint service-level declarations out of the Offer pack. |
+| `apiSlaCommitment.p50LatencyMs`, `apiSlaCommitment.p99LatencyMs`, `apiSlaCommitment.uptimeCommitment`, `apiSlaCommitment.statusPushMaxDelayMs` | `DEFER` | Technical capability contract (`LOG-OFFER-004`) | Do not migrate until units, measurement windows, enforcement, and the owning protocol surface are defined. |
+| `stateTimingCommitments` | `LOGISTICS` | `ServiceLevelCommitment.stateTimings[]` | Keep structured state-relative timing promises under `LOG-OFFER-006`. |
+| `stateTimingCommitments[].state`, `stateTimingCommitments[].maxDwellDuration`, `stateTimingCommitments[].alertThresholdDuration`, `stateTimingCommitments[].cascadeEffect`, `stateTimingCommitments[].applicableTopology` | `LOGISTICS` | `ServiceLevelCommitment.stateTimings[]` | Keep; state must resolve to the Logistics performance-state registry and durations remain ISO 8601. |
+| `stateTimingCommitments[].alertPolicyIri` | `POLICY` | `ServiceLevelCommitment.stateTimings[].alertPolicy` | Keep only as a resolvable policy-registry IRI. |
+| `stateTimingCommitments[].note` | `LEGACY` | Offer descriptor or policy description | Move narrative SLA notes out of the structured timing object. |
+| `overallTatCommitment` | `LOGISTICS` | `ServiceLevelCommitment.overall` | Keep the end-to-end service commitment. |
+| `overallTatCommitment.pickupToDelivery`, `overallTatCommitment.measurementBasis` | `LOGISTICS` | `ServiceLevelCommitment.overall` | Keep the ISO 8601 duration and measurement basis. |
+| `overallTatCommitment.operatingCalendar` | `ION` | `IONServiceLevelCommitment.operatingCalendar` | The named Indonesian calendars are ION-governed; `CUSTOM` requires a stable calendar reference. |
+| `overallTatCommitment.onTimeDefinition` | `POLICY` | `ServiceLevelCommitment.policyRef` | Replace free-text executable logic with a registered measurement policy. |
+| `overallTatCommitment.x-ion-condition` | `LEGACY` | None | Remove the misplaced annotation that parses as data. |
+| `capacityModel`, `consolidationType`, `equipmentType`, `scheduleType` | `LOGISTICS` | `LogisticsOffer.capacityTerms` | Keep freight, equipment, and schedule capability terms; align their vocabularies with included flows. |
+| `agentAssignmentModel` | `LOGISTICS` | `LogisticsOffer.executionTerms` | Keep the agent allocation model as an offer-level execution term. |
+| `maxDeliveryRadiusKm` | `LEGACY` | `ServiceCoverage` | Replace the unit-suffixed scalar with a geometry or measured distance constraint under `LOG-OFFER-002`. |
+| `liveTrackingEnabled` | `LOGISTICS` | `LogisticsOffer.executionTerms` | Keep the promise that tracking is supported; actual tracking data belongs in Logistics Tracking. |
+| `slotsAvailable` | `DEFER` | Selection response | Remove mutable availability from a static catalog offer unless freshness and update semantics are defined. |
+| `slotGranularityMinutes` | `LEGACY` | `ServiceWindow.duration` | Replace the unit-suffixed integer with an ISO 8601 duration. |
+| `slotWindowsOffered` | `LOGISTICS` | `ServiceWindow[]` | Keep recurring bookable windows, inspired by Beckn `DeliverySlot`. |
+| `slotWindowsOffered[].start`, `slotWindowsOffered[].end` | `LOGISTICS` | `ServiceWindow` | Keep as a time range with explicit timezone or location scope. |
+| `slotWindowsOffered[].availableCapacity` | `DEFER` | Selection response | Move mutable remaining capacity out of the catalog definition. |
+| `availableOnCod` | `COMMON` | `CodTerms` and accepted payment method | Reuse the common `IONPayment` COD method; retain a Logistics offer capability only where additional COD terms apply. |
+| `maxCodAmount` | `LEGACY` | `CodTerms.maximumAmount` | Replace the currency-less scalar with `PriceSpecification`. |
+| `codPolicy` | `POLICY` | `CodTerms.policyRef` | Keep only as a resolvable policy-registry IRI. |
+| `codVerifiedReceiptOtpRequired` | `LOGISTICS` | `CodTerms.receiptVerification` | Keep as a structured offer-level collection-control requirement. |
+| `codDenominationsAccepted` | `ION` | `IONCodTerms.denominationsAccepted` | The legacy values are Indonesian Rupiah denominations; keep only in the ION layer and bind them to IDR explicitly. |
+| `codBuyerDailyLimit`, `codShipmentLimit` | `LEGACY` | `CodTerms` | Replace currency-less limit scalars with `PriceSpecification`; policy determines applicable thresholds. |
+| `codHoldPeriodDays` | `LEGACY` | `CodTerms.holdPeriod` | Replace the unit-suffixed integer with an ISO 8601 duration. |
+| `codReconciliationVariance` | `POLICY` | COD settlement policy | Move acceptable settlement variance to the applicable policy; actual reconciliation belongs to the shared Settlement pack. |
+| `maxDeclaredValue` | `LEGACY` | `LogisticsOffer.maximumDeclaredValue` | Keep the offer constraint but use `PriceSpecification`. |
+| `insurancePolicy` | `POLICY` | `LogisticsPolicyReferences.insurance` | Keep only as a resolvable policy-registry IRI. |
+| `valueAddedServices` | `CORE` | `Offer.addOns` | Replace the closed array with references to core Offer add-ons so optional services can carry their own description and consideration. |
+| `storageBillingUnit`, `minimumStorageTerm` | `LOGISTICS` | `LogisticsOffer.warehouseTerms` | Keep warehouse charging basis and minimum term; the term remains an ISO 8601 duration. |
+| `vehicleCategoriesAccepted` | `LOGISTICS` | `LogisticsOffer.roRoTerms` | Keep accepted cargo-vehicle categories, distinct from carrier transport-vehicle types. |
+| `sailingSchedule` | `LOGISTICS` | `LogisticsOffer.roRoTerms.departures[]` | Keep recurring advertised departures; concrete booked departure belongs to Commitment or Performance. |
+| `sailingSchedule[].departurePort`, `sailingSchedule[].destinationPort` | `LOGISTICS` | `LogisticsOffer.roRoTerms.departures[]` | Keep using stable UN/LOCODE or other declared location identifiers. |
+| `sailingSchedule[].departureTimes`, `sailingSchedule[].daysOfWeek` | `LOGISTICS` | `LogisticsOffer.roRoTerms.departures[]` | Keep as recurring schedule data with an explicit timezone. |
+| `crossingDuration` | `LOGISTICS` | `LogisticsOffer.roRoTerms` | Keep as an ISO 8601 duration. |
+| `incotermsSupported`, `dutyAndTaxModel` | `LOGISTICS` | `LogisticsOffer.crossBorderTerms` | Keep cross-border commercial responsibility terms; review vocabulary currency and avoid treating obsolete Incoterms as current standards. |
+| `cancellationPolicy`, `claimPolicy`, `slaPolicy`, `evidencePolicy`, `disputePolicy`, `reAttemptPolicy` | `POLICY` | `LogisticsPolicyReferences` | Keep only as resolvable, typed ION policy-registry IRIs. Do not copy Beckn inline policy objects. |
+| `fwaApplicable` | `DEFER` | Framework Agreement binding (`LOG-OFFER-007`) | Remove the standalone boolean until Release 1 has an approved agreement-binding and offer-targeting mechanism. |
+
+### Requirements that belong to flows or policies
+
+The legacy root `required` array and many `x-ion-condition` annotations mix
+catalog requirements, pattern applicability, and policy. Phase 4 must not copy
+them wholesale:
+
+| Legacy rule group | Class | Phase 4 treatment |
+|---|---|---|
+| Service level, transport mode, and rate logic always required | `FLOW` | Require the minimum discovery fields in applicable Logistics catalog flows. |
+| `/select` required according to `selectRequired` | `FLOW` | Define the permitted action sequence and quote-expiry behavior in each flow. |
+| Pickup, cutoff, capacity, freight, Ro-Ro, warehouse, and cross-border conditions | `FLOW` | Require the applicable component in its corresponding pattern rather than making all fields globally mandatory. |
+| Rate modifier, chargeable-weight, late-fee, COD, and declared-value thresholds | `POLICY` | Keep structured values where interoperability requires them; govern thresholds and consequences through referenced policies. |
+| State timing and total-turnaround requirements | `FLOW` | Bind state names to the selected performance-state machine and declare the required commitments per service level. |
+| Policy IRIs always required | `FLOW` | Each included flow must name the policy categories it needs; the shared schema keeps policy references optional and validates supplied IRIs. |
+| OTP required when COD is available | `FLOW` | Require only when the selected COD policy or offer explicitly uses OTP receipt verification. |
+
+### Upstream reconciliation outcome
+
+| Candidate | Current status | Later action |
+|---|---|---|
+| Official Beckn Logistics v2 Offer schema aligned to current Beckn core | `absent` | Compare service, rate-card, slot, capacity, COD, and policy organization when an official compatible schema is published. |
+| Current Beckn Logistics `Fare` and `FareBreakup` | `incompatible` as dependencies; useful organizationally | Use only to distinguish calculated fare from rate logic; rely on core Consideration and pinned `PriceSpecification` in Release 1. |
+| Current Beckn Logistics `DeliverySlot` | `under review` organizationally | Reuse the service-window boundary, but not its mutable availability fields or schema dependency. |
+| Current Beckn Logistics policy schemas | `incompatible` as dependencies; useful organizationally | Preserve separate policy concerns, but use ION registry IRIs rather than copied inline terms. |
+| Legacy ION `LogisticsOffer` | `under review` | Use as the field source while applying the ownership, typing, and policy corrections in this ledger. |
+| Release 1 `LogisticsOffer` | `suitable for later release` | Author after the seven named decisions are resolved or explicitly deferred from the pack. |
+
 ## Remaining pack inventories
 
 The following legacy packs still require the same field-by-field review before
 Phase 3 is complete:
 
-1. `LogisticsOffer`
-2. `LogisticsCommitment`
-3. `LogisticsConsideration`
-4. `LogisticsContract`
-5. `LogisticsPerformance`
-6. `LogisticsTracking`
-7. `LogisticsPerformanceStates`
+1. `LogisticsCommitment`
+2. `LogisticsConsideration`
+3. `LogisticsContract`
+4. `LogisticsPerformance`
+5. `LogisticsTracking`
+6. `LogisticsPerformanceStates`
