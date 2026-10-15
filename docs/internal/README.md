@@ -27,3 +27,6 @@ When using an internal work record:
 - [`ION_Release1_Logistics_Migration_Plan.md`](ION_Release1_Logistics_Migration_Plan.md) —
   approved working plan for migrating legacy ION Logistics into the Release 1
   structure without depending on the incomplete Beckn Logistics domain model.
+- [`ION_Release1_Logistics_Upstream_Alignment_Ledger.md`](ION_Release1_Logistics_Upstream_Alignment_Ledger.md) —
+  field ownership, compatibility, and disposition decisions made before each
+  legacy Logistics pack is migrated.
