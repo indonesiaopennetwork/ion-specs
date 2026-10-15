@@ -6,7 +6,8 @@
 > `33e6b4c40feabecf6b0f6a827b488ff82998c735`  
 > **Organizational reference:** `beckn/logistics` at
 > `4d98c3c9b7244f32f3a900272adc990d870df0bf`  
-> **Current coverage:** `LogisticsResource`, `LogisticsProvider`
+> **Current coverage:** `LogisticsResource`, `LogisticsProvider`,
+> `LogisticsParticipant`
 
 This internal ledger records the ownership and migration disposition of every
 field in the legacy ION Logistics packs before normative Release 1 artifacts are
@@ -366,16 +367,138 @@ reusable field ownership:
 | Legacy ION `LogisticsProvider` | `under review` | Use only as the field source; apply common-pack reuse and the ownership corrections in this ledger. |
 | Release 1 `LogisticsProvider` | `suitable for later release` | Author after the five named decisions are resolved or explicitly deferred from the pack. |
 
+## `LogisticsParticipant` v1
+
+### Sources and attachment point
+
+- Mapped legacy schema:
+  `schema/extensions/logistics/participant-logistics/v1/attributes.yaml`
+- Legacy schema name: `LogisticsParticipantAddendum`
+- Approved Release 1 pack name: `LogisticsParticipant`
+- Candidate attachment point: `Participant.participantAttributes`
+- Related historical candidate: `schema/extensions/logistics/agent/v1` at
+  legacy commit `f003bc7`. It contains the same three business fields and no
+  additional field to merge. Its direct-property attachment claim conflicts
+  with the pinned Release 1 core contract.
+- Beckn v2 core ownership: `Participant` owns `id`, `descriptor`, and
+  `participantAttributes`; the latter references `Attributes` in the pinned
+  Release 1 contract.
+- Beckn Logistics organizational references: `Courier`, `Driver`, and
+  `Contact`. These are useful role boundaries but are not Release 1
+  dependencies.
+
+The repository currently contains contradictory prose about the Participant
+extension point. The pinned `ion-beckn.yaml` defines
+`Participant.participantAttributes`, while the schema style guide and the
+Business Registration README say that v2 Participant has no such bag. Phase 4
+must follow the pinned machine-readable contract unless that contract is
+deliberately changed first; the contradictory guidance requires a separate
+repository correction.
+
+### Named decisions
+
+| ID | Decision required | Phase 3 default |
+|---|---|---|
+| `LOG-PART-001` | Which Participant extension point Release 1 supports | Use `Participant.participantAttributes` because it exists in the pinned Release 1 core contract. Do not use the historical direct-property claim without first changing and documenting the core contract. |
+| `LOG-PART-002` | Where the Logistics participant role taxonomy comes from | Do not assume the excluded legacy common Participant pack. Determine whether Logistics owns a minimal role discriminator or whether role is expressed by Contract/Performance relationships and credential type. |
+| `LOG-PART-003` | How logistics licences are represented | Replace flat licence fields with typed `DriverLicence` and `CustomsBrokerLicence` components; preserve ION regulatory semantics and sensitive-data annotations. |
+| `LOG-PART-004` | Whether licence validity and evidence are added in Release 1 | Beckn `Driver.licenseExpiry` is useful inspiration, but expiry and verifiable evidence are new fields and require an explicit ION requirement before inclusion. |
+
+### Organizational alignment
+
+The current Beckn Logistics repository distinguishes a `Courier`, who performs
+pickup or delivery, from a `Driver`, who operates a transport vehicle. ION should
+preserve that conceptual distinction even when the same human fulfills both
+roles. It should not copy their schemas:
+
+| Beckn organizational concept | Useful boundary | ION treatment |
+|---|---|---|
+| `Courier` | Last-mile pickup and delivery role | Treat as a participant role. Identity and presentation remain on core `Participant`; assignment and availability belong to runtime execution. |
+| `Driver` | Vehicle-operating role with a driving licence | Organize the two SIM fields under `DriverLicence`; do not copy live location, vehicle assignment, operational status, experience, or background-verification booleans. |
+| `Contact` | Contact channels for a transaction party | Do not duplicate in this pack. Use core participant description/contact conventions or an approved shared contact shape when available. |
+
+The proposed Release 1 organization is intentionally thin:
+
+```text
+LogisticsParticipant
+  role or relationship-derived role (LOG-PART-002)
+  driverLicence -> DriverLicence
+  customsBrokerLicence -> CustomsBrokerLicence
+
+DriverLicence
+  number
+  category (ION layer)
+  validUntil and evidence (only if LOG-PART-004 approves them)
+
+CustomsBrokerLicence
+  number
+  validUntil and evidence (only if LOG-PART-004 approves them)
+```
+
+Both licence components are ION-governed because the legacy fields identify
+Indonesian SIM and PPJK credentials. Their class boundaries are inspired by the
+Beckn role organization, but their definitions and regulatory vocabularies
+remain ION-owned.
+
+### Field ownership and disposition
+
+Every property path from the mapped legacy `LogisticsParticipantAddendum`
+schema is listed below.
+
+| Legacy field path | Class | Proposed owner | Release 1 disposition |
+|---|---|---|---|
+| `@context`, `@type` | `CORE` | `LogisticsParticipant` | Keep through the inherited Beckn `Attributes` extension contract; update the context URL and type to the Release 1 pack. |
+| `ppjkLicenceNumber` | `ION` | `CustomsBrokerLicence.number` | Keep the PPJK identifier, but organize it as a typed Indonesian customs-broker credential. Restore the sensitive-data annotation present in the historical `LogisticsAgent` candidate. |
+| `driverLicenceNumber` | `ION` | `DriverLicence.number` | Keep the Indonesian SIM identifier in a typed driver-licence component and mark it as sensitive Indonesian data. |
+| `driverLicenceCategory` | `ION` | `DriverLicence.category` | Keep the SIM category concept. Review the enum against the governing Indonesian licence vocabulary before authoring rather than copying it unchanged. |
+
+No mapped field is geography-neutral, and no mapped field belongs to an
+existing Release 1 common pack. The pack is therefore an ION-governed Logistics
+addendum, not a substitute for a generic Beckn `Courier` or `Driver` schema.
+
+### Beckn-inspired fields that are not legacy migration fields
+
+These fields appear in the current Beckn Logistics `Courier` or `Driver`
+organization. They are not present in the mapped legacy source and must not be
+silently introduced during migration:
+
+| Candidate | Status | ION ownership assessment |
+|---|---|---|
+| Driver licence expiry | `under review` | Natural member of `DriverLicence`, but add only after `LOG-PART-004` establishes a requirement and validation semantics. |
+| Participant name and profile image | `already covered conceptually` | Use `Participant.descriptor`; do not duplicate them in participant attributes. |
+| Phone and email | `deferred` | Use an approved shared contact representation; do not adopt the Beckn Logistics `Contact` schema as a dependency. |
+| Rating | `incompatible here` | Rating is post-performance data, not participant identity. Use the core rating protocol. |
+| Current location, availability, and operational status | `incompatible here` | Runtime execution/tracking state belongs to Logistics Performance or Tracking. |
+| Assigned vehicle and active shipments | `incompatible here` | Model through Performance relationships, not persistent participant attributes. |
+| KYC/background-verification booleans | `incompatible here` | Represent verifiable evidence or policy outcomes rather than self-asserted booleans. |
+| Experience, languages, and operating zones | `suitable for later review` | Consider only when a concrete discovery or allocation use case requires structured values. |
+
+### Requirements that belong to flows or policies
+
+| Legacy rule | Class | Phase 4 treatment |
+|---|---|---|
+| PPJK licence required when role is `CUSTOMS_BROKER` | `FLOW` | Require the typed credential in cross-border flows once `LOG-PART-002` defines how the role is identified; licence validity remains policy. |
+| Driver licence number and category required when role is `DRIVER` | `FLOW` | Require `DriverLicence` in flows that assign a driver; licence validity and permitted vehicle class remain policy. |
+
+### Upstream reconciliation outcome
+
+| Candidate | Current status | Later action |
+|---|---|---|
+| Official Beckn Logistics v2 Participant/Agent schema aligned to current Beckn core | `absent` | Compare role, credential, and attachment semantics when an official compatible schema is published. |
+| Current Beckn Logistics `Courier`, `Driver`, and `Contact` schemas | `incompatible` as dependencies; useful organizationally | Retain their role separation as design input, but do not copy their identity, runtime, India-specific, or older-core fields. |
+| Historical ION `logistics/agent/v1` | `incompatible` attachment; no unique business fields | Do not migrate separately. Preserve its data-residency annotations and generic/ION split reasoning as review evidence. |
+| Mapped legacy ION `LogisticsParticipantAddendum` | `under review` | Use as the three-field migration source, subject to typed credential organization and the role decision. |
+| Release 1 `LogisticsParticipant` | `suitable for later release` | Author after the four named decisions are resolved or explicitly deferred from the pack. |
+
 ## Remaining pack inventories
 
 The following legacy packs still require the same field-by-field review before
 Phase 3 is complete:
 
-1. `LogisticsParticipant`
-2. `LogisticsOffer`
-3. `LogisticsCommitment`
-4. `LogisticsConsideration`
-5. `LogisticsContract`
-6. `LogisticsPerformance`
-7. `LogisticsTracking`
-8. `LogisticsPerformanceStates`
+1. `LogisticsOffer`
+2. `LogisticsCommitment`
+3. `LogisticsConsideration`
+4. `LogisticsContract`
+5. `LogisticsPerformance`
+6. `LogisticsTracking`
+7. `LogisticsPerformanceStates`
