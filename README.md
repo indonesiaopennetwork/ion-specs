@@ -22,9 +22,9 @@ Made-to-Order, Live Commerce, Digital Goods, Business Procurement, Marketplace
 In-house, and Marketplace Listed flows and connected registries, the ION-owned
 Beckn-derived API contract, and pinned vendored Beckn schema dependencies.
 Logistics has been reopened for independent review and migration into this draft;
-no Logistics artifact is included merely by that scope change. Release 1 remains
-mutable and unchannelled until the Council publishes it into the `next` channel
-on `main`.
+that migration now includes the first independently validated pack,
+`LogisticsResource` v1. Release 1 remains mutable and unchannelled until the
+Council publishes it into the `next` channel on `main`.
 
 - [`releases/release1/release.yaml`](releases/release1/release.yaml) — scope,
   dependency provenance, checksums, and publication state.
@@ -32,6 +32,8 @@ on `main`.
   contents and validation commands.
 - [`releases/release1/schema/extension/trade/`](releases/release1/schema/extension/trade/) —
   nine validated Trade packs.
+- [`releases/release1/schema/extension/logistics/LogisticsResource/v1/`](releases/release1/schema/extension/logistics/LogisticsResource/v1/) —
+  the first independently migrated Logistics pack.
 - [`releases/release1/schema/core/api/v2.0.0/ion-additional.yaml`](releases/release1/schema/core/api/v2.0.0/ion-additional.yaml) —
   ION endpoints that Beckn does not define, starting with settlement
   reconciliation (`/reconcile`, `/on_reconcile`).

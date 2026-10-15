@@ -1,0 +1,71 @@
+{
+  "@context": "https://schema.ion.id/release1/schema/extension/logistics/LogisticsResource/v1/context.jsonld",
+  "@type": "ion:IONLogisticsResource",
+  "resourceType": "PARCEL",
+  "consignment": {
+    "quantity": {
+      "unitQuantity": 1,
+      "unitCode": "PK"
+    },
+    "packageIds": [
+      "PKG-001"
+    ],
+    "resourceIds": [
+      "RES-ELECTRONICS-001"
+    ],
+    "customsDeclaration": {
+      "hsCodes": [
+        "8517.13"
+      ],
+      "commercialInvoice": {
+        "invoiceNumber": "INV-2026-001",
+        "invoiceDate": "2026-10-16",
+        "invoiceValue": {
+          "currency": "IDR",
+          "value": 15000000
+        },
+        "documentReference": "DOC-INVOICE-001"
+      },
+      "certificateOfOrigin": {
+        "certificateNumber": "COO-2026-001",
+        "issuingAuthority": "KADIN Indonesia",
+        "documentReference": "DOC-COO-001",
+        "certificateType": "PREFERENTIAL_RCEP",
+        "form": "FORM_RCEP"
+      }
+    }
+  },
+  "packages": [
+    {
+      "id": "PKG-001",
+      "weight": {
+        "unitQuantity": 2.5,
+        "unitCode": "KGM"
+      },
+      "dimensions": {
+        "length": 30,
+        "width": 20,
+        "height": 15,
+        "unitCode": "CMT"
+      },
+      "declaredValue": {
+        "currency": "IDR",
+        "value": 15000000
+      },
+      "packagingType": "CARTON",
+      "fragile": true,
+      "stackable": false,
+      "lithiumBattery": {
+        "chemistry": "LITHIUM_ION",
+        "wattHourRating": {
+          "unitQuantity": 12.4,
+          "unitText": "Wh"
+        },
+        "stateOfCharge": 0.3,
+        "configuration": "CONTAINED_IN_EQUIPMENT",
+        "section": "SECTION_II"
+      }
+    }
+  ]
+}
+

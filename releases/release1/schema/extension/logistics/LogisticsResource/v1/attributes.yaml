@@ -1,0 +1,492 @@
+openapi: 3.1.1
+info:
+  title: ION Logistics Resource Extension (v1)
+  description: >
+    Logistics resource attributes used by a provider to describe the shipment,
+    packages, consignment, inventory, or vehicle cargo that a consumer asks the
+    provider to move or store. The pack attaches to
+    Resource.resourceAttributes during discovery and transaction formation.
+    It organizes the legacy ION shipment fields using the Package and
+    Consignment boundaries found in Beckn Logistics, without depending on the
+    currently incompatible Beckn Logistics v1 schemas.
+  version: 1.0.0
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    name: ION Network
+    url: https://schema.ion.id
+
+components:
+  schemas:
+    Dimensions:
+      type: object
+      title: Dimensions
+      description: >
+        Exterior length, width, and height measured in one common unit. These
+        measurements support capacity checks and volumetric-weight calculation.
+      additionalProperties: false
+      required: [length, width, height, unitCode]
+      properties:
+        length:
+          type: number
+          exclusiveMinimum: 0
+          description: Exterior length in the unit identified by unitCode.
+        width:
+          type: number
+          exclusiveMinimum: 0
+          description: Exterior width in the unit identified by unitCode.
+        height:
+          type: number
+          exclusiveMinimum: 0
+          description: Exterior height in the unit identified by unitCode.
+        unitCode:
+          type: string
+          description: UN/CEFACT Common Code used for all three dimensions.
+          x-ion-suggested-values: [CMT, MTR]
+
+    PackagingCertification:
+      type: object
+      title: PackagingCertification
+      description: Machine-verifiable facts from a dangerous-goods package certification.
+      additionalProperties: false
+      properties:
+        unCertifiedMarking:
+          type: string
+          description: UN specification marking displayed on the packaging.
+        manufacturer:
+          type: string
+          description: Manufacturer of the certified packaging.
+        certificationDate:
+          type: string
+          format: date
+          description: Date on which the packaging certification was issued.
+
+    ShippersDeclaration:
+      type: object
+      title: ShippersDeclaration
+      description: >
+        Identity and signing facts for the shipper's dangerous-goods declaration.
+        The declaration document itself belongs in Resource.descriptor.docs.
+      additionalProperties: false
+      properties:
+        documentReference:
+          type: string
+          description: Identifier shared with the corresponding Descriptor.docs entry.
+        signatoryName:
+          type: string
+          description: Name of the person who signed the declaration.
+        signedAt:
+          type: string
+          format: date-time
+          description: Time at which the declaration was signed.
+
+    DangerousGoods:
+      type: object
+      title: DangerousGoods
+      description: >
+        International dangerous-goods classification and handling facts used to
+        determine admissibility, segregation, packaging, and transport-mode rules.
+      additionalProperties: false
+      properties:
+        primaryClass:
+          type: string
+          enum: ['1.1', '1.2', '1.3', '1.4', '1.5', '1.6', '2.1', '2.2', '2.3', '3', '4.1', '4.2', '4.3', '5.1', '5.2', '6.1', '6.2', '7', '8', '9']
+          description: Primary IATA, IMDG, or ADR dangerous-goods class.
+        subsidiaryClasses:
+          type: array
+          uniqueItems: true
+          description: Additional risk classes for cargo with more than one hazard.
+          items:
+            type: string
+        unNumber:
+          type: string
+          pattern: ^UN[0-9]{4}$
+          description: Four-digit United Nations dangerous-goods identifier prefixed by UN.
+        packingGroup:
+          type: string
+          enum: [I, II, III]
+          description: Degree of danger assigned by the applicable transport code.
+        properShippingName:
+          type: string
+          description: Proper Shipping Name assigned by the applicable transport code.
+        netQuantityPerPackage:
+          allOf:
+            - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+          description: Net dangerous-substance quantity in each package.
+        netExplosiveMass:
+          allOf:
+            - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+          description: Net explosive mass for Class 1 cargo.
+        ergCode:
+          type: string
+          description: Emergency Response Guide code used by first responders.
+        segregationGroup:
+          type: string
+          description: IMDG segregation group used for mixed dangerous goods at sea.
+        packagingInstruction:
+          type: string
+          description: IATA packing-instruction number or IMDG packing code.
+        packagingCertification:
+          $ref: '#/components/schemas/PackagingCertification'
+        overpack:
+          type: boolean
+          description: Whether two or more dangerous-goods packages are combined in an overpack.
+        limitedQuantityExemption:
+          type: boolean
+          description: Whether the shipment is declared under a limited-quantity exemption.
+        exceptedQuantityExemption:
+          type: boolean
+          description: Whether the shipment is declared under an excepted-quantity exemption.
+        airTransportCode:
+          type: string
+          enum: [PAX, CAO, FORBIDDEN_AIR]
+          description: Passenger-aircraft, cargo-aircraft-only, or forbidden-by-air classification.
+        oceanStowageCategory:
+          type: string
+          enum: [A, B, C, D, E]
+          description: IMDG ocean stowage category.
+        shippersDeclaration:
+          $ref: '#/components/schemas/ShippersDeclaration'
+
+    LithiumBattery:
+      type: object
+      title: LithiumBattery
+      description: >
+        Classification facts for lithium batteries declared under UN3480,
+        UN3481, UN3090, or UN3091.
+      additionalProperties: false
+      properties:
+        chemistry:
+          type: string
+          enum: [LITHIUM_ION, LITHIUM_METAL, LITHIUM_POLYMER]
+        wattHourRating:
+          allOf:
+            - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+          description: Watt-hour rating per cell or battery.
+        lithiumContent:
+          allOf:
+            - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+          description: Lithium content of a lithium-metal cell or battery.
+        stateOfCharge:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Fractional state of charge, where 0.30 represents 30 percent.
+        configuration:
+          type: string
+          enum: [STANDALONE, PACKED_WITH_EQUIPMENT, CONTAINED_IN_EQUIPMENT]
+        section:
+          type: string
+          enum: [SECTION_I, SECTION_IA, SECTION_IB, SECTION_II]
+          description: IATA packing-instruction section classification.
+
+    TemperatureControl:
+      type: object
+      title: TemperatureControl
+      description: >
+        Cold-chain handling classification and, when known, the operational
+        temperature range that the provider must maintain.
+      additionalProperties: false
+      properties:
+        controlled:
+          type: boolean
+          description: Whether active or monitored temperature control is required.
+        minimumTemperature:
+          allOf:
+            - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+          description: Lowest permitted cargo temperature.
+        maximumTemperature:
+          allOf:
+            - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+          description: Highest permitted cargo temperature.
+        category:
+          type: string
+          enum: [FROZEN, CHILLED, AMBIENT, CONTROLLED_ROOM]
+          description: Operational storage and handling category.
+
+    LogisticsPackage:
+      type: object
+      title: LogisticsPackage
+      description: >
+        A separately handled physical package within a consignment. Its facts
+        support rating, capacity, safety, liability, and handling decisions.
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          description: Identifier unique within the enclosing LogisticsResource.
+        weight:
+          allOf:
+            - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+          description: Actual or declared gross package weight.
+        dimensions:
+          $ref: '#/components/schemas/Dimensions'
+        volumetricWeight:
+          allOf:
+            - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+          description: Provider-calculated volumetric weight; the calculation rule belongs to the offer or contract policy.
+        declaredValue:
+          allOf:
+            - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/PriceSpecification/2.0/attributes.yaml#/components/schemas/PriceSpecification
+          description: Value declared for liability and insurance assessment.
+        packagingType:
+          type: string
+          enum: [CARTON, PALLET, CRATE, DRUM, BULK, ROLL, ENVELOPE, OTHER]
+          description: Packaging form used for capacity and handling decisions.
+        fragile:
+          type: boolean
+          description: Whether the package requires fragile handling.
+        stackable:
+          type: boolean
+          description: Whether other packages may be stacked on this package.
+        dangerousGoods:
+          $ref: '#/components/schemas/DangerousGoods'
+        lithiumBattery:
+          $ref: '#/components/schemas/LithiumBattery'
+        temperatureControl:
+          $ref: '#/components/schemas/TemperatureControl'
+
+    CommercialInvoice:
+      type: object
+      title: CommercialInvoice
+      description: Structured commercial-invoice facts needed for customs processing.
+      additionalProperties: false
+      properties:
+        invoiceNumber:
+          type: string
+        invoiceDate:
+          type: string
+          format: date
+        invoiceValue:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/PriceSpecification/2.0/attributes.yaml#/components/schemas/PriceSpecification
+        documentReference:
+          type: string
+          description: Identifier shared with the corresponding Descriptor.docs entry.
+
+    CertificateOfOrigin:
+      type: object
+      title: CertificateOfOrigin
+      description: Geography-neutral identity facts for a certificate of origin.
+      additionalProperties: true
+      properties:
+        certificateNumber:
+          type: string
+        issuingAuthority:
+          type: string
+        documentReference:
+          type: string
+          description: Identifier shared with the corresponding Descriptor.docs entry.
+
+    IONCertificateOfOrigin:
+      title: IONCertificateOfOrigin
+      description: >
+        Certificate-of-origin facts used in Indonesian and ASEAN trade lanes,
+        extending the geography-neutral certificate identity.
+      x-ion-layer: ion
+      allOf:
+        - $ref: '#/components/schemas/CertificateOfOrigin'
+        - type: object
+          properties:
+            certificateType:
+              x-attr-ion-layer: ion
+              type: string
+              enum: [NON_PREFERENTIAL, PREFERENTIAL_AANZFTA, PREFERENTIAL_ACFTA, PREFERENTIAL_AKFTA, PREFERENTIAL_AIFTA, PREFERENTIAL_AJCEP, PREFERENTIAL_RCEP, PREFERENTIAL_IJEPA, PREFERENTIAL_ICFTA, PREFERENTIAL_OTHER]
+              description: Preferential or non-preferential origin regime used for Indonesian trade.
+            form:
+              x-attr-ion-layer: ion
+              type: string
+              enum: [FORM_E, FORM_AK, FORM_AI, FORM_D, FORM_AANZ, FORM_AJ, FORM_RCEP, FORM_IJEPA, FORM_GENERAL]
+              description: Certificate form used by the applicable Indonesian or ASEAN trade arrangement.
+
+    ImportLicence:
+      type: object
+      title: ImportLicence
+      description: Structured identity and validity facts for an import licence.
+      additionalProperties: false
+      properties:
+        licenceNumber:
+          type: string
+        validUntil:
+          type: string
+          format: date
+        documentReference:
+          type: string
+          description: Identifier shared with the corresponding Descriptor.docs entry.
+
+    CustomsDeclaration:
+      type: object
+      title: CustomsDeclaration
+      description: >
+        Customs classifications and document identity facts used to assess a
+        consignment crossing a customs boundary.
+      additionalProperties: true
+      properties:
+        hsCodes:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+          description: Harmonized System classification codes represented in the consignment.
+        commercialInvoice:
+          $ref: '#/components/schemas/CommercialInvoice'
+        certificateOfOrigin:
+          $ref: '#/components/schemas/CertificateOfOrigin'
+        importLicence:
+          $ref: '#/components/schemas/ImportLicence'
+
+    IONCustomsDeclaration:
+      title: IONCustomsDeclaration
+      description: Customs declaration extended with Indonesian certificate-of-origin classifications.
+      x-ion-layer: ion
+      allOf:
+        - $ref: '#/components/schemas/CustomsDeclaration'
+        - type: object
+          properties:
+            certificateOfOrigin:
+              x-attr-ion-layer: ion
+              $ref: '#/components/schemas/IONCertificateOfOrigin'
+
+    LogisticsConsignment:
+      type: object
+      title: LogisticsConsignment
+      description: >
+        Aggregate facts and stable references for the cargo moved under one
+        logistics resource. Referenced Resources retain their own descriptors
+        and product classifications.
+      additionalProperties: true
+      properties:
+        quantity:
+          allOf:
+            - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+          description: Aggregate count of packages, pallets, containers, vehicles, or other declared units.
+        totalVolume:
+          allOf:
+            - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+          description: Aggregate cargo volume for freight or consolidated transport.
+        packageIds:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+          description: Identifiers of LogisticsPackage entries in this resource.
+        resourceIds:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+          description: Stable identifiers of the catalog Resources contained in the consignment.
+        customsDeclaration:
+          $ref: '#/components/schemas/CustomsDeclaration'
+
+    IONLogisticsConsignment:
+      title: IONLogisticsConsignment
+      description: Logistics consignment extended with Indonesian customs classifications.
+      x-ion-layer: ion
+      allOf:
+        - $ref: '#/components/schemas/LogisticsConsignment'
+        - type: object
+          properties:
+            customsDeclaration:
+              x-attr-ion-layer: ion
+              $ref: '#/components/schemas/IONCustomsDeclaration'
+
+    InventoryManifest:
+      type: object
+      title: InventoryManifest
+      description: >
+        Warehouse handling classification and references to inventory Resources.
+        Product descriptions, SKU facts, and classifications remain on the
+        referenced Resources instead of being copied into this manifest.
+      additionalProperties: false
+      properties:
+        storageCategory:
+          type: string
+          enum: [AMBIENT, CHILLED, FROZEN, HIGH_VALUE, HAZMAT, OVERSIZED]
+        resourceIds:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+          description: Stable identifiers of Resources expected for warehouse receipt or storage.
+
+    VehicleCargo:
+      type: object
+      title: VehicleCargo
+      description: >
+        A vehicle being transported as cargo, such as on a roll-on/roll-off
+        service. It is distinct from the carrier's transport Vehicle.
+      additionalProperties: false
+      properties:
+        category:
+          type: string
+          enum: [PASSENGER_CAR, LIGHT_TRUCK, HEAVY_TRUCK, MOTORCYCLE, TRAILER, BUS, SPECIAL]
+        make:
+          type: string
+        model:
+          type: string
+        year:
+          type: integer
+          minimum: 1886
+        registration:
+          type: string
+          description: Registration identifier of the vehicle being transported.
+        dimensions:
+          $ref: '#/components/schemas/Dimensions'
+        weight:
+          allOf:
+            - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+          description: Gross weight of the vehicle being transported.
+
+    LogisticsResource:
+      type: object
+      title: LogisticsResource
+      description: >
+        Geography-neutral attributes for a shipment, consignment, inventory lot,
+        or vehicle cargo represented by a Beckn Resource.
+      additionalProperties: true
+      x-ion-closed-extensions: false
+      x-beckn-attaches-to: Resource.resourceAttributes
+      x-jsonld:
+        '@context': https://schema.ion.id/release1/schema/extension/logistics/LogisticsResource/v1/context.jsonld
+        '@type': ion:LogisticsResource
+      allOf:
+        - $ref: https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/schemas/Attributes
+      properties:
+        resourceType:
+          type: string
+          enum: [PARCEL, DOCUMENT, FREIGHT, VEHICLE, INVENTORY]
+          description: Broad category of the cargo being moved or stored.
+        consignment:
+          $ref: '#/components/schemas/LogisticsConsignment'
+        packages:
+          type: array
+          items:
+            $ref: '#/components/schemas/LogisticsPackage'
+        inventoryManifest:
+          $ref: '#/components/schemas/InventoryManifest'
+        vehicleCargo:
+          $ref: '#/components/schemas/VehicleCargo'
+
+    IONLogisticsResource:
+      type: object
+      title: IONLogisticsResource
+      description: >
+        ION Logistics resource attributes. The generic LogisticsResource layer
+        carries globally useful cargo facts; this ION layer adds Indonesian and
+        ASEAN customs classifications where needed.
+      x-ion-layer: ion
+      additionalProperties: true
+      x-ion-closed-extensions: false
+      x-beckn-attaches-to: Resource.resourceAttributes
+      x-jsonld:
+        '@context': https://schema.ion.id/release1/schema/extension/logistics/LogisticsResource/v1/context.jsonld
+        '@type': ion:IONLogisticsResource
+      allOf:
+        - $ref: '#/components/schemas/LogisticsResource'
+        - type: object
+          properties:
+            consignment:
+              x-attr-ion-layer: ion
+              $ref: '#/components/schemas/IONLogisticsConsignment'
+

@@ -1,0 +1,37 @@
+{
+  "id": "ion-logistics-resource-v1",
+  "version": "1.0.0",
+  "status": "draft",
+  "domain": "logistics",
+  "sectorCode": "B",
+  "type": "AttributePack",
+  "name": "ION Logistics Resource Extension (v1)",
+  "packSchema": "./schema.json",
+  "jsonldContext": "./context.jsonld",
+  "extends": "beckn:Resource",
+  "attachmentPoints": {
+    "resourceAttributes": [
+      "IONLogisticsResource"
+    ]
+  },
+  "indexing": {
+    "indexable": [
+      {
+        "path": "$.resourceType"
+      }
+    ],
+    "filterable": [
+      {
+        "path": "$.resourceType"
+      },
+      {
+        "path": "$.inventoryManifest.storageCategory"
+      }
+    ],
+    "sortable": []
+  },
+  "minimalForDiscovery": [
+    "resourceType"
+  ]
+}
+

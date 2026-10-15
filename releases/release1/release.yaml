@@ -339,6 +339,17 @@ artifactChecksums:
   schema/core/api/v2.0.0/examples/reconcile-request.json: 11df22e6ac9ec44c8872f618da11a5623f8ec58481465c3c400228795f8d7433
   schema/core/api/v2.0.0/ion-additional.yaml: 71c98a2dc7eff955de5429abf21665c33c814bd50a7795bf8f8eede6892e26c4
   schema/core/api/v2.0.0/ion-beckn.yaml: 87567ff9b849b0705505a85af86a5899625759cbcfa87775a85aed86e392511a
+  schema/extension/logistics/LogisticsResource/README.md: 36ae9d3bbfb568405476e97b3faef62502f7d29cc1e7a316edd3f4e259a53320
+  schema/extension/logistics/LogisticsResource/v1/README.md: 8f91a98cb8f58ade8bd70f02be00539a83a0373b1c044d1e999518b8b4202042
+  schema/extension/logistics/LogisticsResource/v1/attributes.yaml: 120719d9faeaa30145750e26934e330e7a6ed76cbcf4bce1e7431b6a08217951
+  schema/extension/logistics/LogisticsResource/v1/context.jsonld: 60ae21bbab808af05bc0d1012cdf942fec456fc6d0b1457b02ed5985296a3f7a
+  schema/extension/logistics/LogisticsResource/v1/docs/01-overview.md: aa0a48562241c736fd86369be8366a011e9d29d13ff26606296bcff8b5469056
+  schema/extension/logistics/LogisticsResource/v1/docs/README.md: 767c7bb585e6058abee01ea5538f2836358f49e50ccfdc1eb362bf95072bb552
+  schema/extension/logistics/LogisticsResource/v1/examples/cross-border-parcel.json: dc3299c97c850a9e10db10a943e00da9ef8ad2e6a764cadeffd7b2a672e5d077
+  schema/extension/logistics/LogisticsResource/v1/profile.json: 68ae611d9d62baf6164261b628217620856a2aae6300d623d88c5bf07b880d85
+  schema/extension/logistics/LogisticsResource/v1/renderer.json: 55c94e3193b91913fba7b6baeeaa4f5fb94f6b4e99777d91637efce1ff44f75b
+  schema/extension/logistics/LogisticsResource/v1/schema.json: 2bb868b65f8dbe59b18fe838a43ebf844fe77993aee2d1e77c3f7d185f28a135
+  schema/extension/logistics/LogisticsResource/v1/vocab.jsonld: 7bb4f3191271ed6a12b6bb21b5cdb8ecbe4bcc1be88bdc458925e227fef90b3f
   schema/extension/trade/TradeCommitment/v1/README.md: 879069e3d8ca170bad7ac9586592a6b17793ac48504664e1a375655531dd9aa3
   schema/extension/trade/TradeCommitment/v1/attributes.yaml: fa0d51e8162f0f3adbcd0352220322c82f1e7cbd44b4d260a8df83e021e3f7ec
   schema/extension/trade/TradeCommitment/v1/context.jsonld: 62f8aad5c9d897d6a0b684a5bfd2e552e7a70106e4f885d2f32bbc156e060a1c

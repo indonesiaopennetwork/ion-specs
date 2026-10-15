@@ -708,6 +708,10 @@ Logistics domain repository is comparison material, not a Release 1 dependency.
 The execution plan is recorded in
 `docs/internal/ION_Release1_Logistics_Migration_Plan.md`.
 
+Phase 4 subsequently began with `LogisticsResource` v1. That first complete
+vertical slice is present under `schema/extension/logistics/`; all other
+Logistics packs, flows, errors, and applicable policies remain review-required.
+
 ### Phase 7 — Update repository-level material
 
 1. [x] Added a manually runnable release gate at
