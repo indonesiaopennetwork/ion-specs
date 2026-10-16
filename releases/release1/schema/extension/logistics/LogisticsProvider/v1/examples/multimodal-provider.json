@@ -1,0 +1,151 @@
+{
+  "@context": "https://schema.ion.id/release1/schema/extension/logistics/LogisticsProvider/v1/context.jsonld",
+  "@type": "ion:IONLogisticsProvider",
+  "providerRoles": [
+    "CARRIER",
+    "FREIGHT_FORWARDER",
+    "WAREHOUSE_OPERATOR"
+  ],
+  "supportedPatterns": [
+    "PARCEL",
+    "FREIGHT",
+    "CROSS_BORDER",
+    "WAREHOUSE"
+  ],
+  "supportedTransportModes": [
+    "TRUCK",
+    "RAIL",
+    "SEA",
+    "AIR"
+  ],
+  "serviceCoverage": [
+    {
+      "coverageType": "BOTH",
+      "locationIds": [
+        "LOC-JKT-HUB"
+      ],
+      "ionSubdivisions": [
+        {
+          "provinsiCode": "BPS-31",
+          "kabupatenCode": "3171"
+        }
+      ]
+    }
+  ],
+  "capabilities": {
+    "coldChain": {
+      "temperatureZones": [
+        "CHILLED",
+        "CONTROLLED_ROOM"
+      ],
+      "credentialIds": [
+        "CRED-COLD-001"
+      ]
+    },
+    "dangerousGoods": {
+      "classes": [
+        "3",
+        "8",
+        "9"
+      ],
+      "credentialIds": [
+        "CRED-DG-001"
+      ]
+    },
+    "highValue": true
+  },
+  "operatingHours": [
+    {
+      "locationId": "LOC-JKT-HUB",
+      "operation": "HUB",
+      "dayFrom": 1,
+      "dayTo": 6,
+      "startTime": "06:00:00",
+      "endTime": "22:00:00"
+    }
+  ],
+  "closures": [
+    {
+      "date": "2027-01-01",
+      "locationId": "LOC-JKT-HUB"
+    }
+  ],
+  "fleetProfile": {
+    "sources": [
+      "OWN_FLEET",
+      "PARTNER_FLEET"
+    ]
+  },
+  "providerLocations": [
+    {
+      "id": "LOC-JKT-HUB",
+      "geo": {
+        "type": "Point",
+        "coordinates": [
+          106.8456,
+          -6.2088
+        ]
+      },
+      "address": {
+        "streetAddress": "Jl. Industri Raya 10",
+        "addressLocality": "Jakarta Pusat",
+        "addressRegion": "DKI Jakarta",
+        "postalCode": "10110",
+        "addressCountry": "ID"
+      }
+    }
+  ],
+  "hubs": [
+    {
+      "id": "HUB-JKT-001",
+      "locationId": "LOC-JKT-HUB",
+      "hubType": "FULFILMENT_CENTRE",
+      "capacity": {
+        "unitQuantity": 25000,
+        "unitText": "m3"
+      },
+      "bonded": true,
+      "facilities": [
+        "COLD_STORAGE",
+        "DANGEROUS_GOODS",
+        "CUSTOMS_INSPECTION",
+        "CROSS_DOCK"
+      ]
+    }
+  ],
+  "businessRegistration": {
+    "npwp": "1234567890123456",
+    "nib": "1234567890123",
+    "pkpStatus": "PKP",
+    "legalEntityName": "PT Nusantara Logistik Terpadu",
+    "businessType": "PT",
+    "siupNumber": "SIUP.3171.001.2026"
+  },
+  "credentials": [
+    {
+      "id": "CRED-COLD-001",
+      "credentialType": "COLD_CHAIN",
+      "credentialNumber": "CC-2026-001",
+      "issuer": "Badan Sertifikasi Logistik Indonesia",
+      "validUntil": "2028-12-31",
+      "evidenceDocumentReference": "DOC-COLD-CHAIN-001"
+    },
+    {
+      "id": "CRED-DG-001",
+      "credentialType": "DANGEROUS_GOODS",
+      "credentialNumber": "DG-2026-042",
+      "issuer": "Directorate General of Civil Aviation",
+      "validUntil": "2027-12-31",
+      "evidenceDocumentReference": "DOC-DANGEROUS-GOODS-001"
+    },
+    {
+      "id": "CRED-PPJK-001",
+      "credentialType": "PPJK_LICENCE",
+      "credentialNumber": "PPJK-31-2026-001",
+      "issuer": "Direktorat Jenderal Bea dan Cukai",
+      "validUntil": "2029-12-31",
+      "evidenceDocumentReference": "DOC-PPJK-001"
+    }
+  ]
+}
+

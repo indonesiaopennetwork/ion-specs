@@ -1,0 +1,60 @@
+{
+  "@context": {
+    "ion": "https://schema.ion.id/release1/schema/extension/logistics/LogisticsParticipant/v1#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+  },
+  "@graph": [
+    {
+      "@id": "ion:DriverLicence",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Driver Licence"
+    },
+    {
+      "@id": "ion:CustomsBrokerLicence",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Customs Broker Licence"
+    },
+    {
+      "@id": "ion:LogisticsParticipant",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Logistics Participant"
+    },
+    {
+      "@id": "ion:IONLogisticsParticipant",
+      "@type": "rdfs:Class",
+      "rdfs:label": "ION Logistics Participant"
+    },
+    {
+      "@id": "ion:number",
+      "@type": "rdf:Property",
+      "rdfs:label": "number",
+      "rdfs:comment": "Indonesian SIM licence number."
+    },
+    {
+      "@id": "ion:category",
+      "@type": "rdf:Property",
+      "rdfs:label": "category",
+      "rdfs:comment": "Indonesian SIM vehicle category."
+    },
+    {
+      "@id": "ion:participantRoles",
+      "@type": "rdf:Property",
+      "rdfs:label": "participantRoles",
+      "rdfs:comment": "Logistics roles performed by the participant in the applicable relationship or transaction."
+    },
+    {
+      "@id": "ion:driverLicence",
+      "@type": "rdf:Property",
+      "rdfs:label": "driverLicence",
+      "rdfs:comment": "driverLicence property."
+    },
+    {
+      "@id": "ion:customsBrokerLicence",
+      "@type": "rdf:Property",
+      "rdfs:label": "customsBrokerLicence",
+      "rdfs:comment": "customsBrokerLicence property."
+    }
+  ]
+}

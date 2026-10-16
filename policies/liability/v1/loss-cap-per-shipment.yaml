@@ -1,0 +1,36 @@
+iri: ion://policy/liability.loss-cap-per-shipment
+version: 1.0.0
+versionEffectiveFrom: null
+category: LIABILITY
+status: draft
+sector: logistics
+displayText:
+  id: Batas tanggung jawab kehilangan per kiriman
+  en: Loss liability cap per shipment
+applicableCategories:
+- logistics
+applicableResourceTypes: []
+regulatoryBasis: []
+sourceProvenance:
+  repository: indonesiaopennetwork/ion-specs
+  commit: 33e6b4c40feabecf6b0f6a827b488ff82998c735
+  path: policies/liability/v1/loss-cap-per-shipment.yaml
+  legacyId: liability.loss-cap-per-shipment
+supersededBy: null
+deprecatedAt: null
+lossThresholdHours: 72
+description: 'A shipment is declared lost when there has been no scan event for more
+  than 72 hours AND the last known scan was before the OUT_FOR_DELIVERY state.
+
+'
+maximumLiabilityPerShipment: 50000000
+currency: IDR
+liabilityBasis: LESSER_OF_DECLARED_VALUE_OR_MAXIMUM
+claimProcess:
+  initiatedBy: BAP (after threshold elapsed)
+  via: loss-claim variant (/update with disputeReason.policyIri)
+  bppResponseWithin: PT72H
+  settlementWithin: P14D_after_approval
+escalation:
+  path: ion://policy/dispute.commercial.odr
+  trigger: bilateral_unresolved_after_P30D

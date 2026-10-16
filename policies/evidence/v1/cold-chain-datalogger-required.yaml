@@ -1,0 +1,37 @@
+iri: ion://policy/evidence.cold-chain.datalogger-required
+version: 1.0.0
+versionEffectiveFrom: null
+category: EVIDENCE
+status: draft
+sector: logistics
+displayText:
+  id: Bukti pencatat data rantai dingin
+  en: Cold-chain datalogger evidence required
+applicableCategories:
+- logistics
+applicableResourceTypes: []
+regulatoryBasis: []
+sourceProvenance:
+  repository: indonesiaopennetwork/ion-specs
+  commit: 33e6b4c40feabecf6b0f6a827b488ff82998c735
+  path: policies/evidence/v1/standard-photo-24hr.yaml
+  legacyId: evidence.cold-chain.datalogger-required
+supersededBy: null
+deprecatedAt: null
+appliesTo:
+- cold-chain-damage
+- cold-chain-excursion
+requirements:
+  cold-chain-damage:
+  - type: TEMPERATURE_LOG
+    source: certified_datalogger
+    completeness: full_transit
+    certificationRequired: true
+  - type: PHOTO
+    count: minimum 2
+    within: PT1H
+  cold-chain-excursion:
+  - type: TEMPERATURE_LOG
+    source: certified_datalogger
+    excursionTimestamp: required
+    excursionDuration: required

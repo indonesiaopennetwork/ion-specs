@@ -1,0 +1,127 @@
+schemaVersion: 1
+sourceRepository: indonesiaopennetwork/ion-specs
+sourceCommit: 33e6b4c40feabecf6b0f6a827b488ff82998c735
+sourcePath: errors/logistics.yaml
+sourceCount: 97
+
+included:
+  ION-LOG-5001: ION-B5001
+  ION-LOG-5004: ION-B5004
+  ION-LOG-5101: ION-B5101
+  ION-LOG-5102: ION-B5102
+  ION-LOG-6001: ION-B6001
+  ION-LOG-6002: ION-B6002
+  ION-LOG-6003: ION-B6003
+  ION-LOG-6004: ION-B6004
+  ION-LOG-6005: ION-B6005
+  ION-LOG-6006: ION-B6006
+  ION-LOG-6008: ION-B6008
+  ION-LOG-6009: ION-B6009
+  ION-LOG-6011: ION-B6011
+  ION-LOG-6108: ION-B6108
+  ION-LOG-6111: ION-B6111
+  ION-LOG-6122: ION-B6122
+  ION-LOG-6201: ION-B6201
+  ION-LOG-6404: ION-B6404
+  ION-LOG-6405: ION-B6405
+  ION-LOG-6501: ION-B6501
+  ION-LOG-6502: ION-B6502
+  ION-LOG-6505: ION-B6505
+  ION-LOG-6601: ION-B6601
+  ION-LOG-6602: ION-B6602
+  ION-LOG-6801: ION-B6801
+  ION-LOG-6904: ION-B6904
+  ION-LOG-6905: ION-B6905
+  ION-LOG-7001: ION-B7001
+  ION-LOG-7003: ION-B7003
+  ION-LOG-9004: ION-B9004
+
+deferred:
+  ION-LOG-5002: unsupported-address-attempt-branch
+  ION-LOG-5003: unsupported-address-attempt-branch
+  ION-LOG-5005: unsupported-address-attempt-branch
+  ION-LOG-5006: unsupported-address-attempt-branch
+  ION-LOG-5103: informational-not-error
+  ION-LOG-6007: missing-dimension-limit
+  ION-LOG-6010: cod-deferred
+  ION-LOG-6012: business-tax-schema-missing
+  ION-LOG-6013: business-tax-schema-missing
+  ION-LOG-6014: business-tax-schema-missing
+  ION-LOG-6015: business-tax-schema-missing
+  ION-LOG-6101: ekyc-deferred
+  ION-LOG-6102: ekyc-deferred
+  ION-LOG-6103: ekyc-deferred
+  ION-LOG-6104: ekyc-deferred
+  ION-LOG-6105: ekyc-deferred
+  ION-LOG-6109: cross-bpp-authorization-missing
+  ION-LOG-6110: unsupported-raise-action
+  ION-LOG-6112: informational-not-error
+  ION-LOG-6121: informational-not-error
+  ION-LOG-6123: informational-not-error
+  ION-LOG-6202: dimension-dispute-deferred
+  ION-LOG-6301: cold-chain-deferred
+  ION-LOG-6302: cold-chain-deferred
+  ION-LOG-6401: customs-remediation-deferred
+  ION-LOG-6402: customs-remediation-deferred
+  ION-LOG-6403: customs-remediation-deferred
+  ION-LOG-6406: customs-remediation-deferred
+  ION-LOG-6407: regulatory-rule-unavailable
+  ION-LOG-6408: regulatory-rule-unavailable
+  ION-LOG-6409: regulatory-rule-unavailable
+  ION-LOG-6410: regulatory-rule-unavailable
+  ION-LOG-6411: regulatory-rule-unavailable
+  ION-LOG-6503: roro-rebooking-deferred
+  ION-LOG-6603: warehouse-branch-deferred
+  ION-LOG-6604: warehouse-branch-deferred
+  ION-LOG-6605: warehouse-branch-deferred
+  ION-LOG-6606: warehouse-branch-deferred
+  ION-LOG-6607: warehouse-branch-deferred
+  ION-LOG-6701: fwa-deferred
+  ION-LOG-6702: fwa-deferred
+  ION-LOG-6703: fwa-deferred
+  ION-LOG-6802: participant-rule-unavailable
+  ION-LOG-6803: regulatory-rule-unavailable
+  ION-LOG-6804: regulatory-rule-unavailable
+  ION-LOG-6805: participant-rule-unavailable
+  ION-LOG-6806: participant-rule-unavailable
+  ION-LOG-6901: payment-offer-missing
+  ION-LOG-6902: cod-deferred
+  ION-LOG-6903: cod-deferred
+  ION-LOG-6906: fwa-deferred
+  ION-LOG-7002: driver-safety-schema-missing
+  ION-LOG-7004: informational-not-error
+  ION-LOG-8001: fwa-deferred
+  ION-LOG-9001: cross-sector-error
+  ION-LOG-9002: cross-sector-error
+  ION-LOG-9003: cross-sector-error
+  ION-LOG-9005: cross-sector-error
+  ION-LOG-9006: cross-sector-error
+  ION-LOG-9007: cross-sector-error
+  ION-LOG-9008: cross-sector-error
+  ION-LOG-9009: cross-sector-error
+  ION-LOG-9101: informational-not-error
+  ION-LOG-9301: cross-sector-error
+  ION-LOG-9302: cross-sector-error
+  ION-LOG-9303: cross-sector-error
+  ION-LOG-9304: cross-sector-error
+
+reasons:
+  unsupported-address-attempt-branch: Address-change and reschedule sub-branches were not included in the Release 1 delivery-attempts variant.
+  informational-not-error: The legacy entry reports a successful or predictive condition and must be expressed as status, alert, or documentation rather than an error response.
+  missing-dimension-limit: Release 1 models package dimensions but does not define an Offer-level maximum-dimensions constraint.
+  cod-deferred: The cash-on-delivery variant is deferred pending an authoritative remittance-terms policy.
+  business-tax-schema-missing: The migrated Logistics flow does not define the asserted business-tax or invoice-validation field and lifecycle.
+  ekyc-deferred: The Logistics eKYC variant and its policy terms are deferred.
+  cross-bpp-authorization-missing: Release 1 has no governed cross-BPP dispatch authorization or registry-binding contract.
+  unsupported-raise-action: The recovery path requires the undefined raise action family.
+  dimension-dispute-deferred: Release 1 includes a weight-dispute policy and flow, not an equivalent dimensional-dispute contract.
+  cold-chain-deferred: The cold-chain execution variant is deferred pending approved temperature-policy semantics.
+  customs-remediation-deferred: The customs remediation and appeals variant is deferred.
+  regulatory-rule-unavailable: The schema can carry evidence, but Release 1 has no maintained rule source establishing when this jurisdiction-specific requirement applies.
+  roro-rebooking-deferred: The missed-sailing rebooking flow remains a planned state-machine integration point.
+  warehouse-branch-deferred: The required warehouse dispatch, value-added-service, expiry, or discrepancy branch is not published in Release 1.
+  fwa-deferred: Framework-agreement activation, scope, volume, credit, and reporting semantics are not defined by an included Release 1 flow.
+  participant-rule-unavailable: The asserted participant-to-subscriber or mandatory-role rule is not established by the included flow and schema set.
+  payment-offer-missing: Release 1 has payment declarations but no Logistics Offer field listing accepted prepaid payment methods.
+  driver-safety-schema-missing: The included incident flow intentionally excludes inline driver-safety status and employment/insurance governance.
+  cross-sector-error: The condition concerns protocol transport, authentication, registry, or generic feature handling and should not be duplicated as a Logistics-sector error.

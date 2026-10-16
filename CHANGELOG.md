@@ -3,13 +3,19 @@
 ## Release 1 — Draft (August 2026)
 
 The first permanent integer release is being prepared under
-`releases/release1/`. Its approved scope is the standalone Trade schemas, the
+`releases/release1/`. Its included baseline is the standalone Trade schemas, the
 four common packs required by Trade, pinned vendored Beckn dependencies, the
 approved Trade flows, and 10 Trade errors whose targets are included in the
 release. The 67 Trade or cross-sector policy terms are maintained in the shared
-root registry outside the release cycle. `ion.yaml`, Logistics, Hospitality,
-Finance, other Trade flows, and errors tied to those flows are explicitly
-excluded.
+root registry outside the release cycle. `ion.yaml`, Hospitality, Finance, other
+Trade flows, and errors tied to those flows remain explicitly excluded.
+
+On 16 October 2026, Logistics was reopened as `review-required` in the still-draft
+Release 1 manifest. This scope transition starts an independent migration and
+does not add or validate any Logistics artifact by itself. The migration uses the
+legacy ION Logistics material as its functional input and the pinned Beckn
+Protocol v2 core as its normative parent; the incomplete external Beckn Logistics
+domain repository is not a Release 1 dependency.
 
 Release-owned schema content is grouped under `releases/release1/schema/`:
 `core/`, `common/`, `extension/`, and `vendored/` are peers there, while

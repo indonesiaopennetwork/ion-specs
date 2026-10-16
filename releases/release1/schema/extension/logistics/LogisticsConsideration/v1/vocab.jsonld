@@ -1,0 +1,121 @@
+{
+  "@context": {
+    "ion": "https://schema.ion.id/release1/schema/extension/logistics/LogisticsConsideration/v1#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "schema": "https://schema.org/"
+  },
+  "@graph": [
+    {
+      "@id": "schema:priceCurrency",
+      "@type": "rdf:Property",
+      "rdfs:label": "currency"
+    },
+    {
+      "@id": "schema:price",
+      "@type": "rdf:Property",
+      "rdfs:label": "value"
+    },
+    {
+      "@id": "schema:description",
+      "@type": "rdf:Property",
+      "rdfs:label": "description"
+    },
+    {
+      "@id": "schema:eligibleQuantity",
+      "@type": "rdf:Property",
+      "rdfs:label": "applicableQuantity"
+    },
+    {
+      "@id": "ion:basis",
+      "@type": "rdf:Property",
+      "rdfs:label": "basis",
+      "rdfs:comment": "basis property."
+    },
+    {
+      "@id": "ion:rate",
+      "@type": "rdf:Property",
+      "rdfs:label": "rate",
+      "rdfs:comment": "rate property."
+    },
+    {
+      "@id": "ion:basisQuantity",
+      "@type": "rdf:Property",
+      "rdfs:label": "basisQuantity",
+      "rdfs:comment": "basisQuantity property."
+    },
+    {
+      "@id": "ion:policyRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "policyRef",
+      "rdfs:comment": "policyRef property."
+    },
+    {
+      "@id": "ion:taxCode",
+      "@type": "rdf:Property",
+      "rdfs:label": "taxCode",
+      "rdfs:comment": "taxCode property."
+    },
+    {
+      "@id": "ion:taxableBase",
+      "@type": "rdf:Property",
+      "rdfs:label": "taxableBase",
+      "rdfs:comment": "taxableBase property."
+    },
+    {
+      "@id": "ion:chargeCode",
+      "@type": "rdf:Property",
+      "rdfs:label": "chargeCode",
+      "rdfs:comment": "chargeCode property."
+    },
+    {
+      "@id": "ion:calculation",
+      "@type": "rdf:Property",
+      "rdfs:label": "calculation",
+      "rdfs:comment": "calculation property."
+    },
+    {
+      "@id": "ion:taxDetail",
+      "@type": "rdf:Property",
+      "rdfs:label": "taxDetail",
+      "rdfs:comment": "taxDetail property."
+    },
+    {
+      "@id": "ion:components",
+      "@type": "rdf:Property",
+      "rdfs:label": "components",
+      "rdfs:comment": "components property."
+    },
+    {
+      "@id": "ion:ChargeCalculation",
+      "@type": "rdfs:Class",
+      "rdfs:label": "ChargeCalculation",
+      "rdfs:comment": "ChargeCalculation class."
+    },
+    {
+      "@id": "ion:LogisticsTaxDetail",
+      "@type": "rdfs:Class",
+      "rdfs:label": "LogisticsTaxDetail",
+      "rdfs:comment": "LogisticsTaxDetail class."
+    },
+    {
+      "@id": "ion:LogisticsChargeComponent",
+      "@type": "rdfs:Class",
+      "rdfs:label": "LogisticsChargeComponent",
+      "rdfs:comment": "One PriceSpecification component refined with a logistics charge code. Discounts, credits, and rebates use negative values; charges, taxes, duties, fees, and surcharges use positive values."
+    },
+    {
+      "@id": "ion:LogisticsConsideration",
+      "@type": "rdfs:Class",
+      "rdfs:label": "LogisticsConsideration",
+      "rdfs:comment": "Canonical logistics monetary total and component breakdown."
+    },
+    {
+      "@id": "ion:type",
+      "@type": "rdf:Property",
+      "rdfs:label": "type",
+      "rdfs:comment": "type property."
+    }
+  ]
+}

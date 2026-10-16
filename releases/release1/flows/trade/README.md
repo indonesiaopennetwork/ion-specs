@@ -22,10 +22,11 @@ Release 1 includes seven validated reference flows:
   marketplace routing from a marketplace BAP to an independent seller BPP.
 
 The remaining root Trade patterns and variants are non-normative work in
-progress. Subscription requires non-Beckn actions. Cross-Border depends on the
-excluded Logistics customs contract and states. Government and both auction
-patterns lack standalone schemas for their defining wire objects and currently
-use ad hoc tags. They were reviewed but not copied into Release 1.
+progress. Subscription requires non-Beckn actions. The legacy Trade Cross-Border
+pattern was not migrated because it has not been reconciled with the now-included
+Logistics cross-border pattern and its separate transaction boundary. Government
+and both auction patterns lack standalone schemas for their defining wire objects
+and currently use ad hoc tags. They were reviewed but not copied into Release 1.
 
 All included patterns use only the nine Release 1 Trade packs and the included
 Address, Business Registration, Payment, and Tax common packs. Individual flows

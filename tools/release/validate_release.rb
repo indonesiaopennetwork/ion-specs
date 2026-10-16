@@ -19,6 +19,7 @@ commands = [
   ["Manifest", ["ruby", "tools/release/validate_manifest.rb", release_root.join("release.yaml").to_s]],
   ["Release scope", ["ruby", "tools/release/validate_release_scope.rb", release_root.to_s]],
   ["Shared policy registry", ["ruby", "tools/policies/generate_registry.rb", repository_root.to_s]],
+  ["Logistics policy migration map", ["ruby", "tools/policies/validate_logistics_policy_map.rb", repository_root.to_s]],
   ["Generated error registry", ["ruby", "tools/release/generate_error_registry.rb", release_root.to_s]],
   ["Recorded artifact inventory", ["ruby", "tools/release/record_artifact_checksums.rb", release_root.to_s]],
   ["Artifact checksums", ["ruby", "tools/release/validate_artifact_checksums.rb", release_root.to_s]],
@@ -33,6 +34,12 @@ end
 path_map = repository_root.join("tools/release/#{release_name}-path-map.json")
 commands.insert(2, ["Release path map", ["ruby", "tools/release/validate_path_map.rb", "--require-targets", path_map.to_s]]) if path_map.file?
 commands << ["Trade connections", ["ruby", "tools/release/validate_trade_connections.rb", release_root.to_s]]
+logistics_schema = release_root.join("schema/extension/logistics")
+if logistics_schema.directory?
+  commands << ["Logistics performance states", ["ruby", "tools/release/validate_logistics_performance_states.rb", release_root.to_s]]
+  commands << ["Logistics connections", ["ruby", "tools/release/validate_logistics_connections.rb", release_root.to_s]]
+  commands << ["Logistics errors", ["ruby", "tools/release/validate_logistics_errors.rb", release_root.to_s]]
+end
 if publication
   commands << ["Publication manifest gate", ["ruby", "tools/release/validate_manifest.rb", "--require-published", release_root.join("release.yaml").to_s]]
 end

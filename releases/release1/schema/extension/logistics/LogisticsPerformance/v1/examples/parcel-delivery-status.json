@@ -1,0 +1,21 @@
+{
+  "@context":"https://schema.ion.id/release1/schema/extension/logistics/LogisticsPerformance/v1/context.jsonld",
+  "@type":"ion:LogisticsPerformance",
+  "serviceReferences":[{"referenceType":"AWB","value":"ION123456789","issuerParticipantId":"PART-CARRIER-01","allocationMode":"PROVIDER_ASSIGNED"}],
+  "pickup":{"model":"DOOR_PICKUP","confirmedWindow":{"@type":"beckn:TimePeriod","schema:startDate":"2026-10-16T09:00:00+07:00","schema:endDate":"2026-10-16T10:00:00+07:00"}},
+  "route":{"topology":"POINT_HUB_POINT","stops":[
+    {"id":"STOP-1","stopType":"PICKUP","locationId":"LOC-PICKUP"},
+    {"id":"STOP-2","stopType":"HUB","locationId":"LOC-JKT-HUB"},
+    {"id":"STOP-3","stopType":"DELIVERY","locationId":"LOC-DELIVERY","estimatedArrival":"2026-10-17T14:00:00+07:00"}
+  ],"legs":[
+    {"id":"LEG-1","sequence":1,"legType":"FIRST_MILE","originStopId":"STOP-1","destinationStopId":"STOP-2","carrierParticipantId":"PART-CARRIER-01"},
+    {"id":"LEG-2","sequence":2,"legType":"LAST_MILE","originStopId":"STOP-2","destinationStopId":"STOP-3","carrierParticipantId":"PART-CARRIER-01"}
+  ]},
+  "events":[
+    {"id":"EVT-1","eventType":"PICKUP","stateCode":"PICKED_UP","timestamp":"2026-10-16T09:34:00+07:00","locationId":"LOC-PICKUP","actorParticipantId":"PART-DRIVER-01"},
+    {"id":"EVT-2","eventType":"ARRIVAL","stateCode":"AT_ORIGIN_HUB","timestamp":"2026-10-16T11:12:00+07:00","locationId":"LOC-JKT-HUB","routeLegId":"LEG-1"}
+  ],
+  "assignments":[{"assignmentType":"DRIVER","participantId":"PART-DRIVER-01","routeLegId":"LEG-1"},{"assignmentType":"VEHICLE","resourceId":"VEHICLE-01","routeLegId":"LEG-1"}],
+  "proofs":[{"proofType":"PICKUP","documentReference":"DOC-PICKUP-01","capturedAt":"2026-10-16T09:34:00+07:00","locationId":"LOC-PICKUP","capturedByParticipantId":"PART-DRIVER-01","verificationStatus":"VERIFIED"}],
+  "sla":{"stateHistory":[{"stateCode":"PICKED_UP","enteredAt":"2026-10-16T09:34:00+07:00","exitedAt":"2026-10-16T11:12:00+07:00","transitionEventId":"EVT-1"},{"stateCode":"AT_ORIGIN_HUB","enteredAt":"2026-10-16T11:12:00+07:00","transitionEventId":"EVT-2"}]}
+}

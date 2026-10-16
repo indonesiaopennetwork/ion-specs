@@ -1,0 +1,639 @@
+{
+  "@context": {
+    "ion": "https://schema.ion.id/release1/schema/extension/logistics/LogisticsResource/v1#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "schema": "https://schema.org/"
+  },
+  "@graph": [
+    {
+      "@id": "ion:LogisticsResource",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Logistics Resource",
+      "rdfs:comment": "Geography-neutral attributes for a shipment, consignment, inventory lot, or vehicle cargo represented by a Beckn Resource.",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Attributes"
+      }
+    },
+    {
+      "@id": "ion:IONLogisticsResource",
+      "@type": "rdfs:Class",
+      "rdfs:label": "ION Logistics Resource",
+      "rdfs:comment": "ION Logistics resource attributes with Indonesian and ASEAN customs classifications where needed.",
+      "rdfs:subClassOf": {
+        "@id": "ion:LogisticsResource"
+      }
+    },
+    {
+      "@id": "ion:resourceType",
+      "@type": "rdf:Property",
+      "rdfs:label": "resourceType",
+      "rdfs:comment": "Broad category of the cargo being moved or stored."
+    },
+    {
+      "@id": "ion:length",
+      "@type": "rdf:Property",
+      "rdfs:label": "length",
+      "rdfs:comment": "Exterior length in the unit identified by unitCode."
+    },
+    {
+      "@id": "ion:width",
+      "@type": "rdf:Property",
+      "rdfs:label": "width",
+      "rdfs:comment": "Exterior width in the unit identified by unitCode."
+    },
+    {
+      "@id": "ion:height",
+      "@type": "rdf:Property",
+      "rdfs:label": "height",
+      "rdfs:comment": "Exterior height in the unit identified by unitCode."
+    },
+    {
+      "@id": "ion:unitCode",
+      "@type": "rdf:Property",
+      "rdfs:label": "unitCode",
+      "rdfs:comment": "UN/CEFACT Common Code used for all three dimensions."
+    },
+    {
+      "@id": "ion:unCertifiedMarking",
+      "@type": "rdf:Property",
+      "rdfs:label": "unCertifiedMarking",
+      "rdfs:comment": "UN specification marking displayed on the packaging."
+    },
+    {
+      "@id": "ion:manufacturer",
+      "@type": "rdf:Property",
+      "rdfs:label": "manufacturer",
+      "rdfs:comment": "Manufacturer of the certified packaging."
+    },
+    {
+      "@id": "ion:certificationDate",
+      "@type": "rdf:Property",
+      "rdfs:label": "certificationDate",
+      "rdfs:comment": "Date on which the packaging certification was issued."
+    },
+    {
+      "@id": "ion:documentReference",
+      "@type": "rdf:Property",
+      "rdfs:label": "documentReference",
+      "rdfs:comment": "Identifier shared with the corresponding Descriptor.docs entry."
+    },
+    {
+      "@id": "ion:signatoryName",
+      "@type": "rdf:Property",
+      "rdfs:label": "signatoryName",
+      "rdfs:comment": "Name of the person who signed the declaration."
+    },
+    {
+      "@id": "ion:signedAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "signedAt",
+      "rdfs:comment": "Time at which the declaration was signed."
+    },
+    {
+      "@id": "ion:primaryClass",
+      "@type": "rdf:Property",
+      "rdfs:label": "primaryClass",
+      "rdfs:comment": "Primary IATA, IMDG, or ADR dangerous-goods class."
+    },
+    {
+      "@id": "ion:subsidiaryClasses",
+      "@type": "rdf:Property",
+      "rdfs:label": "subsidiaryClasses",
+      "rdfs:comment": "Additional risk classes for cargo with more than one hazard."
+    },
+    {
+      "@id": "ion:unNumber",
+      "@type": "rdf:Property",
+      "rdfs:label": "unNumber",
+      "rdfs:comment": "Four-digit United Nations dangerous-goods identifier prefixed by UN."
+    },
+    {
+      "@id": "ion:packingGroup",
+      "@type": "rdf:Property",
+      "rdfs:label": "packingGroup",
+      "rdfs:comment": "Degree of danger assigned by the applicable transport code."
+    },
+    {
+      "@id": "ion:properShippingName",
+      "@type": "rdf:Property",
+      "rdfs:label": "properShippingName",
+      "rdfs:comment": "Proper Shipping Name assigned by the applicable transport code."
+    },
+    {
+      "@id": "ion:netQuantityPerPackage",
+      "@type": "rdf:Property",
+      "rdfs:label": "netQuantityPerPackage",
+      "rdfs:comment": "Net dangerous-substance quantity in each package."
+    },
+    {
+      "@id": "ion:netExplosiveMass",
+      "@type": "rdf:Property",
+      "rdfs:label": "netExplosiveMass",
+      "rdfs:comment": "Net explosive mass for Class 1 cargo."
+    },
+    {
+      "@id": "ion:ergCode",
+      "@type": "rdf:Property",
+      "rdfs:label": "ergCode",
+      "rdfs:comment": "Emergency Response Guide code used by first responders."
+    },
+    {
+      "@id": "ion:segregationGroup",
+      "@type": "rdf:Property",
+      "rdfs:label": "segregationGroup",
+      "rdfs:comment": "IMDG segregation group used for mixed dangerous goods at sea."
+    },
+    {
+      "@id": "ion:packagingInstruction",
+      "@type": "rdf:Property",
+      "rdfs:label": "packagingInstruction",
+      "rdfs:comment": "IATA packing-instruction number or IMDG packing code."
+    },
+    {
+      "@id": "ion:packagingCertification",
+      "@type": "rdf:Property",
+      "rdfs:label": "packagingCertification",
+      "rdfs:comment": "packagingCertification property."
+    },
+    {
+      "@id": "ion:overpack",
+      "@type": "rdf:Property",
+      "rdfs:label": "overpack",
+      "rdfs:comment": "Whether two or more dangerous-goods packages are combined in an overpack."
+    },
+    {
+      "@id": "ion:limitedQuantityExemption",
+      "@type": "rdf:Property",
+      "rdfs:label": "limitedQuantityExemption",
+      "rdfs:comment": "Whether the shipment is declared under a limited-quantity exemption."
+    },
+    {
+      "@id": "ion:exceptedQuantityExemption",
+      "@type": "rdf:Property",
+      "rdfs:label": "exceptedQuantityExemption",
+      "rdfs:comment": "Whether the shipment is declared under an excepted-quantity exemption."
+    },
+    {
+      "@id": "ion:airTransportCode",
+      "@type": "rdf:Property",
+      "rdfs:label": "airTransportCode",
+      "rdfs:comment": "Passenger-aircraft, cargo-aircraft-only, or forbidden-by-air classification."
+    },
+    {
+      "@id": "ion:oceanStowageCategory",
+      "@type": "rdf:Property",
+      "rdfs:label": "oceanStowageCategory",
+      "rdfs:comment": "IMDG ocean stowage category."
+    },
+    {
+      "@id": "ion:shippersDeclaration",
+      "@type": "rdf:Property",
+      "rdfs:label": "shippersDeclaration",
+      "rdfs:comment": "shippersDeclaration property."
+    },
+    {
+      "@id": "ion:chemistry",
+      "@type": "rdf:Property",
+      "rdfs:label": "chemistry",
+      "rdfs:comment": "chemistry property."
+    },
+    {
+      "@id": "ion:wattHourRating",
+      "@type": "rdf:Property",
+      "rdfs:label": "wattHourRating",
+      "rdfs:comment": "Watt-hour rating per cell or battery."
+    },
+    {
+      "@id": "ion:lithiumContent",
+      "@type": "rdf:Property",
+      "rdfs:label": "lithiumContent",
+      "rdfs:comment": "Lithium content of a lithium-metal cell or battery."
+    },
+    {
+      "@id": "ion:stateOfCharge",
+      "@type": "rdf:Property",
+      "rdfs:label": "stateOfCharge",
+      "rdfs:comment": "Fractional state of charge, where 0.30 represents 30 percent."
+    },
+    {
+      "@id": "ion:configuration",
+      "@type": "rdf:Property",
+      "rdfs:label": "configuration",
+      "rdfs:comment": "configuration property."
+    },
+    {
+      "@id": "ion:section",
+      "@type": "rdf:Property",
+      "rdfs:label": "section",
+      "rdfs:comment": "IATA packing-instruction section classification."
+    },
+    {
+      "@id": "ion:controlled",
+      "@type": "rdf:Property",
+      "rdfs:label": "controlled",
+      "rdfs:comment": "Whether active or monitored temperature control is required."
+    },
+    {
+      "@id": "ion:minimumTemperature",
+      "@type": "rdf:Property",
+      "rdfs:label": "minimumTemperature",
+      "rdfs:comment": "Lowest permitted cargo temperature."
+    },
+    {
+      "@id": "ion:maximumTemperature",
+      "@type": "rdf:Property",
+      "rdfs:label": "maximumTemperature",
+      "rdfs:comment": "Highest permitted cargo temperature."
+    },
+    {
+      "@id": "ion:category",
+      "@type": "rdf:Property",
+      "rdfs:label": "category",
+      "rdfs:comment": "Operational storage and handling category."
+    },
+    {
+      "@id": "ion:id",
+      "@type": "rdf:Property",
+      "rdfs:label": "id",
+      "rdfs:comment": "Identifier unique within the enclosing LogisticsResource."
+    },
+    {
+      "@id": "ion:weight",
+      "@type": "rdf:Property",
+      "rdfs:label": "weight",
+      "rdfs:comment": "Actual or declared gross package weight."
+    },
+    {
+      "@id": "ion:dimensions",
+      "@type": "rdf:Property",
+      "rdfs:label": "dimensions",
+      "rdfs:comment": "dimensions property."
+    },
+    {
+      "@id": "ion:volumetricWeight",
+      "@type": "rdf:Property",
+      "rdfs:label": "volumetricWeight",
+      "rdfs:comment": "Provider-calculated volumetric weight; the calculation rule belongs to the offer or contract policy."
+    },
+    {
+      "@id": "ion:declaredValue",
+      "@type": "rdf:Property",
+      "rdfs:label": "declaredValue",
+      "rdfs:comment": "Value declared for liability and insurance assessment."
+    },
+    {
+      "@id": "ion:packagingType",
+      "@type": "rdf:Property",
+      "rdfs:label": "packagingType",
+      "rdfs:comment": "Packaging form used for capacity and handling decisions."
+    },
+    {
+      "@id": "ion:fragile",
+      "@type": "rdf:Property",
+      "rdfs:label": "fragile",
+      "rdfs:comment": "Whether the package requires fragile handling."
+    },
+    {
+      "@id": "ion:stackable",
+      "@type": "rdf:Property",
+      "rdfs:label": "stackable",
+      "rdfs:comment": "Whether other packages may be stacked on this package."
+    },
+    {
+      "@id": "ion:dangerousGoods",
+      "@type": "rdf:Property",
+      "rdfs:label": "dangerousGoods",
+      "rdfs:comment": "dangerousGoods property."
+    },
+    {
+      "@id": "ion:lithiumBattery",
+      "@type": "rdf:Property",
+      "rdfs:label": "lithiumBattery",
+      "rdfs:comment": "lithiumBattery property."
+    },
+    {
+      "@id": "ion:temperatureControl",
+      "@type": "rdf:Property",
+      "rdfs:label": "temperatureControl",
+      "rdfs:comment": "temperatureControl property."
+    },
+    {
+      "@id": "ion:invoiceNumber",
+      "@type": "rdf:Property",
+      "rdfs:label": "invoiceNumber",
+      "rdfs:comment": "invoiceNumber property."
+    },
+    {
+      "@id": "ion:invoiceDate",
+      "@type": "rdf:Property",
+      "rdfs:label": "invoiceDate",
+      "rdfs:comment": "invoiceDate property."
+    },
+    {
+      "@id": "ion:invoiceValue",
+      "@type": "rdf:Property",
+      "rdfs:label": "invoiceValue",
+      "rdfs:comment": "invoiceValue property."
+    },
+    {
+      "@id": "ion:certificateNumber",
+      "@type": "rdf:Property",
+      "rdfs:label": "certificateNumber",
+      "rdfs:comment": "certificateNumber property."
+    },
+    {
+      "@id": "ion:issuingAuthority",
+      "@type": "rdf:Property",
+      "rdfs:label": "issuingAuthority",
+      "rdfs:comment": "issuingAuthority property."
+    },
+    {
+      "@id": "ion:certificateType",
+      "@type": "rdf:Property",
+      "rdfs:label": "certificateType",
+      "rdfs:comment": "Preferential or non-preferential origin regime used for Indonesian trade."
+    },
+    {
+      "@id": "ion:form",
+      "@type": "rdf:Property",
+      "rdfs:label": "form",
+      "rdfs:comment": "Certificate form used by the applicable Indonesian or ASEAN trade arrangement."
+    },
+    {
+      "@id": "ion:licenceNumber",
+      "@type": "rdf:Property",
+      "rdfs:label": "licenceNumber",
+      "rdfs:comment": "licenceNumber property."
+    },
+    {
+      "@id": "ion:validUntil",
+      "@type": "rdf:Property",
+      "rdfs:label": "validUntil",
+      "rdfs:comment": "validUntil property."
+    },
+    {
+      "@id": "ion:hsCodes",
+      "@type": "rdf:Property",
+      "rdfs:label": "hsCodes",
+      "rdfs:comment": "Harmonized System classification codes represented in the consignment."
+    },
+    {
+      "@id": "ion:commercialInvoice",
+      "@type": "rdf:Property",
+      "rdfs:label": "commercialInvoice",
+      "rdfs:comment": "commercialInvoice property."
+    },
+    {
+      "@id": "ion:certificateOfOrigin",
+      "@type": "rdf:Property",
+      "rdfs:label": "certificateOfOrigin",
+      "rdfs:comment": "certificateOfOrigin property."
+    },
+    {
+      "@id": "ion:importLicence",
+      "@type": "rdf:Property",
+      "rdfs:label": "importLicence",
+      "rdfs:comment": "importLicence property."
+    },
+    {
+      "@id": "ion:quantity",
+      "@type": "rdf:Property",
+      "rdfs:label": "quantity",
+      "rdfs:comment": "Aggregate count of packages, pallets, containers, vehicles, or other declared units."
+    },
+    {
+      "@id": "ion:totalVolume",
+      "@type": "rdf:Property",
+      "rdfs:label": "totalVolume",
+      "rdfs:comment": "Aggregate cargo volume for freight or consolidated transport."
+    },
+    {
+      "@id": "ion:packageIds",
+      "@type": "rdf:Property",
+      "rdfs:label": "packageIds",
+      "rdfs:comment": "Identifiers of LogisticsPackage entries in this resource."
+    },
+    {
+      "@id": "ion:resourceIds",
+      "@type": "rdf:Property",
+      "rdfs:label": "resourceIds",
+      "rdfs:comment": "Stable identifiers of the catalog Resources contained in the consignment."
+    },
+    {
+      "@id": "ion:customsDeclaration",
+      "@type": "rdf:Property",
+      "rdfs:label": "customsDeclaration",
+      "rdfs:comment": "customsDeclaration property."
+    },
+    {
+      "@id": "ion:storageCategory",
+      "@type": "rdf:Property",
+      "rdfs:label": "storageCategory",
+      "rdfs:comment": "storageCategory property."
+    },
+    {
+      "@id": "ion:make",
+      "@type": "rdf:Property",
+      "rdfs:label": "make",
+      "rdfs:comment": "make property."
+    },
+    {
+      "@id": "ion:model",
+      "@type": "rdf:Property",
+      "rdfs:label": "model",
+      "rdfs:comment": "model property."
+    },
+    {
+      "@id": "ion:year",
+      "@type": "rdf:Property",
+      "rdfs:label": "year",
+      "rdfs:comment": "year property."
+    },
+    {
+      "@id": "ion:registration",
+      "@type": "rdf:Property",
+      "rdfs:label": "registration",
+      "rdfs:comment": "Registration identifier of the vehicle being transported."
+    },
+    {
+      "@id": "ion:consignment",
+      "@type": "rdf:Property",
+      "rdfs:label": "consignment",
+      "rdfs:comment": "consignment property."
+    },
+    {
+      "@id": "ion:packages",
+      "@type": "rdf:Property",
+      "rdfs:label": "packages",
+      "rdfs:comment": "packages property."
+    },
+    {
+      "@id": "ion:inventoryManifest",
+      "@type": "rdf:Property",
+      "rdfs:label": "inventoryManifest",
+      "rdfs:comment": "inventoryManifest property."
+    },
+    {
+      "@id": "ion:vehicleCargo",
+      "@type": "rdf:Property",
+      "rdfs:label": "vehicleCargo",
+      "rdfs:comment": "vehicleCargo property."
+    },
+    {
+      "@id": "ion:Dimensions",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Dimensions",
+      "rdfs:comment": "Exterior length, width, and height measured in one common unit for capacity checks and volumetric-weight calculation.",
+      "skos:broader": {
+        "@id": "ion:LogisticsResource"
+      }
+    },
+    {
+      "@id": "ion:PackagingCertification",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Packaging Certification",
+      "rdfs:comment": "Machine-verifiable facts from a dangerous-goods package certification.",
+      "skos:broader": {
+        "@id": "ion:DangerousGoods"
+      }
+    },
+    {
+      "@id": "ion:ShippersDeclaration",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Shipper's Declaration",
+      "rdfs:comment": "Identity and signing facts for a shipper's dangerous-goods declaration.",
+      "skos:broader": {
+        "@id": "ion:DangerousGoods"
+      }
+    },
+    {
+      "@id": "ion:DangerousGoods",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Dangerous Goods",
+      "rdfs:comment": "International dangerous-goods classification and handling facts used for admissibility, segregation, packaging, and transport-mode decisions.",
+      "skos:broader": {
+        "@id": "ion:LogisticsPackage"
+      }
+    },
+    {
+      "@id": "ion:LithiumBattery",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Lithium Battery",
+      "rdfs:comment": "Classification facts for lithium batteries declared under UN3480, UN3481, UN3090, or UN3091.",
+      "skos:broader": {
+        "@id": "ion:LogisticsPackage"
+      }
+    },
+    {
+      "@id": "ion:TemperatureControl",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Temperature Control",
+      "rdfs:comment": "Cold-chain handling classification and operational temperature range.",
+      "skos:broader": {
+        "@id": "ion:LogisticsPackage"
+      }
+    },
+    {
+      "@id": "ion:LogisticsPackage",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Logistics Package",
+      "rdfs:comment": "A separately handled physical package within a consignment.",
+      "skos:broader": {
+        "@id": "ion:LogisticsResource"
+      }
+    },
+    {
+      "@id": "ion:CommercialInvoice",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Commercial Invoice",
+      "rdfs:comment": "Structured commercial-invoice facts needed for customs processing.",
+      "skos:broader": {
+        "@id": "ion:CustomsDeclaration"
+      }
+    },
+    {
+      "@id": "ion:CertificateOfOrigin",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Certificate of Origin",
+      "rdfs:comment": "Geography-neutral identity facts for a certificate of origin.",
+      "skos:broader": {
+        "@id": "ion:CustomsDeclaration"
+      }
+    },
+    {
+      "@id": "ion:IONCertificateOfOrigin",
+      "@type": "rdfs:Class",
+      "rdfs:label": "ION Certificate of Origin",
+      "rdfs:comment": "Certificate-of-origin facts used in Indonesian and ASEAN trade lanes.",
+      "rdfs:subClassOf": {
+        "@id": "ion:CertificateOfOrigin"
+      }
+    },
+    {
+      "@id": "ion:ImportLicence",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Import Licence",
+      "rdfs:comment": "Structured identity and validity facts for an import licence.",
+      "skos:broader": {
+        "@id": "ion:CustomsDeclaration"
+      }
+    },
+    {
+      "@id": "ion:CustomsDeclaration",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Customs Declaration",
+      "rdfs:comment": "Customs classifications and document identity facts used to assess a consignment crossing a customs boundary.",
+      "skos:broader": {
+        "@id": "ion:LogisticsConsignment"
+      }
+    },
+    {
+      "@id": "ion:IONCustomsDeclaration",
+      "@type": "rdfs:Class",
+      "rdfs:label": "ION Customs Declaration",
+      "rdfs:comment": "Customs declaration extended with Indonesian certificate-of-origin classifications.",
+      "rdfs:subClassOf": {
+        "@id": "ion:CustomsDeclaration"
+      }
+    },
+    {
+      "@id": "ion:LogisticsConsignment",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Logistics Consignment",
+      "rdfs:comment": "Aggregate facts and stable references for cargo moved under one logistics resource.",
+      "skos:broader": {
+        "@id": "ion:LogisticsResource"
+      }
+    },
+    {
+      "@id": "ion:IONLogisticsConsignment",
+      "@type": "rdfs:Class",
+      "rdfs:label": "ION Logistics Consignment",
+      "rdfs:comment": "Logistics consignment extended with Indonesian customs classifications.",
+      "rdfs:subClassOf": {
+        "@id": "ion:LogisticsConsignment"
+      }
+    },
+    {
+      "@id": "ion:InventoryManifest",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Inventory Manifest",
+      "rdfs:comment": "Warehouse handling classification and references to inventory Resources.",
+      "skos:broader": {
+        "@id": "ion:LogisticsResource"
+      }
+    },
+    {
+      "@id": "ion:VehicleCargo",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Vehicle Cargo",
+      "rdfs:comment": "A vehicle being transported as cargo, distinct from the carrier's transport vehicle.",
+      "skos:broader": {
+        "@id": "ion:LogisticsResource"
+      }
+    }
+  ]
+}

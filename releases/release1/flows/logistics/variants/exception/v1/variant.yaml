@@ -1,0 +1,17 @@
+id: ion-logistics-variant-exception-v1
+version: 1.0.0
+variantType: exception
+sector: ion:logistics
+status: ready
+flowIds: [pickup-failure]
+subBranches:
+  loss:
+    steps: [{step: on_update, from: BPP, to: BAP, direction: unsolicited}, {step: update, from: BAP, to: BPP, direction: request, optional: true}]
+    requiredData: ["Performance.performanceAttributes.alerts[]", "Contract.contractAttributes.cases[]"]
+    policyRef: ion://policy/liability.loss-cap-per-shipment
+  pickup-failure:
+    steps: [{step: on_status, from: BPP, to: BAP, direction: unsolicited}, {step: update, from: BAP, to: BPP, direction: request, optional: true}]
+    requiredData: ["Performance.performanceAttributes.events[]", "Performance.performanceAttributes.alerts[]"]
+    policyRef: ion://policy/penalty.pickup-failed.consignor-fault
+rules:
+  - The damage branch is excluded until an explicit claim policy is approved.

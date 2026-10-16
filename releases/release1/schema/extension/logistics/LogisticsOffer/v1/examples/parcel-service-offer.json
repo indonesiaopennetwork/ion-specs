@@ -1,0 +1,35 @@
+{
+  "@context": "https://schema.ion.id/release1/schema/extension/logistics/LogisticsOffer/v1/context.jsonld",
+  "@type": "ion:IONLogisticsOffer",
+  "serviceDefinition": {
+    "serviceLevel": "NEXT_DAY",
+    "transportMode": "TRUCK",
+    "routingTopology": "POINT_HUB_POINT"
+  },
+  "rateCard": {
+    "rateLogic": "ZONE_BASED",
+    "pricingZones": [
+      {
+        "id": "ZONE-JABODETABEK",
+        "coverageIds": ["COVERAGE-JKT"],
+        "basePrice": {"value": 15000, "currency": "IDR"},
+        "ionSubdivisions": [{"provinsiCode": "BPS-31"}]
+      }
+    ],
+    "chargeableWeight": {
+      "rule": "GREATER_OF_ACTUAL_OR_DIMENSIONAL",
+      "dimensionalFactor": 5000
+    }
+  },
+  "negotiationTerms": {"selectionRequired": true, "quoteValidity": "PT15M"},
+  "pickupTerms": {"models": ["DOOR_PICKUP"], "windowGranularity": "PT1H"},
+  "documentTerms": {
+    "awbAllocationModel": "PROVIDER_ASSIGNED",
+    "labelFormats": ["PDF_A6", "ZPL_100X150"]
+  },
+  "executionTerms": {"agentAssignmentModel": "POOL_ASSIGNED", "liveTrackingSupported": true},
+  "serviceWindows": [
+    {"startTime": "09:00:00", "endTime": "17:00:00", "timezone": "Asia/Jakarta", "applicableDays": [1, 2, 3, 4, 5]}
+  ],
+  "maximumDeclaredValue": {"value": 10000000, "currency": "IDR"}
+}

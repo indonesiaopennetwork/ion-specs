@@ -1,0 +1,27 @@
+iri: ion://policy/re-attempt.hyperlocal-1-only
+version: 1.0.0
+versionEffectiveFrom: null
+category: RE_ATTEMPT
+status: draft
+sector: logistics
+displayText:
+  id: Satu upaya pengiriman hyperlocal
+  en: One hyperlocal delivery attempt
+applicableCategories:
+- logistics
+applicableResourceTypes: []
+regulatoryBasis: []
+sourceProvenance:
+  repository: indonesiaopennetwork/ion-specs
+  commit: 33e6b4c40feabecf6b0f6a827b488ff82998c735
+  path: policies/re-attempt/v1/standard-3-free.yaml
+  legacyId: re-attempt.hyperlocal-1-only
+supersededBy: null
+deprecatedAt: null
+maxAttempts: 1
+attemptCharges:
+- attempt: 1
+  charge: 0
+buyerResolutionWindowHours: 1
+afterMaxAttempts: AUTO_RTO
+autoRtoCharge: 0

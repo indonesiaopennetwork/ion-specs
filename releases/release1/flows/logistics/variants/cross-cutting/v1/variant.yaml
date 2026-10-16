@@ -1,0 +1,17 @@
+id: ion-logistics-variant-cross-cutting-v1
+version: 1.0.0
+variantType: cross-cutting
+sector: ion:logistics
+status: ready
+subBranches:
+  tracking: {steps: [track, on_track], schemaPack: LogisticsTracking/v1}
+  status-query: {steps: [status, on_status]}
+  support: {steps: [support, on_support]}
+  rating: {steps: [rate, on_rate]}
+  reconciliation:
+    endpointClass: ION_EXTENSION
+    steps: [reconcile, on_reconcile]
+    schemaPack: Settlement/v1
+rules:
+  - Every listed step resolves to the Release 1 core or ION-additional API contract.
+  - Legacy raise actions are excluded because Release 1 defines no such endpoints.

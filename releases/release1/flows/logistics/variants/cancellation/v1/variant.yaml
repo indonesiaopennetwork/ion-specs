@@ -1,0 +1,19 @@
+id: ion-logistics-variant-cancellation-v1
+version: 1.0.0
+variantType: cancellation
+sector: ion:logistics
+status: ready
+attachmentWindow: {earliest: on_confirm, latest: before-terminal-state}
+steps:
+  - {step: cancel, from: BAP, to: BPP, direction: request}
+  - {step: on_cancel, from: BPP, to: BAP, direction: callback}
+requiredData:
+  - Contract.contractAttributes.cancellation
+rules:
+  - The selected Offer policyRef determines eligibility and charges at the current Performance state.
+  - A provider-initiated cancellation is reported through on_update with durable reason evidence; it does not fabricate a BAP cancel request.
+policyRefs:
+  prepickup: ion://policy/cancel.logistics.prepickup-free
+  futileTrip: ion://policy/cancel.logistics.prepickup-futile-trip-fee
+  inTransitBuyer: ion://policy/cancel.logistics.intransit-buyer-cost
+  providerTatBreach: ion://policy/cancel.logistics.tat-breach-lsp-cost

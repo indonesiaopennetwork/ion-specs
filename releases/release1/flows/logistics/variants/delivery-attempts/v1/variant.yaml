@@ -1,0 +1,16 @@
+id: ion-logistics-variant-delivery-attempts-v1
+version: 1.0.0
+variantType: delivery-attempts
+sector: ion:logistics
+status: ready
+flowIds: [delivery-attempts]
+attachmentWindow: {earliest: OUT_FOR_DELIVERY, latest: terminal-state}
+steps:
+  - {step: on_status, from: BPP, to: BAP, direction: unsolicited, trigger: DELIVERY_ATTEMPT_FAILED}
+  - {step: update, from: BAP, to: BPP, direction: request, optional: true}
+  - {step: on_update, from: BPP, to: BAP, direction: callback, optional: true}
+requiredData:
+  - Performance.performanceAttributes.attempts[]
+rules:
+  - Every attempt records attemptNumber, attemptedAt, outcome, and a stable reasonCode.
+  - Retry limits and fees come from the Offer deliveryReattempt policyRef.

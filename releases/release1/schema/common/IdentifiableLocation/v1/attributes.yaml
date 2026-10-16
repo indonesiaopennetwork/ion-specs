@@ -1,0 +1,43 @@
+openapi: 3.1.1
+info:
+  title: ION Identifiable Location (v1)
+  description: >
+    Reusable Location-compatible shape that adds a stable identifier while
+    retaining the Beckn Location wire layout. Its geo and address properties
+    reference the corresponding properties of the pinned Beckn Location. It can
+    be retired after the upstream Beckn Location provides its own identifier.
+  version: 1.0.0
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    name: ION Network
+    url: https://schema.ion.id
+
+components:
+  schemas:
+    IdentifiableLocation:
+      type: object
+      title: IdentifiableLocation
+      description: >
+        Beckn Location wire shape with a stable local identifier. The identifier
+        is used by sibling or related objects that cannot safely address an
+        element by array position or geometry equality.
+      additionalProperties: true
+      required: [id, geo]
+      x-jsonld:
+        '@context': https://schema.ion.id/release1/schema/common/IdentifiableLocation/v1/context.jsonld
+        '@type': ion:IdentifiableLocation
+      x-beckn-attaches-to: (reusable shape — embedded by ION attribute packs that require stable location references)
+      properties:
+        id:
+          type: string
+          minLength: 1
+          description: Identifier unique within the enclosing object or transaction scope.
+        geo:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Location/2.0/attributes.yaml#/components/schemas/Location/properties/geo
+          description: Authoritative geometry, using the Beckn Location property definition.
+        address:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Location/2.0/attributes.yaml#/components/schemas/Location/properties/address
+          description: Optional postal address, using the Beckn Location property definition.
+

@@ -1,0 +1,387 @@
+{
+  "@context": {
+    "ion": "https://schema.ion.id/release1/schema/extension/logistics/LogisticsProvider/v1#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "schema": "https://schema.org/"
+  },
+  "@graph": [
+    {
+      "@id": "ion:LogisticsProvider",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Logistics Provider",
+      "rdfs:comment": "Geography-neutral logistics roles, service coverage, specialized capabilities, schedule, fleet sourcing, sites, and credentials carried by a Beckn Provider.",
+      "rdfs:subClassOf": {
+        "@id": "beckn:Attributes"
+      }
+    },
+    {
+      "@id": "ion:IONLogisticsProvider",
+      "@type": "rdfs:Class",
+      "rdfs:label": "ION Logistics Provider",
+      "rdfs:comment": "ION Logistics provider attributes with Indonesian administrative coverage, business registration, licences, and association memberships.",
+      "rdfs:subClassOf": {
+        "@id": "ion:LogisticsProvider"
+      }
+    },
+    {
+      "@id": "ion:providerRoles",
+      "@type": "rdf:Property",
+      "rdfs:label": "providerRoles",
+      "rdfs:comment": "Operational roles performed by the provider; more than one role may apply."
+    },
+    {
+      "@id": "ion:coverageType",
+      "@type": "rdf:Property",
+      "rdfs:label": "coverageType",
+      "rdfs:comment": "Direction of logistics service supported in the declared area."
+    },
+    {
+      "@id": "ion:geo",
+      "@type": "rdf:Property",
+      "rdfs:label": "geo",
+      "rdfs:comment": "RFC 7946 geometry delimiting the service area."
+    },
+    {
+      "@id": "ion:locationIds",
+      "@type": "rdf:Property",
+      "rdfs:label": "locationIds",
+      "rdfs:comment": "Identifiers of network locations included in the service area."
+    },
+    {
+      "@id": "ion:postalCodes",
+      "@type": "rdf:Property",
+      "rdfs:label": "postalCodes",
+      "rdfs:comment": "Country-appropriate postal codes included in the service area."
+    },
+    {
+      "@id": "ion:maximumRadius",
+      "@type": "rdf:Property",
+      "rdfs:label": "maximumRadius",
+      "rdfs:comment": "Maximum service radius from the applicable provider location."
+    },
+    {
+      "@id": "ion:ionSubdivisions",
+      "@type": "rdf:Property",
+      "rdfs:label": "ionSubdivisions",
+      "rdfs:comment": "Indonesian administrative areas included in the service coverage. Use BPS province or kabupaten/kota codes; detailed delivery-address fields are not appropriate for a provider coverage declaration."
+    },
+    {
+      "@id": "ion:temperatureZones",
+      "@type": "rdf:Property",
+      "rdfs:label": "temperatureZones",
+      "rdfs:comment": "temperatureZones property."
+    },
+    {
+      "@id": "ion:credentialIds",
+      "@type": "rdf:Property",
+      "rdfs:label": "credentialIds",
+      "rdfs:comment": "Identifiers of provider credentials evidencing this capability."
+    },
+    {
+      "@id": "ion:classes",
+      "@type": "rdf:Property",
+      "rdfs:label": "classes",
+      "rdfs:comment": "classes property."
+    },
+    {
+      "@id": "ion:coldChain",
+      "@type": "rdf:Property",
+      "rdfs:label": "coldChain",
+      "rdfs:comment": "coldChain property."
+    },
+    {
+      "@id": "ion:dangerousGoods",
+      "@type": "rdf:Property",
+      "rdfs:label": "dangerousGoods",
+      "rdfs:comment": "dangerousGoods property."
+    },
+    {
+      "@id": "ion:highValue",
+      "@type": "rdf:Property",
+      "rdfs:label": "highValue",
+      "rdfs:comment": "Whether enhanced-security handling for high-value cargo is available."
+    },
+    {
+      "@id": "ion:locationId",
+      "@type": "rdf:Property",
+      "rdfs:label": "locationId",
+      "rdfs:comment": "Provider.availableAt location to which this window applies; omitted for provider-wide hours."
+    },
+    {
+      "@id": "ion:operation",
+      "@type": "rdf:Property",
+      "rdfs:label": "operation",
+      "rdfs:comment": "operation property."
+    },
+    {
+      "@id": "ion:dayFrom",
+      "@type": "rdf:Property",
+      "rdfs:label": "dayFrom",
+      "rdfs:comment": "First applicable weekday, where 1 is Monday and 7 is Sunday."
+    },
+    {
+      "@id": "ion:dayTo",
+      "@type": "rdf:Property",
+      "rdfs:label": "dayTo",
+      "rdfs:comment": "Last applicable weekday, where 1 is Monday and 7 is Sunday."
+    },
+    {
+      "@id": "ion:startTime",
+      "@type": "rdf:Property",
+      "rdfs:label": "startTime",
+      "rdfs:comment": "startTime property."
+    },
+    {
+      "@id": "ion:endTime",
+      "@type": "rdf:Property",
+      "rdfs:label": "endTime",
+      "rdfs:comment": "endTime property."
+    },
+    {
+      "@id": "ion:date",
+      "@type": "rdf:Property",
+      "rdfs:label": "date",
+      "rdfs:comment": "date property."
+    },
+    {
+      "@id": "ion:sources",
+      "@type": "rdf:Property",
+      "rdfs:label": "sources",
+      "rdfs:comment": "sources property."
+    },
+    {
+      "@id": "ion:id",
+      "@type": "rdf:Property",
+      "rdfs:label": "id",
+      "rdfs:comment": "Identifier unique within the provider."
+    },
+    {
+      "@id": "ion:hubType",
+      "@type": "rdf:Property",
+      "rdfs:label": "hubType",
+      "rdfs:comment": "hubType property."
+    },
+    {
+      "@id": "ion:capacity",
+      "@type": "rdf:Property",
+      "rdfs:label": "capacity",
+      "rdfs:comment": "Declared usable capacity, including its unit of measure."
+    },
+    {
+      "@id": "ion:bonded",
+      "@type": "rdf:Property",
+      "rdfs:label": "bonded",
+      "rdfs:comment": "Whether the site operates as a bonded customs facility."
+    },
+    {
+      "@id": "ion:facilities",
+      "@type": "rdf:Property",
+      "rdfs:label": "facilities",
+      "rdfs:comment": "facilities property."
+    },
+    {
+      "@id": "ion:credentialType",
+      "@type": "rdf:Property",
+      "rdfs:label": "credentialType",
+      "rdfs:comment": "Registry or credential category; networks may define additional values."
+    },
+    {
+      "@id": "ion:credentialNumber",
+      "@type": "rdf:Property",
+      "rdfs:label": "credentialNumber",
+      "rdfs:comment": "Identifier assigned by the issuing authority or association."
+    },
+    {
+      "@id": "ion:issuer",
+      "@type": "rdf:Property",
+      "rdfs:label": "issuer",
+      "rdfs:comment": "issuer property."
+    },
+    {
+      "@id": "ion:validFrom",
+      "@type": "rdf:Property",
+      "rdfs:label": "validFrom",
+      "rdfs:comment": "validFrom property."
+    },
+    {
+      "@id": "ion:validUntil",
+      "@type": "rdf:Property",
+      "rdfs:label": "validUntil",
+      "rdfs:comment": "validUntil property."
+    },
+    {
+      "@id": "ion:supportedPatterns",
+      "@type": "rdf:Property",
+      "rdfs:label": "supportedPatterns",
+      "rdfs:comment": "Logistics transaction patterns the provider supports."
+    },
+    {
+      "@id": "ion:supportedTransportModes",
+      "@type": "rdf:Property",
+      "rdfs:label": "supportedTransportModes",
+      "rdfs:comment": "Transport modes available from the provider, distinct from individual vehicle types."
+    },
+    {
+      "@id": "ion:serviceCoverage",
+      "@type": "rdf:Property",
+      "rdfs:label": "serviceCoverage",
+      "rdfs:comment": "serviceCoverage property."
+    },
+    {
+      "@id": "ion:capabilities",
+      "@type": "rdf:Property",
+      "rdfs:label": "capabilities",
+      "rdfs:comment": "capabilities property."
+    },
+    {
+      "@id": "ion:operatingHours",
+      "@type": "rdf:Property",
+      "rdfs:label": "operatingHours",
+      "rdfs:comment": "operatingHours property."
+    },
+    {
+      "@id": "ion:closures",
+      "@type": "rdf:Property",
+      "rdfs:label": "closures",
+      "rdfs:comment": "closures property."
+    },
+    {
+      "@id": "ion:fleetProfile",
+      "@type": "rdf:Property",
+      "rdfs:label": "fleetProfile",
+      "rdfs:comment": "fleetProfile property."
+    },
+    {
+      "@id": "ion:hubs",
+      "@type": "rdf:Property",
+      "rdfs:label": "hubs",
+      "rdfs:comment": "hubs property."
+    },
+    {
+      "@id": "ion:credentials",
+      "@type": "rdf:Property",
+      "rdfs:label": "credentials",
+      "rdfs:comment": "credentials property."
+    },
+    {
+      "@id": "ion:businessRegistration",
+      "@type": "rdf:Property",
+      "rdfs:label": "businessRegistration",
+      "rdfs:comment": "businessRegistration property."
+    },
+    {
+      "@id": "ion:ServiceCoverage",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Service Coverage",
+      "rdfs:comment": "Geography-neutral declaration of an area in which a provider can pick up cargo, deliver cargo, or perform both operations.",
+      "skos:broader": {
+        "@id": "ion:LogisticsProvider"
+      }
+    },
+    {
+      "@id": "ion:IONServiceCoverage",
+      "@type": "rdfs:Class",
+      "rdfs:label": "ION Service Coverage",
+      "rdfs:comment": "Service coverage extended with Indonesian administrative subdivisions.",
+      "rdfs:subClassOf": {
+        "@id": "ion:ServiceCoverage"
+      }
+    },
+    {
+      "@id": "ion:ColdChainCapability",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Cold Chain Capability",
+      "rdfs:comment": "Temperature-control categories the provider is equipped to handle.",
+      "skos:broader": {
+        "@id": "ion:LogisticsCapabilities"
+      }
+    },
+    {
+      "@id": "ion:DangerousGoodsCapability",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Dangerous Goods Capability",
+      "rdfs:comment": "Dangerous-goods classes the provider is equipped and authorized to handle.",
+      "skos:broader": {
+        "@id": "ion:LogisticsCapabilities"
+      }
+    },
+    {
+      "@id": "ion:LogisticsCapabilities",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Logistics Capabilities",
+      "rdfs:comment": "Discoverable specialized handling capabilities of the provider.",
+      "skos:broader": {
+        "@id": "ion:LogisticsProvider"
+      }
+    },
+    {
+      "@id": "ion:OperatingWindow",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Operating Window",
+      "rdfs:comment": "Recurring weekly operating window for a provider or one provider location.",
+      "skos:broader": {
+        "@id": "ion:LogisticsProvider"
+      }
+    },
+    {
+      "@id": "ion:ProviderClosure",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Provider Closure",
+      "rdfs:comment": "Exceptional date on which the provider or one provider location is closed.",
+      "skos:broader": {
+        "@id": "ion:LogisticsProvider"
+      }
+    },
+    {
+      "@id": "ion:FleetProfile",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Fleet Profile",
+      "rdfs:comment": "How the provider sources transport capacity without enumerating individual assets.",
+      "skos:broader": {
+        "@id": "ion:LogisticsProvider"
+      }
+    },
+    {
+      "@id": "ion:LogisticsHub",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Logistics Hub",
+      "rdfs:comment": "Logistics-specific capabilities of a provider site referenced through LogisticsProvider.providerLocations.",
+      "skos:broader": {
+        "@id": "ion:LogisticsProvider"
+      }
+    },
+    {
+      "@id": "ion:LogisticsCredential",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Logistics Credential",
+      "rdfs:comment": "Typed licence, certification, or association membership asserted by the provider.",
+      "skos:broader": {
+        "@id": "ion:LogisticsProvider"
+      }
+    },
+    {
+      "@id": "ion:IONLogisticsCredential",
+      "@type": "rdfs:Class",
+      "rdfs:label": "ION Logistics Credential",
+      "rdfs:comment": "Logistics credential extended with Indonesian licence and association categories.",
+      "rdfs:subClassOf": {
+        "@id": "ion:LogisticsCredential"
+      }
+    },
+    {
+      "@id": "ion:evidenceDocumentReference",
+      "@type": "rdf:Property",
+      "rdfs:label": "evidenceDocumentReference",
+      "rdfs:comment": "Label or identifier shared with a supporting document in Provider.descriptor.docs. The document artifact remains on the core Provider descriptor rather than being duplicated in this credential."
+    },
+    {
+      "@id": "ion:providerLocations",
+      "@type": "rdf:Property",
+      "rdfs:label": "providerLocations",
+      "rdfs:comment": "Identifiable operating locations used as reference targets by hubs and other logistics-specific records. Each entry retains the Beckn Location wire layout and adds only a stable identifier."
+    }
+  ]
+}

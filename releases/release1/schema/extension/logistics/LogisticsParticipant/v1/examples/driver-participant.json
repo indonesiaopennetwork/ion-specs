@@ -1,0 +1,9 @@
+{
+  "@context": "https://schema.ion.id/release1/schema/extension/logistics/LogisticsParticipant/v1/context.jsonld",
+  "@type": "ion:IONLogisticsParticipant",
+  "participantRoles": ["COURIER", "DRIVER"],
+  "driverLicence": {
+    "number": "SIM-BII-3171-2026-001",
+    "category": "B_II"
+  }
+}

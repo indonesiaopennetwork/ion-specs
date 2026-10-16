@@ -1,0 +1,81 @@
+openapi: 3.1.1
+info:
+  title: ION Logistics Tracking Extension (v1)
+  description: >
+    Access metadata and transient logistics snapshots attached to
+    Tracking.trackingAttributes. Core Tracking owns status and the resolved URL.
+  version: 1.0.0
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    name: ION Network
+    url: https://schema.ion.id
+
+components:
+  schemas:
+    TrackingAccess:
+      type: object
+      additionalProperties: false
+      required: [authScheme]
+      properties:
+        authScheme: {type: string, enum: [NONE, BEARER, API_KEY, SIGNED_URL, MUTUAL_TLS, OAUTH2]}
+        credentialReference:
+          type: string
+          description: Opaque reference to a securely delivered credential; never the credential value.
+        expiresAt: {type: string, format: date-time}
+
+    TrackingSnapshot:
+      type: object
+      additionalProperties: false
+      required: [location, observedAt]
+      properties:
+        location:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/GeoJSONGeometry/2.0/attributes.yaml#/components/schemas/GeoJSONGeometry
+          description: Last observed GeoJSON Point.
+        observedAt: {type: string, format: date-time}
+        accuracy:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+        heading:
+          type: number
+          minimum: 0
+          exclusiveMaximum: 360
+          description: Degrees clockwise from true north.
+        speed:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+        estimatedArrivalAt: {type: string, format: date-time}
+        nextStopId: {type: string}
+        assignedParticipantId: {type: string}
+        assignedResourceId: {type: string}
+        performanceId: {type: string}
+
+    LogisticsTracking:
+      type: object
+      title: LogisticsTracking
+      additionalProperties: true
+      x-ion-closed-extensions: false
+      x-beckn-attaches-to: Tracking.trackingAttributes
+      x-jsonld:
+        '@context': https://schema.ion.id/release1/schema/extension/logistics/LogisticsTracking/v1/context.jsonld
+        '@type': ion:LogisticsTracking
+      allOf:
+        - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Attributes/2.0/attributes.yaml#/components/schemas/Attributes
+      required: [mode]
+      properties:
+        mode: {type: string, enum: [WEB_URL, POLLING, WEBHOOK, WEBSOCKET, EVENT_STREAM]}
+        capabilities:
+          type: array
+          uniqueItems: true
+          items: {type: string, enum: [STATUS, LOCATION, ETA, REMAINING_ROUTE, EVENTS, ALERTS]}
+        refreshInterval: {type: string, format: duration}
+        access: {$ref: '#/components/schemas/TrackingAccess'}
+        eventTypes:
+          type: array
+          uniqueItems: true
+          items: {type: string, enum: [STATE_CHANGE, LOCATION_UPDATE, SLA_BREACH_IMMINENT, EXCEPTION, DELIVERY_COMPLETE]}
+        snapshot: {$ref: '#/components/schemas/TrackingSnapshot'}
+        currentRouteGeometry:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/GeoJSONGeometry/2.0/attributes.yaml#/components/schemas/GeoJSONGeometry
+          description: Current or remaining route as GeoJSON, normally a LineString.
+        endpointOwnerParticipantId: {type: string}
+        performanceId: {type: string}

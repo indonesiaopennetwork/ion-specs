@@ -306,8 +306,9 @@ components:
       type: object
       title: Cash On Delivery
       description: 'Runtime COD collection state. Offer-level COD policy fields (OTP required, denominations accepted,
-        buyer daily limit, hold period, reconciliation variance) belong to a Logistics offer extension that is not included
-        in Release 1; they govern how COD is accepted, not the per-transaction collection record.
+        buyer daily limit, hold period, reconciliation variance) belong to Logistics Offer terms; the cash-on-delivery
+        execution variant remains deferred in Release 1 pending an authoritative remittance-schedule policy. Those terms
+        govern how COD is accepted, not the per-transaction collection record.
 
         '
       additionalProperties: false

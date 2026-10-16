@@ -1,0 +1,286 @@
+openapi: 3.1.1
+info:
+  title: ION Logistics Performance Extension (v1)
+  description: >
+    Durable logistics execution facts attached to Performance.performanceAttributes.
+    Live location and ETA snapshots remain in LogisticsTracking.
+  version: 1.0.0
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    name: ION Network
+    url: https://schema.ion.id
+
+components:
+  schemas:
+    ServiceReference:
+      type: object
+      additionalProperties: false
+      required: [referenceType, value]
+      properties:
+        referenceType: {type: string, enum: [AWB, BOOKING, BILL_OF_LADING, HOUSE_BILL, MASTER_BILL, TICKET, STORAGE_CONTRACT, VOYAGE, FLIGHT, RAIL_SERVICE, OTHER]}
+        value: {type: string, minLength: 1}
+        issuerParticipantId: {type: string}
+        scopeId: {type: string, description: Optional route-leg or Resource scope.}
+        allocationMode: {type: string, enum: [PROVIDER_ASSIGNED, BUYER_PREALLOCATED, HYBRID]}
+        allocationBlockReference: {type: string}
+
+    AppliedCutoff:
+      type: object
+      additionalProperties: false
+      required: [cutoffType, deadline, status]
+      properties:
+        cutoffType: {type: string}
+        deadline: {type: string, format: date-time}
+        status: {type: string, enum: [PENDING, MET, MISSED, WAIVED]}
+        summary: {type: string}
+
+    PickupExecution:
+      type: object
+      additionalProperties: false
+      properties:
+        model: {type: string, enum: [DOOR_PICKUP, DROP_OFF, SCHEDULED_PICKUP, BULK_PICKUP]}
+        requestedWindow:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/TimePeriod/2.0/attributes.yaml#/components/schemas/TimePeriod
+        confirmedWindow:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/TimePeriod/2.0/attributes.yaml#/components/schemas/TimePeriod
+        batchReference: {type: string}
+        lodgementLocationId: {type: string}
+        appliedCutoffs: {type: array, items: {$ref: '#/components/schemas/AppliedCutoff'}}
+
+    LogisticsStop:
+      type: object
+      additionalProperties: false
+      required: [id, stopType]
+      properties:
+        id: {type: string}
+        stopType: {type: string, enum: [PICKUP, DELIVERY, HUB, PORT, AIRPORT, TERMINAL, WAREHOUSE, CUSTOMS, BOARDING, OTHER]}
+        locationId: {type: string}
+        externalCode: {type: string}
+        codeScheme: {type: string, enum: [UN_LOCODE, IATA, PROVIDER, NETWORK, OTHER]}
+        location:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Location/2.0/attributes.yaml#/components/schemas/Location
+        scheduledWindow:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/TimePeriod/2.0/attributes.yaml#/components/schemas/TimePeriod
+        estimatedArrival: {type: string, format: date-time}
+        gate: {type: string}
+
+    RouteLeg:
+      type: object
+      additionalProperties: false
+      required: [id, sequence, originStopId, destinationStopId]
+      properties:
+        id: {type: string}
+        sequence: {type: integer, minimum: 1}
+        legType: {type: string, enum: [FIRST_MILE, MIDDLE_MILE, LAST_MILE, OCEAN, AIR, RAIL, FERRY, WAREHOUSE_TRANSFER]}
+        originStopId: {type: string}
+        destinationStopId: {type: string}
+        carrierParticipantId: {type: string}
+        transportResourceId: {type: string}
+        serviceReferences: {type: array, items: {$ref: '#/components/schemas/ServiceReference'}}
+        scheduledPeriod:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/TimePeriod/2.0/attributes.yaml#/components/schemas/TimePeriod
+
+    LogisticsRoute:
+      type: object
+      additionalProperties: false
+      properties:
+        topology: {type: string, enum: [POINT_TO_POINT, POINT_HUB_POINT, POINT_MULTI_HUB_POINT]}
+        stops: {type: array, items: {$ref: '#/components/schemas/LogisticsStop'}}
+        legs: {type: array, items: {$ref: '#/components/schemas/RouteLeg'}}
+
+    PerformanceEvent:
+      type: object
+      additionalProperties: false
+      required: [id, eventType, timestamp]
+      properties:
+        id: {type: string}
+        eventType: {type: string, enum: [STATE_TRANSITION, PICKUP, LODGEMENT, LOADING, DEPARTURE, ARRIVAL, SCAN, DELIVERY, HANDOFF, MANIFEST_VERIFIED, CUSTOMS, WAREHOUSE, EXCEPTION, RESOLUTION]}
+        stateCode: {type: string}
+        timestamp: {type: string, format: date-time}
+        locationId: {type: string}
+        routeLegId: {type: string}
+        actorParticipantId: {type: string}
+        reasonCode: {type: string}
+        summary: {type: string}
+        evidenceDocumentReferences: {type: array, items: {type: string}, uniqueItems: true}
+        relatedEventId: {type: string}
+
+    LogisticsAlert:
+      type: object
+      additionalProperties: false
+      required: [id, alertType, severity, raisedAt]
+      properties:
+        id: {type: string}
+        alertType: {type: string, enum: [DELAY, CUTOFF_MISSED, CUSTOMS_HOLD, TEMPERATURE_EXCURSION, WEIGHT_DISCREPANCY, DAMAGE, LOSS, DELIVERY_FAILED, WAREHOUSE_DISCREPANCY, OTHER]}
+        severity: {type: string, enum: [INFO, WARNING, CRITICAL]}
+        raisedAt: {type: string, format: date-time}
+        locationId: {type: string}
+        reasonCode: {type: string}
+        summary: {type: string}
+        responseDeadline: {type: string, format: date-time}
+        evidenceDocumentReferences: {type: array, items: {type: string}, uniqueItems: true}
+        resolutionEventId: {type: string}
+        caseId: {type: string}
+
+    LogisticsAssignment:
+      type: object
+      additionalProperties: false
+      required: [assignmentType]
+      properties:
+        assignmentType: {type: string, enum: [COURIER, DRIVER, CARRIER, VEHICLE, HUB, FACILITY, SENSOR]}
+        participantId: {type: string}
+        resourceId: {type: string}
+        routeLegId: {type: string}
+        validity:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/TimePeriod/2.0/attributes.yaml#/components/schemas/TimePeriod
+
+    LogisticsProof:
+      type: object
+      additionalProperties: false
+      required: [proofType, capturedAt, verificationStatus]
+      properties:
+        proofType: {type: string, enum: [PICKUP, DELIVERY, HANDOFF, LABEL, MANIFEST, CUSTOMS, INSPECTION, ACKNOWLEDGEMENT]}
+        documentReference: {type: string}
+        capturedAt: {type: string, format: date-time}
+        locationId: {type: string}
+        capturedByParticipantId: {type: string}
+        recipientRole: {type: string}
+        verificationStatus: {type: string, enum: [NOT_VERIFIED, VERIFIED, FAILED]}
+
+    LogisticsMeasurement:
+      type: object
+      additionalProperties: false
+      required: [measurementType, quantity, observedAt]
+      properties:
+        measurementType: {type: string, enum: [TEMPERATURE, WEIGHT, LENGTH, WIDTH, HEIGHT, VOLUME, CAPACITY_USED, FUEL, CO2E]}
+        quantity:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+        observedAt: {type: string, format: date-time}
+        locationId: {type: string}
+        deviceResourceId: {type: string}
+        evidenceDocumentReference: {type: string}
+
+    DeliveryAttempt:
+      type: object
+      additionalProperties: false
+      required: [attemptNumber, attemptedAt, outcome]
+      properties:
+        attemptNumber: {type: integer, minimum: 1}
+        attemptedAt: {type: string, format: date-time}
+        outcome: {type: string, enum: [DELIVERED, FAILED, RESCHEDULED, RETURN_INITIATED]}
+        reasonCode: {type: string}
+        locationId: {type: string}
+        buyerResponseDeadline: {type: string, format: date-time}
+        proofReference: {type: string}
+
+    InventoryReceipt:
+      type: object
+      additionalProperties: false
+      required: [resourceId, receivedQuantity, receivedAt]
+      properties:
+        resourceId: {type: string}
+        expectedQuantity:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+        receivedQuantity:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+        receivedAt: {type: string, format: date-time}
+        locationId: {type: string}
+
+    InventoryMovement:
+      type: object
+      additionalProperties: false
+      required: [resourceId, quantity, movementType, timestamp]
+      properties:
+        resourceId: {type: string}
+        quantity:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+        movementType: {type: string, enum: [RECEIVED, PUT_AWAY, PICKED, PACKED, RELEASED, ADJUSTED]}
+        timestamp: {type: string, format: date-time}
+        fromLocationId: {type: string}
+        toLocationId: {type: string}
+
+    WarehouseExecution:
+      type: object
+      additionalProperties: false
+      properties:
+        expectedReceiptWindow:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/TimePeriod/2.0/attributes.yaml#/components/schemas/TimePeriod
+        receipts: {type: array, items: {$ref: '#/components/schemas/InventoryReceipt'}}
+        inventoryMovements: {type: array, items: {$ref: '#/components/schemas/InventoryMovement'}}
+        allocatedLocationId: {type: string}
+        allocatedCapacity:
+          type: array
+          items:
+            $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+
+    StateTransition:
+      type: object
+      additionalProperties: false
+      required: [stateCode, enteredAt]
+      properties:
+        stateCode: {type: string}
+        enteredAt: {type: string, format: date-time}
+        exitedAt: {type: string, format: date-time}
+        transitionEventId: {type: string}
+
+    SLABreach:
+      type: object
+      additionalProperties: false
+      required: [stateCode, detectedAt]
+      properties:
+        stateCode: {type: string}
+        detectedAt: {type: string, format: date-time}
+        breachDuration: {type: string, format: duration}
+        commitmentReference: {type: string}
+        evidenceEventIds: {type: array, items: {type: string}, uniqueItems: true}
+
+    SLAExecution:
+      type: object
+      additionalProperties: false
+      properties:
+        stateHistory: {type: array, items: {$ref: '#/components/schemas/StateTransition'}}
+        breaches: {type: array, items: {$ref: '#/components/schemas/SLABreach'}}
+
+    SustainabilityReport:
+      type: object
+      additionalProperties: false
+      properties:
+        emissions:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+        calculationMethod: {type: string}
+        calculationScope: {type: string}
+        fuelType: {type: string}
+        fuelConsumed:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+        sustainableFuelAllocated:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+        methodologyVersion: {type: string}
+        evidenceDocumentReferences: {type: array, items: {type: string}, uniqueItems: true}
+        retiredCreditReference: {type: string}
+
+    LogisticsPerformance:
+      type: object
+      title: LogisticsPerformance
+      additionalProperties: true
+      x-ion-closed-extensions: false
+      x-beckn-attaches-to: Performance.performanceAttributes
+      x-jsonld:
+        '@context': https://schema.ion.id/release1/schema/extension/logistics/LogisticsPerformance/v1/context.jsonld
+        '@type': ion:LogisticsPerformance
+      allOf:
+        - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Attributes/2.0/attributes.yaml#/components/schemas/Attributes
+      properties:
+        serviceReferences: {type: array, items: {$ref: '#/components/schemas/ServiceReference'}}
+        pickup: {$ref: '#/components/schemas/PickupExecution'}
+        route: {$ref: '#/components/schemas/LogisticsRoute'}
+        events: {type: array, items: {$ref: '#/components/schemas/PerformanceEvent'}}
+        alerts: {type: array, items: {$ref: '#/components/schemas/LogisticsAlert'}}
+        assignments: {type: array, items: {$ref: '#/components/schemas/LogisticsAssignment'}}
+        proofs: {type: array, items: {$ref: '#/components/schemas/LogisticsProof'}}
+        measurements: {type: array, items: {$ref: '#/components/schemas/LogisticsMeasurement'}}
+        attempts: {type: array, items: {$ref: '#/components/schemas/DeliveryAttempt'}}
+        warehouseExecution: {$ref: '#/components/schemas/WarehouseExecution'}
+        sla: {$ref: '#/components/schemas/SLAExecution'}
+        sustainability: {$ref: '#/components/schemas/SustainabilityReport'}

@@ -1,0 +1,40 @@
+iri: ion://policy/incident.high-severity-escalation
+version: 1.0.0
+versionEffectiveFrom: null
+category: INCIDENT
+status: draft
+sector: logistics
+displayText:
+  id: Eskalasi insiden tingkat tinggi
+  en: High-severity incident escalation
+applicableCategories:
+- logistics
+applicableResourceTypes: []
+regulatoryBasis: []
+sourceProvenance:
+  repository: indonesiaopennetwork/ion-specs
+  commit: 33e6b4c40feabecf6b0f6a827b488ff82998c735
+  path: policies/incident/v1/standard.yaml
+  legacyId: incident.high-severity-escalation
+supersededBy: null
+deprecatedAt: null
+description: 'Escalation procedures for SEVERE and CRITICAL incidents. Includes mandatory
+  regulator notification for hazmat/cold-chain incidents.
+
+'
+mandatoryNotifications:
+  hazmatIncident:
+    regulator: KEMENHUB
+    within: PT24H
+  coldChainFailure:
+    regulator: BPOM
+    within: PT12H
+  fatality:
+    regulator: POLICE
+    within: PT2H
+reportingFields:
+- incidentDetail.severity
+- incidentDetail.injuryCount
+- incidentDetail.fatalityCount
+- incidentDetail.cargoImpactEstimated
+- incidentDetail.regulatorNotificationRef

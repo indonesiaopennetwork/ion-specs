@@ -1,0 +1,20 @@
+id: ion-logistics-variant-incident-v1
+version: 1.0.0
+variantType: incident
+sector: ion:logistics
+status: ready
+description: In-transit incident notification and durable evidence recording.
+steps:
+  - {step: on_update, from: BPP, to: BAP, direction: unsolicited}
+  - {step: update, from: BAP, to: BPP, direction: request, optional: true}
+requiredData:
+  - Performance.performanceAttributes.alerts[]
+  - Performance.performanceAttributes.events[]
+  - Contract.contractAttributes.cases[]
+policyRefs:
+  baseline: ion://policy/incident.standard
+  escalation: ion://policy/incident.high-severity-escalation
+  forceMajeure: ion://policy/liability.force-majeure-exclusions
+rules:
+  - Driver employment and insurance details are outside this transaction profile.
+  - Cargo loss or pickup failure activates the corresponding reviewed exception branch.

@@ -10,6 +10,11 @@ permanent integer releases. It is not copied into individual release bundles.
 - `release1-path-map.json` records approved mechanical source-to-target paths for
   the primary API files, Trade packs, and the common packs directly referenced by
   Trade.
+- `release1-logistics-path-map.json` records the approved paths for migrating the
+  Logistics packs from the separately checked-out legacy ION repository. It also
+  pins the source repository and revision used for the migration.
+- `release1-logistics-error-map.yaml` records the included or deferred
+  disposition of every error in the pinned legacy Logistics source.
 - `validate_manifest.rb` validates cross-field rules that JSON Schema cannot fully
   express, including agreement between `release`, `name`, and `publicBaseUrl`.
 - `validate_path_map.rb` verifies mapping uniqueness, the required pre- or
@@ -25,19 +30,44 @@ permanent integer releases. It is not copied into individual release bundles.
 - `validate_offline_refs.rb` maps Release 1 public URLs back to the release tree
   and verifies that every active `$ref`, including its JSON Pointer, resolves
   without network access.
+- `stage_schema_validator_tree.rb` copies the release schema to a temporary tree
+  and rewrites release-qualified `$ref` values to local `file:` references. Use
+  it with the external schema v2 validator while draft-only public URLs are not
+  yet deployed. It also creates an `extended-schemas/TypeName/attributes.yaml`
+  index for validating pack examples; it never changes the normative release
+  tree.
 - `validate_public_urls.rb` checks that every release-qualified public document
   URL in release YAML, JSON, JSON-LD, and Markdown maps to an existing file or
   directory in that release.
+- `validate_deployed_urls.rb` performs the post-merge live-origin check for every
+  non-hidden file in a release tree. It requires HTTP 200, the expected media
+  type, and byte-for-byte SHA-256 agreement with the checked-out file. The GitHub
+  workflow runs it after pushes to `main`, with bounded retries for origin
+  propagation; pull requests continue to use deterministic offline checks.
 - `finalize_vendoring_manifest.rb` records upstream and released checksums only
   after the offline graph passes; it rejects transformed protocol files and
   previews changes unless passed `--apply`.
-- `sync_schema_pack_jsonld.rb` synchronizes a pack's local JSON-LD types and
-  properties with its authoritative `attributes.yaml`; it is dry-run by default.
+- `sync_schema_pack_jsonld.rb` synchronizes a pack's JSON-LD classes and properties
+  with its authoritative `attributes.yaml`, preserving explicit external term
+  mappings such as `beckn:geo`; it is dry-run by default.
+- `generate_schema_pack_json.rb` deterministically derives a pack's standalone
+  `schema.json` from authoritative `attributes.yaml` components and rewrites
+  local component references to JSON Schema `$defs`.
 - `validate_trade_connections.rb` checks Trade flow targets, concrete references
   against the shared root policy registry, policy registry uniqueness, and the
   generated Trade error view.
+- `validate_logistics_performance_states.rb` validates the Logistics state-machine
+  registry, including graph reachability, terminal outcomes, schema requirement
+  pointers, typed guards and effects, and Logistics flow references.
+- `validate_logistics_connections.rb` validates the six Logistics pattern and
+  nine included/scoped variant profiles, protocol actions, schema-pack targets,
+  concrete policy IRIs, state-machine fragments, and published flow-ID owners.
+- `validate_logistics_errors.rb` validates Logistics error codes, callbacks,
+  exact schema pointers, flow and policy targets, generated-registry equality,
+  and the complete included/deferred migration map. Pass `--source-root` to
+  compare the map with the separately checked-out pinned legacy source.
 - `generate_error_registry.rb` deterministically generates or checks the
-  release-local Trade error registry. The shared policy registry is maintained by
+  combined release-local Trade and Logistics error registry. The shared policy registry is maintained by
   `tools/policies/generate_registry.rb`.
 - `record_artifact_checksums.rb` records or checks the complete artifact
   inventory under the release's normative content trees.
@@ -80,6 +110,30 @@ Before applying a migration, use `--require-sources`. After applying it, use
 `--require-targets`. Source validation is the default for compatibility with the
 Phase 1 workflow.
 
+The Logistics migration reads from a separate legacy checkout, so pass its root
+explicitly when validating source paths:
+
+```bash
+ruby tools/release/validate_path_map.rb --require-sources --source-root ../ion-specs-ion-launch tools/release/release1-logistics-path-map.json
+```
+
+Once all mapped Logistics targets have been created, validate them against this
+repository without `--source-root`:
+
+```bash
+ruby tools/release/validate_path_map.rb --require-targets tools/release/release1-logistics-path-map.json
+```
+
+After merging release changes to `main`, verify that the public origin serves
+the entire checked-out tree with matching bytes and media types:
+
+```bash
+ruby tools/release/validate_deployed_urls.rb releases/release1
+```
+
+For a preview origin that mirrors the same path layout, pass its release root
+URL explicitly with `--base-url`.
+
 Commands that publish a draft into `next`, deploy it, or otherwise treat it as
 permanent must use the publication gate:
 
@@ -100,10 +154,14 @@ ruby tools/release/tests/apply_vendoring_plan_test.rb
 ruby tools/release/tests/finalize_vendoring_manifest_test.rb
 ruby tools/release/tests/validate_offline_refs_test.rb
 ruby tools/release/tests/validate_public_urls_test.rb
+ruby tools/release/tests/validate_deployed_urls_test.rb
 ruby tools/release/tests/validate_artifact_checksums_test.rb
 ruby tools/release/tests/validate_release_scope_test.rb
 ruby tools/release/tests/validate_release_immutability_test.rb
 ruby tools/release/tests/generate_error_registry_test.rb
+ruby tools/release/tests/validate_logistics_performance_states_test.rb
+ruby tools/release/tests/validate_logistics_connections_test.rb
+ruby tools/release/tests/validate_logistics_errors_test.rb
 ruby tools/policies/tests/generate_registry_test.rb
 ```
 

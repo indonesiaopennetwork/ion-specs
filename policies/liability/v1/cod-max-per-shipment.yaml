@@ -1,0 +1,27 @@
+iri: ion://policy/liability.cod-max-per-shipment
+version: 1.0.0
+versionEffectiveFrom: null
+category: LIABILITY
+status: draft
+sector: logistics
+displayText:
+  id: Batas tanggung jawab COD per kiriman
+  en: COD liability cap per shipment
+applicableCategories:
+- logistics
+applicableResourceTypes: []
+regulatoryBasis: []
+sourceProvenance:
+  repository: indonesiaopennetwork/ion-specs
+  commit: 33e6b4c40feabecf6b0f6a827b488ff82998c735
+  path: policies/liability/v1/loss-cap-per-shipment.yaml
+  legacyId: liability.cod-max-per-shipment
+supersededBy: null
+deprecatedAt: null
+coverageTrigger: COD_COLLECTED_AND_NOT_REMITTED
+maximumLiabilityPerShipment: 10000000
+currency: IDR
+evidenceRequired:
+- COD_COLLECTION_RECEIPT
+- REMITTANCE_SCHEDULE_REFERENCE
+claimWindow: P30D_after_remittance_due_date

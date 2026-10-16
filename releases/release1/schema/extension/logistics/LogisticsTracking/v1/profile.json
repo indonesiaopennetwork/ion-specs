@@ -1,0 +1,8 @@
+{
+  "id":"ion-logistics-tracking-v1","version":"1.0.0","status":"draft","domain":"logistics","sectorCode":"B","type":"AttributePack",
+  "name":"ION Logistics Tracking Extension (v1)","description":"Safe tracking access metadata and transient location/ETA snapshots.",
+  "packSchema":"./schema.json","jsonldContext":"./context.jsonld","extends":"beckn:Tracking",
+  "attachmentPoints":{"trackingAttributes":["LogisticsTracking"]},
+  "indexing":{"indexable":[],"filterable":[{"path":"$.mode"},{"path":"$.capabilities"}],"sortable":[{"path":"$.snapshot.observedAt"}]},
+  "minimalForDiscovery":["mode"]
+}

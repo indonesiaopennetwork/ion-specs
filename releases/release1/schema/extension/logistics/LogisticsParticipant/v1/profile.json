@@ -1,0 +1,27 @@
+{
+  "id": "ion-logistics-participant-v1",
+  "version": "1.0.0",
+  "status": "draft",
+  "domain": "logistics",
+  "sectorCode": "B",
+  "type": "AttributePack",
+  "name": "ION Logistics Participant Extension (v1)",
+  "description": "Logistics participant roles and Indonesian licence details.",
+  "packSchema": "./schema.json",
+  "jsonldContext": "./context.jsonld",
+  "extends": "beckn:Participant",
+  "attachmentPoints": {
+    "participantAttributes": ["IONLogisticsParticipant"]
+  },
+  "indexing": {
+    "indexable": [{"path": "$.participantRoles"}],
+    "filterable": [{"path": "$.participantRoles"}],
+    "sortable": []
+  },
+  "minimalForDiscovery": ["participantRoles"],
+  "x-ion-layer": {
+    "generic": "LogisticsParticipant",
+    "ion": "IONLogisticsParticipant",
+    "splitVersion": "1.0.0"
+  }
+}

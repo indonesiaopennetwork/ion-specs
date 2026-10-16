@@ -1,0 +1,12 @@
+{
+  "id": "ion-logistics-pattern-freight-v1",
+  "version": "1.0.0",
+  "type": "Pattern",
+  "patternName": "freight",
+  "sector": "ion:logistics",
+  "status": "ready",
+  "spineFile": "./pattern.yaml",
+  "schemaPacksRequired": {"common": ["Address/v1", "IdentifiableLocation/v1", "Payment/v1", "Settlement/v1"], "logistics": ["LogisticsProvider/v1", "LogisticsResource/v1", "LogisticsParticipant/v1", "LogisticsOffer/v1", "LogisticsCommitment/v1", "LogisticsConsideration/v1", "LogisticsContract/v1", "LogisticsPerformance/v1", "LogisticsTracking/v1"]},
+  "performanceStateMachine": "flows/logistics/state-machines/v1/states.yaml#freight-capacity",
+  "requiredPolicyRefs": ["ion://policy/liability.loss-cap-per-shipment", "ion://policy/sla.standard-95pct", "ion://policy/dispute.commercial.odr"]
+}

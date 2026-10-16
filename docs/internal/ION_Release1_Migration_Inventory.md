@@ -695,6 +695,54 @@ decision is recorded as follows:
 This completes Phase 6. Exclusion is a Release 1 scope decision, not a claim that
 the source material is obsolete or a request to delete it.
 
+#### Logistics scope reopened (2026-10-16)
+
+While Release 1 remains a draft, its working scope was amended to reopen
+Logistics as `review-required`. This reverses only the Logistics exclusion
+recorded above; `ionApi`, Hospitality, and Finance remain excluded.
+
+No Logistics artifact became normative through this status change. The new
+migration proceeds from the pinned legacy ION Logistics material directly onto
+the Release 1 Beckn Protocol v2 extension points. The incomplete external Beckn
+Logistics domain repository is comparison material, not a Release 1 dependency.
+The execution plan is recorded in
+`docs/internal/ION_Release1_Logistics_Migration_Plan.md`.
+
+Phase 4 subsequently completed `LogisticsResource`, `LogisticsProvider`,
+`LogisticsParticipant`, `LogisticsOffer`, `LogisticsCommitment`, and
+`LogisticsConsideration`, `LogisticsContract`, `LogisticsPerformance`, and
+`LogisticsTracking` v1, followed by the standalone
+`LogisticsPerformanceStates` v1 registry. The nine complete vertical slices are
+present under `schema/extension/logistics/`; Phase 6 moved the registry to
+`flows/logistics/state-machines/v1/` after confirming that it is operational
+flow metadata rather than a message-validation schema. It retains its formal
+grammar and dedicated graph, schema-pointer, and flow-reference validator.
+The reusable common `IdentifiableLocation` v1 wrapper was added because the
+pinned Beckn Location 2.0 has no identifier and cannot be extended through
+`allOf`.
+
+Phase 5 subsequently reviewed all 59 policy IRI strings used by the pinned
+legacy Logistics flows. Twenty-two baseline terms were normalized into the root
+registry as drafts, 10 obsolete identifiers were mapped to current terms, and
+27 unsourced or agreement-specific strings were explicitly deferred. The
+detailed disposition is in
+`docs/internal/ION_Release1_Logistics_Policy_Migration_Ledger.md`. Logistics
+Phase 6 subsequently migrated all six Logistics patterns and nine included or
+scoped variants after reviewing all fifteen variants. Six variants were
+deferred for named policy or schema blockers. The detailed decisions are in
+`docs/internal/ION_Release1_Logistics_Flow_Migration_Ledger.md`; Logistics
+Phase 7 then reviewed all 97 legacy Logistics error codes, migrated 30 connected
+errors under the current `ION-Bxxxx` convention, and deferred 67 with explicit
+reasons. Exact schema pointers, supported callbacks, flow or policy targets, and
+source-map closure are enforced by a dedicated validator. The detailed
+disposition is in
+`docs/internal/ION_Release1_Logistics_Error_Migration_Ledger.md`. Logistics
+Phase 8 then passed the deep schema-directory check for all nine packs, validated
+all nine examples, reconfirmed source-disposition closure, and passed the
+complete Release 1 gate. `contentStatus.logistics` is now `validated`; Release 1
+remains a draft. The closure evidence is recorded in
+`docs/internal/ION_Release1_Logistics_Validation_Report.md`.
+
 ### Phase 7 — Update repository-level material
 
 1. [x] Added a manually runnable release gate at
@@ -724,8 +772,8 @@ against the Release 1 schema scope:
 
 - `flows/trade/patterns/storefront/v1/` is the sole included flow. Its pack names,
   release document URLs, and state-machine target resolve within Release 1.
-- The root `policies/` tree contains 67 shared terms classified as Trade or
-  cross-sector: 28 Trade and 39 cross-sector. Release 1 references this registry
+- At Phase 8A, the root `policies/` tree contained 67 shared terms classified as
+  Trade or cross-sector: 28 Trade and 39 cross-sector. Release 1 references this registry
   but does not contain a policy copy.
 - `errors/trade.yaml` contains 8 errors whose schema and flow references exist in
   Release 1. Seven errors tied to `live-commerce`, `digital-goods`, or `returns`
@@ -868,6 +916,12 @@ copied:
   sector and its dependency closure into a release that explicitly excludes
   Logistics. Removing them would leave a misleading export flow, so the pattern
   remains deferred until a Logistics-enabled release.
+
+  Logistics was subsequently reopened and validated in the Release 1 draft.
+  The legacy Trade Cross-Border pattern remains deferred because its
+  cross-transaction boundary has not been reconciled with the included
+  Logistics cross-border pattern; availability of the component packs alone
+  does not validate that orchestration.
 - Government expresses its defining K/L/D/I identity, DIPA, SP/SPK, LKPP, TKDN,
   KPPN, BAST, SP2D, and withholding-certificate data only through ad hoc `tags`.
   No standalone root schema pack defines a coherent B2G procurement object.
@@ -910,8 +964,10 @@ Four source sub-branches were excluded within the release-local variant:
 
 - BPP-collected prepayment requires an unsolicited second `on_init`, although
   pinned Beckn defines `on_init` as the correlated callback to `init`;
-- on-network LSP creates a separate transaction using the excluded Logistics
-  contract and `parentContractReference`;
+- on-network LSP creates a separate Logistics transaction using
+  `parentContractReference`, but the source does not define the required
+  cross-transaction discovery, authorization, correlation, and failure
+  semantics;
 - the BAP technical-confirm branch attempts to cancel a Contract that was never
   established and escalates through non-Beckn `raise`; and
 - the BPP technical-confirm branch models a NACK as `on_confirm` and then also

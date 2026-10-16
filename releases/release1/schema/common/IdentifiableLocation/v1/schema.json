@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schema.ion.id/release1/schema/common/IdentifiableLocation/v1",
+  "title": "ION Identifiable Location Schema Pack v1",
+  "$ref": "#/$defs/IdentifiableLocation",
+  "$defs": {
+    "IdentifiableLocation": {
+      "type": "object",
+      "title": "IdentifiableLocation",
+      "description": "Beckn Location wire shape with a stable local identifier. The identifier is used by sibling or related objects that cannot safely address an element by array position or geometry equality.",
+      "additionalProperties": true,
+      "required": [
+        "id",
+        "geo"
+      ],
+      "x-jsonld": {
+        "@context": "https://schema.ion.id/release1/schema/common/IdentifiableLocation/v1/context.jsonld",
+        "@type": "ion:IdentifiableLocation"
+      },
+      "x-beckn-attaches-to": "(reusable shape — embedded by ION attribute packs that require stable location references)",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Identifier unique within the enclosing object or transaction scope."
+        },
+        "geo": {
+          "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/Location/2.0/attributes.yaml#/components/schemas/Location/properties/geo",
+          "description": "Authoritative geometry, using the Beckn Location property definition."
+        },
+        "address": {
+          "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/Location/2.0/attributes.yaml#/components/schemas/Location/properties/address",
+          "description": "Optional postal address, using the Beckn Location property definition."
+        }
+      }
+    }
+  }
+}
+

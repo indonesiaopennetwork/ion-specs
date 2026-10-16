@@ -1,0 +1,14 @@
+{
+  "@context":"https://schema.ion.id/release1/schema/extension/logistics/LogisticsContract/v1/context.jsonld",
+  "@type":"ion:IONLogisticsContract",
+  "relationships":[{"relationshipType":"FRAMEWORK_AGREEMENT","relatedContractId":"FWA-2026-0042","agreementVersion":"3"}],
+  "invoicePreferences":{"invoiceType":"TAX_INVOICE","invoicingModel":"PER_SHIPMENT","invoiceEmail":"finance@example.co.id"},
+  "cargoInsurance":{
+    "policyNumber":"MARINE-2026-9912","coverageScope":"ICC_A","underwriterParticipantId":"PART-INSURER-01","insuredParticipantId":"PART-CONSIGNOR-01",
+    "coverageAmount":{"currency":"USD","value":75000},"deductible":{"currency":"USD","value":500},
+    "coverageExtensions":["WAR_RISK","GENERAL_AVERAGE"]
+  },
+  "crossBorderTerms":{"incoterm":"CIF","incotermsVersion":"INCOTERMS_2020","namedPlace":"Port of Surabaya"},
+  "buyerBusinessRegistration":{"npwp":"1234567890123456","nib":"1234567890123","pkpStatus":"PKP","legalEntityName":"PT Pembeli Nusantara","businessType":"PT"},
+  "customsCompliance":{"declarationType":"BC_2_0","declarationNumber":"BC20-2026-00192","declarationDate":"2026-10-16","ceisaReceiptNumber":"CEISA-881920","declarantParticipantId":"PART-BROKER-01","declaredCifValue":{"currency":"IDR","value":1170000000},"exchangeRateUsed":15600,"lartasClassification":"NOT_RESTRICTED"}
+}

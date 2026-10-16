@@ -13,8 +13,15 @@ module IonReleaseScope
     "logistics" => ["schema/extension/logistics"],
     "hospitality" => ["schema/extension/hospitality"],
     "finance" => ["schema/extension/finance"],
-    "flows" => ["flows/trade"],
+    "flows" => ["flows/trade", "flows/logistics", "flows/hospitality", "flows/finance"],
     "errors" => ["errors"]
+  }.freeze
+
+  SECTOR_FLOW_PATHS = {
+    "trade" => ["flows/trade"],
+    "logistics" => ["flows/logistics"],
+    "hospitality" => ["flows/hospitality"],
+    "finance" => ["flows/finance"]
   }.freeze
 
   module_function
@@ -46,16 +53,34 @@ module IonReleaseScope
       end
     end
 
+    SECTOR_FLOW_PATHS.each do |sector, patterns|
+      next unless statuses[sector] == "excluded"
+
+      patterns.flat_map { |pattern| matching_paths(root, pattern) }.uniq.each do |path|
+        errors << "excluded content is present for #{sector}: #{Pathname.new(path).relative_path_from(root)}"
+      end
+    end
+
     errors
   rescue Psych::SyntaxError => e
     ["invalid release manifest: #{e.message.lines.first.strip}"]
   end
 
   def matching_paths(root, pattern)
-    path = root.join(pattern)
-    return [path.to_s] if !pattern.include?("*") && path.exist?
+    pattern.split("/").reduce([root]) do |bases, segment|
+      bases.flat_map do |base|
+        if segment.match?(/[?*\[]/)
+          next [] unless base.directory?
 
-    Dir[path.to_s]
+          base.children.select do |child|
+            File.fnmatch?(segment, child.basename.to_s, File::FNM_CASEFOLD)
+          end
+        else
+          candidate = base.join(segment)
+          candidate.exist? ? [candidate] : []
+        end
+      end
+    end.map(&:to_s)
   end
 end
 

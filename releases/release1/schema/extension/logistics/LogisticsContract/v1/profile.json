@@ -1,0 +1,8 @@
+{
+  "id":"ion-logistics-contract-v1","version":"1.0.0","status":"draft","domain":"logistics","sectorCode":"B","type":"AttributePack",
+  "name":"ION Logistics Contract Extension (v1)","description":"Agreement relationships, invoicing, cargo insurance, cases, customs compliance, and cancellation.",
+  "packSchema":"./schema.json","jsonldContext":"./context.jsonld","extends":"beckn:Contract",
+  "attachmentPoints":{"contractAttributes":["IONLogisticsContract"]},
+  "indexing":{"indexable":[{"path":"$.cases[*].caseType"}],"filterable":[{"path":"$.cases[*].status"},{"path":"$.crossBorderTerms.incoterm"}],"sortable":[]},
+  "minimalForDiscovery":[],"x-ion-layer":{"generic":"LogisticsContract","ion":"IONLogisticsContract","splitVersion":"1.0.0"}
+}

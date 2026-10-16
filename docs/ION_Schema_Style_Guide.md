@@ -1,10 +1,10 @@
 # ION Schema Style Guide
 
-> **Release 1 scope note:** Release 1 publishes standalone Trade and required
-> common packs only. References in this authoring guide to `ion.yaml`, L2/L3
-> configuration, CRC registries, or unreleased sectors describe future-release
-> design work in `schema/core/v2/api/v2.0.0/ion.yaml`; they are not Release 1
-> requirements.
+> **Release 1 scope note:** Release 1 contains validated standalone Trade and
+> required common packs, plus validated Logistics packs. References
+> in this authoring guide to `ion.yaml`, L2/L3 configuration, CRC registries, or
+> other unreleased sectors describe future-release design work in
+> `schema/core/v2/api/v2.0.0/ion.yaml`; they are not Release 1 requirements.
 
 Authoritative conventions for pack authors. All contributions must follow this guide.
 
@@ -68,7 +68,7 @@ x-beckn-attaches-to: BecknObject.attributesSlot
 - `Performance.performanceAttributes`
 - `Settlement.settlementAttributes`
 - `Provider.providerAttributes`
-- `Participant (direct properties)` — **Exception:** Beckn v2.0 `Participant` has no `participantAttributes` wrapper. Participant fields attach as direct properties on the `Participant` object. Use `x-beckn-attaches-to: Participant (direct properties — no participantAttributes wrapper)`.
+- `Participant.participantAttributes`
 - `Tracking.trackingAttributes`
 - `RatingInput.target.targetAttributes`
 - `Support.channels[*]` (array slot — use @type discriminator)
@@ -76,11 +76,18 @@ x-beckn-attaches-to: BecknObject.attributesSlot
 ### allOf with Beckn Attributes base (required)
 ```yaml
 allOf:
-  - $ref: https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/schemas/Attributes
+  - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Attributes/2.0/attributes.yaml#/components/schemas/Attributes
 ```
 
-**Never use the external GitHub URL or a repository-relative path in a released
-pack.** Use the absolute, release-qualified `schema.ion.id` URL shown above.
+Extension and common packs MUST reference the separately vendored Beckn schema
+documents. They MUST NOT reference component fragments inside the temporary
+`schema/core/api/v2.0.0/ion-beckn.yaml` contract. This keeps attribute packs
+independent of that ION-maintained protocol snapshot and allows each Beckn
+component dependency to retain its own version and provenance.
+
+**Never use the external GitHub URL, `schema.beckn.io` retrieval URL, or a
+repository-relative path in a released pack.** Use the absolute,
+release-qualified `schema.ion.id` URL shown above.
 
 ### additionalProperties
 Set `additionalProperties: true` on all extension bags (allows NPOS overlay schemas).

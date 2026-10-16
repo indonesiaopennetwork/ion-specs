@@ -1,0 +1,13 @@
+{
+  "id": "ion-logistics-variant-reverse-v1",
+  "version": "1.0.0",
+  "type": "Variant",
+  "variantName": "reverse",
+  "sector": "ion:logistics",
+  "status": "ready",
+  "branchFile": "./variant.yaml",
+  "flowIds": ["parcel-reverse-qc"],
+  "applicablePatterns": ["parcel"],
+  "performanceStateMachine": "flows/logistics/state-machines/v1/states.yaml#parcel-reverse-qc",
+  "requiredPolicyRefs": ["ion://policy/return.standard.7d-sellerpays", "ion://policy/return.standard.14d-sellerpays", "ion://policy/return.fashion.7d-fit-only-sellerpays", "ion://policy/return.electronics.14d-unopened-or-defective-sellerpays"]
+}

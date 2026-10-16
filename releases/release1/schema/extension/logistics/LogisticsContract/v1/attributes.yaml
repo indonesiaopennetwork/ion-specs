@@ -1,0 +1,207 @@
+openapi: 3.1.1
+info:
+  title: ION Logistics Contract Extension (v1)
+  description: >
+    Agreement-level logistics bindings and durable case/compliance records
+    attached to Contract.contractAttributes.
+  version: 1.0.0
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    name: ION Network
+    url: https://schema.ion.id
+
+components:
+  schemas:
+    ContractRelationship:
+      type: object
+      additionalProperties: false
+      required: [relationshipType, relatedContractId]
+      properties:
+        relationshipType:
+          type: string
+          enum: [FRAMEWORK_AGREEMENT, PARENT, CHILD, REVERSE_OF, GENERATED_RETURN, RESERVATION_OF]
+        relatedContractId: {type: string, minLength: 1}
+        networkId: {type: string}
+        agreementVersion: {type: string}
+        policyRef: {type: string, format: uri}
+
+    LogisticsInvoicePreferences:
+      type: object
+      additionalProperties: true
+      allOf:
+        - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailContract/2.1/attributes.yaml#/components/schemas/RetailContract/properties/invoicePreferences
+      properties:
+        invoiceType:
+          type: string
+          enum: [STANDARD, TAX_INVOICE, EINVOICE, PRO_FORMA]
+        invoicingModel:
+          type: string
+          enum: [PER_SHIPMENT, CONSOLIDATED, AGREEMENT_SETTLEMENT]
+
+    CargoInsuranceAgreement:
+      type: object
+      additionalProperties: false
+      required: [coverageScope, insuredParticipantId, coverageAmount]
+      properties:
+        policyRef: {type: string, format: uri}
+        policyNumber: {type: string}
+        coverageScope:
+          type: string
+          enum: [ICC_A, ICC_B, ICC_C, ALL_RISKS, NAMED_PERILS, LIABILITY_ONLY, DECLARED_VALUE_CAP]
+        underwriterParticipantId: {type: string}
+        insuredParticipantId: {type: string}
+        coverageAmount:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/PriceSpecification/2.0/attributes.yaml#/components/schemas/PriceSpecification
+        deductible:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/PriceSpecification/2.0/attributes.yaml#/components/schemas/PriceSpecification
+        validity:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/TimePeriod/2.0/attributes.yaml#/components/schemas/TimePeriod
+        coverageExtensions:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            enum: [WAR_RISK, STRIKE_RIOT_CIVIL_COMMOTION, GENERAL_AVERAGE, WAREHOUSE_TO_WAREHOUSE]
+
+    CaseAssessment:
+      type: object
+      additionalProperties: false
+      properties:
+        outcome:
+          type: string
+          enum: [ACCEPTED, PARTIAL, REJECTED, PENDING_INSPECTION]
+        offeredAmount:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/PriceSpecification/2.0/attributes.yaml#/components/schemas/PriceSpecification
+        rationale: {type: string}
+        inspectionPerformanceId: {type: string}
+
+    CaseResolution:
+      type: object
+      additionalProperties: false
+      properties:
+        decision:
+          type: string
+          enum: [ACCEPT_SETTLEMENT, COUNTER_WITH_EVIDENCE, ESCALATE, WITHDRAW, RESOLVED]
+        resolvedAt: {type: string, format: date-time}
+        agreedAmount:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/PriceSpecification/2.0/attributes.yaml#/components/schemas/PriceSpecification
+
+    LogisticsCase:
+      type: object
+      additionalProperties: false
+      required: [id, caseType, status, reportedAt]
+      properties:
+        id: {type: string, minLength: 1}
+        caseType:
+          type: string
+          enum: [WEIGHT_DISCREPANCY, DAMAGE, LOSS, SERVICE_LEVEL_BREACH, CUSTOMS_DUTY, COD_DISPUTE, RETURN, TEMPERATURE_EXCURSION, OTHER]
+        status:
+          type: string
+          enum: [OPEN, EVIDENCE_REQUESTED, UNDER_REVIEW, OFFERED, ACCEPTED, REJECTED, ESCALATED, CLOSED]
+        reasonCode: {type: string}
+        summary: {type: string}
+        policyRef: {type: string, format: uri}
+        claimedAmount:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/PriceSpecification/2.0/attributes.yaml#/components/schemas/PriceSpecification
+        evidenceDocumentReferences:
+          type: array
+          uniqueItems: true
+          items: {type: string}
+          description: Identifiers or labels of secured Documents on the core Contract descriptor.
+        reportedAt: {type: string, format: date-time}
+        assessment: {$ref: '#/components/schemas/CaseAssessment'}
+        resolution: {$ref: '#/components/schemas/CaseResolution'}
+
+    CrossBorderTerms:
+      type: object
+      additionalProperties: false
+      required: [incoterm, incotermsVersion, namedPlace]
+      properties:
+        incoterm:
+          type: string
+          enum: [EXW, FCA, FAS, FOB, CFR, CIF, CPT, CIP, DAP, DPU, DDP]
+        incotermsVersion: {type: string, enum: [INCOTERMS_2020]}
+        namedPlace: {type: string}
+
+    CustomsPermit:
+      type: object
+      additionalProperties: false
+      required: [permitType, permitNumber]
+      properties:
+        permitType: {type: string, enum: [PI, PE, LS, SKI, SKI_BPOM, MASTERLIST, OTHER]}
+        permitNumber: {type: string}
+        issuingAuthority: {type: string}
+        validUntil: {type: string, format: date}
+        documentReference: {type: string}
+
+    IONCustomsCompliance:
+      type: object
+      additionalProperties: true
+      x-ion-layer: ion
+      properties:
+        declarationType: {type: string, enum: [BC_1_1, BC_1_6, BC_2_0, BC_2_3, BC_2_5, BC_3_0, BC_3_3, BC_4_0]}
+        declarationNumber: {type: string}
+        declarationDate: {type: string, format: date}
+        ceisaReceiptNumber: {type: string}
+        declarantParticipantId: {type: string}
+        declaredCifValue:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/PriceSpecification/2.0/attributes.yaml#/components/schemas/PriceSpecification
+        exchangeRateUsed: {type: number, exclusiveMinimum: 0}
+        permits: {type: array, items: {$ref: '#/components/schemas/CustomsPermit'}}
+        lartasClassification: {type: string, enum: [NOT_RESTRICTED, PROHIBITED, RESTRICTED, UNKNOWN_REQUIRES_CHECK]}
+        aseanSingleWindowReference: {type: string}
+        fumigationCertificateReference: {type: string}
+        phytosanitaryCertificateReference: {type: string}
+
+    CancellationRecord:
+      type: object
+      additionalProperties: false
+      required: [reasonCode, requestedAt]
+      properties:
+        reasonCode: {type: string}
+        summary: {type: string}
+        policyRef: {type: string, format: uri}
+        requestedAt: {type: string, format: date-time}
+        requestedByParticipantId: {type: string}
+        outcome: {type: string, enum: [REQUESTED, ACCEPTED, REJECTED, COMPLETED]}
+
+    LogisticsContract:
+      type: object
+      title: LogisticsContract
+      additionalProperties: true
+      x-ion-closed-extensions: false
+      x-beckn-attaches-to: Contract.contractAttributes
+      x-jsonld:
+        '@context': https://schema.ion.id/release1/schema/extension/logistics/LogisticsContract/v1/context.jsonld
+        '@type': ion:LogisticsContract
+      allOf:
+        - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Attributes/2.0/attributes.yaml#/components/schemas/Attributes
+      properties:
+        relationships: {type: array, items: {$ref: '#/components/schemas/ContractRelationship'}}
+        invoicePreferences: {$ref: '#/components/schemas/LogisticsInvoicePreferences'}
+        cargoInsurance: {$ref: '#/components/schemas/CargoInsuranceAgreement'}
+        crossBorderTerms: {$ref: '#/components/schemas/CrossBorderTerms'}
+        cases: {type: array, items: {$ref: '#/components/schemas/LogisticsCase'}}
+        cancellation: {$ref: '#/components/schemas/CancellationRecord'}
+
+    IONLogisticsContract:
+      type: object
+      title: IONLogisticsContract
+      additionalProperties: true
+      x-ion-layer: ion
+      x-ion-closed-extensions: false
+      x-beckn-attaches-to: Contract.contractAttributes
+      x-jsonld:
+        '@context': https://schema.ion.id/release1/schema/extension/logistics/LogisticsContract/v1/context.jsonld
+        '@type': ion:IONLogisticsContract
+      allOf:
+        - $ref: '#/components/schemas/LogisticsContract'
+      properties:
+        buyerBusinessRegistration:
+          x-attr-ion-layer: ion
+          $ref: https://schema.ion.id/release1/schema/common/BusinessRegistration/v1/attributes.yaml#/components/schemas/IONBusinessRegistration
+        customsCompliance:
+          x-attr-ion-layer: ion
+          $ref: '#/components/schemas/IONCustomsCompliance'

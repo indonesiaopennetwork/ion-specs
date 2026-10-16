@@ -49,27 +49,52 @@ module IonSchemaPackJSONLD
     properties.each_key { |name| context[name] ||= "ion:#{name}" }
     schemas.each_key { |name| context[name] ||= "ion:#{name}" }
 
+    property_ids = properties.each_key.to_h do |name|
+      definition = context[name]
+      [name, definition.is_a?(String) ? definition : "ion:#{name}"]
+    end
+    schema_ids = schemas.each_key.to_h do |name|
+      definition = context[name]
+      [name, definition.is_a?(String) ? definition : "ion:#{name}"]
+    end
+
     graph = vocab_document.fetch("@graph")
     graph.reject! do |node|
       id = node["@id"].to_s
       types = Array(node["@type"])
       local_name = id.delete_prefix("ion:")
-      (types.include?("rdf:Property") && id.start_with?("ion:") && !properties.key?(local_name)) ||
-        ((types.include?("rdfs:Class") || types.include?("owl:Class")) && id.start_with?("ion:") && !schemas.key?(local_name))
+      (types.include?("rdf:Property") && id.start_with?("ion:") &&
+        (!properties.key?(local_name) || property_ids[local_name] != id)) ||
+        ((types.include?("rdfs:Class") || types.include?("owl:Class")) && id.start_with?("ion:") &&
+          (!schemas.key?(local_name) || schema_ids[local_name] != id))
     end
-    published_properties = graph.each_with_object([]) do |node, names|
-      if Array(node["@type"]).include?("rdf:Property") && node["@id"].to_s.start_with?("ion:")
-        names << node["@id"].to_s.delete_prefix("ion:")
-      end
+    published_property_ids = graph.each_with_object(Set.new) do |node, ids|
+      ids << node["@id"].to_s if Array(node["@type"]).include?("rdf:Property")
     end.to_set
     properties.each do |name, description|
-      next if published_properties.include?(name)
+      property_id = property_ids.fetch(name)
+      next if published_property_ids.include?(property_id)
 
       graph << {
-        "@id" => "ion:#{name}",
+        "@id" => property_id,
         "@type" => "rdf:Property",
         "rdfs:label" => name,
         "rdfs:comment" => description.empty? ? "#{name} property." : description
+      }
+    end
+    published_class_ids = graph.each_with_object(Set.new) do |node, ids|
+      types = Array(node["@type"])
+      ids << node["@id"].to_s if types.include?("rdfs:Class") || types.include?("owl:Class")
+    end
+    schemas.each do |name, schema|
+      class_id = schema_ids.fetch(name)
+      next if published_class_ids.include?(class_id)
+
+      graph << {
+        "@id" => class_id,
+        "@type" => "rdfs:Class",
+        "rdfs:label" => schema["title"].to_s.empty? ? name : schema["title"],
+        "rdfs:comment" => schema["description"].to_s.strip.empty? ? "#{name} class." : schema["description"].to_s.strip
       }
     end
 

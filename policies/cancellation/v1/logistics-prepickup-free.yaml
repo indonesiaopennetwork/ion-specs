@@ -1,0 +1,35 @@
+iri: ion://policy/cancel.logistics.prepickup-free
+version: 1.0.0
+versionEffectiveFrom: null
+category: CANCELLATION
+status: draft
+sector: logistics
+displayText:
+  id: Pembatalan gratis sebelum penjemputan
+  en: Free cancellation before pickup
+applicableCategories:
+- logistics
+applicableResourceTypes: []
+regulatoryBasis: []
+sourceProvenance:
+  repository: indonesiaopennetwork/ion-specs
+  commit: 33e6b4c40feabecf6b0f6a827b488ff82998c735
+  path: policies/cancellation/v1/logistics-cancellation-policies.yaml
+  legacyId: cancel.logistics.prepickup-free
+supersededBy: null
+deprecatedAt: null
+description: 'Buyer may cancel at no charge before the package is picked up by the
+  LSP. After PICKED_UP state, this policy no longer applies.
+
+'
+window:
+  from: on_confirm
+  until: on_status[OUT_FOR_PICKUP]
+cancellationFee: 0
+currency: IDR
+refund:
+  prepaidOrders: FULL_REFUND
+  codOrders: NO_CHARGE
+  timeline: PT24H
+attribution: BUYER
+rtoTriggered: false

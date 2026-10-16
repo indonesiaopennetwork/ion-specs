@@ -1,0 +1,30 @@
+{
+  "id": "ion-logistics-pattern-parcel-v1",
+  "version": "1.0.0",
+  "type": "Pattern",
+  "patternName": "parcel",
+  "sector": "ion:logistics",
+  "status": "ready",
+  "spineFile": "./pattern.yaml",
+  "schemaPacksRequired": {
+    "common": ["Address/v1", "IdentifiableLocation/v1", "Payment/v1", "Settlement/v1"],
+    "logistics": ["LogisticsProvider/v1", "LogisticsResource/v1", "LogisticsParticipant/v1", "LogisticsOffer/v1", "LogisticsCommitment/v1", "LogisticsConsideration/v1", "LogisticsContract/v1", "LogisticsPerformance/v1", "LogisticsTracking/v1"]
+  },
+  "performanceStateMachineSelection": {
+    "field": "Offer.offerAttributes.serviceDefinition.routingTopology",
+    "mappings": {
+      "POINT_TO_POINT": "flows/logistics/state-machines/v1/states.yaml#parcel-p2p",
+      "POINT_HUB_POINT": "flows/logistics/state-machines/v1/states.yaml#parcel-p2h2p",
+      "POINT_MULTI_HUB_POINT": "flows/logistics/state-machines/v1/states.yaml#parcel-p2h2h2p"
+    }
+  },
+  "requiredPolicyRefs": [
+    "ion://policy/cancel.logistics.prepickup-free",
+    "ion://policy/evidence.standard.photo-24hr",
+    "ion://policy/insurance.standard-declared-value-cap",
+    "ion://policy/liability.loss-cap-per-shipment",
+    "ion://policy/re-attempt.standard-3-free",
+    "ion://policy/sla.standard-95pct",
+    "ion://policy/dispute.commercial.odr"
+  ]
+}

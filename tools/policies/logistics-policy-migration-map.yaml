@@ -1,0 +1,181 @@
+sourceRepository: indonesiaopennetwork/ion-specs
+sourceCommit: 33e6b4c40feabecf6b0f6a827b488ff82998c735
+sourcePath: flows/logistics
+entries:
+  ion://policy/cancel.hyperlocal.before-pickup-free:
+    disposition: deferred
+    reason: No authoritative policy document; compare against the pre-pickup policies during the hyperlocal flow migration.
+  ion://policy/cancel.logistics.intransit-buyer-cost:
+    disposition: migrated
+    targetIri: ion://policy/cancel.logistics.intransit-buyer-cost
+  ion://policy/cancel.logistics.prepickup-free:
+    disposition: migrated
+    targetIri: ion://policy/cancel.logistics.prepickup-free
+  ion://policy/cancel.logistics.prepickup-futile-trip-fee:
+    disposition: migrated
+    targetIri: ion://policy/cancel.logistics.prepickup-futile-trip-fee
+  ion://policy/cancel.logistics.tat-breach-lsp-cost:
+    disposition: migrated
+    targetIri: ion://policy/cancel.logistics.tat-breach-lsp-cost
+  ion://policy/cold-chain.fresh.2-10C:
+    disposition: deferred
+    reason: No authoritative policy document or approved temperature-policy grammar.
+  ion://policy/cold-chain.frozen.minus-18C:
+    disposition: deferred
+    reason: No authoritative policy document or approved temperature-policy grammar.
+  ion://policy/cold-chain.pharma.2-8C:
+    disposition: deferred
+    reason: No authoritative policy document or approved temperature-policy grammar.
+  ion://policy/damage.enterprise.full-declared-value:
+    disposition: deferred
+    reason: Enterprise agreement term without an approved reusable source.
+  ion://policy/damage.standard.declared-value-cap:
+    disposition: deferred
+    reason: The legacy reference conflates damage claims and cargo insurance; Phase 6 must select an explicit claim and insurance policy.
+  ion://policy/dispute-resolution.bea-cukai-appeals:
+    disposition: deferred
+    reason: No authoritative customs-appeal policy document.
+  ion://policy/dispute-resolution.commercial-bani:
+    disposition: reused
+    targetIri: ion://policy/dispute.commercial.bani
+  ion://policy/dispute-resolution.commercial-odr:
+    disposition: reused
+    targetIri: ion://policy/dispute.commercial.odr
+  ion://policy/dispute-resolution.consumer-bpsk:
+    disposition: reused
+    targetIri: ion://policy/dispute.consumer.bpsk
+  ion://policy/dispute-resolution.consumer-fast-track:
+    disposition: deferred
+    reason: No authoritative policy document and no equivalent registered term.
+  ion://policy/dispute.weight-discrepancy:
+    disposition: replaced
+    targetIri: ion://policy/weight-dispute.standard-10pct-tolerance
+  ion://policy/ekyc.b2b-logistics.high-value:
+    disposition: deferred
+    reason: No authoritative Logistics eKYC policy document.
+  ion://policy/ekyc.b2b-logistics.standard:
+    disposition: deferred
+    reason: No authoritative Logistics eKYC policy document.
+  ion://policy/evidence.cold-chain.datalogger-required:
+    disposition: migrated
+    targetIri: ion://policy/evidence.cold-chain.datalogger-required
+  ion://policy/evidence.enterprise.photo-2hr-with-gps:
+    disposition: deferred
+    reason: Enterprise/FWA-specific term; no reusable baseline was approved.
+  ion://policy/evidence.return.unboxing-video-required:
+    disposition: deferred
+    reason: No authoritative policy document.
+  ion://policy/evidence.standard.photo-24hr:
+    disposition: migrated
+    targetIri: ion://policy/evidence.standard.photo-24hr
+  ion://policy/incident.accident.standard:
+    disposition: replaced
+    targetIri: ion://policy/incident.standard
+  ion://policy/incident.high-severity-escalation:
+    disposition: migrated
+    targetIri: ion://policy/incident.high-severity-escalation
+  ion://policy/incident.standard:
+    disposition: migrated
+    targetIri: ion://policy/incident.standard
+  ion://policy/insurance.standard-500k-cap:
+    disposition: deferred
+    reason: No authoritative policy document; it is not equivalent to the declared-value policy's free tier.
+  ion://policy/insurance.standard-declared-value-cap:
+    disposition: migrated
+    targetIri: ion://policy/insurance.standard-declared-value-cap
+  ion://policy/liability.cod-max-per-shipment:
+    disposition: migrated
+    targetIri: ion://policy/liability.cod-max-per-shipment
+  ion://policy/liability.customs-duty-dispute:
+    disposition: deferred
+    reason: No authoritative policy document.
+  ion://policy/liability.driver-insurance-coverage:
+    disposition: deferred
+    reason: Driver employment and insurance coverage requires separate governance from transaction cargo policies.
+  ion://policy/liability.force-majeure-exclusions:
+    disposition: migrated
+    targetIri: ion://policy/liability.force-majeure-exclusions
+  ion://policy/liability.loss-cap-per-shipment:
+    disposition: migrated
+    targetIri: ion://policy/liability.loss-cap-per-shipment
+  ion://policy/liability.multi-stop-partial-delivery:
+    disposition: deferred
+    reason: No authoritative policy document.
+  ion://policy/logistics-fwa.tokopedia-tokocabang.2026q2:
+    disposition: deferred
+    reason: Party-specific framework-agreement example, not a reusable network policy.
+  ion://policy/logistics-fwa/:
+    disposition: deferred
+    reason: Incomplete prefix placeholder, not a concrete policy IRI.
+  ion://policy/loss.enterprise.48hr-threshold:
+    disposition: deferred
+    reason: Enterprise/FWA-specific threshold without an approved reusable policy.
+  ion://policy/loss.standard.72hr-threshold:
+    disposition: replaced
+    targetIri: ion://policy/liability.loss-cap-per-shipment
+  ion://policy/payment-terms.cod-biweekly:
+    disposition: deferred
+    reason: No authoritative COD remittance policy document.
+  ion://policy/payment-terms.cod-weekly-monday:
+    disposition: deferred
+    reason: FWA example reference without an authoritative reusable policy document.
+  ion://policy/penalty.cod-remittance-late:
+    disposition: migrated
+    targetIri: ion://policy/penalty.cod-remittance-late
+  ion://policy/penalty.lsp-tat-breach:
+    disposition: migrated
+    targetIri: ion://policy/penalty.lsp-tat-breach
+  ion://policy/penalty.pickup-failed.consignor-fault:
+    disposition: migrated
+    targetIri: ion://policy/penalty.pickup-failed.consignor-fault
+  ion://policy/re-attempt:
+    disposition: deferred
+    reason: Incomplete category placeholder, not a concrete policy IRI.
+  ion://policy/re-attempt.hyperlocal-1-only:
+    disposition: migrated
+    targetIri: ion://policy/re-attempt.hyperlocal-1-only
+  ion://policy/re-attempt.premium-3-free-rebook:
+    disposition: deferred
+    reason: No authoritative policy document.
+  ion://policy/re-attempt.standard-2-one-fee:
+    disposition: migrated
+    targetIri: ion://policy/re-attempt.standard-2-one-fee
+  ion://policy/re-attempt.standard-3-free:
+    disposition: migrated
+    targetIri: ion://policy/re-attempt.standard-3-free
+  ion://policy/return.electronics-14d-unopened:
+    disposition: reused
+    targetIri: ion://policy/return.electronics.14d-unopened-or-defective-sellerpays
+  ion://policy/return.fashion-7d-fit-only:
+    disposition: reused
+    targetIri: ion://policy/return.fashion.7d-fit-only-sellerpays
+  ion://policy/return.standard-14d-sellerpays:
+    disposition: reused
+    targetIri: ion://policy/return.standard.14d-sellerpays
+  ion://policy/return.standard-7d-sellerpays:
+    disposition: reused
+    targetIri: ion://policy/return.standard.7d-sellerpays
+  ion://policy/rts-handoff.cross-bpp-timeout:
+    disposition: migrated
+    targetIri: ion://policy/rts-handoff.cross-bpp-timeout
+  ion://policy/rts-handoff.standard:
+    disposition: migrated
+    targetIri: ion://policy/rts-handoff.standard
+  ion://policy/sla.hyperlocal-95pct:
+    disposition: deferred
+    reason: No authoritative policy document.
+  ion://policy/sla.multi-stop-completion:
+    disposition: deferred
+    reason: No authoritative policy document.
+  ion://policy/sla.standard-95pct:
+    disposition: migrated
+    targetIri: ion://policy/sla.standard-95pct
+  ion://policy/weight-dispute.enterprise-5pct-tolerance:
+    disposition: deferred
+    reason: Enterprise/FWA-specific term; no reusable baseline was approved.
+  ion://policy/weight-dispute.freight-reweigh-required:
+    disposition: deferred
+    reason: No authoritative policy document.
+  ion://policy/weight-dispute.standard-10pct-tolerance:
+    disposition: migrated
+    targetIri: ion://policy/weight-dispute.standard-10pct-tolerance

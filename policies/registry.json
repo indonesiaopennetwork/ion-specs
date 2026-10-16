@@ -2,18 +2,27 @@
   "_generated": "Do not edit directly. Run tools/policies/generate_registry.rb --write.",
   "_scheme": "ion://policy/{category}.{sector-or-scope}.{variant-name}",
   "version": "2.0.0",
-  "totalPolicies": 67,
+  "totalPolicies": 89,
   "byCategory": {
-    "CANCELLATION": 10,
+    "CANCELLATION": 14,
     "DISPUTE": 5,
+    "EVIDENCE": 2,
     "GRIEVANCE_SLA": 4,
+    "INCIDENT": 2,
+    "INSURANCE": 1,
+    "LIABILITY": 3,
     "PAYMENT_TERMS": 8,
-    "PENALTY": 17,
+    "PENALTY": 20,
+    "RE_ATTEMPT": 3,
     "RETURN": 15,
-    "WARRANTY": 8
+    "RTS_HANDOFF": 2,
+    "SLA": 1,
+    "WARRANTY": 8,
+    "WEIGHT_DISPUTE": 1
   },
   "bySector": {
     "cross-sector": 39,
+    "logistics": 22,
     "trade": 28
   },
   "policies": [
@@ -117,6 +126,106 @@
       "deprecatedAt": null,
       "sector": "cross-sector",
       "docPath": "policies/cancellation/v1/flash-sale-noncancel.yaml"
+    },
+    {
+      "iri": "ion://policy/cancel.logistics.intransit-buyer-cost",
+      "category": "CANCELLATION",
+      "subCategory": null,
+      "version": "1.0.0",
+      "status": "draft",
+      "versionEffectiveFrom": null,
+      "displayText": {
+        "id": "Pembatalan dalam perjalanan ditanggung pembeli",
+        "en": "In-transit cancellation at buyer cost"
+      },
+      "applicableCategories": [
+        "logistics"
+      ],
+      "applicableResourceTypes": [
+
+      ],
+      "regulatoryBasis": [
+
+      ],
+      "supersededBy": null,
+      "deprecatedAt": null,
+      "sector": "logistics",
+      "docPath": "policies/cancellation/v1/logistics-intransit-buyer-cost.yaml"
+    },
+    {
+      "iri": "ion://policy/cancel.logistics.prepickup-free",
+      "category": "CANCELLATION",
+      "subCategory": null,
+      "version": "1.0.0",
+      "status": "draft",
+      "versionEffectiveFrom": null,
+      "displayText": {
+        "id": "Pembatalan gratis sebelum penjemputan",
+        "en": "Free cancellation before pickup"
+      },
+      "applicableCategories": [
+        "logistics"
+      ],
+      "applicableResourceTypes": [
+
+      ],
+      "regulatoryBasis": [
+
+      ],
+      "supersededBy": null,
+      "deprecatedAt": null,
+      "sector": "logistics",
+      "docPath": "policies/cancellation/v1/logistics-prepickup-free.yaml"
+    },
+    {
+      "iri": "ion://policy/cancel.logistics.prepickup-futile-trip-fee",
+      "category": "CANCELLATION",
+      "subCategory": null,
+      "version": "1.0.0",
+      "status": "draft",
+      "versionEffectiveFrom": null,
+      "displayText": {
+        "id": "Pembatalan sebelum penjemputan dengan biaya perjalanan",
+        "en": "Pre-pickup cancellation with futile-trip fee"
+      },
+      "applicableCategories": [
+        "logistics"
+      ],
+      "applicableResourceTypes": [
+
+      ],
+      "regulatoryBasis": [
+
+      ],
+      "supersededBy": null,
+      "deprecatedAt": null,
+      "sector": "logistics",
+      "docPath": "policies/cancellation/v1/logistics-prepickup-futile-trip-fee.yaml"
+    },
+    {
+      "iri": "ion://policy/cancel.logistics.tat-breach-lsp-cost",
+      "category": "CANCELLATION",
+      "subCategory": null,
+      "version": "1.0.0",
+      "status": "draft",
+      "versionEffectiveFrom": null,
+      "displayText": {
+        "id": "Pembatalan akibat pelanggaran TAT LSP",
+        "en": "Cancellation after LSP TAT breach"
+      },
+      "applicableCategories": [
+        "logistics"
+      ],
+      "applicableResourceTypes": [
+
+      ],
+      "regulatoryBasis": [
+
+      ],
+      "supersededBy": null,
+      "deprecatedAt": null,
+      "sector": "logistics",
+      "docPath": "policies/cancellation/v1/logistics-tat-breach-lsp-cost.yaml"
     },
     {
       "iri": "ion://policy/cancel.mto.nofee-before-prepare",
@@ -558,6 +667,56 @@
       "docPath": "policies/dispute/v1/trade/international.yaml"
     },
     {
+      "iri": "ion://policy/evidence.cold-chain.datalogger-required",
+      "category": "EVIDENCE",
+      "subCategory": null,
+      "version": "1.0.0",
+      "status": "draft",
+      "versionEffectiveFrom": null,
+      "displayText": {
+        "id": "Bukti pencatat data rantai dingin",
+        "en": "Cold-chain datalogger evidence required"
+      },
+      "applicableCategories": [
+        "logistics"
+      ],
+      "applicableResourceTypes": [
+
+      ],
+      "regulatoryBasis": [
+
+      ],
+      "supersededBy": null,
+      "deprecatedAt": null,
+      "sector": "logistics",
+      "docPath": "policies/evidence/v1/cold-chain-datalogger-required.yaml"
+    },
+    {
+      "iri": "ion://policy/evidence.standard.photo-24hr",
+      "category": "EVIDENCE",
+      "subCategory": null,
+      "version": "1.0.0",
+      "status": "draft",
+      "versionEffectiveFrom": null,
+      "displayText": {
+        "id": "Bukti foto standar dalam 24 jam",
+        "en": "Standard photo evidence within 24 hours"
+      },
+      "applicableCategories": [
+        "logistics"
+      ],
+      "applicableResourceTypes": [
+
+      ],
+      "regulatoryBasis": [
+
+      ],
+      "supersededBy": null,
+      "deprecatedAt": null,
+      "sector": "logistics",
+      "docPath": "policies/evidence/v1/standard-photo-24hr.yaml"
+    },
+    {
       "iri": "ion://policy/grievance-sla.b2b.businesshours",
       "category": "GRIEVANCE_SLA",
       "subCategory": null,
@@ -712,6 +871,156 @@
       "deprecatedAt": null,
       "sector": "cross-sector",
       "docPath": "policies/grievance-sla/v1/standard.yaml"
+    },
+    {
+      "iri": "ion://policy/incident.high-severity-escalation",
+      "category": "INCIDENT",
+      "subCategory": null,
+      "version": "1.0.0",
+      "status": "draft",
+      "versionEffectiveFrom": null,
+      "displayText": {
+        "id": "Eskalasi insiden tingkat tinggi",
+        "en": "High-severity incident escalation"
+      },
+      "applicableCategories": [
+        "logistics"
+      ],
+      "applicableResourceTypes": [
+
+      ],
+      "regulatoryBasis": [
+
+      ],
+      "supersededBy": null,
+      "deprecatedAt": null,
+      "sector": "logistics",
+      "docPath": "policies/incident/v1/high-severity-escalation.yaml"
+    },
+    {
+      "iri": "ion://policy/incident.standard",
+      "category": "INCIDENT",
+      "subCategory": null,
+      "version": "1.0.0",
+      "status": "draft",
+      "versionEffectiveFrom": null,
+      "displayText": {
+        "id": "Pelaporan insiden logistik standar",
+        "en": "Standard logistics incident reporting"
+      },
+      "applicableCategories": [
+        "logistics"
+      ],
+      "applicableResourceTypes": [
+
+      ],
+      "regulatoryBasis": [
+
+      ],
+      "supersededBy": null,
+      "deprecatedAt": null,
+      "sector": "logistics",
+      "docPath": "policies/incident/v1/standard.yaml"
+    },
+    {
+      "iri": "ion://policy/insurance.standard-declared-value-cap",
+      "category": "INSURANCE",
+      "subCategory": null,
+      "version": "1.0.0",
+      "status": "draft",
+      "versionEffectiveFrom": null,
+      "displayText": {
+        "id": "Asuransi standar dengan batas nilai deklarasi",
+        "en": "Standard declared-value insurance cap"
+      },
+      "applicableCategories": [
+        "logistics"
+      ],
+      "applicableResourceTypes": [
+
+      ],
+      "regulatoryBasis": [
+
+      ],
+      "supersededBy": null,
+      "deprecatedAt": null,
+      "sector": "logistics",
+      "docPath": "policies/insurance/v1/standard-declared-value-cap.yaml"
+    },
+    {
+      "iri": "ion://policy/liability.cod-max-per-shipment",
+      "category": "LIABILITY",
+      "subCategory": null,
+      "version": "1.0.0",
+      "status": "draft",
+      "versionEffectiveFrom": null,
+      "displayText": {
+        "id": "Batas tanggung jawab COD per kiriman",
+        "en": "COD liability cap per shipment"
+      },
+      "applicableCategories": [
+        "logistics"
+      ],
+      "applicableResourceTypes": [
+
+      ],
+      "regulatoryBasis": [
+
+      ],
+      "supersededBy": null,
+      "deprecatedAt": null,
+      "sector": "logistics",
+      "docPath": "policies/liability/v1/cod-max-per-shipment.yaml"
+    },
+    {
+      "iri": "ion://policy/liability.force-majeure-exclusions",
+      "category": "LIABILITY",
+      "subCategory": null,
+      "version": "1.0.0",
+      "status": "draft",
+      "versionEffectiveFrom": null,
+      "displayText": {
+        "id": "Pengecualian tanggung jawab keadaan kahar",
+        "en": "Force-majeure liability exclusions"
+      },
+      "applicableCategories": [
+        "logistics"
+      ],
+      "applicableResourceTypes": [
+
+      ],
+      "regulatoryBasis": [
+
+      ],
+      "supersededBy": null,
+      "deprecatedAt": null,
+      "sector": "logistics",
+      "docPath": "policies/liability/v1/force-majeure-exclusions.yaml"
+    },
+    {
+      "iri": "ion://policy/liability.loss-cap-per-shipment",
+      "category": "LIABILITY",
+      "subCategory": null,
+      "version": "1.0.0",
+      "status": "draft",
+      "versionEffectiveFrom": null,
+      "displayText": {
+        "id": "Batas tanggung jawab kehilangan per kiriman",
+        "en": "Loss liability cap per shipment"
+      },
+      "applicableCategories": [
+        "logistics"
+      ],
+      "applicableResourceTypes": [
+
+      ],
+      "regulatoryBasis": [
+
+      ],
+      "supersededBy": null,
+      "deprecatedAt": null,
+      "sector": "logistics",
+      "docPath": "policies/liability/v1/loss-cap-per-shipment.yaml"
     },
     {
       "iri": "ion://policy/payment-terms.cod.full",
@@ -1155,6 +1464,31 @@
       "docPath": "policies/penalty/v1/buyer-restocking-none.yaml"
     },
     {
+      "iri": "ion://policy/penalty.cod-remittance-late",
+      "category": "PENALTY",
+      "subCategory": null,
+      "version": "1.0.0",
+      "status": "draft",
+      "versionEffectiveFrom": null,
+      "displayText": {
+        "id": "Denda keterlambatan remitansi COD",
+        "en": "Late COD remittance penalty"
+      },
+      "applicableCategories": [
+        "logistics"
+      ],
+      "applicableResourceTypes": [
+
+      ],
+      "regulatoryBasis": [
+
+      ],
+      "supersededBy": null,
+      "deprecatedAt": null,
+      "sector": "logistics",
+      "docPath": "policies/penalty/v1/cod-remittance-late.yaml"
+    },
+    {
       "iri": "ion://policy/penalty.creator-counterfeit.standard-products",
       "category": "PENALTY",
       "subCategory": "CREATOR_COUNTERFEIT",
@@ -1207,6 +1541,31 @@
       "docPath": "policies/penalty/v1/creator-misleading.yaml"
     },
     {
+      "iri": "ion://policy/penalty.lsp-tat-breach",
+      "category": "PENALTY",
+      "subCategory": null,
+      "version": "1.0.0",
+      "status": "draft",
+      "versionEffectiveFrom": null,
+      "displayText": {
+        "id": "Denda pelanggaran TAT LSP",
+        "en": "LSP TAT breach penalty"
+      },
+      "applicableCategories": [
+        "logistics"
+      ],
+      "applicableResourceTypes": [
+
+      ],
+      "regulatoryBasis": [
+
+      ],
+      "supersededBy": null,
+      "deprecatedAt": null,
+      "sector": "logistics",
+      "docPath": "policies/penalty/v1/lsp-tat-breach.yaml"
+    },
+    {
       "iri": "ion://policy/penalty.marketplace-escalation-miss.standard",
       "category": "PENALTY",
       "subCategory": "MARKETPLACE_ESCALATION_MISS",
@@ -1231,6 +1590,31 @@
       "deprecatedAt": null,
       "sector": "cross-sector",
       "docPath": "policies/penalty/v1/marketplace-escalation-miss.yaml"
+    },
+    {
+      "iri": "ion://policy/penalty.pickup-failed.consignor-fault",
+      "category": "PENALTY",
+      "subCategory": null,
+      "version": "1.0.0",
+      "status": "draft",
+      "versionEffectiveFrom": null,
+      "displayText": {
+        "id": "Denda kegagalan penjemputan akibat pengirim",
+        "en": "Pickup failure penalty for consignor fault"
+      },
+      "applicableCategories": [
+        "logistics"
+      ],
+      "applicableResourceTypes": [
+
+      ],
+      "regulatoryBasis": [
+
+      ],
+      "supersededBy": null,
+      "deprecatedAt": null,
+      "sector": "logistics",
+      "docPath": "policies/penalty/v1/pickup-failed-consignor-fault.yaml"
     },
     {
       "iri": "ion://policy/penalty.seller-cancel-without-cause.standard.premium",
@@ -1433,6 +1817,81 @@
       "deprecatedAt": null,
       "sector": "cross-sector",
       "docPath": "policies/penalty/v1/seller-rto-fault.yaml"
+    },
+    {
+      "iri": "ion://policy/re-attempt.hyperlocal-1-only",
+      "category": "RE_ATTEMPT",
+      "subCategory": null,
+      "version": "1.0.0",
+      "status": "draft",
+      "versionEffectiveFrom": null,
+      "displayText": {
+        "id": "Satu upaya pengiriman hyperlocal",
+        "en": "One hyperlocal delivery attempt"
+      },
+      "applicableCategories": [
+        "logistics"
+      ],
+      "applicableResourceTypes": [
+
+      ],
+      "regulatoryBasis": [
+
+      ],
+      "supersededBy": null,
+      "deprecatedAt": null,
+      "sector": "logistics",
+      "docPath": "policies/re-attempt/v1/hyperlocal-1-only.yaml"
+    },
+    {
+      "iri": "ion://policy/re-attempt.standard-2-one-fee",
+      "category": "RE_ATTEMPT",
+      "subCategory": null,
+      "version": "1.0.0",
+      "status": "draft",
+      "versionEffectiveFrom": null,
+      "displayText": {
+        "id": "Dua upaya dengan biaya pada upaya kedua",
+        "en": "Two attempts with a fee on the second"
+      },
+      "applicableCategories": [
+        "logistics"
+      ],
+      "applicableResourceTypes": [
+
+      ],
+      "regulatoryBasis": [
+
+      ],
+      "supersededBy": null,
+      "deprecatedAt": null,
+      "sector": "logistics",
+      "docPath": "policies/re-attempt/v1/standard-2-one-fee.yaml"
+    },
+    {
+      "iri": "ion://policy/re-attempt.standard-3-free",
+      "category": "RE_ATTEMPT",
+      "subCategory": null,
+      "version": "1.0.0",
+      "status": "draft",
+      "versionEffectiveFrom": null,
+      "displayText": {
+        "id": "Tiga upaya pengiriman ulang tanpa biaya",
+        "en": "Three free delivery attempts"
+      },
+      "applicableCategories": [
+        "logistics"
+      ],
+      "applicableResourceTypes": [
+
+      ],
+      "regulatoryBasis": [
+
+      ],
+      "supersededBy": null,
+      "deprecatedAt": null,
+      "sector": "logistics",
+      "docPath": "policies/re-attempt/v1/standard-3-free.yaml"
     },
     {
       "iri": "ion://policy/return.agritech.perishable-defect-only",
@@ -1907,6 +2366,81 @@
       "docPath": "policies/return/v1/none.yaml"
     },
     {
+      "iri": "ion://policy/rts-handoff.cross-bpp-timeout",
+      "category": "RTS_HANDOFF",
+      "subCategory": null,
+      "version": "1.0.0",
+      "status": "draft",
+      "versionEffectiveFrom": null,
+      "displayText": {
+        "id": "Batas waktu serah terima lintas BPP",
+        "en": "Cross-BPP handoff timeout"
+      },
+      "applicableCategories": [
+        "logistics"
+      ],
+      "applicableResourceTypes": [
+
+      ],
+      "regulatoryBasis": [
+
+      ],
+      "supersededBy": null,
+      "deprecatedAt": null,
+      "sector": "logistics",
+      "docPath": "policies/rts-handoff/v1/cross-bpp-timeout.yaml"
+    },
+    {
+      "iri": "ion://policy/rts-handoff.standard",
+      "category": "RTS_HANDOFF",
+      "subCategory": null,
+      "version": "1.0.0",
+      "status": "draft",
+      "versionEffectiveFrom": null,
+      "displayText": {
+        "id": "Serah terima siap dikirim standar",
+        "en": "Standard ready-to-ship handoff"
+      },
+      "applicableCategories": [
+        "logistics"
+      ],
+      "applicableResourceTypes": [
+
+      ],
+      "regulatoryBasis": [
+
+      ],
+      "supersededBy": null,
+      "deprecatedAt": null,
+      "sector": "logistics",
+      "docPath": "policies/rts-handoff/v1/standard.yaml"
+    },
+    {
+      "iri": "ion://policy/sla.standard-95pct",
+      "category": "SLA",
+      "subCategory": null,
+      "version": "1.0.0",
+      "status": "draft",
+      "versionEffectiveFrom": null,
+      "displayText": {
+        "id": "SLA ketepatan waktu 95 persen",
+        "en": "Standard 95 percent on-time SLA"
+      },
+      "applicableCategories": [
+        "logistics"
+      ],
+      "applicableResourceTypes": [
+
+      ],
+      "regulatoryBasis": [
+
+      ],
+      "supersededBy": null,
+      "deprecatedAt": null,
+      "sector": "logistics",
+      "docPath": "policies/sla/v1/standard-95pct.yaml"
+    },
+    {
       "iri": "ion://policy/warranty.extended.paid-addon",
       "category": "WARRANTY",
       "subCategory": null,
@@ -2160,6 +2694,31 @@
       "deprecatedAt": null,
       "sector": "trade",
       "docPath": "policies/warranty/v1/none.yaml"
+    },
+    {
+      "iri": "ion://policy/weight-dispute.standard-10pct-tolerance",
+      "category": "WEIGHT_DISPUTE",
+      "subCategory": null,
+      "version": "1.0.0",
+      "status": "draft",
+      "versionEffectiveFrom": null,
+      "displayText": {
+        "id": "Sengketa berat dengan toleransi 10 persen",
+        "en": "Weight dispute with 10 percent tolerance"
+      },
+      "applicableCategories": [
+        "logistics"
+      ],
+      "applicableResourceTypes": [
+
+      ],
+      "regulatoryBasis": [
+
+      ],
+      "supersededBy": null,
+      "deprecatedAt": null,
+      "sector": "logistics",
+      "docPath": "policies/weight-dispute/v1/standard-10pct-tolerance.yaml"
     }
   ]
 }

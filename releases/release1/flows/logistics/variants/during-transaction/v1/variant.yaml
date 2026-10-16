@@ -1,0 +1,19 @@
+id: ion-logistics-variant-during-transaction-v1
+version: 1.0.0
+variantType: during-transaction
+sector: ion:logistics
+status: ready
+attachmentWindow: {earliest: init, latest: on_confirm}
+subBranches:
+  payment-prepaid-bap-collected:
+    description: The BAP collects electronic payment before confirm.
+    steps:
+      - {step: init, from: BAP, to: BPP, direction: request}
+      - {step: on_init, from: BPP, to: BAP, direction: callback}
+      - {step: confirm, from: BAP, to: BPP, direction: request}
+    requiredData:
+      - Contract.settlements[].settlementAttributes.method
+      - Contract.settlements[].settlementAttributes.collectedBy
+      - Contract.settlements[].settlementAttributes.status
+    rules:
+      - collectedBy is BAP and the settlement is PAID before the binding confirm.

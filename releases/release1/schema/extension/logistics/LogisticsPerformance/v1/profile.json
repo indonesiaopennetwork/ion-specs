@@ -1,0 +1,8 @@
+{
+  "id":"ion-logistics-performance-v1","version":"1.0.0","status":"draft","domain":"logistics","sectorCode":"B","type":"AttributePack",
+  "name":"ION Logistics Performance Extension (v1)","description":"Durable logistics route, event, proof, measurement, warehouse, SLA, and sustainability execution records.",
+  "packSchema":"./schema.json","jsonldContext":"./context.jsonld","extends":"beckn:Performance",
+  "attachmentPoints":{"performanceAttributes":["LogisticsPerformance"]},
+  "indexing":{"indexable":[{"path":"$.events[*].eventType"}],"filterable":[{"path":"$.alerts[*].alertType"},{"path":"$.serviceReferences[*].referenceType"}],"sortable":[{"path":"$.events[*].timestamp"}]},
+  "minimalForDiscovery":[]
+}

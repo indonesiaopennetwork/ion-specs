@@ -1,0 +1,422 @@
+# ION Error Registry — Logistics Sector (ION-Bxxxx)
+# Authoritative Release 1 source for Logistics-specific errors.
+
+- code: ION-B5001
+  http_status: 409
+  category: fulfillment
+  title: {id: Batas upaya pengiriman tercapai, en: Delivery attempt limit reached}
+  description: {en: The selected re-attempt policy permits no further delivery attempt.}
+  affected_field: message.contract.performance[].performanceAttributes.attempts[]
+  affected_apis: [on_update]
+  schema_ref: schema/extension/logistics/LogisticsPerformance/v1
+  schema_pointer: /components/schemas/LogisticsPerformance/properties/attempts
+  flow_ref: flows/logistics/variants/delivery-attempts/v1
+  resolution: {en: Follow the selected re-attempt policy and record RETURN_INITIATED when return-to-origin begins.}
+  legacy_code: ION-LOG-5001
+  sector: logistics
+
+- code: ION-B5004
+  http_status: 410
+  category: fulfillment
+  title: {id: Batas waktu resolusi berakhir, en: Delivery resolution window expired}
+  description: {en: The buyer response deadline for the failed delivery attempt elapsed before a valid resolution was received.}
+  affected_field: message.contract.performance[].performanceAttributes.attempts[].buyerResponseDeadline
+  affected_apis: [on_update]
+  schema_ref: schema/extension/logistics/LogisticsPerformance/v1
+  schema_pointer: /components/schemas/DeliveryAttempt/properties/buyerResponseDeadline
+  flow_ref: flows/logistics/variants/delivery-attempts/v1
+  resolution: {en: Record the attempt outcome and proceed according to the selected re-attempt policy, including return initiation when required.}
+  legacy_code: ION-LOG-5004
+  sector: logistics
+
+- code: ION-B5101
+  http_status: 409
+  category: cancellation
+  title: {id: Masa pembatalan sudah berakhir, en: Cancellation window closed}
+  description: {en: The selected cancellation policy does not permit cancellation at the current Performance state.}
+  affected_field: message.contract.contractAttributes.cancellation
+  affected_apis: [on_cancel]
+  schema_ref: schema/extension/logistics/LogisticsContract/v1
+  schema_pointer: /components/schemas/LogisticsContract/properties/cancellation
+  flow_ref: flows/logistics/variants/cancellation/v1
+  resolution: {en: Continue the active Performance or open a supported case when another contractual remedy applies.}
+  legacy_code: ION-LOG-5101
+  sector: logistics
+
+- code: ION-B5102
+  http_status: 400
+  category: cancellation
+  title: {id: Alasan pembatalan tidak valid, en: Invalid cancellation reason}
+  description: {en: The cancellation reason code is not accepted by the selected cancellation policy.}
+  affected_field: message.contract.contractAttributes.cancellation.reasonCode
+  affected_apis: [on_cancel]
+  schema_ref: schema/extension/logistics/LogisticsContract/v1
+  schema_pointer: /components/schemas/CancellationRecord/properties/reasonCode
+  flow_ref: flows/logistics/variants/cancellation/v1
+  resolution: {en: Submit a reason code supported by the policy referenced in the cancellation record.}
+  legacy_code: ION-LOG-5102
+  sector: logistics
+
+- code: ION-B6001
+  http_status: 422
+  category: transaction
+  title: {id: Lokasi penjemputan tidak terlayani, en: Pickup location not serviceable}
+  description: {en: The requested pickup location is outside the provider's declared pickup coverage.}
+  affected_field: message.catalog.providers[].providerAttributes.serviceCoverage[]
+  affected_apis: [on_select, on_init]
+  schema_ref: schema/extension/logistics/LogisticsProvider/v1
+  schema_pointer: /components/schemas/LogisticsProvider/properties/serviceCoverage
+  flow_ref: flows/logistics/patterns/parcel/v1
+  resolution: {en: Select a covered pickup location or another provider whose coverage includes the requested origin.}
+  legacy_code: ION-LOG-6001
+  sector: logistics
+
+- code: ION-B6002
+  http_status: 422
+  category: transaction
+  title: {id: Lokasi pengiriman tidak terlayani, en: Delivery location not serviceable}
+  description: {en: The requested delivery location is outside the provider's declared delivery coverage.}
+  affected_field: message.catalog.providers[].providerAttributes.serviceCoverage[]
+  affected_apis: [on_select, on_init]
+  schema_ref: schema/extension/logistics/LogisticsProvider/v1
+  schema_pointer: /components/schemas/LogisticsProvider/properties/serviceCoverage
+  flow_ref: flows/logistics/patterns/parcel/v1
+  resolution: {en: Select a covered destination or another provider whose coverage includes the requested delivery location.}
+  legacy_code: ION-LOG-6002
+  sector: logistics
+
+- code: ION-B6003
+  http_status: 409
+  category: transaction
+  title: {id: Kapasitas tidak tersedia, en: Requested capacity unavailable}
+  description: {en: The provider cannot satisfy the requested capacity reservation for the selected date or route.}
+  affected_field: message.contract.commitments[].commitmentAttributes.capacityReservation
+  affected_apis: [on_select]
+  schema_ref: schema/extension/logistics/LogisticsCommitment/v1
+  schema_pointer: /components/schemas/LogisticsCommitment/properties/capacityReservation
+  flow_ref: flows/logistics/patterns/freight/v1
+  resolution: {en: Request a different service window, reduce the capacity request, or select another provider.}
+  legacy_code: ION-LOG-6003
+  sector: logistics
+
+- code: ION-B6004
+  http_status: 410
+  category: transaction
+  title: {id: Masa berlaku penawaran berakhir, en: Quote validity expired}
+  description: {en: The negotiated quote is no longer valid under the selected Offer's quoteValidity duration.}
+  affected_field: message.contract.commitments[].offer.offerAttributes.negotiationTerms.quoteValidity
+  affected_apis: [on_init]
+  schema_ref: schema/extension/logistics/LogisticsOffer/v1
+  schema_pointer: /components/schemas/NegotiationTerms/properties/quoteValidity
+  flow_ref: flows/logistics/patterns/parcel/v1
+  resolution: {en: Call select again and use the newly returned Offer and Considerations.}
+  legacy_code: ION-LOG-6004
+  sector: logistics
+
+- code: ION-B6005
+  http_status: 409
+  category: transaction
+  title: {id: Tarif yang dipilih berubah, en: Selected logistics rate changed}
+  description: {en: The requested shipment no longer matches the rate-card zone, tier, or active modifier used for the earlier quote.}
+  affected_field: message.contract.commitments[].offer.offerAttributes.rateCard
+  affected_apis: [on_init]
+  schema_ref: schema/extension/logistics/LogisticsOffer/v1
+  schema_pointer: /components/schemas/LogisticsOffer/properties/rateCard
+  flow_ref: flows/logistics/patterns/parcel/v1
+  resolution: {en: Return to select, obtain revised Considerations, and require the buyer to confirm the revised amount.}
+  legacy_code: ION-LOG-6005
+  sector: logistics
+
+- code: ION-B6006
+  http_status: 422
+  category: transaction
+  title: {id: Berat melebihi batas layanan, en: Weight exceeds service limit}
+  description: {en: A committed package exceeds the maximum weight tier offered for the selected service.}
+  affected_field: message.contract.commitments[].resources[].resourceAttributes.packages[].weight
+  affected_apis: [on_select]
+  schema_ref: schema/extension/logistics/LogisticsOffer/v1
+  schema_pointer: /components/schemas/WeightTier/properties/maximumWeight
+  flow_ref: flows/logistics/patterns/parcel/v1
+  resolution: {en: Select an eligible freight service, reduce the package weight, or choose another provider.}
+  legacy_code: ION-LOG-6006
+  sector: logistics
+
+- code: ION-B6008
+  http_status: 422
+  category: transaction
+  title: {id: Barang berbahaya tidak didukung, en: Dangerous goods not supported}
+  description: {en: The shipment declares a dangerous-goods class outside the provider's declared capability.}
+  affected_field: message.catalog.providers[].providerAttributes.capabilities.dangerousGoods
+  affected_apis: [on_select]
+  schema_ref: schema/extension/logistics/LogisticsProvider/v1
+  schema_pointer: /components/schemas/LogisticsCapabilities/properties/dangerousGoods
+  flow_ref: flows/logistics/patterns/freight/v1
+  resolution: {en: Select a provider whose declared dangerous-goods classes and credentials cover the cargo.}
+  legacy_code: ION-LOG-6008
+  sector: logistics
+
+- code: ION-B6009
+  http_status: 422
+  category: transaction
+  title: {id: Rantai dingin tidak didukung, en: Cold-chain capability unavailable}
+  description: {en: The shipment requires a temperature category outside the provider's declared cold-chain capability.}
+  affected_field: message.catalog.providers[].providerAttributes.capabilities.coldChain
+  affected_apis: [on_select]
+  schema_ref: schema/extension/logistics/LogisticsProvider/v1
+  schema_pointer: /components/schemas/LogisticsCapabilities/properties/coldChain
+  flow_ref: null
+  resolution: {en: Select a provider whose declared temperature zones cover the cargo requirement. This error does not activate the deferred cold-chain execution variant.}
+  legacy_code: ION-LOG-6009
+  sector: logistics
+
+- code: ION-B6011
+  http_status: 422
+  category: transaction
+  title: {id: Nilai barang melebihi batas, en: Declared value exceeds offer limit}
+  description: {en: A package's declared value exceeds the maximum declared value accepted by the selected Offer.}
+  affected_field: message.contract.commitments[].resources[].resourceAttributes.packages[].declaredValue
+  affected_apis: [on_select]
+  schema_ref: schema/extension/logistics/LogisticsOffer/v1
+  schema_pointer: /components/schemas/LogisticsOffer/properties/maximumDeclaredValue
+  flow_ref: flows/logistics/patterns/parcel/v1
+  resolution: {en: Select a suitable provider or restructure the shipment without understating the cargo value.}
+  legacy_code: ION-LOG-6011
+  sector: logistics
+
+- code: ION-B6108
+  http_status: 504
+  category: fulfillment
+  title: {id: Batas waktu serah-terima RTS terlampaui, en: RTS handoff acknowledgement timed out}
+  description: {en: The receiving transport provider did not acknowledge the ready-to-ship handoff within the selected policy window.}
+  affected_field: message.contract.performance[].performanceAttributes.events[]
+  affected_apis: [on_update, on_status]
+  schema_ref: schema/extension/logistics/LogisticsPerformance/v1
+  schema_pointer: /components/schemas/LogisticsPerformance/properties/events
+  flow_ref: flows/logistics/variants/rts-handoff/v1
+  resolution: {en: Record the timeout event, verify the receiving provider's availability, and follow the selected RTS handoff policy.}
+  legacy_code: ION-LOG-6108
+  sector: logistics
+
+- code: ION-B6111
+  http_status: 409
+  category: transaction
+  title: {id: Batas waktu operasional terlewat, en: Operational cutoff missed}
+  description: {en: The applicable operational cutoff elapsed before the requested booking or handoff completed.}
+  affected_field: message.contract.commitments[].offer.offerAttributes.cutoffs[]
+  affected_apis: [on_init, on_confirm, on_update]
+  schema_ref: schema/extension/logistics/LogisticsOffer/v1
+  schema_pointer: /components/schemas/LogisticsOffer/properties/cutoffs
+  flow_ref: flows/logistics/patterns/freight/v1
+  resolution: {en: Apply the declared lateAcceptance outcome, such as rejection, next departure, fee, or explicit approval.}
+  legacy_code: ION-LOG-6111
+  sector: logistics
+
+- code: ION-B6122
+  http_status: 409
+  category: fulfillment
+  title: {id: Batas durasi status terlampaui, en: State dwell commitment breached}
+  description: {en: Execution remained in a state longer than the selected Offer's maximum dwell commitment.}
+  affected_field: message.contract.performance[].performanceAttributes.sla.breaches[]
+  affected_apis: [on_status, on_update]
+  schema_ref: schema/extension/logistics/LogisticsPerformance/v1
+  schema_pointer: /components/schemas/SLAExecution/properties/breaches
+  flow_ref: flows/logistics/patterns/parcel/v1
+  resolution: {en: Record a typed SLA breach with evidence and follow the selected service-level policy's supported remedy.}
+  legacy_code: ION-LOG-6122
+  sector: logistics
+
+- code: ION-B6201
+  http_status: 409
+  category: fulfillment
+  title: {id: Selisih berat melebihi toleransi, en: Weight discrepancy exceeds tolerance}
+  description: {en: The observed package weight differs from the declared weight beyond the selected policy tolerance.}
+  affected_field: message.contract.performance[].performanceAttributes.measurements[]
+  affected_apis: [on_update]
+  schema_ref: schema/extension/logistics/LogisticsPerformance/v1
+  schema_pointer: /components/schemas/LogisticsPerformance/properties/measurements
+  flow_ref: flows/logistics/variants/weight-dispute/v1
+  resolution: {en: Record both measurements and their evidence, then accept, counter, or escalate the Contract case through update/on_update.}
+  legacy_code: ION-LOG-6201
+  sector: logistics
+
+- code: ION-B6404
+  http_status: 422
+  category: compliance
+  title: {id: Kode HS tidak sesuai, en: Invalid HS classification}
+  description: {en: The declared Harmonized System code is inconsistent with the cargo classification used for the cross-border transaction.}
+  affected_field: message.contract.commitments[].resources[].resourceAttributes.consignment.customsDeclaration.hsCodes[]
+  affected_apis: [on_init]
+  schema_ref: schema/extension/logistics/LogisticsResource/v1
+  schema_pointer: /components/schemas/CustomsDeclaration/properties/hsCodes
+  flow_ref: flows/logistics/patterns/cross-border/v1
+  resolution: {en: Correct the declaration using an applicable HS classification before resubmitting init.}
+  legacy_code: ION-LOG-6404
+  sector: logistics
+
+- code: ION-B6405
+  http_status: 422
+  category: compliance
+  title: {id: Izin barang terbatas belum tersedia, en: Required customs permit missing}
+  description: {en: The declared restricted-goods classification requires a permit that is absent from the Contract's customs compliance record.}
+  affected_field: message.contract.contractAttributes.customsCompliance.permits[]
+  affected_apis: [on_init]
+  schema_ref: schema/extension/logistics/LogisticsContract/v1
+  schema_pointer: /components/schemas/IONCustomsCompliance/properties/permits
+  flow_ref: flows/logistics/patterns/cross-border/v1
+  resolution: {en: Attach the applicable permit identity and secured document reference before resubmitting init.}
+  legacy_code: ION-LOG-6405
+  sector: logistics
+
+- code: ION-B6501
+  http_status: 409
+  category: transaction
+  title: {id: Kapasitas pelayaran penuh, en: Ro-Ro sailing fully booked}
+  description: {en: The requested scheduled departure has no remaining vehicle capacity.}
+  affected_field: message.contract.commitments[].commitmentAttributes.capacityReservation
+  affected_apis: [on_select]
+  schema_ref: schema/extension/logistics/LogisticsCommitment/v1
+  schema_pointer: /components/schemas/LogisticsCommitment/properties/capacityReservation
+  flow_ref: flows/logistics/patterns/roro/v1
+  resolution: {en: Select another declared departure or provider.}
+  legacy_code: ION-LOG-6501
+  sector: logistics
+
+- code: ION-B6502
+  http_status: 422
+  category: transaction
+  title: {id: Kategori kendaraan tidak diterima, en: Vehicle category not accepted}
+  description: {en: The vehicle cargo category is not accepted by the selected Ro-Ro Offer.}
+  affected_field: message.catalog.offers[].offerAttributes.roRoTerms.acceptedVehicleCategories[]
+  affected_apis: [on_select]
+  schema_ref: schema/extension/logistics/LogisticsOffer/v1
+  schema_pointer: /components/schemas/RoRoTerms/properties/acceptedVehicleCategories
+  flow_ref: flows/logistics/patterns/roro/v1
+  resolution: {en: Select an Offer that accepts the declared vehicle category.}
+  legacy_code: ION-LOG-6502
+  sector: logistics
+
+- code: ION-B6505
+  http_status: 422
+  category: fulfillment
+  title: {id: Berat kendaraan melebihi kapasitas, en: Vehicle exceeds accepted weight}
+  description: {en: The vehicle's declared or observed gross weight exceeds the capacity reserved for the sailing.}
+  affected_field: message.contract.commitments[].resources[].resourceAttributes.vehicleCargo.weight
+  affected_apis: [on_status]
+  schema_ref: schema/extension/logistics/LogisticsResource/v1
+  schema_pointer: /components/schemas/VehicleCargo/properties/weight
+  flow_ref: flows/logistics/patterns/roro/v1
+  resolution: {en: Select a departure with sufficient capacity or cancel according to the selected policy.}
+  legacy_code: ION-LOG-6505
+  sector: logistics
+
+- code: ION-B6601
+  http_status: 409
+  category: transaction
+  title: {id: Kapasitas gudang tidak tersedia, en: Warehouse capacity unavailable}
+  description: {en: The requested warehouse location cannot satisfy the required storage capacity.}
+  affected_field: message.catalog.providers[].providerAttributes.hubs[].capacity
+  affected_apis: [on_select]
+  schema_ref: schema/extension/logistics/LogisticsProvider/v1
+  schema_pointer: /components/schemas/LogisticsHub/properties/capacity
+  flow_ref: flows/logistics/patterns/warehouse/v1
+  resolution: {en: Reduce the requested capacity or select another declared warehouse location.}
+  legacy_code: ION-LOG-6601
+  sector: logistics
+
+- code: ION-B6602
+  http_status: 409
+  category: fulfillment
+  title: {id: Jumlah barang masuk tidak sesuai, en: Inbound inventory discrepancy}
+  description: {en: The quantity received at the warehouse differs from the expected quantity.}
+  affected_field: message.contract.performance[].performanceAttributes.warehouseExecution.receipts[].receivedQuantity
+  affected_apis: [on_status]
+  schema_ref: schema/extension/logistics/LogisticsPerformance/v1
+  schema_pointer: /components/schemas/InventoryReceipt/properties/receivedQuantity
+  flow_ref: flows/logistics/patterns/warehouse/v1
+  resolution: {en: Record the expected and received quantities and open a supported Contract case when resolution is required.}
+  legacy_code: ION-LOG-6602
+  sector: logistics
+
+- code: ION-B6801
+  http_status: 400
+  category: transaction
+  title: {id: Peran peserta wajib belum ada, en: Required logistics participant role missing}
+  description: {en: The transaction lacks a Participant role required by the selected Logistics pattern.}
+  affected_field: message.contract.participants[].participantAttributes.participantRoles[]
+  affected_apis: [on_init, on_confirm]
+  schema_ref: schema/extension/logistics/LogisticsParticipant/v1
+  schema_pointer: /components/schemas/LogisticsParticipant/properties/participantRoles
+  flow_ref: flows/logistics/patterns/parcel/v1
+  resolution: {en: Add the required Participant with a role supported by the applicable pattern and credential requirements.}
+  legacy_code: ION-LOG-6801
+  sector: logistics
+
+- code: ION-B6904
+  http_status: 402
+  category: payment
+  title: {id: Pembayaran ditolak penyedia gerbang, en: Payment gateway rejected the transaction}
+  description: {en: The declared electronic payment could not be completed by the selected payment gateway.}
+  affected_field: message.contract.settlements[].settlementAttributes.status
+  affected_apis: [on_init, on_confirm]
+  schema_ref: schema/common/Payment/v1
+  schema_pointer: /components/schemas/IONPayment/properties/status
+  flow_ref: flows/logistics/variants/during-transaction/v1
+  resolution: {en: Mark the payment FAILED and retry with an allowed payment instrument or gateway.}
+  legacy_code: ION-LOG-6904
+  sector: logistics
+
+- code: ION-B6905
+  http_status: 504
+  category: payment
+  title: {id: Verifikasi pembayaran melewati batas waktu, en: Payment verification timed out}
+  description: {en: Payment verification did not reach a final status within the transaction window.}
+  affected_field: message.contract.settlements[].settlementAttributes.status
+  affected_apis: [on_confirm]
+  schema_ref: schema/common/Payment/v1
+  schema_pointer: /components/schemas/IONPayment/properties/status
+  flow_ref: flows/logistics/variants/during-transaction/v1
+  resolution: {en: Keep the payment PENDING, query the payment provider out of band, and retry confirm only after obtaining an authoritative result.}
+  legacy_code: ION-LOG-6905
+  sector: logistics
+
+- code: ION-B7001
+  http_status: 409
+  category: incident
+  title: {id: Insiden perjalanan dilaporkan, en: In-transit incident reported}
+  description: {en: A material in-transit incident has been recorded and requires a resolution decision.}
+  affected_field: message.contract.performance[].performanceAttributes.alerts[]
+  affected_apis: [on_update]
+  schema_ref: schema/extension/logistics/LogisticsPerformance/v1
+  schema_pointer: /components/schemas/LogisticsPerformance/properties/alerts
+  flow_ref: flows/logistics/variants/incident/v1
+  resolution: {en: Review the linked events and evidence, then record the supported resolution through update/on_update.}
+  legacy_code: ION-LOG-7001
+  sector: logistics
+
+- code: ION-B7003
+  http_status: 422
+  category: incident
+  title: {id: Referensi laporan polisi wajib, en: Police report evidence required}
+  description: {en: The incident classification requires a police-report document reference, but the Contract case contains none.}
+  affected_field: message.contract.contractAttributes.cases[].evidenceDocumentReferences[]
+  affected_apis: [on_update]
+  schema_ref: schema/extension/logistics/LogisticsContract/v1
+  schema_pointer: /components/schemas/LogisticsCase/properties/evidenceDocumentReferences
+  flow_ref: flows/logistics/variants/incident/v1
+  resolution: {en: Secure the police report as a Contract document and add its reference to the incident case.}
+  legacy_code: ION-LOG-7003
+  sector: logistics
+
+- code: ION-B9004
+  http_status: 400
+  category: governance
+  title: {id: IRI kebijakan logistik tidak terdaftar, en: Logistics policy IRI not registered}
+  description: {en: A Logistics Offer or Contract references an IRI absent from the ION policy registry.}
+  affected_field: message.catalog.offers[].offerAttributes.policyReferences
+  affected_apis: [on_discover, on_select, on_init, on_update]
+  schema_ref: schema/extension/logistics/LogisticsOffer/v1
+  schema_pointer: /components/schemas/LogisticsOffer/properties/policyReferences
+  flow_ref: https://schema.ion.id/policies/registry.json
+  resolution: {en: Use a concrete current IRI from the shared policy registry; do not restore deferred legacy aliases.}
+  legacy_code: ION-LOG-9004
+  sector: logistics

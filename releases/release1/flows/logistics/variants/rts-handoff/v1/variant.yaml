@@ -1,0 +1,17 @@
+id: ion-logistics-variant-rts-handoff-v1
+version: 1.0.0
+variantType: rts-handoff
+sector: ion:logistics
+status: ready
+attachmentWindow: {earliest: on_confirm, latest: pickup}
+steps:
+  - {step: update, from: BAP, to: BPP, direction: request}
+  - {step: on_update, from: BPP, to: BAP, direction: callback}
+requiredData:
+  - Performance.performanceAttributes.events[]
+  - Performance.performanceAttributes.proofs[]
+policyRefs:
+  standard: ion://policy/rts-handoff.standard
+  crossBppTimeout: ion://policy/rts-handoff.cross-bpp-timeout
+rules:
+  - Ready-to-ship and handoff are timestamped Performance events; label and acknowledgement evidence are Logistics proofs.

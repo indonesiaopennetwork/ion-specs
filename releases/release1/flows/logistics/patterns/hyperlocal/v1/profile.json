@@ -1,0 +1,18 @@
+{
+  "id": "ion-logistics-pattern-hyperlocal-v1",
+  "version": "1.0.0",
+  "type": "Pattern",
+  "patternName": "hyperlocal",
+  "sector": "ion:logistics",
+  "status": "ready",
+  "spineFile": "./pattern.yaml",
+  "schemaPacksRequired": {"common": ["Address/v1", "IdentifiableLocation/v1", "Payment/v1"], "logistics": ["LogisticsProvider/v1", "LogisticsResource/v1", "LogisticsOffer/v1", "LogisticsContract/v1", "LogisticsPerformance/v1", "LogisticsTracking/v1"]},
+  "performanceStateMachineSelection": {
+    "field": "Offer.offerAttributes.executionTerms.agentAssignmentModel",
+    "mappings": {
+      "PRE_ASSIGNED": "flows/logistics/state-machines/v1/states.yaml#hyperlocal-pre-assigned",
+      "FIFO_AT_PICKUP": "flows/logistics/state-machines/v1/states.yaml#hyperlocal-fifo"
+    }
+  },
+  "requiredPolicyRefs": ["ion://policy/cancel.logistics.prepickup-free", "ion://policy/evidence.standard.photo-24hr", "ion://policy/re-attempt.hyperlocal-1-only", "ion://policy/sla.standard-95pct"]
+}

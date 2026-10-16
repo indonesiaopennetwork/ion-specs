@@ -36,7 +36,10 @@ the standalone schema and included Trade flow material.
 
 ## Participant attachment note
 
-`Participant` in Beckn v2.0 does not have a `participantAttributes` bag. Fields from this pack attach as **direct properties on the `Participant` object**. Do not wrap them in a `participantAttributes` sub-object — ONIX will reject the payload.
+The pinned Release 1 Beckn-derived contract defines
+`Participant.participantAttributes` as its domain-extension bag. When this pack
+is used on a Participant, place its attributes in that bag rather than adding
+them as direct Participant properties.
 
 ## Used in
 

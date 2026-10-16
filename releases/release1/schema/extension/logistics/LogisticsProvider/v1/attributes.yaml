@@ -1,0 +1,360 @@
+openapi: 3.1.1
+info:
+  title: ION Logistics Provider Extension (v1)
+  description: >
+    Logistics provider attributes used to publish the roles, geographic
+    coverage, operational capabilities, fleet sourcing, hubs, and credentials
+    of an organization offering transport or storage services. The pack attaches
+    to Provider.providerAttributes during catalog discovery. Its organization is
+    inspired by the Carrier, Operator, and Hub boundaries in Beckn Logistics,
+    without depending on the currently incompatible Beckn Logistics v1 schemas.
+  version: 1.0.0
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    name: ION Network
+    url: https://schema.ion.id
+
+components:
+  schemas:
+    ServiceCoverage:
+      type: object
+      title: ServiceCoverage
+      description: >
+        Geography-neutral declaration of an area in which a provider can pick
+        up cargo, deliver cargo, or perform both operations.
+      additionalProperties: true
+      properties:
+        coverageType:
+          type: string
+          enum: [PICKUP, DELIVERY, BOTH]
+          description: Direction of logistics service supported in the declared area.
+        geo:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/GeoJSONGeometry/2.0/attributes.yaml#/components/schemas/GeoJSONGeometry
+          description: RFC 7946 geometry delimiting the service area.
+        locationIds:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+          description: Identifiers of network locations included in the service area.
+        postalCodes:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+          description: Country-appropriate postal codes included in the service area.
+        maximumRadius:
+          allOf:
+            - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+          description: Maximum service radius from the applicable provider location.
+
+    IONServiceCoverage:
+      type: object
+      title: IONServiceCoverage
+      description: Service coverage extended with Indonesian administrative subdivisions.
+      x-ion-layer: ion
+      additionalProperties: true
+      allOf:
+        - $ref: '#/components/schemas/ServiceCoverage'
+        - type: object
+          properties:
+            ionSubdivisions:
+              x-attr-ion-layer: ion
+              type: array
+              description: >
+                Indonesian administrative areas included in the service coverage.
+                Use BPS province or kabupaten/kota codes; detailed delivery-address
+                fields are not appropriate for a provider coverage declaration.
+              items:
+                $ref: https://schema.ion.id/release1/schema/common/Address/v1/attributes.yaml#/components/schemas/IONAddress
+
+    ColdChainCapability:
+      type: object
+      title: ColdChainCapability
+      description: Temperature-control categories the provider is equipped to handle.
+      additionalProperties: false
+      properties:
+        temperatureZones:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            enum: [FROZEN, CHILLED, AMBIENT, CONTROLLED_ROOM]
+        credentialIds:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+          description: Identifiers of provider credentials evidencing this capability.
+
+    DangerousGoodsCapability:
+      type: object
+      title: DangerousGoodsCapability
+      description: Dangerous-goods classes the provider is equipped and authorized to handle.
+      additionalProperties: false
+      properties:
+        classes:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            enum: ['1.1', '1.2', '1.3', '1.4', '1.5', '1.6', '2.1', '2.2', '2.3', '3', '4.1', '4.2', '4.3', '5.1', '5.2', '6.1', '6.2', '7', '8', '9']
+        credentialIds:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+          description: Identifiers of provider credentials evidencing this capability.
+
+    LogisticsCapabilities:
+      type: object
+      title: LogisticsCapabilities
+      description: Discoverable specialized handling capabilities of the provider.
+      additionalProperties: false
+      properties:
+        coldChain:
+          $ref: '#/components/schemas/ColdChainCapability'
+        dangerousGoods:
+          $ref: '#/components/schemas/DangerousGoodsCapability'
+        highValue:
+          type: boolean
+          description: Whether enhanced-security handling for high-value cargo is available.
+
+    OperatingWindow:
+      type: object
+      title: OperatingWindow
+      description: Recurring weekly operating window for a provider or one provider location.
+      additionalProperties: false
+      properties:
+        locationId:
+          type: string
+          description: Provider location in providerLocations to which this window applies; omitted for provider-wide hours.
+        operation:
+          type: string
+          enum: [PICKUP, DELIVERY, HUB, WAREHOUSE, CUSTOMER_SERVICE]
+        dayFrom:
+          type: integer
+          minimum: 1
+          maximum: 7
+          description: First applicable weekday, where 1 is Monday and 7 is Sunday.
+        dayTo:
+          type: integer
+          minimum: 1
+          maximum: 7
+          description: Last applicable weekday, where 1 is Monday and 7 is Sunday.
+        startTime:
+          type: string
+          format: time
+        endTime:
+          type: string
+          format: time
+
+    ProviderClosure:
+      type: object
+      title: ProviderClosure
+      description: Exceptional date on which the provider or one provider location is closed.
+      additionalProperties: false
+      properties:
+        date:
+          type: string
+          format: date
+        locationId:
+          type: string
+          description: Provider location in providerLocations affected by the closure; omitted for a provider-wide closure.
+
+    FleetProfile:
+      type: object
+      title: FleetProfile
+      description: How the provider sources transport capacity, without enumerating individual assets.
+      additionalProperties: false
+      properties:
+        sources:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            enum: [OWN_FLEET, PARTNER_FLEET, CROWDSOURCED, DEDICATED_PARTNER]
+
+    LogisticsHub:
+      type: object
+      title: LogisticsHub
+      description: >
+        Logistics-specific capabilities of a provider site. The locationId
+        references LogisticsProvider.providerLocations; address and geometry
+        remain on that flat Location-compatible record.
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          description: Identifier unique within the provider.
+        locationId:
+          type: string
+          description: Identifier of the corresponding entry in LogisticsProvider.providerLocations.
+        hubType:
+          type: string
+          enum: [BONDED, NON_BONDED, COLD_STORAGE, FULFILMENT_CENTRE, DARK_STORE, CROSS_DOCK, SORTATION_CENTRE, OTHER]
+        capacity:
+          allOf:
+            - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+          description: Declared usable capacity, including its unit of measure.
+        bonded:
+          type: boolean
+          description: Whether the site operates as a bonded customs facility.
+        facilities:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            enum: [COLD_STORAGE, DANGEROUS_GOODS, HIGH_VALUE_VAULT, CUSTOMS_INSPECTION, CROSS_DOCK, SORTATION, PACKING, OTHER]
+
+    LogisticsCredential:
+      type: object
+      title: LogisticsCredential
+      description: Typed licence, certification, or association membership asserted by the provider.
+      additionalProperties: true
+      properties:
+        id:
+          type: string
+          description: Identifier used by capability records to reference this credential.
+        credentialType:
+          type: string
+          description: Registry or credential category; networks may define additional values.
+          x-ion-suggested-values: [COLD_CHAIN, DANGEROUS_GOODS, CUSTOMS_BROKER, ASSOCIATION_MEMBERSHIP, BONDED_FACILITY, OTHER]
+        credentialNumber:
+          type: string
+          description: Identifier assigned by the issuing authority or association.
+        issuer:
+          type: string
+        validFrom:
+          type: string
+          format: date
+        validUntil:
+          type: string
+          format: date
+        evidenceDocumentReference:
+          type: string
+          description: >
+            Label or identifier shared with a supporting document in
+            Provider.descriptor.docs. The document artifact remains on the core
+            Provider descriptor rather than being duplicated in this credential.
+
+    IONLogisticsCredential:
+      type: object
+      title: IONLogisticsCredential
+      description: Logistics credential extended with Indonesian licence and association categories.
+      x-ion-layer: ion
+      additionalProperties: true
+      allOf:
+        - $ref: '#/components/schemas/LogisticsCredential'
+        - type: object
+          properties:
+            credentialType:
+              x-attr-ion-layer: ion
+              type: string
+              x-ion-suggested-values: [ALFI_MEMBERSHIP, ASPERINDO_MEMBERSHIP, PPJK_LICENCE, INDONESIAN_BONDED_FACILITY, OTHER]
+
+    LogisticsProvider:
+      type: object
+      title: LogisticsProvider
+      description: >
+        Geography-neutral logistics roles, service coverage, specialized
+        capabilities, schedule, fleet sourcing, sites, and credentials carried
+        by a Beckn Provider.
+      additionalProperties: true
+      x-ion-closed-extensions: false
+      x-beckn-attaches-to: Provider.providerAttributes
+      x-jsonld:
+        '@context': https://schema.ion.id/release1/schema/extension/logistics/LogisticsProvider/v1/context.jsonld
+        '@type': ion:LogisticsProvider
+      allOf:
+        - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Attributes/2.0/attributes.yaml#/components/schemas/Attributes
+      properties:
+        providerRoles:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            enum: [CARRIER, FREIGHT_FORWARDER, AGGREGATOR, MARKETPLACE_LOGISTICS, THIRD_PARTY_LOGISTICS, FOURTH_PARTY_LOGISTICS, WAREHOUSE_OPERATOR]
+          description: Operational roles performed by the provider; more than one role may apply.
+        supportedPatterns:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            enum: [HYPERLOCAL, PARCEL, FREIGHT, RO_RO, CROSS_BORDER, WAREHOUSE]
+          description: Logistics transaction patterns the provider supports.
+        supportedTransportModes:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            enum: [BICYCLE, MOTORCYCLE, CAR, VAN, TRUCK, RAIL, SEA, AIR, INLAND_WATERWAY, FERRY]
+          description: Transport modes available from the provider, distinct from individual vehicle types.
+        serviceCoverage:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceCoverage'
+        capabilities:
+          $ref: '#/components/schemas/LogisticsCapabilities'
+        operatingHours:
+          type: array
+          items:
+            $ref: '#/components/schemas/OperatingWindow'
+        closures:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProviderClosure'
+        fleetProfile:
+          $ref: '#/components/schemas/FleetProfile'
+        providerLocations:
+          type: array
+          description: >
+            Identifiable operating locations used as reference targets by hubs
+            and other logistics-specific records. Each entry retains the Beckn
+            Location wire layout and adds only a stable identifier.
+          items:
+            $ref: https://schema.ion.id/release1/schema/common/IdentifiableLocation/v1/attributes.yaml#/components/schemas/IdentifiableLocation
+        hubs:
+          type: array
+          items:
+            $ref: '#/components/schemas/LogisticsHub'
+        credentials:
+          type: array
+          items:
+            $ref: '#/components/schemas/LogisticsCredential'
+
+    IONLogisticsProvider:
+      type: object
+      title: IONLogisticsProvider
+      description: >
+        ION Logistics provider attributes. The generic LogisticsProvider layer
+        carries globally useful capability facts; this ION layer composes
+        Indonesian administrative coverage, business registration, licences,
+        and association memberships.
+      x-ion-layer: ion
+      additionalProperties: true
+      x-ion-closed-extensions: false
+      x-beckn-attaches-to: Provider.providerAttributes
+      x-jsonld:
+        '@context': https://schema.ion.id/release1/schema/extension/logistics/LogisticsProvider/v1/context.jsonld
+        '@type': ion:IONLogisticsProvider
+      allOf:
+        - $ref: '#/components/schemas/LogisticsProvider'
+        - type: object
+          properties:
+            serviceCoverage:
+              x-attr-ion-layer: ion
+              type: array
+              items:
+                $ref: '#/components/schemas/IONServiceCoverage'
+            businessRegistration:
+              x-attr-ion-layer: ion
+              $ref: https://schema.ion.id/release1/schema/common/BusinessRegistration/v1/attributes.yaml#/components/schemas/IONBusinessRegistration
+            credentials:
+              x-attr-ion-layer: ion
+              type: array
+              items:
+                $ref: '#/components/schemas/IONLogisticsCredential'
+

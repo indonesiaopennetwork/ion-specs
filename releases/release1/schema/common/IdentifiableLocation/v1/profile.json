@@ -1,0 +1,35 @@
+{
+  "id": "ion-common-identifiable-location-v1",
+  "version": "1.0.0",
+  "status": "draft",
+  "domain": "common",
+  "type": "AttributePack",
+  "name": "ION Identifiable Location (v1)",
+  "description": "Reusable Beckn Location-compatible shape with a stable identifier.",
+  "packSchema": "./schema.json",
+  "jsonldContext": "./context.jsonld",
+  "extends": "beckn:Location",
+  "attachmentPoints": {
+    "reusableShape": [
+      "IdentifiableLocation"
+    ]
+  },
+  "indexing": {
+    "indexable": [
+      {
+        "path": "$.id"
+      }
+    ],
+    "filterable": [
+      {
+        "path": "$.id"
+      }
+    ],
+    "sortable": []
+  },
+  "minimalForDiscovery": [
+    "id",
+    "geo"
+  ]
+}
+

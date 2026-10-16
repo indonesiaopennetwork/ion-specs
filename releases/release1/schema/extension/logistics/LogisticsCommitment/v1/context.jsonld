@@ -1,0 +1,32 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@protected": true,
+    "ion": "https://schema.ion.id/release1/schema/extension/logistics/LogisticsCommitment/v1#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "schema": "https://schema.org/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "containerReference": "ion:containerReference",
+    "sealNumber": "ion:sealNumber",
+    "resourceId": "ion:resourceId",
+    "lotNumber": "ion:lotNumber",
+    "expiryDate": "ion:expiryDate",
+    "quantity": "ion:quantity",
+    "purpose": "ion:purpose",
+    "offerWindowId": "ion:offerWindowId",
+    "requestedPeriod": "ion:requestedPeriod",
+    "cargoAllocation": "ion:cargoAllocation",
+    "inventoryAllocations": "ion:inventoryAllocations",
+    "capacityReservation": "ion:capacityReservation",
+    "requestedServiceWindow": "ion:requestedServiceWindow",
+    "specialInstructions": "ion:specialInstructions",
+    "CargoAllocation": "ion:CargoAllocation",
+    "InventoryAllocation": "ion:InventoryAllocation",
+    "CapacityReservation": "ion:CapacityReservation",
+    "RequestedServiceWindow": "ion:RequestedServiceWindow",
+    "LogisticsCommitment": "ion:LogisticsCommitment"
+  }
+}

@@ -1,0 +1,16 @@
+id: ion-logistics-variant-weight-dispute-v1
+version: 1.0.0
+variantType: weight-dispute
+sector: ion:logistics
+status: ready
+steps:
+  - {step: on_update, from: BPP, to: BAP, direction: unsolicited}
+  - {step: update, from: BAP, to: BPP, direction: request, optional: true}
+requiredData:
+  - Performance.performanceAttributes.measurements[]
+  - Performance.performanceAttributes.alerts[]
+  - Contract.contractAttributes.cases[]
+policyRef: ion://policy/weight-dispute.standard-10pct-tolerance
+rules:
+  - The original and observed weights are immutable measurements with evidence references.
+  - Any monetary adjustment is a revised core Consideration, not an untyped Contract field.

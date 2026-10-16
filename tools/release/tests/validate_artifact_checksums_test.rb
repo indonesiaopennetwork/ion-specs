@@ -38,6 +38,13 @@ class ValidateArtifactChecksumsTest < Minitest::Test
     end
   end
 
+  def test_os_metadata_is_not_a_release_artifact
+    with_release do |root, manifest|
+      File.write(File.join(root, "schema/.DS_Store"), "finder metadata")
+      assert_empty IonArtifactChecksums.validate(root, manifest)
+    end
+  end
+
   private
 
   def with_release

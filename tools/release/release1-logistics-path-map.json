@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "release": 1,
+  "publicBaseUrl": "https://schema.ion.id/release1/",
+  "sourceRepository": "https://github.com/indonesiaopennetwork/ion-specs.git",
+  "sourceRevision": "33e6b4c40feabecf6b0f6a827b488ff82998c735",
+  "mappings": [
+    {
+      "kind": "logistics-pack",
+      "source": "schema/extensions/logistics/resource/v1",
+      "target": "releases/release1/schema/extension/logistics/LogisticsResource/v1",
+      "publicUrl": "https://schema.ion.id/release1/schema/extension/logistics/LogisticsResource/v1/",
+      "pathStatus": "approved",
+      "contentStatus": "review-required"
+    },
+    {
+      "kind": "logistics-pack",
+      "source": "schema/extensions/logistics/provider/v1",
+      "target": "releases/release1/schema/extension/logistics/LogisticsProvider/v1",
+      "publicUrl": "https://schema.ion.id/release1/schema/extension/logistics/LogisticsProvider/v1/",
+      "pathStatus": "approved",
+      "contentStatus": "review-required"
+    },
+    {
+      "kind": "logistics-pack",
+      "source": "schema/extensions/logistics/participant-logistics/v1",
+      "target": "releases/release1/schema/extension/logistics/LogisticsParticipant/v1",
+      "publicUrl": "https://schema.ion.id/release1/schema/extension/logistics/LogisticsParticipant/v1/",
+      "pathStatus": "approved",
+      "contentStatus": "review-required"
+    },
+    {
+      "kind": "logistics-pack",
+      "source": "schema/extensions/logistics/offer/v1",
+      "target": "releases/release1/schema/extension/logistics/LogisticsOffer/v1",
+      "publicUrl": "https://schema.ion.id/release1/schema/extension/logistics/LogisticsOffer/v1/",
+      "pathStatus": "approved",
+      "contentStatus": "review-required"
+    },
+    {
+      "kind": "logistics-pack",
+      "source": "schema/extensions/logistics/commitment/v1",
+      "target": "releases/release1/schema/extension/logistics/LogisticsCommitment/v1",
+      "publicUrl": "https://schema.ion.id/release1/schema/extension/logistics/LogisticsCommitment/v1/",
+      "pathStatus": "approved",
+      "contentStatus": "review-required"
+    },
+    {
+      "kind": "logistics-pack",
+      "source": "schema/extensions/logistics/consideration/v1",
+      "target": "releases/release1/schema/extension/logistics/LogisticsConsideration/v1",
+      "publicUrl": "https://schema.ion.id/release1/schema/extension/logistics/LogisticsConsideration/v1/",
+      "pathStatus": "approved",
+      "contentStatus": "review-required"
+    },
+    {
+      "kind": "logistics-pack",
+      "source": "schema/extensions/logistics/contract/v1",
+      "target": "releases/release1/schema/extension/logistics/LogisticsContract/v1",
+      "publicUrl": "https://schema.ion.id/release1/schema/extension/logistics/LogisticsContract/v1/",
+      "pathStatus": "approved",
+      "contentStatus": "review-required"
+    },
+    {
+      "kind": "logistics-pack",
+      "source": "schema/extensions/logistics/performance/v1",
+      "target": "releases/release1/schema/extension/logistics/LogisticsPerformance/v1",
+      "publicUrl": "https://schema.ion.id/release1/schema/extension/logistics/LogisticsPerformance/v1/",
+      "pathStatus": "approved",
+      "contentStatus": "review-required"
+    },
+    {
+      "kind": "logistics-pack",
+      "source": "schema/extensions/logistics/tracking/v1",
+      "target": "releases/release1/schema/extension/logistics/LogisticsTracking/v1",
+      "publicUrl": "https://schema.ion.id/release1/schema/extension/logistics/LogisticsTracking/v1/",
+      "pathStatus": "approved",
+      "contentStatus": "review-required"
+    },
+    {
+      "kind": "logistics-flow-registry",
+      "source": "schema/extensions/logistics/performance-states/v1",
+      "target": "releases/release1/flows/logistics/state-machines/v1",
+      "publicUrl": "https://schema.ion.id/release1/flows/logistics/state-machines/v1/",
+      "pathStatus": "approved",
+      "contentStatus": "review-required"
+    }
+  ]
+}

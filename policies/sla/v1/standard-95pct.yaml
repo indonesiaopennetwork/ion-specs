@@ -1,0 +1,42 @@
+iri: ion://policy/sla.standard-95pct
+version: 1.0.0
+versionEffectiveFrom: null
+category: SLA
+status: draft
+sector: logistics
+displayText:
+  id: SLA ketepatan waktu 95 persen
+  en: Standard 95 percent on-time SLA
+applicableCategories:
+- logistics
+applicableResourceTypes: []
+regulatoryBasis: []
+sourceProvenance:
+  repository: indonesiaopennetwork/ion-specs
+  commit: 33e6b4c40feabecf6b0f6a827b488ff82998c735
+  path: policies/sla/v1/standard-95pct.yaml
+  legacyId: sla.standard-95pct
+supersededBy: null
+deprecatedAt: null
+metrics:
+  onTimeDeliveryTarget: 0.95
+  onTimeWindow: rolling_7d
+  damagRateThreshold: 0.005
+  lossRateThreshold: 0.001
+measurement:
+  method: on_status[DELIVERED].timestamp vs confirm.estimatedDeliveryTime
+  excludes:
+  - FORCE_MAJEURE
+  - BUYER_NOT_AVAILABLE_3_ATTEMPTS
+  - ADDRESS_INCORRECT_BY_BUYER
+breachConsequences:
+  firstBreach:
+    type: WARNING
+    notificationWithin: PT24H
+  repeatedBreach:
+    definition: 3 consecutive weeks below target
+    type: REBATE
+    rebateFormula: base_freight * 0.05 per percentage point below target
+escalation:
+  threshold: 4_consecutive_weeks_below_target
+  path: ion://policy/dispute.commercial.odr

@@ -267,8 +267,9 @@ excludedSubBranches:
   on-network-LSP:
     reason: >
       This branch creates a separate Logistics-sector transaction using
-      LogisticsContract.parentContractReference. Logistics is excluded from
-      Release 1 and cannot be represented by the Trade pack alone.
+      LogisticsContract.parentContractReference. The source does not define the
+      cross-transaction discovery, authorization, correlation, and failure
+      semantics needed to connect the included Trade and Logistics flows.
   technical-cancellation-confirm-failure-BAP:
     reason: >
       A rejected or timed-out confirm does not establish a Contract that can be

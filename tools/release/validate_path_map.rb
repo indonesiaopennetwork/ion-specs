@@ -3,7 +3,7 @@
 require "json"
 
 module IonReleasePathMap
-  KINDS = %w[api vendored-protocol common-pack trade-pack].freeze
+  KINDS = %w[api vendored-protocol common-pack trade-pack logistics-pack logistics-flow-registry].freeze
   PATH_STATUSES = %w[approved proposed].freeze
   CONTENT_STATUSES = %w[review-required validation-pending provenance-pending].freeze
   REQUIRED_MAPPING_FIELDS = %w[
@@ -12,7 +12,7 @@ module IonReleasePathMap
 
   module_function
 
-  def validate(data, repository_root: nil, required_location: :source)
+  def validate(data, repository_root: nil, source_root: nil, required_location: :source)
     errors = []
     return ["path map root must be an object"] unless data.is_a?(Hash)
 
@@ -37,6 +37,7 @@ module IonReleasePathMap
         release_name,
         expected_base,
         repository_root,
+        source_root,
         required_location,
         errors
       )
@@ -52,7 +53,7 @@ module IonReleasePathMap
     errors
   end
 
-  def validate_mapping(mapping, index, release_name, public_base, repository_root, required_location, errors)
+  def validate_mapping(mapping, index, release_name, public_base, repository_root, source_root, required_location, errors)
     unless mapping.is_a?(Hash)
       errors << "mapping #{index} must be an object"
       return
@@ -79,9 +80,10 @@ module IonReleasePathMap
       errors << "mapping #{index} publicUrl does not mirror target" unless public_url == expected_url
     end
 
-    if repository_root
+    location_root = required_location == :source ? source_root || repository_root : repository_root
+    if location_root
       required_path = required_location == :target ? target : source
-      if safe_relative_path?(required_path) && !File.exist?(File.join(repository_root, required_path))
+      if safe_relative_path?(required_path) && !File.exist?(File.join(location_root, required_path))
         errors << "mapping #{index} #{required_location} does not exist: #{required_path}"
       end
     end
@@ -101,8 +103,19 @@ end
 if $PROGRAM_NAME == __FILE__
   required_location = ARGV.delete("--require-targets") ? :target : :source
   ARGV.delete("--require-sources")
+
+  source_root = nil
+  if (source_root_index = ARGV.index("--source-root"))
+    source_root = ARGV[source_root_index + 1]
+    if source_root.nil? || source_root.start_with?("--")
+      warn "ERROR: --source-root requires a path"
+      exit 2
+    end
+    ARGV.slice!(source_root_index, 2)
+  end
+
   if ARGV.length != 1
-    warn "Usage: ruby tools/release/validate_path_map.rb [--require-sources|--require-targets] <path-map.json>"
+    warn "Usage: ruby tools/release/validate_path_map.rb [--require-sources|--require-targets] [--source-root PATH] <path-map.json>"
     exit 2
   end
 
@@ -112,6 +125,7 @@ if $PROGRAM_NAME == __FILE__
     errors = IonReleasePathMap.validate(
       IonReleasePathMap.load(path),
       repository_root: repository_root,
+      source_root: source_root && File.expand_path(source_root),
       required_location: required_location
     )
   rescue ArgumentError => e

@@ -16,12 +16,15 @@ in the network and is based on Beckn Protocol 2.0.0.
 
 ### Release 1 (draft)
 
-Release 1 is limited to the standalone Trade schema packs, the common packs they
-require, the settlement reconciliation API, the scoped Storefront, Made-to-Order, Live Commerce, Digital Goods,
-Business Procurement, Marketplace In-house, and Marketplace Listed flows and
-connected registries, the ION-owned Beckn-derived API contract, and pinned
-vendored Beckn schema dependencies. It remains mutable
-and unchannelled until the Council publishes it into the `next` channel on `main`.
+Release 1 currently contains the standalone Trade schema packs, the common packs
+they require, the settlement reconciliation API, the scoped Storefront,
+Made-to-Order, Live Commerce, Digital Goods, Business Procurement, Marketplace
+In-house, and Marketplace Listed flows and connected registries, the ION-owned
+Beckn-derived API contract, and pinned vendored Beckn schema dependencies.
+Logistics has been reopened for independent review and migration into this draft;
+that migration now includes the independently validated `LogisticsResource`,
+`LogisticsProvider`, `LogisticsParticipant`, `LogisticsOffer`, `LogisticsCommitment`, `LogisticsConsideration`, `LogisticsContract`, `LogisticsPerformance`, and `LogisticsTracking` v1 packs, plus six reviewed patterns, nine included/scoped variants, the validated `LogisticsPerformanceStates` v1 flow registry, and 30 connected Logistics errors. Release 1 remains mutable and unchannelled until
+the Council publishes it into the `next` channel on `main`.
 
 - [`releases/release1/release.yaml`](releases/release1/release.yaml) — scope,
   dependency provenance, checksums, and publication state.
@@ -29,12 +32,33 @@ and unchannelled until the Council publishes it into the `next` channel on `main
   contents and validation commands.
 - [`releases/release1/schema/extension/trade/`](releases/release1/schema/extension/trade/) —
   nine validated Trade packs.
+- [`releases/release1/schema/extension/logistics/LogisticsResource/v1/`](releases/release1/schema/extension/logistics/LogisticsResource/v1/) —
+  the migrated Logistics cargo-resource pack.
+- [`releases/release1/schema/extension/logistics/LogisticsProvider/v1/`](releases/release1/schema/extension/logistics/LogisticsProvider/v1/) —
+  the migrated Logistics provider-capability pack.
+- [`releases/release1/schema/extension/logistics/LogisticsParticipant/v1/`](releases/release1/schema/extension/logistics/LogisticsParticipant/v1/) —
+  the migrated Logistics participant-role and licence pack.
+- [`releases/release1/schema/extension/logistics/LogisticsOffer/v1/`](releases/release1/schema/extension/logistics/LogisticsOffer/v1/) —
+  the migrated Logistics service and rate-card pack.
+- [`releases/release1/schema/extension/logistics/LogisticsCommitment/v1/`](releases/release1/schema/extension/logistics/LogisticsCommitment/v1/) —
+  the migrated Logistics booking-allocation pack.
+- [`releases/release1/schema/extension/logistics/LogisticsConsideration/v1/`](releases/release1/schema/extension/logistics/LogisticsConsideration/v1/) —
+  the migrated Logistics monetary-component pack.
+- [`releases/release1/schema/extension/logistics/LogisticsContract/v1/`](releases/release1/schema/extension/logistics/LogisticsContract/v1/) —
+  the migrated Logistics agreement and compliance pack.
+- [`releases/release1/schema/extension/logistics/LogisticsPerformance/v1/`](releases/release1/schema/extension/logistics/LogisticsPerformance/v1/) —
+  the migrated Logistics durable execution pack.
+- [`releases/release1/schema/extension/logistics/LogisticsTracking/v1/`](releases/release1/schema/extension/logistics/LogisticsTracking/v1/) —
+  the migrated Logistics live-tracking pack.
+- [`releases/release1/flows/logistics/`](releases/release1/flows/logistics/) —
+  the reviewed Logistics patterns, variants, and shared execution-state registry.
 - [`releases/release1/schema/core/api/v2.0.0/ion-additional.yaml`](releases/release1/schema/core/api/v2.0.0/ion-additional.yaml) —
   ION endpoints that Beckn does not define, starting with settlement
   reconciliation (`/reconcile`, `/on_reconcile`).
 - [`releases/release1/schema/common/`](releases/release1/schema/common/) — Address, Business
   Registration, Payment, and Tax packs required by Trade, and the Settlement
-  pack used by reconciliation.
+  pack used by reconciliation, plus the reusable IdentifiableLocation wrapper
+  introduced for Logistics.
 - [`releases/release1/schema/core/api/v2.0.0/ion-beckn.yaml`](releases/release1/schema/core/api/v2.0.0/ion-beckn.yaml) —
   the ION-owned Beckn-derived protocol contract.
 - [`releases/release1/schema/vendored/beckn/`](releases/release1/schema/vendored/beckn/) —
@@ -42,12 +66,18 @@ and unchannelled until the Council publishes it into the `next` channel on `main
 - [`releases/release1/flows/trade/`](releases/release1/flows/trade/) — the
   seven validated Trade v1 reference flows and the reviewed During-Transaction
   v1 variant.
-- [`policies/registry.json`](policies/registry.json) — 67 shared Trade and
-  cross-sector policy terms governed outside the integer release cycle.
+- [`releases/release1/flows/logistics/`](releases/release1/flows/logistics/) —
+  six Logistics v1 patterns, nine included or scoped variants, and their shared
+  state-machine registry; six additional variants are explicitly deferred.
+- [`policies/registry.json`](policies/registry.json) — 89 shared policy terms
+  (28 Trade, 39 cross-sector, and 22 draft Logistics terms) governed outside the
+  integer release cycle.
 - [`releases/release1/errors/registry.json`](releases/release1/errors/registry.json)
-  — 10 Trade errors with release-local targets.
+  — 40 connected errors: 10 Trade and 30 Logistics.
 
-Release 1 excludes `ion.yaml`, Logistics, Hospitality, and Finance. The repository
+Release 1 excludes `ion.yaml`, Hospitality, and Finance. Logistics is
+`validated`: its included schemas, flows, state machines, policy connections,
+errors, and examples have passed the Phase 8 closure gate. The repository
 does not maintain separate editable `schema/`, `flows/`, or `errors/` trees at
 its root. Policies are the exception: their canonical sources and generated
 registry live in root `policies/` and evolve independently of integer releases.
@@ -65,9 +95,11 @@ releases/
       core/api/v2.0.0/ion-additional.yaml  ION endpoints Beckn does not define
       common/                  Validated common packs used by Trade
       extension/trade/         Validated Trade packs
+      extension/logistics/     Validated Logistics packs
       vendored/beckn/          Pinned release-local dependencies
     flows/trade/               Seven flows plus reviewed Trade variants
-    errors/                    Included Trade errors and registry
+    flows/logistics/           Validated Logistics patterns and variants
+    errors/                    Included Trade and Logistics errors and registry
 
 docs/                          Architecture and contributor documentation
 tools/release/                 Release construction and validation tools
@@ -113,7 +145,7 @@ interfaces.
 Architecture and migration decisions are documented in:
 
 - [`docs/ION_Release_Architecture.md`](docs/ION_Release_Architecture.md)
-- [`docs/ION_Release1_Migration_Inventory.md`](docs/ION_Release1_Migration_Inventory.md)
+- [`docs/internal/ION_Release1_Migration_Inventory.md`](docs/internal/ION_Release1_Migration_Inventory.md)
 
 ## License
 

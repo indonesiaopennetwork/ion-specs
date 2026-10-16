@@ -1,0 +1,154 @@
+{
+  "@context": {
+    "ion": "https://schema.ion.id/release1/schema/extension/logistics/LogisticsTracking/v1#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+  },
+  "@graph": [
+    {
+      "@id": "ion:authScheme",
+      "@type": "rdf:Property",
+      "rdfs:label": "authScheme",
+      "rdfs:comment": "authScheme property."
+    },
+    {
+      "@id": "ion:credentialReference",
+      "@type": "rdf:Property",
+      "rdfs:label": "credentialReference",
+      "rdfs:comment": "Opaque reference to a securely delivered credential; never the credential value."
+    },
+    {
+      "@id": "ion:expiresAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "expiresAt",
+      "rdfs:comment": "expiresAt property."
+    },
+    {
+      "@id": "ion:location",
+      "@type": "rdf:Property",
+      "rdfs:label": "location",
+      "rdfs:comment": "Last observed GeoJSON Point."
+    },
+    {
+      "@id": "ion:observedAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "observedAt",
+      "rdfs:comment": "observedAt property."
+    },
+    {
+      "@id": "ion:accuracy",
+      "@type": "rdf:Property",
+      "rdfs:label": "accuracy",
+      "rdfs:comment": "accuracy property."
+    },
+    {
+      "@id": "ion:heading",
+      "@type": "rdf:Property",
+      "rdfs:label": "heading",
+      "rdfs:comment": "Degrees clockwise from true north."
+    },
+    {
+      "@id": "ion:speed",
+      "@type": "rdf:Property",
+      "rdfs:label": "speed",
+      "rdfs:comment": "speed property."
+    },
+    {
+      "@id": "ion:estimatedArrivalAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "estimatedArrivalAt",
+      "rdfs:comment": "estimatedArrivalAt property."
+    },
+    {
+      "@id": "ion:nextStopId",
+      "@type": "rdf:Property",
+      "rdfs:label": "nextStopId",
+      "rdfs:comment": "nextStopId property."
+    },
+    {
+      "@id": "ion:assignedParticipantId",
+      "@type": "rdf:Property",
+      "rdfs:label": "assignedParticipantId",
+      "rdfs:comment": "assignedParticipantId property."
+    },
+    {
+      "@id": "ion:assignedResourceId",
+      "@type": "rdf:Property",
+      "rdfs:label": "assignedResourceId",
+      "rdfs:comment": "assignedResourceId property."
+    },
+    {
+      "@id": "ion:performanceId",
+      "@type": "rdf:Property",
+      "rdfs:label": "performanceId",
+      "rdfs:comment": "performanceId property."
+    },
+    {
+      "@id": "ion:mode",
+      "@type": "rdf:Property",
+      "rdfs:label": "mode",
+      "rdfs:comment": "mode property."
+    },
+    {
+      "@id": "ion:capabilities",
+      "@type": "rdf:Property",
+      "rdfs:label": "capabilities",
+      "rdfs:comment": "capabilities property."
+    },
+    {
+      "@id": "ion:refreshInterval",
+      "@type": "rdf:Property",
+      "rdfs:label": "refreshInterval",
+      "rdfs:comment": "refreshInterval property."
+    },
+    {
+      "@id": "ion:access",
+      "@type": "rdf:Property",
+      "rdfs:label": "access",
+      "rdfs:comment": "access property."
+    },
+    {
+      "@id": "ion:eventTypes",
+      "@type": "rdf:Property",
+      "rdfs:label": "eventTypes",
+      "rdfs:comment": "eventTypes property."
+    },
+    {
+      "@id": "ion:snapshot",
+      "@type": "rdf:Property",
+      "rdfs:label": "snapshot",
+      "rdfs:comment": "snapshot property."
+    },
+    {
+      "@id": "ion:currentRouteGeometry",
+      "@type": "rdf:Property",
+      "rdfs:label": "currentRouteGeometry",
+      "rdfs:comment": "Current or remaining route as GeoJSON, normally a LineString."
+    },
+    {
+      "@id": "ion:endpointOwnerParticipantId",
+      "@type": "rdf:Property",
+      "rdfs:label": "endpointOwnerParticipantId",
+      "rdfs:comment": "endpointOwnerParticipantId property."
+    },
+    {
+      "@id": "ion:TrackingAccess",
+      "@type": "rdfs:Class",
+      "rdfs:label": "TrackingAccess",
+      "rdfs:comment": "TrackingAccess class."
+    },
+    {
+      "@id": "ion:TrackingSnapshot",
+      "@type": "rdfs:Class",
+      "rdfs:label": "TrackingSnapshot",
+      "rdfs:comment": "TrackingSnapshot class."
+    },
+    {
+      "@id": "ion:LogisticsTracking",
+      "@type": "rdfs:Class",
+      "rdfs:label": "LogisticsTracking",
+      "rdfs:comment": "LogisticsTracking class."
+    }
+  ]
+}

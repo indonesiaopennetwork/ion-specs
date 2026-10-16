@@ -1,0 +1,22 @@
+{
+  "@context":"https://schema.ion.id/release1/schema/extension/logistics/LogisticsTracking/v1/context.jsonld",
+  "@type":"ion:LogisticsTracking",
+  "mode":"POLLING",
+  "capabilities":["STATUS","LOCATION","ETA","REMAINING_ROUTE"],
+  "refreshInterval":"PT15S",
+  "access":{"authScheme":"SIGNED_URL","expiresAt":"2026-10-16T13:00:00+07:00"},
+  "snapshot":{
+    "location":{"type":"Point","coordinates":[106.8456,-6.2088]},
+    "observedAt":"2026-10-16T12:14:05+07:00",
+    "accuracy":{"unitQuantity":8,"unitText":"m"},
+    "heading":92.5,
+    "speed":{"unitQuantity":32,"unitText":"km/h"},
+    "estimatedArrivalAt":"2026-10-16T12:42:00+07:00",
+    "nextStopId":"STOP-DELIVERY",
+    "assignedParticipantId":"PART-DRIVER-01",
+    "assignedResourceId":"VEHICLE-01",
+    "performanceId":"PERF-001"
+  },
+  "endpointOwnerParticipantId":"PART-CARRIER-01",
+  "performanceId":"PERF-001"
+}

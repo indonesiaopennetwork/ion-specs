@@ -1,0 +1,21 @@
+id: ion-logistics-variant-reverse-v1
+version: 1.0.0
+variantType: reverse
+sector: ion:logistics
+status: ready
+flowIds: [parcel-reverse-qc]
+appliesTo: [parcel]
+stateMachine: flows/logistics/state-machines/v1/states.yaml#parcel-reverse-qc
+description: A reviewed consumer parcel return executed as a related child Contract with QC gating.
+steps:
+  - {step: update, from: BAP, to: BPP, direction: request, description: request and negotiate the return child Contract}
+  - {step: on_update, from: BPP, to: BAP, direction: callback}
+  - {step: status, from: BAP, to: BPP, direction: request, optional: true}
+  - {step: on_status, from: BPP, to: BAP, direction: callback-or-unsolicited}
+requiredData:
+  - Contract.contractAttributes.relationships[]
+  - Performance.performanceAttributes.events[]
+  - Performance.performanceAttributes.proofs[]
+rules:
+  - The return is a child Contract; it does not rewind the delivered parent Performance.
+  - Freight and cross-border reverse flows are deferred because their machine definitions are unavailable.
