@@ -151,7 +151,8 @@ trade_errors.each do |entry|
   end
 end
 error_registry = load_document.call(release_root.join("errors/registry.json").to_s) || {}
-errors << "errors/registry.json does not match errors/trade.yaml" unless error_registry["errors"] == trade_errors
+registered_trade_errors = Array(error_registry["errors"]).select { |entry| entry["sector"] == "trade" }
+errors << "errors/registry.json does not match errors/trade.yaml" unless registered_trade_errors == trade_errors
 
 if errors.empty?
   puts "Trade connection validation passed: #{flow_files.length} structured flow files, " \

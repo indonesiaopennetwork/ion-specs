@@ -23,7 +23,7 @@ In-house, and Marketplace Listed flows and connected registries, the ION-owned
 Beckn-derived API contract, and pinned vendored Beckn schema dependencies.
 Logistics has been reopened for independent review and migration into this draft;
 that migration now includes the independently validated `LogisticsResource`,
-`LogisticsProvider`, `LogisticsParticipant`, `LogisticsOffer`, `LogisticsCommitment`, `LogisticsConsideration`, `LogisticsContract`, `LogisticsPerformance`, and `LogisticsTracking` v1 packs, plus six reviewed patterns, nine included/scoped variants, and the validated `LogisticsPerformanceStates` v1 flow registry. Release 1 remains mutable and unchannelled until
+`LogisticsProvider`, `LogisticsParticipant`, `LogisticsOffer`, `LogisticsCommitment`, `LogisticsConsideration`, `LogisticsContract`, `LogisticsPerformance`, and `LogisticsTracking` v1 packs, plus six reviewed patterns, nine included/scoped variants, the validated `LogisticsPerformanceStates` v1 flow registry, and 30 connected Logistics errors. Release 1 remains mutable and unchannelled until
 the Council publishes it into the `next` channel on `main`.
 
 - [`releases/release1/release.yaml`](releases/release1/release.yaml) — scope,
@@ -73,7 +73,7 @@ the Council publishes it into the `next` channel on `main`.
   (28 Trade, 39 cross-sector, and 22 draft Logistics terms) governed outside the
   integer release cycle.
 - [`releases/release1/errors/registry.json`](releases/release1/errors/registry.json)
-  — 10 Trade errors with release-local targets.
+  — 40 connected errors: 10 Trade and 30 Logistics.
 
 Release 1 excludes `ion.yaml`, Hospitality, and Finance. Logistics is
 `review-required`: its legacy material is being reviewed independently and is not
@@ -97,7 +97,7 @@ releases/
       extension/trade/         Validated Trade packs
       vendored/beckn/          Pinned release-local dependencies
     flows/trade/               Seven flows plus reviewed Trade variants
-    errors/                    Included Trade errors and registry
+    errors/                    Included Trade and Logistics errors and registry
 
 docs/                          Architecture and contributor documentation
 tools/release/                 Release construction and validation tools

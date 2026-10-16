@@ -226,8 +226,9 @@ dependencies:
   license: CC-BY-NC-SA-4.0
   transformations: []
 artifactChecksums:
-  errors/README.md: 8020be6183ea38ae313f5442e16ef09968198b9798f73de880defb6cfc88da3d
-  errors/registry.json: e14651800ede45859cc9d1ee9b88f93dacf8670455bb729a34eaf5d716a800ac
+  errors/README.md: 9ebe391e21e9ca7644fc514c820dd2bfe54fe3290eec4e920f1825e5ab764bd3
+  errors/logistics.yaml: 85c1639122076971509d374f7901236f93f02c4bee49d8f88fca7f9e70abb2c0
+  errors/registry.json: 90be5555383d9bb54a3a891c1af58074eb55060314d5a659f3ef92bd54e9934b
   errors/trade.yaml: 3f74aafcbb833fa825ca4346f9b00424c057db4a41156d853bb3b2ed4dd4e7f5
   flows/logistics/README.md: 8b42fe3b71f0850d8d939f28936adbda0cd79cf5ac7001773d7d586d3e20717f
   flows/logistics/patterns/README.md: ba0048b821e01b38a1c176335f2389d9663de52efd33863936f5f657668e05d2
@@ -622,6 +623,9 @@ notes:
   the During-Transaction v1 variant, and 10 Trade errors.
 - Logistics Phase 5 added 22 reviewed draft terms to the shared registry, bringing
   it to 89 terms. These terms are resolvable but are not ratified or effective.
+- Logistics Phase 6 added six patterns and nine included or scoped variants.
+  Phase 7 reviewed all 97 legacy errors, included 30 connected errors under the
+  ION-Bxxxx convention, and explicitly deferred 67.
 - Schema content groups core, common, extension, and vendored below schema/ rather
   than flattening them at the release root.
 - Draft URLs are unsupported until the release is published.

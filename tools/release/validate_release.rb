@@ -38,6 +38,7 @@ logistics_states = release_root.join("flows/logistics/state-machines/v1/states.y
 if logistics_states.file?
   commands << ["Logistics performance states", ["ruby", "tools/release/validate_logistics_performance_states.rb", release_root.to_s]]
   commands << ["Logistics connections", ["ruby", "tools/release/validate_logistics_connections.rb", release_root.to_s]]
+  commands << ["Logistics errors", ["ruby", "tools/release/validate_logistics_errors.rb", release_root.to_s]]
 end
 if publication
   commands << ["Publication manifest gate", ["ruby", "tools/release/validate_manifest.rb", "--require-published", release_root.join("release.yaml").to_s]]

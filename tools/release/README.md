@@ -13,6 +13,8 @@ permanent integer releases. It is not copied into individual release bundles.
 - `release1-logistics-path-map.json` records the approved paths for migrating the
   Logistics packs from the separately checked-out legacy ION repository. It also
   pins the source repository and revision used for the migration.
+- `release1-logistics-error-map.yaml` records the included or deferred
+  disposition of every error in the pinned legacy Logistics source.
 - `validate_manifest.rb` validates cross-field rules that JSON Schema cannot fully
   express, including agreement between `release`, `name`, and `publicBaseUrl`.
 - `validate_path_map.rb` verifies mapping uniqueness, the required pre- or
@@ -55,8 +57,12 @@ permanent integer releases. It is not copied into individual release bundles.
 - `validate_logistics_connections.rb` validates the six Logistics pattern and
   nine included/scoped variant profiles, protocol actions, schema-pack targets,
   concrete policy IRIs, state-machine fragments, and published flow-ID owners.
+- `validate_logistics_errors.rb` validates Logistics error codes, callbacks,
+  exact schema pointers, flow and policy targets, generated-registry equality,
+  and the complete included/deferred migration map. Pass `--source-root` to
+  compare the map with the separately checked-out pinned legacy source.
 - `generate_error_registry.rb` deterministically generates or checks the
-  release-local Trade error registry. The shared policy registry is maintained by
+  combined release-local Trade and Logistics error registry. The shared policy registry is maintained by
   `tools/policies/generate_registry.rb`.
 - `record_artifact_checksums.rb` records or checks the complete artifact
   inventory under the release's normative content trees.
@@ -139,6 +145,7 @@ ruby tools/release/tests/validate_release_immutability_test.rb
 ruby tools/release/tests/generate_error_registry_test.rb
 ruby tools/release/tests/validate_logistics_performance_states_test.rb
 ruby tools/release/tests/validate_logistics_connections_test.rb
+ruby tools/release/tests/validate_logistics_errors_test.rb
 ruby tools/policies/tests/generate_registry_test.rb
 ```
 

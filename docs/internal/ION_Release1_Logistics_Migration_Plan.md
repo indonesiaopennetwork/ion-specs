@@ -339,6 +339,13 @@ metadata rather than a message-validation schema.
 
 ### Phase 7 — Migrate connected errors
 
+**Status:** Complete — all 97 legacy Logistics error codes were reviewed; 30
+connected errors were migrated under the current `ION-Bxxxx` convention and 67
+were deferred with explicit reasons. The full disposition is recorded in
+`docs/internal/ION_Release1_Logistics_Error_Migration_Ledger.md` and the
+machine-readable coverage map at
+`tools/release/release1-logistics-error-map.yaml`.
+
 Do not copy all legacy Logistics errors as a batch. Add an error only when:
 
 - its schema target exists in Release 1;

@@ -731,7 +731,13 @@ Phase 6 subsequently migrated all six Logistics patterns and nine included or
 scoped variants after reviewing all fifteen variants. Six variants were
 deferred for named policy or schema blockers. The detailed decisions are in
 `docs/internal/ION_Release1_Logistics_Flow_Migration_Ledger.md`; Logistics
-errors remain review-required.
+Phase 7 then reviewed all 97 legacy Logistics error codes, migrated 30 connected
+errors under the current `ION-Bxxxx` convention, and deferred 67 with explicit
+reasons. Exact schema pointers, supported callbacks, flow or policy targets, and
+source-map closure are enforced by a dedicated validator. The detailed
+disposition is in
+`docs/internal/ION_Release1_Logistics_Error_Migration_Ledger.md`. Logistics
+remains review-required pending the Phase 8 closure review.
 
 ### Phase 7 — Update repository-level material
 
