@@ -1,0 +1,73 @@
+{
+  "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeResource/v1/context.jsonld",
+  "@type": "ion:IONTradeResource",
+  "_comment": "Example: men's hand-drawn batik shirt from Pekalongan — PLAIN resource (TRC-fashion)",
+  "crc": "TRC-fashion",
+  "quantity": {
+    "value": 1,
+    "unit": "piece"
+  },
+  "resourceStructure": "PLAIN",
+  "resourceTangibility": "PHYSICAL",
+  "logisticsServiceType": "DOMESTIC_SURFACE",
+  "ageRestricted": false,
+  "countryOfOrigin": "IDN",
+  "regionOfOrigin": "ID-JT",
+  "images": [
+    "https://cdn.batikpesisir.id/kemeja-parang-tulis-depan.jpg",
+    "https://cdn.batikpesisir.id/kemeja-parang-tulis-detail.jpg"
+  ],
+  "availability": {
+    "status": "IN_STOCK",
+    "maxOrderQty": 5,
+    "backorderAllowed": false
+  },
+  "identity": {
+    "brand": "Batik Pesisir",
+    "sku": "BPS-KMJ-PRG-L"
+  },
+  "fashion": {
+    "gender": "MALE",
+    "size": "L",
+    "fabric": "Katun Primissima",
+    "fabricComposition": "100% Katun",
+    "garmentType": "SHIRT",
+    "textileType": "BATIK",
+    "productionTechnique": "BATIK_TULIS",
+    "motif": "Parang Rusak",
+    "dyeType": "NATURAL",
+    "handmade": true,
+    "lining": "Furing katun",
+    "fit": "REGULAR",
+    "sleeveLength": "LONG",
+    "neckline": "Kerah shanghai",
+    "occasion": [
+      "OFFICE",
+      "FORMAL",
+      "WEDDING"
+    ],
+    "measurements": {
+      "chestCm": 112,
+      "lengthCm": 74,
+      "shoulderCm": 46,
+      "sleeveLengthCm": 61
+    },
+    "careInstructions": [
+      "HAND_WASH",
+      "DRY_IN_SHADE",
+      "DO_NOT_BLEACH",
+      "IRON_LOW"
+    ]
+  },
+  "additionalAttributes": [
+    {
+      "name": "Pengrajin",
+      "value": "Kelompok Batik Tulis Kauman, Pekalongan"
+    },
+    {
+      "name": "Waktu pengerjaan",
+      "value": "21",
+      "unit": "hari"
+    }
+  ]
+}

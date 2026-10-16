@@ -1,7 +1,7 @@
 {
   "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeResource/v1/context.jsonld",
   "@type": "ion:IONTradeResource",
-  "_comment": "Example: Samsung Galaxy S25 \u2014 VARIANT resource (TRC-electronics)",
+  "_comment": "Example: Samsung Galaxy S25 — VARIANT resource (TRC-electronics)",
   "quantity": {
     "value": 1,
     "unit": "piece"
@@ -100,7 +100,34 @@
       "maxQuantity": 240,
       "unitText": "V"
     },
-    "energyRating": 4
+    "energyRating": 4,
+    "deviceType": "SMARTPHONE",
+    "modelNumber": "SM-A556E",
+    "processor": "Exynos 1480",
+    "ram": {
+      "unitQuantity": 8,
+      "unitText": "GB"
+    },
+    "storage": {
+      "unitQuantity": 256,
+      "unitText": "GB"
+    },
+    "screenSizeInch": 6.6,
+    "displayType": "Super AMOLED",
+    "batteryCapacity": {
+      "unitQuantity": 5000,
+      "unitText": "mAh"
+    },
+    "powerSource": "RECHARGEABLE_BATTERY",
+    "ipRating": "IP67",
+    "warrantyType": "OFFICIAL",
+    "sdppiCertificate": "87654/SDPPI/2024",
+    "tkdnPercentage": 35,
+    "inTheBox": [
+      "Kabel USB-C",
+      "Ejector pin",
+      "Buku panduan"
+    ]
   },
   "warranty": {
     "duration": "P1Y",

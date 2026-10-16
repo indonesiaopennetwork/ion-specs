@@ -637,6 +637,336 @@
       "@type": "rdf:Property",
       "rdfs:label": "wattage",
       "rdfs:comment": "Power consumption watts"
+    },
+    {
+      "@id": "ion:ageRestricted",
+      "@type": "rdf:Property",
+      "rdfs:label": "ageRestricted",
+      "rdfs:comment": "ageRestricted property."
+    },
+    {
+      "@id": "ion:foodRegulatoryDeclaration",
+      "@type": "rdf:Property",
+      "rdfs:label": "foodRegulatoryDeclaration",
+      "rdfs:comment": "foodRegulatoryDeclaration property."
+    },
+    {
+      "@id": "ion:credentials",
+      "@type": "rdf:Property",
+      "rdfs:label": "credentials",
+      "rdfs:comment": "credentials property."
+    },
+    {
+      "@id": "ion:food",
+      "@type": "rdf:Property",
+      "rdfs:label": "food",
+      "rdfs:comment": "Packaged food product attributes for filtering and regulatory compliance. Use for FMCG packaged food, grocery products, bottled beverages, packaged meal kits, snacks, and confectionery sold from warehouse stock. Do not use for restaurant or cloud kitchen menu items — those use MenuItem in the Hospitality sector (hospitality/menu-item/v1). Detailed nutritional information and ingredient lists belong in Descriptor.longDesc for agent readability."
+    },
+    {
+      "@id": "ion:warranty",
+      "@type": "rdf:Property",
+      "rdfs:label": "warranty",
+      "rdfs:comment": "warranty property."
+    },
+    {
+      "@id": "ion:additionalAttributes",
+      "@type": "rdf:Property",
+      "rdfs:label": "additionalAttributes",
+      "rdfs:comment": "Seller-defined attributes the pack has no field for, as name/value pairs (with an optional unit), e.g. \"Asal pengrajin: Pekalongan\" or \"Jumlah lapisan: 18\". Buyer apps show them on the product page; they are not used for filtering. A value the pack defines a field for belongs in that field."
+    },
+    {
+      "@id": "ion:additives",
+      "@type": "rdf:Property",
+      "rdfs:label": "additives",
+      "rdfs:comment": "additives property."
+    },
+    {
+      "@id": "ion:type",
+      "@type": "rdf:Property",
+      "rdfs:label": "type",
+      "rdfs:comment": "type property."
+    },
+    {
+      "@id": "ion:uri",
+      "@type": "rdf:Property",
+      "rdfs:label": "uri",
+      "rdfs:comment": "uri property."
+    },
+    {
+      "@id": "ion:issuer",
+      "@type": "rdf:Property",
+      "rdfs:label": "issuer",
+      "rdfs:comment": "issuer property."
+    },
+    {
+      "@id": "ion:classification",
+      "@type": "rdf:Property",
+      "rdfs:label": "classification",
+      "rdfs:comment": "classification property."
+    },
+    {
+      "@id": "ion:garmentType",
+      "@type": "rdf:Property",
+      "rdfs:label": "garmentType",
+      "rdfs:comment": "What the item is. FABRIC is uncut cloth (kain) sold by the piece."
+    },
+    {
+      "@id": "ion:textileType",
+      "@type": "rdf:Property",
+      "rdfs:label": "textileType",
+      "rdfs:comment": "The textile or Indonesian wastra the item is made of. TENUN is woven cloth (e.g. tenun Troso), KARAWO is Gorontalo embroidery work."
+    },
+    {
+      "@id": "ion:productionTechnique",
+      "@type": "rdf:Property",
+      "rdfs:label": "productionTechnique",
+      "rdfs:comment": "How the textile was made. BATIK_TULIS is hand-drawn with a canting, BATIK_CAP is stamped, BATIK_KOMBINASI mixes both, BATIK_PRINTING is printed and not batik in the strict sense. TENUN_ATBM is woven on a non-machine loom (alat tenun bukan mesin), TENUN_GEDOG on a backstrap loom."
+    },
+    {
+      "@id": "ion:motif",
+      "@type": "rdf:Property",
+      "rdfs:label": "motif",
+      "rdfs:comment": "Name of the motif or pattern, e.g. Kawung, Mega Mendung, Punta Betawi."
+    },
+    {
+      "@id": "ion:dyeType",
+      "@type": "rdf:Property",
+      "rdfs:label": "dyeType",
+      "rdfs:comment": "Natural (plant-based) or synthetic dyes."
+    },
+    {
+      "@id": "ion:handmade",
+      "@type": "rdf:Property",
+      "rdfs:label": "handmade",
+      "rdfs:comment": "Made by hand (e.g. batik tulis, hand-woven tenun)."
+    },
+    {
+      "@id": "ion:lining",
+      "@type": "rdf:Property",
+      "rdfs:label": "lining",
+      "rdfs:comment": "Inner lining (furing), if any."
+    },
+    {
+      "@id": "ion:fit",
+      "@type": "rdf:Property",
+      "rdfs:label": "fit",
+      "rdfs:comment": "fit property."
+    },
+    {
+      "@id": "ion:sleeveLength",
+      "@type": "rdf:Property",
+      "rdfs:label": "sleeveLength",
+      "rdfs:comment": "sleeveLength property."
+    },
+    {
+      "@id": "ion:neckline",
+      "@type": "rdf:Property",
+      "rdfs:label": "neckline",
+      "rdfs:comment": "Collar or neckline style."
+    },
+    {
+      "@id": "ion:occasion",
+      "@type": "rdf:Property",
+      "rdfs:label": "occasion",
+      "rdfs:comment": "occasion property."
+    },
+    {
+      "@id": "ion:measurements",
+      "@type": "rdf:Property",
+      "rdfs:label": "measurements",
+      "rdfs:comment": "Garment measurements in centimetres, for the size given in size."
+    },
+    {
+      "@id": "ion:careInstructions",
+      "@type": "rdf:Property",
+      "rdfs:label": "careInstructions",
+      "rdfs:comment": "Washing and care. Natural-dye batik is usually hand-washed and dried in the shade."
+    },
+    {
+      "@id": "ion:chestCm",
+      "@type": "rdf:Property",
+      "rdfs:label": "chestCm",
+      "rdfs:comment": "Chest width (lingkar dada)."
+    },
+    {
+      "@id": "ion:waistCm",
+      "@type": "rdf:Property",
+      "rdfs:label": "waistCm",
+      "rdfs:comment": "Waist (lingkar pinggang)."
+    },
+    {
+      "@id": "ion:hipCm",
+      "@type": "rdf:Property",
+      "rdfs:label": "hipCm",
+      "rdfs:comment": "Hip (lingkar pinggul)."
+    },
+    {
+      "@id": "ion:lengthCm",
+      "@type": "rdf:Property",
+      "rdfs:label": "lengthCm",
+      "rdfs:comment": "Body length (panjang badan)."
+    },
+    {
+      "@id": "ion:shoulderCm",
+      "@type": "rdf:Property",
+      "rdfs:label": "shoulderCm",
+      "rdfs:comment": "Shoulder width (lebar bahu)."
+    },
+    {
+      "@id": "ion:sleeveLengthCm",
+      "@type": "rdf:Property",
+      "rdfs:label": "sleeveLengthCm",
+      "rdfs:comment": "Sleeve length (panjang lengan)."
+    },
+    {
+      "@id": "ion:deviceType",
+      "@type": "rdf:Property",
+      "rdfs:label": "deviceType",
+      "rdfs:comment": "deviceType property."
+    },
+    {
+      "@id": "ion:modelNumber",
+      "@type": "rdf:Property",
+      "rdfs:label": "modelNumber",
+      "rdfs:comment": "Manufacturer model number."
+    },
+    {
+      "@id": "ion:processor",
+      "@type": "rdf:Property",
+      "rdfs:label": "processor",
+      "rdfs:comment": "processor property."
+    },
+    {
+      "@id": "ion:ram",
+      "@type": "rdf:Property",
+      "rdfs:label": "ram",
+      "rdfs:comment": "Memory (RAM)."
+    },
+    {
+      "@id": "ion:screenSizeInch",
+      "@type": "rdf:Property",
+      "rdfs:label": "screenSizeInch",
+      "rdfs:comment": "Diagonal screen size in inches."
+    },
+    {
+      "@id": "ion:displayType",
+      "@type": "rdf:Property",
+      "rdfs:label": "displayType",
+      "rdfs:comment": "displayType property."
+    },
+    {
+      "@id": "ion:batteryCapacity",
+      "@type": "rdf:Property",
+      "rdfs:label": "batteryCapacity",
+      "rdfs:comment": "batteryCapacity property."
+    },
+    {
+      "@id": "ion:powerSource",
+      "@type": "rdf:Property",
+      "rdfs:label": "powerSource",
+      "rdfs:comment": "powerSource property."
+    },
+    {
+      "@id": "ion:plugType",
+      "@type": "rdf:Property",
+      "rdfs:label": "plugType",
+      "rdfs:comment": "Mains plug. Indonesia uses type C and F (220 V, 50 Hz)."
+    },
+    {
+      "@id": "ion:ipRating",
+      "@type": "rdf:Property",
+      "rdfs:label": "ipRating",
+      "rdfs:comment": "Ingress protection rating (IEC 60529)."
+    },
+    {
+      "@id": "ion:warrantyType",
+      "@type": "rdf:Property",
+      "rdfs:label": "warrantyType",
+      "rdfs:comment": "Who honours the warranty. OFFICIAL is the brand's Indonesian warranty (garansi resmi), DISTRIBUTOR a distributor's, STORE the seller's own."
+    },
+    {
+      "@id": "ion:sdppiCertificate",
+      "@type": "rdf:Property",
+      "rdfs:label": "sdppiCertificate",
+      "rdfs:comment": "SDPPI (Kominfo) certificate number of a device with a radio transmitter, required to sell such devices in Indonesia."
+    },
+    {
+      "@id": "ion:tkdnPercentage",
+      "@type": "rdf:Property",
+      "rdfs:label": "tkdnPercentage",
+      "rdfs:comment": "Local content level (Tingkat Komponen Dalam Negeri) in percent, as certified; 4G/5G devices sold in Indonesia must meet the minimum."
+    },
+    {
+      "@id": "ion:inTheBox",
+      "@type": "rdf:Property",
+      "rdfs:label": "inTheBox",
+      "rdfs:comment": "What is in the box (isi kotak)."
+    },
+    {
+      "@id": "ion:unitCode",
+      "@type": "rdf:Property",
+      "rdfs:label": "unitCode",
+      "rdfs:comment": "unitCode property."
+    },
+    {
+      "@id": "ion:unitQuantity",
+      "@type": "rdf:Property",
+      "rdfs:label": "unitQuantity",
+      "rdfs:comment": "unitQuantity property."
+    },
+    {
+      "@id": "ion:unitText",
+      "@type": "rdf:Property",
+      "rdfs:label": "unitText",
+      "rdfs:comment": "unitText property."
+    },
+    {
+      "@id": "ion:duration",
+      "@type": "rdf:Property",
+      "rdfs:label": "duration",
+      "rdfs:comment": "duration property."
+    },
+    {
+      "@id": "ion:terms",
+      "@type": "rdf:Property",
+      "rdfs:label": "terms",
+      "rdfs:comment": "terms property."
+    },
+    {
+      "@id": "ion:unit",
+      "@type": "rdf:Property",
+      "rdfs:label": "unit",
+      "rdfs:comment": "unit property."
+    },
+    {
+      "@id": "ion:availability",
+      "@type": "rdf:Property",
+      "rdfs:label": "availability",
+      "rdfs:comment": "The resource's availability signal. A stock count is never transmitted: the BPP keeps its inventory to itself and publishes one of these statuses (see README, Availability model)."
+    },
+    {
+      "@id": "ion:status",
+      "@type": "rdf:Property",
+      "rdfs:label": "status",
+      "rdfs:comment": "IN_STOCK — adequate quantity; LOW_STOCK — limited, the buyer app may show urgency; OUT_OF_STOCK — not available now; PREORDER — can be ordered ahead of availability; DISCONTINUED — permanently removed."
+    },
+    {
+      "@id": "ion:maxOrderQty",
+      "@type": "rdf:Property",
+      "rdfs:label": "maxOrderQty",
+      "rdfs:comment": "Most units one order may contain."
+    },
+    {
+      "@id": "ion:backorderAllowed",
+      "@type": "rdf:Property",
+      "rdfs:label": "backorderAllowed",
+      "rdfs:comment": "Orders are accepted while OUT_OF_STOCK, to be fulfilled later."
+    },
+    {
+      "@id": "ion:substitutionAllowed",
+      "@type": "rdf:Property",
+      "rdfs:label": "substitutionAllowed",
+      "rdfs:comment": "The seller may substitute an equivalent item if this one runs out."
     }
   ]
 }
