@@ -34,8 +34,9 @@ permanent integer releases. It is not copied into individual release bundles.
 - `finalize_vendoring_manifest.rb` records upstream and released checksums only
   after the offline graph passes; it rejects transformed protocol files and
   previews changes unless passed `--apply`.
-- `sync_schema_pack_jsonld.rb` synchronizes a pack's local JSON-LD types and
-  properties with its authoritative `attributes.yaml`; it is dry-run by default.
+- `sync_schema_pack_jsonld.rb` synchronizes a pack's JSON-LD types and properties
+  with its authoritative `attributes.yaml`, preserving explicit external term
+  mappings such as `beckn:geo`; it is dry-run by default.
 - `validate_trade_connections.rb` checks Trade flow targets, concrete references
   against the shared root policy registry, policy registry uniqueness, and the
   generated Trade error view.

@@ -76,11 +76,18 @@ x-beckn-attaches-to: BecknObject.attributesSlot
 ### allOf with Beckn Attributes base (required)
 ```yaml
 allOf:
-  - $ref: https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/schemas/Attributes
+  - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Attributes/2.0/attributes.yaml#/components/schemas/Attributes
 ```
 
-**Never use the external GitHub URL or a repository-relative path in a released
-pack.** Use the absolute, release-qualified `schema.ion.id` URL shown above.
+Extension and common packs MUST reference the separately vendored Beckn schema
+documents. They MUST NOT reference component fragments inside the temporary
+`schema/core/api/v2.0.0/ion-beckn.yaml` contract. This keeps attribute packs
+independent of that ION-maintained protocol snapshot and allows each Beckn
+component dependency to retain its own version and provenance.
+
+**Never use the external GitHub URL, `schema.beckn.io` retrieval URL, or a
+repository-relative path in a released pack.** Use the absolute,
+release-qualified `schema.ion.id` URL shown above.
 
 ### additionalProperties
 Set `additionalProperties: true` on all extension bags (allows NPOS overlay schemas).

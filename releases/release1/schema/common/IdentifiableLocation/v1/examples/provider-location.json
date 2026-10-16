@@ -1,0 +1,20 @@
+{
+  "@context": "https://schema.ion.id/release1/schema/common/IdentifiableLocation/v1/context.jsonld",
+  "@type": "ion:IdentifiableLocation",
+  "id": "LOC-JKT-HUB",
+  "geo": {
+    "type": "Point",
+    "coordinates": [
+      106.8456,
+      -6.2088
+    ]
+  },
+  "address": {
+    "streetAddress": "Jl. Industri Raya 10",
+    "addressLocality": "Jakarta Pusat",
+    "addressRegion": "DKI Jakarta",
+    "postalCode": "10110",
+    "addressCountry": "ID"
+  }
+}
+

@@ -671,7 +671,7 @@
       },
       "allOf": [
         {
-          "$ref": "https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/schemas/Attributes"
+          "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/Attributes/2.0/attributes.yaml#/components/schemas/Attributes"
         }
       ],
       "properties": {

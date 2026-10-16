@@ -1,0 +1,7 @@
+{
+  "type": "application/json",
+  "schema": "./attributes.yaml",
+  "context": "./context.jsonld",
+  "vocab": "./vocab.jsonld"
+}
+

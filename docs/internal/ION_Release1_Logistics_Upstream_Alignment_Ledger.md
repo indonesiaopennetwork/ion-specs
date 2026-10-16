@@ -245,7 +245,7 @@ because they appeared in the legacy schema.
 | `LOG-PROV-001` | Where catalog version, publication, delta, and rate-card metadata belongs | Do not place it in Provider attributes. Reuse core `Catalog.validity`; defer additional catalog-publication metadata until the catalog publication contract has an approved extension point. |
 | `LOG-PROV-002` | How carrier, operator, forwarder, aggregator, and warehouse roles are represented | Replace the single category and aggregator boolean with a `providerRoles` collection inspired by Beckn's separate `Carrier` and `Operator` concepts. Do not copy their schemas. |
 | `LOG-PROV-003` | How service coverage is represented across countries and administrative systems | Define geography-neutral `ServiceCoverage` using core geometry or location identifiers; compose ION `Address` subdivisions only in the ION layer. |
-| `LOG-PROV-004` | How provider sites and warehouses relate to core locations | Keep addresses in `Provider.availableAt`; define `LogisticsHub` records that reference those location IDs and carry logistics-specific site capabilities. |
+| `LOG-PROV-004` | How provider sites and warehouses relate to locations | Use the common flat `IdentifiableLocation` shape because the pinned Beckn `Location/2.0` has no `id` and cannot be extended through `allOf`; reference Beckn's individual `geo` and `address` property definitions so field paths remain compatible. Define `LogisticsHub` records that reference those IDs and retire the common shape after an official Beckn Location supplies an identifier. |
 | `LOG-PROV-005` | How licences and association memberships are asserted | Reuse `IONBusinessRegistration` for NIB and SIUP. Represent other licences and memberships as typed, verifiable credentials rather than status booleans. |
 
 ### Organizational alignment
@@ -256,7 +256,7 @@ The current Beckn Logistics repository offers three useful boundaries:
 |---|---|---|
 | `Carrier` | Transport provider, supported services, coverage, fleet, and hubs | Use as inspiration for logistics capabilities and `ServiceCoverage`; do not copy identity, tax, or India-specific fields. |
 | `Operator` | Entity coordinating a logistics network or multiple carriers | Use as inspiration for the `OPERATOR` and `AGGREGATOR` provider roles. Operational counts remain out of the schema unless a concrete protocol need is established. |
-| `Hub` | Logistics facility with a location, type, capacity, and facilities | Define an independent `LogisticsHub` component referencing `Provider.availableAt` rather than embedding another address. |
+| `Hub` | Logistics facility with a location, type, capacity, and facilities | Define an independent `LogisticsHub` component referencing a common `IdentifiableLocation`; do not copy Beckn Location fields into the hub. |
 
 The proposed Release 1 organization is:
 
@@ -270,6 +270,7 @@ LogisticsProvider
   operatingHours[]
   closures[]
   fleetProfile
+  providerLocations[] -> common IdentifiableLocation
   hubs[] -> LogisticsHub
   businessRegistration -> IONBusinessRegistration
   credentials[]
@@ -280,7 +281,7 @@ ServiceCoverage
   ionSubdivisions (ION layer only)
 
 LogisticsHub
-  locationId -> Provider.availableAt[*].id
+  locationId -> LogisticsProvider.providerLocations[*].id
   hubType
   capacity
   bonded
@@ -330,9 +331,9 @@ and disposition to each explicitly named child.
 | `pickupCutoffTimes[].corridor`, `pickupCutoffTimes[].serviceLevel`, `pickupCutoffTimes[].cutoffTime` | `DEFER` | Logistics Offer or corridor service level | Move with the parent cutoff rule if retained; reference defined corridor and service-level identifiers rather than free text. |
 | `fleetType` | `LOGISTICS` | `LogisticsProvider.fleetProfile` | Keep the fleet-sourcing model, inspired by the carrier boundary but independent of individual transport assets. |
 | `maxDeliveryRadiusKm` | `LEGACY` | `ServiceCoverage` | Replace the unit-suffixed scalar with a measured coverage constraint or geometry in `ServiceCoverage`. |
-| `warehouseLocations` | `LOGISTICS` | `LogisticsProvider.hubs[]` | Replace embedded warehouse locations with `LogisticsHub` records referencing core `Provider.availableAt` locations. |
-| `warehouseLocations[].locationId` | `CORE` | `LogisticsHub.locationId` -> `Provider.availableAt[*].id` | Keep only as a reference to the core provider location. |
-| `warehouseLocations[].address` | `LEGACY` | `Provider.availableAt` | Remove the untyped duplicate address; the core provider location owns address and geometry. |
+| `warehouseLocations` | `LOGISTICS` | `LogisticsProvider.hubs[]` | Replace embedded warehouse locations with `LogisticsHub` records referencing `providerLocations[]`. |
+| `warehouseLocations[].locationId` | `COMMON` | `LogisticsHub.locationId` -> `LogisticsProvider.providerLocations[*].id` | Keep as a reference to the common `IdentifiableLocation` wrapper. |
+| `warehouseLocations[].address` | `LEGACY` | `IdentifiableLocation.address` | Replace the untyped address with the vendored Beckn Location address property while preserving the flat Location wire layout. |
 | `warehouseLocations[].warehouseType` | `LOGISTICS` | `LogisticsHub.hubType` | Keep the facility classification, using the organizational name `hubType`. |
 | `warehouseLocations[].totalCapacityCbm` | `LEGACY` | `LogisticsHub.capacity` | Replace the unit-suffixed scalar with a typed quantity and a declared unit code. |
 | `warehouseLocations[].bondedStatus` | `LOGISTICS` | `LogisticsHub.bonded` | Keep as a structured customs-facility fact; credential evidence belongs in `credentials[]`. |

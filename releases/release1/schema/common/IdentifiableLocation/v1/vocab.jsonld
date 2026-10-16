@@ -1,0 +1,36 @@
+{
+  "@context": {
+    "ion": "https://schema.ion.id/release1/schema/common/IdentifiableLocation/v1#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "schema": "https://schema.org/"
+  },
+  "@graph": [
+    {
+      "@id": "ion:IdentifiableLocation",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Identifiable Location",
+      "rdfs:comment": "Beckn Location-compatible shape with a stable local identifier for use by objects that require location references."
+    },
+    {
+      "@id": "ion:id",
+      "@type": "rdf:Property",
+      "rdfs:label": "id",
+      "rdfs:comment": "Identifier unique within the enclosing object or transaction scope."
+    },
+    {
+      "@id": "beckn:geo",
+      "@type": "rdf:Property",
+      "rdfs:label": "geo",
+      "rdfs:comment": "Authoritative geometry, using the Beckn Location property definition."
+    },
+    {
+      "@id": "beckn:address",
+      "@type": "rdf:Property",
+      "rdfs:label": "address",
+      "rdfs:comment": "Optional postal address, using the Beckn Location property definition."
+    }
+  ]
+}
