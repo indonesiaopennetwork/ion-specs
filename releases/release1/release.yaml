@@ -9,7 +9,7 @@ contentStatus:
   ionApi: review-required
   common: validated
   trade: validated
-  logistics: review-required
+  logistics: validated
   hospitality: excluded
   finance: excluded
   flows: validated
@@ -283,7 +283,7 @@ artifactChecksums:
   flows/logistics/variants/weight-dispute/v1/README.md: 2c6c7c5ffc617dbe2d09d58ac433ba76a9732ed19aa720607b6bd02f1516ad40
   flows/logistics/variants/weight-dispute/v1/profile.json: 1af7f85722dc4b46e5fe3e02d388d4df59225ff6685d7c7e98de0a1c461de6d6
   flows/logistics/variants/weight-dispute/v1/variant.yaml: 81aaffa8365fe0edbd56ed9c622e025d02e9f6bc22c0bc6aaf45787b79ad9a3b
-  flows/trade/README.md: dc3fa3970913496638478c01047b0070eea25ae0ec9129df7c33752d3887cf45
+  flows/trade/README.md: 3080d59bb3e3a883d98eed628688b1dbd1cc34109545b70b62c5b76b587c6f05
   flows/trade/patterns/business-procurement/v1/README.md: b4b6802e517a9390c9c7b332ca76cc335e2e6e0edc9247eda177e3d70dca644f
   flows/trade/patterns/business-procurement/v1/docs/01-happy-path.md: '06257838df35851a22f9b9f327e9fd2e37ea696254cd72668656510b43988a1d'
   flows/trade/patterns/business-procurement/v1/docs/README.md: b8d45bd77c9daa9331b0d7c84f736a5b5fd3a37f7ad981eeaaf4bef8aa202f5b
@@ -336,9 +336,9 @@ artifactChecksums:
   flows/trade/variants/during-transaction/v1/docs/01-overview.md: b18a2f2096c79d69e65c0f161465e1fa16a1f886e7176f0868469a4833990025
   flows/trade/variants/during-transaction/v1/docs/README.md: 3a10bc924fcad39c30e7feb80995a79f7e17eb4d0cea2123db7a6a1b5d658d23
   flows/trade/variants/during-transaction/v1/profile.json: 32309094e158948412586efcdede7e751cc8aa1cbc33dee734ae25e1db6f88a9
-  flows/trade/variants/during-transaction/v1/variant.yaml: 60f974c9b5b51733ab91c9207e351d7381e8427e0c0717265e3068df5f93aeb4
+  flows/trade/variants/during-transaction/v1/variant.yaml: 81d0803bf2cc4b07ebd524eba9b914b54aa013cd5a1265f3ab3d859890cc2340
   schema/README.md: 24f22a5ea314aba0b0b278dc19c75d0523b75e7b3ebd095ce487ba6d41d14c1a
-  schema/common/Address/v1/README.md: 2fa4c86279f15d02962729d295d37a42f08cc4d532bfaf82daa8740c135be29a
+  schema/common/Address/v1/README.md: 1d09367461bfb360335ca6191c127b590de66621c17ac0b8a932baee19c1b15d
   schema/common/Address/v1/attributes.yaml: f5c720e050738df2cbc4e88bc09fb56f420a709e4f98012698c7400bc0d95763
   schema/common/Address/v1/context.jsonld: ca4f63bc42c0d989fc574dfad9f78a83e73577481bc73613a942083c16b10038
   schema/common/Address/v1/docs/01-overview.md: 7d56dd3990ffc18521e95625cd5bf4674e0b54da482a1d19c5e5cdbd889f8d0e
@@ -371,7 +371,7 @@ artifactChecksums:
   schema/common/IdentifiableLocation/v1/schema.json: 20b1245f856d3dc29df60bfe05bd4c3c0555fe9e59b23283991c1ed0e7a40dc2
   schema/common/IdentifiableLocation/v1/vocab.jsonld: c4616fb4f0d9e5bd4387b4bcfcf8446efe8bc38ab70bff3232fdb6afa7d87e21
   schema/common/Payment/v1/README.md: da6df26e8e343ee0b818291a75f138d46b87c1e801b9a68570447fb816989cc8
-  schema/common/Payment/v1/attributes.yaml: c4b3de21f184903f51a94827588b72588436a8376daeb372fdd487d9d94fce49
+  schema/common/Payment/v1/attributes.yaml: 80d27682cd7d5d6f283d55ca86fab9b1afdd69e0d7f379b56f004f4d47ef2479
   schema/common/Payment/v1/context.jsonld: 4292914a1408dbff29c213246a5cc6340156dad9250c5d84d912d6d7911a3a67
   schema/common/Payment/v1/docs/01-overview.md: 33e1c56584658930f291218c49e511b205c8c2231e542645e961ec5c378518d3
   schema/common/Payment/v1/docs/README.md: 573ef67e841b89bf31e5f266529ff20c51e279bf6bf1407fa7cdff9d8564da61
@@ -379,7 +379,7 @@ artifactChecksums:
   schema/common/Payment/v1/examples/settlement-accounts.json: 2d9e9e7efef191c48df9734cae13e42392ebdf5ffa53a77370e12317b6d41002
   schema/common/Payment/v1/profile.json: d47603d315de1077d34de1ceaed06002c8c5a799686a96fe87a2fbee89dd60e4
   schema/common/Payment/v1/renderer.json: 1640137624bf96938ffbde5b28001a2c1a27aa487940a774b9051dde8b2f6829
-  schema/common/Payment/v1/schema.json: 63a28df2d58175ff7baef5e78d7f2ff0abe143452e8c626a07cc0d3b3b8c3bcb
+  schema/common/Payment/v1/schema.json: 7d59c63d6946847cac4c34da070e6c845a92b9e5de306bb72b346d19e042dd69
   schema/common/Payment/v1/vocab.jsonld: 1c340606120942ae7cd0e6953575cb26a6554461e315f79fcf465de005246cc5
   schema/common/Settlement/v1/README.md: 1cb7b832f5229f088045fa07aad4ed4c145641b3b6632ff93cc17486e0512a08
   schema/common/Settlement/v1/attributes.yaml: 4960dfefdf098eff157d4879a4d75e41c34bb485d17343dde2d74f06555e42a0
@@ -623,9 +623,12 @@ notes:
   the During-Transaction v1 variant, and 10 Trade errors.
 - Logistics Phase 5 added 22 reviewed draft terms to the shared registry, bringing
   it to 89 terms. These terms are resolvable but are not ratified or effective.
-- Logistics Phase 6 added six patterns and nine included or scoped variants.
-  Phase 7 reviewed all 97 legacy errors, included 30 connected errors under the
-  ION-Bxxxx convention, and explicitly deferred 67.
+- Logistics Phase 6 added six patterns and nine included or scoped variants. Phase
+  7 reviewed all 97 legacy errors, included 30 connected errors under the ION-Bxxxx
+  convention, and explicitly deferred 67.
+- Logistics Phase 8 passed the complete schema-directory and example-object validator
+  runs, connection checks, source-disposition closure, and the full Release 1 gate.
+  Logistics is validated; the release itself remains draft.
 - Schema content groups core, common, extension, and vendored below schema/ rather
   than flattening them at the release root.
 - Draft URLs are unsupported until the release is published.

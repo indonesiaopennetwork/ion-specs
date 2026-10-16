@@ -39,6 +39,11 @@ permanent integer releases. It is not copied into individual release bundles.
 - `validate_public_urls.rb` checks that every release-qualified public document
   URL in release YAML, JSON, JSON-LD, and Markdown maps to an existing file or
   directory in that release.
+- `validate_deployed_urls.rb` performs the post-merge live-origin check for every
+  non-hidden file in a release tree. It requires HTTP 200, the expected media
+  type, and byte-for-byte SHA-256 agreement with the checked-out file. The GitHub
+  workflow runs it after pushes to `main`, with bounded retries for origin
+  propagation; pull requests continue to use deterministic offline checks.
 - `finalize_vendoring_manifest.rb` records upstream and released checksums only
   after the offline graph passes; it rejects transformed protocol files and
   previews changes unless passed `--apply`.
@@ -119,6 +124,16 @@ repository without `--source-root`:
 ruby tools/release/validate_path_map.rb --require-targets tools/release/release1-logistics-path-map.json
 ```
 
+After merging release changes to `main`, verify that the public origin serves
+the entire checked-out tree with matching bytes and media types:
+
+```bash
+ruby tools/release/validate_deployed_urls.rb releases/release1
+```
+
+For a preview origin that mirrors the same path layout, pass its release root
+URL explicitly with `--base-url`.
+
 Commands that publish a draft into `next`, deploy it, or otherwise treat it as
 permanent must use the publication gate:
 
@@ -139,6 +154,7 @@ ruby tools/release/tests/apply_vendoring_plan_test.rb
 ruby tools/release/tests/finalize_vendoring_manifest_test.rb
 ruby tools/release/tests/validate_offline_refs_test.rb
 ruby tools/release/tests/validate_public_urls_test.rb
+ruby tools/release/tests/validate_deployed_urls_test.rb
 ruby tools/release/tests/validate_artifact_checksums_test.rb
 ruby tools/release/tests/validate_release_scope_test.rb
 ruby tools/release/tests/validate_release_immutability_test.rb

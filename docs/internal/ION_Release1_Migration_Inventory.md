@@ -737,7 +737,11 @@ reasons. Exact schema pointers, supported callbacks, flow or policy targets, and
 source-map closure are enforced by a dedicated validator. The detailed
 disposition is in
 `docs/internal/ION_Release1_Logistics_Error_Migration_Ledger.md`. Logistics
-remains review-required pending the Phase 8 closure review.
+Phase 8 then passed the deep schema-directory check for all nine packs, validated
+all nine examples, reconfirmed source-disposition closure, and passed the
+complete Release 1 gate. `contentStatus.logistics` is now `validated`; Release 1
+remains a draft. The closure evidence is recorded in
+`docs/internal/ION_Release1_Logistics_Validation_Report.md`.
 
 ### Phase 7 — Update repository-level material
 
@@ -912,6 +916,12 @@ copied:
   sector and its dependency closure into a release that explicitly excludes
   Logistics. Removing them would leave a misleading export flow, so the pattern
   remains deferred until a Logistics-enabled release.
+
+  Logistics was subsequently reopened and validated in the Release 1 draft.
+  The legacy Trade Cross-Border pattern remains deferred because its
+  cross-transaction boundary has not been reconciled with the included
+  Logistics cross-border pattern; availability of the component packs alone
+  does not validate that orchestration.
 - Government expresses its defining K/L/D/I identity, DIPA, SP/SPK, LKPP, TKDN,
   KPPN, BAST, SP2D, and withholding-certificate data only through ad hoc `tags`.
   No standalone root schema pack defines a coherent B2G procurement object.
@@ -954,8 +964,10 @@ Four source sub-branches were excluded within the release-local variant:
 
 - BPP-collected prepayment requires an unsolicited second `on_init`, although
   pinned Beckn defines `on_init` as the correlated callback to `init`;
-- on-network LSP creates a separate transaction using the excluded Logistics
-  contract and `parentContractReference`;
+- on-network LSP creates a separate Logistics transaction using
+  `parentContractReference`, but the source does not define the required
+  cross-transaction discovery, authorization, correlation, and failure
+  semantics;
 - the BAP technical-confirm branch attempts to cancel a Contract that was never
   established and escalates through non-Beckn `raise`; and
 - the BPP technical-confirm branch models a NACK as `on_confirm` and then also

@@ -236,7 +236,7 @@ Selecting a CRC determines which ION schema extension packs apply to the resourc
 | `HSC-restaurant-ordering` | **Hospitality** | `schema/extensions/hospitality/delivery/v1` | `classification` (halal status), `allergens`, `preparationTime`. **Food delivery and online food ordering — GoFood, GrabFood, restaurant apps** |
 | `LGC-lastmile` | Logistics | `releases/release1/schema/extension/logistics/LogisticsResource/v1` | `resourceType`, `consignment.quantity`, `packages[].weight`, `packages[].dimensions` |
 
-All Trade CRCs use `releases/release1/schema/extension/trade/TradeResource/v1` — the CRC determines which *conditional sub-object* within that pack is required. Logistics CRCs use the draft `releases/release1/schema/extension/logistics/LogisticsResource/v1` pack while Logistics remains under review. Pack documentation lives with each release-local pack.
+All Trade CRCs use `releases/release1/schema/extension/trade/TradeResource/v1` — the CRC determines which *conditional sub-object* within that pack is required. Logistics CRCs use the validated draft `releases/release1/schema/extension/logistics/LogisticsResource/v1` pack. Pack documentation lives with each release-local pack.
 
 #### Example: same seller, two CRCs, two different forms
 

@@ -360,6 +360,12 @@ every error-source change.
 
 ### Phase 8 — Validate and close the scope
 
+**Status:** Complete — all closure criteria passed on 16 October 2026 and
+`contentStatus.logistics` is now `validated`. The command-level evidence and
+input revisions are recorded in
+`docs/internal/ION_Release1_Logistics_Validation_Report.md`. Release 1 remains
+`draft`; this status change does not publish or channel the release.
+
 Logistics may change from `review-required` to `validated` only when:
 
 - every included pack passes the schema directory validator;

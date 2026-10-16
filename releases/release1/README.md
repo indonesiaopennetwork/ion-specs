@@ -34,7 +34,10 @@ Phase 6 migrated all six patterns and nine included/scoped variants after
 reviewing all fifteen legacy variants; six variants remain explicitly deferred.
 Logistics Phase 7 reviewed all 97 legacy errors, migrated 30 connected errors,
 and explicitly deferred 67 entries without valid Release 1 targets or error
-semantics. Logistics remains `review-required` pending Phase 8 closure. `ion.yaml`,
+semantics. Logistics Phase 8 then passed the complete schema-directory validator,
+all nine example-object validations, source-disposition checks, connection
+validators, and the complete Release 1 gate. Logistics is now `validated`.
+`ion.yaml`,
 Hospitality, and Finance remain excluded, and the repository does not retain
 separate root-level normative copies.
 
@@ -136,7 +139,14 @@ ruby tools/release/validate_release.rb releases/release1
 ```
 
 GitHub Actions uses the same command. The **Release validation** workflow can be
-run manually and optionally includes the publication gate.
+run manually and optionally includes the publication gate. After a push to
+`main`, the workflow also verifies that every non-hidden Release 1 file is live
+at `schema.ion.id` with the expected media type and exact repository bytes. The
+same post-merge check can be run locally with:
+
+```bash
+ruby tools/release/validate_deployed_urls.rb releases/release1
+```
 
 For the deeper Trade schema-pack consistency validation maintained in the ION
 testbed:

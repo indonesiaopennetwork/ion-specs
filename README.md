@@ -76,8 +76,8 @@ the Council publishes it into the `next` channel on `main`.
   — 40 connected errors: 10 Trade and 30 Logistics.
 
 Release 1 excludes `ion.yaml`, Hospitality, and Finance. Logistics is
-`review-required`: its legacy material is being reviewed independently and is not
-normative until migrated, validated, and added to the release. The repository
+`validated`: its included schemas, flows, state machines, policy connections,
+errors, and examples have passed the Phase 8 closure gate. The repository
 does not maintain separate editable `schema/`, `flows/`, or `errors/` trees at
 its root. Policies are the exception: their canonical sources and generated
 registry live in root `policies/` and evolve independently of integer releases.
@@ -95,8 +95,10 @@ releases/
       core/api/v2.0.0/ion-additional.yaml  ION endpoints Beckn does not define
       common/                  Validated common packs used by Trade
       extension/trade/         Validated Trade packs
+      extension/logistics/     Validated Logistics packs
       vendored/beckn/          Pinned release-local dependencies
     flows/trade/               Seven flows plus reviewed Trade variants
+    flows/logistics/           Validated Logistics patterns and variants
     errors/                    Included Trade and Logistics errors and registry
 
 docs/                          Architecture and contributor documentation

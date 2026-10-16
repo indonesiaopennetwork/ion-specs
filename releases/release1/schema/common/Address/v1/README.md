@@ -44,8 +44,8 @@ the standalone schema and included Trade flow material.
 
 ## Used in
 
-See the Release 1 [Trade flow](../../../../flows/trade/README.md). Logistics is not
-included in this release.
+See the Release 1 [Trade flows](../../../../flows/trade/README.md) and
+[Logistics flows](../../../../flows/logistics/README.md).
 
 ## Common rejection reasons
 

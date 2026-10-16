@@ -1,7 +1,7 @@
 # ION Schema Style Guide
 
 > **Release 1 scope note:** Release 1 contains validated standalone Trade and
-> required common packs, plus Logistics packs currently under review. References
+> required common packs, plus validated Logistics packs. References
 > in this authoring guide to `ion.yaml`, L2/L3 configuration, CRC registries, or
 > other unreleased sectors describe future-release design work in
 > `schema/core/v2/api/v2.0.0/ion.yaml`; they are not Release 1 requirements.

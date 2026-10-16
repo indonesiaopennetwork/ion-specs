@@ -1,7 +1,7 @@
 # ION Schema Design Guide
 
 > **Release 1 scope note:** Release 1 contains validated standalone Trade and
-> required common packs, plus Logistics packs currently under review. This guide
+> required common packs, plus validated Logistics packs. This guide
 > also discusses the unreleased `ion.yaml` aggregate and future sectors as design
 > inputs; those sections are not part of the normative Release 1 contract.
 

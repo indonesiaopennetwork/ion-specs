@@ -34,8 +34,8 @@ end
 path_map = repository_root.join("tools/release/#{release_name}-path-map.json")
 commands.insert(2, ["Release path map", ["ruby", "tools/release/validate_path_map.rb", "--require-targets", path_map.to_s]]) if path_map.file?
 commands << ["Trade connections", ["ruby", "tools/release/validate_trade_connections.rb", release_root.to_s]]
-logistics_states = release_root.join("flows/logistics/state-machines/v1/states.yaml")
-if logistics_states.file?
+logistics_schema = release_root.join("schema/extension/logistics")
+if logistics_schema.directory?
   commands << ["Logistics performance states", ["ruby", "tools/release/validate_logistics_performance_states.rb", release_root.to_s]]
   commands << ["Logistics connections", ["ruby", "tools/release/validate_logistics_connections.rb", release_root.to_s]]
   commands << ["Logistics errors", ["ruby", "tools/release/validate_logistics_errors.rb", release_root.to_s]]
