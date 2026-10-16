@@ -1,9 +1,15 @@
 # LogisticsPerformanceStates v1
 
-This directory defines the ten canonical Logistics performance state machines
-used by Release 1 patterns. `states.yaml` is the normative registry and
+This flow-level directory defines the ten canonical Logistics performance state
+machines used by Release 1 patterns and variants. `states.yaml` is the normative registry and
 `registry.schema.json` is its formal grammar. `profile.json` identifies the
 artifact without claiming an attribute attachment point.
+
+The registry is intentionally centralized at the Logistics flow root rather
+than copied into individual patterns. Parcel, reverse, and recovery variants
+share machine and flow identifiers, while Contract-status aggregation applies
+across all required Performances. Pattern and variant profiles select the
+applicable machine fragment from this one registry.
 
 Every machine declares one initial state and places outgoing transitions on the
 source state. A state is terminal only when it has a `terminalOutcome`; terminal
@@ -26,13 +32,13 @@ whole Contract lifecycle. Required Performances are aggregated in rule order:
 Optional or supporting Performances do not block completion. A return,
 remediation, or warehouse-dispatch child Contract has its own lifecycle.
 
-## Planned flow references
+## Flow references
 
 `flowCatalog` gives every transition `flowRef` a resolvable local declaration.
-Entries marked `planned` are integration points for Phase 6; they do not claim
-that a Logistics flow has already been published. Once flow profiles are added,
-the validator also verifies their `stateMachine` or `performanceStateMachine`
-fragment against the machine IDs in this registry.
+Entries marked `published` have exactly one owning variant profile. Entries
+marked `planned` remain explicit deferrals and do not claim that a Logistics
+flow is available. The connection validator verifies profile ownership, state
+machine paths and fragments, schema packs, actions, and policy references.
 
 ## Validation
 

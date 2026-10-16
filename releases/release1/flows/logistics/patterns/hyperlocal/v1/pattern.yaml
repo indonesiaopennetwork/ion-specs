@@ -1,0 +1,23 @@
+id: ion-logistics-pattern-hyperlocal-v1
+version: 1.0.0
+patternName: hyperlocal
+sector: ion:logistics
+status: ready
+description: Sub-day point-to-point delivery with explicit courier-assignment semantics and optional live tracking.
+baseSequence: [discover, on_discover, select, on_select, init, on_init, confirm, on_confirm, status, on_status]
+stateMachineSelection:
+  field: Offer.offerAttributes.executionTerms.agentAssignmentModel
+  mappings:
+    PRE_ASSIGNED: flows/logistics/state-machines/v1/states.yaml#hyperlocal-pre-assigned
+    FIFO_AT_PICKUP: flows/logistics/state-machines/v1/states.yaml#hyperlocal-fifo
+requiredData:
+  - Offer.offerAttributes.serviceDefinition.serviceLevel
+  - Offer.offerAttributes.executionTerms.agentAssignmentModel
+  - Performance.performanceAttributes.route
+  - Performance.performanceAttributes.assignments
+  - Performance.performanceAttributes.events
+  - Performance.performanceAttributes.proofs
+optionalActions: [track, on_track, rate, on_rate]
+constraints:
+  - Only PRE_ASSIGNED and FIFO_AT_PICKUP select a Release 1 hyperlocal machine.
+  - Courier identity disclosure is governed by authorization and privacy policy, not by the state graph.

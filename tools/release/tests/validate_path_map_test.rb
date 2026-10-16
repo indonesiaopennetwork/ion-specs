@@ -23,7 +23,8 @@ class ValidatePathMapTest < Minitest::Test
 
     assert_empty IonReleasePathMap.validate(logistics_path_map)
     assert_equal 10, logistics_path_map.fetch("mappings").size
-    assert logistics_path_map.fetch("mappings").all? { |mapping| mapping.fetch("kind") == "logistics-pack" }
+    assert_equal 9, logistics_path_map.fetch("mappings").count { |mapping| mapping.fetch("kind") == "logistics-pack" }
+    assert_equal 1, logistics_path_map.fetch("mappings").count { |mapping| mapping.fetch("kind") == "logistics-flow-registry" }
   end
 
   def test_duplicate_targets_are_rejected

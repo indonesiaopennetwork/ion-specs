@@ -1597,7 +1597,7 @@ them as follows:
   `schema/extensions/logistics/performance-states/v1/README.md`
 - Approved Release 1 artifact name: `LogisticsPerformanceStates`
 - Runtime owner: `Performance.status.code` plus Logistics flow validation.
-- Artifact kind: versioned state-machine registry, not an OpenAPI schema pack
+- Artifact kind: versioned flow-level state-machine registry, not an OpenAPI schema pack
   and not an `Attributes` attachment.
 - Legacy scope: 10 machines, 133 state occurrences, 81 distinct state codes,
   and 146 directed transition edges.
@@ -1623,7 +1623,7 @@ registry artifact, as already anticipated by the migration plan.
 
 | ID | Decision required | Phase 3 default |
 |---|---|---|
-| `LOG-STATE-001` | Where and how the artifact is published | Treat it as a release-local, versioned state-machine registry referenced by Logistics flows. Do not invent a Beckn attachment point or generated schema-pack files. |
+| `LOG-STATE-001` | Where and how the artifact is published | Publish it at `flows/logistics/state-machines/v1/` as a release-local, versioned registry referenced by Logistics flows. Do not invent a Beckn attachment point or generated schema-pack files. Phase 6 moved the Phase 4 draft artifact out of `schema/extension/` after confirming its operational ownership. |
 | `LOG-STATE-002` | What machine-readable grammar and validator govern the registry | Define a formal registry grammar and dedicated validator covering unique IDs, initial state, target existence, reachability, terminal consistency, required-field references, typed triggers/effects, and flow references. |
 | `LOG-STATE-003` | How ION state codes relate to Beckn Logistics status enums | Maintain ION's richer pattern-specific vocabulary and document optional coarse mappings. Do not copy or claim equivalence with the current independent Beckn enums. |
 | `LOG-STATE-004` | How terminal state and terminal outcome are represented | Use one authoritative per-state terminal declaration with a typed outcome such as SUCCESS, CANCELLED, FAILED, RETURNED, TRANSFERRED, or DISPUTED. Remove the competing machine-level terminal list or generate it. |

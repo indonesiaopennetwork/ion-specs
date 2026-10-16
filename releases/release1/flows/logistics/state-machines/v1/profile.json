@@ -4,7 +4,7 @@
   "type": "StateMachineRegistry",
   "name": "ION Logistics Performance State Machines (v1)",
   "sector": "ion:logistics",
-  "description": "Canonical, validated execution-state machines for ION Logistics patterns. This is not an attribute pack and has no Beckn attachment point.",
+  "description": "Canonical, validated execution-state machines for ION Logistics flows. This is flow metadata, not a message-validation attribute pack, and has no Beckn attachment point.",
   "stateDefinitions": "./states.yaml",
   "grammar": "./registry.schema.json",
   "status": "draft"

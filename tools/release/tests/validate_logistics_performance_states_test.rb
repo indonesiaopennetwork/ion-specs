@@ -8,7 +8,7 @@ require_relative "../validate_logistics_performance_states"
 
 class ValidateLogisticsPerformanceStatesTest < Minitest::Test
   RELEASE_ROOT = File.expand_path("../../../releases/release1", __dir__)
-  REGISTRY = File.join(RELEASE_ROOT, "schema/extension/logistics/LogisticsPerformanceStates/v1/states.yaml")
+  REGISTRY = File.join(RELEASE_ROOT, "flows/logistics/state-machines/v1/states.yaml")
 
   def test_release_registry_is_valid
     assert_empty IonLogisticsPerformanceStates.validate(REGISTRY, release_root: RELEASE_ROOT)

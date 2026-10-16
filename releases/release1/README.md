@@ -25,10 +25,14 @@ was reopened as `review-required` so its legacy material can be migrated and
 validated independently. Phase 4 now includes the complete `LogisticsResource`,
 `LogisticsProvider`, `LogisticsParticipant`, `LogisticsOffer`, `LogisticsCommitment`, `LogisticsConsideration`, `LogisticsContract`, `LogisticsPerformance`, and `LogisticsTracking` v1 vertical slices and the reusable common
 `IdentifiableLocation` v1 wrapper. The validated `LogisticsPerformanceStates`
-v1 registry completes Phase 4; Logistics flows and errors are still under
-review. Logistics Phase 5 migrated 22 reviewed baseline policy terms into the
+v1 registry completed Phase 4 and now lives under the Logistics flow tree
+because it describes execution graphs rather than message shape. Logistics
+Phase 5 migrated 22 reviewed baseline policy terms into the
 shared root registry as drafts, mapped 10 obsolete legacy IRIs to current terms,
-and explicitly deferred 27 unsourced or agreement-specific strings. `ion.yaml`,
+and explicitly deferred 27 unsourced or agreement-specific strings. Logistics
+Phase 6 migrated all six patterns and nine included/scoped variants after
+reviewing all fifteen legacy variants; six variants remain explicitly deferred.
+Logistics errors remain under review. `ion.yaml`,
 Hospitality, and Finance remain excluded, and the repository does not retain
 separate root-level normative copies.
 
@@ -76,8 +80,8 @@ individually reviewed Logistics packs under `schema/extension/logistics/`.
 These currently comprise `LogisticsResource`, `LogisticsProvider`,
 `LogisticsParticipant`, `LogisticsOffer`, `LogisticsCommitment`, and
 `LogisticsConsideration`, `LogisticsContract`, `LogisticsPerformance`, and
-`LogisticsTracking` v1, plus the standalone `LogisticsPerformanceStates` v1
-registry. Pinned
+`LogisticsTracking` v1. The standalone `LogisticsPerformanceStates` v1 registry
+is flow metadata under `flows/logistics/state-machines/v1/`. Pinned
 schema dependencies live under `schema/vendored/`;
 the scoped `flows/` and `errors/` trees remain release-level peers. Policies are
 resolved from the repository-level registry at

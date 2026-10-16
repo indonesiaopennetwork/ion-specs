@@ -3,7 +3,7 @@
 require "json"
 
 module IonReleasePathMap
-  KINDS = %w[api vendored-protocol common-pack trade-pack logistics-pack].freeze
+  KINDS = %w[api vendored-protocol common-pack trade-pack logistics-pack logistics-flow-registry].freeze
   PATH_STATUSES = %w[approved proposed].freeze
   CONTENT_STATUSES = %w[review-required validation-pending provenance-pending].freeze
   REQUIRED_MAPPING_FIELDS = %w[

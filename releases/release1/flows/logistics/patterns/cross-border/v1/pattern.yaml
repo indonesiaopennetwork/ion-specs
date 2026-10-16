@@ -1,0 +1,18 @@
+id: ion-logistics-pattern-cross-border-v1
+version: 1.0.0
+patternName: cross-border
+sector: ion:logistics
+status: ready
+description: International freight or parcel movement with declared trade and customs terms.
+baseSequence: [discover, on_discover, select, on_select, init, on_init, confirm, on_confirm, status, on_status]
+stateMachine: flows/logistics/state-machines/v1/states.yaml#xb
+requiredData:
+  - Resource.resourceAttributes.consignment
+  - Offer.offerAttributes.crossBorderTerms
+  - Contract.contractAttributes.crossBorderTerms
+  - Performance.performanceAttributes.route
+  - Performance.performanceAttributes.events
+  - Performance.performanceAttributes.proofs
+constraints:
+  - This base pattern records customs milestones but does not publish the customs-remediation variant.
+  - Customs appeals and duty disputes remain deferred because their policy sources are unavailable.

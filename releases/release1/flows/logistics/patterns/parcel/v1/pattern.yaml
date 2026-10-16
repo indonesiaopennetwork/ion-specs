@@ -1,0 +1,59 @@
+id: ion-logistics-pattern-parcel-v1
+version: 1.0.0
+patternName: parcel
+sector: ion:logistics
+status: ready
+description: >
+  Reference flow for point-to-point and hub-routed parcel transport. The
+  confirmed Offer routing topology selects one of three state machines.
+participants:
+  BAP: logistics buyer application
+  BPP: logistics service provider
+phases:
+  discovery:
+    steps:
+      - {step: discover, from: BAP, to: BPP, direction: request}
+      - {step: on_discover, from: BPP, to: BAP, direction: callback}
+    requiredData:
+      - Offer.offerAttributes.serviceDefinition
+      - Offer.offerAttributes.rateCard
+      - Offer.offerAttributes.policyReferences
+      - Provider.providerAttributes.serviceCoverage
+  contracting:
+    steps:
+      - {step: select, from: BAP, to: BPP, direction: request, condition: required when the published rate is not binding}
+      - {step: on_select, from: BPP, to: BAP, direction: callback}
+      - {step: init, from: BAP, to: BPP, direction: request}
+      - {step: on_init, from: BPP, to: BAP, direction: callback}
+      - {step: confirm, from: BAP, to: BPP, direction: request}
+      - {step: on_confirm, from: BPP, to: BAP, direction: callback}
+    requiredData:
+      - Contract.participants
+      - Contract.commitments
+      - Contract.considerations
+      - Contract.performances
+      - Performance.performanceAttributes.route
+      - Performance.performanceAttributes.serviceReferences
+  execution:
+    communication: BPP pushes on_status; BAP may request status or track
+    stateMachineSelection:
+      field: Offer.offerAttributes.serviceDefinition.routingTopology
+      mappings:
+        POINT_TO_POINT: flows/logistics/state-machines/v1/states.yaml#parcel-p2p
+        POINT_HUB_POINT: flows/logistics/state-machines/v1/states.yaml#parcel-p2h2p
+        POINT_MULTI_HUB_POINT: flows/logistics/state-machines/v1/states.yaml#parcel-p2h2h2p
+    steps:
+      - {step: status, from: BAP, to: BPP, direction: request, optional: true}
+      - {step: on_status, from: BPP, to: BAP, direction: callback-or-unsolicited}
+      - {step: track, from: BAP, to: BPP, direction: request, optional: true}
+      - {step: on_track, from: BPP, to: BAP, direction: callback, optional: true}
+  completion:
+    steps:
+      - {step: rate, from: BAP, to: BPP, direction: request, optional: true}
+      - {step: on_rate, from: BPP, to: BAP, direction: callback, optional: true}
+      - {step: reconcile, endpointClass: ION_EXTENSION, from: BAP, to: BPP, direction: request, optional: true}
+      - {step: on_reconcile, endpointClass: ION_EXTENSION, from: BPP, to: BAP, direction: callback, optional: true}
+constraints:
+  - State changes are carried by core Performance.status; durable evidence is recorded in LogisticsPerformance events, proofs, measurements, attempts, and SLA history.
+  - P2P_MULTI_STOP is not a routing-topology value in Release 1; multi-stop service is deferred pending its policy closure.
+  - Cash-on-delivery and eKYC branches are deferred and must not be implied by this base flow.

@@ -1,0 +1,11 @@
+{
+  "id": "ion-logistics-variant-incident-v1",
+  "version": "1.0.0",
+  "type": "Variant",
+  "variantName": "incident",
+  "sector": "ion:logistics",
+  "status": "ready",
+  "branchFile": "./variant.yaml",
+  "applicablePatterns": ["parcel", "hyperlocal", "freight", "roro", "cross-border"],
+  "requiredPolicyRefs": ["ion://policy/incident.standard", "ion://policy/incident.high-severity-escalation", "ion://policy/liability.force-majeure-exclusions"]
+}

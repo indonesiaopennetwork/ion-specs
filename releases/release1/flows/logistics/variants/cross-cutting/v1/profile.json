@@ -1,0 +1,13 @@
+{
+  "id": "ion-logistics-variant-cross-cutting-v1",
+  "version": "1.0.0",
+  "type": "Variant",
+  "variantName": "cross-cutting",
+  "sector": "ion:logistics",
+  "status": "ready",
+  "branchFile": "./variant.yaml",
+  "applicablePatterns": ["parcel", "hyperlocal", "freight", "roro", "warehouse", "cross-border"],
+  "includedSubBranches": ["tracking", "status-query", "support", "rating", "reconciliation"],
+  "excludedSubBranches": ["raise", "raise-status", "raise-details"],
+  "schemaPacksRequired": {"common": ["Settlement/v1"], "logistics": ["LogisticsTracking/v1"]}
+}

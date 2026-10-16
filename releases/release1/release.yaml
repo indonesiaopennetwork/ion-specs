@@ -229,6 +229,59 @@ artifactChecksums:
   errors/README.md: 8020be6183ea38ae313f5442e16ef09968198b9798f73de880defb6cfc88da3d
   errors/registry.json: e14651800ede45859cc9d1ee9b88f93dacf8670455bb729a34eaf5d716a800ac
   errors/trade.yaml: 3f74aafcbb833fa825ca4346f9b00424c057db4a41156d853bb3b2ed4dd4e7f5
+  flows/logistics/README.md: 8b42fe3b71f0850d8d939f28936adbda0cd79cf5ac7001773d7d586d3e20717f
+  flows/logistics/patterns/README.md: ba0048b821e01b38a1c176335f2389d9663de52efd33863936f5f657668e05d2
+  flows/logistics/patterns/cross-border/v1/README.md: d477d507feef1baf7eef076ff41d1ae4cf6569f3a5ac144cfbbe9cb351dc977b
+  flows/logistics/patterns/cross-border/v1/pattern.yaml: 5ceef516431bc9fef9ee4043e3991538a7046cc423eb251593ca38860ebc99b3
+  flows/logistics/patterns/cross-border/v1/profile.json: 33922bdb92c98874be2d4ee0b8dd25b4d40e4d46a22e99dccbe146927989dc07
+  flows/logistics/patterns/freight/v1/README.md: 3bbc63d360f166560c78e6f509f783c7ebbe7e8a1e6d4e71a72949331337bf7b
+  flows/logistics/patterns/freight/v1/pattern.yaml: 6d7e1d25f9970730cb3b607cc631d39fe5d35fd22dba2b6ee4b3642dc69577c4
+  flows/logistics/patterns/freight/v1/profile.json: ab8b6f4147ad3c2329b9e241a63b32de235e29a5d3c3af91b05463f3835c0a93
+  flows/logistics/patterns/hyperlocal/v1/README.md: aa5bee9405bb49940053bd8293a77c512ef1695bd27bc39630f17ec54b14c2bf
+  flows/logistics/patterns/hyperlocal/v1/pattern.yaml: 97be7e9cc6ee5c35ea32fcd20f3e01465d2cc67e377ddb1504516daea91869ee
+  flows/logistics/patterns/hyperlocal/v1/profile.json: b41773a5cdf2c0a2e77b9cd9e2a42fce9cf78412dc5a5167b96d64dba3332f6d
+  flows/logistics/patterns/parcel/v1/README.md: 263d5bcf83bbb3cef5f6a08ec8d46d89d6af3b36361175aab6355c8256485bf7
+  flows/logistics/patterns/parcel/v1/pattern.yaml: c49cb3b87e72d36b083008848e35f791063c15d1b5356f4a684d3f4119a6430c
+  flows/logistics/patterns/parcel/v1/profile.json: 8f200d380e994cffe15e5ee4efd6a48a3eef12ab5cf86e8c7121c63cf94832a1
+  flows/logistics/patterns/roro/v1/README.md: cc0182ca5a1ec53e79ca1027d24950698e8f4f13438f32a81cf67214461adf23
+  flows/logistics/patterns/roro/v1/pattern.yaml: 813fdc70cac2210ba7789e7ead92c609d275862901ba9b1918fd1984967e1d5b
+  flows/logistics/patterns/roro/v1/profile.json: 8d35af9cf2f56280519601d4727f776f77556aa39e19a6cc3b4ca0805cfce995
+  flows/logistics/patterns/warehouse/v1/README.md: ce126cef409258eae22ebeaf91cc7c6c7af7a423818c6ce785f40be86c6cfedd
+  flows/logistics/patterns/warehouse/v1/pattern.yaml: 9d6808e4932bc1cfbc68ac4ce0182b6fdcfe36e82b13279d124fbefd3d340122
+  flows/logistics/patterns/warehouse/v1/profile.json: ff773d5f1cd2a6a4a5ff98909ac3977a756d5f00537b60546021c99d66aaba27
+  flows/logistics/state-machines/README.md: bc19ef682373c8ebe0678335985c76f486ec08c6bc49f52975c10c34135760cf
+  flows/logistics/state-machines/v1/README.md: 450937df048f499cd117836888168df8c50549ad9231bb4990461a55878ea33d
+  flows/logistics/state-machines/v1/profile.json: a7d85bd1c9866f9a97a91c3afa613fee255047f9a5ba265a8ee0bfa34922104f
+  flows/logistics/state-machines/v1/registry.schema.json: 903ed5b0ba19ce6037cff276148a8ed733b5e0d12b3a5007942e89fdf59bdd67
+  flows/logistics/state-machines/v1/states.yaml: 311313790e371e3bbb4676eb042879203313647235dfa6d108561b477ade21a1
+  flows/logistics/variants/README.md: 107031ce1669f9dd863ce11cc6040664db77f16f4aff71f643ebb74349d35bea
+  flows/logistics/variants/cancellation/v1/README.md: 4b20e7e0499806e7df71093c748b2a027457d9850a88866677037bd16fccf2c2
+  flows/logistics/variants/cancellation/v1/profile.json: 41c621ea7285848e9ce849679737455eb851d9004a2962fe5af6624ad1a11b4b
+  flows/logistics/variants/cancellation/v1/variant.yaml: d812574478170e53e2805562c04bd15d4d16bfaf3199d57122e0c3344a8a68e5
+  flows/logistics/variants/cross-cutting/v1/README.md: 5a617aaa21c81292d9a5ba00d4316d6da457bebd12d0e9a765a586823bea45dd
+  flows/logistics/variants/cross-cutting/v1/profile.json: c115ce72055c3f12b233a49c40eecc5bd73ad3691973f8a37f87de737b74ec5e
+  flows/logistics/variants/cross-cutting/v1/variant.yaml: 4f9cff83eb3a4e27692ad5e40325890a0445312a2f5dfe880c47a76f9d61f1bf
+  flows/logistics/variants/delivery-attempts/v1/README.md: 83991472b5336b08df7d2275d1245ec086e8551bbedb3d331c62067231421fa8
+  flows/logistics/variants/delivery-attempts/v1/profile.json: 784c1a334b725713e9a3e5ed84112709240ebf47a1a796c4442a2253ff3f700c
+  flows/logistics/variants/delivery-attempts/v1/variant.yaml: 2d79383e1e1466458cda5945a94887749ef9e1b40a1fd1c719a7f2bf9b31f5bc
+  flows/logistics/variants/during-transaction/v1/README.md: 19a712db7f8966b580b0e5316ad6c38c70ba8a061e820fd7e4251c68e3f8c9e7
+  flows/logistics/variants/during-transaction/v1/profile.json: 864ce7fa68afaf875e38501143390511b6530ef9235b6b56a73d56c1699d4ebf
+  flows/logistics/variants/during-transaction/v1/variant.yaml: 21f44de35032ea72efeb3d79779411ff685275216ce1d6db59a0863a4049c4d1
+  flows/logistics/variants/exception/v1/README.md: d45f3e25aa9313cece4532863d0b433e383139225a7c25b393e7f4244b2f24fe
+  flows/logistics/variants/exception/v1/profile.json: f43ed53f32a4ae405b1f9fe80585ca6cf94b59896606505608f5c37d2e0a5f7d
+  flows/logistics/variants/exception/v1/variant.yaml: 516bfdec08926591d4f26733fb95abd5b6fdf27a9bbe6a16983f5e15434bdd43
+  flows/logistics/variants/incident/v1/README.md: f254c4d1e04d433177d47fead09430d2de5791d2006dcd5355b061b9fa2f4a02
+  flows/logistics/variants/incident/v1/profile.json: 6d3bb7a0c9ed488bf14912dac6c6d78f3d2b3c295b8281f08ee307c579296a8d
+  flows/logistics/variants/incident/v1/variant.yaml: f45e6c7d6eda955b07a7004b8fc2137dd9711ee5844b71888f23a76797360eba
+  flows/logistics/variants/reverse/v1/README.md: 1030e03243003b7df151369ec9b02edc319d76ae62e3eff073cf0f2d134a12d2
+  flows/logistics/variants/reverse/v1/profile.json: 0c0ae7ed2bb688f29d0514f2d6e1c8cb052fbba01ee7e1c0ee34b2374512b40e
+  flows/logistics/variants/reverse/v1/variant.yaml: 9be14aa41f203a47cb4641b2eea110fc593d33b8149302580c65e542ae11863a
+  flows/logistics/variants/rts-handoff/v1/README.md: b8dceac6d70622b50045c2fca5c00b4be0c509c2f5ee1e0a31054c83a476088d
+  flows/logistics/variants/rts-handoff/v1/profile.json: e6d34cd67341832ef253e90aa374c9469dc6bb63be73c626762b57c455dbe9fb
+  flows/logistics/variants/rts-handoff/v1/variant.yaml: ceac305e4aa7a09361fd4e182bd2ef177cd4b56475b0eccce26cf772e682c721
+  flows/logistics/variants/weight-dispute/v1/README.md: 2c6c7c5ffc617dbe2d09d58ac433ba76a9732ed19aa720607b6bd02f1516ad40
+  flows/logistics/variants/weight-dispute/v1/profile.json: 1af7f85722dc4b46e5fe3e02d388d4df59225ff6685d7c7e98de0a1c461de6d6
+  flows/logistics/variants/weight-dispute/v1/variant.yaml: 81aaffa8365fe0edbd56ed9c622e025d02e9f6bc22c0bc6aaf45787b79ad9a3b
   flows/trade/README.md: dc3fa3970913496638478c01047b0070eea25ae0ec9129df7c33752d3887cf45
   flows/trade/patterns/business-procurement/v1/README.md: b4b6802e517a9390c9c7b332ca76cc335e2e6e0edc9247eda177e3d70dca644f
   flows/trade/patterns/business-procurement/v1/docs/01-happy-path.md: '06257838df35851a22f9b9f327e9fd2e37ea696254cd72668656510b43988a1d'
@@ -416,11 +469,6 @@ artifactChecksums:
   schema/extension/logistics/LogisticsPerformance/v1/renderer.json: 897c59b0b8b3e098c4cfa625f22eb82532cf52ccc40fced363d58a0cfbdc5dcc
   schema/extension/logistics/LogisticsPerformance/v1/schema.json: f8eba0f33cadb17c0e896dc365b4e5f86ae0936ca7c236a0bbbbf6d959197512
   schema/extension/logistics/LogisticsPerformance/v1/vocab.jsonld: e43ad3324bc2bd4d3880fea9c10f0ad31e28f86669292e1d4193259a6a00048e
-  schema/extension/logistics/LogisticsPerformanceStates/README.md: fa9f241eadb628f286f852fed3393563fb3005931cec5ed930106b19a8dd3c48
-  schema/extension/logistics/LogisticsPerformanceStates/v1/README.md: fc65b04ebe44565296ff559e4f871acc171159d7b38d82b348cfb338c8d25e48
-  schema/extension/logistics/LogisticsPerformanceStates/v1/profile.json: 61dc8c53422405f122dc6785d1c246036773d0b42d6e4d095541750dd388cf85
-  schema/extension/logistics/LogisticsPerformanceStates/v1/registry.schema.json: '08ace6c3ac9acfcbb0803305abed33f2950ca371bd949d0e0be0e87cd01c9108'
-  schema/extension/logistics/LogisticsPerformanceStates/v1/states.yaml: 7126ee2ea59ade55cc4cc9abc1f6bb421cdda346763f6c61afc261a7ea687724
   schema/extension/logistics/LogisticsProvider/README.md: eeccdeaca036407ab48b2fda5fca24487100068d7c48d94242149e5d4d8ee3b7
   schema/extension/logistics/LogisticsProvider/v1/README.md: cae27edc3e2f6d024f529e8061431cab71b3e5b389142d10dd0fd0824bbf8b0c
   schema/extension/logistics/LogisticsProvider/v1/attributes.yaml: 40e9a1c7804b2c9dffb7cfc9e70ee65c02c20c25e026ff32bfbea7ade9bff23a

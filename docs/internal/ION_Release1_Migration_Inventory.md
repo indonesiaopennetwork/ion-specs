@@ -712,9 +712,11 @@ Phase 4 subsequently completed `LogisticsResource`, `LogisticsProvider`,
 `LogisticsParticipant`, `LogisticsOffer`, `LogisticsCommitment`, and
 `LogisticsConsideration`, `LogisticsContract`, `LogisticsPerformance`, and
 `LogisticsTracking` v1, followed by the standalone
-`LogisticsPerformanceStates` v1 registry. Those complete vertical slices are
-present under `schema/extension/logistics/`; the registry has a formal grammar
-and a dedicated graph, schema-pointer, and flow-reference validator.
+`LogisticsPerformanceStates` v1 registry. The nine complete vertical slices are
+present under `schema/extension/logistics/`; Phase 6 moved the registry to
+`flows/logistics/state-machines/v1/` after confirming that it is operational
+flow metadata rather than a message-validation schema. It retains its formal
+grammar and dedicated graph, schema-pointer, and flow-reference validator.
 The reusable common `IdentifiableLocation` v1 wrapper was added because the
 pinned Beckn Location 2.0 has no identifier and cannot be extended through
 `allOf`.
@@ -725,7 +727,11 @@ registry as drafts, 10 obsolete identifiers were mapped to current terms, and
 27 unsourced or agreement-specific strings were explicitly deferred. The
 detailed disposition is in
 `docs/internal/ION_Release1_Logistics_Policy_Migration_Ledger.md`. Logistics
-flows and errors remain review-required.
+Phase 6 subsequently migrated all six Logistics patterns and nine included or
+scoped variants after reviewing all fifteen variants. Six variants were
+deferred for named policy or schema blockers. The detailed decisions are in
+`docs/internal/ION_Release1_Logistics_Flow_Migration_Ledger.md`; Logistics
+errors remain review-required.
 
 ### Phase 7 — Update repository-level material
 

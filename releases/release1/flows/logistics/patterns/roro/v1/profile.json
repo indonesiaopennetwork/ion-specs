@@ -1,0 +1,12 @@
+{
+  "id": "ion-logistics-pattern-roro-v1",
+  "version": "1.0.0",
+  "type": "Pattern",
+  "patternName": "roro",
+  "sector": "ion:logistics",
+  "status": "ready",
+  "spineFile": "./pattern.yaml",
+  "schemaPacksRequired": {"common": ["IdentifiableLocation/v1", "Payment/v1"], "logistics": ["LogisticsProvider/v1", "LogisticsResource/v1", "LogisticsOffer/v1", "LogisticsCommitment/v1", "LogisticsContract/v1", "LogisticsPerformance/v1"]},
+  "performanceStateMachine": "flows/logistics/state-machines/v1/states.yaml#roro",
+  "requiredPolicyRefs": ["ion://policy/cancel.logistics.prepickup-free", "ion://policy/liability.force-majeure-exclusions"]
+}

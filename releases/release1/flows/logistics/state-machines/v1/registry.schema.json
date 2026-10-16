@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://schema.ion.id/release1/schema/extension/logistics/LogisticsPerformanceStates/v1/registry.schema.json",
+  "$id": "https://schema.ion.id/release1/flows/logistics/state-machines/v1/registry.schema.json",
   "title": "ION Logistics Performance State Registry v1",
   "type": "object",
   "additionalProperties": false,

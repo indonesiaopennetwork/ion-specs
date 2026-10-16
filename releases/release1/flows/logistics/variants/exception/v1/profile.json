@@ -1,0 +1,14 @@
+{
+  "id": "ion-logistics-variant-exception-v1",
+  "version": "1.0.0",
+  "type": "Variant",
+  "variantName": "exception",
+  "sector": "ion:logistics",
+  "status": "ready",
+  "branchFile": "./variant.yaml",
+  "flowIds": ["pickup-failure"],
+  "applicablePatterns": ["parcel", "hyperlocal", "freight", "roro", "warehouse", "cross-border"],
+  "includedSubBranches": ["loss", "pickup-failure"],
+  "excludedSubBranches": ["damage"],
+  "requiredPolicyRefs": ["ion://policy/liability.loss-cap-per-shipment", "ion://policy/evidence.standard.photo-24hr", "ion://policy/penalty.pickup-failed.consignor-fault"]
+}

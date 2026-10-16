@@ -295,6 +295,10 @@ separate policy review closes their recorded blocker.
 
 ### Phase 6 — Migrate patterns and variants
 
+**Status:** Complete — all six patterns and all fifteen variants reviewed; six
+patterns and nine included/scoped variants migrated, with six variants deferred
+for named schema or policy blockers
+
 Migrate patterns in dependency order:
 
 1. Parcel as the reference Logistics flow.
@@ -326,6 +330,12 @@ Then review variants individually in this order:
 A flow or branch must be deferred when its defining schema, protocol action,
 state, or policy is unavailable. Do not represent missing concepts with ad hoc
 tags merely to preserve a legacy example.
+
+The detailed disposition is recorded in
+`docs/internal/ION_Release1_Logistics_Flow_Migration_Ledger.md`. Phase 6 also
+moved the standalone performance-state registry from the schema-extension tree
+to `flows/logistics/state-machines/v1/`, because it is shared operational flow
+metadata rather than a message-validation schema.
 
 ### Phase 7 — Migrate connected errors
 
@@ -396,6 +406,8 @@ From the ION specification repository root, run:
 ```bash
 ruby tools/release/validate_offline_refs.rb releases/release1
 ruby tools/release/validate_public_urls.rb releases/release1
+ruby tools/release/validate_logistics_performance_states.rb releases/release1
+ruby tools/release/validate_logistics_connections.rb releases/release1
 ruby tools/release/record_artifact_checksums.rb --write releases/release1
 ruby tools/release/validate_release.rb releases/release1
 git diff --check

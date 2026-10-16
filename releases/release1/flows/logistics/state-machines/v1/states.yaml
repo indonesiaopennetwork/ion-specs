@@ -18,19 +18,20 @@ contractStatusAggregation:
     when: NO_REQUIRED_PERFORMANCES
     contractStatus: ACTIVE
 
-# Phase 6 will bind these stable IDs to published Logistics flow profiles.
+# Published IDs are owned by one Phase 6 variant profile. Planned IDs remain
+# resolvable integration points but do not claim that their flow is available.
 flowCatalog:
   pickup-failure:
-    status: planned
+    status: published
     purpose: PICKUP_RECOVERY
   delivery-attempts:
-    status: planned
+    status: published
     purpose: DELIVERY_RECOVERY
   parcel-condition-monitoring:
     status: planned
     purpose: CONDITION_MONITORING
   parcel-reverse-qc:
-    status: planned
+    status: published
     purpose: RETURN_WITH_QC
   freight-reverse:
     status: planned

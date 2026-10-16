@@ -78,10 +78,10 @@
       "contentStatus": "review-required"
     },
     {
-      "kind": "logistics-pack",
+      "kind": "logistics-flow-registry",
       "source": "schema/extensions/logistics/performance-states/v1",
-      "target": "releases/release1/schema/extension/logistics/LogisticsPerformanceStates/v1",
-      "publicUrl": "https://schema.ion.id/release1/schema/extension/logistics/LogisticsPerformanceStates/v1/",
+      "target": "releases/release1/flows/logistics/state-machines/v1",
+      "publicUrl": "https://schema.ion.id/release1/flows/logistics/state-machines/v1/",
       "pathStatus": "approved",
       "contentStatus": "review-required"
     }

@@ -23,7 +23,7 @@ In-house, and Marketplace Listed flows and connected registries, the ION-owned
 Beckn-derived API contract, and pinned vendored Beckn schema dependencies.
 Logistics has been reopened for independent review and migration into this draft;
 that migration now includes the independently validated `LogisticsResource`,
-`LogisticsProvider`, `LogisticsParticipant`, `LogisticsOffer`, `LogisticsCommitment`, `LogisticsConsideration`, `LogisticsContract`, `LogisticsPerformance`, and `LogisticsTracking` v1 packs, plus the validated `LogisticsPerformanceStates` v1 registry. Release 1 remains mutable and unchannelled until
+`LogisticsProvider`, `LogisticsParticipant`, `LogisticsOffer`, `LogisticsCommitment`, `LogisticsConsideration`, `LogisticsContract`, `LogisticsPerformance`, and `LogisticsTracking` v1 packs, plus six reviewed patterns, nine included/scoped variants, and the validated `LogisticsPerformanceStates` v1 flow registry. Release 1 remains mutable and unchannelled until
 the Council publishes it into the `next` channel on `main`.
 
 - [`releases/release1/release.yaml`](releases/release1/release.yaml) — scope,
@@ -50,8 +50,8 @@ the Council publishes it into the `next` channel on `main`.
   the migrated Logistics durable execution pack.
 - [`releases/release1/schema/extension/logistics/LogisticsTracking/v1/`](releases/release1/schema/extension/logistics/LogisticsTracking/v1/) —
   the migrated Logistics live-tracking pack.
-- [`releases/release1/schema/extension/logistics/LogisticsPerformanceStates/v1/`](releases/release1/schema/extension/logistics/LogisticsPerformanceStates/v1/) —
-  the validated Logistics execution-state registry and grammar.
+- [`releases/release1/flows/logistics/`](releases/release1/flows/logistics/) —
+  the reviewed Logistics patterns, variants, and shared execution-state registry.
 - [`releases/release1/schema/core/api/v2.0.0/ion-additional.yaml`](releases/release1/schema/core/api/v2.0.0/ion-additional.yaml) —
   ION endpoints that Beckn does not define, starting with settlement
   reconciliation (`/reconcile`, `/on_reconcile`).
@@ -66,6 +66,9 @@ the Council publishes it into the `next` channel on `main`.
 - [`releases/release1/flows/trade/`](releases/release1/flows/trade/) — the
   seven validated Trade v1 reference flows and the reviewed During-Transaction
   v1 variant.
+- [`releases/release1/flows/logistics/`](releases/release1/flows/logistics/) —
+  six Logistics v1 patterns, nine included or scoped variants, and their shared
+  state-machine registry; six additional variants are explicitly deferred.
 - [`policies/registry.json`](policies/registry.json) — 89 shared policy terms
   (28 Trade, 39 cross-sector, and 22 draft Logistics terms) governed outside the
   integer release cycle.

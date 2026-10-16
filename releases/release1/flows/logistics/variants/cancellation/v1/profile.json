@@ -1,0 +1,11 @@
+{
+  "id": "ion-logistics-variant-cancellation-v1",
+  "version": "1.0.0",
+  "type": "Variant",
+  "variantName": "cancellation",
+  "sector": "ion:logistics",
+  "status": "ready",
+  "branchFile": "./variant.yaml",
+  "applicablePatterns": ["parcel", "hyperlocal", "freight", "roro", "warehouse", "cross-border"],
+  "requiredPolicyRefs": ["ion://policy/cancel.logistics.prepickup-free", "ion://policy/cancel.logistics.prepickup-futile-trip-fee", "ion://policy/cancel.logistics.intransit-buyer-cost", "ion://policy/cancel.logistics.tat-breach-lsp-cost", "ion://policy/penalty.lsp-tat-breach"]
+}

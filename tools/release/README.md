@@ -52,6 +52,9 @@ permanent integer releases. It is not copied into individual release bundles.
 - `validate_logistics_performance_states.rb` validates the Logistics state-machine
   registry, including graph reachability, terminal outcomes, schema requirement
   pointers, typed guards and effects, and Logistics flow references.
+- `validate_logistics_connections.rb` validates the six Logistics pattern and
+  nine included/scoped variant profiles, protocol actions, schema-pack targets,
+  concrete policy IRIs, state-machine fragments, and published flow-ID owners.
 - `generate_error_registry.rb` deterministically generates or checks the
   release-local Trade error registry. The shared policy registry is maintained by
   `tools/policies/generate_registry.rb`.
@@ -135,6 +138,7 @@ ruby tools/release/tests/validate_release_scope_test.rb
 ruby tools/release/tests/validate_release_immutability_test.rb
 ruby tools/release/tests/generate_error_registry_test.rb
 ruby tools/release/tests/validate_logistics_performance_states_test.rb
+ruby tools/release/tests/validate_logistics_connections_test.rb
 ruby tools/policies/tests/generate_registry_test.rb
 ```
 

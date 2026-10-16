@@ -1,0 +1,16 @@
+id: ion-logistics-pattern-roro-v1
+version: 1.0.0
+patternName: roro
+sector: ion:logistics
+status: ready
+description: Scheduled roll-on/roll-off vehicle transport between ports.
+baseSequence: [discover, on_discover, select, on_select, init, on_init, confirm, on_confirm, status, on_status]
+stateMachine: flows/logistics/state-machines/v1/states.yaml#roro
+requiredData:
+  - Resource.resourceAttributes.vehicleCargo
+  - Offer.offerAttributes.roRoTerms
+  - Commitment.commitmentAttributes.capacityReservation
+  - Performance.performanceAttributes.route
+  - Performance.performanceAttributes.serviceReferences
+constraints:
+  - Missed-sailing recovery remains a planned flow and is not silently represented as a generic update.

@@ -1,0 +1,13 @@
+{
+  "id": "ion-logistics-variant-during-transaction-v1",
+  "version": "1.0.0",
+  "type": "Variant",
+  "variantName": "during-transaction",
+  "sector": "ion:logistics",
+  "status": "ready",
+  "branchFile": "./variant.yaml",
+  "applicablePatterns": ["parcel", "hyperlocal", "freight", "roro", "warehouse", "cross-border"],
+  "includedSubBranches": ["payment-prepaid-bap-collected"],
+  "excludedSubBranches": ["payment-cod-bpp-collected", "payment-credit-fwa", "fwa-activation", "technical-cancel-confirm-bap", "technical-cancel-confirm-bpp"],
+  "schemaPacksRequired": {"common": ["Payment/v1"]}
+}

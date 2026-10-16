@@ -1,0 +1,12 @@
+{
+  "id": "ion-logistics-variant-delivery-attempts-v1",
+  "version": "1.0.0",
+  "type": "Variant",
+  "variantName": "delivery-attempts",
+  "sector": "ion:logistics",
+  "status": "ready",
+  "branchFile": "./variant.yaml",
+  "flowIds": ["delivery-attempts"],
+  "applicablePatterns": ["parcel", "hyperlocal", "cross-border"],
+  "requiredPolicyRefs": ["ion://policy/re-attempt.hyperlocal-1-only", "ion://policy/re-attempt.standard-2-one-fee", "ion://policy/re-attempt.standard-3-free"]
+}

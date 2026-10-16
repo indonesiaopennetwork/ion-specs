@@ -236,7 +236,7 @@ end
 
 if $PROGRAM_NAME == __FILE__
   release_root = Pathname.new(File.expand_path(ARGV.fetch(0, "releases/release1")))
-  registry_path = release_root.join("schema/extension/logistics/LogisticsPerformanceStates/v1/states.yaml")
+  registry_path = release_root.join("flows/logistics/state-machines/v1/states.yaml")
   errors = IonLogisticsPerformanceStates.validate(registry_path, release_root: release_root)
   if errors.empty?
     registry = YAML.safe_load(File.read(registry_path), aliases: false)

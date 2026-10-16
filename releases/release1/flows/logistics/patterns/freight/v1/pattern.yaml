@@ -1,0 +1,19 @@
+id: ion-logistics-pattern-freight-v1
+version: 1.0.0
+patternName: freight
+sector: ion:logistics
+status: ready
+description: Capacity-based road, ocean, air, rail, or inland-waterway freight booking.
+baseSequence: [discover, on_discover, select, on_select, init, on_init, confirm, on_confirm, status, on_status]
+stateMachine: flows/logistics/state-machines/v1/states.yaml#freight-capacity
+requiredData:
+  - Resource.resourceAttributes.consignment
+  - Offer.offerAttributes.capacityTerms
+  - Commitment.commitmentAttributes.capacityReservation
+  - Performance.performanceAttributes.route
+  - Performance.performanceAttributes.serviceReferences
+  - Performance.performanceAttributes.events
+optionalActions: [track, on_track, update, on_update, rate, on_rate, reconcile, on_reconcile]
+constraints:
+  - Capacity and cargo allocations use typed Release 1 properties; legacy bill-of-lading and manifest strings are service or document references.
+  - The freight reverse branch remains deferred because no reviewed freight reverse state machine exists.

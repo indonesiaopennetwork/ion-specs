@@ -1,0 +1,17 @@
+id: ion-logistics-pattern-warehouse-v1
+version: 1.0.0
+patternName: warehouse
+sector: ion:logistics
+status: ready
+description: Storage and inventory execution that may launch child outbound transport work.
+baseSequence: [discover, on_discover, select, on_select, init, on_init, confirm, on_confirm, status, on_status]
+stateMachine: flows/logistics/state-machines/v1/states.yaml#warehouse-inventory
+requiredData:
+  - Resource.resourceAttributes.inventoryManifest
+  - Offer.offerAttributes.warehouseTerms
+  - Commitment.commitmentAttributes.inventoryAllocations
+  - Contract.contractAttributes.relationships
+  - Performance.performanceAttributes.warehouseExecution
+constraints:
+  - Party-specific framework-agreement references are contract data, not reusable network policy IRIs.
+  - Outbound dispatch is represented by a related child Contract, never an ad hoc embedded shipment.

@@ -1,0 +1,11 @@
+{
+  "id": "ion-logistics-variant-weight-dispute-v1",
+  "version": "1.0.0",
+  "type": "Variant",
+  "variantName": "weight-dispute",
+  "sector": "ion:logistics",
+  "status": "ready",
+  "branchFile": "./variant.yaml",
+  "applicablePatterns": ["parcel", "freight"],
+  "requiredPolicyRefs": ["ion://policy/weight-dispute.standard-10pct-tolerance", "ion://policy/evidence.standard.photo-24hr"]
+}
