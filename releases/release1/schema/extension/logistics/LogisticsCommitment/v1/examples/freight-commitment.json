@@ -1,0 +1,14 @@
+{
+  "@context": "https://schema.ion.id/release1/schema/extension/logistics/LogisticsCommitment/v1/context.jsonld",
+  "@type": "ion:LogisticsCommitment",
+  "cargoAllocation": {
+    "containerReference": "MSCU1234567",
+    "sealNumber": "SEAL-90817"
+  },
+  "capacityReservation": {
+    "quantity": {"unitQuantity": 28, "unitText": "t"},
+    "purpose": "WEIGHT"
+  },
+  "requestedServiceWindow": {"offerWindowId": "WINDOW-JKT-SUB-01"},
+  "specialInstructions": "Load after customs seal verification."
+}

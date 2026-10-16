@@ -1,0 +1,124 @@
+{
+  "@context": {
+    "ion": "https://schema.ion.id/release1/schema/extension/logistics/LogisticsCommitment/v1#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+  },
+  "@graph": [
+    {
+      "@id": "ion:containerReference",
+      "@type": "rdf:Property",
+      "rdfs:label": "containerReference",
+      "rdfs:comment": "Container identifier established during booking."
+    },
+    {
+      "@id": "ion:sealNumber",
+      "@type": "rdf:Property",
+      "rdfs:label": "sealNumber",
+      "rdfs:comment": "Seal identifier established during booking."
+    },
+    {
+      "@id": "ion:resourceId",
+      "@type": "rdf:Property",
+      "rdfs:label": "resourceId",
+      "rdfs:comment": "Identifier of the committed inventory Resource."
+    },
+    {
+      "@id": "ion:lotNumber",
+      "@type": "rdf:Property",
+      "rdfs:label": "lotNumber",
+      "rdfs:comment": "lotNumber property."
+    },
+    {
+      "@id": "ion:expiryDate",
+      "@type": "rdf:Property",
+      "rdfs:label": "expiryDate",
+      "rdfs:comment": "expiryDate property."
+    },
+    {
+      "@id": "ion:quantity",
+      "@type": "rdf:Property",
+      "rdfs:label": "quantity",
+      "rdfs:comment": "quantity property."
+    },
+    {
+      "@id": "ion:purpose",
+      "@type": "rdf:Property",
+      "rdfs:label": "purpose",
+      "rdfs:comment": "purpose property."
+    },
+    {
+      "@id": "ion:offerWindowId",
+      "@type": "rdf:Property",
+      "rdfs:label": "offerWindowId",
+      "rdfs:comment": "Identifier of a service window declared by the selected Offer."
+    },
+    {
+      "@id": "ion:requestedPeriod",
+      "@type": "rdf:Property",
+      "rdfs:label": "requestedPeriod",
+      "rdfs:comment": "requestedPeriod property."
+    },
+    {
+      "@id": "ion:cargoAllocation",
+      "@type": "rdf:Property",
+      "rdfs:label": "cargoAllocation",
+      "rdfs:comment": "cargoAllocation property."
+    },
+    {
+      "@id": "ion:inventoryAllocations",
+      "@type": "rdf:Property",
+      "rdfs:label": "inventoryAllocations",
+      "rdfs:comment": "inventoryAllocations property."
+    },
+    {
+      "@id": "ion:capacityReservation",
+      "@type": "rdf:Property",
+      "rdfs:label": "capacityReservation",
+      "rdfs:comment": "capacityReservation property."
+    },
+    {
+      "@id": "ion:requestedServiceWindow",
+      "@type": "rdf:Property",
+      "rdfs:label": "requestedServiceWindow",
+      "rdfs:comment": "requestedServiceWindow property."
+    },
+    {
+      "@id": "ion:specialInstructions",
+      "@type": "rdf:Property",
+      "rdfs:label": "specialInstructions",
+      "rdfs:comment": "Transaction-specific instruction not represented by structured Resource handling attributes."
+    },
+    {
+      "@id": "ion:CargoAllocation",
+      "@type": "rdfs:Class",
+      "rdfs:label": "CargoAllocation",
+      "rdfs:comment": "CargoAllocation class."
+    },
+    {
+      "@id": "ion:InventoryAllocation",
+      "@type": "rdfs:Class",
+      "rdfs:label": "InventoryAllocation",
+      "rdfs:comment": "InventoryAllocation class."
+    },
+    {
+      "@id": "ion:CapacityReservation",
+      "@type": "rdfs:Class",
+      "rdfs:label": "CapacityReservation",
+      "rdfs:comment": "CapacityReservation class."
+    },
+    {
+      "@id": "ion:RequestedServiceWindow",
+      "@type": "rdfs:Class",
+      "rdfs:label": "RequestedServiceWindow",
+      "rdfs:comment": "RequestedServiceWindow class."
+    },
+    {
+      "@id": "ion:LogisticsCommitment",
+      "@type": "rdfs:Class",
+      "rdfs:label": "LogisticsCommitment",
+      "rdfs:comment": "LogisticsCommitment class."
+    }
+  ]
+}

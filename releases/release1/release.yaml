@@ -350,6 +350,17 @@ artifactChecksums:
   schema/core/api/v2.0.0/examples/reconcile-request.json: 11df22e6ac9ec44c8872f618da11a5623f8ec58481465c3c400228795f8d7433
   schema/core/api/v2.0.0/ion-additional.yaml: 71c98a2dc7eff955de5429abf21665c33c814bd50a7795bf8f8eede6892e26c4
   schema/core/api/v2.0.0/ion-beckn.yaml: 87567ff9b849b0705505a85af86a5899625759cbcfa87775a85aed86e392511a
+  schema/extension/logistics/LogisticsCommitment/README.md: 3377fbb413071c7fdeb09210a8c6f8eba93ea4424becbd7b7f4c6fd436715713
+  schema/extension/logistics/LogisticsCommitment/v1/README.md: fb96e7ee1f606d24e6a8c48f317d22b0de05736d647a2d552689b72ab98faabc
+  schema/extension/logistics/LogisticsCommitment/v1/attributes.yaml: b693d2db50a9b35612a5153ed75d28f8518c7822e13c35397a1de00608591704
+  schema/extension/logistics/LogisticsCommitment/v1/context.jsonld: '0308fb7e33d747da3fedce95ff1ee58d564c64afbad4c98b7cfa8c5acaacea9a'
+  schema/extension/logistics/LogisticsCommitment/v1/docs/01-overview.md: 34c962a3d7df774230a82b3435300ccd41f4e3c8e33ac343f451cd0a996a0925
+  schema/extension/logistics/LogisticsCommitment/v1/docs/README.md: f13bf4b0d5a20b93a60db4873add90e99c0dcc29eee4ef73b7cc797c953c93c6
+  schema/extension/logistics/LogisticsCommitment/v1/examples/freight-commitment.json: 7b2896344fea8ccb6a46b2f2224e596b96d88c5a9cb26d26e1d9e98a9166c1ae
+  schema/extension/logistics/LogisticsCommitment/v1/profile.json: 75a8c2688c274dbe01113bcec1864f5a4f2baaf649d674cf1d86bbe19d6322ae
+  schema/extension/logistics/LogisticsCommitment/v1/renderer.json: 2fbd5cc1d072ce5f5d366018f7e03015b18699ea76fd74a9eaa64ca8fe652f55
+  schema/extension/logistics/LogisticsCommitment/v1/schema.json: 0c4390c99b4559f24d4c6e7d4d023feec4483a9f0da54d16ec5edfdeb43326fe
+  schema/extension/logistics/LogisticsCommitment/v1/vocab.jsonld: bf5e1324834e21e2c4011fba2baf37b86c1acf9507ddb6b1b028431d3806befb
   schema/extension/logistics/LogisticsOffer/README.md: db2abc655cca9f3f74ef0a92cdda674aaef05dcb6a5c852eb9f48d8cdbd63903
   schema/extension/logistics/LogisticsOffer/v1/README.md: 1aa3607f4d3952468ccc79f1f2441c93706240a1e84247c3e94e772ccdeafa9a
   schema/extension/logistics/LogisticsOffer/v1/attributes.yaml: 38126b75e5f24a31a791e6bddb539197ea5a239ee965c6d9c679b89786f7e2ab

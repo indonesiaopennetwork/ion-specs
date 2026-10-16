@@ -1,0 +1,16 @@
+{
+  "id": "ion-logistics-commitment-v1",
+  "version": "1.0.0",
+  "status": "draft",
+  "domain": "logistics",
+  "sectorCode": "B",
+  "type": "AttributePack",
+  "name": "ION Logistics Commitment Extension (v1)",
+  "description": "Allocation-specific cargo, inventory, capacity, and requested-window facts.",
+  "packSchema": "./schema.json",
+  "jsonldContext": "./context.jsonld",
+  "extends": "beckn:Commitment",
+  "attachmentPoints": {"commitmentAttributes": ["LogisticsCommitment"]},
+  "indexing": {"indexable": [], "filterable": [{"path": "$.capacityReservation.purpose"}], "sortable": []},
+  "minimalForDiscovery": []
+}

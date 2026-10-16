@@ -1,0 +1,77 @@
+openapi: 3.1.1
+info:
+  title: ION Logistics Commitment Extension (v1)
+  description: >
+    Allocation-specific logistics facts attached to
+    Commitment.commitmentAttributes. Core Commitment remains authoritative for
+    identity, selected Resources, selected Offer, and lifecycle status.
+  version: 1.0.0
+  license: {name: Apache-2.0, url: https://www.apache.org/licenses/LICENSE-2.0}
+  contact: {name: ION Network, url: https://schema.ion.id}
+
+components:
+  schemas:
+    CargoAllocation:
+      type: object
+      additionalProperties: false
+      properties:
+        containerReference:
+          type: string
+          description: Container identifier established during booking.
+        sealNumber:
+          type: string
+          description: Seal identifier established during booking.
+
+    InventoryAllocation:
+      type: object
+      additionalProperties: false
+      required: [resourceId]
+      properties:
+        resourceId:
+          type: string
+          description: Identifier of the committed inventory Resource.
+        lotNumber: {type: string}
+        expiryDate: {type: string, format: date}
+
+    CapacityReservation:
+      type: object
+      additionalProperties: false
+      required: [quantity]
+      properties:
+        quantity:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+        purpose:
+          type: string
+          enum: [WEIGHT, VOLUME, CONTAINER, PALLET, VEHICLE, SLOT]
+
+    RequestedServiceWindow:
+      type: object
+      additionalProperties: false
+      properties:
+        offerWindowId:
+          type: string
+          description: Identifier of a service window declared by the selected Offer.
+        requestedPeriod:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/TimePeriod/2.0/attributes.yaml#/components/schemas/TimePeriod
+
+    LogisticsCommitment:
+      type: object
+      title: LogisticsCommitment
+      additionalProperties: true
+      x-ion-closed-extensions: false
+      x-beckn-attaches-to: Commitment.commitmentAttributes
+      x-jsonld:
+        '@context': https://schema.ion.id/release1/schema/extension/logistics/LogisticsCommitment/v1/context.jsonld
+        '@type': ion:LogisticsCommitment
+      allOf:
+        - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Attributes/2.0/attributes.yaml#/components/schemas/Attributes
+      properties:
+        cargoAllocation: {$ref: '#/components/schemas/CargoAllocation'}
+        inventoryAllocations:
+          type: array
+          items: {$ref: '#/components/schemas/InventoryAllocation'}
+        capacityReservation: {$ref: '#/components/schemas/CapacityReservation'}
+        requestedServiceWindow: {$ref: '#/components/schemas/RequestedServiceWindow'}
+        specialInstructions:
+          type: string
+          description: Transaction-specific instruction not represented by structured Resource handling attributes.

@@ -784,7 +784,7 @@ pattern-specific presence rules. Those rules belong to flows:
 | Current Beckn Logistics `Package`, `Consignment`, `DeliverySlot`, and `Vehicle` | `incompatible` as dependencies; useful organizationally | Use their boundaries to distinguish selected Resources from booking allocations; do not copy schemas or older-core mappings. |
 | Pinned `RetailCommitment/2.1` | `incompatible` as a Logistics parent; useful structurally | Reuse pinned common types where applicable, but do not inherit retail-specific commitment fields. |
 | Legacy ION `LogisticsCommitment` | `under review` | Use as the field source while removing core duplication and reorganizing allocation facts. |
-| Release 1 `LogisticsCommitment` | `suitable for later release` | Author after the five named decisions and the core quantity inconsistency are resolved or explicitly deferred. |
+| Release 1 `LogisticsCommitment` | `authored in draft` | Uses typed allocation components, derives package aggregates, avoids duplicating core Resource/Offer identity, and defers parent references and the core quantity inconsistency. |
 
 ## `LogisticsConsideration` v1
 
