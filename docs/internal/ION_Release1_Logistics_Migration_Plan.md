@@ -242,6 +242,30 @@ triggers with typed guards, effects, and locally declared Phase 6 flow
 integration points. Its dedicated release validator checks graph integrity,
 schema requirement pointers, and flow-profile machine references.
 
+#### Phase 4 closure audit — 2026-10-16
+
+The Phase 4 implementation commits from `552f540` through `c40af22` were
+reviewed against this plan and the upstream-alignment ledger. The closure audit
+confirmed that all nine pack filesets, their examples, the common
+`IdentifiableLocation` dependency, and the performance-state registry are
+present. It also completed the following residual work:
+
+- updated the alignment ledger from pre-authoring dispositions to the actual
+  Phase 4 outcomes;
+- corrected the participant attachment guidance to match the pinned core
+  `Participant.participantAttributes` extension point;
+- made release tooling and affected YAML parse on the current macOS Ruby 2.6
+  environment, while retaining the CI Ruby 3.3 path;
+- normalized and refreshed the complete release artifact checksum inventory;
+- excluded operating-system `.DS_Store` metadata from normative artifacts; and
+- added a non-normative staging tool for deep validation while new draft public
+  URLs are not deployed.
+
+Closure validation passed for the Logistics source and target path maps, the
+complete Release 1 gate, the staged Logistics schema directory, and all nine
+Logistics example objects. Phase 4 is therefore closed. Policies, flows, and
+errors remain intentionally scoped to Phases 5 through 7.
+
 ### Phase 5 — Migrate shared policies deliberately
 
 Policies remain in the root `policies/` tree and retain their independent
@@ -327,18 +351,37 @@ The release remains a draft until the separate publication process is approved.
 
 Run the narrowest schema validation first. From the schema validator directory:
 
-```powershell
-cd C:\work\ion\repos\ion-testbed\tools\schemav2validator
-go run ./cmd/schemav2validator schema-dir --json C:\work\ion\repos\ion-specs\releases\release1\schema\extension\logistics\LogisticsResource\v1
-go run ./cmd/schemav2validator schema-dir --json C:\work\ion\repos\ion-specs\releases\release1\schema\extension\logistics
+```bash
+cd ../ion-testbed/tools/schemav2validator
+go run ./cmd/schemav2validator schema-dir --json ../../../ion-specs/releases/release1/schema/extension/logistics/LogisticsResource/v1
+go run ./cmd/schemav2validator schema-dir --json ../../../ion-specs/releases/release1/schema/extension/logistics
 ```
 
 Replace `LogisticsResource` with the pack under review. Both commands must exit
-successfully before committing a schema pack.
+successfully before committing a schema pack. If a draft pack references a new
+Release 1 public URL that is not deployed yet, first stage the release from the
+ION specification repository root:
+
+```bash
+ion_schema_stage="$(mktemp -d)/release1"
+ruby tools/release/stage_schema_validator_tree.rb releases/release1 "$ion_schema_stage"
+cd ../ion-testbed/tools/schemav2validator
+go run ./cmd/schemav2validator schema-dir --json "$ion_schema_stage/schema/extension/logistics"
+```
+
+The staging tool rewrites only `$ref` retrieval locations in a temporary copy;
+it does not change public identifiers or normative release files. Validate an
+example object against the generated type index with:
+
+```bash
+go run ./cmd/schemav2validator object --json \
+  --extended-local-schema-dir "$ion_schema_stage/extended-schemas" \
+  "$ion_schema_stage/schema/extension/logistics/LogisticsResource/v1/examples/cross-border-parcel.json"
+```
 
 From the ION specification repository root, run:
 
-```powershell
+```bash
 ruby tools/release/validate_offline_refs.rb releases/release1
 ruby tools/release/validate_public_urls.rb releases/release1
 ruby tools/release/record_artifact_checksums.rb --write releases/release1

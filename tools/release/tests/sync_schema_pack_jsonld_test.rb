@@ -48,8 +48,8 @@ class SyncSchemaPackJsonldTest < Minitest::Test
 
       outputs = IonSchemaPackJSONLD.synchronize(directory).to_h
       graph = JSON.parse(outputs.fetch(File.join(directory, "vocab.jsonld"))).fetch("@graph")
-      property_ids = graph.filter_map do |node|
-        node["@id"] if Array(node["@type"]).include?("rdf:Property")
+      property_ids = graph.each_with_object([]) do |node, result|
+        result << node["@id"] if Array(node["@type"]).include?("rdf:Property") && node["@id"]
       end
 
       assert_includes property_ids, "beckn:geo"

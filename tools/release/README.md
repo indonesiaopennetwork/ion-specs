@@ -28,6 +28,12 @@ permanent integer releases. It is not copied into individual release bundles.
 - `validate_offline_refs.rb` maps Release 1 public URLs back to the release tree
   and verifies that every active `$ref`, including its JSON Pointer, resolves
   without network access.
+- `stage_schema_validator_tree.rb` copies the release schema to a temporary tree
+  and rewrites release-qualified `$ref` values to local `file:` references. Use
+  it with the external schema v2 validator while draft-only public URLs are not
+  yet deployed. It also creates an `extended-schemas/TypeName/attributes.yaml`
+  index for validating pack examples; it never changes the normative release
+  tree.
 - `validate_public_urls.rb` checks that every release-qualified public document
   URL in release YAML, JSON, JSON-LD, and Markdown maps to an existing file or
   directory in that release.
@@ -94,7 +100,7 @@ The Logistics migration reads from a separate legacy checkout, so pass its root
 explicitly when validating source paths:
 
 ```bash
-ruby tools/release/validate_path_map.rb --require-sources --source-root C:\work\ion\repos\ion-specs-ion-launch tools/release/release1-logistics-path-map.json
+ruby tools/release/validate_path_map.rb --require-sources --source-root ../ion-specs-ion-launch tools/release/release1-logistics-path-map.json
 ```
 
 Once all mapped Logistics targets have been created, validate them against this

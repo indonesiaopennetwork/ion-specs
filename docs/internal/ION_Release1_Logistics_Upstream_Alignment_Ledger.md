@@ -1,6 +1,6 @@
 # Release 1 Logistics upstream-alignment ledger
 
-> **Status:** Phase 3 complete
+> **Status:** Phase 3 complete; Phase 4 outcomes recorded
 > **Target:** ION Release 1 draft  
 > **Legacy source:** `indonesiaopennetwork/ion-specs` at
 > `33e6b4c40feabecf6b0f6a827b488ff82998c735`  
@@ -11,9 +11,9 @@
 > `LogisticsConsideration`, `LogisticsContract`, `LogisticsPerformance`,
 > `LogisticsTracking`, `LogisticsPerformanceStates`
 
-This internal ledger records the ownership and migration disposition of every
-field in the legacy ION Logistics packs before normative Release 1 artifacts are
-created. It is an analysis record, not part of the public specification.
+This internal ledger records the ownership and migration disposition used to
+author every field in the Release 1 Logistics packs. It is an analysis record,
+not part of the public specification.
 
 The migration deliberately does not depend on the current Beckn Logistics
 repository because its examples have not completed the v2 migration and ION
@@ -221,7 +221,7 @@ because they appeared in the legacy schema.
 | Official Beckn Logistics v2 Resource schema aligned to the current Beckn core | `absent` | Compare field semantics, enum values, and reusable measurement/document shapes when an official compatible version is published. |
 | Current Beckn Logistics `Shipment`, `Package`, `Consignment`, and `Vehicle` schemas | `incompatible` as dependencies; useful organizationally | Use their semantic boundaries as review input, but do not copy, reference, or claim conformance to them. Their mappings still target older core concepts. |
 | Legacy ION `LogisticsShipment` | `under review` | Use only as the migration source; Phase 4 must apply this ledger rather than copying it verbatim. |
-| Release 1 `LogisticsResource` | `suitable for later release` | Author only after the four named decisions are resolved or explicitly deferred from the pack. |
+| Release 1 `LogisticsResource` | `authored in draft` | Phase 4 resolved or explicitly deferred the four named decisions in the pack documentation. Revisit alignment when an official compatible Beckn Logistics v2 schema is published. |
 
 ## `LogisticsProvider` v1
 
@@ -368,7 +368,7 @@ reusable field ownership:
 | Official Beckn Logistics v2 Provider schema aligned to current Beckn core | `absent` | Compare provider roles, coverage, capabilities, and site organization when an official compatible schema is published. |
 | Current Beckn Logistics `Carrier`, `Operator`, and `Hub` schemas | `incompatible` as dependencies; useful organizationally | Retain the class boundaries as design input, but do not copy their fields, India-specific identifiers, required arrays, or older core mappings. |
 | Legacy ION `LogisticsProvider` | `under review` | Use only as the field source; apply common-pack reuse and the ownership corrections in this ledger. |
-| Release 1 `LogisticsProvider` | `suitable for later release` | Author after the five named decisions are resolved or explicitly deferred from the pack. |
+| Release 1 `LogisticsProvider` | `authored in draft` | Phase 4 resolved or explicitly deferred the five named decisions in the pack documentation. Revisit alignment when an official compatible Beckn Logistics v2 schema is published. |
 
 ## `LogisticsParticipant` v1
 
@@ -1760,9 +1760,9 @@ human can interpret.
 | Current Beckn Logistics `Shipment`, `TrackingUpdate`, `Waypoint`, and `Alert` enums | `incompatible` as canonical state machines; useful vocabulary references | Document coarse mappings where useful while preserving distinct object lifecycles and ION's validated graphs. |
 | Core `Performance.status` and `Contract.status` | `suitable for Release 1` with aggregation rules | Carry detailed state in `Performance.status.code`; define deterministic multi-performance contribution to the four core Contract states. |
 | Legacy ION `LogisticsPerformanceStates` | `under review` | Use as the scenario/state source while repairing graph defects, stale field references, free-text triggers, profile claims, and dangling flow references. |
-| Release 1 `LogisticsPerformanceStates` | `suitable for later release` | Author only with the dedicated grammar, validator, graph tests, flow-reference tests, and ten named decisions resolved or explicitly deferred. |
+| Release 1 `LogisticsPerformanceStates` | `authored in draft` | Phase 4 added the dedicated grammar, validator, graph and flow-reference tests, and resolved or explicitly deferred the ten named decisions. |
 
-## Phase 3 completion
+## Phase 3 completion and Phase 4 outcome
 
 Phase 3 is complete. The ledger now covers all nine Logistics extension-point
 packs plus the standalone performance-state registry:
@@ -1778,6 +1778,9 @@ packs plus the standalone performance-state registry:
 9. `LogisticsTracking`
 10. `LogisticsPerformanceStates`
 
-Phase 4 can now proceed as vertical slices in the migration-plan order. Each
-slice must resolve or explicitly defer its named decisions before normative
-artifacts are authored.
+Phase 4 subsequently authored those vertical slices in the migration-plan
+order. All nine schema packs and the performance-state registry are present in
+the Release 1 draft. Their pack documentation records the disposition of named
+decisions that were resolved or deferred. Flows, policies, and errors remain
+separate work for Phases 5 through 7; their absence does not reopen the Phase 4
+schema-authoring work.

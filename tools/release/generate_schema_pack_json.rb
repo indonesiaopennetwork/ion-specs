@@ -26,7 +26,7 @@ module IonSchemaPackJSON
   end
 
   def generate(attributes_path, root_schema)
-    document = YAML.safe_load_file(attributes_path, aliases: true)
+    document = YAML.safe_load(File.read(attributes_path), aliases: true)
     schemas = document.dig("components", "schemas") || {}
     raise KeyError, "root schema #{root_schema.inspect} not found" unless schemas.key?(root_schema)
 

@@ -79,7 +79,9 @@ module IonLogisticsPerformanceStates
       errors << "contractStatusAggregation must be a non-empty array"
       return
     end
-    ids = rules.filter_map { |rule| rule["ruleId"] if rule.is_a?(Hash) }
+    ids = rules.each_with_object([]) do |rule, result|
+      result << rule["ruleId"] if rule.is_a?(Hash) && rule["ruleId"]
+    end
     duplicate_values(ids).each { |id| errors << "duplicate aggregation rule ID: #{id}" }
     rules.each do |rule|
       next unless rule.is_a?(Hash)
@@ -138,7 +140,9 @@ module IonLogisticsPerformanceStates
       errors << "#{prefix}: requirements must be an array"
       return
     end
-    ids = requirements.filter_map { |entry| entry["requirementId"] if entry.is_a?(Hash) }
+    ids = requirements.each_with_object([]) do |entry, result|
+      result << entry["requirementId"] if entry.is_a?(Hash) && entry["requirementId"]
+    end
     duplicate_values(ids).each { |id| errors << "#{prefix}: duplicate requirement ID #{id}" }
     requirements.each do |requirement|
       unless requirement.is_a?(Hash)
@@ -235,7 +239,7 @@ if $PROGRAM_NAME == __FILE__
   registry_path = release_root.join("schema/extension/logistics/LogisticsPerformanceStates/v1/states.yaml")
   errors = IonLogisticsPerformanceStates.validate(registry_path, release_root: release_root)
   if errors.empty?
-    registry = YAML.safe_load_file(registry_path, aliases: false)
+    registry = YAML.safe_load(File.read(registry_path), aliases: false)
     state_count = registry.fetch("machines").values.sum { |machine| machine.fetch("states").length }
     puts "Logistics performance-state validation passed: #{registry.fetch('machines').length} machines, #{state_count} states"
   else

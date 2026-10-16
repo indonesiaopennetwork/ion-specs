@@ -6,8 +6,12 @@ info:
     Consideration.considerationAttributes. Payment collection and remittance
     remain in Payment and Settlement artifacts.
   version: 1.0.0
-  license: {name: Apache-2.0, url: https://www.apache.org/licenses/LICENSE-2.0}
-  contact: {name: ION Network, url: https://schema.ion.id}
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    name: ION Network
+    url: https://schema.ion.id
 
 components:
   schemas:

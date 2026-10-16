@@ -5,8 +5,12 @@ info:
     Durable logistics execution facts attached to Performance.performanceAttributes.
     Live location and ETA snapshots remain in LogisticsTracking.
   version: 1.0.0
-  license: {name: Apache-2.0, url: https://www.apache.org/licenses/LICENSE-2.0}
-  contact: {name: ION Network, url: https://schema.ion.id}
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    name: ION Network
+    url: https://schema.ion.id
 
 components:
   schemas:

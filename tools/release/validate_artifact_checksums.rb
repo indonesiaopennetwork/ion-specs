@@ -7,6 +7,7 @@ require "yaml"
 
 module IonArtifactChecksums
   ARTIFACT_ROOTS = %w[schema flows errors].freeze
+  IGNORED_ARTIFACT_BASENAMES = %w[.DS_Store].freeze
 
   module_function
 
@@ -16,7 +17,9 @@ module IonArtifactChecksums
       next [] unless base.directory?
 
       files = []
-      Find.find(base.to_s) { |path| files << path if File.file?(path) }
+      Find.find(base.to_s) do |path|
+        files << path if File.file?(path) && !IGNORED_ARTIFACT_BASENAMES.include?(File.basename(path))
+      end
       files
     end.sort.map { |path| Pathname.new(path).relative_path_from(root).to_s }
   end

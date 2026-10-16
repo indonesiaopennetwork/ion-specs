@@ -1,10 +1,10 @@
 # ION Schema Style Guide
 
-> **Release 1 scope note:** Release 1 publishes standalone Trade and required
-> common packs only. References in this authoring guide to `ion.yaml`, L2/L3
-> configuration, CRC registries, or unreleased sectors describe future-release
-> design work in `schema/core/v2/api/v2.0.0/ion.yaml`; they are not Release 1
-> requirements.
+> **Release 1 scope note:** Release 1 contains validated standalone Trade and
+> required common packs, plus Logistics packs currently under review. References
+> in this authoring guide to `ion.yaml`, L2/L3 configuration, CRC registries, or
+> other unreleased sectors describe future-release design work in
+> `schema/core/v2/api/v2.0.0/ion.yaml`; they are not Release 1 requirements.
 
 Authoritative conventions for pack authors. All contributions must follow this guide.
 
@@ -68,7 +68,7 @@ x-beckn-attaches-to: BecknObject.attributesSlot
 - `Performance.performanceAttributes`
 - `Settlement.settlementAttributes`
 - `Provider.providerAttributes`
-- `Participant (direct properties)` — **Exception:** Beckn v2.0 `Participant` has no `participantAttributes` wrapper. Participant fields attach as direct properties on the `Participant` object. Use `x-beckn-attaches-to: Participant (direct properties — no participantAttributes wrapper)`.
+- `Participant.participantAttributes`
 - `Tracking.trackingAttributes`
 - `RatingInput.target.targetAttributes`
 - `Support.channels[*]` (array slot — use @type discriminator)
