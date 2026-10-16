@@ -672,7 +672,7 @@ them wholesale:
 | Current Beckn Logistics `DeliverySlot` | `under review` organizationally | Reuse the service-window boundary, but not its mutable availability fields or schema dependency. |
 | Current Beckn Logistics policy schemas | `incompatible` as dependencies; useful organizationally | Preserve separate policy concerns, but use ION registry IRIs rather than copied inline terms. |
 | Legacy ION `LogisticsOffer` | `under review` | Use as the field source while applying the ownership, typing, and policy corrections in this ledger. |
-| Release 1 `LogisticsOffer` | `suitable for later release` | Author after the seven named decisions are resolved or explicitly deferred from the pack. |
+| Release 1 `LogisticsOffer` | `authored in draft` | Separates rate calculation inputs from Considerations, excludes mutable capacity and technical API SLAs, and defers framework-agreement targeting. |
 
 ## `LogisticsCommitment` v1
 

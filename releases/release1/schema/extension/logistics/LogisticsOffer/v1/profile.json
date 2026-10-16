@@ -1,0 +1,25 @@
+{
+  "id": "ion-logistics-offer-v1",
+  "version": "1.0.0",
+  "status": "draft",
+  "domain": "logistics",
+  "sectorCode": "B",
+  "type": "AttributePack",
+  "name": "ION Logistics Offer Extension (v1)",
+  "description": "Catalog-time logistics service, rate-card, scheduling, capacity, COD, SLA, and policy terms.",
+  "packSchema": "./schema.json",
+  "jsonldContext": "./context.jsonld",
+  "extends": "beckn:Offer",
+  "attachmentPoints": {"offerAttributes": ["IONLogisticsOffer"]},
+  "indexing": {
+    "indexable": [{"path": "$.serviceDefinition.serviceLevel"}],
+    "filterable": [
+      {"path": "$.serviceDefinition.serviceLevel"},
+      {"path": "$.serviceDefinition.transportMode"},
+      {"path": "$.rateCard.rateLogic"}
+    ],
+    "sortable": []
+  },
+  "minimalForDiscovery": ["serviceDefinition", "rateCard"],
+  "x-ion-layer": {"generic": "LogisticsOffer", "ion": "IONLogisticsOffer", "splitVersion": "1.0.0"}
+}

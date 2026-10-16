@@ -34,7 +34,7 @@ permanent integer releases. It is not copied into individual release bundles.
 - `finalize_vendoring_manifest.rb` records upstream and released checksums only
   after the offline graph passes; it rejects transformed protocol files and
   previews changes unless passed `--apply`.
-- `sync_schema_pack_jsonld.rb` synchronizes a pack's JSON-LD types and properties
+- `sync_schema_pack_jsonld.rb` synchronizes a pack's JSON-LD classes and properties
   with its authoritative `attributes.yaml`, preserving explicit external term
   mappings such as `beckn:geo`; it is dry-run by default.
 - `generate_schema_pack_json.rb` deterministically derives a pack's standalone

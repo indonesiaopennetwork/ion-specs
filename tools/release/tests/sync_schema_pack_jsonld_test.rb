@@ -41,8 +41,7 @@ class SyncSchemaPackJsonldTest < Minitest::Test
           "@graph" => [
             { "@id" => "ion:id", "@type" => "rdf:Property" },
             { "@id" => "beckn:geo", "@type" => "rdf:Property" },
-            { "@id" => "ion:geo", "@type" => "rdf:Property" },
-            { "@id" => "ion:IdentifiableLocation", "@type" => "rdfs:Class" }
+            { "@id" => "ion:geo", "@type" => "rdf:Property" }
           ]
         )
       )
@@ -56,6 +55,7 @@ class SyncSchemaPackJsonldTest < Minitest::Test
       assert_includes property_ids, "beckn:geo"
       refute_includes property_ids, "ion:geo"
       assert_includes property_ids, "ion:id"
+      assert graph.any? { |node| node["@id"] == "ion:IdentifiableLocation" && node["@type"] == "rdfs:Class" }
     end
   end
 end

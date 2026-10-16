@@ -1,0 +1,892 @@
+{
+  "@context": {
+    "ion": "https://schema.ion.id/release1/schema/extension/logistics/LogisticsOffer/v1#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+  },
+  "@graph": [
+    {
+      "@id": "ion:serviceLevel",
+      "@type": "rdf:Property",
+      "rdfs:label": "serviceLevel",
+      "rdfs:comment": "serviceLevel property."
+    },
+    {
+      "@id": "ion:transportMode",
+      "@type": "rdf:Property",
+      "rdfs:label": "transportMode",
+      "rdfs:comment": "transportMode property."
+    },
+    {
+      "@id": "ion:routingTopology",
+      "@type": "rdf:Property",
+      "rdfs:label": "routingTopology",
+      "rdfs:comment": "routingTopology property."
+    },
+    {
+      "@id": "ion:originCoverageId",
+      "@type": "rdf:Property",
+      "rdfs:label": "originCoverageId",
+      "rdfs:comment": "originCoverageId property."
+    },
+    {
+      "@id": "ion:destinationCoverageId",
+      "@type": "rdf:Property",
+      "rdfs:label": "destinationCoverageId",
+      "rdfs:comment": "destinationCoverageId property."
+    },
+    {
+      "@id": "ion:id",
+      "@type": "rdf:Property",
+      "rdfs:label": "id",
+      "rdfs:comment": "id property."
+    },
+    {
+      "@id": "ion:coverageIds",
+      "@type": "rdf:Property",
+      "rdfs:label": "coverageIds",
+      "rdfs:comment": "coverageIds property."
+    },
+    {
+      "@id": "ion:corridors",
+      "@type": "rdf:Property",
+      "rdfs:label": "corridors",
+      "rdfs:comment": "corridors property."
+    },
+    {
+      "@id": "ion:basePrice",
+      "@type": "rdf:Property",
+      "rdfs:label": "basePrice",
+      "rdfs:comment": "basePrice property."
+    },
+    {
+      "@id": "ion:ionSubdivisions",
+      "@type": "rdf:Property",
+      "rdfs:label": "ionSubdivisions",
+      "rdfs:comment": "ionSubdivisions property."
+    },
+    {
+      "@id": "ion:maximumWeight",
+      "@type": "rdf:Property",
+      "rdfs:label": "maximumWeight",
+      "rdfs:comment": "maximumWeight property."
+    },
+    {
+      "@id": "ion:rate",
+      "@type": "rdf:Property",
+      "rdfs:label": "rate",
+      "rdfs:comment": "rate property."
+    },
+    {
+      "@id": "ion:minimumCharge",
+      "@type": "rdf:Property",
+      "rdfs:label": "minimumCharge",
+      "rdfs:comment": "minimumCharge property."
+    },
+    {
+      "@id": "ion:rule",
+      "@type": "rdf:Property",
+      "rdfs:label": "rule",
+      "rdfs:comment": "rule property."
+    },
+    {
+      "@id": "ion:dimensionalFactor",
+      "@type": "rdf:Property",
+      "rdfs:label": "dimensionalFactor",
+      "rdfs:comment": "Divisor applied to volume expressed in cubic centimetres to obtain kilograms."
+    },
+    {
+      "@id": "ion:modifierType",
+      "@type": "rdf:Property",
+      "rdfs:label": "modifierType",
+      "rdfs:comment": "modifierType property."
+    },
+    {
+      "@id": "ion:basis",
+      "@type": "rdf:Property",
+      "rdfs:label": "basis",
+      "rdfs:comment": "basis property."
+    },
+    {
+      "@id": "ion:percentOfBase",
+      "@type": "rdf:Property",
+      "rdfs:label": "percentOfBase",
+      "rdfs:comment": "percentOfBase property."
+    },
+    {
+      "@id": "ion:price",
+      "@type": "rdf:Property",
+      "rdfs:label": "price",
+      "rdfs:comment": "price property."
+    },
+    {
+      "@id": "ion:policyRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "policyRef",
+      "rdfs:comment": "policyRef property."
+    },
+    {
+      "@id": "ion:validity",
+      "@type": "rdf:Property",
+      "rdfs:label": "validity",
+      "rdfs:comment": "validity property."
+    },
+    {
+      "@id": "ion:rateLogic",
+      "@type": "rdf:Property",
+      "rdfs:label": "rateLogic",
+      "rdfs:comment": "rateLogic property."
+    },
+    {
+      "@id": "ion:pricingZones",
+      "@type": "rdf:Property",
+      "rdfs:label": "pricingZones",
+      "rdfs:comment": "pricingZones property."
+    },
+    {
+      "@id": "ion:weightTiers",
+      "@type": "rdf:Property",
+      "rdfs:label": "weightTiers",
+      "rdfs:comment": "weightTiers property."
+    },
+    {
+      "@id": "ion:chargeableWeight",
+      "@type": "rdf:Property",
+      "rdfs:label": "chargeableWeight",
+      "rdfs:comment": "chargeableWeight property."
+    },
+    {
+      "@id": "ion:modifiers",
+      "@type": "rdf:Property",
+      "rdfs:label": "modifiers",
+      "rdfs:comment": "modifiers property."
+    },
+    {
+      "@id": "ion:selectionRequired",
+      "@type": "rdf:Property",
+      "rdfs:label": "selectionRequired",
+      "rdfs:comment": "selectionRequired property."
+    },
+    {
+      "@id": "ion:quoteValidity",
+      "@type": "rdf:Property",
+      "rdfs:label": "quoteValidity",
+      "rdfs:comment": "quoteValidity property."
+    },
+    {
+      "@id": "ion:models",
+      "@type": "rdf:Property",
+      "rdfs:label": "models",
+      "rdfs:comment": "models property."
+    },
+    {
+      "@id": "ion:windowGranularity",
+      "@type": "rdf:Property",
+      "rdfs:label": "windowGranularity",
+      "rdfs:comment": "windowGranularity property."
+    },
+    {
+      "@id": "ion:bulkMaximum",
+      "@type": "rdf:Property",
+      "rdfs:label": "bulkMaximum",
+      "rdfs:comment": "bulkMaximum property."
+    },
+    {
+      "@id": "ion:dropOffLocationIds",
+      "@type": "rdf:Property",
+      "rdfs:label": "dropOffLocationIds",
+      "rdfs:comment": "dropOffLocationIds property."
+    },
+    {
+      "@id": "ion:originLocationIds",
+      "@type": "rdf:Property",
+      "rdfs:label": "originLocationIds",
+      "rdfs:comment": "originLocationIds property."
+    },
+    {
+      "@id": "ion:consolidationTypes",
+      "@type": "rdf:Property",
+      "rdfs:label": "consolidationTypes",
+      "rdfs:comment": "consolidationTypes property."
+    },
+    {
+      "@id": "ion:dangerousGoodsOnly",
+      "@type": "rdf:Property",
+      "rdfs:label": "dangerousGoodsOnly",
+      "rdfs:comment": "dangerousGoodsOnly property."
+    },
+    {
+      "@id": "ion:refrigeratedOnly",
+      "@type": "rdf:Property",
+      "rdfs:label": "refrigeratedOnly",
+      "rdfs:comment": "refrigeratedOnly property."
+    },
+    {
+      "@id": "ion:outcome",
+      "@type": "rdf:Property",
+      "rdfs:label": "outcome",
+      "rdfs:comment": "outcome property."
+    },
+    {
+      "@id": "ion:fee",
+      "@type": "rdf:Property",
+      "rdfs:label": "fee",
+      "rdfs:comment": "fee property."
+    },
+    {
+      "@id": "ion:gracePeriod",
+      "@type": "rdf:Property",
+      "rdfs:label": "gracePeriod",
+      "rdfs:comment": "gracePeriod property."
+    },
+    {
+      "@id": "ion:cutoffType",
+      "@type": "rdf:Property",
+      "rdfs:label": "cutoffType",
+      "rdfs:comment": "cutoffType property."
+    },
+    {
+      "@id": "ion:cutoffBasis",
+      "@type": "rdf:Property",
+      "rdfs:label": "cutoffBasis",
+      "rdfs:comment": "cutoffBasis property."
+    },
+    {
+      "@id": "ion:localTime",
+      "@type": "rdf:Property",
+      "rdfs:label": "localTime",
+      "rdfs:comment": "localTime property."
+    },
+    {
+      "@id": "ion:timezone",
+      "@type": "rdf:Property",
+      "rdfs:label": "timezone",
+      "rdfs:comment": "timezone property."
+    },
+    {
+      "@id": "ion:applicableDays",
+      "@type": "rdf:Property",
+      "rdfs:label": "applicableDays",
+      "rdfs:comment": "applicableDays property."
+    },
+    {
+      "@id": "ion:offsetBeforeDeparture",
+      "@type": "rdf:Property",
+      "rdfs:label": "offsetBeforeDeparture",
+      "rdfs:comment": "offsetBeforeDeparture property."
+    },
+    {
+      "@id": "ion:departureReferenceEvent",
+      "@type": "rdf:Property",
+      "rdfs:label": "departureReferenceEvent",
+      "rdfs:comment": "departureReferenceEvent property."
+    },
+    {
+      "@id": "ion:weeklyDay",
+      "@type": "rdf:Property",
+      "rdfs:label": "weeklyDay",
+      "rdfs:comment": "weeklyDay property."
+    },
+    {
+      "@id": "ion:weeklyTime",
+      "@type": "rdf:Property",
+      "rdfs:label": "weeklyTime",
+      "rdfs:comment": "weeklyTime property."
+    },
+    {
+      "@id": "ion:applicability",
+      "@type": "rdf:Property",
+      "rdfs:label": "applicability",
+      "rdfs:comment": "applicability property."
+    },
+    {
+      "@id": "ion:lateAcceptance",
+      "@type": "rdf:Property",
+      "rdfs:label": "lateAcceptance",
+      "rdfs:comment": "lateAcceptance property."
+    },
+    {
+      "@id": "ion:awbAllocationModel",
+      "@type": "rdf:Property",
+      "rdfs:label": "awbAllocationModel",
+      "rdfs:comment": "awbAllocationModel property."
+    },
+    {
+      "@id": "ion:awbBlockAllocationSupported",
+      "@type": "rdf:Property",
+      "rdfs:label": "awbBlockAllocationSupported",
+      "rdfs:comment": "awbBlockAllocationSupported property."
+    },
+    {
+      "@id": "ion:labelFormats",
+      "@type": "rdf:Property",
+      "rdfs:label": "labelFormats",
+      "rdfs:comment": "labelFormats property."
+    },
+    {
+      "@id": "ion:stateCode",
+      "@type": "rdf:Property",
+      "rdfs:label": "stateCode",
+      "rdfs:comment": "stateCode property."
+    },
+    {
+      "@id": "ion:maximumDwell",
+      "@type": "rdf:Property",
+      "rdfs:label": "maximumDwell",
+      "rdfs:comment": "maximumDwell property."
+    },
+    {
+      "@id": "ion:alertThreshold",
+      "@type": "rdf:Property",
+      "rdfs:label": "alertThreshold",
+      "rdfs:comment": "alertThreshold property."
+    },
+    {
+      "@id": "ion:alertPolicy",
+      "@type": "rdf:Property",
+      "rdfs:label": "alertPolicy",
+      "rdfs:comment": "alertPolicy property."
+    },
+    {
+      "@id": "ion:cascadeEffect",
+      "@type": "rdf:Property",
+      "rdfs:label": "cascadeEffect",
+      "rdfs:comment": "cascadeEffect property."
+    },
+    {
+      "@id": "ion:applicableTopologies",
+      "@type": "rdf:Property",
+      "rdfs:label": "applicableTopologies",
+      "rdfs:comment": "applicableTopologies property."
+    },
+    {
+      "@id": "ion:pickupToDelivery",
+      "@type": "rdf:Property",
+      "rdfs:label": "pickupToDelivery",
+      "rdfs:comment": "pickupToDelivery property."
+    },
+    {
+      "@id": "ion:measurementBasis",
+      "@type": "rdf:Property",
+      "rdfs:label": "measurementBasis",
+      "rdfs:comment": "measurementBasis property."
+    },
+    {
+      "@id": "ion:measurementPolicy",
+      "@type": "rdf:Property",
+      "rdfs:label": "measurementPolicy",
+      "rdfs:comment": "measurementPolicy property."
+    },
+    {
+      "@id": "ion:stateTimings",
+      "@type": "rdf:Property",
+      "rdfs:label": "stateTimings",
+      "rdfs:comment": "stateTimings property."
+    },
+    {
+      "@id": "ion:overall",
+      "@type": "rdf:Property",
+      "rdfs:label": "overall",
+      "rdfs:comment": "overall property."
+    },
+    {
+      "@id": "ion:operatingCalendar",
+      "@type": "rdf:Property",
+      "rdfs:label": "operatingCalendar",
+      "rdfs:comment": "operatingCalendar property."
+    },
+    {
+      "@id": "ion:calendarRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "calendarRef",
+      "rdfs:comment": "calendarRef property."
+    },
+    {
+      "@id": "ion:capacityModel",
+      "@type": "rdf:Property",
+      "rdfs:label": "capacityModel",
+      "rdfs:comment": "capacityModel property."
+    },
+    {
+      "@id": "ion:consolidationType",
+      "@type": "rdf:Property",
+      "rdfs:label": "consolidationType",
+      "rdfs:comment": "consolidationType property."
+    },
+    {
+      "@id": "ion:equipmentType",
+      "@type": "rdf:Property",
+      "rdfs:label": "equipmentType",
+      "rdfs:comment": "equipmentType property."
+    },
+    {
+      "@id": "ion:scheduleType",
+      "@type": "rdf:Property",
+      "rdfs:label": "scheduleType",
+      "rdfs:comment": "scheduleType property."
+    },
+    {
+      "@id": "ion:agentAssignmentModel",
+      "@type": "rdf:Property",
+      "rdfs:label": "agentAssignmentModel",
+      "rdfs:comment": "agentAssignmentModel property."
+    },
+    {
+      "@id": "ion:liveTrackingSupported",
+      "@type": "rdf:Property",
+      "rdfs:label": "liveTrackingSupported",
+      "rdfs:comment": "liveTrackingSupported property."
+    },
+    {
+      "@id": "ion:startTime",
+      "@type": "rdf:Property",
+      "rdfs:label": "startTime",
+      "rdfs:comment": "startTime property."
+    },
+    {
+      "@id": "ion:endTime",
+      "@type": "rdf:Property",
+      "rdfs:label": "endTime",
+      "rdfs:comment": "endTime property."
+    },
+    {
+      "@id": "ion:duration",
+      "@type": "rdf:Property",
+      "rdfs:label": "duration",
+      "rdfs:comment": "duration property."
+    },
+    {
+      "@id": "ion:locationId",
+      "@type": "rdf:Property",
+      "rdfs:label": "locationId",
+      "rdfs:comment": "locationId property."
+    },
+    {
+      "@id": "ion:paymentDeclaration",
+      "@type": "rdf:Property",
+      "rdfs:label": "paymentDeclaration",
+      "rdfs:comment": "paymentDeclaration property."
+    },
+    {
+      "@id": "ion:maximumAmount",
+      "@type": "rdf:Property",
+      "rdfs:label": "maximumAmount",
+      "rdfs:comment": "maximumAmount property."
+    },
+    {
+      "@id": "ion:buyerDailyLimit",
+      "@type": "rdf:Property",
+      "rdfs:label": "buyerDailyLimit",
+      "rdfs:comment": "buyerDailyLimit property."
+    },
+    {
+      "@id": "ion:receiptVerification",
+      "@type": "rdf:Property",
+      "rdfs:label": "receiptVerification",
+      "rdfs:comment": "receiptVerification property."
+    },
+    {
+      "@id": "ion:holdPeriod",
+      "@type": "rdf:Property",
+      "rdfs:label": "holdPeriod",
+      "rdfs:comment": "holdPeriod property."
+    },
+    {
+      "@id": "ion:denominationsAccepted",
+      "@type": "rdf:Property",
+      "rdfs:label": "denominationsAccepted",
+      "rdfs:comment": "Accepted Indonesian Rupiah denominations."
+    },
+    {
+      "@id": "ion:billingUnit",
+      "@type": "rdf:Property",
+      "rdfs:label": "billingUnit",
+      "rdfs:comment": "billingUnit property."
+    },
+    {
+      "@id": "ion:minimumTerm",
+      "@type": "rdf:Property",
+      "rdfs:label": "minimumTerm",
+      "rdfs:comment": "minimumTerm property."
+    },
+    {
+      "@id": "ion:originLocationId",
+      "@type": "rdf:Property",
+      "rdfs:label": "originLocationId",
+      "rdfs:comment": "originLocationId property."
+    },
+    {
+      "@id": "ion:destinationLocationId",
+      "@type": "rdf:Property",
+      "rdfs:label": "destinationLocationId",
+      "rdfs:comment": "destinationLocationId property."
+    },
+    {
+      "@id": "ion:departureTimes",
+      "@type": "rdf:Property",
+      "rdfs:label": "departureTimes",
+      "rdfs:comment": "departureTimes property."
+    },
+    {
+      "@id": "ion:daysOfWeek",
+      "@type": "rdf:Property",
+      "rdfs:label": "daysOfWeek",
+      "rdfs:comment": "daysOfWeek property."
+    },
+    {
+      "@id": "ion:acceptedVehicleCategories",
+      "@type": "rdf:Property",
+      "rdfs:label": "acceptedVehicleCategories",
+      "rdfs:comment": "acceptedVehicleCategories property."
+    },
+    {
+      "@id": "ion:departures",
+      "@type": "rdf:Property",
+      "rdfs:label": "departures",
+      "rdfs:comment": "departures property."
+    },
+    {
+      "@id": "ion:crossingDuration",
+      "@type": "rdf:Property",
+      "rdfs:label": "crossingDuration",
+      "rdfs:comment": "crossingDuration property."
+    },
+    {
+      "@id": "ion:incoterms",
+      "@type": "rdf:Property",
+      "rdfs:label": "incoterms",
+      "rdfs:comment": "incoterms property."
+    },
+    {
+      "@id": "ion:dutyAndTaxModel",
+      "@type": "rdf:Property",
+      "rdfs:label": "dutyAndTaxModel",
+      "rdfs:comment": "dutyAndTaxModel property."
+    },
+    {
+      "@id": "ion:cancellation",
+      "@type": "rdf:Property",
+      "rdfs:label": "cancellation",
+      "rdfs:comment": "cancellation property."
+    },
+    {
+      "@id": "ion:claim",
+      "@type": "rdf:Property",
+      "rdfs:label": "claim",
+      "rdfs:comment": "claim property."
+    },
+    {
+      "@id": "ion:evidence",
+      "@type": "rdf:Property",
+      "rdfs:label": "evidence",
+      "rdfs:comment": "evidence property."
+    },
+    {
+      "@id": "ion:dispute",
+      "@type": "rdf:Property",
+      "rdfs:label": "dispute",
+      "rdfs:comment": "dispute property."
+    },
+    {
+      "@id": "ion:deliveryReattempt",
+      "@type": "rdf:Property",
+      "rdfs:label": "deliveryReattempt",
+      "rdfs:comment": "deliveryReattempt property."
+    },
+    {
+      "@id": "ion:insurance",
+      "@type": "rdf:Property",
+      "rdfs:label": "insurance",
+      "rdfs:comment": "insurance property."
+    },
+    {
+      "@id": "ion:surcharge",
+      "@type": "rdf:Property",
+      "rdfs:label": "surcharge",
+      "rdfs:comment": "surcharge property."
+    },
+    {
+      "@id": "ion:serviceDefinition",
+      "@type": "rdf:Property",
+      "rdfs:label": "serviceDefinition",
+      "rdfs:comment": "serviceDefinition property."
+    },
+    {
+      "@id": "ion:rateCard",
+      "@type": "rdf:Property",
+      "rdfs:label": "rateCard",
+      "rdfs:comment": "rateCard property."
+    },
+    {
+      "@id": "ion:negotiationTerms",
+      "@type": "rdf:Property",
+      "rdfs:label": "negotiationTerms",
+      "rdfs:comment": "negotiationTerms property."
+    },
+    {
+      "@id": "ion:pickupTerms",
+      "@type": "rdf:Property",
+      "rdfs:label": "pickupTerms",
+      "rdfs:comment": "pickupTerms property."
+    },
+    {
+      "@id": "ion:cutoffs",
+      "@type": "rdf:Property",
+      "rdfs:label": "cutoffs",
+      "rdfs:comment": "cutoffs property."
+    },
+    {
+      "@id": "ion:documentTerms",
+      "@type": "rdf:Property",
+      "rdfs:label": "documentTerms",
+      "rdfs:comment": "documentTerms property."
+    },
+    {
+      "@id": "ion:serviceLevelCommitment",
+      "@type": "rdf:Property",
+      "rdfs:label": "serviceLevelCommitment",
+      "rdfs:comment": "serviceLevelCommitment property."
+    },
+    {
+      "@id": "ion:capacityTerms",
+      "@type": "rdf:Property",
+      "rdfs:label": "capacityTerms",
+      "rdfs:comment": "capacityTerms property."
+    },
+    {
+      "@id": "ion:executionTerms",
+      "@type": "rdf:Property",
+      "rdfs:label": "executionTerms",
+      "rdfs:comment": "executionTerms property."
+    },
+    {
+      "@id": "ion:serviceWindows",
+      "@type": "rdf:Property",
+      "rdfs:label": "serviceWindows",
+      "rdfs:comment": "serviceWindows property."
+    },
+    {
+      "@id": "ion:codTerms",
+      "@type": "rdf:Property",
+      "rdfs:label": "codTerms",
+      "rdfs:comment": "codTerms property."
+    },
+    {
+      "@id": "ion:maximumDeclaredValue",
+      "@type": "rdf:Property",
+      "rdfs:label": "maximumDeclaredValue",
+      "rdfs:comment": "maximumDeclaredValue property."
+    },
+    {
+      "@id": "ion:warehouseTerms",
+      "@type": "rdf:Property",
+      "rdfs:label": "warehouseTerms",
+      "rdfs:comment": "warehouseTerms property."
+    },
+    {
+      "@id": "ion:roRoTerms",
+      "@type": "rdf:Property",
+      "rdfs:label": "roRoTerms",
+      "rdfs:comment": "roRoTerms property."
+    },
+    {
+      "@id": "ion:crossBorderTerms",
+      "@type": "rdf:Property",
+      "rdfs:label": "crossBorderTerms",
+      "rdfs:comment": "crossBorderTerms property."
+    },
+    {
+      "@id": "ion:policyReferences",
+      "@type": "rdf:Property",
+      "rdfs:label": "policyReferences",
+      "rdfs:comment": "policyReferences property."
+    },
+    {
+      "@id": "ion:ServiceDefinition",
+      "@type": "rdfs:Class",
+      "rdfs:label": "ServiceDefinition",
+      "rdfs:comment": "ServiceDefinition class."
+    },
+    {
+      "@id": "ion:PricingCorridor",
+      "@type": "rdfs:Class",
+      "rdfs:label": "PricingCorridor",
+      "rdfs:comment": "PricingCorridor class."
+    },
+    {
+      "@id": "ion:PricingZone",
+      "@type": "rdfs:Class",
+      "rdfs:label": "PricingZone",
+      "rdfs:comment": "PricingZone class."
+    },
+    {
+      "@id": "ion:IONPricingZone",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONPricingZone",
+      "rdfs:comment": "IONPricingZone class."
+    },
+    {
+      "@id": "ion:WeightTier",
+      "@type": "rdfs:Class",
+      "rdfs:label": "WeightTier",
+      "rdfs:comment": "WeightTier class."
+    },
+    {
+      "@id": "ion:ChargeableWeight",
+      "@type": "rdfs:Class",
+      "rdfs:label": "ChargeableWeight",
+      "rdfs:comment": "ChargeableWeight class."
+    },
+    {
+      "@id": "ion:RateModifier",
+      "@type": "rdfs:Class",
+      "rdfs:label": "RateModifier",
+      "rdfs:comment": "RateModifier class."
+    },
+    {
+      "@id": "ion:LogisticsRateCard",
+      "@type": "rdfs:Class",
+      "rdfs:label": "LogisticsRateCard",
+      "rdfs:comment": "LogisticsRateCard class."
+    },
+    {
+      "@id": "ion:IONLogisticsRateCard",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONLogisticsRateCard",
+      "rdfs:comment": "IONLogisticsRateCard class."
+    },
+    {
+      "@id": "ion:NegotiationTerms",
+      "@type": "rdfs:Class",
+      "rdfs:label": "NegotiationTerms",
+      "rdfs:comment": "NegotiationTerms class."
+    },
+    {
+      "@id": "ion:PickupTerms",
+      "@type": "rdfs:Class",
+      "rdfs:label": "PickupTerms",
+      "rdfs:comment": "PickupTerms class."
+    },
+    {
+      "@id": "ion:CutoffApplicability",
+      "@type": "rdfs:Class",
+      "rdfs:label": "CutoffApplicability",
+      "rdfs:comment": "CutoffApplicability class."
+    },
+    {
+      "@id": "ion:LateAcceptance",
+      "@type": "rdfs:Class",
+      "rdfs:label": "LateAcceptance",
+      "rdfs:comment": "LateAcceptance class."
+    },
+    {
+      "@id": "ion:OperationalCutoff",
+      "@type": "rdfs:Class",
+      "rdfs:label": "OperationalCutoff",
+      "rdfs:comment": "OperationalCutoff class."
+    },
+    {
+      "@id": "ion:DocumentTerms",
+      "@type": "rdfs:Class",
+      "rdfs:label": "DocumentTerms",
+      "rdfs:comment": "DocumentTerms class."
+    },
+    {
+      "@id": "ion:StateTiming",
+      "@type": "rdfs:Class",
+      "rdfs:label": "StateTiming",
+      "rdfs:comment": "StateTiming class."
+    },
+    {
+      "@id": "ion:OverallServiceLevel",
+      "@type": "rdfs:Class",
+      "rdfs:label": "OverallServiceLevel",
+      "rdfs:comment": "OverallServiceLevel class."
+    },
+    {
+      "@id": "ion:ServiceLevelCommitment",
+      "@type": "rdfs:Class",
+      "rdfs:label": "ServiceLevelCommitment",
+      "rdfs:comment": "ServiceLevelCommitment class."
+    },
+    {
+      "@id": "ion:IONServiceLevelCommitment",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONServiceLevelCommitment",
+      "rdfs:comment": "IONServiceLevelCommitment class."
+    },
+    {
+      "@id": "ion:CapacityTerms",
+      "@type": "rdfs:Class",
+      "rdfs:label": "CapacityTerms",
+      "rdfs:comment": "CapacityTerms class."
+    },
+    {
+      "@id": "ion:ExecutionTerms",
+      "@type": "rdfs:Class",
+      "rdfs:label": "ExecutionTerms",
+      "rdfs:comment": "ExecutionTerms class."
+    },
+    {
+      "@id": "ion:ServiceWindow",
+      "@type": "rdfs:Class",
+      "rdfs:label": "ServiceWindow",
+      "rdfs:comment": "ServiceWindow class."
+    },
+    {
+      "@id": "ion:CodTerms",
+      "@type": "rdfs:Class",
+      "rdfs:label": "CodTerms",
+      "rdfs:comment": "CodTerms class."
+    },
+    {
+      "@id": "ion:IONCodTerms",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONCodTerms",
+      "rdfs:comment": "IONCodTerms class."
+    },
+    {
+      "@id": "ion:WarehouseTerms",
+      "@type": "rdfs:Class",
+      "rdfs:label": "WarehouseTerms",
+      "rdfs:comment": "WarehouseTerms class."
+    },
+    {
+      "@id": "ion:ScheduledDeparture",
+      "@type": "rdfs:Class",
+      "rdfs:label": "ScheduledDeparture",
+      "rdfs:comment": "ScheduledDeparture class."
+    },
+    {
+      "@id": "ion:RoRoTerms",
+      "@type": "rdfs:Class",
+      "rdfs:label": "RoRoTerms",
+      "rdfs:comment": "RoRoTerms class."
+    },
+    {
+      "@id": "ion:CrossBorderTerms",
+      "@type": "rdfs:Class",
+      "rdfs:label": "CrossBorderTerms",
+      "rdfs:comment": "CrossBorderTerms class."
+    },
+    {
+      "@id": "ion:LogisticsPolicyReferences",
+      "@type": "rdfs:Class",
+      "rdfs:label": "LogisticsPolicyReferences",
+      "rdfs:comment": "LogisticsPolicyReferences class."
+    },
+    {
+      "@id": "ion:LogisticsOffer",
+      "@type": "rdfs:Class",
+      "rdfs:label": "LogisticsOffer",
+      "rdfs:comment": "LogisticsOffer class."
+    },
+    {
+      "@id": "ion:IONLogisticsOffer",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONLogisticsOffer",
+      "rdfs:comment": "IONLogisticsOffer class."
+    }
+  ]
+}

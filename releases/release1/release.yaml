@@ -350,6 +350,17 @@ artifactChecksums:
   schema/core/api/v2.0.0/examples/reconcile-request.json: 11df22e6ac9ec44c8872f618da11a5623f8ec58481465c3c400228795f8d7433
   schema/core/api/v2.0.0/ion-additional.yaml: 71c98a2dc7eff955de5429abf21665c33c814bd50a7795bf8f8eede6892e26c4
   schema/core/api/v2.0.0/ion-beckn.yaml: 87567ff9b849b0705505a85af86a5899625759cbcfa87775a85aed86e392511a
+  schema/extension/logistics/LogisticsOffer/README.md: db2abc655cca9f3f74ef0a92cdda674aaef05dcb6a5c852eb9f48d8cdbd63903
+  schema/extension/logistics/LogisticsOffer/v1/README.md: 1aa3607f4d3952468ccc79f1f2441c93706240a1e84247c3e94e772ccdeafa9a
+  schema/extension/logistics/LogisticsOffer/v1/attributes.yaml: 38126b75e5f24a31a791e6bddb539197ea5a239ee965c6d9c679b89786f7e2ab
+  schema/extension/logistics/LogisticsOffer/v1/context.jsonld: 0cc9bb19934c06187f1a77f8b3ebb7e019bff54699a37f483e7e483769a755e5
+  schema/extension/logistics/LogisticsOffer/v1/docs/01-overview.md: 55ba9139789ff61ae39f3f998edb8b3fd45c8e1a6ed172dfeac0bfef98ffe508
+  schema/extension/logistics/LogisticsOffer/v1/docs/README.md: b64fab94c598a963d9f141576ee4c7000e6606ad9dabd53b0e7a47d7672a503a
+  schema/extension/logistics/LogisticsOffer/v1/examples/parcel-service-offer.json: 64091f4058025009565c53e76a68a7a5fc6423608cb3c2af3c8e484d5e99fba5
+  schema/extension/logistics/LogisticsOffer/v1/profile.json: 0f5641b810b860a2a1a909e8ea860b2c9d81a96f3fda79e4f334a85e10dd230d
+  schema/extension/logistics/LogisticsOffer/v1/renderer.json: a65be0d1e8eaec7809c165e78a46d83b7b480b11cbe9ca3f69548b709de7ab92
+  schema/extension/logistics/LogisticsOffer/v1/schema.json: cf33a25c5731218f96e94dea6061bf9ec9c09964b86ef5f11a7de2de4090dc9d
+  schema/extension/logistics/LogisticsOffer/v1/vocab.jsonld: eef30593369126951d0a453b690fd40fc2f8e756877c76ecd9a0c5e52d7928d4
   schema/extension/logistics/LogisticsParticipant/README.md: e88b9636978500ba6b98f3447713ca02c8f332fa512b49c169ce28a18b40ddfd
   schema/extension/logistics/LogisticsParticipant/v1/README.md: 4ff467f86d2f461ba5b238890f98e48b3754782b6835404ce65fb006001e04d7
   schema/extension/logistics/LogisticsParticipant/v1/attributes.yaml: a352f70b466bbde5bd96084a246e86ca4aaed27b592bc6741911aa1f9af86e88

@@ -1,0 +1,445 @@
+openapi: 3.1.1
+info:
+  title: ION Logistics Offer Extension (v1)
+  description: >
+    Catalog-time logistics service and calculation terms attached to
+    Offer.offerAttributes. Calculated and agreed monetary amounts remain in core
+    Considerations.
+  version: 1.0.0
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    name: ION Network
+    url: https://schema.ion.id
+
+components:
+  schemas:
+    ServiceDefinition:
+      type: object
+      additionalProperties: false
+      properties:
+        serviceLevel:
+          type: string
+          enum: [ECONOMY, STANDARD, EXPRESS, SAME_DAY, NEXT_DAY, SCHEDULED]
+        transportMode:
+          type: string
+          enum: [BICYCLE, MOTORCYCLE, CAR, VAN, TRUCK, RAIL, SEA, AIR, INLAND_WATERWAY, FERRY, MULTIMODAL]
+        routingTopology:
+          type: string
+          enum: [POINT_TO_POINT, POINT_HUB_POINT, POINT_MULTI_HUB_POINT]
+
+    PricingCorridor:
+      type: object
+      additionalProperties: false
+      required: [originCoverageId, destinationCoverageId]
+      properties:
+        originCoverageId: {type: string}
+        destinationCoverageId: {type: string}
+
+    PricingZone:
+      type: object
+      additionalProperties: true
+      required: [id]
+      properties:
+        id: {type: string, minLength: 1}
+        coverageIds:
+          type: array
+          uniqueItems: true
+          items: {type: string}
+        corridors:
+          type: array
+          items: {$ref: '#/components/schemas/PricingCorridor'}
+        basePrice:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/PriceSpecification/2.0/attributes.yaml#/components/schemas/PriceSpecification
+
+    IONPricingZone:
+      type: object
+      additionalProperties: true
+      x-ion-layer: ion
+      allOf:
+        - $ref: '#/components/schemas/PricingZone'
+      properties:
+        ionSubdivisions:
+          x-attr-ion-layer: ion
+          type: array
+          items:
+            $ref: https://schema.ion.id/release1/schema/common/Address/v1/attributes.yaml#/components/schemas/IONAddress
+
+    WeightTier:
+      type: object
+      additionalProperties: false
+      required: [maximumWeight, rate]
+      properties:
+        maximumWeight:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+        rate:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/PriceSpecification/2.0/attributes.yaml#/components/schemas/PriceSpecification
+        minimumCharge:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/PriceSpecification/2.0/attributes.yaml#/components/schemas/PriceSpecification
+
+    ChargeableWeight:
+      type: object
+      additionalProperties: false
+      properties:
+        rule:
+          type: string
+          enum: [ACTUAL, DIMENSIONAL, GREATER_OF_ACTUAL_OR_DIMENSIONAL]
+        dimensionalFactor:
+          type: number
+          exclusiveMinimum: 0
+          description: Divisor applied to volume expressed in cubic centimetres to obtain kilograms.
+
+    RateModifier:
+      type: object
+      additionalProperties: false
+      required: [modifierType, basis]
+      properties:
+        modifierType:
+          type: string
+          enum: [SURCHARGE, DISCOUNT]
+        basis:
+          type: string
+          enum: [FLAT, PER_WEIGHT, PER_DISTANCE, PERCENT_OF_BASE]
+        percentOfBase: {type: number}
+        price:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/PriceSpecification/2.0/attributes.yaml#/components/schemas/PriceSpecification
+        policyRef: {type: string, format: uri}
+        validity:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/TimePeriod/2.0/attributes.yaml#/components/schemas/TimePeriod
+
+    LogisticsRateCard:
+      type: object
+      additionalProperties: true
+      properties:
+        rateLogic:
+          type: string
+          enum: [FLAT, ZONE_BASED, WEIGHT_TIERED, DISTANCE_BASED, NEGOTIATED]
+        pricingZones:
+          type: array
+          items: {$ref: '#/components/schemas/PricingZone'}
+        weightTiers:
+          type: array
+          items: {$ref: '#/components/schemas/WeightTier'}
+        chargeableWeight: {$ref: '#/components/schemas/ChargeableWeight'}
+        minimumCharge:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/PriceSpecification/2.0/attributes.yaml#/components/schemas/PriceSpecification
+        modifiers:
+          type: array
+          items: {$ref: '#/components/schemas/RateModifier'}
+
+    IONLogisticsRateCard:
+      type: object
+      additionalProperties: true
+      x-ion-layer: ion
+      allOf:
+        - $ref: '#/components/schemas/LogisticsRateCard'
+      properties:
+        pricingZones:
+          x-attr-ion-layer: ion
+          type: array
+          items: {$ref: '#/components/schemas/IONPricingZone'}
+
+    NegotiationTerms:
+      type: object
+      additionalProperties: false
+      properties:
+        selectionRequired: {type: boolean}
+        quoteValidity: {type: string, format: duration}
+
+    PickupTerms:
+      type: object
+      additionalProperties: false
+      properties:
+        models:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            enum: [DOOR_PICKUP, DROP_OFF, SCHEDULED_PICKUP, BULK_PICKUP]
+        windowGranularity: {type: string, format: duration}
+        bulkMaximum:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+        dropOffLocationIds:
+          type: array
+          uniqueItems: true
+          items: {type: string}
+
+    CutoffApplicability:
+      type: object
+      additionalProperties: false
+      properties:
+        originLocationIds: {type: array, items: {type: string}, uniqueItems: true}
+        consolidationTypes: {type: array, items: {type: string}, uniqueItems: true}
+        dangerousGoodsOnly: {type: boolean}
+        refrigeratedOnly: {type: boolean}
+
+    LateAcceptance:
+      type: object
+      additionalProperties: false
+      required: [outcome]
+      properties:
+        outcome:
+          type: string
+          enum: [REJECT, NEXT_DEPARTURE, ACCEPT_WITH_FEE, ACCEPT_WITH_APPROVAL]
+        fee:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/PriceSpecification/2.0/attributes.yaml#/components/schemas/PriceSpecification
+        gracePeriod: {type: string, format: duration}
+        policyRef: {type: string, format: uri}
+
+    OperationalCutoff:
+      type: object
+      additionalProperties: false
+      required: [cutoffType, cutoffBasis]
+      properties:
+        cutoffType: {type: string}
+        cutoffBasis:
+          type: string
+          enum: [FIXED_LOCAL_TIME, OFFSET_FROM_DEPARTURE, WEEKLY_DAY_AND_TIME]
+        localTime: {type: string, format: time}
+        timezone: {type: string}
+        applicableDays:
+          type: array
+          uniqueItems: true
+          items: {type: integer, minimum: 1, maximum: 7}
+        offsetBeforeDeparture: {type: string, format: duration}
+        departureReferenceEvent: {type: string}
+        weeklyDay: {type: integer, minimum: 1, maximum: 7}
+        weeklyTime: {type: string, format: time}
+        applicability: {$ref: '#/components/schemas/CutoffApplicability'}
+        lateAcceptance: {$ref: '#/components/schemas/LateAcceptance'}
+
+    DocumentTerms:
+      type: object
+      additionalProperties: false
+      properties:
+        awbAllocationModel:
+          type: string
+          enum: [PROVIDER_ASSIGNED, BUYER_PREALLOCATED, HYBRID]
+        awbBlockAllocationSupported: {type: boolean}
+        labelFormats:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            enum: [PDF_A4, PDF_A5, PDF_A6, ZPL_100X150, ZPL_100X100, EPL_100X150, PNG_DIGITAL, JSON_FIELDS_ONLY]
+
+    StateTiming:
+      type: object
+      additionalProperties: false
+      required: [stateCode, maximumDwell]
+      properties:
+        stateCode: {type: string}
+        maximumDwell: {type: string, format: duration}
+        alertThreshold: {type: string, format: duration}
+        alertPolicy: {type: string, format: uri}
+        cascadeEffect:
+          type: string
+          enum: [NO_CASCADE, PUSH_DOWNSTREAM, BREACH_LIKELY, BREACH_CERTAIN]
+        applicableTopologies:
+          type: array
+          uniqueItems: true
+          items: {type: string}
+
+    OverallServiceLevel:
+      type: object
+      additionalProperties: true
+      properties:
+        pickupToDelivery: {type: string, format: duration}
+        measurementBasis:
+          type: string
+          enum: [CALENDAR_TIME, BUSINESS_TIME, OPERATING_HOURS]
+        measurementPolicy: {type: string, format: uri}
+
+    ServiceLevelCommitment:
+      type: object
+      additionalProperties: true
+      properties:
+        stateTimings:
+          type: array
+          items: {$ref: '#/components/schemas/StateTiming'}
+        overall: {$ref: '#/components/schemas/OverallServiceLevel'}
+
+    IONServiceLevelCommitment:
+      type: object
+      additionalProperties: true
+      x-ion-layer: ion
+      allOf:
+        - $ref: '#/components/schemas/ServiceLevelCommitment'
+      properties:
+        operatingCalendar:
+          x-attr-ion-layer: ion
+          type: string
+          enum: [STANDARD_INDONESIAN, BUSINESS_WEEKDAYS_JAKARTA, CUSTOM]
+        calendarRef: {x-attr-ion-layer: ion, type: string, format: uri}
+
+    CapacityTerms:
+      type: object
+      additionalProperties: false
+      properties:
+        capacityModel:
+          type: string
+          enum: [PER_CONTAINER, PER_PALLET, PER_VOLUME, PER_WEIGHT, PER_TRUCK, PER_VESSEL_SLOT]
+        consolidationType: {type: string}
+        equipmentType: {type: string}
+        scheduleType:
+          type: string
+          enum: [REGULAR_SAILING, REGULAR_FLIGHT, AD_HOC, ON_DEMAND]
+
+    ExecutionTerms:
+      type: object
+      additionalProperties: false
+      properties:
+        agentAssignmentModel:
+          type: string
+          enum: [PRE_ASSIGNED, POOL_ASSIGNED, FIFO_AT_PICKUP, DEDICATED_FLEET]
+        liveTrackingSupported: {type: boolean}
+
+    ServiceWindow:
+      type: object
+      additionalProperties: false
+      required: [startTime, endTime, timezone]
+      properties:
+        startTime: {type: string, format: time}
+        endTime: {type: string, format: time}
+        timezone: {type: string}
+        duration: {type: string, format: duration}
+        applicableDays:
+          type: array
+          uniqueItems: true
+          items: {type: integer, minimum: 1, maximum: 7}
+        locationId: {type: string}
+
+    CodTerms:
+      type: object
+      additionalProperties: true
+      properties:
+        paymentDeclaration:
+          $ref: https://schema.ion.id/release1/schema/common/Payment/v1/attributes.yaml#/components/schemas/IONPayment
+        maximumAmount:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/PriceSpecification/2.0/attributes.yaml#/components/schemas/PriceSpecification
+        buyerDailyLimit:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/PriceSpecification/2.0/attributes.yaml#/components/schemas/PriceSpecification
+        receiptVerification:
+          type: string
+          enum: [NONE, OTP]
+        holdPeriod: {type: string, format: duration}
+        policyRef: {type: string, format: uri}
+
+    IONCodTerms:
+      type: object
+      additionalProperties: true
+      x-ion-layer: ion
+      allOf:
+        - $ref: '#/components/schemas/CodTerms'
+      properties:
+        denominationsAccepted:
+          x-attr-ion-layer: ion
+          type: array
+          uniqueItems: true
+          items:
+            type: integer
+            enum: [500, 1000, 2000, 5000, 10000, 20000, 50000, 100000]
+          description: Accepted Indonesian Rupiah denominations.
+
+    WarehouseTerms:
+      type: object
+      additionalProperties: false
+      properties:
+        billingUnit:
+          type: string
+          enum: [PER_ITEM_PER_DAY, PER_VOLUME_PER_MONTH, PER_PALLET_PER_MONTH]
+        minimumTerm: {type: string, format: duration}
+
+    ScheduledDeparture:
+      type: object
+      additionalProperties: false
+      required: [originLocationId, destinationLocationId, timezone]
+      properties:
+        originLocationId: {type: string}
+        destinationLocationId: {type: string}
+        departureTimes: {type: array, items: {type: string, format: time}}
+        daysOfWeek: {type: array, items: {type: integer, minimum: 1, maximum: 7}, uniqueItems: true}
+        timezone: {type: string}
+
+    RoRoTerms:
+      type: object
+      additionalProperties: false
+      properties:
+        acceptedVehicleCategories: {type: array, items: {type: string}, uniqueItems: true}
+        departures: {type: array, items: {$ref: '#/components/schemas/ScheduledDeparture'}}
+        crossingDuration: {type: string, format: duration}
+
+    CrossBorderTerms:
+      type: object
+      additionalProperties: false
+      properties:
+        incoterms:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            enum: [EXW, FCA, FAS, FOB, CFR, CIF, CPT, CIP, DAP, DPU, DDP]
+        dutyAndTaxModel:
+          type: string
+          enum: [DDP_INCLUSIVE, DAP_BUYER_PAYS]
+
+    LogisticsPolicyReferences:
+      type: object
+      additionalProperties: false
+      properties:
+        cancellation: {type: string, format: uri}
+        claim: {type: string, format: uri}
+        serviceLevel: {type: string, format: uri}
+        evidence: {type: string, format: uri}
+        dispute: {type: string, format: uri}
+        deliveryReattempt: {type: string, format: uri}
+        insurance: {type: string, format: uri}
+        surcharge: {type: string, format: uri}
+
+    LogisticsOffer:
+      type: object
+      title: LogisticsOffer
+      additionalProperties: true
+      x-ion-closed-extensions: false
+      x-beckn-attaches-to: Offer.offerAttributes
+      x-jsonld:
+        '@context': https://schema.ion.id/release1/schema/extension/logistics/LogisticsOffer/v1/context.jsonld
+        '@type': ion:LogisticsOffer
+      allOf:
+        - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Attributes/2.0/attributes.yaml#/components/schemas/Attributes
+      properties:
+        serviceDefinition: {$ref: '#/components/schemas/ServiceDefinition'}
+        rateCard: {$ref: '#/components/schemas/LogisticsRateCard'}
+        negotiationTerms: {$ref: '#/components/schemas/NegotiationTerms'}
+        pickupTerms: {$ref: '#/components/schemas/PickupTerms'}
+        cutoffs: {type: array, items: {$ref: '#/components/schemas/OperationalCutoff'}}
+        documentTerms: {$ref: '#/components/schemas/DocumentTerms'}
+        serviceLevelCommitment: {$ref: '#/components/schemas/ServiceLevelCommitment'}
+        capacityTerms: {$ref: '#/components/schemas/CapacityTerms'}
+        executionTerms: {$ref: '#/components/schemas/ExecutionTerms'}
+        serviceWindows: {type: array, items: {$ref: '#/components/schemas/ServiceWindow'}}
+        codTerms: {$ref: '#/components/schemas/CodTerms'}
+        maximumDeclaredValue:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/PriceSpecification/2.0/attributes.yaml#/components/schemas/PriceSpecification
+        warehouseTerms: {$ref: '#/components/schemas/WarehouseTerms'}
+        roRoTerms: {$ref: '#/components/schemas/RoRoTerms'}
+        crossBorderTerms: {$ref: '#/components/schemas/CrossBorderTerms'}
+        policyReferences: {$ref: '#/components/schemas/LogisticsPolicyReferences'}
+
+    IONLogisticsOffer:
+      type: object
+      title: IONLogisticsOffer
+      additionalProperties: true
+      x-ion-layer: ion
+      x-ion-closed-extensions: false
+      x-beckn-attaches-to: Offer.offerAttributes
+      x-jsonld:
+        '@context': https://schema.ion.id/release1/schema/extension/logistics/LogisticsOffer/v1/context.jsonld
+        '@type': ion:IONLogisticsOffer
+      allOf:
+        - $ref: '#/components/schemas/LogisticsOffer'
+      properties:
+        rateCard: {x-attr-ion-layer: ion, $ref: '#/components/schemas/IONLogisticsRateCard'}
+        serviceLevelCommitment: {x-attr-ion-layer: ion, $ref: '#/components/schemas/IONServiceLevelCommitment'}
+        codTerms: {x-attr-ion-layer: ion, $ref: '#/components/schemas/IONCodTerms'}

@@ -53,6 +53,10 @@ module IonSchemaPackJSONLD
       definition = context[name]
       [name, definition.is_a?(String) ? definition : "ion:#{name}"]
     end
+    schema_ids = schemas.each_key.to_h do |name|
+      definition = context[name]
+      [name, definition.is_a?(String) ? definition : "ion:#{name}"]
+    end
 
     graph = vocab_document.fetch("@graph")
     graph.reject! do |node|
@@ -61,7 +65,8 @@ module IonSchemaPackJSONLD
       local_name = id.delete_prefix("ion:")
       (types.include?("rdf:Property") && id.start_with?("ion:") &&
         (!properties.key?(local_name) || property_ids[local_name] != id)) ||
-        ((types.include?("rdfs:Class") || types.include?("owl:Class")) && id.start_with?("ion:") && !schemas.key?(local_name))
+        ((types.include?("rdfs:Class") || types.include?("owl:Class")) && id.start_with?("ion:") &&
+          (!schemas.key?(local_name) || schema_ids[local_name] != id))
     end
     published_property_ids = graph.each_with_object(Set.new) do |node, ids|
       ids << node["@id"].to_s if Array(node["@type"]).include?("rdf:Property")
@@ -75,6 +80,21 @@ module IonSchemaPackJSONLD
         "@type" => "rdf:Property",
         "rdfs:label" => name,
         "rdfs:comment" => description.empty? ? "#{name} property." : description
+      }
+    end
+    published_class_ids = graph.each_with_object(Set.new) do |node, ids|
+      types = Array(node["@type"])
+      ids << node["@id"].to_s if types.include?("rdfs:Class") || types.include?("owl:Class")
+    end
+    schemas.each do |name, schema|
+      class_id = schema_ids.fetch(name)
+      next if published_class_ids.include?(class_id)
+
+      graph << {
+        "@id" => class_id,
+        "@type" => "rdfs:Class",
+        "rdfs:label" => schema["title"].to_s.empty? ? name : schema["title"],
+        "rdfs:comment" => schema["description"].to_s.strip.empty? ? "#{name} class." : schema["description"].to_s.strip
       }
     end
 
