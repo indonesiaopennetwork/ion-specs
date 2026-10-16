@@ -1,0 +1,784 @@
+{
+  "@context": {
+    "ion": "https://schema.ion.id/release1/schema/extension/logistics/LogisticsPerformance/v1#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+  },
+  "@graph": [
+    {
+      "@id": "ion:referenceType",
+      "@type": "rdf:Property",
+      "rdfs:label": "referenceType",
+      "rdfs:comment": "referenceType property."
+    },
+    {
+      "@id": "ion:value",
+      "@type": "rdf:Property",
+      "rdfs:label": "value",
+      "rdfs:comment": "value property."
+    },
+    {
+      "@id": "ion:issuerParticipantId",
+      "@type": "rdf:Property",
+      "rdfs:label": "issuerParticipantId",
+      "rdfs:comment": "issuerParticipantId property."
+    },
+    {
+      "@id": "ion:scopeId",
+      "@type": "rdf:Property",
+      "rdfs:label": "scopeId",
+      "rdfs:comment": "Optional route-leg or Resource scope."
+    },
+    {
+      "@id": "ion:allocationMode",
+      "@type": "rdf:Property",
+      "rdfs:label": "allocationMode",
+      "rdfs:comment": "allocationMode property."
+    },
+    {
+      "@id": "ion:allocationBlockReference",
+      "@type": "rdf:Property",
+      "rdfs:label": "allocationBlockReference",
+      "rdfs:comment": "allocationBlockReference property."
+    },
+    {
+      "@id": "ion:cutoffType",
+      "@type": "rdf:Property",
+      "rdfs:label": "cutoffType",
+      "rdfs:comment": "cutoffType property."
+    },
+    {
+      "@id": "ion:deadline",
+      "@type": "rdf:Property",
+      "rdfs:label": "deadline",
+      "rdfs:comment": "deadline property."
+    },
+    {
+      "@id": "ion:status",
+      "@type": "rdf:Property",
+      "rdfs:label": "status",
+      "rdfs:comment": "status property."
+    },
+    {
+      "@id": "ion:summary",
+      "@type": "rdf:Property",
+      "rdfs:label": "summary",
+      "rdfs:comment": "summary property."
+    },
+    {
+      "@id": "ion:model",
+      "@type": "rdf:Property",
+      "rdfs:label": "model",
+      "rdfs:comment": "model property."
+    },
+    {
+      "@id": "ion:requestedWindow",
+      "@type": "rdf:Property",
+      "rdfs:label": "requestedWindow",
+      "rdfs:comment": "requestedWindow property."
+    },
+    {
+      "@id": "ion:confirmedWindow",
+      "@type": "rdf:Property",
+      "rdfs:label": "confirmedWindow",
+      "rdfs:comment": "confirmedWindow property."
+    },
+    {
+      "@id": "ion:batchReference",
+      "@type": "rdf:Property",
+      "rdfs:label": "batchReference",
+      "rdfs:comment": "batchReference property."
+    },
+    {
+      "@id": "ion:lodgementLocationId",
+      "@type": "rdf:Property",
+      "rdfs:label": "lodgementLocationId",
+      "rdfs:comment": "lodgementLocationId property."
+    },
+    {
+      "@id": "ion:appliedCutoffs",
+      "@type": "rdf:Property",
+      "rdfs:label": "appliedCutoffs",
+      "rdfs:comment": "appliedCutoffs property."
+    },
+    {
+      "@id": "ion:id",
+      "@type": "rdf:Property",
+      "rdfs:label": "id",
+      "rdfs:comment": "id property."
+    },
+    {
+      "@id": "ion:stopType",
+      "@type": "rdf:Property",
+      "rdfs:label": "stopType",
+      "rdfs:comment": "stopType property."
+    },
+    {
+      "@id": "ion:locationId",
+      "@type": "rdf:Property",
+      "rdfs:label": "locationId",
+      "rdfs:comment": "locationId property."
+    },
+    {
+      "@id": "ion:externalCode",
+      "@type": "rdf:Property",
+      "rdfs:label": "externalCode",
+      "rdfs:comment": "externalCode property."
+    },
+    {
+      "@id": "ion:codeScheme",
+      "@type": "rdf:Property",
+      "rdfs:label": "codeScheme",
+      "rdfs:comment": "codeScheme property."
+    },
+    {
+      "@id": "ion:location",
+      "@type": "rdf:Property",
+      "rdfs:label": "location",
+      "rdfs:comment": "location property."
+    },
+    {
+      "@id": "ion:scheduledWindow",
+      "@type": "rdf:Property",
+      "rdfs:label": "scheduledWindow",
+      "rdfs:comment": "scheduledWindow property."
+    },
+    {
+      "@id": "ion:estimatedArrival",
+      "@type": "rdf:Property",
+      "rdfs:label": "estimatedArrival",
+      "rdfs:comment": "estimatedArrival property."
+    },
+    {
+      "@id": "ion:gate",
+      "@type": "rdf:Property",
+      "rdfs:label": "gate",
+      "rdfs:comment": "gate property."
+    },
+    {
+      "@id": "ion:sequence",
+      "@type": "rdf:Property",
+      "rdfs:label": "sequence",
+      "rdfs:comment": "sequence property."
+    },
+    {
+      "@id": "ion:legType",
+      "@type": "rdf:Property",
+      "rdfs:label": "legType",
+      "rdfs:comment": "legType property."
+    },
+    {
+      "@id": "ion:originStopId",
+      "@type": "rdf:Property",
+      "rdfs:label": "originStopId",
+      "rdfs:comment": "originStopId property."
+    },
+    {
+      "@id": "ion:destinationStopId",
+      "@type": "rdf:Property",
+      "rdfs:label": "destinationStopId",
+      "rdfs:comment": "destinationStopId property."
+    },
+    {
+      "@id": "ion:carrierParticipantId",
+      "@type": "rdf:Property",
+      "rdfs:label": "carrierParticipantId",
+      "rdfs:comment": "carrierParticipantId property."
+    },
+    {
+      "@id": "ion:transportResourceId",
+      "@type": "rdf:Property",
+      "rdfs:label": "transportResourceId",
+      "rdfs:comment": "transportResourceId property."
+    },
+    {
+      "@id": "ion:serviceReferences",
+      "@type": "rdf:Property",
+      "rdfs:label": "serviceReferences",
+      "rdfs:comment": "serviceReferences property."
+    },
+    {
+      "@id": "ion:scheduledPeriod",
+      "@type": "rdf:Property",
+      "rdfs:label": "scheduledPeriod",
+      "rdfs:comment": "scheduledPeriod property."
+    },
+    {
+      "@id": "ion:topology",
+      "@type": "rdf:Property",
+      "rdfs:label": "topology",
+      "rdfs:comment": "topology property."
+    },
+    {
+      "@id": "ion:stops",
+      "@type": "rdf:Property",
+      "rdfs:label": "stops",
+      "rdfs:comment": "stops property."
+    },
+    {
+      "@id": "ion:legs",
+      "@type": "rdf:Property",
+      "rdfs:label": "legs",
+      "rdfs:comment": "legs property."
+    },
+    {
+      "@id": "ion:eventType",
+      "@type": "rdf:Property",
+      "rdfs:label": "eventType",
+      "rdfs:comment": "eventType property."
+    },
+    {
+      "@id": "ion:stateCode",
+      "@type": "rdf:Property",
+      "rdfs:label": "stateCode",
+      "rdfs:comment": "stateCode property."
+    },
+    {
+      "@id": "ion:timestamp",
+      "@type": "rdf:Property",
+      "rdfs:label": "timestamp",
+      "rdfs:comment": "timestamp property."
+    },
+    {
+      "@id": "ion:routeLegId",
+      "@type": "rdf:Property",
+      "rdfs:label": "routeLegId",
+      "rdfs:comment": "routeLegId property."
+    },
+    {
+      "@id": "ion:actorParticipantId",
+      "@type": "rdf:Property",
+      "rdfs:label": "actorParticipantId",
+      "rdfs:comment": "actorParticipantId property."
+    },
+    {
+      "@id": "ion:reasonCode",
+      "@type": "rdf:Property",
+      "rdfs:label": "reasonCode",
+      "rdfs:comment": "reasonCode property."
+    },
+    {
+      "@id": "ion:evidenceDocumentReferences",
+      "@type": "rdf:Property",
+      "rdfs:label": "evidenceDocumentReferences",
+      "rdfs:comment": "evidenceDocumentReferences property."
+    },
+    {
+      "@id": "ion:relatedEventId",
+      "@type": "rdf:Property",
+      "rdfs:label": "relatedEventId",
+      "rdfs:comment": "relatedEventId property."
+    },
+    {
+      "@id": "ion:alertType",
+      "@type": "rdf:Property",
+      "rdfs:label": "alertType",
+      "rdfs:comment": "alertType property."
+    },
+    {
+      "@id": "ion:severity",
+      "@type": "rdf:Property",
+      "rdfs:label": "severity",
+      "rdfs:comment": "severity property."
+    },
+    {
+      "@id": "ion:raisedAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "raisedAt",
+      "rdfs:comment": "raisedAt property."
+    },
+    {
+      "@id": "ion:responseDeadline",
+      "@type": "rdf:Property",
+      "rdfs:label": "responseDeadline",
+      "rdfs:comment": "responseDeadline property."
+    },
+    {
+      "@id": "ion:resolutionEventId",
+      "@type": "rdf:Property",
+      "rdfs:label": "resolutionEventId",
+      "rdfs:comment": "resolutionEventId property."
+    },
+    {
+      "@id": "ion:caseId",
+      "@type": "rdf:Property",
+      "rdfs:label": "caseId",
+      "rdfs:comment": "caseId property."
+    },
+    {
+      "@id": "ion:assignmentType",
+      "@type": "rdf:Property",
+      "rdfs:label": "assignmentType",
+      "rdfs:comment": "assignmentType property."
+    },
+    {
+      "@id": "ion:participantId",
+      "@type": "rdf:Property",
+      "rdfs:label": "participantId",
+      "rdfs:comment": "participantId property."
+    },
+    {
+      "@id": "ion:resourceId",
+      "@type": "rdf:Property",
+      "rdfs:label": "resourceId",
+      "rdfs:comment": "resourceId property."
+    },
+    {
+      "@id": "ion:validity",
+      "@type": "rdf:Property",
+      "rdfs:label": "validity",
+      "rdfs:comment": "validity property."
+    },
+    {
+      "@id": "ion:proofType",
+      "@type": "rdf:Property",
+      "rdfs:label": "proofType",
+      "rdfs:comment": "proofType property."
+    },
+    {
+      "@id": "ion:documentReference",
+      "@type": "rdf:Property",
+      "rdfs:label": "documentReference",
+      "rdfs:comment": "documentReference property."
+    },
+    {
+      "@id": "ion:capturedAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "capturedAt",
+      "rdfs:comment": "capturedAt property."
+    },
+    {
+      "@id": "ion:capturedByParticipantId",
+      "@type": "rdf:Property",
+      "rdfs:label": "capturedByParticipantId",
+      "rdfs:comment": "capturedByParticipantId property."
+    },
+    {
+      "@id": "ion:recipientRole",
+      "@type": "rdf:Property",
+      "rdfs:label": "recipientRole",
+      "rdfs:comment": "recipientRole property."
+    },
+    {
+      "@id": "ion:verificationStatus",
+      "@type": "rdf:Property",
+      "rdfs:label": "verificationStatus",
+      "rdfs:comment": "verificationStatus property."
+    },
+    {
+      "@id": "ion:measurementType",
+      "@type": "rdf:Property",
+      "rdfs:label": "measurementType",
+      "rdfs:comment": "measurementType property."
+    },
+    {
+      "@id": "ion:quantity",
+      "@type": "rdf:Property",
+      "rdfs:label": "quantity",
+      "rdfs:comment": "quantity property."
+    },
+    {
+      "@id": "ion:observedAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "observedAt",
+      "rdfs:comment": "observedAt property."
+    },
+    {
+      "@id": "ion:deviceResourceId",
+      "@type": "rdf:Property",
+      "rdfs:label": "deviceResourceId",
+      "rdfs:comment": "deviceResourceId property."
+    },
+    {
+      "@id": "ion:evidenceDocumentReference",
+      "@type": "rdf:Property",
+      "rdfs:label": "evidenceDocumentReference",
+      "rdfs:comment": "evidenceDocumentReference property."
+    },
+    {
+      "@id": "ion:attemptNumber",
+      "@type": "rdf:Property",
+      "rdfs:label": "attemptNumber",
+      "rdfs:comment": "attemptNumber property."
+    },
+    {
+      "@id": "ion:attemptedAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "attemptedAt",
+      "rdfs:comment": "attemptedAt property."
+    },
+    {
+      "@id": "ion:outcome",
+      "@type": "rdf:Property",
+      "rdfs:label": "outcome",
+      "rdfs:comment": "outcome property."
+    },
+    {
+      "@id": "ion:buyerResponseDeadline",
+      "@type": "rdf:Property",
+      "rdfs:label": "buyerResponseDeadline",
+      "rdfs:comment": "buyerResponseDeadline property."
+    },
+    {
+      "@id": "ion:proofReference",
+      "@type": "rdf:Property",
+      "rdfs:label": "proofReference",
+      "rdfs:comment": "proofReference property."
+    },
+    {
+      "@id": "ion:expectedQuantity",
+      "@type": "rdf:Property",
+      "rdfs:label": "expectedQuantity",
+      "rdfs:comment": "expectedQuantity property."
+    },
+    {
+      "@id": "ion:receivedQuantity",
+      "@type": "rdf:Property",
+      "rdfs:label": "receivedQuantity",
+      "rdfs:comment": "receivedQuantity property."
+    },
+    {
+      "@id": "ion:receivedAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "receivedAt",
+      "rdfs:comment": "receivedAt property."
+    },
+    {
+      "@id": "ion:movementType",
+      "@type": "rdf:Property",
+      "rdfs:label": "movementType",
+      "rdfs:comment": "movementType property."
+    },
+    {
+      "@id": "ion:fromLocationId",
+      "@type": "rdf:Property",
+      "rdfs:label": "fromLocationId",
+      "rdfs:comment": "fromLocationId property."
+    },
+    {
+      "@id": "ion:toLocationId",
+      "@type": "rdf:Property",
+      "rdfs:label": "toLocationId",
+      "rdfs:comment": "toLocationId property."
+    },
+    {
+      "@id": "ion:expectedReceiptWindow",
+      "@type": "rdf:Property",
+      "rdfs:label": "expectedReceiptWindow",
+      "rdfs:comment": "expectedReceiptWindow property."
+    },
+    {
+      "@id": "ion:receipts",
+      "@type": "rdf:Property",
+      "rdfs:label": "receipts",
+      "rdfs:comment": "receipts property."
+    },
+    {
+      "@id": "ion:inventoryMovements",
+      "@type": "rdf:Property",
+      "rdfs:label": "inventoryMovements",
+      "rdfs:comment": "inventoryMovements property."
+    },
+    {
+      "@id": "ion:allocatedLocationId",
+      "@type": "rdf:Property",
+      "rdfs:label": "allocatedLocationId",
+      "rdfs:comment": "allocatedLocationId property."
+    },
+    {
+      "@id": "ion:allocatedCapacity",
+      "@type": "rdf:Property",
+      "rdfs:label": "allocatedCapacity",
+      "rdfs:comment": "allocatedCapacity property."
+    },
+    {
+      "@id": "ion:enteredAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "enteredAt",
+      "rdfs:comment": "enteredAt property."
+    },
+    {
+      "@id": "ion:exitedAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "exitedAt",
+      "rdfs:comment": "exitedAt property."
+    },
+    {
+      "@id": "ion:transitionEventId",
+      "@type": "rdf:Property",
+      "rdfs:label": "transitionEventId",
+      "rdfs:comment": "transitionEventId property."
+    },
+    {
+      "@id": "ion:detectedAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "detectedAt",
+      "rdfs:comment": "detectedAt property."
+    },
+    {
+      "@id": "ion:breachDuration",
+      "@type": "rdf:Property",
+      "rdfs:label": "breachDuration",
+      "rdfs:comment": "breachDuration property."
+    },
+    {
+      "@id": "ion:commitmentReference",
+      "@type": "rdf:Property",
+      "rdfs:label": "commitmentReference",
+      "rdfs:comment": "commitmentReference property."
+    },
+    {
+      "@id": "ion:evidenceEventIds",
+      "@type": "rdf:Property",
+      "rdfs:label": "evidenceEventIds",
+      "rdfs:comment": "evidenceEventIds property."
+    },
+    {
+      "@id": "ion:stateHistory",
+      "@type": "rdf:Property",
+      "rdfs:label": "stateHistory",
+      "rdfs:comment": "stateHistory property."
+    },
+    {
+      "@id": "ion:breaches",
+      "@type": "rdf:Property",
+      "rdfs:label": "breaches",
+      "rdfs:comment": "breaches property."
+    },
+    {
+      "@id": "ion:emissions",
+      "@type": "rdf:Property",
+      "rdfs:label": "emissions",
+      "rdfs:comment": "emissions property."
+    },
+    {
+      "@id": "ion:calculationMethod",
+      "@type": "rdf:Property",
+      "rdfs:label": "calculationMethod",
+      "rdfs:comment": "calculationMethod property."
+    },
+    {
+      "@id": "ion:calculationScope",
+      "@type": "rdf:Property",
+      "rdfs:label": "calculationScope",
+      "rdfs:comment": "calculationScope property."
+    },
+    {
+      "@id": "ion:fuelType",
+      "@type": "rdf:Property",
+      "rdfs:label": "fuelType",
+      "rdfs:comment": "fuelType property."
+    },
+    {
+      "@id": "ion:fuelConsumed",
+      "@type": "rdf:Property",
+      "rdfs:label": "fuelConsumed",
+      "rdfs:comment": "fuelConsumed property."
+    },
+    {
+      "@id": "ion:sustainableFuelAllocated",
+      "@type": "rdf:Property",
+      "rdfs:label": "sustainableFuelAllocated",
+      "rdfs:comment": "sustainableFuelAllocated property."
+    },
+    {
+      "@id": "ion:methodologyVersion",
+      "@type": "rdf:Property",
+      "rdfs:label": "methodologyVersion",
+      "rdfs:comment": "methodologyVersion property."
+    },
+    {
+      "@id": "ion:retiredCreditReference",
+      "@type": "rdf:Property",
+      "rdfs:label": "retiredCreditReference",
+      "rdfs:comment": "retiredCreditReference property."
+    },
+    {
+      "@id": "ion:pickup",
+      "@type": "rdf:Property",
+      "rdfs:label": "pickup",
+      "rdfs:comment": "pickup property."
+    },
+    {
+      "@id": "ion:route",
+      "@type": "rdf:Property",
+      "rdfs:label": "route",
+      "rdfs:comment": "route property."
+    },
+    {
+      "@id": "ion:events",
+      "@type": "rdf:Property",
+      "rdfs:label": "events",
+      "rdfs:comment": "events property."
+    },
+    {
+      "@id": "ion:alerts",
+      "@type": "rdf:Property",
+      "rdfs:label": "alerts",
+      "rdfs:comment": "alerts property."
+    },
+    {
+      "@id": "ion:assignments",
+      "@type": "rdf:Property",
+      "rdfs:label": "assignments",
+      "rdfs:comment": "assignments property."
+    },
+    {
+      "@id": "ion:proofs",
+      "@type": "rdf:Property",
+      "rdfs:label": "proofs",
+      "rdfs:comment": "proofs property."
+    },
+    {
+      "@id": "ion:measurements",
+      "@type": "rdf:Property",
+      "rdfs:label": "measurements",
+      "rdfs:comment": "measurements property."
+    },
+    {
+      "@id": "ion:attempts",
+      "@type": "rdf:Property",
+      "rdfs:label": "attempts",
+      "rdfs:comment": "attempts property."
+    },
+    {
+      "@id": "ion:warehouseExecution",
+      "@type": "rdf:Property",
+      "rdfs:label": "warehouseExecution",
+      "rdfs:comment": "warehouseExecution property."
+    },
+    {
+      "@id": "ion:sla",
+      "@type": "rdf:Property",
+      "rdfs:label": "sla",
+      "rdfs:comment": "sla property."
+    },
+    {
+      "@id": "ion:sustainability",
+      "@type": "rdf:Property",
+      "rdfs:label": "sustainability",
+      "rdfs:comment": "sustainability property."
+    },
+    {
+      "@id": "ion:ServiceReference",
+      "@type": "rdfs:Class",
+      "rdfs:label": "ServiceReference",
+      "rdfs:comment": "ServiceReference class."
+    },
+    {
+      "@id": "ion:AppliedCutoff",
+      "@type": "rdfs:Class",
+      "rdfs:label": "AppliedCutoff",
+      "rdfs:comment": "AppliedCutoff class."
+    },
+    {
+      "@id": "ion:PickupExecution",
+      "@type": "rdfs:Class",
+      "rdfs:label": "PickupExecution",
+      "rdfs:comment": "PickupExecution class."
+    },
+    {
+      "@id": "ion:LogisticsStop",
+      "@type": "rdfs:Class",
+      "rdfs:label": "LogisticsStop",
+      "rdfs:comment": "LogisticsStop class."
+    },
+    {
+      "@id": "ion:RouteLeg",
+      "@type": "rdfs:Class",
+      "rdfs:label": "RouteLeg",
+      "rdfs:comment": "RouteLeg class."
+    },
+    {
+      "@id": "ion:LogisticsRoute",
+      "@type": "rdfs:Class",
+      "rdfs:label": "LogisticsRoute",
+      "rdfs:comment": "LogisticsRoute class."
+    },
+    {
+      "@id": "ion:PerformanceEvent",
+      "@type": "rdfs:Class",
+      "rdfs:label": "PerformanceEvent",
+      "rdfs:comment": "PerformanceEvent class."
+    },
+    {
+      "@id": "ion:LogisticsAlert",
+      "@type": "rdfs:Class",
+      "rdfs:label": "LogisticsAlert",
+      "rdfs:comment": "LogisticsAlert class."
+    },
+    {
+      "@id": "ion:LogisticsAssignment",
+      "@type": "rdfs:Class",
+      "rdfs:label": "LogisticsAssignment",
+      "rdfs:comment": "LogisticsAssignment class."
+    },
+    {
+      "@id": "ion:LogisticsProof",
+      "@type": "rdfs:Class",
+      "rdfs:label": "LogisticsProof",
+      "rdfs:comment": "LogisticsProof class."
+    },
+    {
+      "@id": "ion:LogisticsMeasurement",
+      "@type": "rdfs:Class",
+      "rdfs:label": "LogisticsMeasurement",
+      "rdfs:comment": "LogisticsMeasurement class."
+    },
+    {
+      "@id": "ion:DeliveryAttempt",
+      "@type": "rdfs:Class",
+      "rdfs:label": "DeliveryAttempt",
+      "rdfs:comment": "DeliveryAttempt class."
+    },
+    {
+      "@id": "ion:InventoryReceipt",
+      "@type": "rdfs:Class",
+      "rdfs:label": "InventoryReceipt",
+      "rdfs:comment": "InventoryReceipt class."
+    },
+    {
+      "@id": "ion:InventoryMovement",
+      "@type": "rdfs:Class",
+      "rdfs:label": "InventoryMovement",
+      "rdfs:comment": "InventoryMovement class."
+    },
+    {
+      "@id": "ion:WarehouseExecution",
+      "@type": "rdfs:Class",
+      "rdfs:label": "WarehouseExecution",
+      "rdfs:comment": "WarehouseExecution class."
+    },
+    {
+      "@id": "ion:StateTransition",
+      "@type": "rdfs:Class",
+      "rdfs:label": "StateTransition",
+      "rdfs:comment": "StateTransition class."
+    },
+    {
+      "@id": "ion:SLABreach",
+      "@type": "rdfs:Class",
+      "rdfs:label": "SLABreach",
+      "rdfs:comment": "SLABreach class."
+    },
+    {
+      "@id": "ion:SLAExecution",
+      "@type": "rdfs:Class",
+      "rdfs:label": "SLAExecution",
+      "rdfs:comment": "SLAExecution class."
+    },
+    {
+      "@id": "ion:SustainabilityReport",
+      "@type": "rdfs:Class",
+      "rdfs:label": "SustainabilityReport",
+      "rdfs:comment": "SustainabilityReport class."
+    },
+    {
+      "@id": "ion:LogisticsPerformance",
+      "@type": "rdfs:Class",
+      "rdfs:label": "LogisticsPerformance",
+      "rdfs:comment": "LogisticsPerformance class."
+    }
+  ]
+}

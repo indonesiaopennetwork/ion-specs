@@ -1449,7 +1449,7 @@ translate them as follows:
 | Current Beckn Logistics `Shipment`, `Route`, `Waypoint`, `TrackingUpdate`, `Alert`, `Proof`, `Driver`, `Vehicle`, and `DeliverySlot` | `incompatible` as dependencies; useful organizationally | Use their semantic boundaries and names as review input without copying older-core IDs, duplicated status, or live-tracking state. |
 | `IONTradePerformance` | `incompatible` as a parent; useful local precedent | Reuse or extract cross-sector stops, evidence, assignment, quantity, and SLA patterns without importing retail modes. |
 | Legacy ION `LogisticsPerformance` | `under review` | Use as the scenario inventory while removing live Tracking, selection-time Commitment data, common financial data, raw credentials, and routing internals. |
-| Release 1 `LogisticsPerformance` | `suitable for later release` | Author after the twelve named decisions and the Performance/Tracking boundary are resolved or explicitly deferred. |
+| Release 1 `LogisticsPerformance` | `authored in draft` | Keeps durable route, event, proof, assignment, measurement, warehouse, SLA, and sustainability evidence while leaving live snapshots to Tracking and finance to Consideration/Settlement. |
 
 ## `LogisticsTracking` v1
 
