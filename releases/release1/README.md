@@ -23,7 +23,7 @@ explicitly excluded the unreconciled `ion.yaml` aggregate and the Logistics,
 Hospitality, and Finance sectors from Release 1. On 16 October 2026, Logistics
 was reopened as `review-required` so its legacy material can be migrated and
 validated independently. Phase 4 now includes the complete `LogisticsResource`,
-`LogisticsProvider`, `LogisticsParticipant`, `LogisticsOffer`, `LogisticsCommitment`, `LogisticsConsideration`, `LogisticsContract`, and `LogisticsPerformance` v1 vertical slices and the reusable common
+`LogisticsProvider`, `LogisticsParticipant`, `LogisticsOffer`, `LogisticsCommitment`, `LogisticsConsideration`, `LogisticsContract`, `LogisticsPerformance`, and `LogisticsTracking` v1 vertical slices and the reusable common
 `IdentifiableLocation` v1 wrapper; the remaining Logistics packs, flows, errors,
 and applicable policies are still under review. `ion.yaml`, Hospitality, and
 Finance remain excluded, and the repository does not retain separate root-level
@@ -72,7 +72,8 @@ packs under `schema/common/`, the packs under `schema/extension/trade/`, and the
 individually reviewed Logistics packs under `schema/extension/logistics/`.
 These currently comprise `LogisticsResource`, `LogisticsProvider`,
 `LogisticsParticipant`, `LogisticsOffer`, `LogisticsCommitment`, and
-`LogisticsConsideration`, `LogisticsContract`, and `LogisticsPerformance` v1. Pinned
+`LogisticsConsideration`, `LogisticsContract`, `LogisticsPerformance`, and
+`LogisticsTracking` v1. Pinned
 schema dependencies live under `schema/vendored/`;
 the scoped `flows/` and `errors/` trees remain release-level peers. Policies are
 resolved from the repository-level registry at

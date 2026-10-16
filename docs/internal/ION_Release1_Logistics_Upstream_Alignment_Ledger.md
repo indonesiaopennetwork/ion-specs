@@ -1585,7 +1585,7 @@ them as follows:
 | Core `Tracking` | `suitable for Release 1` after a reference fix | Use status, URL, and attributes directly; resolve the Contract reference inconsistency under `LOG-TRK-001`. |
 | Current Beckn Logistics `TrackingUpdate`, `LogisticsRoute`, `Driver`, and `Vehicle` | `incompatible` as dependencies; useful organizationally | Use their event, geometry, and assignment boundaries without copying older-core identity/status structures. |
 | Legacy ION `LogisticsTracking` | `under review` | Use as the access-mode and snapshot source while removing core URL duplication, inline secrets, embedded profiles, and provider-specific geometry. |
-| Release 1 `LogisticsTracking` | `suitable for later release` | Author after the six named decisions and core Contract-reference inconsistency are resolved or explicitly deferred. |
+| Release 1 `LogisticsTracking` | `authored in draft` | Splits access mode from capabilities, uses safe credential references and typed snapshots, and explicitly defers the core Tracking Contract-reference inconsistency. |
 
 ## `LogisticsPerformanceStates` v1
 

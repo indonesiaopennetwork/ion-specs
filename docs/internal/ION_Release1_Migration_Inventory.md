@@ -710,7 +710,8 @@ The execution plan is recorded in
 
 Phase 4 subsequently began with `LogisticsResource`, `LogisticsProvider`,
 `LogisticsParticipant`, `LogisticsOffer`, `LogisticsCommitment`, and
-`LogisticsConsideration`, `LogisticsContract`, and `LogisticsPerformance` v1. Those complete vertical slices are present under
+`LogisticsConsideration`, `LogisticsContract`, `LogisticsPerformance`, and
+`LogisticsTracking` v1. Those complete vertical slices are present under
 `schema/extension/logistics/`.
 The reusable common `IdentifiableLocation` v1 wrapper was added because the
 pinned Beckn Location 2.0 has no identifier and cannot be extended through

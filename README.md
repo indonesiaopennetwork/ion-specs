@@ -23,7 +23,7 @@ In-house, and Marketplace Listed flows and connected registries, the ION-owned
 Beckn-derived API contract, and pinned vendored Beckn schema dependencies.
 Logistics has been reopened for independent review and migration into this draft;
 that migration now includes the independently validated `LogisticsResource`,
-`LogisticsProvider`, `LogisticsParticipant`, `LogisticsOffer`, `LogisticsCommitment`, `LogisticsConsideration`, `LogisticsContract`, and `LogisticsPerformance` v1 packs. Release 1 remains mutable and unchannelled until
+`LogisticsProvider`, `LogisticsParticipant`, `LogisticsOffer`, `LogisticsCommitment`, `LogisticsConsideration`, `LogisticsContract`, `LogisticsPerformance`, and `LogisticsTracking` v1 packs. Release 1 remains mutable and unchannelled until
 the Council publishes it into the `next` channel on `main`.
 
 - [`releases/release1/release.yaml`](releases/release1/release.yaml) — scope,
@@ -48,6 +48,8 @@ the Council publishes it into the `next` channel on `main`.
   the migrated Logistics agreement and compliance pack.
 - [`releases/release1/schema/extension/logistics/LogisticsPerformance/v1/`](releases/release1/schema/extension/logistics/LogisticsPerformance/v1/) —
   the migrated Logistics durable execution pack.
+- [`releases/release1/schema/extension/logistics/LogisticsTracking/v1/`](releases/release1/schema/extension/logistics/LogisticsTracking/v1/) —
+  the migrated Logistics live-tracking pack.
 - [`releases/release1/schema/core/api/v2.0.0/ion-additional.yaml`](releases/release1/schema/core/api/v2.0.0/ion-additional.yaml) —
   ION endpoints that Beckn does not define, starting with settlement
   reconciliation (`/reconcile`, `/on_reconcile`).
