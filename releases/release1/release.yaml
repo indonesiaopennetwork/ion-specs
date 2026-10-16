@@ -568,18 +568,19 @@ artifactChecksums:
   schema/extension/trade/TradeProvider/v1/renderer.json: 77d13b2b70fe0846aadf5f986dd437ae7ce8ee3b65ca41a0db5c15ba2b439a15
   schema/extension/trade/TradeProvider/v1/schema.json: 32dfb8cdf10cdaa00afe35efdd1d7b22cdf47da910d73a7c4a33836bed78f97e
   schema/extension/trade/TradeProvider/v1/vocab.jsonld: 37d10642fe89c3a9dce7ebfc9e537868046fd98fff72438e5ba3cb0f20ee2d5a
-  schema/extension/trade/TradeResource/v1/README.md: 74c06920ddf713966a7bb014d2b3c6e3efe665c2dc7a6daf4563469870fd0ddc
-  schema/extension/trade/TradeResource/v1/attributes.yaml: 8455cd3e1f76badb3256353267fc2adb9110a207c99f4814af3faa94c1cd4732
-  schema/extension/trade/TradeResource/v1/context.jsonld: bfd32f663d6726f71806a1d4cab45e4b90ad4b227d68cdd0833b8c4a9805ff80
+  schema/extension/trade/TradeResource/v1/README.md: af92a03e0a7b8cfc7ae5707c314d9105c687d31d336d2c7a97ee6190f5256f9e
+  schema/extension/trade/TradeResource/v1/attributes.yaml: 7a5210dc98c6b574b0ace61cffa5b589e5c15fac24374e297d6600f74f51769c
+  schema/extension/trade/TradeResource/v1/context.jsonld: e8463da31a988bd4a998467a764fe8076dc29eb021f4cbdea01485c7a63f1322
   schema/extension/trade/TradeResource/v1/docs/01-overview.md: 478efce28cde42a7b986669b5890d54db7fa16fb310a4c1f8dd93eac334eb5ae
   schema/extension/trade/TradeResource/v1/docs/README.md: ea7345bf3b1c3606111fa412c44856c910facd38a524bf7c0effe44c152d15a5
   schema/extension/trade/TradeResource/v1/examples/agritech-beras.json: 000e9b20dc9f36969b160b005619c39740fbab6bf0a7fc2971b60e146ccce346
-  schema/extension/trade/TradeResource/v1/examples/electronics-smartphone.json: 1e11c788b4ef0a2bd042e2e73018e29b85bcfcf78118cfd68c7c293a81b9bf42
+  schema/extension/trade/TradeResource/v1/examples/electronics-smartphone.json: fad45af222a2db10c1dae7cd2ba8dab2474383d25b66db6b415a408a3304bd00
+  schema/extension/trade/TradeResource/v1/examples/fashion-kemeja-batik.json: f34eb1d70d21d99f921b9c0d20eb02bdc60d2dfc79ce047170076447620f07d7
   schema/extension/trade/TradeResource/v1/examples/food-qsr-pizza.json: 1fd9c1e3a286f03c05916911292f2d49e1e06568e850d93b355be808b284d657
   schema/extension/trade/TradeResource/v1/profile.json: e80725407c5cc76df56121c2471aab064ce85d340e31d73b87992c0fe913053a
   schema/extension/trade/TradeResource/v1/renderer.json: 915fea033d2c7b8df22545a71ef7e4b48e82d16858e7ee6f3ec3726f73322559
-  schema/extension/trade/TradeResource/v1/schema.json: cd2841b699f5ac569327a2912452c1ead70bdcf7a9de8dc78acde98e8b5d98bb
-  schema/extension/trade/TradeResource/v1/vocab.jsonld: 4a313f939091ed5a52253fc2011be208239179c35fe47aa6a707df6d40f446d1
+  schema/extension/trade/TradeResource/v1/schema.json: f970c61418e3bcc04e7d042122d980a7af2f8b41e707f8c12d1658cc19920c44
+  schema/extension/trade/TradeResource/v1/vocab.jsonld: 63275d7aa0dd09ab75db07550e42b8815dff2036acba819260501ffb5812d059
   schema/extension/trade/TradeSettlement/v1/README.md: d1ccf6a9231e12da4fce8bfeebe698707cdb8d97af0eaf61d598d8a53ecd71d4
   schema/extension/trade/TradeSettlement/v1/attributes.yaml: 275dcd470c603fc1830d61cde4ef1f9f3ba2f9a9a4b95f613b9da56cde59bdbd
   schema/extension/trade/TradeSettlement/v1/context.jsonld: 03ba61a974b343fab9cb5807f3882582d4bee6acdab3daa2a04101a9ac9d1dbe
