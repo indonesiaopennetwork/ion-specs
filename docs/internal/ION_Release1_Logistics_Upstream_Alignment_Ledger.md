@@ -955,7 +955,7 @@ lifecycle-specific rules. Phase 4 should translate them as follows:
 | ION `Tax/v1` | `under review` for Logistics reuse | Generalize or add a compatible attachment seam before referencing it from a PriceSpecification component. |
 | ION `Payment/v1` and `Settlement/v1` | `partially reusable` | Reuse existing payment and reconciliation concepts; design the missing COD collection/remittance record separately. |
 | Legacy ION `LogisticsConsideration` | `under review` | Use as the charge and flow source while removing duplicate totals and separating lifecycle concerns. |
-| Release 1 `LogisticsConsideration` | `suitable for later release` | Author after the seven named decisions are resolved or explicitly deferred. |
+| Release 1 `LogisticsConsideration` | `authored in draft` | Uses PriceSpecification totals and typed charge components, adopts signed adjustments, and leaves COD movement, insurance coverage, and lifecycle revisions to their owning artifacts. |
 
 ## `LogisticsContract` v1
 

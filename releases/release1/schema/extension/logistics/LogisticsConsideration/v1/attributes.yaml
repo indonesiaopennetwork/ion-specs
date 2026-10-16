@@ -1,0 +1,117 @@
+openapi: 3.1.1
+info:
+  title: ION Logistics Consideration Extension (v1)
+  description: >
+    Logistics price totals and typed charge components attached to
+    Consideration.considerationAttributes. Payment collection and remittance
+    remain in Payment and Settlement artifacts.
+  version: 1.0.0
+  license: {name: Apache-2.0, url: https://www.apache.org/licenses/LICENSE-2.0}
+  contact: {name: ION Network, url: https://schema.ion.id}
+
+components:
+  schemas:
+    ChargeCalculation:
+      type: object
+      additionalProperties: false
+      properties:
+        basis:
+          type: string
+          enum: [FLAT, PER_WEIGHT, PER_VOLUME, PER_DISTANCE, PER_ITEM, PERCENT_OF_BASE]
+        rate: {type: number}
+        basisQuantity:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity
+        policyRef: {type: string, format: uri}
+
+    LogisticsTaxDetail:
+      type: object
+      additionalProperties: false
+      properties:
+        taxCode: {type: string}
+        rate: {type: number, minimum: 0}
+        taxableBase:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/PriceSpecification/2.0/attributes.yaml#/components/schemas/PriceSpecification
+
+    LogisticsChargeComponent:
+      type: object
+      additionalProperties: true
+      description: >
+        One PriceSpecification component refined with a logistics charge code.
+        Discounts, credits, and rebates use negative values; charges, taxes,
+        duties, fees, and surcharges use positive values.
+      allOf:
+        - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/PriceSpecification/2.0/attributes.yaml#/components/schemas/PriceSpecification/properties/components/items
+      required: [type, value, currency, chargeCode]
+      properties:
+        type:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/PriceSpecification/2.0/attributes.yaml#/components/schemas/PriceSpecification/properties/components/items/properties/type
+        value:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/PriceSpecification/2.0/attributes.yaml#/components/schemas/PriceSpecification/properties/components/items/properties/value
+        currency:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/PriceSpecification/2.0/attributes.yaml#/components/schemas/PriceSpecification/properties/components/items/properties/currency
+        description:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/PriceSpecification/2.0/attributes.yaml#/components/schemas/PriceSpecification/properties/components/items/properties/description
+        chargeCode:
+          type: string
+          enum:
+            - FREIGHT_BASE
+            - MINIMUM_CHARGE
+            - COD_CHARGE
+            - FUEL_SURCHARGE
+            - PEAK_SEASON_SURCHARGE
+            - REMOTE_AREA_SURCHARGE
+            - OVERSIZE_SURCHARGE
+            - OVERWEIGHT_SURCHARGE
+            - COLD_CHAIN_PREMIUM
+            - HAZMAT_SURCHARGE
+            - INSURANCE_PREMIUM
+            - CUSTOMS_DUTY
+            - CUSTOMS_HANDLING_FEE
+            - HANDLING_FEE
+            - STORAGE_FEE
+            - PICK_PACK_FEE
+            - DOCUMENTATION_FEE
+            - RE_ATTEMPT_FEE
+            - FAILED_PICKUP_FEE
+            - RETURN_TO_SENDER_FEE
+            - ADDRESS_CHANGE_SURCHARGE
+            - RESCHEDULE_FEE
+            - WEIGHT_DIFF_ADJUSTMENT
+            - PPN_TAX
+            - PPNBM_TAX
+            - PPH_23_WITHHOLDING
+            - STAMP_DUTY
+            - DISCOUNT
+            - VOLUME_REBATE
+            - SLA_REBATE
+            - CREDIT_NOTE
+            - VALUE_ADDED_SERVICE_FEE
+            - OTHER
+        calculation: {$ref: '#/components/schemas/ChargeCalculation'}
+        taxDetail: {$ref: '#/components/schemas/LogisticsTaxDetail'}
+
+    LogisticsConsideration:
+      type: object
+      title: LogisticsConsideration
+      description: Canonical logistics monetary total and component breakdown.
+      additionalProperties: true
+      x-ion-closed-extensions: false
+      x-beckn-attaches-to: Consideration.considerationAttributes
+      x-jsonld:
+        '@context': https://schema.ion.id/release1/schema/extension/logistics/LogisticsConsideration/v1/context.jsonld
+        '@type': ion:LogisticsConsideration
+      allOf:
+        - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Attributes/2.0/attributes.yaml#/components/schemas/Attributes
+        - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/PriceSpecification/2.0/attributes.yaml#/components/schemas/PriceSpecification
+      required: [currency, value, components]
+      properties:
+        currency:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/PriceSpecification/2.0/attributes.yaml#/components/schemas/PriceSpecification/properties/currency
+        value:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/PriceSpecification/2.0/attributes.yaml#/components/schemas/PriceSpecification/properties/value
+        applicableQuantity:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/PriceSpecification/2.0/attributes.yaml#/components/schemas/PriceSpecification/properties/applicableQuantity
+        components:
+          type: array
+          minItems: 1
+          items: {$ref: '#/components/schemas/LogisticsChargeComponent'}

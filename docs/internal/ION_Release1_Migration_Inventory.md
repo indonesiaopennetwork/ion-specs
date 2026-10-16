@@ -709,7 +709,8 @@ The execution plan is recorded in
 `docs/internal/ION_Release1_Logistics_Migration_Plan.md`.
 
 Phase 4 subsequently began with `LogisticsResource`, `LogisticsProvider`,
-`LogisticsParticipant`, `LogisticsOffer`, and `LogisticsCommitment` v1. Those complete vertical slices are present under
+`LogisticsParticipant`, `LogisticsOffer`, `LogisticsCommitment`, and
+`LogisticsConsideration` v1. Those complete vertical slices are present under
 `schema/extension/logistics/`.
 The reusable common `IdentifiableLocation` v1 wrapper was added because the
 pinned Beckn Location 2.0 has no identifier and cannot be extended through

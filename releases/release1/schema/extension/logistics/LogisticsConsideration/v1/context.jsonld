@@ -1,0 +1,32 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@protected": true,
+    "ion": "https://schema.ion.id/release1/schema/extension/logistics/LogisticsConsideration/v1#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "schema": "https://schema.org/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "currency": "schema:priceCurrency",
+    "value": "schema:price",
+    "components": "ion:components",
+    "applicableQuantity": "schema:eligibleQuantity",
+    "description": "schema:description",
+    "basis": "ion:basis",
+    "rate": "ion:rate",
+    "basisQuantity": "ion:basisQuantity",
+    "policyRef": "ion:policyRef",
+    "taxCode": "ion:taxCode",
+    "taxableBase": "ion:taxableBase",
+    "chargeCode": "ion:chargeCode",
+    "calculation": "ion:calculation",
+    "taxDetail": "ion:taxDetail",
+    "ChargeCalculation": "ion:ChargeCalculation",
+    "LogisticsTaxDetail": "ion:LogisticsTaxDetail",
+    "LogisticsChargeComponent": "ion:LogisticsChargeComponent",
+    "LogisticsConsideration": "ion:LogisticsConsideration",
+    "type": "ion:type"
+  }
+}

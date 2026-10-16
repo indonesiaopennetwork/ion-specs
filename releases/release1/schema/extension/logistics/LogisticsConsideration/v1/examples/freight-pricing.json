@@ -1,0 +1,11 @@
+{
+  "@context":"https://schema.ion.id/release1/schema/extension/logistics/LogisticsConsideration/v1/context.jsonld",
+  "@type":"ion:LogisticsConsideration",
+  "currency":"IDR",
+  "value":1815000,
+  "components":[
+    {"type":"DELIVERY","value":1500000,"currency":"IDR","description":"Base freight","chargeCode":"FREIGHT_BASE"},
+    {"type":"SURCHARGE","value":150000,"currency":"IDR","description":"Fuel surcharge","chargeCode":"FUEL_SURCHARGE","calculation":{"basis":"PERCENT_OF_BASE","rate":0.1}},
+    {"type":"TAX","value":165000,"currency":"IDR","description":"PPN","chargeCode":"PPN_TAX","taxDetail":{"taxCode":"PPN","rate":0.11,"taxableBase":{"currency":"IDR","value":1500000}}}
+  ]
+}
