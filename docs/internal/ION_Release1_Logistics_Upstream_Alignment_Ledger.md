@@ -1182,7 +1182,7 @@ policies:
 | ION common business-registration, tax, payment, and settlement packs | `partially reusable` | Compose existing definitions and generalize only the identified tax-document, COD, and certificate gaps. |
 | Current Beckn Logistics `SupportCase`, `Proof`, `ReturnPolicy`, `CancellationPolicy`, `Receipt`, and `Consignment` | `incompatible` as dependencies; useful organizationally | Use their semantic boundaries as review input without copying schemas, v1-shaped examples, or older-core mappings. |
 | Legacy ION `LogisticsContract` | `under review` | Use as the scenario inventory while removing duplicated core data, action payloads, raw telemetry, and common-pack concepts. |
-| Release 1 `LogisticsContract` | `suitable for later release` | Author after the ten named decisions are resolved or explicitly deferred. |
+| Release 1 `LogisticsContract` | `authored in draft` | Uses typed relationships, repeatable cases, cargo insurance, invoice preferences, and ION customs compliance; raw execution, payment, and issued-document details remain with their lifecycle owners. |
 
 ## `LogisticsPerformance` v1
 

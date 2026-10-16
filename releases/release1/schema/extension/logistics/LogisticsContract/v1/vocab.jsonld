@@ -1,0 +1,454 @@
+{
+  "@context": {
+    "ion": "https://schema.ion.id/release1/schema/extension/logistics/LogisticsContract/v1#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+  },
+  "@graph": [
+    {
+      "@id": "ion:relationshipType",
+      "@type": "rdf:Property",
+      "rdfs:label": "relationshipType",
+      "rdfs:comment": "relationshipType property."
+    },
+    {
+      "@id": "ion:relatedContractId",
+      "@type": "rdf:Property",
+      "rdfs:label": "relatedContractId",
+      "rdfs:comment": "relatedContractId property."
+    },
+    {
+      "@id": "ion:networkId",
+      "@type": "rdf:Property",
+      "rdfs:label": "networkId",
+      "rdfs:comment": "networkId property."
+    },
+    {
+      "@id": "ion:agreementVersion",
+      "@type": "rdf:Property",
+      "rdfs:label": "agreementVersion",
+      "rdfs:comment": "agreementVersion property."
+    },
+    {
+      "@id": "ion:policyRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "policyRef",
+      "rdfs:comment": "policyRef property."
+    },
+    {
+      "@id": "ion:invoiceType",
+      "@type": "rdf:Property",
+      "rdfs:label": "invoiceType",
+      "rdfs:comment": "invoiceType property."
+    },
+    {
+      "@id": "ion:invoicingModel",
+      "@type": "rdf:Property",
+      "rdfs:label": "invoicingModel",
+      "rdfs:comment": "invoicingModel property."
+    },
+    {
+      "@id": "ion:policyNumber",
+      "@type": "rdf:Property",
+      "rdfs:label": "policyNumber",
+      "rdfs:comment": "policyNumber property."
+    },
+    {
+      "@id": "ion:coverageScope",
+      "@type": "rdf:Property",
+      "rdfs:label": "coverageScope",
+      "rdfs:comment": "coverageScope property."
+    },
+    {
+      "@id": "ion:underwriterParticipantId",
+      "@type": "rdf:Property",
+      "rdfs:label": "underwriterParticipantId",
+      "rdfs:comment": "underwriterParticipantId property."
+    },
+    {
+      "@id": "ion:insuredParticipantId",
+      "@type": "rdf:Property",
+      "rdfs:label": "insuredParticipantId",
+      "rdfs:comment": "insuredParticipantId property."
+    },
+    {
+      "@id": "ion:coverageAmount",
+      "@type": "rdf:Property",
+      "rdfs:label": "coverageAmount",
+      "rdfs:comment": "coverageAmount property."
+    },
+    {
+      "@id": "ion:deductible",
+      "@type": "rdf:Property",
+      "rdfs:label": "deductible",
+      "rdfs:comment": "deductible property."
+    },
+    {
+      "@id": "ion:validity",
+      "@type": "rdf:Property",
+      "rdfs:label": "validity",
+      "rdfs:comment": "validity property."
+    },
+    {
+      "@id": "ion:coverageExtensions",
+      "@type": "rdf:Property",
+      "rdfs:label": "coverageExtensions",
+      "rdfs:comment": "coverageExtensions property."
+    },
+    {
+      "@id": "ion:outcome",
+      "@type": "rdf:Property",
+      "rdfs:label": "outcome",
+      "rdfs:comment": "outcome property."
+    },
+    {
+      "@id": "ion:offeredAmount",
+      "@type": "rdf:Property",
+      "rdfs:label": "offeredAmount",
+      "rdfs:comment": "offeredAmount property."
+    },
+    {
+      "@id": "ion:rationale",
+      "@type": "rdf:Property",
+      "rdfs:label": "rationale",
+      "rdfs:comment": "rationale property."
+    },
+    {
+      "@id": "ion:inspectionPerformanceId",
+      "@type": "rdf:Property",
+      "rdfs:label": "inspectionPerformanceId",
+      "rdfs:comment": "inspectionPerformanceId property."
+    },
+    {
+      "@id": "ion:decision",
+      "@type": "rdf:Property",
+      "rdfs:label": "decision",
+      "rdfs:comment": "decision property."
+    },
+    {
+      "@id": "ion:resolvedAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "resolvedAt",
+      "rdfs:comment": "resolvedAt property."
+    },
+    {
+      "@id": "ion:agreedAmount",
+      "@type": "rdf:Property",
+      "rdfs:label": "agreedAmount",
+      "rdfs:comment": "agreedAmount property."
+    },
+    {
+      "@id": "ion:id",
+      "@type": "rdf:Property",
+      "rdfs:label": "id",
+      "rdfs:comment": "id property."
+    },
+    {
+      "@id": "ion:caseType",
+      "@type": "rdf:Property",
+      "rdfs:label": "caseType",
+      "rdfs:comment": "caseType property."
+    },
+    {
+      "@id": "ion:status",
+      "@type": "rdf:Property",
+      "rdfs:label": "status",
+      "rdfs:comment": "status property."
+    },
+    {
+      "@id": "ion:reasonCode",
+      "@type": "rdf:Property",
+      "rdfs:label": "reasonCode",
+      "rdfs:comment": "reasonCode property."
+    },
+    {
+      "@id": "ion:summary",
+      "@type": "rdf:Property",
+      "rdfs:label": "summary",
+      "rdfs:comment": "summary property."
+    },
+    {
+      "@id": "ion:claimedAmount",
+      "@type": "rdf:Property",
+      "rdfs:label": "claimedAmount",
+      "rdfs:comment": "claimedAmount property."
+    },
+    {
+      "@id": "ion:evidenceDocumentReferences",
+      "@type": "rdf:Property",
+      "rdfs:label": "evidenceDocumentReferences",
+      "rdfs:comment": "Identifiers or labels of secured Documents on the core Contract descriptor."
+    },
+    {
+      "@id": "ion:reportedAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "reportedAt",
+      "rdfs:comment": "reportedAt property."
+    },
+    {
+      "@id": "ion:assessment",
+      "@type": "rdf:Property",
+      "rdfs:label": "assessment",
+      "rdfs:comment": "assessment property."
+    },
+    {
+      "@id": "ion:resolution",
+      "@type": "rdf:Property",
+      "rdfs:label": "resolution",
+      "rdfs:comment": "resolution property."
+    },
+    {
+      "@id": "ion:incoterm",
+      "@type": "rdf:Property",
+      "rdfs:label": "incoterm",
+      "rdfs:comment": "incoterm property."
+    },
+    {
+      "@id": "ion:incotermsVersion",
+      "@type": "rdf:Property",
+      "rdfs:label": "incotermsVersion",
+      "rdfs:comment": "incotermsVersion property."
+    },
+    {
+      "@id": "ion:namedPlace",
+      "@type": "rdf:Property",
+      "rdfs:label": "namedPlace",
+      "rdfs:comment": "namedPlace property."
+    },
+    {
+      "@id": "ion:permitType",
+      "@type": "rdf:Property",
+      "rdfs:label": "permitType",
+      "rdfs:comment": "permitType property."
+    },
+    {
+      "@id": "ion:permitNumber",
+      "@type": "rdf:Property",
+      "rdfs:label": "permitNumber",
+      "rdfs:comment": "permitNumber property."
+    },
+    {
+      "@id": "ion:issuingAuthority",
+      "@type": "rdf:Property",
+      "rdfs:label": "issuingAuthority",
+      "rdfs:comment": "issuingAuthority property."
+    },
+    {
+      "@id": "ion:validUntil",
+      "@type": "rdf:Property",
+      "rdfs:label": "validUntil",
+      "rdfs:comment": "validUntil property."
+    },
+    {
+      "@id": "ion:documentReference",
+      "@type": "rdf:Property",
+      "rdfs:label": "documentReference",
+      "rdfs:comment": "documentReference property."
+    },
+    {
+      "@id": "ion:declarationType",
+      "@type": "rdf:Property",
+      "rdfs:label": "declarationType",
+      "rdfs:comment": "declarationType property."
+    },
+    {
+      "@id": "ion:declarationNumber",
+      "@type": "rdf:Property",
+      "rdfs:label": "declarationNumber",
+      "rdfs:comment": "declarationNumber property."
+    },
+    {
+      "@id": "ion:declarationDate",
+      "@type": "rdf:Property",
+      "rdfs:label": "declarationDate",
+      "rdfs:comment": "declarationDate property."
+    },
+    {
+      "@id": "ion:ceisaReceiptNumber",
+      "@type": "rdf:Property",
+      "rdfs:label": "ceisaReceiptNumber",
+      "rdfs:comment": "ceisaReceiptNumber property."
+    },
+    {
+      "@id": "ion:declarantParticipantId",
+      "@type": "rdf:Property",
+      "rdfs:label": "declarantParticipantId",
+      "rdfs:comment": "declarantParticipantId property."
+    },
+    {
+      "@id": "ion:declaredCifValue",
+      "@type": "rdf:Property",
+      "rdfs:label": "declaredCifValue",
+      "rdfs:comment": "declaredCifValue property."
+    },
+    {
+      "@id": "ion:exchangeRateUsed",
+      "@type": "rdf:Property",
+      "rdfs:label": "exchangeRateUsed",
+      "rdfs:comment": "exchangeRateUsed property."
+    },
+    {
+      "@id": "ion:permits",
+      "@type": "rdf:Property",
+      "rdfs:label": "permits",
+      "rdfs:comment": "permits property."
+    },
+    {
+      "@id": "ion:lartasClassification",
+      "@type": "rdf:Property",
+      "rdfs:label": "lartasClassification",
+      "rdfs:comment": "lartasClassification property."
+    },
+    {
+      "@id": "ion:aseanSingleWindowReference",
+      "@type": "rdf:Property",
+      "rdfs:label": "aseanSingleWindowReference",
+      "rdfs:comment": "aseanSingleWindowReference property."
+    },
+    {
+      "@id": "ion:fumigationCertificateReference",
+      "@type": "rdf:Property",
+      "rdfs:label": "fumigationCertificateReference",
+      "rdfs:comment": "fumigationCertificateReference property."
+    },
+    {
+      "@id": "ion:phytosanitaryCertificateReference",
+      "@type": "rdf:Property",
+      "rdfs:label": "phytosanitaryCertificateReference",
+      "rdfs:comment": "phytosanitaryCertificateReference property."
+    },
+    {
+      "@id": "ion:requestedAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "requestedAt",
+      "rdfs:comment": "requestedAt property."
+    },
+    {
+      "@id": "ion:requestedByParticipantId",
+      "@type": "rdf:Property",
+      "rdfs:label": "requestedByParticipantId",
+      "rdfs:comment": "requestedByParticipantId property."
+    },
+    {
+      "@id": "ion:relationships",
+      "@type": "rdf:Property",
+      "rdfs:label": "relationships",
+      "rdfs:comment": "relationships property."
+    },
+    {
+      "@id": "ion:invoicePreferences",
+      "@type": "rdf:Property",
+      "rdfs:label": "invoicePreferences",
+      "rdfs:comment": "invoicePreferences property."
+    },
+    {
+      "@id": "ion:cargoInsurance",
+      "@type": "rdf:Property",
+      "rdfs:label": "cargoInsurance",
+      "rdfs:comment": "cargoInsurance property."
+    },
+    {
+      "@id": "ion:crossBorderTerms",
+      "@type": "rdf:Property",
+      "rdfs:label": "crossBorderTerms",
+      "rdfs:comment": "crossBorderTerms property."
+    },
+    {
+      "@id": "ion:cases",
+      "@type": "rdf:Property",
+      "rdfs:label": "cases",
+      "rdfs:comment": "cases property."
+    },
+    {
+      "@id": "ion:cancellation",
+      "@type": "rdf:Property",
+      "rdfs:label": "cancellation",
+      "rdfs:comment": "cancellation property."
+    },
+    {
+      "@id": "ion:buyerBusinessRegistration",
+      "@type": "rdf:Property",
+      "rdfs:label": "buyerBusinessRegistration",
+      "rdfs:comment": "buyerBusinessRegistration property."
+    },
+    {
+      "@id": "ion:customsCompliance",
+      "@type": "rdf:Property",
+      "rdfs:label": "customsCompliance",
+      "rdfs:comment": "customsCompliance property."
+    },
+    {
+      "@id": "ion:ContractRelationship",
+      "@type": "rdfs:Class",
+      "rdfs:label": "ContractRelationship",
+      "rdfs:comment": "ContractRelationship class."
+    },
+    {
+      "@id": "ion:LogisticsInvoicePreferences",
+      "@type": "rdfs:Class",
+      "rdfs:label": "LogisticsInvoicePreferences",
+      "rdfs:comment": "LogisticsInvoicePreferences class."
+    },
+    {
+      "@id": "ion:CargoInsuranceAgreement",
+      "@type": "rdfs:Class",
+      "rdfs:label": "CargoInsuranceAgreement",
+      "rdfs:comment": "CargoInsuranceAgreement class."
+    },
+    {
+      "@id": "ion:CaseAssessment",
+      "@type": "rdfs:Class",
+      "rdfs:label": "CaseAssessment",
+      "rdfs:comment": "CaseAssessment class."
+    },
+    {
+      "@id": "ion:CaseResolution",
+      "@type": "rdfs:Class",
+      "rdfs:label": "CaseResolution",
+      "rdfs:comment": "CaseResolution class."
+    },
+    {
+      "@id": "ion:LogisticsCase",
+      "@type": "rdfs:Class",
+      "rdfs:label": "LogisticsCase",
+      "rdfs:comment": "LogisticsCase class."
+    },
+    {
+      "@id": "ion:CrossBorderTerms",
+      "@type": "rdfs:Class",
+      "rdfs:label": "CrossBorderTerms",
+      "rdfs:comment": "CrossBorderTerms class."
+    },
+    {
+      "@id": "ion:CustomsPermit",
+      "@type": "rdfs:Class",
+      "rdfs:label": "CustomsPermit",
+      "rdfs:comment": "CustomsPermit class."
+    },
+    {
+      "@id": "ion:IONCustomsCompliance",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONCustomsCompliance",
+      "rdfs:comment": "IONCustomsCompliance class."
+    },
+    {
+      "@id": "ion:CancellationRecord",
+      "@type": "rdfs:Class",
+      "rdfs:label": "CancellationRecord",
+      "rdfs:comment": "CancellationRecord class."
+    },
+    {
+      "@id": "ion:LogisticsContract",
+      "@type": "rdfs:Class",
+      "rdfs:label": "LogisticsContract",
+      "rdfs:comment": "LogisticsContract class."
+    },
+    {
+      "@id": "ion:IONLogisticsContract",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONLogisticsContract",
+      "rdfs:comment": "IONLogisticsContract class."
+    }
+  ]
+}

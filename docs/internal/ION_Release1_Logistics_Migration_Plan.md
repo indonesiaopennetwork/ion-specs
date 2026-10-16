@@ -189,7 +189,7 @@ review, or suitable for a later release.
 
 ### Phase 4 — Migrate schema packs as vertical slices
 
-**Status:** In progress — `LogisticsResource`, common `IdentifiableLocation`, `LogisticsProvider`, `LogisticsParticipant`, `LogisticsOffer`, `LogisticsCommitment`, and `LogisticsConsideration` v1 complete
+**Status:** In progress — `LogisticsResource`, common `IdentifiableLocation`, `LogisticsProvider`, `LogisticsParticipant`, `LogisticsOffer`, `LogisticsCommitment`, `LogisticsConsideration`, and `LogisticsContract` v1 complete
 
 Use this order so that catalog, selection, contracting, and execution concepts
 become available progressively:
@@ -200,7 +200,7 @@ become available progressively:
 4. `LogisticsOffer` — complete
 5. `LogisticsCommitment` — complete
 6. `LogisticsConsideration` — complete
-7. `LogisticsContract`
+7. `LogisticsContract` — complete
 8. `LogisticsPerformance`
 9. `LogisticsTracking`
 10. `LogisticsPerformanceStates`
