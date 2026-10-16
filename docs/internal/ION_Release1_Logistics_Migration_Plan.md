@@ -189,7 +189,9 @@ review, or suitable for a later release.
 
 ### Phase 4 — Migrate schema packs as vertical slices
 
-**Status:** In progress — all nine Logistics schema packs and common `IdentifiableLocation` v1 complete; `LogisticsPerformanceStates` remains
+**Status:** Complete — all nine Logistics schema packs, common
+`IdentifiableLocation` v1, and the validated `LogisticsPerformanceStates` v1
+registry are present
 
 Use this order so that catalog, selection, contracting, and execution concepts
 become available progressively:
@@ -203,7 +205,7 @@ become available progressively:
 7. `LogisticsContract` — complete
 8. `LogisticsPerformance` — complete
 9. `LogisticsTracking` — complete
-10. `LogisticsPerformanceStates`
+10. `LogisticsPerformanceStates` — complete
 
 Each schema-pack commit must include the complete pack fileset, documentation,
 and at least one valid example. `LogisticsPerformanceStates` is a registry, not
@@ -233,6 +235,12 @@ Suggested commit form:
 ```text
 feat(logistics): add LogisticsResource v1
 ```
+
+The completed state registry preserves all ten legacy operational patterns,
+repairs the known reachability and terminal-state defects, and replaces prose
+triggers with typed guards, effects, and locally declared Phase 6 flow
+integration points. Its dedicated release validator checks graph integrity,
+schema requirement pointers, and flow-profile machine references.
 
 ### Phase 5 — Migrate shared policies deliberately
 

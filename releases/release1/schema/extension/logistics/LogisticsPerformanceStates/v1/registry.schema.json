@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schema.ion.id/release1/schema/extension/logistics/LogisticsPerformanceStates/v1/registry.schema.json",
+  "title": "ION Logistics Performance State Registry v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["registryVersion", "contractStatusAggregation", "flowCatalog", "machines"],
+  "properties": {
+    "registryVersion": {"type": "string", "const": "1.0.0"},
+    "contractStatusAggregation": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/aggregationRule"}
+    },
+    "flowCatalog": {
+      "type": "object",
+      "propertyNames": {"pattern": "^[a-z][a-z0-9-]*$"},
+      "additionalProperties": {"$ref": "#/$defs/flowDeclaration"}
+    },
+    "machines": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": {"pattern": "^[a-z][a-z0-9-]*$"},
+      "additionalProperties": {"$ref": "#/$defs/machine"}
+    }
+  },
+  "$defs": {
+    "aggregationRule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ruleId", "when", "contractStatus"],
+      "properties": {
+        "ruleId": {"type": "string", "pattern": "^[a-z][a-z0-9-]*$"},
+        "when": {"type": "string", "enum": ["ANY_REQUIRED_NON_TERMINAL", "ANY_REQUIRED_FAILED_OR_DISPUTED", "ALL_REQUIRED_CANCELLED", "ALL_REQUIRED_SUCCESS_RETURNED_OR_TRANSFERRED", "NO_REQUIRED_PERFORMANCES"]},
+        "contractStatus": {"type": "string", "enum": ["ACTIVE", "CANCELLED", "COMPLETE"]}
+      }
+    },
+    "flowDeclaration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "purpose"],
+      "properties": {
+        "status": {"type": "string", "enum": ["planned", "published"]},
+        "purpose": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]*$"}
+      }
+    },
+    "machine": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["machineId", "version", "description", "initialState", "states"],
+      "properties": {
+        "machineId": {"type": "string", "pattern": "^[a-z][a-z0-9-]*$"},
+        "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+        "description": {"type": "string", "minLength": 1},
+        "initialState": {"$ref": "#/$defs/stateCode"},
+        "states": {
+          "type": "object",
+          "minProperties": 1,
+          "propertyNames": {"pattern": "^[A-Z][A-Z0-9_]*$"},
+          "additionalProperties": {"$ref": "#/$defs/state"}
+        }
+      }
+    },
+    "stateCode": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]*$"},
+    "state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["category"],
+      "properties": {
+        "category": {"type": "string", "enum": ["BOOKING", "ASSIGNMENT", "PICKUP", "TRANSIT", "HUB", "DELIVERY", "RETURN", "CUSTOMS", "FREIGHT", "PORT", "WAREHOUSE", "EXCEPTION"]},
+        "terminalOutcome": {"type": "string", "enum": ["SUCCESS", "CANCELLED", "FAILED", "RETURNED", "TRANSFERRED", "DISPUTED"]},
+        "contractStatusContribution": {"type": "string", "enum": ["ACTIVE", "CANCELLED", "COMPLETE"]},
+        "requirements": {"type": "array", "items": {"$ref": "#/$defs/requirement"}},
+        "transitions": {"type": "array", "items": {"$ref": "#/$defs/transition"}}
+      }
+    },
+    "requirement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["requirementId", "targetSchema", "targetPointer"],
+      "properties": {
+        "requirementId": {"type": "string", "pattern": "^[a-z][a-z0-9-]*$"},
+        "targetSchema": {"type": "string", "enum": ["LogisticsPerformance", "LogisticsContract"]},
+        "targetPointer": {"type": "string", "pattern": "^/"}
+      }
+    },
+    "transition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["to"],
+      "properties": {
+        "to": {"$ref": "#/$defs/stateCode"},
+        "flowRefs": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^[a-z][a-z0-9-]*$"}},
+        "guards": {"type": "array", "items": {"$ref": "#/$defs/guard"}},
+        "effects": {"type": "array", "items": {"$ref": "#/$defs/effect"}}
+      }
+    },
+    "guard": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["guardId", "factRef", "operator"],
+      "properties": {
+        "guardId": {"type": "string", "pattern": "^[a-z][a-z0-9-]*$"},
+        "factRef": {"type": "string", "pattern": "^[a-z][A-Za-z0-9.]*$"},
+        "operator": {"type": "string", "enum": ["EQ", "NOT_EQ", "IN", "NOT_IN", "EXISTS"]},
+        "value": {}
+      }
+    },
+    "effect": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["effectType"],
+      "properties": {
+        "effectType": {"type": "string", "enum": ["RELEASE_REFUND", "CREATE_CHILD_CONTRACT", "START_STORAGE_BILLING", "RECORD_DISPOSITION"]},
+        "target": {"type": "string"}
+      }
+    }
+  }
+}

@@ -1,0 +1,447 @@
+registryVersion: 1.0.0
+
+# Rules are evaluated from top to bottom across required Performances only.
+contractStatusAggregation:
+  - ruleId: active-work-remains
+    when: ANY_REQUIRED_NON_TERMINAL
+    contractStatus: ACTIVE
+  - ruleId: resolution-remains
+    when: ANY_REQUIRED_FAILED_OR_DISPUTED
+    contractStatus: ACTIVE
+  - ruleId: all-cancelled
+    when: ALL_REQUIRED_CANCELLED
+    contractStatus: CANCELLED
+  - ruleId: all-work-concluded
+    when: ALL_REQUIRED_SUCCESS_RETURNED_OR_TRANSFERRED
+    contractStatus: COMPLETE
+  - ruleId: no-required-performance
+    when: NO_REQUIRED_PERFORMANCES
+    contractStatus: ACTIVE
+
+# Phase 6 will bind these stable IDs to published Logistics flow profiles.
+flowCatalog:
+  pickup-failure:
+    status: planned
+    purpose: PICKUP_RECOVERY
+  delivery-attempts:
+    status: planned
+    purpose: DELIVERY_RECOVERY
+  parcel-condition-monitoring:
+    status: planned
+    purpose: CONDITION_MONITORING
+  parcel-reverse-qc:
+    status: planned
+    purpose: RETURN_WITH_QC
+  freight-reverse:
+    status: planned
+    purpose: FREIGHT_RETURN
+  roro-rebooking:
+    status: planned
+    purpose: SAILING_RECOVERY
+  customs-clearance:
+    status: planned
+    purpose: CUSTOMS_REMEDIATION
+  cross-border-remediation:
+    status: planned
+    purpose: CROSS_BORDER_REMEDIATION
+  warehouse-value-added-services:
+    status: planned
+    purpose: WAREHOUSE_VALUE_ADDED_SERVICE
+  warehouse-dispatch:
+    status: planned
+    purpose: WAREHOUSE_OUTBOUND_TRANSPORT
+
+machines:
+  hyperlocal-pre-assigned:
+    machineId: hyperlocal-pre-assigned
+    version: 1.0.0
+    description: Hyperlocal delivery with a rider assigned at booking confirmation.
+    initialState: BOOKING_CONFIRMED
+    states:
+      BOOKING_CONFIRMED:
+        category: BOOKING
+        transitions:
+          - {to: RIDER_ASSIGNED}
+          - {to: CANCELLED}
+      RIDER_ASSIGNED:
+        category: ASSIGNMENT
+        requirements:
+          - {requirementId: rider-assignment, targetSchema: LogisticsPerformance, targetPointer: /components/schemas/LogisticsPerformance/properties/assignments}
+        transitions: [{to: RIDER_EN_ROUTE_TO_PICKUP}]
+      RIDER_EN_ROUTE_TO_PICKUP:
+        category: PICKUP
+        transitions: [{to: RIDER_AT_PICKUP}]
+      RIDER_AT_PICKUP:
+        category: PICKUP
+        transitions: [{to: PICKED_UP}, {to: PICKUP_FAILED, flowRefs: [pickup-failure]}]
+      PICKUP_FAILED:
+        category: EXCEPTION
+        transitions: [{to: BOOKING_CONFIRMED}, {to: CANCELLED}]
+      PICKED_UP:
+        category: PICKUP
+        requirements:
+          - {requirementId: pickup-event, targetSchema: LogisticsPerformance, targetPointer: /components/schemas/LogisticsPerformance/properties/events}
+          - {requirementId: pickup-proof, targetSchema: LogisticsPerformance, targetPointer: /components/schemas/LogisticsPerformance/properties/proofs}
+        transitions: [{to: IN_TRANSIT}]
+      IN_TRANSIT:
+        category: TRANSIT
+        transitions: [{to: RIDER_AT_DELIVERY}]
+      RIDER_AT_DELIVERY:
+        category: DELIVERY
+        transitions: [{to: DELIVERED}, {to: DELIVERY_ATTEMPT_FAILED, flowRefs: [delivery-attempts]}]
+      DELIVERY_ATTEMPT_FAILED:
+        category: EXCEPTION
+        requirements:
+          - {requirementId: delivery-attempt, targetSchema: LogisticsPerformance, targetPointer: /components/schemas/LogisticsPerformance/properties/attempts}
+        transitions: [{to: IN_TRANSIT}, {to: RTO_INITIATED}]
+      RTO_INITIATED:
+        category: RETURN
+        transitions: [{to: RETURNED_TO_ORIGIN}]
+      RETURNED_TO_ORIGIN: {category: RETURN, terminalOutcome: RETURNED, contractStatusContribution: COMPLETE}
+      DELIVERED:
+        category: DELIVERY
+        terminalOutcome: SUCCESS
+        contractStatusContribution: COMPLETE
+        requirements:
+          - {requirementId: delivery-event, targetSchema: LogisticsPerformance, targetPointer: /components/schemas/LogisticsPerformance/properties/events}
+          - {requirementId: delivery-proof, targetSchema: LogisticsPerformance, targetPointer: /components/schemas/LogisticsPerformance/properties/proofs}
+      CANCELLED: {category: EXCEPTION, terminalOutcome: CANCELLED, contractStatusContribution: CANCELLED}
+
+  hyperlocal-fifo:
+    machineId: hyperlocal-fifo
+    version: 1.0.0
+    description: Hyperlocal delivery with first-in-first-out rider assignment at pickup.
+    initialState: BOOKING_CONFIRMED
+    states:
+      BOOKING_CONFIRMED:
+        category: BOOKING
+        transitions: [{to: MERCHANT_PREPARING}, {to: CANCELLED}]
+      MERCHANT_PREPARING: {category: PICKUP, transitions: [{to: MERCHANT_READY}, {to: CANCELLED}]}
+      MERCHANT_READY: {category: PICKUP, transitions: [{to: PICKED_UP}, {to: CANCELLED}]}
+      PICKED_UP:
+        category: PICKUP
+        requirements:
+          - {requirementId: rider-assignment, targetSchema: LogisticsPerformance, targetPointer: /components/schemas/LogisticsPerformance/properties/assignments}
+          - {requirementId: pickup-event, targetSchema: LogisticsPerformance, targetPointer: /components/schemas/LogisticsPerformance/properties/events}
+          - {requirementId: pickup-proof, targetSchema: LogisticsPerformance, targetPointer: /components/schemas/LogisticsPerformance/properties/proofs}
+        transitions: [{to: IN_TRANSIT}]
+      IN_TRANSIT: {category: TRANSIT, transitions: [{to: RIDER_AT_DELIVERY}]}
+      RIDER_AT_DELIVERY: {category: DELIVERY, transitions: [{to: DELIVERED}, {to: DELIVERY_ATTEMPT_FAILED, flowRefs: [delivery-attempts]}]}
+      DELIVERY_ATTEMPT_FAILED:
+        category: EXCEPTION
+        requirements:
+          - {requirementId: delivery-attempt, targetSchema: LogisticsPerformance, targetPointer: /components/schemas/LogisticsPerformance/properties/attempts}
+        transitions: [{to: IN_TRANSIT}, {to: RTO_INITIATED}]
+      RTO_INITIATED: {category: RETURN, transitions: [{to: RETURNED_TO_ORIGIN}]}
+      RETURNED_TO_ORIGIN: {category: RETURN, terminalOutcome: RETURNED, contractStatusContribution: COMPLETE}
+      DELIVERED:
+        category: DELIVERY
+        terminalOutcome: SUCCESS
+        contractStatusContribution: COMPLETE
+        requirements:
+          - {requirementId: delivery-event, targetSchema: LogisticsPerformance, targetPointer: /components/schemas/LogisticsPerformance/properties/events}
+          - {requirementId: delivery-proof, targetSchema: LogisticsPerformance, targetPointer: /components/schemas/LogisticsPerformance/properties/proofs}
+      CANCELLED: {category: EXCEPTION, terminalOutcome: CANCELLED, contractStatusContribution: CANCELLED}
+
+  parcel-p2p:
+    machineId: parcel-p2p
+    version: 1.0.0
+    description: Direct parcel delivery without a hub handoff.
+    initialState: READY_FOR_PICKUP
+    states:
+      READY_FOR_PICKUP: {category: PICKUP, transitions: [{to: OUT_FOR_PICKUP}, {to: CANCELLED}]}
+      OUT_FOR_PICKUP: {category: PICKUP, transitions: [{to: PICKED_UP}, {to: PICKUP_FAILED, flowRefs: [pickup-failure]}]}
+      PICKUP_FAILED: {category: EXCEPTION, transitions: [{to: READY_FOR_PICKUP}, {to: CANCELLED}]}
+      PICKED_UP:
+        category: PICKUP
+        requirements:
+          - {requirementId: pickup-event, targetSchema: LogisticsPerformance, targetPointer: /components/schemas/LogisticsPerformance/properties/events}
+          - {requirementId: pickup-proof, targetSchema: LogisticsPerformance, targetPointer: /components/schemas/LogisticsPerformance/properties/proofs}
+        transitions:
+          - to: OUT_FOR_DELIVERY
+            flowRefs: [parcel-condition-monitoring]
+            guards: [{guardId: condition-monitoring-applicable, factRef: cargo.conditionMonitoringRequired, operator: EQ, value: true}]
+      OUT_FOR_DELIVERY: {category: DELIVERY, transitions: [{to: DELIVERED}, {to: DELIVERY_ATTEMPT_FAILED, flowRefs: [delivery-attempts]}]}
+      DELIVERY_ATTEMPT_FAILED:
+        category: EXCEPTION
+        requirements:
+          - {requirementId: delivery-attempt, targetSchema: LogisticsPerformance, targetPointer: /components/schemas/LogisticsPerformance/properties/attempts}
+        transitions: [{to: OUT_FOR_DELIVERY}, {to: RTO_INITIATED}]
+      RTO_INITIATED: {category: RETURN, transitions: [{to: OUT_FOR_RTO_DELIVERY}]}
+      OUT_FOR_RTO_DELIVERY:
+        category: RETURN
+        transitions:
+          - {to: RTO_DELIVERED}
+          - to: RTO_DISPOSED
+            guards: [{guardId: disposal-authorized, factRef: decision.disposition, operator: EQ, value: DISPOSE}]
+            effects: [{effectType: RECORD_DISPOSITION, target: RTO_DISPOSED}]
+      DELIVERED:
+        category: DELIVERY
+        terminalOutcome: SUCCESS
+        contractStatusContribution: COMPLETE
+        requirements:
+          - {requirementId: delivery-proof, targetSchema: LogisticsPerformance, targetPointer: /components/schemas/LogisticsPerformance/properties/proofs}
+      RTO_DELIVERED: {category: RETURN, terminalOutcome: RETURNED, contractStatusContribution: COMPLETE}
+      RTO_DISPOSED: {category: RETURN, terminalOutcome: FAILED, contractStatusContribution: ACTIVE}
+      CANCELLED: {category: EXCEPTION, terminalOutcome: CANCELLED, contractStatusContribution: CANCELLED}
+
+  parcel-p2h2p:
+    machineId: parcel-p2h2p
+    version: 1.0.0
+    description: Parcel delivery through one consolidation hub.
+    initialState: READY_FOR_PICKUP
+    states:
+      READY_FOR_PICKUP: {category: PICKUP, transitions: [{to: OUT_FOR_PICKUP}, {to: CANCELLED}]}
+      OUT_FOR_PICKUP: {category: PICKUP, transitions: [{to: PICKED_UP}, {to: PICKUP_FAILED, flowRefs: [pickup-failure]}]}
+      PICKUP_FAILED: {category: EXCEPTION, transitions: [{to: READY_FOR_PICKUP}, {to: CANCELLED}]}
+      PICKED_UP:
+        category: PICKUP
+        requirements:
+          - {requirementId: pickup-event, targetSchema: LogisticsPerformance, targetPointer: /components/schemas/LogisticsPerformance/properties/events}
+          - {requirementId: pickup-proof, targetSchema: LogisticsPerformance, targetPointer: /components/schemas/LogisticsPerformance/properties/proofs}
+        transitions: [{to: AT_ORIGIN_HUB}]
+      AT_ORIGIN_HUB:
+        category: HUB
+        requirements:
+          - {requirementId: route-stop, targetSchema: LogisticsPerformance, targetPointer: /components/schemas/LogisticsPerformance/properties/route}
+        transitions: [{to: IN_TRANSIT}]
+      IN_TRANSIT: {category: TRANSIT, transitions: [{to: AT_DESTINATION_HUB}]}
+      AT_DESTINATION_HUB:
+        category: HUB
+        requirements:
+          - {requirementId: route-stop, targetSchema: LogisticsPerformance, targetPointer: /components/schemas/LogisticsPerformance/properties/route}
+        transitions: [{to: OUT_FOR_DELIVERY}]
+      OUT_FOR_DELIVERY: {category: DELIVERY, transitions: [{to: DELIVERED}, {to: DELIVERY_ATTEMPT_FAILED, flowRefs: [delivery-attempts]}]}
+      DELIVERY_ATTEMPT_FAILED: {category: EXCEPTION, transitions: [{to: OUT_FOR_DELIVERY}, {to: RTO_INITIATED}]}
+      RTO_INITIATED:
+        category: RETURN
+        transitions:
+          - {to: AT_DESTINATION_HUB}
+          - {to: IN_TRANSIT}
+          - {to: AT_ORIGIN_HUB}
+          - {to: RTO_DELIVERED}
+          - to: RTO_DISPOSED
+            guards: [{guardId: disposal-authorized, factRef: decision.disposition, operator: EQ, value: DISPOSE}]
+            effects: [{effectType: RECORD_DISPOSITION, target: RTO_DISPOSED}]
+      DELIVERED: {category: DELIVERY, terminalOutcome: SUCCESS, contractStatusContribution: COMPLETE}
+      RTO_DELIVERED: {category: RETURN, terminalOutcome: RETURNED, contractStatusContribution: COMPLETE}
+      RTO_DISPOSED: {category: RETURN, terminalOutcome: FAILED, contractStatusContribution: ACTIVE}
+      CANCELLED: {category: EXCEPTION, terminalOutcome: CANCELLED, contractStatusContribution: CANCELLED}
+
+  parcel-p2h2h2p:
+    machineId: parcel-p2h2h2p
+    version: 1.0.0
+    description: Parcel delivery through origin and destination hubs.
+    initialState: READY_FOR_PICKUP
+    states:
+      READY_FOR_PICKUP: {category: PICKUP, transitions: [{to: OUT_FOR_PICKUP}, {to: CANCELLED}]}
+      OUT_FOR_PICKUP: {category: PICKUP, transitions: [{to: PICKED_UP}, {to: PICKUP_FAILED, flowRefs: [pickup-failure]}]}
+      PICKUP_FAILED: {category: EXCEPTION, transitions: [{to: READY_FOR_PICKUP}, {to: CANCELLED}]}
+      PICKED_UP:
+        category: PICKUP
+        requirements:
+          - {requirementId: pickup-event, targetSchema: LogisticsPerformance, targetPointer: /components/schemas/LogisticsPerformance/properties/events}
+          - {requirementId: pickup-proof, targetSchema: LogisticsPerformance, targetPointer: /components/schemas/LogisticsPerformance/properties/proofs}
+        transitions: [{to: AT_ORIGIN_HUB}]
+      AT_ORIGIN_HUB:
+        category: HUB
+        requirements:
+          - {requirementId: origin-hub-stop, targetSchema: LogisticsPerformance, targetPointer: /components/schemas/LogisticsPerformance/properties/route}
+        transitions: [{to: SORTED_AT_ORIGIN}, {to: IN_TRANSIT_INTERHUB}]
+      SORTED_AT_ORIGIN: {category: HUB, transitions: [{to: IN_TRANSIT_INTERHUB}]}
+      IN_TRANSIT_INTERHUB: {category: TRANSIT, transitions: [{to: AT_DESTINATION_HUB}]}
+      AT_DESTINATION_HUB:
+        category: HUB
+        requirements:
+          - {requirementId: destination-hub-stop, targetSchema: LogisticsPerformance, targetPointer: /components/schemas/LogisticsPerformance/properties/route}
+        transitions: [{to: SORTED_AT_DESTINATION}, {to: OUT_FOR_DELIVERY}]
+      SORTED_AT_DESTINATION: {category: HUB, transitions: [{to: OUT_FOR_DELIVERY}]}
+      OUT_FOR_DELIVERY: {category: DELIVERY, transitions: [{to: DELIVERED}, {to: DELIVERY_ATTEMPT_FAILED, flowRefs: [delivery-attempts]}]}
+      DELIVERY_ATTEMPT_FAILED: {category: EXCEPTION, transitions: [{to: OUT_FOR_DELIVERY}, {to: RTO_INITIATED}]}
+      RTO_INITIATED:
+        category: RETURN
+        transitions:
+          - {to: AT_DESTINATION_HUB}
+          - {to: IN_TRANSIT_INTERHUB}
+          - {to: AT_ORIGIN_HUB}
+          - {to: RTO_DELIVERED}
+          - to: RTO_DISPOSED
+            guards: [{guardId: disposal-authorized, factRef: decision.disposition, operator: EQ, value: DISPOSE}]
+            effects: [{effectType: RECORD_DISPOSITION, target: RTO_DISPOSED}]
+      DELIVERED: {category: DELIVERY, terminalOutcome: SUCCESS, contractStatusContribution: COMPLETE}
+      RTO_DELIVERED: {category: RETURN, terminalOutcome: RETURNED, contractStatusContribution: COMPLETE}
+      RTO_DISPOSED: {category: RETURN, terminalOutcome: FAILED, contractStatusContribution: ACTIVE}
+      CANCELLED: {category: EXCEPTION, terminalOutcome: CANCELLED, contractStatusContribution: CANCELLED}
+
+  parcel-reverse-qc:
+    machineId: parcel-reverse-qc
+    version: 1.0.0
+    description: Consumer return with quality-control gating before refund release.
+    initialState: RETURN_REQUESTED
+    states:
+      RETURN_REQUESTED:
+        category: RETURN
+        requirements:
+          - {requirementId: return-relationship, targetSchema: LogisticsContract, targetPointer: /components/schemas/LogisticsContract/properties/relationships}
+        transitions: [{to: RETURN_PICKUP_SCHEDULED}]
+      RETURN_PICKUP_SCHEDULED: {category: RETURN, transitions: [{to: RETURN_PICKED_UP}, {to: RETURN_PICKUP_FAILED, flowRefs: [pickup-failure]}]}
+      RETURN_PICKUP_FAILED: {category: EXCEPTION, transitions: [{to: RETURN_PICKUP_SCHEDULED}, {to: RETURN_CANCELLED}]}
+      RETURN_PICKED_UP: {category: RETURN, transitions: [{to: RETURN_IN_TRANSIT}]}
+      RETURN_IN_TRANSIT: {category: RETURN, transitions: [{to: RETURN_AT_QC}]}
+      RETURN_AT_QC: {category: RETURN, transitions: [{to: QC_IN_PROGRESS}]}
+      QC_IN_PROGRESS: {category: RETURN, transitions: [{to: QC_APPROVED}, {to: QC_REJECTED}]}
+      QC_APPROVED:
+        category: RETURN
+        transitions:
+          - to: RETURN_DELIVERED_TO_ORIGIN
+            effects: [{effectType: RELEASE_REFUND, target: ORIGINAL_CONTRACT}]
+      QC_REJECTED: {category: EXCEPTION, transitions: [{to: RETURN_TO_BUYER}, {to: RETURN_DISPUTED}]}
+      RETURN_TO_BUYER: {category: RETURN, transitions: [{to: RETURN_CANCELLED}]}
+      RETURN_DELIVERED_TO_ORIGIN: {category: RETURN, terminalOutcome: RETURNED, contractStatusContribution: COMPLETE}
+      RETURN_DISPUTED: {category: EXCEPTION, terminalOutcome: DISPUTED, contractStatusContribution: ACTIVE}
+      RETURN_CANCELLED: {category: EXCEPTION, terminalOutcome: CANCELLED, contractStatusContribution: CANCELLED}
+
+  freight-capacity:
+    machineId: freight-capacity
+    version: 1.0.0
+    description: Capacity-based freight execution across road, ocean, air, rail, or river legs.
+    initialState: BOOKING_CONFIRMED
+    states:
+      BOOKING_CONFIRMED: {category: BOOKING, transitions: [{to: READY_FOR_LOADING}, {to: CANCELLED}]}
+      READY_FOR_LOADING: {category: FREIGHT, transitions: [{to: LOADED}, {to: LOADING_FAILED}, {to: CANCELLED}]}
+      LOADING_FAILED: {category: EXCEPTION, transitions: [{to: READY_FOR_LOADING}, {to: CANCELLED}]}
+      LOADED:
+        category: FREIGHT
+        requirements:
+          - {requirementId: loading-event, targetSchema: LogisticsPerformance, targetPointer: /components/schemas/LogisticsPerformance/properties/events}
+          - {requirementId: manifest-proof, targetSchema: LogisticsPerformance, targetPointer: /components/schemas/LogisticsPerformance/properties/proofs}
+        transitions: [{to: DEPARTED}]
+      DEPARTED: {category: TRANSIT, transitions: [{to: IN_TRANSIT}]}
+      IN_TRANSIT: {category: TRANSIT, transitions: [{to: ARRIVED_AT_PORT}, {to: ARRIVED}]}
+      ARRIVED_AT_PORT: {category: PORT, transitions: [{to: UNLOADED}]}
+      ARRIVED: {category: FREIGHT, transitions: [{to: UNLOADED}]}
+      UNLOADED: {category: FREIGHT, transitions: [{to: AVAILABLE_FOR_COLLECTION}]}
+      AVAILABLE_FOR_COLLECTION:
+        category: DELIVERY
+        transitions:
+          - {to: DELIVERED}
+          - to: FREIGHT_RETURN_TRANSFERRED
+            flowRefs: [freight-reverse]
+            effects: [{effectType: CREATE_CHILD_CONTRACT, target: FREIGHT_RETURN}]
+      DELIVERED:
+        category: DELIVERY
+        terminalOutcome: SUCCESS
+        contractStatusContribution: COMPLETE
+        requirements:
+          - {requirementId: delivery-proof, targetSchema: LogisticsPerformance, targetPointer: /components/schemas/LogisticsPerformance/properties/proofs}
+      FREIGHT_RETURN_TRANSFERRED: {category: RETURN, terminalOutcome: TRANSFERRED, contractStatusContribution: COMPLETE}
+      CANCELLED: {category: EXCEPTION, terminalOutcome: CANCELLED, contractStatusContribution: CANCELLED}
+
+  roro:
+    machineId: roro
+    version: 1.0.0
+    description: Roll-on/Roll-off ferry and vessel transport.
+    initialState: TICKET_ISSUED
+    states:
+      TICKET_ISSUED: {category: BOOKING, transitions: [{to: CHECKED_IN}, {to: MISSED_SAILING, flowRefs: [roro-rebooking]}, {to: CANCELLED}]}
+      CHECKED_IN: {category: PORT, transitions: [{to: BOARDED}, {to: CANCELLED}]}
+      BOARDED: {category: PORT, transitions: [{to: SAILED}]}
+      SAILED: {category: TRANSIT, transitions: [{to: ARRIVED_AT_PORT}]}
+      ARRIVED_AT_PORT: {category: PORT, transitions: [{to: DISEMBARKED}]}
+      DISEMBARKED: {category: PORT, transitions: [{to: EXITED_PORT}]}
+      MISSED_SAILING: {category: EXCEPTION, transitions: [{to: TICKET_ISSUED}, {to: CANCELLED}]}
+      EXITED_PORT: {category: PORT, terminalOutcome: SUCCESS, contractStatusContribution: COMPLETE}
+      CANCELLED: {category: EXCEPTION, terminalOutcome: CANCELLED, contractStatusContribution: CANCELLED}
+
+  xb:
+    machineId: xb
+    version: 1.0.0
+    description: Cross-border execution with export and import customs stages.
+    initialState: BOOKING_CONFIRMED
+    states:
+      BOOKING_CONFIRMED: {category: BOOKING, transitions: [{to: LOADED_AT_ORIGIN}, {to: CANCELLED}]}
+      LOADED_AT_ORIGIN: {category: FREIGHT, transitions: [{to: EXPORT_CUSTOMS_SUBMITTED}]}
+      EXPORT_CUSTOMS_SUBMITTED: {category: CUSTOMS, transitions: [{to: EXPORT_CUSTOMS_CLEARED}, {to: EXPORT_CUSTOMS_HELD, flowRefs: [customs-clearance]}]}
+      EXPORT_CUSTOMS_HELD: {category: CUSTOMS, transitions: [{to: EXPORT_CUSTOMS_CLEARED}, {to: CANCELLED}]}
+      EXPORT_CUSTOMS_CLEARED: {category: CUSTOMS, transitions: [{to: DEPARTED_ORIGIN}]}
+      DEPARTED_ORIGIN: {category: TRANSIT, transitions: [{to: IN_TRANSIT_INTERNATIONAL}]}
+      IN_TRANSIT_INTERNATIONAL: {category: TRANSIT, transitions: [{to: ARRIVED_DESTINATION_PORT}]}
+      ARRIVED_DESTINATION_PORT: {category: PORT, transitions: [{to: IMPORT_CUSTOMS_SUBMITTED}]}
+      IMPORT_CUSTOMS_SUBMITTED: {category: CUSTOMS, transitions: [{to: IMPORT_CUSTOMS_CLEARED}, {to: IMPORT_CUSTOMS_HELD, flowRefs: [customs-clearance]}, {to: IMPORT_CUSTOMS_REJECTED}]}
+      IMPORT_CUSTOMS_HELD: {category: CUSTOMS, transitions: [{to: IMPORT_CUSTOMS_CLEARED}, {to: IMPORT_CUSTOMS_REJECTED}]}
+      IMPORT_CUSTOMS_REJECTED:
+        category: CUSTOMS
+        transitions:
+          - to: RETURN_TRANSFERRED
+            flowRefs: [cross-border-remediation]
+            effects: [{effectType: CREATE_CHILD_CONTRACT, target: CROSS_BORDER_RETURN}]
+          - to: DESTROY_IN_PLACE
+            guards: [{guardId: destruction-authorized, factRef: decision.disposition, operator: EQ, value: DESTROY}]
+            effects: [{effectType: RECORD_DISPOSITION, target: DESTROY_IN_PLACE}]
+      IMPORT_CUSTOMS_CLEARED: {category: CUSTOMS, transitions: [{to: RELEASED_FOR_DOMESTIC_DELIVERY}]}
+      RELEASED_FOR_DOMESTIC_DELIVERY: {category: DELIVERY, transitions: [{to: OUT_FOR_DELIVERY}]}
+      OUT_FOR_DELIVERY: {category: DELIVERY, transitions: [{to: DELIVERED}, {to: DELIVERY_ATTEMPT_FAILED, flowRefs: [delivery-attempts]}]}
+      DELIVERY_ATTEMPT_FAILED: {category: EXCEPTION, transitions: [{to: OUT_FOR_DELIVERY}, {to: RTO_INITIATED}]}
+      RTO_INITIATED:
+        category: RETURN
+        transitions:
+          - to: RETURN_TRANSFERRED
+            flowRefs: [cross-border-remediation]
+            effects: [{effectType: CREATE_CHILD_CONTRACT, target: CROSS_BORDER_RETURN}]
+      DELIVERED:
+        category: DELIVERY
+        terminalOutcome: SUCCESS
+        contractStatusContribution: COMPLETE
+        requirements:
+          - {requirementId: delivery-proof, targetSchema: LogisticsPerformance, targetPointer: /components/schemas/LogisticsPerformance/properties/proofs}
+      RETURN_TRANSFERRED: {category: RETURN, terminalOutcome: TRANSFERRED, contractStatusContribution: COMPLETE}
+      DESTROY_IN_PLACE: {category: EXCEPTION, terminalOutcome: FAILED, contractStatusContribution: ACTIVE}
+      CANCELLED: {category: EXCEPTION, terminalOutcome: CANCELLED, contractStatusContribution: CANCELLED}
+
+  warehouse-inventory:
+    machineId: warehouse-inventory
+    version: 1.0.0
+    description: Inventory storage and release lifecycle rather than a transit machine.
+    initialState: INBOUND_EXPECTED
+    states:
+      INBOUND_EXPECTED: {category: WAREHOUSE, transitions: [{to: INBOUND_RECEIVED}, {to: STORAGE_CONTRACT_EXPIRED}]}
+      INBOUND_RECEIVED:
+        category: WAREHOUSE
+        requirements:
+          - {requirementId: inbound-execution, targetSchema: LogisticsPerformance, targetPointer: /components/schemas/LogisticsPerformance/properties/warehouseExecution}
+        transitions: [{to: QC_IN_PROGRESS, flowRefs: [warehouse-value-added-services]}, {to: STORED}]
+      QC_IN_PROGRESS: {category: WAREHOUSE, transitions: [{to: STORED}, {to: INBOUND_REJECTED}]}
+      INBOUND_REJECTED: {category: EXCEPTION, transitions: [{to: RETURN_TO_SENDER}]}
+      STORED:
+        category: WAREHOUSE
+        transitions:
+          - {to: FULFILMENT_REQUEST_RECEIVED}
+          - {to: INVENTORY_HOLD}
+          - {to: MARKED_FOR_RELEASE}
+          - to: STORAGE_CONTRACT_EXPIRED
+            effects: [{effectType: START_STORAGE_BILLING, target: OVERSTAY}]
+      FULFILMENT_REQUEST_RECEIVED: {category: WAREHOUSE, transitions: [{to: PICKING, flowRefs: [warehouse-value-added-services]}]}
+      INVENTORY_HOLD: {category: WAREHOUSE, transitions: [{to: STORED}, {to: MARKED_FOR_RELEASE}]}
+      PICKING:
+        category: WAREHOUSE
+        requirements:
+          - {requirementId: warehouse-picking, targetSchema: LogisticsPerformance, targetPointer: /components/schemas/LogisticsPerformance/properties/warehouseExecution}
+        transitions: [{to: PACKED}]
+      PACKED: {category: WAREHOUSE, transitions: [{to: DISPATCHED, flowRefs: [warehouse-value-added-services]}]}
+      DISPATCHED:
+        category: WAREHOUSE
+        requirements:
+          - {requirementId: dispatch-contract-relationship, targetSchema: LogisticsContract, targetPointer: /components/schemas/LogisticsContract/properties/relationships}
+        transitions:
+          - to: STORED
+            guards: [{guardId: inventory-remains, factRef: inventory.remaining, operator: EQ, value: true}]
+            flowRefs: [warehouse-dispatch]
+            effects: [{effectType: CREATE_CHILD_CONTRACT, target: OUTBOUND_TRANSPORT}]
+          - to: INVENTORY_RELEASED
+            guards: [{guardId: inventory-depleted, factRef: inventory.remaining, operator: EQ, value: false}]
+            flowRefs: [warehouse-dispatch]
+            effects: [{effectType: CREATE_CHILD_CONTRACT, target: OUTBOUND_TRANSPORT}]
+      MARKED_FOR_RELEASE: {category: WAREHOUSE, transitions: [{to: INVENTORY_RELEASED}]}
+      RETURN_TO_SENDER: {category: RETURN, terminalOutcome: RETURNED, contractStatusContribution: COMPLETE}
+      INVENTORY_RELEASED: {category: WAREHOUSE, terminalOutcome: TRANSFERRED, contractStatusContribution: COMPLETE}
+      STORAGE_CONTRACT_EXPIRED: {category: WAREHOUSE, terminalOutcome: SUCCESS, contractStatusContribution: COMPLETE}

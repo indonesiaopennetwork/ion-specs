@@ -43,6 +43,9 @@ permanent integer releases. It is not copied into individual release bundles.
 - `validate_trade_connections.rb` checks Trade flow targets, concrete references
   against the shared root policy registry, policy registry uniqueness, and the
   generated Trade error view.
+- `validate_logistics_performance_states.rb` validates the Logistics state-machine
+  registry, including graph reachability, terminal outcomes, schema requirement
+  pointers, typed guards and effects, and Logistics flow references.
 - `generate_error_registry.rb` deterministically generates or checks the
   release-local Trade error registry. The shared policy registry is maintained by
   `tools/policies/generate_registry.rb`.
@@ -125,6 +128,7 @@ ruby tools/release/tests/validate_artifact_checksums_test.rb
 ruby tools/release/tests/validate_release_scope_test.rb
 ruby tools/release/tests/validate_release_immutability_test.rb
 ruby tools/release/tests/generate_error_registry_test.rb
+ruby tools/release/tests/validate_logistics_performance_states_test.rb
 ruby tools/policies/tests/generate_registry_test.rb
 ```
 
