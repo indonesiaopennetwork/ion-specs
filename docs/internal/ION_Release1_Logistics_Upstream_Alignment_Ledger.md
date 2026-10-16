@@ -491,7 +491,7 @@ silently introduced during migration:
 | Current Beckn Logistics `Courier`, `Driver`, and `Contact` schemas | `incompatible` as dependencies; useful organizationally | Retain their role separation as design input, but do not copy their identity, runtime, India-specific, or older-core fields. |
 | Historical ION `logistics/agent/v1` | `incompatible` attachment; no unique business fields | Do not migrate separately. Preserve its data-residency annotations and generic/ION split reasoning as review evidence. |
 | Mapped legacy ION `LogisticsParticipantAddendum` | `under review` | Use as the three-field migration source, subject to typed credential organization and the role decision. |
-| Release 1 `LogisticsParticipant` | `suitable for later release` | Author after the four named decisions are resolved or explicitly deferred from the pack. |
+| Release 1 `LogisticsParticipant` | `authored in draft` | Uses `participantRoles` for the minimal courier, driver, and customs-broker distinction; licence validity and evidence remain deferred. |
 
 ## `LogisticsOffer` v1
 

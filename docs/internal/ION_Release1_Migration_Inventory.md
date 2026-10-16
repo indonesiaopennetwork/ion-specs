@@ -708,8 +708,9 @@ Logistics domain repository is comparison material, not a Release 1 dependency.
 The execution plan is recorded in
 `docs/internal/ION_Release1_Logistics_Migration_Plan.md`.
 
-Phase 4 subsequently began with `LogisticsResource` and `LogisticsProvider` v1.
-Those complete vertical slices are present under `schema/extension/logistics/`.
+Phase 4 subsequently began with `LogisticsResource`, `LogisticsProvider`, and
+`LogisticsParticipant` v1. Those complete vertical slices are present under
+`schema/extension/logistics/`.
 The reusable common `IdentifiableLocation` v1 wrapper was added because the
 pinned Beckn Location 2.0 has no identifier and cannot be extended through
 `allOf`. All other Logistics packs, flows, errors, and applicable policies

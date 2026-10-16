@@ -22,8 +22,8 @@ Trade, including their JSON-LD documents and all 17 example objects. Phase 6
 explicitly excluded the unreconciled `ion.yaml` aggregate and the Logistics,
 Hospitality, and Finance sectors from Release 1. On 16 October 2026, Logistics
 was reopened as `review-required` so its legacy material can be migrated and
-validated independently. Phase 4 now includes the complete `LogisticsResource`
-and `LogisticsProvider` v1 vertical slices and the reusable common
+validated independently. Phase 4 now includes the complete `LogisticsResource`,
+`LogisticsProvider`, and `LogisticsParticipant` v1 vertical slices and the reusable common
 `IdentifiableLocation` v1 wrapper; the remaining Logistics packs, flows, errors,
 and applicable policies are still under review. `ion.yaml`, Hospitality, and
 Finance remain excluded, and the repository does not retain separate root-level
@@ -70,7 +70,8 @@ Release 1 does not publish `ion.yaml` or a merged `ion-full.yaml`. Its normative
 ION-owned schemas currently present are the core API contract, the standalone
 packs under `schema/common/`, the packs under `schema/extension/trade/`, and the
 individually reviewed Logistics packs under `schema/extension/logistics/`.
-These currently comprise `LogisticsResource` and `LogisticsProvider` v1. Pinned
+These currently comprise `LogisticsResource`, `LogisticsProvider`, and
+`LogisticsParticipant` v1. Pinned
 schema dependencies live under `schema/vendored/`;
 the scoped `flows/` and `errors/` trees remain release-level peers. Policies are
 resolved from the repository-level registry at

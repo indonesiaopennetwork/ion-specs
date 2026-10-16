@@ -37,6 +37,9 @@ permanent integer releases. It is not copied into individual release bundles.
 - `sync_schema_pack_jsonld.rb` synchronizes a pack's JSON-LD types and properties
   with its authoritative `attributes.yaml`, preserving explicit external term
   mappings such as `beckn:geo`; it is dry-run by default.
+- `generate_schema_pack_json.rb` deterministically derives a pack's standalone
+  `schema.json` from authoritative `attributes.yaml` components and rewrites
+  local component references to JSON Schema `$defs`.
 - `validate_trade_connections.rb` checks Trade flow targets, concrete references
   against the shared root policy registry, policy registry uniqueness, and the
   generated Trade error view.

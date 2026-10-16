@@ -350,6 +350,17 @@ artifactChecksums:
   schema/core/api/v2.0.0/examples/reconcile-request.json: 11df22e6ac9ec44c8872f618da11a5623f8ec58481465c3c400228795f8d7433
   schema/core/api/v2.0.0/ion-additional.yaml: 71c98a2dc7eff955de5429abf21665c33c814bd50a7795bf8f8eede6892e26c4
   schema/core/api/v2.0.0/ion-beckn.yaml: 87567ff9b849b0705505a85af86a5899625759cbcfa87775a85aed86e392511a
+  schema/extension/logistics/LogisticsParticipant/README.md: e88b9636978500ba6b98f3447713ca02c8f332fa512b49c169ce28a18b40ddfd
+  schema/extension/logistics/LogisticsParticipant/v1/README.md: 4ff467f86d2f461ba5b238890f98e48b3754782b6835404ce65fb006001e04d7
+  schema/extension/logistics/LogisticsParticipant/v1/attributes.yaml: a352f70b466bbde5bd96084a246e86ca4aaed27b592bc6741911aa1f9af86e88
+  schema/extension/logistics/LogisticsParticipant/v1/context.jsonld: a5fb879458113da96ba8a4e6d5d95b72e50110923644663f7b547ee7f51a8fc3
+  schema/extension/logistics/LogisticsParticipant/v1/docs/01-overview.md: 4e0b6fa6cdcc7d71e37f54ad9f7695b3cc35be613bca6a806c7bc169fc3d5d8c
+  schema/extension/logistics/LogisticsParticipant/v1/docs/README.md: dbf924e45971727372edf4b6672af3fda1800a4131cd37ed7432ea1db65bdba8
+  schema/extension/logistics/LogisticsParticipant/v1/examples/driver-participant.json: 2e999da594e9b331dc28c486678aee9021c92ba36eda764a3846e1e48095b1ae
+  schema/extension/logistics/LogisticsParticipant/v1/profile.json: 0af7562e3639e4ab2e7b97456d33bd63a3e7b069954aac8f5f62603d8569ad77
+  schema/extension/logistics/LogisticsParticipant/v1/renderer.json: d0f7fd545390dce671a7fb85c91d93ac62e94efdc666958125235fc76a817a35
+  schema/extension/logistics/LogisticsParticipant/v1/schema.json: 134c7629fdc1645bac6009b058df3fecc75342c5f4e52580326c639811f63234
+  schema/extension/logistics/LogisticsParticipant/v1/vocab.jsonld: 578cc176acb69a0506f45b5f06f94620b4f139e57f8ba3fb91604821f89ed524
   schema/extension/logistics/LogisticsProvider/README.md: eeccdeaca036407ab48b2fda5fca24487100068d7c48d94242149e5d4d8ee3b7
   schema/extension/logistics/LogisticsProvider/v1/README.md: cae27edc3e2f6d024f529e8061431cab71b3e5b389142d10dd0fd0824bbf8b0c
   schema/extension/logistics/LogisticsProvider/v1/attributes.yaml: 40e9a1c7804b2c9dffb7cfc9e70ee65c02c20c25e026ff32bfbea7ade9bff23a
