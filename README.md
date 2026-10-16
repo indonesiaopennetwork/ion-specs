@@ -66,8 +66,9 @@ the Council publishes it into the `next` channel on `main`.
 - [`releases/release1/flows/trade/`](releases/release1/flows/trade/) — the
   seven validated Trade v1 reference flows and the reviewed During-Transaction
   v1 variant.
-- [`policies/registry.json`](policies/registry.json) — 67 shared Trade and
-  cross-sector policy terms governed outside the integer release cycle.
+- [`policies/registry.json`](policies/registry.json) — 89 shared policy terms
+  (28 Trade, 39 cross-sector, and 22 draft Logistics terms) governed outside the
+  integer release cycle.
 - [`releases/release1/errors/registry.json`](releases/release1/errors/registry.json)
   — 10 Trade errors with release-local targets.
 

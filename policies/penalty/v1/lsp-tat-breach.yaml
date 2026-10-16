@@ -1,0 +1,47 @@
+iri: ion://policy/penalty.lsp-tat-breach
+version: 1.0.0
+versionEffectiveFrom: null
+category: PENALTY
+status: draft
+sector: logistics
+displayText:
+  id: Denda pelanggaran TAT LSP
+  en: LSP TAT breach penalty
+applicableCategories:
+- logistics
+applicableResourceTypes: []
+regulatoryBasis: []
+sourceProvenance:
+  repository: indonesiaopennetwork/ion-specs
+  commit: 33e6b4c40feabecf6b0f6a827b488ff82998c735
+  path: policies/penalty/v1/logistics-penalty-policies.yaml
+  legacyId: penalty.lsp-tat-breach
+supersededBy: null
+deprecatedAt: null
+description: 'Applied when LSP fails to deliver within the committed TAT window. Computation
+  based on percentage of base freight by delay duration.
+
+'
+triggerCondition:
+  event: DELIVERY_LATE
+  definition: actual_delivery_timestamp > estimated_delivery_time
+penaltyFormula:
+  delay0to24h:
+    rate: 0.05
+    basis: base_freight_charge
+    description: 5% of freight for up to 24 hours late
+  delay24to48h:
+    rate: 0.1
+    basis: base_freight_charge
+    description: 10% of freight for 24-48 hours late
+  delayOver48h:
+    rate: 0.2
+    basis: base_freight_charge
+    description: 20% of freight for over 48 hours late
+excludes:
+- FORCE_MAJEURE
+- CUSTOMS_HOLD_BUYER_FAULT
+- BUYER_NOT_AVAILABLE_AT_DELIVERY
+- INCORRECT_ADDRESS_BY_BUYER
+mechanism: DEDUCTED_FROM_SETTLEMENT
+appliedAt: reconcile_step

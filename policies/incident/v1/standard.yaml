@@ -1,0 +1,64 @@
+iri: ion://policy/incident.standard
+version: 1.0.0
+versionEffectiveFrom: null
+category: INCIDENT
+status: draft
+sector: logistics
+displayText:
+  id: Pelaporan insiden logistik standar
+  en: Standard logistics incident reporting
+applicableCategories:
+- logistics
+applicableResourceTypes: []
+regulatoryBasis: []
+sourceProvenance:
+  repository: indonesiaopennetwork/ion-specs
+  commit: 33e6b4c40feabecf6b0f6a827b488ff82998c735
+  path: policies/incident/v1/standard.yaml
+  legacyId: incident.standard
+supersededBy: null
+deprecatedAt: null
+description: 'Standard incident reporting and resolution policy for logistics operations.
+  Covers accidents, breakdowns, robbery, medical emergencies, and force majeure.
+
+'
+reportingRequirements:
+  driverSafetyStatusWithin: PT15M
+  policeReportWithin: P1D
+  insuranceClaimWithin: P3D
+  bapNotificationWithin: PT15M
+severityClassification:
+  MINOR:
+    examples:
+    - minor accident without injury
+    - tire breakdown
+    cargoImpact: NONE_OR_MINIMAL
+    slaImpact: DELAY_ONLY
+  MODERATE:
+    examples:
+    - accident with minor injuries
+    - significant delay
+    cargoImpact: PARTIAL
+    slaImpact: LIKELY_BREACH
+  SEVERE:
+    examples:
+    - serious accident
+    - armed robbery
+    cargoImpact: SIGNIFICANT
+    slaImpact: BREACH
+    triggersLossClaim: true
+  CRITICAL:
+    examples:
+    - fatality
+    - total vehicle loss
+    - cargo fire
+    cargoImpact: TOTAL
+    slaImpact: FULL_FAILURE
+    triggersLossClaim: true
+    escalationRequired: true
+escalation:
+  whenSeverity:
+  - SEVERE
+  - CRITICAL
+  path: ion://policy/dispute.commercial.odr
+  timeline: P7D

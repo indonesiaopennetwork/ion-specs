@@ -42,4 +42,23 @@ class GeneratePolicyRegistryTest < Minitest::Test
       assert errors.any? { |error| error.include?("duplicate policy IRI") }
     end
   end
+
+  def test_logistics_policy_requires_explicit_lifecycle_applicability_and_provenance
+    Dir.mktmpdir do |root|
+      policy_dir = File.join(root, "policies", "sla", "v1")
+      FileUtils.mkdir_p(policy_dir)
+      File.write(File.join(policy_dir, "standard.yaml"), <<~YAML)
+        iri: ion://policy/sla.standard
+        version: 1.0.0
+        status: draft
+        sector: logistics
+        displayText: { id: SLA standar }
+      YAML
+
+      _, _, errors = IonPolicyRegistry.build(root)
+      assert errors.any? { |error| error.include?("missing Logistics metadata") }
+      assert errors.any? { |error| error.include?("applicableCategories must include logistics") }
+      assert errors.any? { |error| error.include?("sourceProvenance") }
+    end
+  end
 end

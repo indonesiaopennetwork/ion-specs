@@ -1,0 +1,36 @@
+iri: ion://policy/insurance.standard-declared-value-cap
+version: 1.0.0
+versionEffectiveFrom: null
+category: INSURANCE
+status: draft
+sector: logistics
+displayText:
+  id: Asuransi standar dengan batas nilai deklarasi
+  en: Standard declared-value insurance cap
+applicableCategories:
+- logistics
+applicableResourceTypes: []
+regulatoryBasis: []
+sourceProvenance:
+  repository: indonesiaopennetwork/ion-specs
+  commit: 33e6b4c40feabecf6b0f6a827b488ff82998c735
+  path: policies/insurance/v1/standard-declared-value-cap.yaml
+  legacyId: insurance.standard-declared-value-cap
+supersededBy: null
+deprecatedAt: null
+coverageType: DECLARED_VALUE
+maxCoverageAmount: 50000000
+currency: IDR
+freeUpTo: 500000
+paidTierRate: 0.005
+deductible: 0
+claimProcess:
+  initiationBy: BAP
+  via: damage-claim variant (/update)
+  responseWithin: PT72H
+  paymentWithin: P14D_after_approval
+excludes:
+- INHERENT_VICE
+- INADEQUATE_PACKAGING_BY_CONSIGNOR
+- ACTS_OF_WAR
+- NUCLEAR

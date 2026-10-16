@@ -1,0 +1,40 @@
+iri: ion://policy/cancel.logistics.prepickup-futile-trip-fee
+version: 1.0.0
+versionEffectiveFrom: null
+category: CANCELLATION
+status: draft
+sector: logistics
+displayText:
+  id: Pembatalan sebelum penjemputan dengan biaya perjalanan
+  en: Pre-pickup cancellation with futile-trip fee
+applicableCategories:
+- logistics
+applicableResourceTypes: []
+regulatoryBasis: []
+sourceProvenance:
+  repository: indonesiaopennetwork/ion-specs
+  commit: 33e6b4c40feabecf6b0f6a827b488ff82998c735
+  path: policies/cancellation/v1/logistics-cancellation-policies.yaml
+  legacyId: cancel.logistics.prepickup-futile-trip-fee
+supersededBy: null
+deprecatedAt: null
+description: 'Buyer may cancel before pickup but if a rider has already been dispatched
+  to the pickup location (OUT_FOR_PICKUP state or later), a futile trip fee applies.
+  Typically used by hyperlocal providers.
+
+'
+window:
+  from: on_confirm
+  until: on_status[RIDER_AT_PICKUP]
+feeStructure:
+  beforeDispatch:
+    fee: 0
+  afterDispatch:
+    fee: 5000
+    currency: IDR
+    description: Futile trip fee — rider already en route
+refund:
+  prepaidOrders: FULL_REFUND_MINUS_FEE
+  timeline: PT24H
+attribution: BUYER
+rtoTriggered: false

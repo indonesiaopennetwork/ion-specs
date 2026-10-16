@@ -1,0 +1,34 @@
+iri: ion://policy/penalty.pickup-failed.consignor-fault
+version: 1.0.0
+versionEffectiveFrom: null
+category: PENALTY
+status: draft
+sector: logistics
+displayText:
+  id: Denda kegagalan penjemputan akibat pengirim
+  en: Pickup failure penalty for consignor fault
+applicableCategories:
+- logistics
+applicableResourceTypes: []
+regulatoryBasis: []
+sourceProvenance:
+  repository: indonesiaopennetwork/ion-specs
+  commit: 33e6b4c40feabecf6b0f6a827b488ff82998c735
+  path: policies/penalty/v1/logistics-penalty-policies.yaml
+  legacyId: penalty.pickup-failed.consignor-fault
+supersededBy: null
+deprecatedAt: null
+description: 'Applied when pickup fails because the consignor was not ready, not present,
+  or the package was not prepared. Covers futile trip cost.
+
+'
+triggerCondition:
+  event: PICKUP_FAILED
+  attribution: CONSIGNOR_FAULT
+penaltyAmount:
+  type: FLAT
+  amount: 10000
+  currency: IDR
+  description: Futile trip fee — rider dispatched, nothing to pick up
+mechanism: ADDED_TO_NEXT_INVOICE
+appliedAt: pickup_failed_on_update

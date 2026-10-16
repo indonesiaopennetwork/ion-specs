@@ -268,6 +268,10 @@ errors remain intentionally scoped to Phases 5 through 7.
 
 ### Phase 5 — Migrate shared policies deliberately
 
+**Status:** Complete — 22 reviewed baseline Logistics terms are registered as
+drafts, 10 legacy IRIs have validated reuse or replacement mappings, and 27
+unsourced or agreement-specific strings are explicitly deferred
+
 Policies remain in the root `policies/` tree and retain their independent
 governance lifecycle.
 
@@ -280,6 +284,14 @@ governance lifecycle.
 5. Regenerate `policies/registry.json` after every policy-source change.
 6. Validate that every flow policy reference resolves to exactly one registered
    term.
+
+The Phase 5 outcome and all deferrals are recorded in
+`docs/internal/ION_Release1_Logistics_Policy_Migration_Ledger.md`. Its
+machine-readable companion,
+`tools/policies/logistics-policy-migration-map.yaml`, covers all 59 policy IRI
+strings found in the pinned legacy Logistics flow tree. Phase 6 must use each
+entry's current `targetIri`; entries marked `deferred` cannot be used until a
+separate policy review closes their recorded blocker.
 
 ### Phase 6 — Migrate patterns and variants
 

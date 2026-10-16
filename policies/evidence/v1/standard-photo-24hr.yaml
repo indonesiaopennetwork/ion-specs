@@ -1,0 +1,44 @@
+iri: ion://policy/evidence.standard.photo-24hr
+version: 1.0.0
+versionEffectiveFrom: null
+category: EVIDENCE
+status: draft
+sector: logistics
+displayText:
+  id: Bukti foto standar dalam 24 jam
+  en: Standard photo evidence within 24 hours
+applicableCategories:
+- logistics
+applicableResourceTypes: []
+regulatoryBasis: []
+sourceProvenance:
+  repository: indonesiaopennetwork/ion-specs
+  commit: 33e6b4c40feabecf6b0f6a827b488ff82998c735
+  path: policies/evidence/v1/standard-photo-24hr.yaml
+  legacyId: evidence.standard.photo-24hr
+supersededBy: null
+deprecatedAt: null
+appliesTo:
+- damage-claim
+- loss-claim
+requirements:
+  damage-claim:
+  - type: PHOTO
+    count: minimum 2
+    within: PT24H
+    metadata:
+    - timestamp
+    - gps
+    description: 'At least 2 photos of the damaged item and packaging, submitted within
+      24 hours of delivery
+
+'
+  loss-claim:
+  - type: LAST_KNOWN_SCAN
+    source: carrier-tracking
+  - type: NON_RECEIPT_DECLARATION
+    signedBy: consignee
+    within: PT48H
+disputeWindow:
+  damageClaim: PT24H_after_delivery
+  lossClaim: P7D_after_last_known_scan

@@ -19,6 +19,7 @@ commands = [
   ["Manifest", ["ruby", "tools/release/validate_manifest.rb", release_root.join("release.yaml").to_s]],
   ["Release scope", ["ruby", "tools/release/validate_release_scope.rb", release_root.to_s]],
   ["Shared policy registry", ["ruby", "tools/policies/generate_registry.rb", repository_root.to_s]],
+  ["Logistics policy migration map", ["ruby", "tools/policies/validate_logistics_policy_map.rb", repository_root.to_s]],
   ["Generated error registry", ["ruby", "tools/release/generate_error_registry.rb", release_root.to_s]],
   ["Recorded artifact inventory", ["ruby", "tools/release/record_artifact_checksums.rb", release_root.to_s]],
   ["Artifact checksums", ["ruby", "tools/release/validate_artifact_checksums.rb", release_root.to_s]],

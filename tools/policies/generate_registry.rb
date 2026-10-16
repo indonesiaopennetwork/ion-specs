@@ -9,6 +9,10 @@ require "yaml"
 module IonPolicyRegistry
   TRADE_POLICY_CATEGORIES = %w[return warranty].freeze
   REQUIRED_POLICY_FIELDS = %w[iri version status displayText].freeze
+  LOGISTICS_REQUIRED_FIELDS = %w[
+    category versionEffectiveFrom applicableCategories applicableResourceTypes
+    regulatoryBasis sourceProvenance supersededBy deprecatedAt
+  ].freeze
 
   module_function
 
@@ -39,6 +43,7 @@ module IonPolicyRegistry
         category_dir = Pathname.new(path).relative_path_from(root.join("policies")).each_filename.first
         relative_path = relative(root, path)
         sector = document["sector"] || (relative_path.include?("/trade/") || TRADE_POLICY_CATEGORIES.include?(category_dir) ? "trade" : "cross-sector")
+        validate_logistics_document(document, relative_path, category_dir, errors) if sector == "logistics"
         policies << {
           "iri" => iri,
           "category" => document["category"] || category_dir.upcase.tr("-", "_"),
@@ -73,6 +78,26 @@ module IonPolicyRegistry
       "policies" => policies
     }
     [root.join("policies/registry.json"), registry, errors]
+  end
+
+  def validate_logistics_document(document, relative_path, category_dir, errors)
+    missing = LOGISTICS_REQUIRED_FIELDS.reject { |field| document.key?(field) }
+    errors << "#{relative_path}: missing Logistics metadata #{missing.join(', ')}" unless missing.empty?
+    expected_category = category_dir.upcase.tr("-", "_")
+    errors << "#{relative_path}: category must be #{expected_category}" unless document["category"] == expected_category
+    errors << "#{relative_path}: Logistics status must be draft, ratified, or deprecated" unless %w[draft ratified deprecated].include?(document["status"])
+    if document["status"] == "draft" && document["versionEffectiveFrom"]
+      errors << "#{relative_path}: draft policy must not have versionEffectiveFrom"
+    end
+    unless document["applicableCategories"].is_a?(Array) && document["applicableCategories"].include?("logistics")
+      errors << "#{relative_path}: applicableCategories must include logistics"
+    end
+    errors << "#{relative_path}: applicableResourceTypes must be an array" unless document["applicableResourceTypes"].is_a?(Array)
+    errors << "#{relative_path}: regulatoryBasis must be an array" unless document["regulatoryBasis"].is_a?(Array)
+    provenance = document["sourceProvenance"]
+    unless provenance.is_a?(Hash) && %w[repository commit path legacyId].all? { |field| provenance[field].is_a?(String) && !provenance[field].empty? }
+      errors << "#{relative_path}: sourceProvenance must contain repository, commit, path, and legacyId"
+    end
   end
 
   def relative(root, path)

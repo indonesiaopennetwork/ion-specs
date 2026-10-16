@@ -1,0 +1,33 @@
+iri: ion://policy/weight-dispute.standard-10pct-tolerance
+version: 1.0.0
+versionEffectiveFrom: null
+category: WEIGHT_DISPUTE
+status: draft
+sector: logistics
+displayText:
+  id: Sengketa berat dengan toleransi 10 persen
+  en: Weight dispute with 10 percent tolerance
+applicableCategories:
+- logistics
+applicableResourceTypes: []
+regulatoryBasis: []
+sourceProvenance:
+  repository: indonesiaopennetwork/ion-specs
+  commit: 33e6b4c40feabecf6b0f6a827b488ff82998c735
+  path: policies/weight-dispute/v1/standard-10pct-tolerance.yaml
+  legacyId: weight-dispute.standard-10pct-tolerance
+supersededBy: null
+deprecatedAt: null
+tolerancePct: 10
+toleranceMinKg: 0.5
+description: 'Weight discrepancies within 10% of declared weight (or 0.5kg minimum)
+  are absorbed by the LSP. Above this threshold, LSP may raise a weight-dispute variant.
+
+'
+measurementAuthority: LSP_HUB_SCALE
+buyerResponseWindowHours: 24
+escalationAfterHours: 72
+evidenceRequired:
+- SCALE_PHOTO
+- MEASUREMENT_TIMESTAMP
+- MEASUREMENT_LOCATION

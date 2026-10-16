@@ -1,0 +1,39 @@
+iri: ion://policy/cancel.logistics.tat-breach-lsp-cost
+version: 1.0.0
+versionEffectiveFrom: null
+category: CANCELLATION
+status: draft
+sector: logistics
+displayText:
+  id: Pembatalan akibat pelanggaran TAT LSP
+  en: Cancellation after LSP TAT breach
+applicableCategories:
+- logistics
+applicableResourceTypes: []
+regulatoryBasis: []
+sourceProvenance:
+  repository: indonesiaopennetwork/ion-specs
+  commit: 33e6b4c40feabecf6b0f6a827b488ff82998c735
+  path: policies/cancellation/v1/logistics-cancellation-policies.yaml
+  legacyId: cancel.logistics.tat-breach-lsp-cost
+supersededBy: null
+deprecatedAt: null
+description: 'Buyer cancels because LSP has breached the committed TAT (SLA). LSP
+  bears all costs. Full refund to buyer. SLA penalty applies per slaPolicy.
+
+'
+window:
+  from: on_confirm
+  until: on_status[DELIVERED]
+triggerCondition: 'Current timestamp > estimated_delivery_time AND delivery not yet
+  completed
+
+'
+fees:
+  allChargesWaived: true
+refund:
+  prepaidOrders: FULL_REFUND
+  timeline: PT12H
+attribution: LSP
+rtoTriggered: true
+slaBreachPenaltyApplies: true

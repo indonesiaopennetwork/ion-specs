@@ -1,0 +1,29 @@
+iri: ion://policy/re-attempt.standard-2-one-fee
+version: 1.0.0
+versionEffectiveFrom: null
+category: RE_ATTEMPT
+status: draft
+sector: logistics
+displayText:
+  id: Dua upaya dengan biaya pada upaya kedua
+  en: Two attempts with a fee on the second
+applicableCategories:
+- logistics
+applicableResourceTypes: []
+regulatoryBasis: []
+sourceProvenance:
+  repository: indonesiaopennetwork/ion-specs
+  commit: 33e6b4c40feabecf6b0f6a827b488ff82998c735
+  path: policies/re-attempt/v1/standard-3-free.yaml
+  legacyId: re-attempt.standard-2-one-fee
+supersededBy: null
+deprecatedAt: null
+maxAttempts: 2
+attemptCharges:
+- attempt: 1
+  charge: 0
+- attempt: 2
+  charge: 5000
+  currency: IDR
+buyerResolutionWindowHours: 24
+afterMaxAttempts: AUTO_RTO

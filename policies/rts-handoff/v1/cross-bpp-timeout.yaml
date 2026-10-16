@@ -1,0 +1,39 @@
+iri: ion://policy/rts-handoff.cross-bpp-timeout
+version: 1.0.0
+versionEffectiveFrom: null
+category: RTS_HANDOFF
+status: draft
+sector: logistics
+displayText:
+  id: Batas waktu serah terima lintas BPP
+  en: Cross-BPP handoff timeout
+applicableCategories:
+- logistics
+applicableResourceTypes: []
+regulatoryBasis: []
+sourceProvenance:
+  repository: indonesiaopennetwork/ion-specs
+  commit: 33e6b4c40feabecf6b0f6a827b488ff82998c735
+  path: policies/rts-handoff/v1/standard.yaml
+  legacyId: rts-handoff.cross-bpp-timeout
+supersededBy: null
+deprecatedAt: null
+description: 'Extended timeout variant for cross-BPP RTS where the transport BPP is
+  known to have longer acknowledgment cycles (e.g. batch-oriented LSPs or legacy integrations).
+  Typically overrides standard on FWA.
+
+'
+scenarios:
+  warehouseCrossBpp:
+    description: Cross-BPP with extended acknowledgment window
+    warehouseToGatewayWindow: PT2M
+    gatewayToTransportBppWindow: PT3M
+    transportAckWindow: PT60M
+    totalHandoffWindow: PT65M
+    rtsToPickupDispatchWindow: PT90M
+onTimeoutActions:
+  warehouseCrossBpp:
+  - notifyBap: true
+  - notifyWarehouseBpp: true
+  - errorCode: ION-LOG-6108
+  - escalationPath: ion://policy/dispute.commercial.odr

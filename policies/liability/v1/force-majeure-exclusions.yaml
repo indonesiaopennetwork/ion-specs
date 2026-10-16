@@ -1,0 +1,56 @@
+iri: ion://policy/liability.force-majeure-exclusions
+version: 1.0.0
+versionEffectiveFrom: null
+category: LIABILITY
+status: draft
+sector: logistics
+displayText:
+  id: Pengecualian tanggung jawab keadaan kahar
+  en: Force-majeure liability exclusions
+applicableCategories:
+- logistics
+applicableResourceTypes: []
+regulatoryBasis: []
+sourceProvenance:
+  repository: indonesiaopennetwork/ion-specs
+  commit: 33e6b4c40feabecf6b0f6a827b488ff82998c735
+  path: policies/liability/v1/driver-and-force-majeure.yaml
+  legacyId: liability.force-majeure-exclusions
+supersededBy: null
+deprecatedAt: null
+description: 'Force majeure clause — defines conditions under which LSP and BAP liabilities
+  are suspended and SLA penalties waived.
+
+'
+forceMajeureEvents:
+- FLOOD
+- EARTHQUAKE
+- VOLCANIC_ERUPTION
+- TSUNAMI
+- HURRICANE_TYPHOON
+- WILDFIRE
+- CIVIL_UNREST
+- TERRORISM
+- WAR
+- PANDEMIC_LOCKDOWN
+- STRIKE_GENERAL
+- GOVERNMENT_ACTION
+- CYBER_ATTACK_REGIONAL
+- POWER_GRID_FAILURE_EXTENDED
+declaration:
+  by: BPP_OR_BAP
+  via: "/update with type=FORCE_MAJEURE"
+  evidenceRequired:
+  - BMKG_METEOROLOGY_REPORT
+  - GOVERNMENT_ANNOUNCEMENT
+  - MEDIA_REPORTS
+  - AFFECTED_AREA_MAP
+consequences:
+  slaPenaltiesWaived: true
+  cancellationFeesWaived: true
+  cargoInsuranceApplicable: CHECK_POLICY
+  driverInsuranceApplicable: true
+resolution:
+  extensionGrantedDays: 14
+  reviewAfterDays: 7
+  terminationRight: EITHER_PARTY

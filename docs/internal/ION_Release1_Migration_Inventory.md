@@ -717,8 +717,15 @@ present under `schema/extension/logistics/`; the registry has a formal grammar
 and a dedicated graph, schema-pointer, and flow-reference validator.
 The reusable common `IdentifiableLocation` v1 wrapper was added because the
 pinned Beckn Location 2.0 has no identifier and cannot be extended through
-`allOf`. Logistics flows, errors, and applicable policies remain
-review-required.
+`allOf`.
+
+Phase 5 subsequently reviewed all 59 policy IRI strings used by the pinned
+legacy Logistics flows. Twenty-two baseline terms were normalized into the root
+registry as drafts, 10 obsolete identifiers were mapped to current terms, and
+27 unsourced or agreement-specific strings were explicitly deferred. The
+detailed disposition is in
+`docs/internal/ION_Release1_Logistics_Policy_Migration_Ledger.md`. Logistics
+flows and errors remain review-required.
 
 ### Phase 7 — Update repository-level material
 
@@ -749,8 +756,8 @@ against the Release 1 schema scope:
 
 - `flows/trade/patterns/storefront/v1/` is the sole included flow. Its pack names,
   release document URLs, and state-machine target resolve within Release 1.
-- The root `policies/` tree contains 67 shared terms classified as Trade or
-  cross-sector: 28 Trade and 39 cross-sector. Release 1 references this registry
+- At Phase 8A, the root `policies/` tree contained 67 shared terms classified as
+  Trade or cross-sector: 28 Trade and 39 cross-sector. Release 1 references this registry
   but does not contain a policy copy.
 - `errors/trade.yaml` contains 8 errors whose schema and flow references exist in
   Release 1. Seven errors tied to `live-commerce`, `digital-goods`, or `returns`

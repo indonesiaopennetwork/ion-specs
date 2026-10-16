@@ -1,10 +1,13 @@
 # ION policy terms
 
-This repository-level registry contains 67 policy terms classified as either
-Trade or cross-sector: 28 Trade terms and 39 cross-sector terms. Policies are
-governed independently of integer specification releases. The source YAML
-documents are authoritative; [`registry.json`](registry.json) is their
-deterministic shared index.
+This repository-level registry contains 89 policy terms: 28 Trade, 39
+cross-sector, and 22 draft Logistics terms. Policies are governed independently
+of integer specification releases. The source YAML documents are authoritative;
+[`registry.json`](registry.json) is their deterministic shared index.
+
+The Logistics terms remain `draft`. Their presence in the registry makes their
+identifiers reviewable and resolvable; it does not represent Council
+ratification or assign an effective date.
 
 Policy IRIs such as `ion://policy/...` are stable semantic identifiers. Policy
 documents are published at stable root URLs such as

@@ -566,13 +566,14 @@ notes:
   Phase 4.
 - Standalone Trade and Trade-required common packs, JSON-LD files, and examples were
   validated during Phase 5.
-- Release 1 is scoped to standalone Trade and its required common packs. The unreconciled
-  ion.yaml aggregate and the Logistics, Hospitality, and Finance sectors are explicitly
-  excluded.
-- Phase 8A includes only the Storefront v1 flow, 67 Trade or cross-sector policy terms,
-  and 8 Trade errors whose targets are present in this release.
-- Other Trade flows and their dependent errors remain non-normative working material
-  for consideration in a future integer release.
+- Release 1 contains standalone Trade and its required common packs plus Logistics
+  material under independent review. The unreconciled ion.yaml aggregate and the Hospitality
+  and Finance sectors are explicitly excluded.
+- Phase 8A initially included the Storefront v1 flow, 67 Trade or cross-sector policy
+  terms, and 8 Trade errors. Later Trade phases expanded this to seven reference flows,
+  the During-Transaction v1 variant, and 10 Trade errors.
+- Logistics Phase 5 added 22 reviewed draft terms to the shared registry, bringing
+  it to 89 terms. These terms are resolvable but are not ratified or effective.
 - Schema content groups core, common, extension, and vendored below schema/ rather
   than flattening them at the release root.
 - Draft URLs are unsupported until the release is published.

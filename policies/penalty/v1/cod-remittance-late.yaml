@@ -1,0 +1,36 @@
+iri: ion://policy/penalty.cod-remittance-late
+version: 1.0.0
+versionEffectiveFrom: null
+category: PENALTY
+status: draft
+sector: logistics
+displayText:
+  id: Denda keterlambatan remitansi COD
+  en: Late COD remittance penalty
+applicableCategories:
+- logistics
+applicableResourceTypes: []
+regulatoryBasis: []
+sourceProvenance:
+  repository: indonesiaopennetwork/ion-specs
+  commit: 33e6b4c40feabecf6b0f6a827b488ff82998c735
+  path: policies/penalty/v1/logistics-penalty-policies.yaml
+  legacyId: penalty.cod-remittance-late
+supersededBy: null
+deprecatedAt: null
+description: 'Applied when LSP fails to remit COD collections within the agreed payment-terms
+  window. Interest applies on the overdue amount.
+
+'
+triggerCondition:
+  event: COD_REMITTANCE_OVERDUE
+  definition: remittance_date > agreed_remittance_schedule_date
+penaltyFormula:
+  dailyInterestRate: 0.001
+  basis: overdue_cod_amount
+  description: 0.1% per day on overdue COD balance
+escalation:
+  threshold: P7D_overdue
+  action: RAISE_TO_NETWORK
+mechanism: DEDUCTED_FROM_FUTURE_SETTLEMENT
+appliedAt: next_settlement_cycle

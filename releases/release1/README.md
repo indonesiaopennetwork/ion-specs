@@ -25,10 +25,12 @@ was reopened as `review-required` so its legacy material can be migrated and
 validated independently. Phase 4 now includes the complete `LogisticsResource`,
 `LogisticsProvider`, `LogisticsParticipant`, `LogisticsOffer`, `LogisticsCommitment`, `LogisticsConsideration`, `LogisticsContract`, `LogisticsPerformance`, and `LogisticsTracking` v1 vertical slices and the reusable common
 `IdentifiableLocation` v1 wrapper. The validated `LogisticsPerformanceStates`
-v1 registry completes Phase 4; Logistics flows, errors, and applicable policies
-are still under review. `ion.yaml`, Hospitality, and
-Finance remain excluded, and the repository does not retain separate root-level
-normative copies.
+v1 registry completes Phase 4; Logistics flows and errors are still under
+review. Logistics Phase 5 migrated 22 reviewed baseline policy terms into the
+shared root registry as drafts, mapped 10 obsolete legacy IRIs to current terms,
+and explicitly deferred 27 unsourced or agreement-specific strings. `ion.yaml`,
+Hospitality, and Finance remain excluded, and the repository does not retain
+separate root-level normative copies.
 
 Phase 8A added the independently reviewable connected Trade baseline:
 Storefront v1 and 8 Trade errors whose schema and flow targets are present in
