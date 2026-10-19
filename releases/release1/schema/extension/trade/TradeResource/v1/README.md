@@ -18,6 +18,10 @@ Publish availability signal only:
 - `PREORDER` — available for pre-order
 - `DISCONTINUED` — permanently removed
 
+It is `availability.status`, required whenever `availability` is present,
+with the optional `maxOrderQty`, `backorderAllowed` and `substitutionAllowed`.
+`availability` accepts no other fields, so a stock count cannot be published.
+
 ## Resource types
 | Type | Use | Required fields |
 |---|---|---|
@@ -41,9 +45,32 @@ Publish availability signal only:
 | installation | Appliances, furniture |
 | warranty | Electronics, durables |
 
+### Fashion and electronics attributes
+
+`fashion` and `electronics` carry the attributes Indonesian sellers state for
+every product, so buyer apps can filter and compare on them:
+
+| Sub-object | Fields |
+|---|---|
+| fashion | `gender`, `size`, `sizeChart`, `fabric`, `fabricComposition`, `garmentType`, `textileType` (batik, tenun, songket, ikat, lurik, karawo, ...), `productionTechnique` (batik tulis / cap / kombinasi / printing, tenun ATBM / gedog, ...), `motif`, `dyeType`, `handmade`, `lining`, `fit`, `sleeveLength`, `neckline`, `occasion[]`, `measurements` (chest, waist, hip, length, shoulder, sleeve — cm), `careInstructions[]` |
+| electronics | `osType`, `connectivity[]`, `wattage`, `voltage`, `energyRating`, `deviceType`, `modelNumber`, `processor`, `ram`, `storage`, `screenSizeInch`, `displayType`, `batteryCapacity`, `powerSource`, `plugType`, `ipRating`, `warrantyType`, `sdppiCertificate`, `tkdnPercentage`, `inTheBox[]` |
+
+The region a motif or weave comes from is `regionOfOrigin`; colour is
+`physical.appearance.color`; warranty duration and terms are `warranty`. See
+[`examples/fashion-kemeja-batik.json`](examples/fashion-kemeja-batik.json) and
+[`examples/electronics-smartphone.json`](examples/electronics-smartphone.json).
+
+### Seller-defined attributes
+
+`additionalAttributes[]` holds attributes the pack has no field for, as
+`name` / `value` pairs with an optional `unit` (up to 30). Buyer apps show
+them on the product page; they are not used for filtering. A value the pack
+defines a field for belongs in that field.
+
 ## Regulatory
 PerBPOM 31/2018 (packaged goods), UU 8/1999 (consumer protection), 
-PerBPOM 23/2019 (cosmetics), PP 36/2023 (electronics warranty)
+PerBPOM 23/2019 (cosmetics), PP 36/2023 (electronics warranty),
+Permenkominfo 16/2018 (SDPPI device certification), Permenperin 29/2017 (TKDN)
 
 ## Implementation guidance carried over from the excluded aggregate
 
@@ -94,3 +121,4 @@ do not infer them from the excluded aggregate.
 | Version | Date | Summary |
 |---|---|---|
 | v1 | 2026-06-02 | Initial release |
+| v1 | 2026-10-16 | Draft: structured `fashion` and `electronics` attributes for Indonesian products; `additionalAttributes[]` for seller-defined attributes; `availability` defined (status enum, never a stock count) |

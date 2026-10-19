@@ -223,7 +223,7 @@
         "fashion": {
           "type": "object",
           "additionalProperties": false,
-          "description": "Fashion and apparel attributes for filtering and size guidance. Structured fields are limited to values that participate in deterministic filtering (gender, size) or regulatory compliance (fabricComposition under SNI). Descriptive attributes such as fitType, sleeveType, collarType, occasion, pattern, and careInstructions belong in Descriptor.longDesc as natural-language prose — AI agents extract richer meaning from prose than from closed enums.\n",
+          "description": "Fashion and apparel attributes for filtering, size guidance and regulatory compliance (fabricComposition under SNI). Besides gender and size, the pack carries the attributes Indonesian fashion sellers state for every product — garment type, the wastra (batik, tenun, songket, ...) and how it was made, motif, dye, fit, sleeve, neckline, occasion, garment measurements and care — so buyer apps can filter and compare on them. The region a motif or weave comes from is IONTradeResource.regionOfOrigin; colour is physical.appearance.color. Descriptor.longDesc remains the place for prose.\n",
           "properties": {
             "gender": {
               "type": "string",
@@ -251,6 +251,175 @@
               "type": "string",
               "example": "100% Katun",
               "x-ion-regulatory": "PerBSN SNI 0055:2009"
+            },
+            "garmentType": {
+              "type": "string",
+              "enum": [
+                "SHIRT",
+                "BLOUSE",
+                "T_SHIRT",
+                "DRESS",
+                "SKIRT",
+                "TROUSERS",
+                "OUTERWEAR",
+                "JACKET",
+                "KEBAYA",
+                "KOKO_SHIRT",
+                "SARONG",
+                "FABRIC",
+                "SCARF",
+                "HIJAB",
+                "OTHER"
+              ],
+              "description": "What the item is. FABRIC is uncut cloth (kain) sold by the piece."
+            },
+            "textileType": {
+              "type": "string",
+              "enum": [
+                "BATIK",
+                "TENUN",
+                "SONGKET",
+                "IKAT",
+                "LURIK",
+                "KARAWO",
+                "PLAIN",
+                "PRINTED",
+                "KNIT",
+                "OTHER"
+              ],
+              "description": "The textile or Indonesian wastra the item is made of. TENUN is woven cloth (e.g. tenun Troso), KARAWO is Gorontalo embroidery work.\n"
+            },
+            "productionTechnique": {
+              "type": "string",
+              "enum": [
+                "BATIK_TULIS",
+                "BATIK_CAP",
+                "BATIK_KOMBINASI",
+                "BATIK_PRINTING",
+                "TENUN_ATBM",
+                "TENUN_GEDOG",
+                "HAND_EMBROIDERY",
+                "MACHINE_EMBROIDERY",
+                "MACHINE_MADE",
+                "OTHER"
+              ],
+              "description": "How the textile was made. BATIK_TULIS is hand-drawn with a canting, BATIK_CAP is stamped, BATIK_KOMBINASI mixes both, BATIK_PRINTING is printed and not batik in the strict sense. TENUN_ATBM is woven on a non-machine loom (alat tenun bukan mesin), TENUN_GEDOG on a backstrap loom.\n"
+            },
+            "motif": {
+              "type": "string",
+              "example": "Parang Rusak",
+              "description": "Name of the motif or pattern, e.g. Kawung, Mega Mendung, Punta Betawi."
+            },
+            "dyeType": {
+              "type": "string",
+              "enum": [
+                "NATURAL",
+                "SYNTHETIC",
+                "MIXED"
+              ],
+              "description": "Natural (plant-based) or synthetic dyes."
+            },
+            "handmade": {
+              "type": "boolean",
+              "description": "Made by hand (e.g. batik tulis, hand-woven tenun)."
+            },
+            "lining": {
+              "type": "string",
+              "example": "Trikot halus",
+              "description": "Inner lining (furing), if any."
+            },
+            "fit": {
+              "type": "string",
+              "enum": [
+                "SLIM",
+                "REGULAR",
+                "LOOSE",
+                "OVERSIZED",
+                "A_LINE"
+              ]
+            },
+            "sleeveLength": {
+              "type": "string",
+              "enum": [
+                "SLEEVELESS",
+                "SHORT",
+                "THREE_QUARTER",
+                "LONG"
+              ]
+            },
+            "neckline": {
+              "type": "string",
+              "example": "Kerah V",
+              "description": "Collar or neckline style."
+            },
+            "occasion": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "CASUAL",
+                  "OFFICE",
+                  "FORMAL",
+                  "PARTY",
+                  "WEDDING",
+                  "RELIGIOUS",
+                  "TRADITIONAL_CEREMONY",
+                  "SPORT"
+                ]
+              }
+            },
+            "measurements": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Garment measurements in centimetres, for the size given in size.",
+              "properties": {
+                "chestCm": {
+                  "type": "number",
+                  "minimum": 0,
+                  "description": "Chest width (lingkar dada)."
+                },
+                "waistCm": {
+                  "type": "number",
+                  "minimum": 0,
+                  "description": "Waist (lingkar pinggang)."
+                },
+                "hipCm": {
+                  "type": "number",
+                  "minimum": 0,
+                  "description": "Hip (lingkar pinggul)."
+                },
+                "lengthCm": {
+                  "type": "number",
+                  "minimum": 0,
+                  "description": "Body length (panjang badan)."
+                },
+                "shoulderCm": {
+                  "type": "number",
+                  "minimum": 0,
+                  "description": "Shoulder width (lebar bahu)."
+                },
+                "sleeveLengthCm": {
+                  "type": "number",
+                  "minimum": 0,
+                  "description": "Sleeve length (panjang lengan)."
+                }
+              }
+            },
+            "careInstructions": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "HAND_WASH",
+                  "MACHINE_WASH_COLD",
+                  "DRY_CLEAN_ONLY",
+                  "DO_NOT_BLEACH",
+                  "DRY_IN_SHADE",
+                  "IRON_LOW",
+                  "DO_NOT_WRING"
+                ]
+              },
+              "description": "Washing and care. Natural-dye batik is usually hand-washed and dried in the shade."
             }
           },
           "x-ion-condition": "Required for fashion and apparel products"
@@ -258,7 +427,7 @@
         "electronics": {
           "type": "object",
           "additionalProperties": false,
-          "description": "Consumer electronics technical specifications for filtering and comparison. Structured fields are limited to values used in deterministic filtering (osType, connectivity) or regulatory compliance (energyRating, wattage). Descriptive specifications such as RAM, ROM, screen size, camera resolution, CPU, and battery capacity belong in Descriptor.longDesc — multimodal agents extract these from linked product datasheets and images in Descriptor.docs[] and Descriptor.mediaFile[] with higher fidelity than typed fields.\n",
+          "description": "Consumer electronics technical specifications for filtering, comparison and regulatory compliance (energyRating, wattage, Indonesian SDPPI certification and TKDN local content). Besides OS and connectivity, the pack carries the specifications buyers compare on — device type, model, processor, memory, storage, display, battery, power and plug, ingress rating — and the warranty provider (an official Indonesian warranty matters to buyers). Warranty duration and terms are IONTradeResource.warranty; colour is physical.appearance.color. Datasheets still belong in Descriptor.docs[].\n",
           "properties": {
             "osType": {
               "type": "string",
@@ -323,6 +492,140 @@
               "minimum": 1,
               "maximum": 5,
               "description": "Energy efficiency star rating."
+            },
+            "deviceType": {
+              "type": "string",
+              "enum": [
+                "SMARTPHONE",
+                "TABLET",
+                "LAPTOP",
+                "DESKTOP",
+                "AUDIO",
+                "TELEVISION",
+                "CAMERA",
+                "WEARABLE",
+                "HOME_APPLIANCE",
+                "KITCHEN_APPLIANCE",
+                "COMPUTER_PERIPHERAL",
+                "ACCESSORY",
+                "OTHER"
+              ]
+            },
+            "modelNumber": {
+              "type": "string",
+              "example": "SM-A556E",
+              "description": "Manufacturer model number."
+            },
+            "processor": {
+              "type": "string",
+              "example": "Exynos 1480"
+            },
+            "ram": {
+              "allOf": [
+                {
+                  "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity"
+                }
+              ],
+              "description": "Memory (RAM).",
+              "example": {
+                "unitQuantity": 8,
+                "unitText": "GB"
+              }
+            },
+            "storage": {
+              "allOf": [
+                {
+                  "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity"
+                }
+              ],
+              "description": "Built-in storage.",
+              "example": {
+                "unitQuantity": 256,
+                "unitText": "GB"
+              }
+            },
+            "screenSizeInch": {
+              "type": "number",
+              "minimum": 0,
+              "example": 6.6,
+              "description": "Diagonal screen size in inches."
+            },
+            "displayType": {
+              "type": "string",
+              "example": "Super AMOLED"
+            },
+            "batteryCapacity": {
+              "allOf": [
+                {
+                  "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/Quantity/2.0/attributes.yaml#/components/schemas/Quantity"
+                }
+              ],
+              "example": {
+                "unitQuantity": 5000,
+                "unitText": "mAh"
+              }
+            },
+            "powerSource": {
+              "type": "string",
+              "enum": [
+                "MAINS_220V",
+                "RECHARGEABLE_BATTERY",
+                "BATTERY",
+                "USB",
+                "SOLAR"
+              ]
+            },
+            "plugType": {
+              "type": "string",
+              "enum": [
+                "TYPE_C",
+                "TYPE_F",
+                "NONE"
+              ],
+              "description": "Mains plug. Indonesia uses type C and F (220 V, 50 Hz)."
+            },
+            "ipRating": {
+              "type": "string",
+              "pattern": "^IP[0-9X][0-9X]$",
+              "example": "IP67",
+              "description": "Ingress protection rating (IEC 60529)."
+            },
+            "warrantyType": {
+              "type": "string",
+              "enum": [
+                "OFFICIAL",
+                "DISTRIBUTOR",
+                "STORE",
+                "INTERNATIONAL",
+                "NONE"
+              ],
+              "description": "Who honours the warranty. OFFICIAL is the brand's Indonesian warranty (garansi resmi), DISTRIBUTOR a distributor's, STORE the seller's own.\n"
+            },
+            "sdppiCertificate": {
+              "type": "string",
+              "example": "12345/SDPPI/2026",
+              "description": "SDPPI (Kominfo) certificate number of a device with a radio transmitter, required to sell such devices in Indonesia.\n",
+              "x-ion-regulatory": "Permenkominfo 16/2018"
+            },
+            "tkdnPercentage": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100,
+              "example": 35,
+              "description": "Local content level (Tingkat Komponen Dalam Negeri) in percent, as certified; 4G/5G devices sold in Indonesia must meet the minimum.\n",
+              "x-ion-regulatory": "Permenperin 29/2017"
+            },
+            "inTheBox": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "example": [
+                "Charger 25W",
+                "Kabel USB-C",
+                "Buku manual"
+              ],
+              "description": "What is in the box (isi kotak)."
             }
           },
           "x-ion-condition": "Required for electronics and appliance products"
@@ -597,12 +900,86 @@
           "x-ion-regulatory": "UU 8/1999 tentang Perlindungan Konsumen Pasal 25; PP 36/2023",
           "x-ion-condition": "Required for electronics, appliances, consumer durables"
         },
+        "availability": {
+          "type": "object",
+          "x-attr-ion-layer": "ion",
+          "additionalProperties": false,
+          "required": [
+            "status"
+          ],
+          "description": "The resource's availability signal. A stock count is never transmitted: the BPP keeps its inventory to itself and publishes one of these statuses (see README, Availability model).\n",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "IN_STOCK",
+                "LOW_STOCK",
+                "OUT_OF_STOCK",
+                "PREORDER",
+                "DISCONTINUED"
+              ],
+              "description": "IN_STOCK — adequate quantity; LOW_STOCK — limited, the buyer app may show urgency; OUT_OF_STOCK — not available now; PREORDER — can be ordered ahead of availability; DISCONTINUED — permanently removed.\n"
+            },
+            "maxOrderQty": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Most units one order may contain."
+            },
+            "backorderAllowed": {
+              "type": "boolean",
+              "description": "Orders are accepted while OUT_OF_STOCK, to be fulfilled later."
+            },
+            "substitutionAllowed": {
+              "type": "boolean",
+              "description": "The seller may substitute an equivalent item if this one runs out."
+            }
+          },
+          "example": {
+            "status": "IN_STOCK",
+            "maxOrderQty": 5,
+            "backorderAllowed": false
+          }
+        },
         "crc": {
           "type": "string",
           "description": "ION Catalogue Resource Category code classifying this resource within the ION item taxonomy and signaling how a CN may present and discover the resource. Release 1 does not publish a normative CRC registry; values such as TRC-fashion and TRC-electronics are informative examples for future registry work.\n",
           "example": "TRC-fashion",
           "x-ion-enforcement": "optional",
           "x-attr-ion-layer": "ion"
+        },
+        "additionalAttributes": {
+          "type": "array",
+          "x-attr-ion-layer": "ion",
+          "description": "Seller-defined attributes the pack has no field for, as name/value pairs (with an optional unit), e.g. \"Asal pengrajin: Pekalongan\" or \"Jumlah lapisan: 18\". Buyer apps show them on the product page; they are not used for filtering. A value the pack defines a field for belongs in that field.\n",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name",
+              "value"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 60,
+                "example": "Asal pengrajin"
+              },
+              "value": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500,
+                "example": "Pekalongan, Jawa Tengah"
+              },
+              "unit": {
+                "type": "string",
+                "maxLength": 20,
+                "example": "cm"
+              }
+            }
+          },
+          "maxItems": 30,
+          "x-ion-enforcement": "optional"
         },
         "regulatory": {
           "type": "object",
