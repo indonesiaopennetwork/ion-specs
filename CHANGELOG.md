@@ -31,29 +31,28 @@ publishes with each offer:
   order, the term giving the latest due date applies.
 - `IONTradeOffer.policies.commission` (`TradeOffer/v1`, new
   `IONOfferCommission`): the commission the seller pays the buyer app, as an
-  array of named entries that add up — `name` (e.g. `Finder fee`,
-  `Platform fee`), `type` (`PERCENT` or `AMOUNT` per unit sold), `value`, and
+  array of named entries that add up — `feeName` (e.g. `Finder fee`,
+  `Platform fee`), `feeType` (`PERCENT` or `AMOUNT` per unit sold), `feeValue`, and
   `appliesTo` for `PERCENT` (`ITEM_TOTAL` or `ORDER_TOTAL`).
 - `IONTradeConsideration.commission` (`TradeConsideration/v1`, new
   `IONCommission`): the commission the order comes to, on the contract's price
-  consideration only. `amount` is the total over every offer still ordered and
+  consideration only. `feeAmount` is the total over every offer still ordered and
   all its `policies.commission` entries, set by the BPP in `on_select` and
   `on_init` and recomputed in `on_cancel` and `on_update`. When every offer has
   one entry with the same `PERCENT` terms the contract repeats them; otherwise
-  `type` is `AMOUNT` and `value` is the total.
+  `feeType` is `AMOUNT` and `feeValue` is the total.
 - `IONSettlementReconciliation` (`common/Settlement/v1`): `finderFee`,
   `settlementBasis`, `settlementWindow` and the `FinderFee` definition are
   removed; `commission.value` equals the contract consideration's
-  `commission.amount`. Older orders that still carry the removed fields stay
+  `commission.feeAmount`. Older orders that still carry the removed fields stay
   valid (`additionalProperties: true`).
 - Updated the Storefront pattern, the reconciliation API examples and the pack
   READMEs and examples.
-- The commission objects' terms (`name`, `type`, `value`, `appliesTo`,
-  `amount`) are scoped to `commission` in the TradeOffer and TradeConsideration
-  JSON-LD contexts (`ion:commissionName`, `ion:commissionType`, ...), so they do
-  not redefine `type`, `value` or `amount` elsewhere in those packs (for example
-  `breakup[].type`). `sync_schema_pack_jsonld.rb` keeps a property defined only
-  in a scoped context out of the top level.
+- The commission fields are named `feeName`, `feeType`, `feeValue`,
+  `appliesTo` and `feeAmount`, as `FinderFee` was, so their top-level JSON-LD
+  terms (required by the testbed schema validator for every property) do not
+  redefine `type`, `value`, `amount` or `name` elsewhere in those packs (for
+  example `breakup[].type`).
 
 The older semantic-version entries below describe pre-release repository history;
 they are not permanent published integer releases.

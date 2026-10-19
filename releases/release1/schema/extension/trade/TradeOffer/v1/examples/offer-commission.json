@@ -16,15 +16,15 @@
     },
     "commission": [
       {
-        "name": "Finder fee",
-        "type": "PERCENT",
-        "value": 3,
+        "feeName": "Finder fee",
+        "feeType": "PERCENT",
+        "feeValue": 3,
         "appliesTo": "ITEM_TOTAL"
       },
       {
-        "name": "Platform fee",
-        "type": "AMOUNT",
-        "value": 250
+        "feeName": "Platform fee",
+        "feeType": "AMOUNT",
+        "feeValue": 250
       }
     ]
   }

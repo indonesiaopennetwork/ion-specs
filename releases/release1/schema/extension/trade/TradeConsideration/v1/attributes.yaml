@@ -86,35 +86,36 @@ components:
         on the contract's price consideration in force; the offer's terms are
         the named entries of IONTradeOffer.policies.commission.
 
-        amount is the total commission for the items still ordered: the sum,
-        over every offer still ordered, of all its policies.commission entries.
-        The BPP sets it in on_select and on_init and recomputes it in on_cancel
-        and on_update after cancellations and returns.
+        feeAmount is the total commission for the items still ordered: the
+        sum, over every offer still ordered, of all its policies.commission
+        entries. The BPP sets it in on_select and on_init and recomputes it in
+        on_cancel and on_update after cancellations and returns.
 
         When every offer still ordered has exactly one commission entry and
-        they all share the same PERCENT terms, the contract repeats that type,
-        value and appliesTo; otherwise type is AMOUNT and value is the total.
+        they all share the same PERCENT terms, the contract repeats that
+        feeType, feeValue and appliesTo; otherwise feeType is AMOUNT and
+        feeValue is the total.
 
         At reconciliation the settlement's commission.value
-        (IONSettlementReconciliation) equals amount.
+        (IONSettlementReconciliation) equals feeAmount.
       x-ion-layer: ion
       additionalProperties: false
-      required: [type, value]
+      required: [feeType, feeValue]
       properties:
-        type:
+        feeType:
           type: string
           enum: [PERCENT, AMOUNT]
           description: >
             PERCENT repeats the shared PERCENT terms of the offers ordered.
-            AMOUNT means value is the order's total commission in the
+            AMOUNT means feeValue is the order's total commission in the
             consideration currency.
           example: PERCENT
-        value:
+        feeValue:
           type: number
           minimum: 0
           description: >
-            Percentage (0-100) when type is PERCENT; the order's total
-            commission in the consideration currency when type is AMOUNT.
+            Percentage (0-100) when feeType is PERCENT; the order's total
+            commission in the consideration currency when feeType is AMOUNT.
           example: 3
         appliesTo:
           type: string
@@ -123,9 +124,9 @@ components:
           description: >
             Base for a PERCENT commission. ITEM_TOTAL is the item value
             excluding tax, delivery and packing; ORDER_TOTAL includes tax.
-            Only for type PERCENT.
+            Only for feeType PERCENT.
           example: ITEM_TOTAL
-        amount:
+        feeAmount:
           type: number
           minimum: 0
           description: >
@@ -136,11 +137,11 @@ components:
           example: 2670
       if:
         properties:
-          type:
+          feeType:
             const: PERCENT
       then:
         properties:
-          value:
+          feeValue:
             maximum: 100
       else:
         not:

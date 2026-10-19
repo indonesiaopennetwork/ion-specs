@@ -151,11 +151,11 @@ components:
                     deducted from the seller's payout; it is not a charge to the
                     buyer and is not part of breakup or totalAmount. The BPP
                     states the order's total on the contract's price
-                    consideration (IONTradeConsideration.commission.amount).
+                    consideration (IONTradeConsideration.commission.feeAmount).
                   example:
-                    - name: Finder fee
-                      type: PERCENT
-                      value: 3
+                    - feeName: Finder fee
+                      feeType: PERCENT
+                      feeValue: 3
                       appliesTo: ITEM_TOTAL
 
       properties:
@@ -576,29 +576,29 @@ components:
         per unit sold.
       x-ion-layer: ion
       additionalProperties: false
-      required: [name, type, value]
+      required: [feeName, feeType, feeValue]
       properties:
-        name:
+        feeName:
           type: string
           minLength: 1
           description: >
             Name of the commission entry, for example Finder fee or Platform
             fee.
           example: Finder fee
-        type:
+        feeType:
           type: string
           enum: [PERCENT, AMOUNT]
           description: >
-            PERCENT applies value as a percentage of the appliesTo base of the
-            offer's item value. AMOUNT is a fixed amount per unit sold, in the
-            offer's consideration currency.
+            PERCENT applies feeValue as a percentage of the appliesTo base of
+            the offer's item value. AMOUNT is a fixed amount per unit sold, in
+            the offer's consideration currency.
           example: PERCENT
-        value:
+        feeValue:
           type: number
           minimum: 0
           description: >
-            Percentage (0-100) when type is PERCENT; amount per unit sold in the
-            offer's consideration currency when type is AMOUNT.
+            Percentage (0-100) when feeType is PERCENT; amount per unit sold in
+            the offer's consideration currency when feeType is AMOUNT.
           example: 3
         appliesTo:
           type: string
@@ -607,15 +607,15 @@ components:
           description: >
             Base for a PERCENT commission. ITEM_TOTAL is the offer's item value
             excluding tax, delivery and packing; ORDER_TOTAL includes tax. Only
-            for type PERCENT.
+            for feeType PERCENT.
           example: ITEM_TOTAL
       if:
         properties:
-          type:
+          feeType:
             const: PERCENT
       then:
         properties:
-          value:
+          feeValue:
             maximum: 100
       else:
         not:

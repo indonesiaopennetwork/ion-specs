@@ -29,7 +29,7 @@ Invariant:
 | `currency` | ISO 4217 code for all amounts (`IONPayment.currency`; `IDR`) |
 | `method`, `paymentRail`, `timing`, `status`, `paidAt`, `gatewayRef`, ... | The payment (`IONPayment` definitions) |
 | `orderAmount` | Gross amount the buyer pays, held at the PJP; the amount paid from `confirm` on |
-| `commission` | Commission the BPP pays the BAP; paid to the BAP. Equals `commission.amount` on the contract's price consideration in force |
+| `commission` | Commission the BPP pays the BAP; paid to the BAP. Equals `commission.feeAmount` on the contract's price consideration in force |
 | `withholdingAmount` | Amount the PJP keeps back, for example against returns |
 | `refundAmount` | Total the PJP returns to the buyer |
 | `netPayable` | Paid to the BPP: `orderAmount − commission − withholdingAmount − refundAmount` |
@@ -50,7 +50,7 @@ as the `settlementAttributes` of the contract's payment settlement:
 | Step | Sender | Adds or changes |
 |---|---|---|
 | `init` | BAP | its `settlementAccounts` entry, `method`, `paymentRail`, `collectedBy`, `timing`, `status: PENDING`, figures estimated on the quoted price |
-| `on_init` | BPP | its account, the figures on its final price (`commission` = the contract consideration's `commission.amount`) |
+| `on_init` | BPP | its account, the figures on its final price (`commission` = the contract consideration's `commission.feeAmount`) |
 | `confirm` | BAP | `status: PAID`, `paidAt`, `gatewayRef`; `orderAmount` is the amount paid |
 | `on_cancel`, `on_update` | BPP | `commission`, `refundAmount`, `netPayable` |
 | `/reconcile`, `/on_reconcile` | either | each participant's figures, `accord` in the answer |
@@ -75,7 +75,7 @@ each offer:
   named entries (for example a finder fee) that add up. The BPP states the
   contract's total, summed over every offer still ordered and all its entries,
   on the contract's price consideration
-  (`considerationAttributes.commission.amount`, `IONTradeConsideration`), and
+  (`considerationAttributes.commission.feeAmount`, `IONTradeConsideration`), and
   the settlement's `commission` equals it.
 
 Earlier versions carried `settlementBasis`, `settlementWindow` and `finderFee`
@@ -99,4 +99,4 @@ IRIs, and `orderAmount` takes the place of `IONPayment.amount`.
 | Version | Date | Summary |
 |---|---|---|
 | v1 | 2026-10-14 | Initial release: `IONSettlementReconciliation` attribute pack, used by the `/reconcile` and `/on_reconcile` endpoints in `core/api/v2.0.0/ion-additional.yaml` |
-| v1 | 2026-10-19 | Settlement terms moved to the offer: `settlementBasis` and `settlementWindow` to `IONTradeOffer.policies.settlement`, the finder fee to `IONTradeOffer.policies.commission` (the order's total in `IONTradeConsideration.commission.amount`). `finderFee`, `settlementBasis`, `settlementWindow` and `FinderFee` removed from this pack |
+| v1 | 2026-10-19 | Settlement terms moved to the offer: `settlementBasis` and `settlementWindow` to `IONTradeOffer.policies.settlement`, the finder fee to `IONTradeOffer.policies.commission` (the order's total in `IONTradeConsideration.commission.feeAmount`). `finderFee`, `settlementBasis`, `settlementWindow` and `FinderFee` removed from this pack |

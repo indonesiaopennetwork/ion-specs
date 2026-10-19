@@ -29,21 +29,22 @@ terms are the named entries of `policies.commission`
 
 | Field | Meaning |
 |---|---|
-| `type` | `PERCENT` or `AMOUNT` |
-| `value` | The shared percentage (0-100) for `PERCENT`; the order's total for `AMOUNT` |
+| `feeType` | `PERCENT` or `AMOUNT` |
+| `feeValue` | The shared percentage (0-100) for `PERCENT`; the order's total for `AMOUNT` |
 | `appliesTo` | `PERCENT` only: `ITEM_TOTAL` (item value excluding tax; default) or `ORDER_TOTAL` (including tax) |
-| `amount` | Total commission for the items still ordered |
+| `feeAmount` | Total commission for the items still ordered |
 
-- `amount` is the sum, over every offer still ordered, of all its
+- `feeAmount` is the sum, over every offer still ordered, of all its
   `policies.commission` entries. The BPP sets it in `on_select` and `on_init`
   and recomputes it in `on_cancel` and `on_update` after cancellations and
   returns.
 - When every offer still ordered has exactly one commission entry and they all
-  share the same `PERCENT` terms, the contract repeats that `type`, `value` and
-  `appliesTo`; otherwise `type` is `AMOUNT` and `value` is the total.
+  share the same `PERCENT` terms, the contract repeats that `feeType`,
+  `feeValue` and `appliesTo`; otherwise `feeType` is `AMOUNT` and `feeValue`
+  is the total.
 - At reconciliation the settlement's `commission.value`
   ([`IONSettlementReconciliation`](../../../../common/Settlement/v1/README.md))
-  equals `amount`.
+  equals `feeAmount`.
 
 The payout terms (when the seller is paid) are the offer's
 `policies.settlement` ([`IONTradeOffer`](../../TradeOffer/v1/README.md)).

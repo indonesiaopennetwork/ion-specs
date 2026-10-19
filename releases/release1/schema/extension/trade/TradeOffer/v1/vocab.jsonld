@@ -532,28 +532,28 @@
       "rdfs:comment": "One named commission entry of an offer (IONTradeOffer.policies.commission): part of what the seller (BPP) pays the buyer app (BAP) for orders of the offer, deducted from the seller's payout. Not a charge to the buyer, and not part of breakup or totalAmount. The entries of an offer add up. PERCENT is a percentage of the offer's item value, excluding tax (ITEM_TOTAL) or including tax (ORDER_TOTAL); AMOUNT is a fixed amount per unit sold."
     },
     {
-      "@id": "ion:commissionName",
+      "@id": "ion:feeName",
       "@type": "rdf:Property",
-      "rdfs:label": "name",
+      "rdfs:label": "feeName",
       "rdfs:comment": "Name of the commission entry, for example Finder fee or Platform fee."
     },
     {
-      "@id": "ion:commissionType",
+      "@id": "ion:feeType",
       "@type": "rdf:Property",
-      "rdfs:label": "type",
-      "rdfs:comment": "PERCENT applies value as a percentage of the appliesTo base of the offer's item value. AMOUNT is a fixed amount per unit sold, in the offer's consideration currency."
+      "rdfs:label": "feeType",
+      "rdfs:comment": "PERCENT applies feeValue as a percentage of the appliesTo base of the offer's item value. AMOUNT is a fixed amount per unit sold, in the offer's consideration currency."
     },
     {
-      "@id": "ion:commissionValue",
+      "@id": "ion:feeValue",
       "@type": "rdf:Property",
-      "rdfs:label": "value",
-      "rdfs:comment": "Percentage (0-100) when type is PERCENT; amount per unit sold in the offer's consideration currency when type is AMOUNT."
+      "rdfs:label": "feeValue",
+      "rdfs:comment": "Percentage (0-100) when feeType is PERCENT; amount per unit sold in the offer's consideration currency when feeType is AMOUNT."
     },
     {
-      "@id": "ion:commissionAppliesTo",
+      "@id": "ion:appliesTo",
       "@type": "rdf:Property",
       "rdfs:label": "appliesTo",
-      "rdfs:comment": "Base for a PERCENT commission. ITEM_TOTAL is the offer's item value excluding tax, delivery and packing; ORDER_TOTAL includes tax. Only for type PERCENT."
+      "rdfs:comment": "Base for a PERCENT commission. ITEM_TOTAL is the offer's item value excluding tax, delivery and packing; ORDER_TOTAL includes tax. Only for feeType PERCENT."
     }
   ]
 }

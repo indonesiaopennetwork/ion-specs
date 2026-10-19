@@ -167,10 +167,10 @@
               }
             ],
             "commission": {
-              "type": "PERCENT",
-              "value": 3,
+              "feeType": "PERCENT",
+              "feeValue": 3,
               "appliesTo": "ITEM_TOTAL",
-              "amount": 2670
+              "feeAmount": 2670
             }
           }
         }

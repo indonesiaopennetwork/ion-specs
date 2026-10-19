@@ -65,23 +65,23 @@ entries add up:
 
 | Field | Meaning |
 |---|---|
-| `name` | Name of the entry, e.g. `Finder fee`, `Platform fee` (required) |
-| `type` | `PERCENT` or `AMOUNT` (required) |
-| `value` | Percentage (0-100) for `PERCENT`; an amount per unit sold for `AMOUNT` (required) |
+| `feeName` | Name of the entry, e.g. `Finder fee`, `Platform fee` (required) |
+| `feeType` | `PERCENT` or `AMOUNT` (required) |
+| `feeValue` | Percentage (0-100) for `PERCENT`; an amount per unit sold for `AMOUNT` (required) |
 | `appliesTo` | `PERCENT` only: `ITEM_TOTAL` (the offer's item value excluding tax; default) or `ORDER_TOTAL` (including tax) |
 
 ```json
 "policies": {
   "commission": [
-    { "name": "Finder fee", "type": "PERCENT", "value": 3, "appliesTo": "ITEM_TOTAL" },
-    { "name": "Platform fee", "type": "AMOUNT", "value": 250 }
+    { "feeName": "Finder fee", "feeType": "PERCENT", "feeValue": 3, "appliesTo": "ITEM_TOTAL" },
+    { "feeName": "Platform fee", "feeType": "AMOUNT", "feeValue": 250 }
   ]
 }
 ```
 
 The BPP states what an order comes to on the contract's price consideration
 (`IONTradeConsideration.commission`, see
-[`TradeConsideration/v1`](../../TradeConsideration/v1/README.md)): `amount` is
+[`TradeConsideration/v1`](../../TradeConsideration/v1/README.md)): `feeAmount` is
 the sum over every offer still ordered of all its entries, and the settlement's
 `commission.value` equals it at reconciliation.
 

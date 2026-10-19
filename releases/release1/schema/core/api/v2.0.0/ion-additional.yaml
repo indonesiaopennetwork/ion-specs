@@ -62,7 +62,7 @@ info:
     the offers: the payout terms from each offer's `policies.settlement`
     (`IONTradeOffer`) and the commission from each offer's
     `policies.commission` (`IONTradeOffer`), whose total for the order is the
-    contract consideration's `commission.amount` (`IONTradeConsideration`).
+    contract consideration's `commission.feeAmount` (`IONTradeConsideration`).
 
 
     A contract in these messages is a snapshot that carries reconciliation

@@ -161,12 +161,12 @@
                   "items": {
                     "$ref": "#/$defs/IONOfferCommission"
                   },
-                  "description": "The commission the seller (BPP) pays the buyer app (BAP) for orders of this offer, as named entries (for example a finder fee and a platform fee). The entries add up. It is deducted from the seller's payout; it is not a charge to the buyer and is not part of breakup or totalAmount. The BPP states the order's total on the contract's price consideration (IONTradeConsideration.commission.amount).\n",
+                  "description": "The commission the seller (BPP) pays the buyer app (BAP) for orders of this offer, as named entries (for example a finder fee and a platform fee). The entries add up. It is deducted from the seller's payout; it is not a charge to the buyer and is not part of breakup or totalAmount. The BPP states the order's total on the contract's price consideration (IONTradeConsideration.commission.feeAmount).\n",
                   "example": [
                     {
-                      "name": "Finder fee",
-                      "type": "PERCENT",
-                      "value": 3,
+                      "feeName": "Finder fee",
+                      "feeType": "PERCENT",
+                      "feeValue": 3,
                       "appliesTo": "ITEM_TOTAL"
                     }
                   ]
@@ -654,30 +654,30 @@
       "x-ion-layer": "ion",
       "additionalProperties": false,
       "required": [
-        "name",
-        "type",
-        "value"
+        "feeName",
+        "feeType",
+        "feeValue"
       ],
       "properties": {
-        "name": {
+        "feeName": {
           "type": "string",
           "minLength": 1,
           "description": "Name of the commission entry, for example Finder fee or Platform fee.\n",
           "example": "Finder fee"
         },
-        "type": {
+        "feeType": {
           "type": "string",
           "enum": [
             "PERCENT",
             "AMOUNT"
           ],
-          "description": "PERCENT applies value as a percentage of the appliesTo base of the offer's item value. AMOUNT is a fixed amount per unit sold, in the offer's consideration currency.\n",
+          "description": "PERCENT applies feeValue as a percentage of the appliesTo base of the offer's item value. AMOUNT is a fixed amount per unit sold, in the offer's consideration currency.\n",
           "example": "PERCENT"
         },
-        "value": {
+        "feeValue": {
           "type": "number",
           "minimum": 0,
-          "description": "Percentage (0-100) when type is PERCENT; amount per unit sold in the offer's consideration currency when type is AMOUNT.\n",
+          "description": "Percentage (0-100) when feeType is PERCENT; amount per unit sold in the offer's consideration currency when feeType is AMOUNT.\n",
           "example": 3
         },
         "appliesTo": {
@@ -687,20 +687,20 @@
             "ORDER_TOTAL"
           ],
           "default": "ITEM_TOTAL",
-          "description": "Base for a PERCENT commission. ITEM_TOTAL is the offer's item value excluding tax, delivery and packing; ORDER_TOTAL includes tax. Only for type PERCENT.\n",
+          "description": "Base for a PERCENT commission. ITEM_TOTAL is the offer's item value excluding tax, delivery and packing; ORDER_TOTAL includes tax. Only for feeType PERCENT.\n",
           "example": "ITEM_TOTAL"
         }
       },
       "if": {
         "properties": {
-          "type": {
+          "feeType": {
             "const": "PERCENT"
           }
         }
       },
       "then": {
         "properties": {
-          "value": {
+          "feeValue": {
             "maximum": 100
           }
         }

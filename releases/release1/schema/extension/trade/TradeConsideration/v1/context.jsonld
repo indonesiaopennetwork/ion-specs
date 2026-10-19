@@ -17,15 +17,11 @@
     "IONTradeConsideration": "ion:IONTradeConsideration",
     "breakup": "rccna:breakup",
     "taxDetail": "rccna:taxDetail",
-    "commission": {
-      "@id": "ion:commission",
-      "@context": {
-        "type": "ion:commissionType",
-        "value": "ion:commissionValue",
-        "appliesTo": "ion:commissionAppliesTo",
-        "amount": "ion:commissionAmount"
-      }
-    },
-    "IONCommission": "ion:IONCommission"
+    "commission": "ion:commission",
+    "IONCommission": "ion:IONCommission",
+    "feeType": "ion:feeType",
+    "feeValue": "ion:feeValue",
+    "appliesTo": "ion:appliesTo",
+    "feeAmount": "ion:feeAmount"
   }
 }

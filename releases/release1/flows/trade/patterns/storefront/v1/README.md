@@ -32,7 +32,7 @@ The seller publishes the settlement terms with each offer in the catalog:
 
 The BPP states the order's commission on the contract's price consideration
 ([`IONTradeConsideration`](../../../../../schema/extension/trade/TradeConsideration/v1/README.md)
-`commission.amount`, the sum over every offer and all its entries) from
+`commission.feeAmount`, the sum over every offer and all its entries) from
 `on_select` on. Every offer here has the one 3% `ITEM_TOTAL` entry, so the
 contract repeats those terms; otherwise it would state `type: AMOUNT` with the
 total. The order's payment settlement is one
@@ -43,7 +43,7 @@ accounts, and the figures:
 | Step | Sender | Carries |
 |---|---|---|
 | `init` | BAP | The payment method, `status: PENDING`, the BAP's `settlementAccounts` entry for the commission, and figures estimated on the `on_select` quote |
-| `on_init` | BPP | The commission `amount` on the final price consideration, the figures on that price, the QRIS `methodDetail`, and the BPP's `settlementAccounts` entry next to the BAP's |
+| `on_init` | BPP | The commission `feeAmount` on the final price consideration, the figures on that price, the QRIS `methodDetail`, and the BPP's `settlementAccounts` entry next to the BAP's |
 | `confirm`, `on_confirm` | BAP, BPP | `status: PAID`, `paidAt`, `gatewayRef`, and `orderAmount` as the amount paid, with both accounts |
 
 The buyer's QRIS payment is held at the PJP, not in either participant's
