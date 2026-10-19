@@ -28,12 +28,6 @@
       "rdfs:comment": "Why the counterparty disagrees with a contract's figures. Required when accord is false."
     },
     {
-      "@id": "ion:FinderFee",
-      "@type": "rdfs:Class",
-      "rdfs:label": "FinderFee",
-      "rdfs:comment": "Fee the Consumer Node (BAP) earns for bringing the order, agreed in init and on_init: the terms (feeType, feeValue, appliesTo) and the resulting feeAmount. Reconciliation reports it as the contract's commission."
-    },
-    {
       "@id": "ion:SettlementBasis",
       "@type": "rdfs:Class",
       "rdfs:label": "SettlementBasis",
@@ -116,33 +110,6 @@
       "@type": "rdf:Property",
       "rdfs:label": "holderRole",
       "rdfs:comment": "Network participant (BAP or BPP) that owns a settlement account and receives payouts into it (IONPayment SettlementAccount.holderRole)."
-    },
-    {
-      "@id": "ion:settlementBasis",
-      "@type": "rdf:Property",
-      "rdfs:label": "settlementBasis",
-      "rdfs:comment": "Contract lifecycle event from which a settlement falls due. ON_CONFIRMATION starts at order confirmation, AFTER_SHIPMENT at hand-over to logistics, AFTER_DELIVERY at confirmed delivery, and AFTER_RETURN_WINDOW when the applicable return window closes.",
-      "rdfs:domain": {
-        "@id": "ion:IONSettlementReconciliation"
-      }
-    },
-    {
-      "@id": "ion:settlementWindow",
-      "@type": "rdf:Property",
-      "rdfs:label": "settlementWindow",
-      "rdfs:comment": "ISO 8601 duration, measured from the SettlementBasis event, within which the settlement must be paid out.",
-      "rdfs:domain": {
-        "@id": "ion:IONSettlementReconciliation"
-      }
-    },
-    {
-      "@id": "ion:finderFee",
-      "@type": "rdf:Property",
-      "rdfs:label": "finderFee",
-      "rdfs:comment": "Fee the Consumer Node (BAP) earns for bringing the order, agreed in init and on_init: the terms (feeType, feeValue, appliesTo) and the resulting feeAmount. Reconciliation reports it as the contract's commission.",
-      "rdfs:domain": {
-        "@id": "ion:IONSettlementReconciliation"
-      }
     },
     {
       "@id": "ion:orderAmount",
@@ -250,42 +217,6 @@
       "rdfs:comment": "Human-readable explanation of the disagreement.",
       "rdfs:domain": {
         "@id": "ion:Dispute"
-      }
-    },
-    {
-      "@id": "ion:feeType",
-      "@type": "rdf:Property",
-      "rdfs:label": "feeType",
-      "rdfs:comment": "PERCENT applies feeValue as a percentage of the appliesTo base. AMOUNT is a fixed fee in the contract currency.",
-      "rdfs:domain": {
-        "@id": "ion:FinderFee"
-      }
-    },
-    {
-      "@id": "ion:feeValue",
-      "@type": "rdf:Property",
-      "rdfs:label": "feeValue",
-      "rdfs:comment": "Fee percentage (0-100) when feeType is PERCENT; fee amount in the contract currency when feeType is AMOUNT.",
-      "rdfs:domain": {
-        "@id": "ion:FinderFee"
-      }
-    },
-    {
-      "@id": "ion:appliesTo",
-      "@type": "rdf:Property",
-      "rdfs:label": "appliesTo",
-      "rdfs:comment": "Base for a PERCENT fee. ITEM_TOTAL is the item value excluding delivery, packing, and taxes; ORDER_TOTAL is the full consideration. Ignored when feeType is AMOUNT.",
-      "rdfs:domain": {
-        "@id": "ion:FinderFee"
-      }
-    },
-    {
-      "@id": "ion:feeAmount",
-      "@type": "rdf:Property",
-      "rdfs:label": "feeAmount",
-      "rdfs:comment": "The fee in the contract currency, computed from feeType, feeValue, and appliesTo on the contract as it stands. The BPP sets it in on_init and recomputes it in on_cancel and on_update when items are cancelled or returned. At reconciliation the settlement's commission.value equals it.",
-      "rdfs:domain": {
-        "@id": "ion:FinderFee"
       }
     }
   ]

@@ -38,6 +38,10 @@
     },
     "paymentTerms": {
       "policyRef": "ion://policy/payment-terms.upfront.full"
+    },
+    "settlement": {
+      "settlementBasis": "AFTER_DELIVERY",
+      "settlementWindow": "P1D"
     }
   },
   "paymentConstraints": {

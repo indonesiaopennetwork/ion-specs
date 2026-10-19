@@ -104,7 +104,13 @@
                   "taxCategory": "BKP"
                 }
               }
-            ]
+            ],
+            "commission": {
+              "type": "PERCENT",
+              "value": 3,
+              "appliesTo": "ITEM_TOTAL",
+              "amount": 255
+            }
           }
         }
       ],

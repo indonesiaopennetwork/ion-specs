@@ -24,6 +24,16 @@ module IonSchemaPackJSONLD
     result
   end
 
+  # The IRI a context term maps to: the string itself, or the @id of an
+  # expanded term definition ({"@id": ..., "@context": ...}); ion:<name> when
+  # the context does not define the term.
+  def term_id(definition, name)
+    return definition if definition.is_a?(String)
+    return definition["@id"] if definition.is_a?(Hash) && definition["@id"].is_a?(String)
+
+    "ion:#{name}"
+  end
+
   def synchronize(directory)
     attributes_path = File.join(directory, "attributes.yaml")
     context_path = File.join(directory, "context.jsonld")
@@ -49,14 +59,8 @@ module IonSchemaPackJSONLD
     properties.each_key { |name| context[name] ||= "ion:#{name}" }
     schemas.each_key { |name| context[name] ||= "ion:#{name}" }
 
-    property_ids = properties.each_key.to_h do |name|
-      definition = context[name]
-      [name, definition.is_a?(String) ? definition : "ion:#{name}"]
-    end
-    schema_ids = schemas.each_key.to_h do |name|
-      definition = context[name]
-      [name, definition.is_a?(String) ? definition : "ion:#{name}"]
-    end
+    property_ids = properties.each_key.to_h { |name| [name, term_id(context[name], name)] }
+    schema_ids = schemas.each_key.to_h { |name| [name, term_id(context[name], name)] }
 
     graph = vocab_document.fetch("@graph")
     graph.reject! do |node|

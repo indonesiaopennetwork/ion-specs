@@ -56,10 +56,12 @@ info:
 
 
     `IONSettlementReconciliation` is the order's payment settlement from
-    `init` on: the settlement terms (`settlementBasis`, `settlementWindow`,
-    and `finderFee`) and the participants' bank accounts
-    (`settlementAccounts`) are agreed on it in `init` and `on_init`, and
-    reconciliation sends the same object with each participant's figures.
+    `init` on: the participants' bank accounts (`settlementAccounts`) are
+    agreed on it in `init` and `on_init`, and reconciliation sends the same
+    object with each participant's figures. The settlement terms come from
+    the offers: the payout terms from each offer's `policies.settlement`
+    (`IONTradeOffer`) and the commission from the contract consideration's
+    `commission` (`IONTradeConsideration`).
 
 
     A contract in these messages is a snapshot that carries reconciliation

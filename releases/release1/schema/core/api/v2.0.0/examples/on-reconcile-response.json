@@ -51,14 +51,6 @@
               "@type": "ion:IONSettlementReconciliation",
               "collectedBy": "BAP",
               "currency": "IDR",
-              "settlementBasis": "AFTER_DELIVERY",
-              "settlementWindow": "P1D",
-              "finderFee": {
-                "feeType": "PERCENT",
-                "feeValue": 3,
-                "appliesTo": "ITEM_TOTAL",
-                "feeAmount": 2670
-              },
               "orderAmount": {
                 "value": 98900
               },
@@ -128,14 +120,6 @@
               "@type": "ion:IONSettlementReconciliation",
               "collectedBy": "BAP",
               "currency": "IDR",
-              "settlementBasis": "AFTER_DELIVERY",
-              "settlementWindow": "P1D",
-              "finderFee": {
-                "feeType": "PERCENT",
-                "feeValue": 3,
-                "appliesTo": "ITEM_TOTAL",
-                "feeAmount": 4200
-              },
               "orderAmount": {
                 "value": 150000
               },
@@ -170,7 +154,7 @@
               "accord": false,
               "dispute": {
                 "code": "COMMISSION_MISMATCH",
-                "description": "finderFee.feeAmount 4200 is 3% of a 140000 item total; the buyer app's copy has a 150000 item total, so 4500"
+                "description": "commission 4200 is 3% of a 140000 item total; the buyer app's copy has a 150000 item total, so 4500"
               }
             }
           }

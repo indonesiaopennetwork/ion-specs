@@ -1,15 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://schema.ion.id/release1/schema/extension/trade/TradeConsideration/v1",
-  "title": "ION Trade Consideration Schema Pack v1",
-  "description": "JSON Schema 2020-12 mirror of the trade/consideration/v1 OpenAPI schema pack. The root resolves to IONTradeConsideration, which inherits directly from RetailConsideration v2.1.",
-  "type": "object",
   "$ref": "#/$defs/IONTradeConsideration",
   "$defs": {
     "IONTradeConsideration": {
       "type": "object",
       "title": "IONTradeConsideration",
-      "description": "ION trade consideration attributes. Inherits directly from RetailConsideration v2.1 and refines inherited breakup taxDetail objects with the shared IONTaxDetail schema.",
+      "description": "ION trade consideration attributes. Inherits directly from RetailConsideration v2.1 and refines inherited breakup taxDetail objects with the shared IONTaxDetail schema.\n",
       "x-ion-layer": "ion",
       "x-ion-split-version": "0.7.0",
       "x-recommended-parent": "Consideration.considerationAttributes",
@@ -41,7 +38,7 @@
                   "taxDetail": {
                     "allOf": [
                       {
-                        "$ref": "https://schema.ion.id/release1/schema/common/Tax/v1/schema.json"
+                        "$ref": "https://schema.ion.id/release1/schema/common/Tax/v1/attributes.yaml#/components/schemas/IONTaxDetail"
                       }
                     ]
                   }
@@ -49,6 +46,80 @@
               }
             ]
           }
+        },
+        "commission": {
+          "x-attr-ion-layer": "ion",
+          "allOf": [
+            {
+              "$ref": "#/$defs/IONCommission"
+            }
+          ],
+          "description": "Commission the seller (BPP) pays the buyer app (BAP) for the order. It is deducted from the seller's payout; it is not a charge to the buyer and is not part of breakup or totalAmount. On Offer.considerations it states the offer's terms; on the contract's price consideration it states the order's terms and total amount (see IONCommission).\n"
+        }
+      }
+    },
+    "IONCommission": {
+      "type": "object",
+      "title": "IONCommission",
+      "description": "Commission the seller (BPP) pays the buyer app (BAP) for an order, deducted from the seller's payout at settlement. Not a charge to the buyer, and not part of breakup or totalAmount.\nOn Offer.considerations (the seller's terms for the offer): PERCENT is a percentage of the offer's item value, excluding tax (ITEM_TOTAL) or including tax (ORDER_TOTAL); AMOUNT is a fixed amount per unit sold. amount is not set.\nOn Contract.consideration (the price consideration in force): when every offer in the order has identical PERCENT terms the contract repeats them; otherwise type is AMOUNT and value is the order's total commission. amount is always the total commission for the items still ordered: the BPP sets it in on_select and on_init and recomputes it in on_cancel and on_update after cancellations and returns. At reconciliation the settlement's commission.value (IONSettlementReconciliation) equals it.\n",
+      "x-ion-layer": "ion",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "value"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "PERCENT",
+            "AMOUNT"
+          ],
+          "description": "PERCENT applies value as a percentage of the appliesTo base. AMOUNT is a fixed amount in the consideration currency: per unit sold on an offer, the order's total on a contract.\n",
+          "example": "PERCENT"
+        },
+        "value": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Percentage (0-100) when type is PERCENT; amount in the consideration currency when type is AMOUNT.\n",
+          "example": 3
+        },
+        "appliesTo": {
+          "type": "string",
+          "enum": [
+            "ITEM_TOTAL",
+            "ORDER_TOTAL"
+          ],
+          "default": "ITEM_TOTAL",
+          "description": "Base for a PERCENT commission. ITEM_TOTAL is the item value excluding tax, delivery and packing; ORDER_TOTAL includes tax. Only for type PERCENT.\n",
+          "example": "ITEM_TOTAL"
+        },
+        "amount": {
+          "type": "number",
+          "minimum": 0,
+          "description": "The commission in the consideration currency for the items still ordered. Set on the contract's price consideration only.\n",
+          "example": 2670
+        }
+      },
+      "if": {
+        "properties": {
+          "type": {
+            "const": "PERCENT"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "value": {
+            "maximum": 100
+          }
+        }
+      },
+      "else": {
+        "not": {
+          "required": [
+            "appliesTo"
+          ]
         }
       }
     }

@@ -40,6 +40,10 @@
     },
     "paymentTerms": {
       "policyRef": "ion://policy/payment-terms.upfront.full"
+    },
+    "settlement": {
+      "settlementBasis": "AFTER_RETURN_WINDOW",
+      "settlementWindow": "P2D"
     }
   },
   "paymentConstraints": {

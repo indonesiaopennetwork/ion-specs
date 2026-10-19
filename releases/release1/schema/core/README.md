@@ -52,9 +52,6 @@ the figures:
         "@type": "ion:IONSettlementReconciliation",
         "collectedBy": "BAP",
         "currency": "IDR",
-        "settlementBasis": "AFTER_DELIVERY",
-        "settlementWindow": "P1D",
-        "finderFee": { "feeType": "PERCENT", "feeValue": 3, "appliesTo": "ITEM_TOTAL", "feeAmount": 2670 },
         "orderAmount": { "value": 98900 },
         "commission": { "value": 2670 },
         "withholdingAmount": { "value": 0 },
@@ -70,6 +67,12 @@ the figures:
 
 - `contract.id` identifies the contract and `settlements[].id` identifies the
   payment record whose PJP-held funds are paid out.
+- `commission` is the contract consideration's `commission.amount`
+  ([`IONTradeConsideration`](../extension/trade/TradeConsideration/v1/README.md));
+  the payout terms (`settlementBasis`, `settlementWindow`) are the
+  commitments' offers' `policies.settlement`
+  ([`IONTradeOffer`](../extension/trade/TradeOffer/v1/README.md)). Neither is
+  repeated in the settlement object.
 - A contract in these messages is a snapshot that carries reconciliation
   figures; it does not update the contract. Beckn requires at least one
   `commitments` entry, so include a minimal one (id, status, resource with

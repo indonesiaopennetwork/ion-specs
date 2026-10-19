@@ -131,6 +131,9 @@
       }
     },
     "handlingTime": "ion:handlingTime",
-    "Contact": "https://schema.beckn.io/Contact"
+    "Contact": "https://schema.beckn.io/Contact",
+    "settlement": "ion:settlement",
+    "settlementBasis": "ion:settlementBasis",
+    "settlementWindow": "ion:settlementWindow"
   }
 }

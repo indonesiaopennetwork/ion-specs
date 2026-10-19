@@ -33,6 +33,42 @@
       "@type": "rdf:Property",
       "rdfs:label": "taxDetail",
       "rdfs:comment": "Tax detail associated with a consideration breakup entry."
+    },
+    {
+      "@id": "ion:commission",
+      "@type": "rdf:Property",
+      "rdfs:label": "commission",
+      "rdfs:comment": "Commission the seller (BPP) pays the buyer app (BAP) for the order. It is deducted from the seller's payout; it is not a charge to the buyer and is not part of breakup or totalAmount. On Offer.considerations it states the offer's terms; on the contract's price consideration it states the order's terms and total amount (see IONCommission)."
+    },
+    {
+      "@id": "ion:type",
+      "@type": "rdf:Property",
+      "rdfs:label": "type",
+      "rdfs:comment": "PERCENT applies value as a percentage of the appliesTo base. AMOUNT is a fixed amount in the consideration currency: per unit sold on an offer, the order's total on a contract."
+    },
+    {
+      "@id": "ion:value",
+      "@type": "rdf:Property",
+      "rdfs:label": "value",
+      "rdfs:comment": "Percentage (0-100) when type is PERCENT; amount in the consideration currency when type is AMOUNT."
+    },
+    {
+      "@id": "ion:appliesTo",
+      "@type": "rdf:Property",
+      "rdfs:label": "appliesTo",
+      "rdfs:comment": "Base for a PERCENT commission. ITEM_TOTAL is the item value excluding tax, delivery and packing; ORDER_TOTAL includes tax. Only for type PERCENT."
+    },
+    {
+      "@id": "ion:amount",
+      "@type": "rdf:Property",
+      "rdfs:label": "amount",
+      "rdfs:comment": "The commission in the consideration currency for the items still ordered. Set on the contract's price consideration only."
+    },
+    {
+      "@id": "ion:IONCommission",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONCommission",
+      "rdfs:comment": "Commission the seller (BPP) pays the buyer app (BAP) for an order, deducted from the seller's payout at settlement. Not a charge to the buyer, and not part of breakup or totalAmount.\nOn Offer.considerations (the seller's terms for the offer): PERCENT is a percentage of the offer's item value, excluding tax (ITEM_TOTAL) or including tax (ORDER_TOTAL); AMOUNT is a fixed amount per unit sold. amount is not set.\nOn Contract.consideration (the price consideration in force): when every offer in the order has identical PERCENT terms the contract repeats them; otherwise type is AMOUNT and value is the order's total commission. amount is always the total commission for the items still ordered: the BPP sets it in on_select and on_init and recomputes it in on_cancel and on_update after cancellations and returns. At reconciliation the settlement's commission.value (IONSettlementReconciliation) equals it."
     }
   ]
 }

@@ -4,7 +4,8 @@ info:
   description: >
     Trade sector consideration attributes. Inherits the monetary amount,
     payment method, breakup, voucher, and loyalty-point structures defined by
-    RetailConsideration v2.1 and refines tax details for ION.
+    RetailConsideration v2.1, refines tax details for ION, and adds the
+    commission the seller pays the buyer app (IONCommission).
     Attaches to: beckn:Consideration.considerationAttributes
   version: 1.0.0
   license:
@@ -49,6 +50,17 @@ components:
                   taxDetail:
                     allOf:
                       - $ref: https://schema.ion.id/release1/schema/common/Tax/v1/attributes.yaml#/components/schemas/IONTaxDetail
+        commission:
+          x-attr-ion-layer: ion
+          allOf:
+            - $ref: '#/components/schemas/IONCommission'
+          description: >
+            Commission the seller (BPP) pays the buyer app (BAP) for the
+            order. It is deducted from the seller's payout; it is not a charge
+            to the buyer and is not part of breakup or totalAmount. On
+            Offer.considerations it states the offer's terms; on the contract's
+            price consideration it states the order's terms and total amount
+            (see IONCommission).
       # Monetary breakup, payment methods, total amount, applied vouchers,
       # and loyalty points are inherited from RetailConsideration v2.1.
       # Realized discounts use breakup[].type: DISCOUNT and breakup[].amount;
@@ -63,3 +75,71 @@ components:
       # x-ion-condition: Required on PPNBM consideration lines for luxury goods
       # RetailConsideration v2.1 requires currency and totalAmount. These
       # inherited requirements cannot be relaxed by this allOf extension.
+
+    IONCommission:
+      type: object
+      title: IONCommission
+      description: >
+        Commission the seller (BPP) pays the buyer app (BAP) for an order,
+        deducted from the seller's payout at settlement. Not a charge to the
+        buyer, and not part of breakup or totalAmount.
+
+        On Offer.considerations (the seller's terms for the offer): PERCENT is
+        a percentage of the offer's item value, excluding tax (ITEM_TOTAL) or
+        including tax (ORDER_TOTAL); AMOUNT is a fixed amount per unit sold.
+        amount is not set.
+
+        On Contract.consideration (the price consideration in force): when
+        every offer in the order has identical PERCENT terms the contract
+        repeats them; otherwise type is AMOUNT and value is the order's total
+        commission. amount is always the total commission for the items still
+        ordered: the BPP sets it in on_select and on_init and recomputes it in
+        on_cancel and on_update after cancellations and returns. At
+        reconciliation the settlement's commission.value
+        (IONSettlementReconciliation) equals it.
+      x-ion-layer: ion
+      additionalProperties: false
+      required: [type, value]
+      properties:
+        type:
+          type: string
+          enum: [PERCENT, AMOUNT]
+          description: >
+            PERCENT applies value as a percentage of the appliesTo base.
+            AMOUNT is a fixed amount in the consideration currency: per unit
+            sold on an offer, the order's total on a contract.
+          example: PERCENT
+        value:
+          type: number
+          minimum: 0
+          description: >
+            Percentage (0-100) when type is PERCENT; amount in the
+            consideration currency when type is AMOUNT.
+          example: 3
+        appliesTo:
+          type: string
+          enum: [ITEM_TOTAL, ORDER_TOTAL]
+          default: ITEM_TOTAL
+          description: >
+            Base for a PERCENT commission. ITEM_TOTAL is the item value
+            excluding tax, delivery and packing; ORDER_TOTAL includes tax.
+            Only for type PERCENT.
+          example: ITEM_TOTAL
+        amount:
+          type: number
+          minimum: 0
+          description: >
+            The commission in the consideration currency for the items still
+            ordered. Set on the contract's price consideration only.
+          example: 2670
+      if:
+        properties:
+          type:
+            const: PERCENT
+      then:
+        properties:
+          value:
+            maximum: 100
+      else:
+        not:
+          required: [appliesTo]

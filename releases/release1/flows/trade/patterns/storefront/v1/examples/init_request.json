@@ -142,11 +142,6 @@
             "timing": "ON_ORDER",
             "status": "PENDING",
             "currency": "IDR",
-            "finderFee": {
-              "feeType": "PERCENT",
-              "feeValue": 3,
-              "appliesTo": "ITEM_TOTAL"
-            },
             "orderAmount": {
               "value": 9435
             },

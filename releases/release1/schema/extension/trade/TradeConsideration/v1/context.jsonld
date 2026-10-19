@@ -16,6 +16,12 @@
     "RetailConsideration": "rccna:RetailConsideration",
     "IONTradeConsideration": "ion:IONTradeConsideration",
     "breakup": "rccna:breakup",
-    "taxDetail": "rccna:taxDetail"
+    "taxDetail": "rccna:taxDetail",
+    "commission": "ion:commission",
+    "type": "ion:type",
+    "value": "ion:value",
+    "appliesTo": "ion:appliesTo",
+    "amount": "ion:amount",
+    "IONCommission": "ion:IONCommission"
   }
 }

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "domain": "trade",
   "name": "ION Trade Consideration Extension (v1)",
-  "description": "Retail consideration amounts and breakup with ION tax-detail refinement.",
+  "description": "Retail consideration amounts and breakup with ION tax-detail refinement, and the commission the seller pays the buyer app.",
   "packSchema": "./schema.json",
   "jsonldContext": "./context.jsonld",
   "attachmentPoints": {

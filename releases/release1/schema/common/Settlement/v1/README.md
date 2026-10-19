@@ -1,8 +1,9 @@
 # ION Settlement v1
 
 Attribute pack: `IONSettlementReconciliation`, the order's payment settlement
-on `Settlement.settlementAttributes` from `init` to reconciliation, with its
-`SettlementBasis`, `SettlementWindow`, and `FinderFee` definitions.
+on `Settlement.settlementAttributes` from `init` to reconciliation, and the
+`SettlementBasis` and `SettlementWindow` definitions used by the offer's
+settlement policy (`IONTradeOffer.policies.settlement`).
 
 Public URLs:
 
@@ -27,15 +28,14 @@ Invariant:
 | `collectedBy` | Informational: whose checkout collected the payment into the PJP (`IONPayment.collectedBy`) |
 | `currency` | ISO 4217 code for all amounts (`IONPayment.currency`; `IDR`) |
 | `method`, `paymentRail`, `timing`, `status`, `paidAt`, `gatewayRef`, ... | The payment (`IONPayment` definitions) |
-| `settlementBasis`, `settlementWindow`, `finderFee` | The settlement terms agreed in `init`/`on_init` |
 | `orderAmount` | Gross amount the buyer pays, held at the PJP; the amount paid from `confirm` on |
-| `commission` | BAP finder fee; paid to the BAP. Equals `finderFee.feeAmount` |
+| `commission` | Commission the BPP pays the BAP; paid to the BAP. Equals `commission.amount` on the contract's price consideration in force |
 | `withholdingAmount` | Amount the PJP keeps back, for example against returns |
 | `refundAmount` | Total the PJP returns to the buyer |
 | `netPayable` | Paid to the BPP: `orderAmount − commission − withholdingAmount − refundAmount` |
 | `settlementAccounts[]` | Payout accounts: the BAP's in `init` (required when `commission` > 0), the BPP's from `on_init` |
 | `accord` | `/on_reconcile` only (required there): `true` agrees with the figures received; `false` disagrees |
-| `dueDate` | Payout due date; required when `accord` is `true` |
+| `dueDate` | Payout due date, from the offers' `policies.settlement`; required when `accord` is `true` |
 | `dispute` | `{code, description}`; required when `accord` is `false`. `SETTLEMENT_WINDOW_NOT_REACHED` marks a contract sent before its settlement window |
 
 Every amount is a `ReconAmount` with `value` and, in `/on_reconcile`, a
@@ -49,10 +49,10 @@ as the `settlementAttributes` of the contract's payment settlement:
 
 | Step | Sender | Adds or changes |
 |---|---|---|
-| `init` | BAP | `finderFee` terms, its `settlementAccounts` entry, `method`, `paymentRail`, `collectedBy`, `timing`, `status: PENDING`, figures estimated on the quoted price |
-| `on_init` | BPP | `settlementBasis`, `settlementWindow`, `finderFee.feeAmount`, its account, the figures on its final price |
+| `init` | BAP | its `settlementAccounts` entry, `method`, `paymentRail`, `collectedBy`, `timing`, `status: PENDING`, figures estimated on the quoted price |
+| `on_init` | BPP | its account, the figures on its final price (`commission` = the contract consideration's `commission.amount`) |
 | `confirm` | BAP | `status: PAID`, `paidAt`, `gatewayRef`; `orderAmount` is the amount paid |
-| `on_cancel`, `on_update` | BPP | `finderFee.feeAmount`, `commission`, `refundAmount`, `netPayable` |
+| `on_cancel`, `on_update` | BPP | `commission`, `refundAmount`, `netPayable` |
 | `/reconcile`, `/on_reconcile` | either | each participant's figures, `accord` in the answer |
 
 The figures are estimates until reconciliation. The payment fields (`method`,
@@ -61,8 +61,25 @@ The figures are estimates until reconciliation. The payment fields (`method`,
 required once `status` is not `PENDING`; `paidAt` is required when `status` is
 `PAID`.
 
-The settlement terms (`settlementBasis`, `settlementWindow`, `finderFee`) live
-only here, on the payment settlement; `IONTradeContract` does not carry them.
+## Settlement terms
+
+The terms are not on the settlement object. The seller publishes them with
+each offer:
+
+- **Payout terms** — `offerAttributes.policies.settlement` (`IONTradeOffer`):
+  `settlementBasis` (a `SettlementBasis` defined here) and `settlementWindow`
+  (a `SettlementWindow`). The payout falls due `settlementWindow` after the
+  `settlementBasis` event; when an order has several offers, the term giving
+  the latest due date applies to the contract.
+- **Commission** — `considerationAttributes.commission` (`IONTradeConsideration`)
+  on the offer's considerations. The BPP states the contract's total on the
+  contract's price consideration (`commission.amount`), and the settlement's
+  `commission` equals it.
+
+Earlier versions carried `settlementBasis`, `settlementWindow` and `finderFee`
+on this object. `additionalProperties` is `true`, so orders that still carry
+them stay valid; new settlement objects omit them.
+
 Settlement accounts and the payment fields reuse the
 [`IONPayment`](../../Payment/v1/README.md) definitions and JSON-LD
 IRIs, and `orderAmount` takes the place of `IONPayment.amount`.
@@ -80,3 +97,4 @@ IRIs, and `orderAmount` takes the place of `IONPayment.amount`.
 | Version | Date | Summary |
 |---|---|---|
 | v1 | 2026-10-14 | Initial release: `IONSettlementReconciliation` attribute pack, used by the `/reconcile` and `/on_reconcile` endpoints in `core/api/v2.0.0/ion-additional.yaml` |
+| v1 | 2026-10-19 | Settlement terms moved to the offer: `settlementBasis` and `settlementWindow` to `IONTradeOffer.policies.settlement`, the finder fee to `IONTradeConsideration.commission`. `finderFee`, `settlementBasis`, `settlementWindow` and `FinderFee` removed from this pack |

@@ -32,6 +32,29 @@ ION uses IRI-encoded policy identifiers for canonical terms:
 - `ion://policy/dispute.consumer.bpsk` — B2C via BPSK
 - `ion://policy/dispute.commercial.bani` — B2B via BANI arbitration
 
+## Settlement policy
+
+`policies.settlement` states the seller's payout terms for orders of the offer:
+
+| Field | Meaning |
+|---|---|
+| `settlementBasis` | Event the payout clock starts from: `ON_CONFIRMATION`, `AFTER_SHIPMENT`, `AFTER_DELIVERY`, `AFTER_RETURN_WINDOW` |
+| `settlementWindow` | ISO 8601 duration after that event within which the seller is paid, e.g. `P1D` |
+| `policyRef` | Optional ION-registered settlement policy URI |
+
+The payout falls due `settlementWindow` after the `settlementBasis` event. When
+an order has several offers, the term giving the latest due date applies to the
+whole contract. `SettlementBasis` and `SettlementWindow` are defined in
+[`common/Settlement/v1`](../../../../common/Settlement/v1/README.md). The
+commission the seller pays the buyer app is on the offer's considerations
+(`IONTradeConsideration.commission`), not in this policy.
+
+```json
+"policies": {
+  "settlement": { "settlementBasis": "AFTER_DELIVERY", "settlementWindow": "P1D" }
+}
+```
+
 ## Implementation guidance carried over from the excluded aggregate
 
 The unreconciled `ion.yaml` draft previously treated the following fields as
@@ -72,3 +95,4 @@ errors.
 | Version | Date | Summary |
 |---|---|---|
 | v1 | 2026-06-02 | Initial release |
+| v1 | 2026-10-19 | `policies.settlement`: the seller's payout terms (`settlementBasis`, `settlementWindow`) per offer |

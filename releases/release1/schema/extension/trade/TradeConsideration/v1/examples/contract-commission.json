@@ -1,0 +1,32 @@
+{
+  "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeConsideration/v1/context.jsonld",
+  "@type": "ion:IONTradeConsideration",
+  "_comment": "Example: a contract's price consideration for 2 units of one offer, with the order's commission (3% of 50000 item value)",
+  "currency": "IDR",
+  "totalAmount": 55500,
+  "breakup": [
+    {
+      "type": "BASE_PRICE",
+      "title": "Keripik Singkong Balado 150 g x2",
+      "amount": 50000
+    },
+    {
+      "type": "TAX",
+      "title": "PPN",
+      "amount": 5500,
+      "taxDetail": {
+        "rate": 0.11,
+        "included": false,
+        "taxableBase": 50000,
+        "taxRegime": "PPN",
+        "taxCategory": "BKP"
+      }
+    }
+  ],
+  "commission": {
+    "type": "PERCENT",
+    "value": 3,
+    "appliesTo": "ITEM_TOTAL",
+    "amount": 1500
+  }
+}

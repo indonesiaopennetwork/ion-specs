@@ -21,6 +21,26 @@ Release-owned schema content is grouped under `releases/release1/schema/`:
 `core/`, `common/`, `extension/`, and `vendored/` are peers there, while
 `flows/` and `errors/` remain peers of `schema/` at the release root.
 
+### Settlement terms on the offer (19 October 2026)
+
+The settlement terms moved from the settlement object to what the seller
+publishes with each offer:
+
+- `IONTradeOffer.policies.settlement` (`TradeOffer/v1`): the seller's payout
+  terms, `settlementBasis` and `settlementWindow`. With several offers in an
+  order, the term giving the latest due date applies.
+- `IONTradeConsideration.commission` (`TradeConsideration/v1`, new
+  `IONCommission`): the commission the seller pays the buyer app — `type`
+  (`PERCENT` or `AMOUNT` per unit), `value`, `appliesTo`. On the contract's
+  price consideration the BPP states the order's total in `amount`.
+- `IONSettlementReconciliation` (`common/Settlement/v1`): `finderFee`,
+  `settlementBasis`, `settlementWindow` and the `FinderFee` definition are
+  removed; `commission.value` equals the contract consideration's
+  `commission.amount`. Older orders that still carry the removed fields stay
+  valid (`additionalProperties: true`).
+- Updated the Storefront pattern, the reconciliation API examples and the pack
+  READMEs and examples.
+
 The older semantic-version entries below describe pre-release repository history;
 they are not permanent published integer releases.
 

@@ -177,6 +177,10 @@
               },
               "paymentTerms": {
                 "policyRef": "ion://policy/payment-terms.upfront.full"
+              },
+              "settlement": {
+                "settlementBasis": "AFTER_DELIVERY",
+                "settlementWindow": "P1D"
               }
             },
             "timeToShip": "PT2H",
@@ -191,7 +195,30 @@
             "displayLanguage": [
               "id"
             ]
-          }
+          },
+          "considerations": [
+            {
+              "id": "CONSID-OFFER-PANADOL-001",
+              "considerationAttributes": {
+                "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeConsideration/v1/context.jsonld",
+                "@type": "ion:IONTradeConsideration",
+                "currency": "IDR",
+                "totalAmount": 8500,
+                "breakup": [
+                  {
+                    "title": "Harga",
+                    "amount": 8500,
+                    "type": "BASE_PRICE"
+                  }
+                ],
+                "commission": {
+                  "type": "PERCENT",
+                  "value": 3,
+                  "appliesTo": "ITEM_TOTAL"
+                }
+              }
+            }
+          ]
         }
       ]
     }

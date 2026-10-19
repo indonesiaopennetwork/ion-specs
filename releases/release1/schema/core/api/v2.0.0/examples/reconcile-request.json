@@ -51,14 +51,6 @@
               "@type": "ion:IONSettlementReconciliation",
               "collectedBy": "BAP",
               "currency": "IDR",
-              "settlementBasis": "AFTER_DELIVERY",
-              "settlementWindow": "P1D",
-              "finderFee": {
-                "feeType": "PERCENT",
-                "feeValue": 3,
-                "appliesTo": "ITEM_TOTAL",
-                "feeAmount": 2670
-              },
               "orderAmount": {
                 "value": 98900
               },
@@ -126,14 +118,6 @@
               "@type": "ion:IONSettlementReconciliation",
               "collectedBy": "BAP",
               "currency": "IDR",
-              "settlementBasis": "AFTER_DELIVERY",
-              "settlementWindow": "P1D",
-              "finderFee": {
-                "feeType": "PERCENT",
-                "feeValue": 3,
-                "appliesTo": "ITEM_TOTAL",
-                "feeAmount": 4200
-              },
               "orderAmount": {
                 "value": 150000
               },
