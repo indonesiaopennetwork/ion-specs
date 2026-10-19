@@ -1,7 +1,7 @@
 {
   "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeConsideration/v1/context.jsonld",
   "@type": "ion:IONTradeConsideration",
-  "_comment": "Example: a contract's price consideration for 2 units of one offer, with the order's commission (3% of 50000 item value)",
+  "_comment": "Example: a contract's price consideration for 2 units of one offer whose policies.commission has a 3% finder fee (1500 on the 50000 item value) and a platform fee of 250 per unit (500); two entries, so the contract states type AMOUNT with the total",
   "currency": "IDR",
   "totalAmount": 55500,
   "breakup": [
@@ -24,9 +24,8 @@
     }
   ],
   "commission": {
-    "type": "PERCENT",
-    "value": 3,
-    "appliesTo": "ITEM_TOTAL",
-    "amount": 1500
+    "type": "AMOUNT",
+    "value": 2000,
+    "amount": 2000
   }
 }

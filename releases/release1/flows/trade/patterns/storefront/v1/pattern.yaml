@@ -65,8 +65,8 @@ phases:
           - message.catalog.offers[].offerAttributes.contactDetailsConsumerCare
           - message.catalog.offers[].offerAttributes.displayLanguage[]
         conditionalFields:
-          - field: message.catalog.offers[].considerations[].considerationAttributes.commission
-            condition: if the seller pays the buyer app a commission on the offer
+          - field: message.catalog.offers[].offerAttributes.policies.commission[]
+            condition: if the seller pays the buyer app a commission on the offer (named entries that add up)
           - field: message.catalog.provider.providerAttributes.averagePreparationTime
             condition: required for food/grocery and quick-commerce providers (packaged food only)
           - field: message.catalog.resources[].resourceAttributes.food
@@ -136,7 +136,7 @@ phases:
           - field: message.contract.consideration[].considerationAttributes.breakup[].taxDetail.rate
             condition: required on TAX breakup lines
           - field: message.contract.consideration[].considerationAttributes.commission
-            condition: if the offers carry a commission (the order's terms and total amount)
+            condition: if the offers carry a commission (the order's total amount over all offers and their policies.commission entries)
           - field: message.contract.performance[].performanceAttributes.handling[]
             condition: required for cold-chain or fragile items
         schemaPacks:

@@ -54,7 +54,7 @@ cross-border, and domestic flows require rails such as `RTGS`, `SKN`, `SWIFT`,
   collector, collection timing, payment status, and typed instrument details.
 - The settlement terms are published with each offer: the payout terms
   (`settlementBasis`, `settlementWindow`) in `IONTradeOffer.policies.settlement`
-  and the commission in `IONTradeConsideration.commission`.
+  and the commission in `IONTradeOffer.policies.commission`.
   `common/Settlement/v1` `IONSettlementReconciliation` carries the order's
   payment settlement and its figures from `init`. Neither can live here
   because RetailSettlement requires `settledAt` and `settledAmount`, which do
@@ -88,4 +88,4 @@ another ISO 4217 currency.
 | v1 cleanup | 2026-07-23 | Inherited RetailSettlement v2.1 and removed duplicate payment and reconciliation fields |
 | v1 | 2026-09-29 | Added optional ION-layer `settlementBasis` and `settlementWindow` |
 | v1 | 2026-10-12 | Moved `settlementBasis` and `settlementWindow` to `IONSettlementReconciliation` (`common/Settlement/v1`) so they can be agreed in `init`/`on_init` |
-| v1 | 2026-10-19 | Settlement terms moved to the offer (`IONTradeOffer.policies.settlement`, `IONTradeConsideration.commission`) |
+| v1 | 2026-10-19 | Settlement terms moved to the offer (`IONTradeOffer.policies.settlement`, `IONTradeOffer.policies.commission`) |

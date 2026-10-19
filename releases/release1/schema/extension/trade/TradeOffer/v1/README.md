@@ -46,14 +46,50 @@ The payout falls due `settlementWindow` after the `settlementBasis` event. When
 an order has several offers, the term giving the latest due date applies to the
 whole contract. `SettlementBasis` and `SettlementWindow` are defined in
 [`common/Settlement/v1`](../../../../common/Settlement/v1/README.md). The
-commission the seller pays the buyer app is on the offer's considerations
-(`IONTradeConsideration.commission`), not in this policy.
+commission the seller pays the buyer app is `policies.commission`, not part of
+this policy.
 
 ```json
 "policies": {
   "settlement": { "settlementBasis": "AFTER_DELIVERY", "settlementWindow": "P1D" }
 }
 ```
+
+## Commission policy
+
+`policies.commission` states the commission the seller (BPP) pays the buyer app
+(BAP) for orders of the offer. It is deducted from the seller's payout; it is
+not a charge to the buyer and is not part of `breakup` or `totalAmount`. It is
+an array of named entries (`IONOfferCommission`, at least one), and the
+entries add up:
+
+| Field | Meaning |
+|---|---|
+| `name` | Name of the entry, e.g. `Finder fee`, `Platform fee` (required) |
+| `type` | `PERCENT` or `AMOUNT` (required) |
+| `value` | Percentage (0-100) for `PERCENT`; an amount per unit sold for `AMOUNT` (required) |
+| `appliesTo` | `PERCENT` only: `ITEM_TOTAL` (the offer's item value excluding tax; default) or `ORDER_TOTAL` (including tax) |
+
+```json
+"policies": {
+  "commission": [
+    { "name": "Finder fee", "type": "PERCENT", "value": 3, "appliesTo": "ITEM_TOTAL" },
+    { "name": "Platform fee", "type": "AMOUNT", "value": 250 }
+  ]
+}
+```
+
+The BPP states what an order comes to on the contract's price consideration
+(`IONTradeConsideration.commission`, see
+[`TradeConsideration/v1`](../../TradeConsideration/v1/README.md)): `amount` is
+the sum over every offer still ordered of all its entries, and the settlement's
+`commission.value` equals it at reconciliation.
+
+## Examples
+
+- [`examples/food-offer.json`](examples/food-offer.json) — an F&B offer with its policies and settlement terms.
+- [`examples/electronics-offer.json`](examples/electronics-offer.json) — an electronics offer with its policies and settlement terms.
+- [`examples/offer-commission.json`](examples/offer-commission.json) — an offer with two commission entries (a finder fee and a platform fee).
 
 ## Implementation guidance carried over from the excluded aggregate
 
@@ -95,4 +131,4 @@ errors.
 | Version | Date | Summary |
 |---|---|---|
 | v1 | 2026-06-02 | Initial release |
-| v1 | 2026-10-19 | `policies.settlement`: the seller's payout terms (`settlementBasis`, `settlementWindow`) per offer |
+| v1 | 2026-10-19 | `policies.settlement`: the seller's payout terms (`settlementBasis`, `settlementWindow`) per offer; `policies.commission` (`IONOfferCommission`): the named commission entries the seller pays the buyer app |

@@ -1155,7 +1155,7 @@ Bu Sari's team reviews the complaint. They confirm the missing bottle. They agre
 
 After the return window closes (7 days, though Panadol is non-returnable anyway), the BAP initiates reconciliation.
 
-> Release 1: the payout terms (`settlementBasis`, `settlementWindow`) are the offer's `policies.settlement` (`IONTradeOffer`), and the commission is the offer consideration's `commission` (`IONTradeConsideration`); the settlement object (`IONSettlementReconciliation`) carries only the figures and accounts. The payload below is the earlier draft shape.
+> Release 1: the payout terms (`settlementBasis`, `settlementWindow`) are the offer's `policies.settlement` (`IONTradeOffer`), and the commission is the offer's `policies.commission` (`IONTradeOffer`; named entries such as the finder fee, which add up), whose total for the order is `commission.amount` on the contract's price consideration (`IONTradeConsideration`); the settlement object (`IONSettlementReconciliation`) carries only the figures and accounts. The payload below is the earlier draft shape.
 
 ### /reconcile
 

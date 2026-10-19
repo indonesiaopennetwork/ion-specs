@@ -109,4 +109,55 @@ class SyncSchemaPackJsonldTest < Minitest::Test
       assert_equal "rcoa:policies", context["policies"]["@id"]
     end
   end
+
+  def test_keeps_a_property_defined_only_in_a_scoped_context_out_of_the_top_level
+    Dir.mktmpdir do |directory|
+      File.write(
+        File.join(directory, "attributes.yaml"),
+        <<~YAML
+          components:
+            schemas:
+              Example:
+                type: object
+                properties:
+                  commission:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        description: Commission type.
+        YAML
+      )
+      File.write(
+        File.join(directory, "context.jsonld"),
+        JSON.pretty_generate(
+          "@context" => {
+            "ion" => "https://schema.ion.id/example#",
+            "commission" => { "@id" => "ion:commission", "@context" => { "type" => "ion:commissionType" } },
+            "Example" => "ion:Example"
+          }
+        )
+      )
+      File.write(
+        File.join(directory, "vocab.jsonld"),
+        JSON.pretty_generate(
+          "@graph" => [
+            { "@id" => "ion:commission", "@type" => "rdf:Property" },
+            { "@id" => "ion:type", "@type" => "rdf:Property" },
+            { "@id" => "ion:Example", "@type" => "rdfs:Class" }
+          ]
+        )
+      )
+
+      outputs = IonSchemaPackJSONLD.synchronize(directory).to_h
+      graph = JSON.parse(outputs.fetch(File.join(directory, "vocab.jsonld"))).fetch("@graph")
+      context = JSON.parse(outputs.fetch(File.join(directory, "context.jsonld"))).fetch("@context")
+      ids = graph.map { |node| node["@id"] }
+
+      refute context.key?("type")
+      assert_includes ids, "ion:commissionType"
+      refute_includes ids, "ion:type"
+      assert_equal "type", graph.find { |node| node["@id"] == "ion:commissionType" }["rdfs:label"]
+    end
+  end
 end

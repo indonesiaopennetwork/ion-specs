@@ -65,7 +65,7 @@ components:
       # instrument details are modeled by core/payment/v1 IONPayment.
       # Settlement terms are published with each offer: the payout terms
       # (settlementBasis, settlementWindow) in IONTradeOffer.policies.settlement
-      # and the commission in IONTradeConsideration.commission. They are not
+      # and the commission in IONTradeOffer.policies.commission. They are not
       # carried here, because RetailSettlement requires settledAt and
       # settledAmount, so this pack cannot appear before the order is settled.
       # Reconciliation calculations and disputes are modeled by

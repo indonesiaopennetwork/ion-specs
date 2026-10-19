@@ -71,10 +71,12 @@ each offer:
   (a `SettlementWindow`). The payout falls due `settlementWindow` after the
   `settlementBasis` event; when an order has several offers, the term giving
   the latest due date applies to the contract.
-- **Commission** — `considerationAttributes.commission` (`IONTradeConsideration`)
-  on the offer's considerations. The BPP states the contract's total on the
-  contract's price consideration (`commission.amount`), and the settlement's
-  `commission` equals it.
+- **Commission** — `offerAttributes.policies.commission` (`IONTradeOffer`):
+  named entries (for example a finder fee) that add up. The BPP states the
+  contract's total, summed over every offer still ordered and all its entries,
+  on the contract's price consideration
+  (`considerationAttributes.commission.amount`, `IONTradeConsideration`), and
+  the settlement's `commission` equals it.
 
 Earlier versions carried `settlementBasis`, `settlementWindow` and `finderFee`
 on this object. `additionalProperties` is `true`, so orders that still carry
@@ -97,4 +99,4 @@ IRIs, and `orderAmount` takes the place of `IONPayment.amount`.
 | Version | Date | Summary |
 |---|---|---|
 | v1 | 2026-10-14 | Initial release: `IONSettlementReconciliation` attribute pack, used by the `/reconcile` and `/on_reconcile` endpoints in `core/api/v2.0.0/ion-additional.yaml` |
-| v1 | 2026-10-19 | Settlement terms moved to the offer: `settlementBasis` and `settlementWindow` to `IONTradeOffer.policies.settlement`, the finder fee to `IONTradeConsideration.commission`. `finderFee`, `settlementBasis`, `settlementWindow` and `FinderFee` removed from this pack |
+| v1 | 2026-10-19 | Settlement terms moved to the offer: `settlementBasis` and `settlementWindow` to `IONTradeOffer.policies.settlement`, the finder fee to `IONTradeOffer.policies.commission` (the order's total in `IONTradeConsideration.commission.amount`). `finderFee`, `settlementBasis`, `settlementWindow` and `FinderFee` removed from this pack |

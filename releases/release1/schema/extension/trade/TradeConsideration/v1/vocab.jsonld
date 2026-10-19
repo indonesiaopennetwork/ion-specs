@@ -38,37 +38,37 @@
       "@id": "ion:commission",
       "@type": "rdf:Property",
       "rdfs:label": "commission",
-      "rdfs:comment": "Commission the seller (BPP) pays the buyer app (BAP) for the order. It is deducted from the seller's payout; it is not a charge to the buyer and is not part of breakup or totalAmount. On Offer.considerations it states the offer's terms; on the contract's price consideration it states the order's terms and total amount (see IONCommission)."
-    },
-    {
-      "@id": "ion:type",
-      "@type": "rdf:Property",
-      "rdfs:label": "type",
-      "rdfs:comment": "PERCENT applies value as a percentage of the appliesTo base. AMOUNT is a fixed amount in the consideration currency: per unit sold on an offer, the order's total on a contract."
-    },
-    {
-      "@id": "ion:value",
-      "@type": "rdf:Property",
-      "rdfs:label": "value",
-      "rdfs:comment": "Percentage (0-100) when type is PERCENT; amount in the consideration currency when type is AMOUNT."
-    },
-    {
-      "@id": "ion:appliesTo",
-      "@type": "rdf:Property",
-      "rdfs:label": "appliesTo",
-      "rdfs:comment": "Base for a PERCENT commission. ITEM_TOTAL is the item value excluding tax, delivery and packing; ORDER_TOTAL includes tax. Only for type PERCENT."
-    },
-    {
-      "@id": "ion:amount",
-      "@type": "rdf:Property",
-      "rdfs:label": "amount",
-      "rdfs:comment": "The commission in the consideration currency for the items still ordered. Set on the contract's price consideration only."
+      "rdfs:comment": "Commission the order comes to: what the seller (BPP) pays the buyer app (BAP), deducted from the seller's payout. Not a charge to the buyer, and not part of breakup or totalAmount. Set only on the contract's price consideration in force; the offer's commission terms are IONTradeOffer.policies.commission (see IONCommission)."
     },
     {
       "@id": "ion:IONCommission",
       "@type": "rdfs:Class",
       "rdfs:label": "IONCommission",
-      "rdfs:comment": "Commission the seller (BPP) pays the buyer app (BAP) for an order, deducted from the seller's payout at settlement. Not a charge to the buyer, and not part of breakup or totalAmount.\nOn Offer.considerations (the seller's terms for the offer): PERCENT is a percentage of the offer's item value, excluding tax (ITEM_TOTAL) or including tax (ORDER_TOTAL); AMOUNT is a fixed amount per unit sold. amount is not set.\nOn Contract.consideration (the price consideration in force): when every offer in the order has identical PERCENT terms the contract repeats them; otherwise type is AMOUNT and value is the order's total commission. amount is always the total commission for the items still ordered: the BPP sets it in on_select and on_init and recomputes it in on_cancel and on_update after cancellations and returns. At reconciliation the settlement's commission.value (IONSettlementReconciliation) equals it."
+      "rdfs:comment": "The commission an order comes to: what the seller (BPP) pays the buyer app (BAP), deducted from the seller's payout at settlement. Not a charge to the buyer, and not part of breakup or totalAmount. Set only on the contract's price consideration in force; the offer's terms are the named entries of IONTradeOffer.policies.commission.\namount is the total commission for the items still ordered: the sum, over every offer still ordered, of all its policies.commission entries. The BPP sets it in on_select and on_init and recomputes it in on_cancel and on_update after cancellations and returns.\nWhen every offer still ordered has exactly one commission entry and they all share the same PERCENT terms, the contract repeats that type, value and appliesTo; otherwise type is AMOUNT and value is the total.\nAt reconciliation the settlement's commission.value (IONSettlementReconciliation) equals amount."
+    },
+    {
+      "@id": "ion:commissionType",
+      "@type": "rdf:Property",
+      "rdfs:label": "type",
+      "rdfs:comment": "PERCENT repeats the shared PERCENT terms of the offers ordered. AMOUNT means value is the order's total commission in the consideration currency."
+    },
+    {
+      "@id": "ion:commissionValue",
+      "@type": "rdf:Property",
+      "rdfs:label": "value",
+      "rdfs:comment": "Percentage (0-100) when type is PERCENT; the order's total commission in the consideration currency when type is AMOUNT."
+    },
+    {
+      "@id": "ion:commissionAppliesTo",
+      "@type": "rdf:Property",
+      "rdfs:label": "appliesTo",
+      "rdfs:comment": "Base for a PERCENT commission. ITEM_TOTAL is the item value excluding tax, delivery and packing; ORDER_TOTAL includes tax. Only for type PERCENT."
+    },
+    {
+      "@id": "ion:commissionAmount",
+      "@type": "rdf:Property",
+      "rdfs:label": "amount",
+      "rdfs:comment": "Total commission in the consideration currency for the items still ordered: the sum over every offer still ordered of all its policies.commission entries. Equals the settlement's commission.value at reconciliation."
     }
   ]
 }

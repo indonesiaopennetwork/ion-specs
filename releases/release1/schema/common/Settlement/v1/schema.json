@@ -194,7 +194,7 @@
               "$ref": "#/$defs/ReconAmount"
             }
           ],
-          "description": "Commission the BPP pays the BAP for the contract, equal to commission.amount on the contract's price consideration in force (IONTradeConsideration); the PJP pays it to the BAP. Zero when the offers carry no commission.\n"
+          "description": "Commission the BPP pays the BAP for the contract, equal to commission.amount on the contract's price consideration in force (IONTradeConsideration), which sums the offers' policies.commission entries; the PJP pays it to the BAP. Zero when the offers carry no commission.\n"
         },
         "withholdingAmount": {
           "allOf": [

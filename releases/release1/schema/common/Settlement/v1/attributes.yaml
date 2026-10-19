@@ -9,8 +9,9 @@ info:
     core/api/v2.0.0/ion-additional.yaml. The settlement terms are not part
     of it: the payout terms are the offer's policies.settlement
     (IONTradeOffer, using the SettlementBasis and SettlementWindow defined
-    here) and the commission terms are the consideration's commission
-    (IONTradeConsideration). Attaches to:
+    here) and the commission terms are the offer's policies.commission
+    (IONTradeOffer), whose total for the order is commission.amount on the
+    contract's price consideration (IONTradeConsideration). Attaches to:
     beckn:Settlement.settlementAttributes.
   version: 1.0.0
   license:
@@ -155,8 +156,9 @@ components:
           description: >
             Commission the BPP pays the BAP for the contract, equal to
             commission.amount on the contract's price consideration in force
-            (IONTradeConsideration); the PJP pays it to the BAP. Zero when the
-            offers carry no commission.
+            (IONTradeConsideration), which sums the offers'
+            policies.commission entries; the PJP pays it to the BAP. Zero when
+            the offers carry no commission.
         withholdingAmount:
           allOf:
             - $ref: '#/components/schemas/ReconAmount'

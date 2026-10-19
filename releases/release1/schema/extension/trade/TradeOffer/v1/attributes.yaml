@@ -124,8 +124,7 @@ components:
                     settlementBasis event. When an order has several offers,
                     the term giving the latest due date applies to the whole
                     contract. The commission the seller pays the buyer app is
-                    the offer consideration's commission
-                    (IONTradeConsideration), not part of this policy.
+                    policies.commission, not part of this policy.
                   properties:
                     policyRef:
                       type: string
@@ -140,6 +139,24 @@ components:
                   example:
                     settlementBasis: AFTER_DELIVERY
                     settlementWindow: P1D
+                commission:
+                  type: array
+                  minItems: 1
+                  items:
+                    $ref: '#/components/schemas/IONOfferCommission'
+                  description: >
+                    The commission the seller (BPP) pays the buyer app (BAP)
+                    for orders of this offer, as named entries (for example a
+                    finder fee and a platform fee). The entries add up. It is
+                    deducted from the seller's payout; it is not a charge to the
+                    buyer and is not part of breakup or totalAmount. The BPP
+                    states the order's total on the contract's price
+                    consideration (IONTradeConsideration.commission.amount).
+                  example:
+                    - name: Finder fee
+                      type: PERCENT
+                      value: 3
+                      appliesTo: ITEM_TOTAL
 
       properties:
         policies:
@@ -545,3 +562,61 @@ components:
                 description: Optional human-readable explanation.
             required:
             - method
+
+    IONOfferCommission:
+      type: object
+      title: IONOfferCommission
+      description: >
+        One named commission entry of an offer (IONTradeOffer.policies.commission):
+        part of what the seller (BPP) pays the buyer app (BAP) for orders of the
+        offer, deducted from the seller's payout. Not a charge to the buyer, and
+        not part of breakup or totalAmount. The entries of an offer add up.
+        PERCENT is a percentage of the offer's item value, excluding tax
+        (ITEM_TOTAL) or including tax (ORDER_TOTAL); AMOUNT is a fixed amount
+        per unit sold.
+      x-ion-layer: ion
+      additionalProperties: false
+      required: [name, type, value]
+      properties:
+        name:
+          type: string
+          minLength: 1
+          description: >
+            Name of the commission entry, for example Finder fee or Platform
+            fee.
+          example: Finder fee
+        type:
+          type: string
+          enum: [PERCENT, AMOUNT]
+          description: >
+            PERCENT applies value as a percentage of the appliesTo base of the
+            offer's item value. AMOUNT is a fixed amount per unit sold, in the
+            offer's consideration currency.
+          example: PERCENT
+        value:
+          type: number
+          minimum: 0
+          description: >
+            Percentage (0-100) when type is PERCENT; amount per unit sold in the
+            offer's consideration currency when type is AMOUNT.
+          example: 3
+        appliesTo:
+          type: string
+          enum: [ITEM_TOTAL, ORDER_TOTAL]
+          default: ITEM_TOTAL
+          description: >
+            Base for a PERCENT commission. ITEM_TOTAL is the offer's item value
+            excluding tax, delivery and packing; ORDER_TOTAL includes tax. Only
+            for type PERCENT.
+          example: ITEM_TOTAL
+      if:
+        properties:
+          type:
+            const: PERCENT
+      then:
+        properties:
+          value:
+            maximum: 100
+      else:
+        not:
+          required: [appliesTo]

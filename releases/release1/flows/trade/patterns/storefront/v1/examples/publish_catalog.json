@@ -181,7 +181,15 @@
               "settlement": {
                 "settlementBasis": "AFTER_DELIVERY",
                 "settlementWindow": "P1D"
-              }
+              },
+              "commission": [
+                {
+                  "name": "Finder fee",
+                  "type": "PERCENT",
+                  "value": 3,
+                  "appliesTo": "ITEM_TOTAL"
+                }
+              ]
             },
             "timeToShip": "PT2H",
             "paymentConstraints": {
@@ -210,12 +218,7 @@
                     "amount": 8500,
                     "type": "BASE_PRICE"
                   }
-                ],
-                "commission": {
-                  "type": "PERCENT",
-                  "value": 3,
-                  "appliesTo": "ITEM_TOTAL"
-                }
+                ]
               }
             }
           ]

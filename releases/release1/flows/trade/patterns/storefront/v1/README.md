@@ -26,13 +26,16 @@ The seller publishes the settlement terms with each offer in the catalog:
 - the payout terms in `offerAttributes.policies.settlement`
   ([`IONTradeOffer`](../../../../../schema/extension/trade/TradeOffer/v1/README.md)):
   here `AFTER_DELIVERY` and `P1D`;
-- the commission it pays the buyer app in the offer considerations'
-  `commission`
-  ([`IONTradeConsideration`](../../../../../schema/extension/trade/TradeConsideration/v1/README.md)):
-  here 3% of the item value (`PERCENT`, `ITEM_TOTAL`).
+- the commission it pays the buyer app in `offerAttributes.policies.commission`
+  (named entries that add up): here one entry, `Finder fee`, 3% of the item
+  value (`PERCENT`, `ITEM_TOTAL`).
 
 The BPP states the order's commission on the contract's price consideration
-(`commission.amount`) from `on_select` on. The order's payment settlement is one
+([`IONTradeConsideration`](../../../../../schema/extension/trade/TradeConsideration/v1/README.md)
+`commission.amount`, the sum over every offer and all its entries) from
+`on_select` on. Every offer here has the one 3% `ITEM_TOTAL` entry, so the
+contract repeats those terms; otherwise it would state `type: AMOUNT` with the
+total. The order's payment settlement is one
 [`IONSettlementReconciliation`](../../../../../schema/common/Settlement/v1/README.md)
 object from `init` to reconciliation. It carries the payment, the payout
 accounts, and the figures:
