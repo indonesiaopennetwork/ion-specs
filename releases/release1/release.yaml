@@ -580,7 +580,7 @@ artifactChecksums:
   schema/extension/trade/TradeResource/v1/profile.json: e80725407c5cc76df56121c2471aab064ce85d340e31d73b87992c0fe913053a
   schema/extension/trade/TradeResource/v1/renderer.json: 915fea033d2c7b8df22545a71ef7e4b48e82d16858e7ee6f3ec3726f73322559
   schema/extension/trade/TradeResource/v1/schema.json: f970c61418e3bcc04e7d042122d980a7af2f8b41e707f8c12d1658cc19920c44
-  schema/extension/trade/TradeResource/v1/vocab.jsonld: 63275d7aa0dd09ab75db07550e42b8815dff2036acba819260501ffb5812d059
+  schema/extension/trade/TradeResource/v1/vocab.jsonld: 46431b8d08f7fbbdddeab46dcbb5e677fc9c81d29ed69f0907e9773faccc80b0
   schema/extension/trade/TradeSettlement/v1/README.md: d1ccf6a9231e12da4fce8bfeebe698707cdb8d97af0eaf61d598d8a53ecd71d4
   schema/extension/trade/TradeSettlement/v1/attributes.yaml: 275dcd470c603fc1830d61cde4ef1f9f3ba2f9a9a4b95f613b9da56cde59bdbd
   schema/extension/trade/TradeSettlement/v1/context.jsonld: 03ba61a974b343fab9cb5807f3882582d4bee6acdab3daa2a04101a9ac9d1dbe

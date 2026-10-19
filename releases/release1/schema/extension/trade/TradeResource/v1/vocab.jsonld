@@ -639,70 +639,10 @@
       "rdfs:comment": "Power consumption watts"
     },
     {
-      "@id": "ion:ageRestricted",
-      "@type": "rdf:Property",
-      "rdfs:label": "ageRestricted",
-      "rdfs:comment": "ageRestricted property."
-    },
-    {
-      "@id": "ion:foodRegulatoryDeclaration",
-      "@type": "rdf:Property",
-      "rdfs:label": "foodRegulatoryDeclaration",
-      "rdfs:comment": "foodRegulatoryDeclaration property."
-    },
-    {
-      "@id": "ion:credentials",
-      "@type": "rdf:Property",
-      "rdfs:label": "credentials",
-      "rdfs:comment": "credentials property."
-    },
-    {
-      "@id": "ion:food",
-      "@type": "rdf:Property",
-      "rdfs:label": "food",
-      "rdfs:comment": "Packaged food product attributes for filtering and regulatory compliance. Use for FMCG packaged food, grocery products, bottled beverages, packaged meal kits, snacks, and confectionery sold from warehouse stock. Do not use for restaurant or cloud kitchen menu items — those use MenuItem in the Hospitality sector (hospitality/menu-item/v1). Detailed nutritional information and ingredient lists belong in Descriptor.longDesc for agent readability."
-    },
-    {
-      "@id": "ion:warranty",
-      "@type": "rdf:Property",
-      "rdfs:label": "warranty",
-      "rdfs:comment": "warranty property."
-    },
-    {
       "@id": "ion:additionalAttributes",
       "@type": "rdf:Property",
       "rdfs:label": "additionalAttributes",
       "rdfs:comment": "Seller-defined attributes the pack has no field for, as name/value pairs (with an optional unit), e.g. \"Asal pengrajin: Pekalongan\" or \"Jumlah lapisan: 18\". Buyer apps show them on the product page; they are not used for filtering. A value the pack defines a field for belongs in that field."
-    },
-    {
-      "@id": "ion:additives",
-      "@type": "rdf:Property",
-      "rdfs:label": "additives",
-      "rdfs:comment": "additives property."
-    },
-    {
-      "@id": "ion:type",
-      "@type": "rdf:Property",
-      "rdfs:label": "type",
-      "rdfs:comment": "type property."
-    },
-    {
-      "@id": "ion:uri",
-      "@type": "rdf:Property",
-      "rdfs:label": "uri",
-      "rdfs:comment": "uri property."
-    },
-    {
-      "@id": "ion:issuer",
-      "@type": "rdf:Property",
-      "rdfs:label": "issuer",
-      "rdfs:comment": "issuer property."
-    },
-    {
-      "@id": "ion:classification",
-      "@type": "rdf:Property",
-      "rdfs:label": "classification",
-      "rdfs:comment": "classification property."
     },
     {
       "@id": "ion:garmentType",
@@ -901,36 +841,6 @@
       "@type": "rdf:Property",
       "rdfs:label": "inTheBox",
       "rdfs:comment": "What is in the box (isi kotak)."
-    },
-    {
-      "@id": "ion:unitCode",
-      "@type": "rdf:Property",
-      "rdfs:label": "unitCode",
-      "rdfs:comment": "unitCode property."
-    },
-    {
-      "@id": "ion:unitQuantity",
-      "@type": "rdf:Property",
-      "rdfs:label": "unitQuantity",
-      "rdfs:comment": "unitQuantity property."
-    },
-    {
-      "@id": "ion:unitText",
-      "@type": "rdf:Property",
-      "rdfs:label": "unitText",
-      "rdfs:comment": "unitText property."
-    },
-    {
-      "@id": "ion:duration",
-      "@type": "rdf:Property",
-      "rdfs:label": "duration",
-      "rdfs:comment": "duration property."
-    },
-    {
-      "@id": "ion:terms",
-      "@type": "rdf:Property",
-      "rdfs:label": "terms",
-      "rdfs:comment": "terms property."
     },
     {
       "@id": "ion:unit",
