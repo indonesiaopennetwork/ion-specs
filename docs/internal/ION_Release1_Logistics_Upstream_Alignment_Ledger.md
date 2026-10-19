@@ -391,7 +391,7 @@ reusable field ownership:
   dependencies.
 
 The repository currently contains contradictory prose about the Participant
-extension point. The pinned `ion-beckn.yaml` defines
+extension point. The pinned vendored `beckn.yaml` defines
 `Participant.participantAttributes`, while the schema style guide and the
 Business Registration README say that v2 Participant has no such bag. Phase 4
 must follow the pinned machine-readable contract unless that contract is

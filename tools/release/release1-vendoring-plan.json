@@ -11,10 +11,10 @@
   "protocol": {
     "name": "BecknProtocol",
     "version": "2.0.0",
-    "existingCandidate": "releases/release1/schema/core/api/v2.0.0/ion-beckn.yaml",
-    "candidateSha256": "00ddcc9a930f77dd41eb0802de9c34d86e4ff42e0a3f542bbdaf3a42f7deb4c3",
-    "candidatePayloadSha256": "e1a39f2389fc48c9c1187edbfc838078cea0958f6ac5cf1cdc8d6de113cf3011",
-    "vendoringHeaderPresent": true,
+    "existingCandidate": "releases/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml",
+    "candidateSha256": "5afc7586ef1fbc378ea6abb139292dbe85750e4c5ea1a2fd410a40479aadc0f0",
+    "candidatePayloadSha256": "5afc7586ef1fbc378ea6abb139292dbe85750e4c5ea1a2fd410a40479aadc0f0",
+    "vendoringHeaderPresent": false,
     "upstream": {
       "repository": "https://github.com/beckn/protocol-specifications-v2",
       "selectionMode": "latest",
@@ -25,114 +25,15 @@
       "rawUrl": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/a22300aa83796cb8dfc2b63cd9dd0e36a7f4d3a1/api/v2.0.0/beckn.yaml",
       "sha256": "5afc7586ef1fbc378ea6abb139292dbe85750e4c5ea1a2fd410a40479aadc0f0"
     },
-    "candidatePayloadMatchesUpstream": false,
+    "candidatePayloadMatchesUpstream": true,
     "candidatePayloadDifference": {
       "upstreamLineCount": 4985,
-      "candidateLineCount": 4995,
-      "differenceCount": 4803,
+      "candidateLineCount": 4985,
+      "differenceCount": 0,
       "differences": [
-        {
-          "line": 29,
-          "upstream": "    5. **Discovery Service (DS)**: — A verified on-fabric application that enables discovery of catalogs only accessible via CNs. Its network-facing API MUST implement the Beckn Protocol API endpoints that receive catalog discovery requests from CNs and asynchronously respond with catalogs from various providers. It MUST ensure the catalog it has is the most recent, either by subscribing to updates from the fabric cataloging service (see next section — deprecated, see NFH-014) or by crawling and independently verifying PN-hosted catalog files per NFH-014's decentralized publishing model. It MAY be implemented as an independent SaaS for CNs to consume, or implemented by the CNs themselves.",
-          "candidate": "    5. **Discovery Service (DS)**: — A verified on-fabric application that enables discovery of catalogs only accessible via CNs. Its network-facing API MUST implement the Beckn Protocol API endpoints that receive catalog discovery requests from CNs and asynchronously respond with catalogs from various providers. It MUST subscribe to updates from the fabric cataloging service (see next section), and ensure the catalog it has is the most recent. It MAY be implemented as an independent SaaS for CNs to consume, or implemented by the CNs themselves."
-        },
-        {
-          "line": 44,
-          "upstream": "    3. **CS** (Cataloging Service) — Common service provided to all NPs for programmable catalog discoverability. Deprecated: superseded by the decentralized catalog publishing and discovery model in NFH-014; remains available for existing implementations.",
-          "candidate": "    3. **CS** (Cataloging Service) — Common service provided to all NPs for programmable catalog discoverability."
-        },
-        {
-          "line": 113,
-          "upstream": "  description: >-",
-          "candidate": "  description: Publish catalogs to the Cataloging Service (CS) on the Fabric and subscribe to catalog updates. "
-        },
-        {
-          "line": 114,
-          "upstream": "    Publish catalogs to the Cataloging Service (CS) on the Fabric and subscribe to catalog updates.",
-          "candidate": "security: []"
-        },
-        {
-          "line": 115,
-          "upstream": "",
-          "candidate": "servers:"
-        },
-        {
-          "line": 116,
-          "upstream": "",
-          "candidate": "- url: https://{subscriberUrl}"
-        },
-        {
-          "line": 117,
-          "upstream": "    Deprecated: superseded by the decentralized catalog publishing and discovery model in NFH-014. These endpoints remain fully defined and supported for existing implementations; new integrations SHOULD use NFH-014 instead. ",
-          "candidate": "  description: Base URL of the Beckn network participant endpoint. Implementations MUST substitute `{subscriberUrl}` with the subscriber_url returned by the subnet registry lookup for the NP's namespace id and networkId."
-        },
-        {
-          "line": 118,
-          "upstream": "security: []",
-          "candidate": "  variables:"
-        },
-        {
-          "line": 119,
-          "upstream": "servers:",
-          "candidate": "    subscriberUrl:"
-        },
-        {
-          "line": 120,
-          "upstream": "- url: https://{subscriberUrl}",
-          "candidate": "      default: example.beckn.io"
-        },
-        {
-          "line": 121,
-          "upstream": "  description: Base URL of the Beckn network participant endpoint. Implementations MUST substitute `{subscriberUrl}` with the subscriber_url returned by the subnet registry lookup for the NP's namespace id and networkId.",
-          "candidate": "      # description: Network address of the NP, resolved via the subnet registry lookup using the NP's namespace id and networkId."
-        },
-        {
-          "line": 122,
-          "upstream": "  variables:",
-          "candidate": "paths:"
-        },
-        {
-          "line": 123,
-          "upstream": "    subscriberUrl:",
-          "candidate": "  /discover:"
-        },
-        {
-          "line": 124,
-          "upstream": "      default: example.beckn.io",
-          "candidate": "    post:"
-        },
-        {
-          "line": 125,
-          "upstream": "      description: Network address of the NP, resolved via the subnet registry lookup using the NP's namespace id and networkId.",
-          "candidate": "      summary: Discover catalogs on a network"
-        },
-        {
-          "line": 126,
-          "upstream": "paths:",
-          "candidate": "      description: \"The CN sends a discovery request to the DS (Discovery Service),\\"
-        },
-        {
-          "line": 127,
-          "upstream": "  /discover:",
-          "candidate": "        \\ which searches its indexed catalog store for resources and offers matching\\"
-        },
-        {
-          "line": 128,
-          "upstream": "    post:",
-          "candidate": "        \\ the supplied intent.\\n\\nFabric context: The DS maintains a synchronized catalog\\"
-        },
-        {
-          "line": 129,
-          "upstream": "      summary: Discover catalogs on a network",
-          "candidate": "        \\ index by subscribing to the CS (Cataloging Service) on the Fabric. The CN\\"
-        },
-        {
-          "line": 130,
-          "upstream": "      description: \"The CN sends a discovery request to the DS (Discovery Service),\\",
-          "candidate": "        \\ does not interact directly with the Fabric for discovery.\\n\\nThe message\\"
-        }
+
       ],
-      "truncated": true
+      "truncated": false
     },
     "alternative": {
       "selectionMode": "historical",
@@ -150,7 +51,7 @@
       "sha256": "ec5bc2d54dae0ebc2c8ec5a147d0b48d48af5b3f73acdcb8e33f104a7ad4407c",
       "reviewStatus": "proposed"
     },
-    "action": "replace-with-upstream",
+    "action": "retain",
     "provenanceStatus": "verified"
   },
   "dependencies": [

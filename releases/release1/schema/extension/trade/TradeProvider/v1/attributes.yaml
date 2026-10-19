@@ -170,7 +170,7 @@ components:
                 type: string
                 description: Optional origin location to which this area applies.
               geo:
-                $ref: https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/schemas/GeoJSONGeometry
+                $ref: https://schema.ion.id/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml#/components/schemas/GeoJSONGeometry
 
         averagePreparationTime:
           type: string
@@ -302,7 +302,7 @@ components:
             including an ION Trusted Seller credential. A provider must not
             assert trust through an unverified boolean.
           items:
-            $ref: https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/schemas/Document
+            $ref: https://schema.ion.id/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml#/components/schemas/Document
 
         categoryLicenses:
           x-attr-ion-layer: ion
@@ -339,7 +339,7 @@ components:
                 type: string
                 example: BPOM
               evidence:
-                $ref: https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/schemas/Document
+                $ref: https://schema.ion.id/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml#/components/schemas/Document
           x-ion-regulatory: PP 5/2021; PerBPOM various
           # x-ion-condition: Required by network policy for regulated categories
 

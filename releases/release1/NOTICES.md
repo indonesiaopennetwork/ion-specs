@@ -20,9 +20,8 @@ The upstream materials identify the license as Creative Commons
 Attribution-NonCommercial-ShareAlike 4.0 International. The precise upstream and
 released SHA-256 values for every dependency are recorded in `release.yaml`.
 
-Ten schema files are byte-for-byte copies of their pinned upstream sources. The
-vendored protocol differs only by removal of upstream trailing whitespace, with
-no change to its parsed OpenAPI content. Seven schema files—`GeoJSONGeometry`, `Location`,
+The vendored protocol and ten schema files are byte-for-byte copies of their
+pinned upstream sources. Seven schema files—`GeoJSONGeometry`, `Location`,
 `PriceSpecification`, `RetailCommitment`, `RetailOffer`, `RetailPerformance`, and
 `RetailResource`—contain only a vendoring transformation: active
 `schema.beckn.io` `$ref` values were rewritten to permanent Release 1 URLs under

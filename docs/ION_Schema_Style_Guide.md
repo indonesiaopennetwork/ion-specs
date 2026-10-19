@@ -12,7 +12,7 @@ Authoritative conventions for pack authors. All contributions must follow this g
 
 | Layer | Location | What goes here |
 |---|---|---|
-| L1 | `releases/release1/schema/core/api/v2.0.0/ion-beckn.yaml` | ION-owned Beckn-derived core protocol contract |
+| L1 | `releases/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml` | Immutable upstream Beckn core protocol contract |
 | L2 | `schema/core/v2/api/v2.0.0/ion.yaml` | Unreleased ION network profile overlay |
 | L3 | `schema/core/v2/api/v2.0.0/ion.yaml` → `paths:` block | Unreleased `/raise` family (6 endpoints) + `/reconcile` + `/on_reconcile` |
 | L4 | `schema/extensions/core/*/v1/` | Cross-sector attribute packs |
@@ -80,9 +80,9 @@ allOf:
 ```
 
 Extension and common packs MUST reference the separately vendored Beckn schema
-documents. They MUST NOT reference component fragments inside the temporary
-`schema/core/api/v2.0.0/ion-beckn.yaml` contract. This keeps attribute packs
-independent of that ION-maintained protocol snapshot and allows each Beckn
+documents. They MUST NOT reference component fragments inside the vendored
+`schema/vendored/beckn/api/v2.0.0/beckn.yaml` contract. This keeps attribute packs
+independent of that pinned protocol snapshot and allows each Beckn
 component dependency to retain its own version and provenance.
 
 **Never use the external GitHub URL, `schema.beckn.io` retrieval URL, or a
