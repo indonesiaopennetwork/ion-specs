@@ -113,7 +113,7 @@ releases/
       core/                  # ION-owned API contracts
         api/
           v2.0.0/
-            ion-beckn.yaml
+            ion-additional.yaml
 
       common/
         <SchemaName>/
@@ -134,6 +134,7 @@ releases/
 
       vendored/
         beckn/
+          api/v2.0.0/beckn.yaml
           schemas/<SchemaName>/<upstream-version>/attributes.yaml
 
     flows/

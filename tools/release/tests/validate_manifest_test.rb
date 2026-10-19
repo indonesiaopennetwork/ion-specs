@@ -66,7 +66,7 @@ class ValidateManifestTest < Minitest::Test
     @manifest["dependencyStatus"] = "complete"
     @manifest["dependencies"] = [valid_dependency]
     @manifest["artifactChecksums"] = {
-      "schema/core/api/v2.0.0/ion-beckn.yaml" => "b" * 64
+      "schema/vendored/beckn/api/v2.0.0/beckn.yaml" => "b" * 64
     }
     @manifest["toolingCommit"] = "a" * 40
 
@@ -86,7 +86,7 @@ class ValidateManifestTest < Minitest::Test
 
     errors = IonReleaseManifest.validate(@manifest)
 
-    assert_includes errors, "dependency 0 vendoredPath must be under schema/vendored/ or use schema/core/api/v2.0.0/ion-beckn.yaml for the protocol"
+    assert_includes errors, "dependency 0 vendoredPath must be under schema/vendored/"
   end
 
   private
@@ -99,7 +99,7 @@ class ValidateManifestTest < Minitest::Test
       "upstreamRepository" => "https://github.com/beckn/protocol-specifications-v2",
       "upstreamCommit" => "a" * 40,
       "upstreamUrl" => "https://raw.githubusercontent.com/example/beckn.yaml",
-      "vendoredPath" => "schema/core/api/v2.0.0/ion-beckn.yaml",
+      "vendoredPath" => "schema/vendored/beckn/api/v2.0.0/beckn.yaml",
       "upstreamSha256" => "b" * 64,
       "releasedSha256" => "b" * 64,
       "license" => "CC-BY-NC-SA-4.0",

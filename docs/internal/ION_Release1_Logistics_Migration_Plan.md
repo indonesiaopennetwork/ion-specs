@@ -55,8 +55,8 @@ migration.
 
 ### Build on the pinned Beckn Protocol v2 core
 
-Every Logistics pack must attach to a valid extension point in the pinned ION
-Beckn-derived protocol contract:
+Every Logistics pack must attach to a valid extension point in the pinned,
+vendored Beckn Protocol contract:
 
 | ION pack | Beckn v2 extension point |
 |---|---|

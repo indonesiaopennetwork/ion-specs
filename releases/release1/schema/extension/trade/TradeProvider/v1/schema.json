@@ -161,7 +161,7 @@
                 "type": "string"
               },
               "geo": {
-                "$ref": "https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/schemas/GeoJSONGeometry"
+                "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml#/components/schemas/GeoJSONGeometry"
               }
             }
           }
@@ -292,7 +292,7 @@
           "type": "array",
           "description": "Signed or otherwise verifiable trust marks awarded to the provider.",
           "items": {
-            "$ref": "https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/schemas/Document"
+            "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml#/components/schemas/Document"
           },
           "x-attr-ion-layer": "ion"
         },
@@ -333,7 +333,7 @@
                 "type": "string"
               },
               "evidence": {
-                "$ref": "https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/schemas/Document"
+                "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml#/components/schemas/Document"
               }
             }
           },

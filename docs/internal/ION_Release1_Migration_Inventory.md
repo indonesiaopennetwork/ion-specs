@@ -287,7 +287,7 @@ releases/
 
     schema/
       core/
-        api/v2.0.0/ion-beckn.yaml
+        api/v2.0.0/ion-additional.yaml
 
       common/
         <SchemaName>/v1/
@@ -300,6 +300,7 @@ releases/
 
       vendored/
         beckn/
+          api/v2.0.0/beckn.yaml
           schemas/<SchemaName>/<upstream-version>/attributes.yaml
 
     flows/
@@ -316,7 +317,7 @@ only if genuinely release-specific documentation is identified.
 | Current path | Draft Release 1 path | Transformation |
 |---|---|---|
 | `schema/core/v2/api/v2.0.0/ion.yaml` | Excluded | Retain as non-normative future-release work; assign no Release 1 URL |
-| `releases/release1/schema/core/api/v2.0.0/ion-beckn.yaml` | `releases/release1/schema/core/api/v2.0.0/ion-beckn.yaml` | Maintain the ION Beckn-derived API contract; record upstream provenance |
+| `releases/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml` | `releases/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml` | Re-vendor from the verified immutable source; record upstream provenance |
 | `schema/extensions/core/` | `releases/release1/schema/common/` | Rename classification and approve public schema directory names |
 | `schema/extensions/trade/` | `releases/release1/schema/extension/trade/` | Moved and normalized to approved public schema names |
 | Other `schema/extensions/<sector>/` | Excluded | Retain outside Release 1 as non-normative future-release work |

@@ -22,15 +22,11 @@ dependencies:
   upstreamRepository: https://github.com/beckn/protocol-specifications-v2
   upstreamCommit: a22300aa83796cb8dfc2b63cd9dd0e36a7f4d3a1
   upstreamUrl: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/a22300aa83796cb8dfc2b63cd9dd0e36a7f4d3a1/api/v2.0.0/beckn.yaml
-  vendoredPath: schema/core/api/v2.0.0/ion-beckn.yaml
+  vendoredPath: schema/vendored/beckn/api/v2.0.0/beckn.yaml
   upstreamSha256: 5afc7586ef1fbc378ea6abb139292dbe85750e4c5ea1a2fd410a40479aadc0f0
-  releasedSha256: 87567ff9b849b0705505a85af86a5899625759cbcfa87775a85aed86e392511a
+  releasedSha256: 5afc7586ef1fbc378ea6abb139292dbe85750e4c5ea1a2fd410a40479aadc0f0
   license: CC-BY-NC-SA-4.0
-  transformations:
-  - Forked the upstream Beckn Protocol 2.0.0 contract into the ION core API.
-  - Removed the deprecated centralized Cataloging Service actor, its catalog API endpoints,
-    and components used only by those endpoints; aligned remaining discovery prose
-    with the NFH-014 decentralized catalog model.
+  transformations: []
 - name: AcceptedPaymentMethod
   type: schema
   upstreamVersion: '2.0'
@@ -337,7 +333,7 @@ artifactChecksums:
   flows/trade/variants/during-transaction/v1/docs/README.md: 3a10bc924fcad39c30e7feb80995a79f7e17eb4d0cea2123db7a6a1b5d658d23
   flows/trade/variants/during-transaction/v1/profile.json: 32309094e158948412586efcdede7e751cc8aa1cbc33dee734ae25e1db6f88a9
   flows/trade/variants/during-transaction/v1/variant.yaml: 81d0803bf2cc4b07ebd524eba9b914b54aa013cd5a1265f3ab3d859890cc2340
-  schema/README.md: 24f22a5ea314aba0b0b278dc19c75d0523b75e7b3ebd095ce487ba6d41d14c1a
+  schema/README.md: c0d4079456e5d97fc8d0502cdcbd8ae2f2008811263152b3476b146bd45cc1a0
   schema/common/Address/v1/README.md: 1d09367461bfb360335ca6191c127b590de66621c17ac0b8a932baee19c1b15d
   schema/common/Address/v1/attributes.yaml: f5c720e050738df2cbc4e88bc09fb56f420a709e4f98012698c7400bc0d95763
   schema/common/Address/v1/context.jsonld: ca4f63bc42c0d989fc574dfad9f78a83e73577481bc73613a942083c16b10038
@@ -399,11 +395,10 @@ artifactChecksums:
   schema/common/Tax/v1/renderer.json: 1a9ded8be9f70a1049acd7c442614073f0e769ea1f5f7fcf59915c2bc804b307
   schema/common/Tax/v1/schema.json: 5b0745489fe0d8b65f782e14c71e6b299152eabec3dcde2628578646d8f7cb27
   schema/common/Tax/v1/vocab.jsonld: e7524c2efc5db3d00542998ec428e7441b6b1ec664d103e977ad2c2a1f3d16f0
-  schema/core/README.md: 20c7ef53c8242d2e311a420d9d29900245802bbe12adbd420071f35adffb6d5b
+  schema/core/README.md: 52a46addd95df127df766eb726d475c3f820ca4325785f0054a13dfb0720a313
   schema/core/api/v2.0.0/examples/on-reconcile-response.json: a8bcc34f59d1982062d263ea16382bfba4e659e82d264b738867f5a031ea2008
   schema/core/api/v2.0.0/examples/reconcile-request.json: 11df22e6ac9ec44c8872f618da11a5623f8ec58481465c3c400228795f8d7433
-  schema/core/api/v2.0.0/ion-additional.yaml: 71c98a2dc7eff955de5429abf21665c33c814bd50a7795bf8f8eede6892e26c4
-  schema/core/api/v2.0.0/ion-beckn.yaml: 87567ff9b849b0705505a85af86a5899625759cbcfa87775a85aed86e392511a
+  schema/core/api/v2.0.0/ion-additional.yaml: 678e47f0426fd154e6a29b8ed21a10be91533b9a18f17bfc6c7b530d4b5fbb68
   schema/extension/logistics/LogisticsCommitment/README.md: 3377fbb413071c7fdeb09210a8c6f8eba93ea4424becbd7b7f4c6fd436715713
   schema/extension/logistics/LogisticsCommitment/v1/README.md: fb96e7ee1f606d24e6a8c48f317d22b0de05736d647a2d552689b72ab98faabc
   schema/extension/logistics/LogisticsCommitment/v1/attributes.yaml: 83bd65c4059136c01b17b2f52c67937cbdb66f99db7f9ff14e9828bacd7f89f8
@@ -525,14 +520,14 @@ artifactChecksums:
   schema/extension/trade/TradeConsideration/v1/schema.json: 32b727a32b068c54dd47a1204763097962bb781181d8a7bd3f8c6cf35478ea30
   schema/extension/trade/TradeConsideration/v1/vocab.jsonld: e52a8706c0c09760e40129aa728e48757ecd6bb2e5094b07f647f5d3276c28f5
   schema/extension/trade/TradeContract/v1/README.md: b29124a98d40579a2801e92899e0d0eb8762abd8c6ea4dbea01cdc8318cc7cbb
-  schema/extension/trade/TradeContract/v1/attributes.yaml: 803d0fc0c18c89324ba35cd37266e08f3757550c183d6722aa8a9072cd1c014f
+  schema/extension/trade/TradeContract/v1/attributes.yaml: 3c09c5714f98df41fd92ee0b8fe9251f1fe3e6ceade8667f561c46f40811ef62
   schema/extension/trade/TradeContract/v1/context.jsonld: c0444120b1180880553df7df2e52467621757cdbdf9e3629606e2e2eb4052fc0
   schema/extension/trade/TradeContract/v1/docs/01-overview.md: 844057916e5c76067bb457aaa94da266f0f2c74c5d36f4b1376636d2d54fde9a
   schema/extension/trade/TradeContract/v1/docs/README.md: 5b2138175b257f78a3e88cd329e460fbe43aaabf9293b4f5f9a81223ef845acf
   schema/extension/trade/TradeContract/v1/examples/b2c-confirmed-order.json: 15c850e8f0161dbbba48f0ed10798c3784e3766068346a39763c114e6d8ef00d
   schema/extension/trade/TradeContract/v1/profile.json: 3c8ece1fab333d4f041952e19f1d4641b27c549e9ee73048748047b5a328aae3
   schema/extension/trade/TradeContract/v1/renderer.json: a672a62b451bb4d9525457a318fb8f8456b47610a0078dea0febaa64660072f2
-  schema/extension/trade/TradeContract/v1/schema.json: 4479d20ecff24b2468d21823250b1799a8b257c7464e25ca617ea5053ce2d8ec
+  schema/extension/trade/TradeContract/v1/schema.json: cc2149b02598e4998451a14fe885f346475745076db85854985311e6a9e72209
   schema/extension/trade/TradeContract/v1/vocab.jsonld: 168a3b021de143ff33cbd651b223d8b24db0f94cc20f7d9334c5cfa5d4638eae
   schema/extension/trade/TradeOffer/v1/README.md: c17759168e0c853b71fe8d169c545f870ff60261ff522c4c7d8e9e6853dfc474
   schema/extension/trade/TradeOffer/v1/attributes.yaml: fe925292f4ef8871d85ea08574caa1982c394c591db7ab70154e0b5fb7c5db53
@@ -546,27 +541,27 @@ artifactChecksums:
   schema/extension/trade/TradeOffer/v1/schema.json: e42f993a06dbbc17cc785e40d74718f54cda5bd10047e0c069b4ca40db552baf
   schema/extension/trade/TradeOffer/v1/vocab.jsonld: 8fac3f7bfbda5c42fba331105cab4c64b1e2f3aca53a8a11ea3d5b83424cb4d2
   schema/extension/trade/TradePerformance/v1/README.md: 0de9bb534bd4376e2f1421969511ec167b494be9875ddf6bfebbf8ff3f880087
-  schema/extension/trade/TradePerformance/v1/attributes.yaml: 77577c0d52c5610c14d57ed13a41019acbccc3ee6e87994cf85261f821bc807d
+  schema/extension/trade/TradePerformance/v1/attributes.yaml: b12e62b8331a6b99d2845eb48ee177ab372d37f8e30670ab161f2a6293679b6e
   schema/extension/trade/TradePerformance/v1/context.jsonld: 6d94ae97f4125616d112ae61d196d7dd102f6de69cbfdff62f137b7c38c6d9f9
   schema/extension/trade/TradePerformance/v1/docs/01-overview.md: 4cde7c66e90861d33ad23638141aba08f4463e71c50d6e27277a1567799de0d3
   schema/extension/trade/TradePerformance/v1/docs/README.md: 2ec7059d3d855595e87080f48bb733af0e11a9ef2143e3a4a7bf275f5d1cde84
   schema/extension/trade/TradePerformance/v1/examples/dispatched-with-agent.json: ad439d59fe897347d738b3a87b8cb46e28bf86f22c35bb2ffe4ecb5a40a2e4b7
   schema/extension/trade/TradePerformance/v1/profile.json: 82d80133b38dd0610964232e856121f3a57831013b575d2a538df038986a75ef
   schema/extension/trade/TradePerformance/v1/renderer.json: 8ccd5add871e66664cadc3b9842ae2141d47a234a1881dc2411bb444b1468f52
-  schema/extension/trade/TradePerformance/v1/schema.json: 1d43bb7691d23fcd1a23d617d83f9e28a54db0880aa9a8bfb691976f0ae842ce
+  schema/extension/trade/TradePerformance/v1/schema.json: 3d7a5ddd7e00751aca88283fff35c28b98db27e834fd16cf2ba7148f293cc1d1
   schema/extension/trade/TradePerformance/v1/vocab.jsonld: 8e82eb867fc3e3ec24eaf9679570765ef3ffd9795e9b718612b8266e62d86476
   schema/extension/trade/TradePerformanceStates/v1/README.md: 16dd82d7f2be2cf642dc213666a1616c9ac6aaeb42201bb66095d9a7457ac0b7
   schema/extension/trade/TradePerformanceStates/v1/profile.json: 041c28e887a22cee87ba5486ea5271b9ddbf1e9e839f793c7c8392cc80d4ab0b
   schema/extension/trade/TradePerformanceStates/v1/states.yaml: 43a0f72aa9623faba90e635b423a7760ed4623a3e4e6994158e09a63fbe561b2
   schema/extension/trade/TradeProvider/v1/README.md: 4e71e8d816487d72d308281e8ce06529d1c66fac42b0ed1ba7c5d4c9be95c9ed
-  schema/extension/trade/TradeProvider/v1/attributes.yaml: b2243dc1bd7e2225cb3bd52abdae89a7fbdc00d782d92d5eb0e8256b89350022
+  schema/extension/trade/TradeProvider/v1/attributes.yaml: 7e01aee5192f594725c37447fd9e8dd0e5458a34dbffdf7192bfcee361e0b722
   schema/extension/trade/TradeProvider/v1/context.jsonld: e7929bc086f1eb843dc8652584326d763b15a2b75e9119e2ff57b589c105670f
   schema/extension/trade/TradeProvider/v1/docs/01-overview.md: f4439183e2aff8a26e507770ba2508321acc344f4bbc230731866ca1d71fbcba
   schema/extension/trade/TradeProvider/v1/docs/README.md: 7ef999782e8121fbaf6f86c87df9be07f907dcbe8fe04f49044d045f2ef421f3
   schema/extension/trade/TradeProvider/v1/examples/merchant-provider.json: 3f61a6a7c8db1ebe4a4e97bd7a0f32b0a3ebc4379a8789855dcd864576d7777f
   schema/extension/trade/TradeProvider/v1/profile.json: 2c576b2aea0a63df3a5a89341fa714571795fd16c02e7939753511da1a6d5158
   schema/extension/trade/TradeProvider/v1/renderer.json: 77d13b2b70fe0846aadf5f986dd437ae7ce8ee3b65ca41a0db5c15ba2b439a15
-  schema/extension/trade/TradeProvider/v1/schema.json: 32dfb8cdf10cdaa00afe35efdd1d7b22cdf47da910d73a7c4a33836bed78f97e
+  schema/extension/trade/TradeProvider/v1/schema.json: 491c535fcc9be3c9d14f840a660555b37a2d7538fed11d33f5f897b765b29a00
   schema/extension/trade/TradeProvider/v1/vocab.jsonld: 37d10642fe89c3a9dce7ebfc9e537868046fd98fff72438e5ba3cb0f20ee2d5a
   schema/extension/trade/TradeResource/v1/README.md: af92a03e0a7b8cfc7ae5707c314d9105c687d31d336d2c7a97ee6190f5256f9e
   schema/extension/trade/TradeResource/v1/attributes.yaml: 7a5210dc98c6b574b0ace61cffa5b589e5c15fac24374e297d6600f74f51769c
@@ -589,6 +584,7 @@ artifactChecksums:
   schema/extension/trade/TradeSettlement/v1/renderer.json: 66ba14a82a7f5a9738ec2ad2c215eacd17ec7de2fd9dbd46393c03b62ace591b
   schema/extension/trade/TradeSettlement/v1/schema.json: 8cd4dc5a3dd3e5a9eae47d50f41c6035021b9e9a8bdba974bd7670c021ab24ee
   schema/extension/trade/TradeSettlement/v1/vocab.jsonld: 40f05dfa870425990198eb1d00e4c7a351550897416abddda4d79dd0c20e7d81
+  schema/vendored/beckn/api/v2.0.0/beckn.yaml: 5afc7586ef1fbc378ea6abb139292dbe85750e4c5ea1a2fd410a40479aadc0f0
   schema/vendored/beckn/licenses/local-retail/LICENSE.md: 8386f4aded6116293b4a2daf378638abe4ed49406c696c12d4e8c19310aec46e
   schema/vendored/beckn/licenses/protocol-specifications-v2/LICENSE: ec5bc2d54dae0ebc2c8ec5a147d0b48d48af5b3f73acdcb8e33f104a7ad4407c
   schema/vendored/beckn/licenses/schemas/LICENSE.md: ec5bc2d54dae0ebc2c8ec5a147d0b48d48af5b3f73acdcb8e33f104a7ad4407c

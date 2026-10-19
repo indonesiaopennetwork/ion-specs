@@ -64,30 +64,30 @@ excluded for callback misuse, missing Contract lifecycle, non-Beckn escalation,
 or Logistics dependencies.
 
 ION endpoints that Beckn does not define live in one file,
-`schema/core/api/v2.0.0/ion-additional.yaml`, which extends `ion-beckn.yaml` by
-reference. Release 1 adds the settlement reconciliation endpoints
+`schema/core/api/v2.0.0/ion-additional.yaml`, which references the vendored
+`schema/vendored/beckn/api/v2.0.0/beckn.yaml` contract. Release 1 adds the settlement reconciliation endpoints
 (`/reconcile`, `/on_reconcile`) there, with their `IONSettlementReconciliation`
 attribute pack at `schema/common/Settlement/v1`. This does not reintroduce the
 `ion.yaml` aggregate.
 
 ## Protocol dependency
 
-Release 1 includes the ION-owned Beckn-derived protocol contract used by its schemas:
+Release 1 includes the immutable upstream Beckn Protocol contract used by its schemas:
 
 ```text
-schema/core/api/v2.0.0/ion-beckn.yaml
+schema/vendored/beckn/api/v2.0.0/beckn.yaml
 ```
 
 Release 1 does not publish `ion.yaml` or a merged `ion-full.yaml`. Its normative
-ION-owned schemas currently present are the core API contract, the standalone
-packs under `schema/common/`, the packs under `schema/extension/trade/`, and the
+ION-owned schemas currently present are the API additions under `schema/core/`,
+the standalone packs under `schema/common/`, the packs under `schema/extension/trade/`, and the
 individually reviewed Logistics packs under `schema/extension/logistics/`.
 These currently comprise `LogisticsResource`, `LogisticsProvider`,
 `LogisticsParticipant`, `LogisticsOffer`, `LogisticsCommitment`, and
 `LogisticsConsideration`, `LogisticsContract`, `LogisticsPerformance`, and
 `LogisticsTracking` v1. The standalone `LogisticsPerformanceStates` v1 registry
 is flow metadata under `flows/logistics/state-machines/v1/`. Pinned
-schema dependencies live under `schema/vendored/`;
+protocol and schema dependencies live under `schema/vendored/`;
 the scoped `flows/` and `errors/` trees remain release-level peers. Policies are
 resolved from the repository-level registry at
 `https://schema.ion.id/policies/registry.json`.

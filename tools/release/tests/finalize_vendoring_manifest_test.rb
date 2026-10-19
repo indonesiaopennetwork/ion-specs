@@ -47,7 +47,7 @@ class FinalizeVendoringManifestTest < Minitest::Test
 
   def with_protocol_file(content)
     Dir.mktmpdir do |root|
-      path = File.join(root, "schema/core/api/v2.0.0/ion-beckn.yaml")
+      path = File.join(root, "schema/vendored/beckn/api/v2.0.0/beckn.yaml")
       FileUtils.mkdir_p(File.dirname(path))
       File.write(path, content)
       yield root, path, Digest::SHA256.hexdigest(content)
