@@ -37,7 +37,7 @@
     ]
   },
   "message": {
-    "reconciliationId": "recon-2026-04-20T100000Z-sellerapp.ion.id",
+    "settlementDate": "2026-04-20",
     "reconciliationStatus": "AGREED",
     "contracts": [
       {
@@ -75,6 +75,7 @@
               "@type": "ion:IONSettlementReconciliation",
               "collectedBy": "BAP",
               "currency": "IDR",
+              "orderDate": "2026-04-19",
               "orderAmount": {
                 "value": 98900
               },
@@ -117,13 +118,19 @@
       "currency": "IDR",
       "settlementDate": "2026-04-20",
       "contractCount": 1,
+      "settlementCount": 1,
       "agreedCount": 1,
       "disputedCount": 0,
+      "pendingCount": 0,
       "totalOrderAmount": 98900,
       "totalCommission": 2670,
       "totalWithholding": 0,
       "totalRefund": 0,
-      "totalNetPayable": 96230
+      "totalNetPayable": 96230,
+      "totalAgreedCommission": 2670,
+      "totalUnreconciledCommission": 0,
+      "totalAgreedNetPayable": 96230,
+      "totalUnreconciledNetPayable": 0
     }
   }
 }

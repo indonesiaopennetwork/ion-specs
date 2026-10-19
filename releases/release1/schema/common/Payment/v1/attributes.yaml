@@ -193,11 +193,13 @@ components:
         settlementAccounts:
           type: array
           description: >
-            Bank accounts where the PJP pays this contract's settlement out of
-            the funds it holds, one per receiving network participant. The BAP
-            declares its account (for the finder fee) in init; the BPP declares
-            its account (for the order proceeds) in on_init and echoes the
-            BAP's. Reconciliation passes them to SEAM for the PJP payout.
+            Bank accounts that receive this contract's settlement payout. The
+            BAP declares its account (for the commission) in init; the BPP
+            declares its account (for the order proceeds) in on_init and
+            echoes the BAP's. The BPP may add the accounts of the sellers,
+            logistics providers and other recipients it splits its share
+            among (SettlementAccount.allocatedAmount). Reconciliation passes
+            them to SEAM, which verifies them before any payout.
           items:
             $ref: '#/components/schemas/SettlementAccount'
       # ION network mandatory: Payment settlement fields required for BI regulatory compliance
@@ -353,8 +355,14 @@ components:
       type: object
       title: Settlement Account
       description: >
-        A network participant's bank account for settlement payouts from the
-        PJP.
+        A bank account that receives part of a settlement payout. BAP and BPP
+        hold the network participants' own accounts. The BPP may also split
+        its share (netPayable) among the accounts of the sellers, logistics
+        providers and other recipients it pays: such an entry has
+        allocationFor BPP, and its allocatedAmount is the part of the BPP's
+        share it receives. A complete split's allocations with allocationFor
+        BPP add up to netPayable. The BAP's agreement covers the BPP's total,
+        not this split or its accounts.
       additionalProperties: false
       properties:
         holderRole:
@@ -362,13 +370,62 @@ components:
           enum:
           - BAP
           - BPP
-          description: Network participant that owns the account and receives payouts into it.
+          - SELLER
+          - LOGISTICS
+          - PROVIDER
+          - OTHER
+          description: >
+            Who owns the account. BAP and BPP are the network participants;
+            SELLER, LOGISTICS, PROVIDER and OTHER are recipients of the BPP's
+            share.
+        holderId:
+          type: string
+          description: >
+            Identifier of the account holder: the subscriber ID for BAP and
+            BPP, the BPP's own identifier for a seller, logistics provider or
+            other recipient. Required for SELLER, LOGISTICS, PROVIDER and
+            OTHER.
         bankCode:
           $ref: '#/components/schemas/BankTransfer/properties/bankCode'
         accountNumber:
           $ref: '#/components/schemas/BankTransfer/properties/accountNumber'
         accountName:
           $ref: '#/components/schemas/BankTransfer/properties/accountName'
+        allocationFor:
+          type: string
+          enum:
+          - BAP
+          - BPP
+          description: >
+            Whose share allocatedAmount comes from: BAP — the commission;
+            BPP — netPayable. Required with allocatedAmount.
+        allocatedAmount:
+          type: number
+          minimum: 0
+          description: >
+            Part of the allocationFor share this account receives, in the
+            settlement currency.
+      dependentRequired:
+        allocatedAmount:
+        - allocationFor
+      allOf:
+      - if:
+          properties:
+            holderRole:
+              enum:
+              - SELLER
+              - LOGISTICS
+              - PROVIDER
+              - OTHER
+          required:
+          - holderRole
+        then:
+          required:
+          - holderId
+          - allocationFor
+          properties:
+            allocationFor:
+              const: BPP
       required:
       - holderRole
       - bankCode

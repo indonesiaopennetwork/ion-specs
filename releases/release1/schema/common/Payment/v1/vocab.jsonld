@@ -667,6 +667,24 @@
       "@type": "rdf:Property",
       "rdfs:label": "holderRole",
       "rdfs:comment": "Network participant (BAP or BPP) that owns the settlement account and receives payouts into it."
+    },
+    {
+      "@id": "ion:holderId",
+      "@type": "rdf:Property",
+      "rdfs:label": "holderId",
+      "rdfs:comment": "Identifier of the account holder: the subscriber ID for BAP and BPP, the BPP's own identifier for a seller, logistics provider or other recipient. Required for SELLER, LOGISTICS, PROVIDER and OTHER."
+    },
+    {
+      "@id": "ion:allocationFor",
+      "@type": "rdf:Property",
+      "rdfs:label": "allocationFor",
+      "rdfs:comment": "Whose share allocatedAmount comes from: BAP — the commission; BPP — netPayable. Required with allocatedAmount."
+    },
+    {
+      "@id": "ion:allocatedAmount",
+      "@type": "rdf:Property",
+      "rdfs:label": "allocatedAmount",
+      "rdfs:comment": "Part of the allocationFor share this account receives, in the settlement currency."
     }
   ]
 }

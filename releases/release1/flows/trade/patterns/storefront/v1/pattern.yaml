@@ -309,10 +309,11 @@ phases:
       Either participant sends reconcile once the settlement falls due
       (the offers' policies.settlement: settlementBasis + settlementWindow,
       the latest due date when the offers differ); the counterparty answers with
-      on_reconcile. The buyer payment is held at the PJP. A batch is agreed
-      as a whole: when every contract has accord true SEAM instructs the PJP
-      payout; otherwise the sender resends the whole batch with the same
-      reconciliationId.
+      on_reconcile. The buyer payment is held at the PJP. Agreement is per
+      settlement: each settlement with accord true goes on to SEAM, which
+      verifies the funds and accounts before the PJP payout; the sender
+      resends only the disputed and pending settlements, in a new reconcile
+      with the same context.transactionId and a new context.messageId.
     steps:
       - step: reconcile
         from: BPP
@@ -323,7 +324,6 @@ phases:
           may send reconcile instead; context.bapId and context.bppId stay
           those of the order, and context.senderId identifies the sender.
         requiredFields:
-          - message.reconciliationId
           - message.settlementDate
           - message.contracts[].id
           - message.contracts[].commitments[]
@@ -331,11 +331,15 @@ phases:
           - message.contracts[].settlements[].settlementAttributes.orderAmount
           - message.contracts[].settlements[].settlementAttributes.commission
           - message.contracts[].settlements[].settlementAttributes.netPayable
+          - message.contracts[].settlements[].settlementAttributes.orderDate
+          - message.contracts[].settlements[].settlementAttributes.dueDate
           - message.contracts[].settlements[].settlementAttributes.settlementAccounts[holderRole=BPP]
           - message.settlementSummary
         conditionalFields:
           - field: message.contracts[].settlements[].settlementAttributes.settlementAccounts[holderRole=BAP]
             condition: if commission is greater than zero
+          - field: message.contracts[].settlements[].settlementAttributes.settlementAccounts[allocationFor=BPP].allocatedAmount
+            condition: if the BPP splits netPayable among sellers or other recipients; the allocations add up to netPayable
         schemaPacks:
           common: [Settlement/v1]
 
@@ -344,20 +348,27 @@ phases:
         to: BPP
         direction: callback
         description: >-
-          BAP agrees with the figures (accord true). Both participants have
-          agreed, so SEAM instructs the PJP to pay netPayable to the BPP and
-          commission to the BAP. Payout status arrives by PJP webhook.
+          BAP agrees with the figures (accord true), with the same
+          context.transactionId and context.messageId. The settlement is
+          agreed, so SEAM verifies the funds and accounts and has the PJP pay
+          netPayable to the BPP and commission to the BAP. Payout status
+          arrives by PJP webhook.
         requiredFields:
-          - message.reconciliationId
+          - message.settlementDate
           - message.reconciliationStatus
           - message.contracts[].settlements[].settlementAttributes.accord
           - message.settlementSummary.agreedCount
           - message.settlementSummary.disputedCount
+          - message.settlementSummary.pendingCount
+          - message.settlementSummary.totalAgreedCommission
+          - message.settlementSummary.totalUnreconciledCommission
+          - message.settlementSummary.totalAgreedNetPayable
+          - message.settlementSummary.totalUnreconciledNetPayable
         conditionalFields:
           - field: message.contracts[].settlements[].settlementAttributes.dueDate
             condition: if accord is true
           - field: message.contracts[].settlements[].settlementAttributes.dispute
-            condition: if accord is false (the batch is DISPUTED and the sender resends all of its contracts)
+            condition: if accord is false (disputed, or pending for SETTLEMENT_WINDOW_NOT_REACHED or AWAITING_INFORMATION; the sender resends that settlement)
           - field: message.contracts[].settlements[].settlementAttributes.*.diffValue
             condition: if accord is false and the counterparty's value differs
         schemaPacks:

@@ -13,7 +13,7 @@ Indonesian payment method objects and PaymentDeclaration wrapper.
 | EWallet | OVO, DANA, GoPay, LinkAja, ShopeePay, AstraPay, Sakuku |
 | CashOnDelivery | COD with collection amount and change instructions |
 | BankTransfer | Direct bank transfer |
-| SettlementAccount | A participant's bank account for PJP settlement payouts |
+| SettlementAccount | A bank account that receives part of a settlement payout |
 | BISettlement | BI-FAST / RTGS / SKN interbank settlement |
 | BNPL | Buy Now Pay Later (Kredivo, Akulaku, etc.) |
 | CardPayment | Credit/debit card (Visa, Mastercard, JCB, UnionPay) |
@@ -24,19 +24,23 @@ Wraps the specific payment instrument with transaction-level context:
 
 ## Settlement accounts
 
-In ION the buyer's payment is held at the PJP, not in a network participant's
-account. After [reconciliation](../../../core/README.md#settlement-reconciliation), SEAM
-instructs the PJP to pay each contract's settlement from those funds into the
-participants' accounts. `settlementAccounts[]` carries one `SettlementAccount`
-per receiving participant:
+In ION a prepaid buyer payment is held at the PJP, not in a network
+participant's account. After [reconciliation](../../../core/README.md#settlement-reconciliation),
+SEAM verifies the accounts and has each agreed settlement paid into them.
+`settlementAccounts[]` carries one `SettlementAccount` per receiving account:
 
 | `holderRole` | Receives | Declared in |
 |---|---|---|
-| `BAP` | Finder fee (`commission`) | `init` |
-| `BPP` | Order proceeds (`netPayable`) | `on_init`, which also echoes the BAP's account |
+| `BAP` | Commission (`commission`) | `init` |
+| `BPP` | Order proceeds (`netPayable`), or the part it keeps when it splits them | `on_init`, which also echoes the BAP's account |
+| `SELLER`, `LOGISTICS`, `PROVIDER`, `OTHER` | Part of the BPP's `netPayable` | By the BPP, when it splits its share |
 
 Each entry carries `bankCode`, `accountNumber`, and `accountName`, with the
-same meanings as in `BankTransfer`.
+same meanings as in `BankTransfer`, and optionally `holderId`. To split its
+share, the BPP gives each recipient's entry `allocationFor: BPP` and an
+`allocatedAmount`; a complete split adds up to `netPayable`. `holderId` and
+`allocationFor: BPP` are required for `SELLER`, `LOGISTICS`, `PROVIDER` and
+`OTHER`. The BAP agrees the BPP's total, not its split.
 
 In Release 1 Trade orders, the payment settlement's `settlementAttributes` is
 [`IONSettlementReconciliation`](../../Settlement/v1/README.md) from
@@ -71,3 +75,4 @@ codes included in this release.
 |---|---|---|
 | v1 | 2026-06-02 | Initial release |
 | v1 | 2026-10-12 | Added `settlementAccounts` (`SettlementAccount` per BAP/BPP) for PJP settlement payouts |
+| v1 | 2026-10-19 | `SettlementAccount`: `holderRole` adds `SELLER`, `LOGISTICS`, `PROVIDER` and `OTHER`; added `holderId`, `allocationFor` and `allocatedAmount` for the BPP's split |

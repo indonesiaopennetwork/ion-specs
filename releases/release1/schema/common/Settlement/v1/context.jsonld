@@ -74,7 +74,10 @@
       "@context": {
         "bankCode": "ionpay:bankCode",
         "accountNumber": "ionpay:accountNumber",
-        "accountName": "ionpay:accountName"
+        "accountName": "ionpay:accountName",
+        "holderId": "ionpay:holderId",
+        "allocationFor": "ionpay:allocationFor",
+        "allocatedAmount": "ionpay:allocatedAmount"
       }
     },
     "orderAmount": "ion:orderAmount",
@@ -88,6 +91,34 @@
     "value": "ion:value",
     "diffValue": "ion:diffValue",
     "code": "ion:code",
-    "description": "ion:description"
+    "description": "ion:description",
+    "recoveryAmount": "ion:recoveryAmount",
+    "orderDate": "ion:orderDate",
+    "breakup": "ion:breakup",
+    "collections": {
+      "@id": "ion:collections",
+      "@context": {
+        "method": "ion:collectionMethod",
+        "status": "ion:collectionStatus"
+      }
+    },
+    "settlementObligations": "ion:settlementObligations",
+    "relatedSettlementId": "ion:relatedSettlementId",
+    "adjustmentType": "ion:adjustmentType",
+    "field": "ion:field",
+    "referenceId": "ion:referenceId",
+    "includedIn": "ion:includedIn",
+    "amount": "ion:amount",
+    "effectOnNetPayable": "ion:effectOnNetPayable",
+    "collectorRole": "ion:collectorRole",
+    "collectorId": "ion:collectorId",
+    "reportedCollectedAmount": "ion:reportedCollectedAmount",
+    "payerId": "ion:payerId",
+    "payeeId": "ion:payeeId",
+    "purpose": "ion:purpose",
+    "FinancialComponent": "ion:FinancialComponent",
+    "CollectionInformation": "ion:CollectionInformation",
+    "SettlementObligation": "ion:SettlementObligation",
+    "allocationFor": "ion:allocationFor"
   }
 }

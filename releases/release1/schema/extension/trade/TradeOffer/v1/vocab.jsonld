@@ -523,7 +523,7 @@
       "@id": "ion:commission",
       "@type": "rdf:Property",
       "rdfs:label": "commission",
-      "rdfs:comment": "The commission the seller (BPP) pays the buyer app (BAP) for orders of this offer, as named entries (for example a finder fee and a platform fee). The entries add up. It is deducted from the seller's payout; it is not a charge to the buyer and is not part of breakup or totalAmount. The BPP states the order's total on the contract's price consideration (IONTradeConsideration.commission.amount)."
+      "rdfs:comment": "The commission the seller (BPP) pays the buyer app (BAP) for orders of this offer, as named entries (for example a finder fee and a platform fee). The entries add up. It is deducted from the seller's payout; it is not a charge to the buyer and is not part of breakup or totalAmount. The BPP states the order's total on the contract's price consideration (IONTradeConsideration.commission.feeAmount)."
     },
     {
       "@id": "ion:IONOfferCommission",

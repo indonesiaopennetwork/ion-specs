@@ -310,23 +310,23 @@ artifactChecksums:
   flows/trade/patterns/marketplace-listed/v1/docs/README.md: dc9f9ad4255e3e8d21749ec6aaa36f20d59677247ecac7f9c16deb2d44135a1a
   flows/trade/patterns/marketplace-listed/v1/pattern.yaml: a1abb4739b7adf6e7137b8fe4110704b7504b0c3e421261c7ad0ead684ff4ff0
   flows/trade/patterns/marketplace-listed/v1/profile.json: 5a1fbc2d72edf5df3f40c91ffd951f57894f149925043b356c321f5b97dfe0a3
-  flows/trade/patterns/storefront/v1/README.md: 1cafea6a3fd818dc98b65f305bcff7d98326249ba741e010973cf58b3aa6a250
+  flows/trade/patterns/storefront/v1/README.md: b2c0a48e0fe8682c2fd5255c127de57602ace1f0745398ea3958a6a6bb78ef85
   flows/trade/patterns/storefront/v1/docs/01-happy-path.md: ed906dbe3a5e3ad884ec8b4c35a2007f91eb8261eb6d55c233021e2d608783dc
   flows/trade/patterns/storefront/v1/docs/README.md: 3f7122022e694e50b79d0c487178e97b70a4e35f17d95923d81074492124a54c
   flows/trade/patterns/storefront/v1/examples/confirm_request.json: 4b9875d778173272eb7cfe8ea57e5ad05717598538cf5d0788c0dee8a22b42f2
   flows/trade/patterns/storefront/v1/examples/init_request.json: 3d6b19620a23f153034346ae7cd25044d167e5672f7cabaa319dcf50f20ba559
   flows/trade/patterns/storefront/v1/examples/on_confirm_response.json: be18b2afe8ee9cba1182a14647773589e58257dff83f7f43945748e2c616d499
   flows/trade/patterns/storefront/v1/examples/on_init_response.json: 0d11e157102ca3fa7a145a756aca7bc4d8a5a2af84440f95904e028d80f7c259
-  flows/trade/patterns/storefront/v1/examples/on_reconcile_response.json: 7f27c087bf0bf6e28748828444610f20b0abd54c116d7b0edfd517db322eaced
+  flows/trade/patterns/storefront/v1/examples/on_reconcile_response.json: 1dabbbcc267fb31dfbe480cb2330825b8a1caabf1f4220b9b1a7b197f5ba453b
   flows/trade/patterns/storefront/v1/examples/on_select_response.json: 3db9febaf13ed8ec5c3451b6a33653e1ce8941eb461b1cfe8bd7ad21ab5f27ba
   flows/trade/patterns/storefront/v1/examples/on_status_DELIVERED.json: 1f097799445dbc2e2131b3e139278c5533601dc3649ce4005507c7b3021c183e
   flows/trade/patterns/storefront/v1/examples/on_status_DISPATCHED.json: 994268451b2e60d7c030998bae777e910478526476d3b6d119b76dcb9e8271ec
   flows/trade/patterns/storefront/v1/examples/on_status_OUT_FOR_DELIVERY.json: d193327b0a4fac69a6820a1e46500b02b4446a239327bebb0cc4ec8345b9613c
   flows/trade/patterns/storefront/v1/examples/on_status_PACKED.json: 35df8507f15672f18ad152404f9b813043e913392b6288b37c50ec48b07ea916
   flows/trade/patterns/storefront/v1/examples/publish_catalog.json: 3dd029bc35a71264f0a28e33fe1590513ad6675abdea03d7b8f255b67296de0a
-  flows/trade/patterns/storefront/v1/examples/reconcile_request.json: 545ce813f1950ebb7ac3f2fab6166bde3f652d85dcbb4f2d5b97ab8de6967de6
+  flows/trade/patterns/storefront/v1/examples/reconcile_request.json: 7bb9c69d67f716d5753ba8a91fe45abe7d4d4a98695fe17eeaab9e0eb9248eab
   flows/trade/patterns/storefront/v1/examples/select_request.json: 8df037f27d199590815180e4049c6bebbe9b2ef92f6725d933f589a415509cd5
-  flows/trade/patterns/storefront/v1/pattern.yaml: e625e99c95fbc07f1a4cbddf10f877245a42cfed603bec44f5808668b0df2ee0
+  flows/trade/patterns/storefront/v1/pattern.yaml: 77c65f83c657ae344e10c466329a0fe41e311e489a2626a23c52df97acc3b4ce
   flows/trade/patterns/storefront/v1/profile.json: 33d77c4851daa5d1676e7c945833c1a2674bab06ba62fe96d2fe7bd2a079050c
   flows/trade/variants/during-transaction/v1/README.md: f2b7b684ffc8d82ee9001f7ba2d235b1150d7561b1c7aef605f4fe630628794d
   flows/trade/variants/during-transaction/v1/docs/01-overview.md: b18a2f2096c79d69e65c0f161465e1fa16a1f886e7176f0868469a4833990025
@@ -366,25 +366,25 @@ artifactChecksums:
   schema/common/IdentifiableLocation/v1/renderer.json: 21a5857481984a2bfede75941af6caa2abbe6ac4d622776a9ac4307d7ddf79aa
   schema/common/IdentifiableLocation/v1/schema.json: 20b1245f856d3dc29df60bfe05bd4c3c0555fe9e59b23283991c1ed0e7a40dc2
   schema/common/IdentifiableLocation/v1/vocab.jsonld: c4616fb4f0d9e5bd4387b4bcfcf8446efe8bc38ab70bff3232fdb6afa7d87e21
-  schema/common/Payment/v1/README.md: da6df26e8e343ee0b818291a75f138d46b87c1e801b9a68570447fb816989cc8
-  schema/common/Payment/v1/attributes.yaml: 80d27682cd7d5d6f283d55ca86fab9b1afdd69e0d7f379b56f004f4d47ef2479
-  schema/common/Payment/v1/context.jsonld: 4292914a1408dbff29c213246a5cc6340156dad9250c5d84d912d6d7911a3a67
+  schema/common/Payment/v1/README.md: e555fe46a9080ec9e761fb6aeff8a980565189558e22d3cbdf6c4aa875b59cb8
+  schema/common/Payment/v1/attributes.yaml: 3e2350f460b746da761268e9073841113d0d5f554faf11c2d216bfd54fe836e6
+  schema/common/Payment/v1/context.jsonld: 7230686595da2000dfe22fb578e87d29332220d51f7867dbc6108422ad82a393
   schema/common/Payment/v1/docs/01-overview.md: 33e1c56584658930f291218c49e511b205c8c2231e542645e961ec5c378518d3
   schema/common/Payment/v1/docs/README.md: 573ef67e841b89bf31e5f266529ff20c51e279bf6bf1407fa7cdff9d8564da61
   schema/common/Payment/v1/examples/ewallet-payment.json: 16d0aba906cb7e1717e6af6f1d6de248589b391cd6c522bb080254773f81a517
   schema/common/Payment/v1/examples/settlement-accounts.json: 2d9e9e7efef191c48df9734cae13e42392ebdf5ffa53a77370e12317b6d41002
   schema/common/Payment/v1/profile.json: d47603d315de1077d34de1ceaed06002c8c5a799686a96fe87a2fbee89dd60e4
   schema/common/Payment/v1/renderer.json: 1640137624bf96938ffbde5b28001a2c1a27aa487940a774b9051dde8b2f6829
-  schema/common/Payment/v1/schema.json: 7d59c63d6946847cac4c34da070e6c845a92b9e5de306bb72b346d19e042dd69
-  schema/common/Payment/v1/vocab.jsonld: 1c340606120942ae7cd0e6953575cb26a6554461e315f79fcf465de005246cc5
-  schema/common/Settlement/v1/README.md: 9cc816431d3e0c8e6413f374e9592cfe7f208cc3f9240ec9e9d88e2936efa2d2
-  schema/common/Settlement/v1/attributes.yaml: 3c25e2971f9af93b79e26182ab29a4624ba96fac75979fa931da5755006939e2
-  schema/common/Settlement/v1/context.jsonld: 415ccbaaa713ed29d0f0351f4fdf6875cfd219e53cca2fde463c4c0fe33c36d9
+  schema/common/Payment/v1/schema.json: 50155676c91188f22327d73995c5da6c13e953bc63a99cba2bd5bed0beae5072
+  schema/common/Payment/v1/vocab.jsonld: 04e3a4ca67508f2c1a110fe51af2efac3deedfeb01430792d8f44a0e2209c424
+  schema/common/Settlement/v1/README.md: 6ed02cc5a31872f300003db65e21bf6141d725ef62ba493b649f3d2c5220697f
+  schema/common/Settlement/v1/attributes.yaml: a89ccd5beb14d3e387a5a339162340f9ee829c1e5ee63ce76b5481d68a1083ed
+  schema/common/Settlement/v1/context.jsonld: d7cd573c5f39b377051c329ca2920af0f03f7161858619ac74f48fbe02a64b07
   schema/common/Settlement/v1/examples/settlement-reconciliation.json: 44a553c231b3c4a2b6904c4d07275b3bf5cba5e29e321eecec4f9964d3f1e0f4
   schema/common/Settlement/v1/profile.json: f90a66ae1a0559d352bfa7318589b632350a37597fd27ceffdbd2315ff4b7718
   schema/common/Settlement/v1/renderer.json: 10b92191262474ab5ac02a96f5532718663f5bbee368984e0212876fad1a3e9f
-  schema/common/Settlement/v1/schema.json: e2ef80027b51e7c9adf24418a6ed6942204b2a7c762f4df9fd1d05fd1674aebf
-  schema/common/Settlement/v1/vocab.jsonld: 236f82fd0c8b7b1de2c57285b74536216e5c9982fd4653507adf115105c46274
+  schema/common/Settlement/v1/schema.json: 2a9e99ece91e1aa4ca2825438a77eb914cb269be8be286bee8963c3cd6988b19
+  schema/common/Settlement/v1/vocab.jsonld: c562d986d5c49211391f6de1da6e37723c6ea3875c7c50940a9c406864fadcc5
   schema/common/Tax/v1/README.md: f758f1033cc7595d309faec59de7e5cec0a1a9431c914b12cfb8c0cee6bfbbc2
   schema/common/Tax/v1/attributes.yaml: 7d97015a7a44a591d6001a99a54556418f40243fcc55e7d50b86970b81ce84e4
   schema/common/Tax/v1/context.jsonld: 5c4cfaefe101ce85ec950b2144cf269ec424e70e71acfcb0bdffd6206581418b
@@ -395,10 +395,10 @@ artifactChecksums:
   schema/common/Tax/v1/renderer.json: 1a9ded8be9f70a1049acd7c442614073f0e769ea1f5f7fcf59915c2bc804b307
   schema/common/Tax/v1/schema.json: 5b0745489fe0d8b65f782e14c71e6b299152eabec3dcde2628578646d8f7cb27
   schema/common/Tax/v1/vocab.jsonld: e7524c2efc5db3d00542998ec428e7441b6b1ec664d103e977ad2c2a1f3d16f0
-  schema/core/README.md: 7763f6de5740fec2519e86b38b92d2bf082bc06df6b9e5c39dfcd6927fbcbc0f
-  schema/core/api/v2.0.0/examples/on-reconcile-response.json: 30a71273b0f72739703be77b9dff4ea55f71d3e9c20a03dfe31b4f52c3a48e56
-  schema/core/api/v2.0.0/examples/reconcile-request.json: bb8f082c1f45fc36cc7e417b84b345d13bdf2e4b68519a25759f2c714f76f147
-  schema/core/api/v2.0.0/ion-additional.yaml: c9b4fc0b74381b44a1635dc213cf48d4aeb9293fa34dbc455baebf9fe85cd662
+  schema/core/README.md: 133013555db5f8dd171e3e8672a28d1f7d533196c29343395b7f1c5d841c8320
+  schema/core/api/v2.0.0/examples/on-reconcile-response.json: 1d9ff9971c8bd2029408446b2e8e15c889078aa5e1632c5cefd8634a7481ecdf
+  schema/core/api/v2.0.0/examples/reconcile-request.json: 8992f3e09a8a7b06d5417aae76bcc1f69208f234d9cbf9382e9005108df07adf
+  schema/core/api/v2.0.0/ion-additional.yaml: 2abfdc5ecb0d2c44e2eef582263f40b90d0c60e1526c8b5f18aa3b8cad310d4f
   schema/extension/logistics/LogisticsCommitment/README.md: 3377fbb413071c7fdeb09210a8c6f8eba93ea4424becbd7b7f4c6fd436715713
   schema/extension/logistics/LogisticsCommitment/v1/README.md: fb96e7ee1f606d24e6a8c48f317d22b0de05736d647a2d552689b72ab98faabc
   schema/extension/logistics/LogisticsCommitment/v1/attributes.yaml: 83bd65c4059136c01b17b2f52c67937cbdb66f99db7f9ff14e9828bacd7f89f8
@@ -541,7 +541,7 @@ artifactChecksums:
   schema/extension/trade/TradeOffer/v1/profile.json: c30a47ed441289eea564252520f054449ddb41451fe09aa7da053a613d9fe89f
   schema/extension/trade/TradeOffer/v1/renderer.json: e402b6ca2c221c1bc49f4dcee03f298d123b76fcb7fdaf4aeda24a565288aea7
   schema/extension/trade/TradeOffer/v1/schema.json: 74fa96385af192bc52accec4505604b87da70c9db527006a3e32f97ad68bcd21
-  schema/extension/trade/TradeOffer/v1/vocab.jsonld: 709fa3fe4dfb1628f916a53408883454315cf31f82d7f48081c8f24755e72d30
+  schema/extension/trade/TradeOffer/v1/vocab.jsonld: 39ab7d86b24b438a2d28a87e9d2bbcbc1f52f6acf23fc43dc9202c9ebe324f5e
   schema/extension/trade/TradePerformance/v1/README.md: 0de9bb534bd4376e2f1421969511ec167b494be9875ddf6bfebbf8ff3f880087
   schema/extension/trade/TradePerformance/v1/attributes.yaml: b12e62b8331a6b99d2845eb48ee177ab372d37f8e30670ab161f2a6293679b6e
   schema/extension/trade/TradePerformance/v1/context.jsonld: 6d94ae97f4125616d112ae61d196d7dd102f6de69cbfdff62f137b7c38c6d9f9
