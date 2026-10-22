@@ -67,9 +67,9 @@ the figures:
 
 - `contract.id` identifies the contract and `settlements[].id` identifies the
   payment record whose PJP-held funds are paid out.
-- `commission` is the contract consideration's `commission.feeAmount`
+- `commission` is the contract consideration's `buyerFinderFee.feeAmount`
   ([`IONTradeConsideration`](../extension/trade/TradeConsideration/v1/README.md)),
-  the sum of the offers' `policies.commission` entries;
+  the sum of the offers' buyer finder fees;
   the payout terms (`settlementBasis`, `settlementWindow`) are the
   commitments' offers' `policies.settlement`
   ([`IONTradeOffer`](../extension/trade/TradeOffer/v1/README.md)). Neither is

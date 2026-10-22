@@ -134,12 +134,6 @@
     "Contact": "https://schema.beckn.io/Contact",
     "settlement": "ion:settlement",
     "settlementBasis": "ion:settlementBasis",
-    "settlementWindow": "ion:settlementWindow",
-    "commission": "ion:commission",
-    "IONOfferCommission": "ion:IONOfferCommission",
-    "feeName": "ion:feeName",
-    "feeType": "ion:feeType",
-    "feeValue": "ion:feeValue",
-    "appliesTo": "ion:appliesTo"
+    "settlementWindow": "ion:settlementWindow"
   }
 }

@@ -26,16 +26,15 @@ The seller publishes the settlement terms with each offer in the catalog:
 - the payout terms in `offerAttributes.policies.settlement`
   ([`IONTradeOffer`](../../../../../schema/extension/trade/TradeOffer/v1/README.md)):
   here `AFTER_DELIVERY` and `P1D`;
-- the commission it pays the buyer app in `offerAttributes.policies.commission`
-  (named entries that add up): here one entry, `Finder fee`, 3% of the item
-  value (`PERCENT`, `ITEM_TOTAL`).
+- the buyer finder fee it pays the buyer app on the offer's consideration,
+  `considerationAttributes.buyerFinderFee`: here 3% of the item value
+  (`PERCENT`, `ITEM_TOTAL`).
 
-The BPP states the order's commission on the contract's price consideration
+The BPP states the order's total buyer finder fee on the contract's price
+consideration
 ([`IONTradeConsideration`](../../../../../schema/extension/trade/TradeConsideration/v1/README.md)
-`commission.feeAmount`, the sum over every offer and all its entries) from
-`on_select` on. Every offer here has the one 3% `ITEM_TOTAL` entry, so the
-contract repeats those terms; otherwise it would state `type: AMOUNT` with the
-total. The order's payment settlement is one
+`buyerFinderFee.feeAmount`, the sum over the offers ordered) from `on_select`
+on; the settlement's `commission` equals it. The order's payment settlement is one
 [`IONSettlementReconciliation`](../../../../../schema/common/Settlement/v1/README.md)
 object from `init` to reconciliation. It carries the payment, the payout
 accounts, and the figures:
@@ -43,7 +42,7 @@ accounts, and the figures:
 | Step | Sender | Carries |
 |---|---|---|
 | `init` | BAP | The payment method, `status: PENDING`, the BAP's `settlementAccounts` entry for the commission, and figures estimated on the `on_select` quote |
-| `on_init` | BPP | The commission `feeAmount` on the final price consideration, the figures on that price, the QRIS `methodDetail`, and the BPP's `settlementAccounts` entry next to the BAP's |
+| `on_init` | BPP | The buyer finder fee `feeAmount` on the final price consideration, the figures on that price, the QRIS `methodDetail`, and the BPP's `settlementAccounts` entry next to the BAP's |
 | `confirm`, `on_confirm` | BAP, BPP | `status: PAID`, `paidAt`, `gatewayRef`, and `orderAmount` as the amount paid, with both accounts |
 
 The buyer's QRIS payment is held at the PJP, not in either participant's

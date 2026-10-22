@@ -9,9 +9,10 @@ info:
     core/api/v2.0.0/ion-additional.yaml. The settlement terms are not part
     of it: the payout terms are the offer's policies.settlement
     (IONTradeOffer, using the SettlementBasis and SettlementWindow defined
-    here) and the commission terms are the offer's policies.commission
-    (IONTradeOffer), whose total for the order is commission.feeAmount on the
-    contract's price consideration (IONTradeConsideration). Attaches to:
+    here) and the commission terms are the buyer finder fee on each offer's
+    consideration (IONTradeConsideration.buyerFinderFee), whose total for the
+    order is buyerFinderFee.feeAmount on the contract's price consideration.
+    Attaches to:
     beckn:Settlement.settlementAttributes.
   version: 1.0.0
   license:
@@ -32,7 +33,7 @@ components:
         payment method, status PENDING, and estimated figures); the BPP
         answers in on_init (its payout account, and the figures on its final
         price, with commission equal to the contract consideration's
-        commission.feeAmount); the BAP records the payment in confirm
+        buyerFinderFee.feeAmount); the BAP records the payment in confirm
         (status PAID, paidAt, gatewayRef, orderAmount = amount paid); the BPP
         keeps the figures current in on_cancel and on_update; and each
         participant sends its figures in /reconcile and /on_reconcile. Before
@@ -154,11 +155,11 @@ components:
           allOf:
             - $ref: '#/components/schemas/ReconAmount'
           description: >
-            Commission the BPP pays the BAP for the contract, equal to
-            commission.feeAmount on the contract's price consideration in force
-            (IONTradeConsideration), which sums the offers'
-            policies.commission entries; the PJP pays it to the BAP. Zero when
-            the offers carry no commission.
+            Commission the BPP pays the BAP for the contract: the buyer finder
+            fee, equal to buyerFinderFee.feeAmount on the contract's price
+            consideration in force (IONTradeConsideration), which sums the
+            offers' fees; the PJP pays it to the BAP. Zero when the offers
+            carry no buyer finder fee.
         withholdingAmount:
           allOf:
             - $ref: '#/components/schemas/ReconAmount'
