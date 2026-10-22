@@ -94,7 +94,10 @@
                   "taxCategory": "BKP"
                 }
               }
-            ]
+            ],
+            "buyerFinderFee": {
+              "feeAmount": 255
+            }
           }
         }
       ],
@@ -115,14 +118,6 @@
               "expiresAt": "2026-04-19T10:45:00.000+07:00"
             },
             "currency": "IDR",
-            "settlementBasis": "AFTER_DELIVERY",
-            "settlementWindow": "P1D",
-            "finderFee": {
-              "feeType": "PERCENT",
-              "feeValue": 3,
-              "appliesTo": "ITEM_TOTAL",
-              "feeAmount": 255
-            },
             "orderAmount": {
               "value": 9435
             },

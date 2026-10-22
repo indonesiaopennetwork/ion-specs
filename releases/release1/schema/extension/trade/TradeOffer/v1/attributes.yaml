@@ -114,6 +114,33 @@ components:
                       example: ion://policy/penalty.seller-sla-breach.standard
                       x-ion-policy-registry: https://registry.ion.id/policies
                       # x-ion-condition: Auto-derived from seller tier and other policies; declare only for an explicit override
+                settlement:
+                  type: object
+                  additionalProperties: false
+                  required: [settlementBasis, settlementWindow]
+                  description: >
+                    The seller's payout terms for orders of this offer: the
+                    payout to the seller falls due settlementWindow after the
+                    settlementBasis event. When an order has several offers,
+                    the term giving the latest due date applies to the whole
+                    contract. The buyer finder fee the seller pays the buyer
+                    app is on the offer's consideration
+                    (IONTradeConsideration.buyerFinderFee), not part of this
+                    policy.
+                  properties:
+                    policyRef:
+                      type: string
+                      format: uri
+                      description: Optional ION-registered settlement policy URI the terms follow.
+                      example: ion://policy/settlement.after-delivery.1d
+                      x-ion-policy-registry: https://registry.ion.id/policies
+                    settlementBasis:
+                      $ref: https://schema.ion.id/release1/schema/common/Settlement/v1/attributes.yaml#/components/schemas/SettlementBasis
+                    settlementWindow:
+                      $ref: https://schema.ion.id/release1/schema/common/Settlement/v1/attributes.yaml#/components/schemas/SettlementWindow
+                  example:
+                    settlementBasis: AFTER_DELIVERY
+                    settlementWindow: P1D
 
       properties:
         policies:

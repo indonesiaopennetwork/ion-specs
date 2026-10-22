@@ -1,14 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://schema.ion.id/release1/schema/extension/trade/TradeOffer/v1",
-  "title": "ION Trade Offer Schema Pack v1",
-  "description": "JSON Schema 2020-12 for the ION trade/offer/v1 schema pack. Root resolves to IONTradeOffer, which inherits directly from Beckn RetailOffer and combines generic trade offer mechanics with explicitly marked Indonesia-specific extensions.",
   "$ref": "#/$defs/IONTradeOffer",
   "$defs": {
     "IONTradeOffer": {
       "type": "object",
       "title": "IONTradeOffer",
-      "description": "ION trade offer attributes. Inherits directly from RetailOffer v2.1 and combines generic trade offer mechanics with Indonesia-specific policy, language, logistics-pricing, and payment-method extensions. Properties originating in the former ION-specific layer are identified by x-attr-ion-layer: ion.",
+      "description": "ION trade offer attributes. Inherits directly from RetailOffer v2.1 and combines generic trade offer mechanics with Indonesia-specific policy, language, logistics-pricing, and payment-method extensions.\nProperties originating in the former ION-specific layer are identified by x-attr-ion-layer: ion.\n",
       "x-ion-layer": "ion",
       "x-ion-split-version": "0.7.0",
       "x-recommended-parent": "Offer.offerAttributes",
@@ -27,6 +25,7 @@
           "type": "object",
           "properties": {
             "policies": {
+              "x-attr-ion-layer": "ion",
               "type": "object",
               "properties": {
                 "cancellation": {
@@ -38,7 +37,7 @@
                           "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/cancellation/properties/policyRef"
                         }
                       ],
-                      "description": "ION standard cancellation policy IRI. cancel.prepacked.free: buyer may cancel before packed at no fee. cancel.mto.nofee.before_prepare: MTO, free cancellation before preparation starts. cancel.none: no cancellation permitted after confirm.\n",
+                      "description": "ION-registered cancellation policy URI.",
                       "example": "ion://policy/cancel.prepacked.free",
                       "x-ion-policy-registry": "https://registry.ion.id/policies",
                       "x-ion-regulatory": "UU 8/1999 Pasal 19"
@@ -54,7 +53,7 @@
                           "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/returns/properties/policyRef"
                         }
                       ],
-                      "description": "ION standard return policy IRI. Encodes window duration and who pays return shipping.\n",
+                      "description": "ION-registered returns policy URI.",
                       "example": "ion://policy/return.standard.7d-sellerpays",
                       "x-ion-policy-registry": "https://registry.ion.id/policies",
                       "x-ion-regulatory": "UU 8/1999 Pasal 25; Permendag 19/M-DAG/PER/5/2009"
@@ -70,7 +69,7 @@
                           "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/warranty/properties/policyRef"
                         }
                       ],
-                      "description": "ION standard warranty policy IRI.",
+                      "description": "ION-registered warranty policy URI.",
                       "example": "ion://policy/warranty.manufacturer.1y-distance-service",
                       "x-ion-policy-registry": "https://registry.ion.id/policies",
                       "x-ion-regulatory": "UU 8/1999 Pasal 25; PP 36/2023"
@@ -83,7 +82,7 @@
                     "policyRef": {
                       "type": "string",
                       "format": "uri",
-                      "description": "ION standard dispute resolution policy IRI. dispute.consumer.bpsk: B2C — BPSK (Badan Penyelesaian Sengketa Konsumen). dispute.commercial.bani: B2B — BANI arbitration. dispute.commercial.odr: Online Dispute Resolution via ION platform.\n",
+                      "description": "ION-registered dispute-resolution policy URI.",
                       "example": "ion://policy/dispute.consumer.bpsk",
                       "x-ion-policy-registry": "https://registry.ion.id/policies",
                       "x-ion-regulatory": "UU 8/1999 Pasal 45; UU 30/1999 tentang Arbitrase"
@@ -96,7 +95,7 @@
                     "policyRef": {
                       "type": "string",
                       "format": "uri",
-                      "description": "ION Grievance SLA policy IRI. Declares response time, resolution time, escalation path, and penalty consequences when SLA is breached. Subject to marketplace minimum (grievance.sla.standard) for B2C; marketplace-operated BAPs may enforce stricter policies on their sellers. ION timer auto-escalates when SLAs are breached — no manual action needed.\n",
+                      "description": "ION-registered grievance SLA policy URI.",
                       "example": "ion://policy/grievance-sla.consumer.standard",
                       "x-ion-policy-registry": "https://registry.ion.id/policies",
                       "x-ion-regulatory": "UU 8/1999 Pasal 45; Permendag 50/2020 Pasal 6"
@@ -109,7 +108,7 @@
                     "policyRef": {
                       "type": "string",
                       "format": "uri",
-                      "description": "Payment terms policy IRI. Declares when payment is collected, which methods are accepted, whether deposit or credit terms apply, and what the late-payment penalty is if applicable. Must be compatible with the order's paymentRail and collectedBy.\n",
+                      "description": "ION-registered payment-terms policy URI.",
                       "example": "ion://policy/payment-terms.upfront.full",
                       "x-ion-policy-registry": "https://registry.ion.id/policies",
                       "x-ion-regulatory": "UU 7/2021 HPP; OJK POJK terkait metode pembayaran"
@@ -122,15 +121,41 @@
                     "policyRef": {
                       "type": "string",
                       "format": "uri",
-                      "description": "Penalty policy IRI. Normally inferred from seller's onboarding tier (Standard/Mall/Premium) and other declared policies (return, cancellation, grievance-sla). May be declared explicitly for per-offer overrides. Sellers cannot select a penalty policy weaker than their tier minimum.\n",
+                      "description": "Optional ION-registered per-offer penalty-policy override. It cannot be weaker than the seller-tier minimum.",
                       "example": "ion://policy/penalty.seller-sla-breach.standard",
-                      "x-ion-policy-registry": "https://registry.ion.id/policies",
-                      "$comment": "x-ion-condition: Auto-derived from seller tier and other policies; declare only for an explicit override"
+                      "x-ion-policy-registry": "https://registry.ion.id/policies"
                     }
                   }
+                },
+                "settlement": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "settlementBasis",
+                    "settlementWindow"
+                  ],
+                  "description": "The seller's payout terms for orders of this offer: the payout to the seller falls due settlementWindow after the settlementBasis event. When an order has several offers, the term giving the latest due date applies to the whole contract. The buyer finder fee the seller pays the buyer app is on the offer's consideration (IONTradeConsideration.buyerFinderFee), not part of this policy.\n",
+                  "properties": {
+                    "policyRef": {
+                      "type": "string",
+                      "format": "uri",
+                      "description": "Optional ION-registered settlement policy URI the terms follow.",
+                      "example": "ion://policy/settlement.after-delivery.1d",
+                      "x-ion-policy-registry": "https://registry.ion.id/policies"
+                    },
+                    "settlementBasis": {
+                      "$ref": "https://schema.ion.id/release1/schema/common/Settlement/v1/attributes.yaml#/components/schemas/SettlementBasis"
+                    },
+                    "settlementWindow": {
+                      "$ref": "https://schema.ion.id/release1/schema/common/Settlement/v1/attributes.yaml#/components/schemas/SettlementWindow"
+                    }
+                  },
+                  "example": {
+                    "settlementBasis": "AFTER_DELIVERY",
+                    "settlementWindow": "P1D"
+                  }
                 }
-              },
-              "x-attr-ion-layer": "ion"
+              }
             }
           }
         }
@@ -175,9 +200,7 @@
                           "example": [
                             "CHANGE_OF_MIND",
                             "WRONG_ITEM_ORDERED"
-                          ],
-                          "x-ion-conditional": true,
-                          "$comment": "x-ion-condition: Required when policies.cancellation.allowed is true"
+                          ]
                         }
                       }
                     }
@@ -201,16 +224,14 @@
                             "VIDEO_UNBOXING_AND_PHOTO",
                             "PHYSICAL_INSPECTION"
                           ],
-                          "description": "Evidence required from buyer when initiating a return. VIDEO_UNBOXING_REQUIRED is standard for high-value electronics. PHYSICAL_INSPECTION is used for high-value items (>IDR 10M) where seller sends inspector before accepting return.\n",
+                          "description": "Evidence required from buyer when initiating a return. VIDEO_UNBOXING_REQUIRED is standard for high-value electronics. PHYSICAL_INSPECTION is used for high-value items (>IDR 10M) where seller sends an inspector before accepting the return.\n",
                           "example": "PHOTO_REQUIRED"
                         },
                         "evidenceMinPhotos": {
                           "type": "integer",
                           "minimum": 1,
                           "maximum": 10,
-                          "description": "Minimum number of evidence photos required.",
-                          "x-ion-conditional": true,
-                          "$comment": "x-ion-condition: Required when policies.returns.evidenceRequirement includes PHOTO"
+                          "description": "Minimum number of evidence photos required."
                         }
                       }
                     }
@@ -222,9 +243,9 @@
         },
         "timeToShip": {
           "type": "string",
+          "format": "duration",
           "description": "Time from order confirm to when seller hands package to logistics. ISO 8601 duration.\n",
-          "example": "PT2H",
-          "format": "duration"
+          "example": "PT2H"
         },
         "selfPickupOtp": {
           "type": "boolean",
@@ -341,7 +362,7 @@
         },
         "priceChangeSchedule": {
           "type": "array",
-          "description": "Price validity timeline for a campaign. Use one entry for a single price window and multiple entries when the price changes during the campaign. BAPs MUST render countdown UI and compute the correct price at transaction time. Entries MUST NOT overlap and must be sorted ascending by validFrom.",
+          "description": "Price validity timeline for a campaign. Use one entry for a single price window and multiple entries when the price changes during the campaign. BAPs MUST render countdown UI and compute the correct price at transaction time. Entries MUST NOT overlap and must be sorted ascending by validFrom.\n",
           "items": {
             "type": "object",
             "additionalProperties": false,
@@ -404,9 +425,7 @@
         "estimatedWaitSeconds": {
           "type": "integer",
           "minimum": 0,
-          "description": "Estimated wait time before this consumer reaches front of queue.",
-          "x-ion-conditional": true,
-          "$comment": "x-ion-condition: Returned in on_select when queuePosition is present"
+          "description": "Estimated wait time before this consumer reaches front of queue."
         },
         "stackingGroup": {
           "type": "string",
@@ -418,7 +437,7 @@
             "SHIPPING",
             "CASHBACK"
           ],
-          "description": "Voucher stacking group. Vouchers from different groups stack by default. Within a single group only one voucher can apply per order unless stackingRules override."
+          "description": "Voucher stacking group. Vouchers from different groups stack by default. Within a single group only one voucher can apply per order unless stackingRules override.\n"
         },
         "stackingRules": {
           "type": "object",
@@ -461,15 +480,7 @@
             "HIGH_RISK_CATEGORY",
             "OTP_VERIFICATION_REQUIRED"
           ],
-          "description": "Reason for the codEligibilityForBuyer decision.",
-          "x-ion-conditional": true,
-          "$comment": "x-ion-condition: Required when codEligibilityForBuyer is declared"
-        },
-        "customTermsAddendum": {
-          "type": "string",
-          "maxLength": 1000,
-          "description": "Free-text addendum for edge cases (e.g. watchmaker offering lifetime service). Supplements the declared policy IRIs but cannot contradict them. If addendum contradicts base policy, base policy wins and addendum is informational only. BAP displays addendum below the structured policy terms.\n",
-          "example": "Garansi seumur hidup untuk mekanisme jam tangan mewah (terms & conditions apply - see seller page)."
+          "description": "Reason for the codEligibilityForBuyer decision."
         },
         "handlingTime": {
           "type": "string",
@@ -477,8 +488,17 @@
           "description": "Time from order confirmation until the package is ready for logistics. Used for custom-print, made-to-measure, and pre-order merchandise.",
           "example": "PT72H"
         },
+        "customTermsAddendum": {
+          "type": "string",
+          "maxLength": 1000,
+          "description": "Free-text addendum for edge cases (e.g. watchmaker offering lifetime service). Supplements the declared policy IRIs but cannot contradict them. If addendum contradicts base policy, base policy wins and addendum is informational only. BAP displays addendum below the structured policy terms.\n",
+          "example": "Garansi seumur hidup untuk mekanisme jam tangan mewah (terms & conditions apply - see seller page)."
+        },
         "displayLanguage": {
+          "x-attr-ion-layer": "ion",
           "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
           "items": {
             "type": "string",
             "enum": [
@@ -497,13 +517,10 @@
             "id",
             "en"
           ],
-          "x-ion-regulatory": "ION Network Policy — language completeness validation",
-          "minItems": 1,
-          "uniqueItems": true,
-          "$comment": "x-ion-condition: Must include id; cross-border offers must also include en",
-          "x-attr-ion-layer": "ion"
+          "x-ion-regulatory": "ION Network Policy — language completeness validation"
         },
         "weightSlabs": {
+          "x-attr-ion-layer": "ion",
           "type": "array",
           "description": "Weight-based pricing tiers for catalogued logistics offers.",
           "items": {
@@ -538,12 +555,10 @@
               "maxKg": 10,
               "priceIDR": 25000
             }
-          ],
-          "x-ion-conditional": true,
-          "$comment": "x-ion-condition: Required for catalogued domestic logistics patterns",
-          "x-attr-ion-layer": "ion"
+          ]
         },
         "paymentMethodEligibility": {
+          "x-attr-ion-layer": "ion",
           "type": "array",
           "description": "Structured ION payment-method restrictions applied in addition to inherited acceptedPaymentMethod.",
           "items": {
@@ -551,36 +566,21 @@
             "additionalProperties": false,
             "properties": {
               "method": {
-                "type": "string",
-                "enum": [
-                  "QRIS",
-                  "VIRTUAL_ACCOUNT",
-                  "EWALLET",
-                  "COD",
-                  "BANK_TRANSFER",
-                  "BI_FAST",
-                  "RTGS",
-                  "SKN",
-                  "BNPL",
-                  "CREDIT_CARD",
-                  "DEBIT_CARD",
-                  "DIRECT_DEBIT",
-                  "CREDIT_FACILITY",
-                  "ESCROW"
-                ]
+                "$ref": "https://schema.ion.id/release1/schema/common/Payment/v1/attributes.yaml#/components/schemas/IONPayment/properties/method"
               },
               "minAmount": {
                 "type": "number",
-                "description": "Minimum order value in IDR for this method to be eligible",
-                "minimum": 0
+                "minimum": 0,
+                "description": "Minimum order value in IDR for this method to be eligible."
               },
               "maxAmount": {
                 "type": "number",
-                "description": "Maximum order value in IDR (BI cap for QRIS is 10M)",
-                "minimum": 0
+                "minimum": 0,
+                "description": "Maximum order value in IDR for this method to be eligible."
               },
               "requiresBuyerTier": {
                 "type": "array",
+                "uniqueItems": true,
                 "items": {
                   "type": "string",
                   "enum": [
@@ -591,52 +591,45 @@
                     "VIP"
                   ]
                 },
-                "description": "Buyer tier(s) eligible for this method",
-                "uniqueItems": true
+                "description": "Buyer tiers eligible for this method."
               },
               "requiresAddressVerification": {
                 "type": "boolean",
-                "description": "Whether buyer must have a verified delivery address",
+                "description": "Whether the buyer must have a verified delivery address.",
                 "default": false
               },
               "requiresPhoneVerification": {
                 "type": "boolean",
-                "default": false,
-                "description": "Whether the buyer must have a verified phone number."
+                "description": "Whether the buyer must have a verified phone number.",
+                "default": false
               },
               "excludedCategories": {
                 "type": "array",
+                "uniqueItems": true,
                 "items": {
                   "type": "string"
                 },
-                "description": "Category codes excluded from this method",
-                "uniqueItems": true
+                "description": "Category codes excluded from this method."
               },
               "requiredBnplProvider": {
                 "type": "array",
+                "uniqueItems": true,
                 "items": {
                   "type": "string"
                 },
-                "description": "Specific BNPL providers allowed (when method=BNPL)",
-                "uniqueItems": true,
-                "$comment": "x-ion-condition: Applicable only when method is BNPL"
+                "description": "BNPL providers accepted when method is BNPL."
               },
               "eligibilityNote": {
                 "type": "string",
-                "description": "Optional human-readable explanation"
+                "description": "Optional human-readable explanation."
               }
             },
             "required": [
               "method"
             ]
-          },
-          "x-attr-ion-layer": "ion"
+          }
         }
-      },
-      "required": [
-        "timeToShip",
-        "contactDetailsConsumerCare"
-      ]
+      }
     }
   }
 }

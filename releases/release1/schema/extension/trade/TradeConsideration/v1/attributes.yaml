@@ -4,7 +4,10 @@ info:
   description: >
     Trade sector consideration attributes. Inherits the monetary amount,
     payment method, breakup, voucher, and loyalty-point structures defined by
-    RetailConsideration v2.1 and refines tax details for ION.
+    RetailConsideration v2.1, refines tax details for ION, and adds the
+    buyer finder fee (IONBuyerFinderFee): its terms on an offer's
+    consideration, and the order's total on the contract's price
+    consideration.
     Attaches to: beckn:Consideration.considerationAttributes
   version: 1.0.0
   license:
@@ -49,6 +52,17 @@ components:
                   taxDetail:
                     allOf:
                       - $ref: https://schema.ion.id/release1/schema/common/Tax/v1/attributes.yaml#/components/schemas/IONTaxDetail
+        buyerFinderFee:
+          x-attr-ion-layer: ion
+          allOf:
+            - $ref: '#/components/schemas/IONBuyerFinderFee'
+          description: >
+            The buyer finder fee the seller (BPP) pays the buyer app (BAP) for
+            orders of an offer, deducted from the seller's payout. Not a charge
+            to the buyer, and not part of breakup or totalAmount. On an offer's
+            consideration: the fee terms (feeType, feeValue, appliesTo). On the
+            contract's price consideration in force: feeAmount, the order's
+            total (see IONBuyerFinderFee).
       # Monetary breakup, payment methods, total amount, applied vouchers,
       # and loyalty points are inherited from RetailConsideration v2.1.
       # Realized discounts use breakup[].type: DISCOUNT and breakup[].amount;
@@ -63,3 +77,85 @@ components:
       # x-ion-condition: Required on PPNBM consideration lines for luxury goods
       # RetailConsideration v2.1 requires currency and totalAmount. These
       # inherited requirements cannot be relaxed by this allOf extension.
+
+    IONBuyerFinderFee:
+      type: object
+      title: IONBuyerFinderFee
+      description: >
+        The buyer finder fee: what the seller (BPP) pays the buyer app (BAP)
+        for orders of an offer, deducted from the seller's payout at
+        settlement. Not a charge to the buyer, and not part of breakup or
+        totalAmount.
+
+        On an offer's consideration the seller states the fee terms: feeType,
+        feeValue, and for PERCENT appliesTo. One fee per offer.
+
+        On the contract's price consideration in force the BPP states
+        feeAmount, the order's total: the sum, over every offer still
+        ordered, of its fee on its own items -- PERCENT of the unit price
+        (ITEM_TOTAL) or of the unit total with tax (ORDER_TOTAL), or the AMOUNT
+        per unit, times the quantity still ordered. The BPP sets it in
+        on_select and on_init and recomputes it in on_cancel and on_update
+        after cancellations and returns. At reconciliation the settlement's
+        commission.value (IONSettlementReconciliation) equals feeAmount.
+      x-ion-layer: ion
+      additionalProperties: false
+      anyOf:
+        - required: [feeType, feeValue]
+        - required: [feeAmount]
+      dependentRequired:
+        feeType: [feeValue]
+        feeValue: [feeType]
+        appliesTo: [feeType]
+      properties:
+        feeType:
+          type: string
+          enum: [PERCENT, AMOUNT]
+          description: >
+            PERCENT applies feeValue as a percentage of the appliesTo base of
+            the offer's item value. AMOUNT is a fixed amount per unit sold, in
+            the consideration currency.
+          example: PERCENT
+        feeValue:
+          type: number
+          minimum: 0
+          description: >
+            Percentage (0-100) when feeType is PERCENT; amount per unit sold in
+            the consideration currency when feeType is AMOUNT.
+          example: 3
+        appliesTo:
+          type: string
+          enum: [ITEM_TOTAL, ORDER_TOTAL]
+          default: ITEM_TOTAL
+          description: >
+            Base for a PERCENT fee. ITEM_TOTAL is the item value excluding tax,
+            delivery and packing; ORDER_TOTAL includes tax. Only for feeType
+            PERCENT.
+          example: ITEM_TOTAL
+        feeAmount:
+          type: number
+          minimum: 0
+          description: >
+            On the contract's price consideration: the order's total buyer
+            finder fee in the consideration currency, the sum over every offer
+            still ordered. Equals the settlement's commission.value at
+            reconciliation.
+          example: 2670
+      allOf:
+        - if:
+            properties:
+              feeType:
+                const: PERCENT
+            required: [feeType]
+          then:
+            properties:
+              feeValue:
+                maximum: 100
+        - if:
+            properties:
+              feeType:
+                const: AMOUNT
+            required: [feeType]
+          then:
+            not:
+              required: [appliesTo]

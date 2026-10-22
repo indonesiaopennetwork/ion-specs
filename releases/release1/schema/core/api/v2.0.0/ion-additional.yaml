@@ -56,10 +56,13 @@ info:
 
 
     `IONSettlementReconciliation` is the order's payment settlement from
-    `init` on: the settlement terms (`settlementBasis`, `settlementWindow`,
-    and `finderFee`) and the participants' bank accounts
-    (`settlementAccounts`) are agreed on it in `init` and `on_init`, and
-    reconciliation sends the same object with each participant's figures.
+    `init` on: the participants' bank accounts (`settlementAccounts`) are
+    agreed on it in `init` and `on_init`, and reconciliation sends the same
+    object with each participant's figures. The settlement terms come from
+    the offers: the payout terms from each offer's `policies.settlement`
+    (`IONTradeOffer`) and the commission from the buyer finder fee on each
+    offer's consideration (`IONTradeConsideration.buyerFinderFee`), whose total
+    for the order is the contract consideration's `buyerFinderFee.feeAmount`.
 
 
     A contract in these messages is a snapshot that carries reconciliation
@@ -127,14 +130,22 @@ paths:
               required: [context, message]
               properties:
                 context:
+                  description: >
+                    The Beckn context. bapId and bppId are the BAP and BPP of the
+                    original orders, whoever sends; senderId and receiverId are the
+                    actual sender and receiver.
                   allOf:
                     - $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml#/components/schemas/Context'
                     - type: object
                       properties:
                         action:
+                          description: Always reconcile.
                           type: string
                           const: reconcile
                 message:
+                  description: >
+                    The sender's figures for the contracts whose settlements fall due on
+                    settlementDate.
                   $ref: '#/components/schemas/ReconcileAction'
       responses:
         '200':
@@ -170,14 +181,22 @@ paths:
               required: [context, message]
               properties:
                 context:
+                  description: >
+                    The Beckn context. bapId and bppId are the BAP and BPP of the
+                    original orders, whoever sends; senderId and receiverId are the
+                    actual sender and receiver.
                   allOf:
                     - $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml#/components/schemas/Context'
                     - type: object
                       properties:
                         action:
+                          description: Always on_reconcile.
                           type: string
                           const: on_reconcile
                 message:
+                  description: >
+                    The counterparty's figures and accord for every settlement in the
+                    /reconcile being answered.
                   $ref: '#/components/schemas/OnReconcileAction'
       responses:
         '200':
@@ -219,6 +238,9 @@ components:
           items:
             $ref: '#/components/schemas/ReconcileContract'
         settlementSummary:
+          description: >
+            The sender's totals over its own figures for the settlements in this
+            message.
           $ref: '#/components/schemas/SettlementSummary'
 
     OnReconcileAction:
@@ -270,8 +292,12 @@ components:
           required: [id, settlements]
           properties:
             id:
+              description: The contract's Contract.id from the order flow.
               $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml#/components/schemas/Contract/properties/id'
             settlements:
+              description: >
+                The contract's settlements to reconcile, each with the sender's figures.
+                A Settlement.id appears once.
               type: array
               minItems: 1
               items:
@@ -279,8 +305,12 @@ components:
                 required: [id, settlementAttributes]
                 properties:
                   id:
+                    description: >
+                      The settlement's Settlement.id, which identifies the payment record
+                      whose PJP-held funds it pays out.
                     $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml#/components/schemas/Settlement/properties/id'
                   settlementAttributes:
+                    description: The sender's figures for the settlement.
                     $ref: 'https://schema.ion.id/release1/schema/common/Settlement/v1/attributes.yaml#/components/schemas/IONSettlementReconciliation'
 
     OnReconcileContract:
@@ -291,13 +321,22 @@ components:
         - type: object
           properties:
             settlements:
+              description: >
+                The settlements of the ReconcileContract, each with the counterparty's
+                figures and accord.
               items:
                 properties:
                   settlementAttributes:
+                    description: >
+                      The counterparty's figures for the settlement, with its accord,
+                      which is required.
                     type: object
                     required: [accord]
                     properties:
                       accord:
+                        description: >
+                          true when the counterparty agrees with the sender's figures
+                          for the settlement; false when it does not.
                         type: boolean
 
     SettlementSummary:
@@ -321,17 +360,21 @@ components:
         - totalNetPayable
       properties:
         bapId:
+          description: The BAP of the contracts reconciled; equal to context.bapId.
           type: string
         bppId:
+          description: The BPP of the contracts reconciled; equal to context.bppId.
           type: string
         currency:
           type: string
           pattern: '^[A-Z]{3}$'
           description: ISO 4217 code; IDR for domestic ION trade.
         settlementDate:
+          description: Equal to the message's settlementDate.
           type: string
           format: date
         contractCount:
+          description: Number of contracts in the message.
           type: integer
           minimum: 1
         agreedCount:

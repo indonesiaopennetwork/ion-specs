@@ -49,7 +49,9 @@ permanent integer releases. It is not copied into individual release bundles.
   previews changes unless passed `--apply`.
 - `sync_schema_pack_jsonld.rb` synchronizes a pack's JSON-LD classes and properties
   with its authoritative `attributes.yaml`, preserving explicit external term
-  mappings such as `beckn:geo`; it is dry-run by default.
+  mappings such as `beckn:geo` and leaving a property defined only in a scoped
+  `@context` (for example `commission.type`) out of the top level; it is
+  dry-run by default.
 - `generate_schema_pack_json.rb` deterministically derives a pack's standalone
   `schema.json` from authoritative `attributes.yaml` components and rewrites
   local component references to JSON Schema `$defs`.

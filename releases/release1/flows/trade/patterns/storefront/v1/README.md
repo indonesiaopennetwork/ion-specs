@@ -21,21 +21,34 @@ aggregate is outside this flow.
 
 ## Settlement terms
 
-The order's payment settlement is one
+The seller publishes the settlement terms with each offer in the catalog:
+
+- the payout terms in `offerAttributes.policies.settlement`
+  ([`IONTradeOffer`](../../../../../schema/extension/trade/TradeOffer/v1/README.md)):
+  here `AFTER_DELIVERY` and `P1D`;
+- the buyer finder fee it pays the buyer app on the offer's consideration,
+  `considerationAttributes.buyerFinderFee`: here 3% of the item value
+  (`PERCENT`, `ITEM_TOTAL`).
+
+The BPP states the order's total buyer finder fee on the contract's price
+consideration
+([`IONTradeConsideration`](../../../../../schema/extension/trade/TradeConsideration/v1/README.md)
+`buyerFinderFee.feeAmount`, the sum over the offers ordered) from `on_select`
+on; the settlement's `commission` equals it. The order's payment settlement is one
 [`IONSettlementReconciliation`](../../../../../schema/common/Settlement/v1/README.md)
-object from `init` to reconciliation. It carries the payment, the settlement
-terms, the payout accounts, and the figures:
+object from `init` to reconciliation. It carries the payment, the payout
+accounts, and the figures:
 
 | Step | Sender | Carries |
 |---|---|---|
-| `init` | BAP | The payment method, `status: PENDING`, the proposed `finderFee`, the BAP's `settlementAccounts` entry for it, and figures estimated on the `on_select` quote |
-| `on_init` | BPP | `settlementBasis`, `settlementWindow`, `finderFee.feeAmount` computed from the final price, the figures on that price, the QRIS `methodDetail`, and the BPP's `settlementAccounts` entry next to the BAP's |
-| `confirm`, `on_confirm` | BAP, BPP | `status: PAID`, `paidAt`, `gatewayRef`, and `orderAmount` as the amount paid, with the agreed terms and both accounts |
+| `init` | BAP | The payment method, `status: PENDING`, the BAP's `settlementAccounts` entry for the commission, and figures estimated on the `on_select` quote |
+| `on_init` | BPP | The buyer finder fee `feeAmount` on the final price consideration, the figures on that price, the QRIS `methodDetail`, and the BPP's `settlementAccounts` entry next to the BAP's |
+| `confirm`, `on_confirm` | BAP, BPP | `status: PAID`, `paidAt`, `gatewayRef`, and `orderAmount` as the amount paid, with both accounts |
 
 The buyer's QRIS payment is held at the PJP, not in either participant's
 account. After delivery and the agreed one-day window, the BPP sends
 [`reconcile_request.json`](examples/reconcile_request.json) with its figures:
-order 98900, a 3% finder fee of 2670 on the 89000 item total, and BPP proceeds
+order 98900, a 3% commission of 2670 on the 89000 item total, and BPP proceeds
 of 96230. The BAP answers with
 [`on_reconcile_response.json`](examples/on_reconcile_response.json) and
 `accord: true`, so the batch is `AGREED` and SEAM instructs the PJP to pay

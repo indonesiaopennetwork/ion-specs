@@ -500,6 +500,24 @@
       "rdfs:domain": {
         "@id": "ion:IONTradeOffer"
       }
+    },
+    {
+      "@id": "ion:settlementBasis",
+      "@type": "rdf:Property",
+      "rdfs:label": "settlementBasis",
+      "rdfs:comment": "settlementBasis property."
+    },
+    {
+      "@id": "ion:settlementWindow",
+      "@type": "rdf:Property",
+      "rdfs:label": "settlementWindow",
+      "rdfs:comment": "settlementWindow property."
+    },
+    {
+      "@id": "ion:settlement",
+      "@type": "rdf:Property",
+      "rdfs:label": "settlement",
+      "rdfs:comment": "The seller's payout terms for orders of this offer: the payout to the seller falls due settlementWindow after the settlementBasis event. When an order has several offers, the term giving the latest due date applies to the whole contract. The commission the seller pays the buyer app is policies.commission, not part of this policy."
     }
   ]
 }

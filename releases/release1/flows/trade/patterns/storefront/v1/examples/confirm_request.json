@@ -97,14 +97,6 @@
             "paidAt": "2026-04-19T10:32:15.000+07:00",
             "gatewayRef": "GW-QRIS-2026041900001",
             "currency": "IDR",
-            "settlementBasis": "AFTER_DELIVERY",
-            "settlementWindow": "P1D",
-            "finderFee": {
-              "feeType": "PERCENT",
-              "feeValue": 3,
-              "appliesTo": "ITEM_TOTAL",
-              "feeAmount": 255
-            },
             "orderAmount": {
               "value": 9435
             },

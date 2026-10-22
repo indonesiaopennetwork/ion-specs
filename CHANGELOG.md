@@ -21,6 +21,33 @@ Release-owned schema content is grouped under `releases/release1/schema/`:
 `core/`, `common/`, `extension/`, and `vendored/` are peers there, while
 `flows/` and `errors/` remain peers of `schema/` at the release root.
 
+### Settlement terms on the offer (19 October 2026)
+
+The settlement terms moved from the settlement object to what the seller
+publishes with each offer:
+
+- `IONTradeOffer.policies.settlement` (`TradeOffer/v1`): the seller's payout
+  terms, `settlementBasis` and `settlementWindow`. With several offers in an
+  order, the term giving the latest due date applies.
+- `IONTradeConsideration.buyerFinderFee` (`TradeConsideration/v1`, new
+  `IONBuyerFinderFee`): the buyer finder fee the seller pays the buyer app.
+  On each offer's consideration, one fee per offer: `feeType` (`PERCENT` or
+  `AMOUNT` per unit sold), `feeValue`, and `appliesTo` for `PERCENT`
+  (`ITEM_TOTAL` or `ORDER_TOTAL`). On the contract's price consideration,
+  `feeAmount`: the order's total over the offers still ordered, set by the BPP
+  in `on_select` and `on_init` and recomputed in `on_cancel` and `on_update`.
+- `IONSettlementReconciliation` (`common/Settlement/v1`): `finderFee`,
+  `settlementBasis`, `settlementWindow` and the `FinderFee` definition are
+  removed; `commission.value` equals the contract consideration's
+  `buyerFinderFee.feeAmount`. Older orders that still carry the removed fields stay
+  valid (`additionalProperties: true`).
+- Updated the Storefront pattern, the reconciliation API examples and the pack
+  READMEs and examples.
+- The fee fields are named `feeType`, `feeValue`, `appliesTo` and
+  `feeAmount`, as `FinderFee` was, so their top-level JSON-LD terms (required
+  by the testbed schema validator for every property) do not redefine `type`,
+  `value` or `amount` elsewhere in the pack (for example `breakup[].type`).
+
 The older semantic-version entries below describe pre-release repository history;
 they are not permanent published integer releases.
 

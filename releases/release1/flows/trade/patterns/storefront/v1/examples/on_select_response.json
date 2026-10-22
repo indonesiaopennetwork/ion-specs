@@ -104,7 +104,10 @@
                   "taxCategory": "BKP"
                 }
               }
-            ]
+            ],
+            "buyerFinderFee": {
+              "feeAmount": 255
+            }
           }
         }
       ],

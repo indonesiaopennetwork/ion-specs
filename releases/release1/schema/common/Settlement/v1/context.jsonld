@@ -12,7 +12,6 @@
     "IONSettlementReconciliation": "ion:IONSettlementReconciliation",
     "ReconAmount": "ion:ReconAmount",
     "Dispute": "ion:Dispute",
-    "FinderFee": "ion:FinderFee",
     "SettlementBasis": "ion:SettlementBasis",
     "SettlementWindow": "ion:SettlementWindow",
     "collectedBy": "ionpay:collectedBy",
@@ -78,9 +77,6 @@
         "accountName": "ionpay:accountName"
       }
     },
-    "settlementBasis": "ion:settlementBasis",
-    "settlementWindow": "ion:settlementWindow",
-    "finderFee": "ion:finderFee",
     "orderAmount": "ion:orderAmount",
     "commission": "ion:commission",
     "withholdingAmount": "ion:withholdingAmount",
@@ -92,10 +88,6 @@
     "value": "ion:value",
     "diffValue": "ion:diffValue",
     "code": "ion:code",
-    "description": "ion:description",
-    "feeType": "ion:feeType",
-    "feeValue": "ion:feeValue",
-    "appliesTo": "ion:appliesTo",
-    "feeAmount": "ion:feeAmount"
+    "description": "ion:description"
   }
 }
