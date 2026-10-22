@@ -13,7 +13,7 @@
       "@id": "ion:IONSettlementReconciliation",
       "@type": "rdfs:Class",
       "rdfs:label": "IONSettlementReconciliation",
-      "rdfs:comment": "The order's settlement, carried as one object from init to reconciliation. The BAP declares it in init (its payout account, payment method, status PENDING, and estimated figures); the BPP answers in on_init (its payout account, and the figures on its final price, with commission equal to the contract consideration's commission.amount); the BAP records the payment in confirm (status PAID, paidAt, gatewayRef, orderAmount = amount paid); the BPP keeps the figures current in on_cancel and on_update; and each participant sends its figures in /reconcile and /on_reconcile. Before reconciliation the figures are estimates. The buyer's payment is held at the PJP; the figures split it. Invariant: orderAmount.value = netPayable.value + commission.value + withholdingAmount.value + refundAmount.value. On agreement SEAM instructs the PJP to pay netPayable to the BPP and commission to the BAP, return refundAmount to the buyer, and keep withholdingAmount. The payment fields reuse the IONPayment definitions. The payout falls due as the commitments' offers state in policies.settlement (IONTradeOffer); with several offers, the one giving the latest due date applies. Earlier versions carried settlementBasis, settlementWindow and finderFee here; orders that still carry them remain valid (additionalProperties is true), but new settlements omit them."
+      "rdfs:comment": "The order's settlement, carried as one object from init to reconciliation. The BAP declares it in init (its payout account, payment method, status PENDING, and estimated figures); the BPP answers in on_init (its payout account, and the figures on its final price, with commission equal to the contract consideration's commission.feeAmount); the BAP records the payment in confirm (status PAID, paidAt, gatewayRef, orderAmount = amount paid); the BPP keeps the figures current in on_cancel and on_update; and each participant sends its figures in /reconcile and /on_reconcile. Before reconciliation the figures are estimates. The buyer's payment is held at the PJP; the figures split it. Invariant: orderAmount.value = netPayable.value + commission.value + withholdingAmount.value + refundAmount.value. On agreement SEAM instructs the PJP to pay netPayable to the BPP and commission to the BAP, return refundAmount to the buyer, and keep withholdingAmount. The payment fields reuse the IONPayment definitions. The payout falls due as the commitments' offers state in policies.settlement (IONTradeOffer); with several offers, the one giving the latest due date applies. Earlier versions carried settlementBasis, settlementWindow and finderFee here; orders that still carry them remain valid (additionalProperties is true), but new settlements omit them."
     },
     {
       "@id": "ion:ReconAmount",
@@ -124,7 +124,7 @@
       "@id": "ion:commission",
       "@type": "rdf:Property",
       "rdfs:label": "commission",
-      "rdfs:comment": "Commission the BPP pays the BAP for the contract, equal to commission.amount on the contract's price consideration in force (IONTradeConsideration), which sums the offers' policies.commission entries; the PJP pays it to the BAP. Zero when the offers carry no commission.",
+      "rdfs:comment": "Commission the BPP pays the BAP for the contract, equal to commission.feeAmount on the contract's price consideration in force (IONTradeConsideration), which sums the offers' policies.commission entries; the PJP pays it to the BAP. Zero when the offers carry no commission.",
       "rdfs:domain": {
         "@id": "ion:IONSettlementReconciliation"
       }
@@ -218,6 +218,138 @@
       "rdfs:domain": {
         "@id": "ion:Dispute"
       }
+    },
+    {
+      "@id": "ion:recoveryAmount",
+      "@type": "rdf:Property",
+      "rdfs:label": "recoveryAmount",
+      "rdfs:comment": "Amount owed back on a correction settlement (relatedSettlementId), for example after a chargeback or a refund forced after payout, when it exceeds what is still to be paid. Amounts are never negative; a recovery is stated here instead."
+    },
+    {
+      "@id": "ion:orderDate",
+      "@type": "rdf:Property",
+      "rdfs:label": "orderDate",
+      "rdfs:comment": "Date the order was created, in Asia/Jakarta time (UTC+07:00), taken from the order's original creation timestamp. Groups settlements by order day; it is not the due date."
+    },
+    {
+      "@id": "ion:breakup",
+      "@type": "rdf:Property",
+      "rdfs:label": "breakup",
+      "rdfs:comment": "Optional itemization of the figures. Entries with includedIn COMMISSION, WITHHOLDING or REFUND explain part of that amount and are not deducted again; ADDITIONAL entries change netPayable by their effectOnNetPayable."
+    },
+    {
+      "@id": "ion:collections",
+      "@type": "rdf:Property",
+      "rdfs:label": "collections",
+      "rdfs:comment": "Optional record of who collected the buyer's money and how much, for the cases the payment fields do not describe: cash on delivery, credit, bank transfer, partial or mixed collection. Reported by the sender; it is not proof of funds."
+    },
+    {
+      "@id": "ion:settlementObligations",
+      "@type": "rdf:Property",
+      "rdfs:label": "settlementObligations",
+      "rdfs:comment": "Optional, informational: who is expected to pay whom, for example a cash-on-delivery collector remitting to the BPP and the BPP paying the BAP's commission. Not a payment instruction; legs that pass on the same money are not added up as separate value."
+    },
+    {
+      "@id": "ion:relatedSettlementId",
+      "@type": "rdf:Property",
+      "rdfs:label": "relatedSettlementId",
+      "rdfs:comment": "On a correction settlement, the Settlement.id of the earlier settlement it adjusts. The correction has its own Settlement.id; the earlier settlement is not sent or paid again."
+    },
+    {
+      "@id": "ion:adjustmentType",
+      "@type": "rdf:Property",
+      "rdfs:label": "adjustmentType",
+      "rdfs:comment": "Kind of correction. Requires relatedSettlementId."
+    },
+    {
+      "@id": "ion:field",
+      "@type": "rdf:Property",
+      "rdfs:label": "field",
+      "rdfs:comment": "Name of the field in dispute, for example commission or a breakup code, when the disagreement is about one figure."
+    },
+    {
+      "@id": "ion:referenceId",
+      "@type": "rdf:Property",
+      "rdfs:label": "referenceId",
+      "rdfs:comment": "Reference the disagreement rests on, such as an invoice or settlement ID."
+    },
+    {
+      "@id": "ion:includedIn",
+      "@type": "rdf:Property",
+      "rdfs:label": "includedIn",
+      "rdfs:comment": "The amount this entry is part of. ADDITIONAL: not part of commission, withholdingAmount or refundAmount; it changes netPayable by effectOnNetPayable."
+    },
+    {
+      "@id": "ion:amount",
+      "@type": "rdf:Property",
+      "rdfs:label": "amount",
+      "rdfs:comment": "Size of the entry, in the settlement currency."
+    },
+    {
+      "@id": "ion:effectOnNetPayable",
+      "@type": "rdf:Property",
+      "rdfs:label": "effectOnNetPayable",
+      "rdfs:comment": "Signed change to netPayable; required when includedIn is ADDITIONAL. Negative for a fee or penalty charged to the BPP, positive for a credit to it."
+    },
+    {
+      "@id": "ion:collectorRole",
+      "@type": "rdf:Property",
+      "rdfs:label": "collectorRole",
+      "rdfs:comment": "Who holds the money collected; BUYER when nothing has been collected yet on credit."
+    },
+    {
+      "@id": "ion:collectorId",
+      "@type": "rdf:Property",
+      "rdfs:label": "collectorId",
+      "rdfs:comment": "Identifier of the collector, such as a subscriber ID or the BPP's ID for a seller or courier."
+    },
+    {
+      "@id": "ion:reportedCollectedAmount",
+      "@type": "rdf:Property",
+      "rdfs:label": "reportedCollectedAmount",
+      "rdfs:comment": "Amount the sender reports as collected so far."
+    },
+    {
+      "@id": "ion:payerId",
+      "@type": "rdf:Property",
+      "rdfs:label": "payerId",
+      "rdfs:comment": "Who is expected to pay."
+    },
+    {
+      "@id": "ion:payeeId",
+      "@type": "rdf:Property",
+      "rdfs:label": "payeeId",
+      "rdfs:comment": "Who is expected to receive."
+    },
+    {
+      "@id": "ion:purpose",
+      "@type": "rdf:Property",
+      "rdfs:label": "purpose",
+      "rdfs:comment": "What the payment is for."
+    },
+    {
+      "@id": "ion:FinancialComponent",
+      "@type": "rdfs:Class",
+      "rdfs:label": "FinancialComponent",
+      "rdfs:comment": "One itemized part of a settlement's figures. Amounts are explained once: an entry included in commission, withholdingAmount or refundAmount is not deducted again."
+    },
+    {
+      "@id": "ion:CollectionInformation",
+      "@type": "rdfs:Class",
+      "rdfs:label": "CollectionInformation",
+      "rdfs:comment": "One collection of the buyer's money, as reported by the sender. Not proof of funds: SEAM verifies collections separately."
+    },
+    {
+      "@id": "ion:SettlementObligation",
+      "@type": "rdfs:Class",
+      "rdfs:label": "SettlementObligation",
+      "rdfs:comment": "One expected payment between parties, for information. It is not a payment instruction."
+    },
+    {
+      "@id": "ion:allocationFor",
+      "@type": "rdf:Property",
+      "rdfs:label": "allocationFor",
+      "rdfs:comment": "allocationFor property."
     }
   ]
 }

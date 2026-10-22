@@ -24,35 +24,51 @@ info:
     ION has no separate settle or report API. Reconciliation, agreement, and
     the payout trigger are all carried by `/reconcile` and `/on_reconcile`:
 
-    1. Either participant (BAP or BPP) sends `/reconcile` with each contract
-       whose settlement falls due on `settlementDate`. Each contract is a
+    1. Either participant (BAP or BPP) sends `/reconcile` with the contracts
+       whose settlements fall due on `settlementDate`. Each contract is a
        Beckn `Contract`; the sender's figures are in its
        `settlements[].settlementAttributes` as `IONSettlementReconciliation`
-       (defined by the common/Settlement/v1 attribute pack).
+       (defined by the common/Settlement/v1 attribute pack). Each settlement
+       states its own `orderDate` and `dueDate`.
 
-    2. The counterparty answers with `/on_reconcile`, setting `accord` per
-       contract. `accord: true` means both participants agree on that
-       contract's figures; `accord: false` carries the counterparty's own
-       figures, the per-component `diffValue`, and a `dispute` reason.
+    2. The counterparty answers with `/on_reconcile`, setting `accord` on
+       every settlement. `accord: true` means both participants agree on that
+       settlement's entitlements: the BAP's `commission` and the BPP's
+       `netPayable`. `accord: false` carries the counterparty's own figures,
+       the per-component `diffValue` (its value minus the value it answers),
+       and a `dispute` code that makes the settlement disputed or, for
+       `SETTLEMENT_WINDOW_NOT_REACHED` and `AWAITING_INFORMATION`, pending.
 
-    3. A batch is agreed as a whole or not at all. Only when every contract
-       has `accord: true` is the batch `AGREED` and paid out. Otherwise it is
-       `DISPUTED`, no contract in it is agreed, and the initiator sends all
-       of its contracts again in a new `/reconcile` round, with the same
-       `reconciliationId`, until the counterparty agrees with every one.
-       A contract sent before its settlement window is answered
-       `accord: false` with the dispute code `SETTLEMENT_WINDOW_NOT_REACHED`
-       and left out of the outcome; it is sent again once due. A batch in
-       which every contract was sent early is `PENDING`.
+    3. Agreement is per settlement. An agreed settlement stays agreed and
+       goes on to SEAM whatever happens to the others in the batch.
+       `reconciliationStatus` only summarizes the answer: `AGREED` when every
+       settlement is agreed, `DISPUTED` when any is disputed, and otherwise
+       `PENDING`. The sender then sends only the disputed and pending
+       settlements again, in a new `/reconcile` with the same
+       `context.transactionId` and a new `context.messageId`, corrected or
+       once due.
 
-    4. The buyer's payment is held at the PJP (Penyelenggara Jasa
-       Pembayaran), not in a participant's account. When a batch is
-       `AGREED`, SEAM (Settlement Assurance Mechanism) instructs the PJP to
-       pay each of its contracts out of the held funds: `netPayable` to the
-       BPP, `commission` to the BAP, each into the participant's account in
-       `settlementAccounts`. SEAM may combine agreed contracts into a single
-       transfer per participant. Payout status reaches the participants
-       through the PJP's webhook, which is outside this specification.
+    4. `accord: true` is not a payout instruction. SEAM (Settlement
+       Assurance Mechanism) separately verifies the funds, the accounts in
+       `settlementAccounts` and that nothing is paid twice before it has an
+       agreed settlement paid: `netPayable` to the BPP, or to the recipients
+       the BPP splits it among, and `commission` to the BAP. A prepaid
+       buyer payment is held at the PJP (Penyelenggara Jasa Pembayaran);
+       `collections` records cash-on-delivery, credit and transfer
+       collections. Payout status reaches the participants through the
+       PJP's webhook, which is outside this specification.
+
+
+    A reconciliation exchange is identified by `context.transactionId` and
+    each request–callback pair by `context.messageId`; there is no separate
+    reconciliation ID. Unlike a Beckn order flow, where the BAP starts the
+    transaction, either participant may start a reconciliation exchange and
+    create its `transactionId`. A plain retransmission repeats the same
+    `messageId` and is processed once. The economic identity of a settlement
+    is the BAP–BPP pair with `Contract.id` and `Settlement.id`; an agreed
+    settlement is never paid twice, whichever message repeats it. A later
+    correction is a new settlement with its own `Settlement.id` and
+    `relatedSettlementId`.
 
 
     `IONSettlementReconciliation` is the order's payment settlement from
@@ -103,18 +119,19 @@ paths:
       tags: [Post-Fulfillment]
       description: >
         Sent by either participant of an order (BAP or BPP) to its
-        counterparty, normally once per settlement date, listing every contract
-        between them whose settlement falls due on that date, with the sender's
-        figures for each. When the counterparty disputes any contract, the
-        whole batch is sent again, with the same reconciliationId and all of
-        its contracts, as a new round.
+        counterparty, normally once per settlement date, listing the contracts
+        between them whose settlements fall due on that date, with the
+        sender's figures for each. Settlements left disputed or pending are
+        sent again, alone, in a new `/reconcile` with the same
+        `context.transactionId` and a new `context.messageId`.
 
 
         `context.bapId` and `context.bppId` are always the BAP and BPP of the
         original orders, whoever sends. `context.senderId` and
         `context.receiverId` identify the actual sender and receiver.
         `context.transactionId` identifies the reconciliation exchange; it is
-        not any one contract's transactionId.
+        not any one contract's transactionId, and the sender creates it
+        whether it is the BAP or the BPP.
 
 
         Callback relationship: the receiver MUST answer with `/on_reconcile`
@@ -163,15 +180,16 @@ paths:
       operationId: on_reconcile
       tags: [Post-Fulfillment]
       description: >
-        Sent by the receiver of `/reconcile` back to its sender, correlated by
-        `context.messageId`. For each contract it sets `accord`. A contract
-        with `accord: false` carries the counterparty's own figures, a
-        `diffValue` on each differing component, and a `dispute` reason. The
-        batch is agreed only when every contract has `accord: true`; SEAM then
-        instructs the PJP to pay them all out of the held funds. Otherwise the
-        initiator sends the whole batch again as a new `/reconcile` round.
+        Sent by the receiver of `/reconcile` back to its sender, with the same
+        `context.transactionId` and `context.messageId`. It answers every
+        settlement in the request and no other. On each settlement it sets
+        `accord`; one with `accord: false` carries the counterparty's own
+        figures, a `diffValue` on each differing component, and a `dispute`
+        code. Agreed settlements go on to SEAM; the sender sends the disputed
+        and pending ones again in a new `/reconcile`. Signed as a Beckn
+        callback, whichever participant answers.
       parameters:
-        - $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml#/components/parameters/AuthorizationHeader'
+        - $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml#/components/parameters/CallbackAuthorizationHeader'
       requestBody:
         required: true
         content:
@@ -214,27 +232,25 @@ components:
       title: Reconcile Action
       description: >
         The sender's reconciliation figures for one settlement date against one
-        counterparty: the due contracts and their batch totals.
+        counterparty: the contracts to reconcile and their totals.
       type: object
       additionalProperties: false
-      required: [reconciliationId, settlementDate, contracts, settlementSummary]
+      required: [settlementDate, contracts, settlementSummary]
       properties:
-        reconciliationId:
-          type: string
-          description: >
-            Identifier of the reconciliation batch, unique per batch: the
-            settlement date and UTC send time of the first round, plus the
-            sender's subscriber ID — recon-<YYYY-MM-DD>T<HHMMSS>Z-<senderId>.
-            Later rounds for the same contracts reuse it.
-          examples: ['recon-2026-09-30T170000Z-bpp.example.id']
         settlementDate:
           type: string
           format: date
-          description: The date whose due settlements this batch reconciles.
+          description: >
+            The business date of this reconciliation run, whose due
+            settlements it carries. Each settlement's own orderDate and
+            dueDate are in its settlementAttributes.
         contracts:
           type: array
           minItems: 1
-          description: The due contracts, each carrying the sender's figures on its settlements.
+          description: >
+            The contracts to reconcile, each carrying the sender's figures on
+            its settlements. A Contract.id appears once, and a Settlement.id
+            once within its contract.
           items:
             $ref: '#/components/schemas/ReconcileContract'
         settlementSummary:
@@ -246,46 +262,55 @@ components:
     OnReconcileAction:
       title: On Reconcile Action
       description: >
-        The counterparty's answer to a reconciliation round: its figures and
-        accord for every contract in the round.
+        The counterparty's answer to a /reconcile: its figures and accord for
+        every settlement in it.
       type: object
       additionalProperties: false
-      required: [reconciliationId, reconciliationStatus, contracts]
+      required: [settlementDate, reconciliationStatus, contracts, settlementSummary]
       properties:
-        reconciliationId:
+        settlementDate:
           type: string
-          description: The reconciliationId of the /reconcile being answered.
+          format: date
+          description: The settlementDate of the /reconcile being answered.
         reconciliationStatus:
           type: string
           enum: [AGREED, DISPUTED, PENDING]
           description: >
-            Batch-level outcome, over the contracts that are due. AGREED —
-            every one has accord true; all of them proceed to payout.
-            DISPUTED — at least one has accord false; none proceeds, and the
-            sender sends the whole batch again. PENDING — none was due: every
-            contract was sent before its settlement window (dispute code
-            SETTLEMENT_WINDOW_NOT_REACHED) and is sent again once due. A
-            contract sent early never counts towards AGREED or DISPUTED.
+            Summary of the answer; it does not override any settlement's
+            accord. AGREED — every settlement has accord true. DISPUTED — at
+            least one is disputed (accord false with a disputed code).
+            PENDING — none is disputed, and at least one is pending
+            (SETTLEMENT_WINDOW_NOT_REACHED or AWAITING_INFORMATION). Agreed
+            settlements go on to SEAM in every case.
         contracts:
           type: array
           minItems: 1
-          description: The counterparty's figures and accord for every contract in the round.
+          description: >
+            The counterparty's figures and accord for every contract and
+            settlement in the /reconcile, and no others.
           items:
             $ref: '#/components/schemas/OnReconcileContract'
         settlementSummary:
           description: >
-            The counterparty's own batch totals, with agreedCount and
-            disputedCount.
+            The counterparty's totals over its own figures, with the outcome
+            counts and the agreed and unreconciled entitlements.
           allOf:
             - $ref: '#/components/schemas/SettlementSummary'
-            - required: [agreedCount, disputedCount]
+            - required:
+                - agreedCount
+                - disputedCount
+                - pendingCount
+                - totalAgreedCommission
+                - totalUnreconciledCommission
+                - totalAgreedNetPayable
+                - totalUnreconciledNetPayable
 
     ReconcileContract:
       title: Reconcile Contract
       description: >
         A Beckn Contract snapshot whose settlements carry reconciliation
         figures. id identifies the contract; each settlement's id identifies
-        the payment record whose PJP-held funds it pays out.
+        a settlement obligation, prepaid or not.
       allOf:
         - $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml#/components/schemas/Contract'
         - type: object
@@ -301,50 +326,70 @@ components:
               type: array
               minItems: 1
               items:
-                type: object
-                required: [id, settlementAttributes]
-                properties:
-                  id:
-                    description: >
-                      The settlement's Settlement.id, which identifies the payment record
-                      whose PJP-held funds it pays out.
-                    $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml#/components/schemas/Settlement/properties/id'
-                  settlementAttributes:
-                    description: The sender's figures for the settlement.
-                    $ref: 'https://schema.ion.id/release1/schema/common/Settlement/v1/attributes.yaml#/components/schemas/IONSettlementReconciliation'
+                $ref: '#/components/schemas/ReconcileSettlement'
+
+    ReconcileSettlement:
+      title: Reconcile Settlement
+      description: A settlement with the sender's figures.
+      type: object
+      required: [id, settlementAttributes]
+      properties:
+        id:
+          description: >
+            The settlement's Settlement.id, which identifies one settlement obligation
+            of the contract.
+          $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml#/components/schemas/Settlement/properties/id'
+        settlementAttributes:
+          description: The sender's figures for the settlement.
+          $ref: 'https://schema.ion.id/release1/schema/common/Settlement/v1/attributes.yaml#/components/schemas/IONSettlementReconciliation'
 
     OnReconcileContract:
       title: On Reconcile Contract
-      description: A ReconcileContract whose settlements also carry the counterparty's accord.
+      description: A ReconcileContract whose settlements carry the counterparty's figures and accord.
       allOf:
-        - $ref: '#/components/schemas/ReconcileContract'
+        - $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml#/components/schemas/Contract'
         - type: object
+          required: [id, settlements]
           properties:
+            id:
+              description: The Contract.id of the contract being answered.
+              $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml#/components/schemas/Contract/properties/id'
             settlements:
               description: >
-                The settlements of the ReconcileContract, each with the counterparty's
-                figures and accord.
+                Every settlement of this contract in the /reconcile being answered, with
+                the counterparty's figures and accord, and no others.
+              type: array
+              minItems: 1
               items:
-                properties:
-                  settlementAttributes:
-                    description: >
-                      The counterparty's figures for the settlement, with its accord,
-                      which is required.
-                    type: object
-                    required: [accord]
-                    properties:
-                      accord:
-                        description: >
-                          true when the counterparty agrees with the sender's figures
-                          for the settlement; false when it does not.
-                        type: boolean
+                $ref: '#/components/schemas/OnReconcileSettlement'
+
+    OnReconcileSettlement:
+      title: On Reconcile Settlement
+      description: >
+        A settlement with the counterparty's figures and its accord; dispute
+        is required when accord is false, dueDate when it is true.
+      type: object
+      required: [id, settlementAttributes]
+      properties:
+        id:
+          description: The Settlement.id of the settlement being answered.
+          $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml#/components/schemas/Settlement/properties/id'
+        settlementAttributes:
+          description: >
+            The counterparty's figures for the settlement, with its accord, which is
+            required.
+          allOf:
+            - $ref: 'https://schema.ion.id/release1/schema/common/Settlement/v1/attributes.yaml#/components/schemas/IONSettlementReconciliation'
+            - type: object
+              required: [accord]
 
     SettlementSummary:
       title: Settlement Summary
       description: >
-        Batch totals over the settlements in the message, for cross-checking.
-        Payouts are per settlement (netPayable and commission); there is no
-        batch-level payable.
+        Totals over the settlements in the message, for cross-checking, from
+        the sending participant's own figures. Payouts are per settlement;
+        there is no batch-level payable. The outcome counts and agreed and
+        unreconciled totals appear only in /on_reconcile.
       type: object
       additionalProperties: false
       required:
@@ -368,7 +413,7 @@ components:
         currency:
           type: string
           pattern: '^[A-Z]{3}$'
-          description: ISO 4217 code; IDR for domestic ION trade.
+          description: ISO 4217 code; IDR for domestic ION trade. Every settlement in the message uses it.
         settlementDate:
           description: Equal to the message's settlementDate.
           type: string
@@ -377,26 +422,47 @@ components:
           description: Number of contracts in the message.
           type: integer
           minimum: 1
+        settlementCount:
+          type: integer
+          minimum: 1
+          description: Number of settlements in the message.
         agreedCount:
           type: integer
           minimum: 0
           description: >
             /on_reconcile only: contracts whose settlements all have accord
-            true. agreedCount + disputedCount = contractCount.
+            true. agreedCount + disputedCount + pendingCount = contractCount.
         disputedCount:
           type: integer
           minimum: 0
+          description: /on_reconcile only — contracts with at least one disputed settlement.
+        pendingCount:
+          type: integer
+          minimum: 0
           description: >
-            /on_reconcile only: contracts with a settlement whose accord is
-            false, including contracts sent before their settlement window
-            (SETTLEMENT_WINDOW_NOT_REACHED), which do not affect
-            reconciliationStatus.
+            /on_reconcile only: contracts with no disputed settlement and at
+            least one pending one.
+        agreedSettlementCount:
+          type: integer
+          minimum: 0
+          description: >
+            /on_reconcile only, optional: settlements with accord true. With
+            the disputed and pending settlement counts it adds up to
+            settlementCount.
+        disputedSettlementCount:
+          type: integer
+          minimum: 0
+          description: /on_reconcile only, optional — disputed settlements.
+        pendingSettlementCount:
+          type: integer
+          minimum: 0
+          description: /on_reconcile only, optional — pending settlements.
         totalOrderAmount:
           type: number
-          description: Sum of orderAmount.value over the batch's settlements.
+          description: Sum of orderAmount.value over the message's settlements.
         totalCommission:
           type: number
-          description: Sum of commission.value — total the PJP pays to the BAP.
+          description: Sum of commission.value — the BAP's entitlement.
         totalWithholding:
           type: number
           description: Sum of withholdingAmount.value.
@@ -405,4 +471,57 @@ components:
           description: Sum of refundAmount.value.
         totalNetPayable:
           type: number
-          description: Sum of netPayable.value — total the PJP pays to the BPP.
+          description: Sum of netPayable.value — the BPP's entitlement.
+        totalAgreedCommission:
+          type: number
+          minimum: 0
+          description: /on_reconcile only — sum of commission.value over the settlements with accord true.
+        totalUnreconciledCommission:
+          type: number
+          minimum: 0
+          description: >
+            /on_reconcile only: sum of the counterparty's commission.value
+            over the settlements with accord false. Its own claim, not an
+            agreed amount.
+        totalAgreedNetPayable:
+          type: number
+          minimum: 0
+          description: /on_reconcile only — sum of netPayable.value over the settlements with accord true.
+        totalUnreconciledNetPayable:
+          type: number
+          minimum: 0
+          description: >
+            /on_reconcile only: sum of the counterparty's netPayable.value
+            over the settlements with accord false. Its own claim, not an
+            agreed amount.
+        orderDayCounts:
+          type: array
+          description: >
+            Optional, informational: for each order day the message touches,
+            the sending participant's own count of the pair's orders created
+            that day, including those not yet due. The two participants'
+            counts may differ; a difference is for them to investigate.
+          items:
+            $ref: '#/components/schemas/OrderDayCount'
+
+    OrderDayCount:
+      title: Order Day Count
+      description: One order day's counts, from the sending participant's own records.
+      type: object
+      additionalProperties: false
+      required: [orderDate, reportedOrderCount]
+      properties:
+        orderDate:
+          type: string
+          format: date
+          description: Order creation date in Asia/Jakarta time.
+        reportedOrderCount:
+          type: integer
+          minimum: 0
+          description: Orders between the BAP and BPP created on orderDate.
+        remainingOrderCount:
+          type: integer
+          minimum: 0
+          description: >
+            Of those, orders not yet fully reconciled: not due, pending,
+            disputed or not yet sent.

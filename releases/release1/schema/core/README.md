@@ -28,8 +28,16 @@ https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-additional.yaml
 
 `context.bapId` and `context.bppId` are always the BAP and BPP of the original
 orders, whoever sends. `context.senderId` and `context.receiverId` identify the
-actual sender and receiver. `/on_reconcile` is correlated by
-`context.messageId`.
+actual sender and receiver.
+
+| Identifier | Meaning |
+|---|---|
+| `context.transactionId` | The reconciliation exchange. Either participant may start one and creates it; resends of unresolved settlements keep it |
+| `context.messageId` | One `/reconcile` and its `/on_reconcile`. A plain retransmission repeats it and is processed once; each new `/reconcile` gets a new one |
+| BAP–BPP pair + `Contract.id` + `Settlement.id` | The settlement itself. An agreed settlement is never paid twice, whichever message repeats it |
+| `relatedSettlementId` | On a correction settlement, the earlier `Settlement.id` it adjusts |
+
+There is no separate reconciliation ID.
 
 ### Message shape
 
@@ -40,7 +48,6 @@ the figures:
 
 ```json
 {
-  "reconciliationId": "recon-2026-09-30T170000Z-bpp.example.id",
   "settlementDate": "2026-09-30",
   "contracts": [{
     "id": "0f8b6d3e-2c4a-4b8e-9d1f-6a7b8c9d0e1f",
@@ -52,28 +59,35 @@ the figures:
         "@type": "ion:IONSettlementReconciliation",
         "collectedBy": "BAP",
         "currency": "IDR",
+        "orderDate": "2026-09-28",
+        "dueDate": "2026-10-01",
         "orderAmount": { "value": 98900 },
         "commission": { "value": 2670 },
         "withholdingAmount": { "value": 0 },
         "refundAmount": { "value": 0 },
         "netPayable": { "value": 96230 },
-        "settlementAccounts": [ … BAP and BPP accounts … ]
+        "settlementAccounts": [ … BAP, BPP and the BPP's recipients … ],
+        "collections": [ { "method": "PREPAID", "status": "COLLECTED", "collectorRole": "PJP" } ]
       }
     }]
   }],
-  "settlementSummary": { … batch totals … }
+  "settlementSummary": { … totals, optional orderDayCounts … }
 }
 ```
 
-- `contract.id` identifies the contract and `settlements[].id` identifies the
-  payment record whose PJP-held funds are paid out.
-- `commission` is the contract consideration's `buyerFinderFee.feeAmount`
+- `contract.id` identifies the contract and `settlements[].id` a settlement
+  obligation, whether prepaid, cash on delivery or credit.
+- `commission` is the BAP's entitlement and `netPayable` the BPP's. The
+  commission is the contract consideration's `buyerFinderFee.feeAmount`
   ([`IONTradeConsideration`](../extension/trade/TradeConsideration/v1/README.md)),
   the sum of the offers' buyer finder fees;
   the payout terms (`settlementBasis`, `settlementWindow`) are the
   commitments' offers' `policies.settlement`
   ([`IONTradeOffer`](../extension/trade/TradeOffer/v1/README.md)). Neither is
   repeated in the settlement object.
+- Each settlement states its own `orderDate` (creation date in Asia/Jakarta
+  time) and `dueDate`. A request holds the settlements due on
+  `settlementDate`, whatever their order dates.
 - A contract in these messages is a snapshot that carries reconciliation
   figures; it does not update the contract. Beckn requires at least one
   `commitments` entry, so include a minimal one (id, status, resource with
@@ -81,62 +95,89 @@ the figures:
 
 ### Flow
 
-ION has no separate settle or report API; reconciliation, agreement, and the
-payout trigger all run through these two endpoints.
+ION has no separate settle or report API; reconciliation and agreement run
+through these two endpoints.
 
 ```text
-Sender (BAP or BPP)                     Counterparty
-  ── /reconcile (figures) ─────────────▶
-  ◀──────────── /on_reconcile ─────────  accord per settlement
-       all accord: true  → AGREED; SEAM instructs the PJP payout of all
-       any accord: false → DISPUTED; nothing is paid out
-       all sent early    → PENDING; each is sent again once due
-  ── /reconcile (whole batch again) ───▶  same reconciliationId, next round
-  ◀──────────── /on_reconcile ─────────  … until AGREED
+Sender (BAP or BPP)                          Counterparty
+  ── /reconcile (transactionId T, messageId M1) ──▶
+  ◀──────────── /on_reconcile (T, M1) ─────────────  accord on every settlement
+       accord: true                 → agreed; goes on to SEAM
+       accord: false, disputed code → disputed
+       accord: false, pending code  → pending (not due, or awaiting information)
+  ── /reconcile (T, M2): only the disputed and pending settlements ──▶
+  ◀──────────── /on_reconcile (T, M2) ─────────────  … until each is agreed
 ```
 
-The buyer's payment is held at the PJP (Penyelenggara Jasa Pembayaran), not in
-a participant's account. When a batch is `AGREED`, SEAM
-(Settlement Assurance Mechanism) instructs the PJP to pay it out of the held
-funds into the accounts in `settlementAccounts`:
+Agreement is per settlement: an agreed settlement stays agreed whatever
+happens to the others. `reconciliationStatus` summarizes the answer —
+`AGREED` when every settlement is agreed, `DISPUTED` when any is disputed,
+otherwise `PENDING` — and never overrides a settlement's `accord`.
+`SETTLEMENT_WINDOW_NOT_REACHED` and `AWAITING_INFORMATION` make a settlement
+pending; every other dispute code makes it disputed. On a differing figure,
+`diffValue` is the answering participant's value minus the value it answers.
+
+`accord: true` means the two participants agree on their entitlements; it is
+not a payout instruction and not proof of funds. SEAM (Settlement Assurance
+Mechanism) separately verifies the funds, the accounts in
+`settlementAccounts` and that nothing is paid twice, and then has the agreed
+settlement paid:
 
 | Recipient | Receives |
 |---|---|
-| BPP | `netPayable` |
+| BPP, or the recipients it splits its share among | `netPayable` |
 | BAP | `commission` |
 | Buyer | `refundAmount` |
-| Stays at the PJP | `withholdingAmount` |
+| Kept back | `withholdingAmount` |
 
-SEAM may combine agreed settlements into a single transfer per participant.
-Payout status reaches the participants through the PJP's webhook, which is
-outside this specification. A batch is agreed as a whole or not at all: if
-any contract has `accord: false`, the batch is `DISPUTED`, none of its
-contracts is paid out, and the sender sends all of them again, with the same
-`reconciliationId`, until every one has `accord: true`. A contract sent before
-its settlement window is answered `accord: false` with the dispute code
-`SETTLEMENT_WINDOW_NOT_REACHED`; it doesn't count towards the outcome and is
-sent again once due. A batch whose contracts were all sent early is
-`PENDING`.
+A prepaid buyer payment is held at the PJP (Penyelenggara Jasa Pembayaran).
+For cash on delivery, credit and bank transfer, `collections` records who
+collected what, and `settlementObligations` who is expected to pay whom; both
+are information, not payment instructions. Payout status reaches the
+participants through the PJP's webhook, which is outside this specification.
 
-`reconciliationStatus` summarises the batch: `AGREED`, `DISPUTED`, or
-`PENDING`. `SettlementSummary` carries batch totals for cross-checking,
-including `totalNetPayable` (to the BPP) and `totalCommission` (to the BAP).
-In `/on_reconcile` it also counts the answer: `agreedCount` (contracts with
-`accord: true`) and `disputedCount` (`accord: false`, including contracts sent
-early).
+### The BPP's split
+
+The BPP may split its share among sellers, logistics providers, itself and
+other recipients in `settlementAccounts`: each such account has
+`allocationFor: BPP` and an `allocatedAmount`, and a complete split adds up to
+`netPayable`. The BAP's `accord` covers the BPP's total, not the split or its
+accounts; changing the split or an account without changing the total does
+not reopen the agreement.
+
+### Summary
+
+`settlementSummary` holds totals over the settlements in the message, from the
+sending participant's own figures. In `/on_reconcile` it also has:
+
+| Field | Meaning |
+|---|---|
+| `agreedCount`, `disputedCount`, `pendingCount` | Contracts by outcome: disputed if any settlement is disputed, otherwise pending if any is pending, otherwise agreed. They add up to `contractCount` |
+| `agreedSettlementCount`, `disputedSettlementCount`, `pendingSettlementCount` | Optional, the same per settlement |
+| `totalAgreedCommission`, `totalAgreedNetPayable` | Over the settlements with `accord: true` |
+| `totalUnreconciledCommission`, `totalUnreconciledNetPayable` | The answering participant's own figures over the others: its claim, not an agreed amount |
+
+Either message may add `orderDayCounts`: for each order day it touches, the
+sender's count of the pair's orders created that day (`reportedOrderCount`)
+and of those not yet fully reconciled (`remainingOrderCount`), including orders
+not yet due. The two participants' counts may differ; that is for them to
+investigate.
 
 ### Examples
 
 - [`api/v2.0.0/examples/reconcile-request.json`](api/v2.0.0/examples/reconcile-request.json)
-  — the BPP reconciles two contracts whose payments are held at the PJP.
+  — the BPP reconciles three contracts: a prepaid order whose share it splits
+  with a seller, an order with a refund, and a cash-on-delivery order
+  collected by a courier.
 - [`api/v2.0.0/examples/on-reconcile-response.json`](api/v2.0.0/examples/on-reconcile-response.json)
-  — the BAP agrees with one settlement and disputes the commission on the
-  other, so the batch is `DISPUTED` and the BPP sends both again.
+  — the BAP agrees with the first, disputes the commission on the second and
+  leaves the third pending until delivery is confirmed. The answer is
+  `DISPUTED`; the first settlement is agreed and goes on to SEAM, and the BPP
+  sends the other two again.
 
 ### Not in Release 1
 
 - A limit on rounds, or escalation of unresolved disputes to `/raise`.
-- Tax withheld from payouts, a delay or late-settlement amount, and payout legs
-  to logistics providers.
-- Direct payout to a seller who is not the BPP, `MISC`/`NIL` settlement types,
-  and reconciliation after payout.
+- Tax withheld from payouts (tax entries in `breakup` only explain the
+  figures) and a delay or late-settlement amount.
+- `MISC`/`NIL` settlement types.

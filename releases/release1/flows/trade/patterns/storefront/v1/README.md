@@ -51,10 +51,12 @@ account. After delivery and the agreed one-day window, the BPP sends
 order 98900, a 3% commission of 2670 on the 89000 item total, and BPP proceeds
 of 96230. The BAP answers with
 [`on_reconcile_response.json`](examples/on_reconcile_response.json) and
-`accord: true`, so the batch is `AGREED` and SEAM instructs the PJP to pay
-96230 to the BPP and 2670 to the BAP. Either participant may start
-reconciliation; a disputed batch, which the sender resends whole, is shown in
-the [reconciliation API docs](../../../../../schema/core/README.md#settlement-reconciliation).
+`accord: true`, so the settlement is agreed and SEAM, after verifying the funds
+and accounts, has the PJP pay 96230 to the BPP and 2670 to the BAP. Either
+participant may start reconciliation. Agreement is per settlement; a batch
+with agreed, disputed and pending settlements, where only the unresolved ones
+are sent again, is shown in the
+[reconciliation API docs](../../../../../schema/core/README.md#settlement-reconciliation).
 
 ## Included schema packs
 

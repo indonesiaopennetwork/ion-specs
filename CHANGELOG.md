@@ -48,6 +48,38 @@ publishes with each offer:
   by the testbed schema validator for every property) do not redefine `type`,
   `value` or `amount` elsewhere in the pack (for example `breakup[].type`).
 
+### Reconciliation agreed per settlement (19 October 2026)
+
+Changes from the reconciliation review package, in
+`core/api/v2.0.0/ion-additional.yaml` and `common/Settlement/v1`:
+
+- Agreement is per settlement. An agreed settlement goes on to SEAM whatever
+  happens to the others; `reconciliationStatus` only summarizes the answer
+  (`DISPUTED` if any is disputed, otherwise `PENDING` if any is pending).
+  Only disputed and pending settlements are sent again. **Breaking.**
+- `reconciliationId` is removed. `context.transactionId` identifies the
+  exchange (either participant may create it) and `context.messageId` each
+  request and its answer. `/on_reconcile` uses `CallbackAuthorizationHeader`,
+  requires `settlementDate` and `settlementSummary`, and answers every
+  settlement of the request. **Breaking.**
+- Dispute codes are an enum; `SETTLEMENT_WINDOW_NOT_REACHED` and
+  `AWAITING_INFORMATION` make a settlement pending, the others disputed.
+  `Dispute` gains `field` and `referenceId`; `diffValue` is the answering
+  participant's value minus the value it answers.
+- The settlement object gains `orderDate` (Asia/Jakarta), `recoveryAmount`,
+  `breakup[]` (codes include `PPN` and `PPH`; tax entries only explain the
+  figures), `collections[]`, `settlementObligations[]`,
+  `relatedSettlementId` and `adjustmentType`. `dueDate` may be stated in
+  `/reconcile`. The payment fields and their rules are unchanged.
+- `SettlementAccount` (`common/Payment/v1`): `holderRole` adds `SELLER`,
+  `LOGISTICS`, `PROVIDER` and `OTHER`; `holderId`, `allocationFor` and
+  `allocatedAmount` let the BPP split `netPayable` among its recipients. The
+  BPP account rule accepts the BPP's own account or its split.
+- `SettlementSummary` gains `settlementCount`, `pendingCount`, optional
+  settlement-level counts, the agreed and unreconciled commission and
+  netPayable totals (required in `/on_reconcile`), and optional
+  `orderDayCounts`.
+
 The older semantic-version entries below describe pre-release repository history;
 they are not permanent published integer releases.
 

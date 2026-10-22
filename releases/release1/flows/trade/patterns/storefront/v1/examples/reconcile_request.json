@@ -37,7 +37,6 @@
     ]
   },
   "message": {
-    "reconciliationId": "recon-2026-04-20T100000Z-sellerapp.ion.id",
     "settlementDate": "2026-04-20",
     "contracts": [
       {
@@ -75,6 +74,7 @@
               "@type": "ion:IONSettlementReconciliation",
               "collectedBy": "BAP",
               "currency": "IDR",
+              "orderDate": "2026-04-19",
               "orderAmount": {
                 "value": 98900
               },
@@ -103,7 +103,8 @@
                   "accountNumber": "8730012345",
                   "accountName": "PT Seller App Indonesia"
                 }
-              ]
+              ],
+              "dueDate": "2026-04-20"
             }
           }
         ]
@@ -115,6 +116,7 @@
       "currency": "IDR",
       "settlementDate": "2026-04-20",
       "contractCount": 1,
+      "settlementCount": 1,
       "totalOrderAmount": 98900,
       "totalCommission": 2670,
       "totalWithholding": 0,

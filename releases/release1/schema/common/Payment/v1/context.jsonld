@@ -100,6 +100,9 @@
     "owl": "http://www.w3.org/2002/07/owl#",
     "daysRelativeToDueDate": "ion:daysRelativeToDueDate",
     "channel": "ion:channel",
-    "party": "ion:party"
+    "party": "ion:party",
+    "holderId": "ion:holderId",
+    "allocationFor": "ion:allocationFor",
+    "allocatedAmount": "ion:allocatedAmount"
   }
 }

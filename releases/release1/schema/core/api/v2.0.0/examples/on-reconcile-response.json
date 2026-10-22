@@ -14,7 +14,7 @@
     "timestamp": "2026-09-30T17:00:00Z"
   },
   "message": {
-    "reconciliationId": "recon-2026-09-30T170000Z-bpp.example.id",
+    "settlementDate": "2026-09-30",
     "reconciliationStatus": "DISPUTED",
     "contracts": [
       {
@@ -51,6 +51,7 @@
               "@type": "ion:IONSettlementReconciliation",
               "collectedBy": "BAP",
               "currency": "IDR",
+              "orderDate": "2026-09-28",
               "orderAmount": {
                 "value": 98900
               },
@@ -69,15 +70,39 @@
               "settlementAccounts": [
                 {
                   "holderRole": "BAP",
+                  "holderId": "bap.example.id",
                   "bankCode": "MANDIRI",
                   "accountNumber": "1370012345678",
-                  "accountName": "PT Buyer App Indonesia"
+                  "accountName": "PT Buyer App Indonesia",
+                  "allocationFor": "BAP",
+                  "allocatedAmount": 2670
                 },
                 {
                   "holderRole": "BPP",
+                  "holderId": "bpp.example.id",
                   "bankCode": "BCA",
                   "accountNumber": "1234567890",
-                  "accountName": "PT Seller App Indonesia"
+                  "accountName": "PT Seller App Indonesia",
+                  "allocationFor": "BPP",
+                  "allocatedAmount": 6230
+                },
+                {
+                  "holderRole": "SELLER",
+                  "holderId": "seller-0042",
+                  "bankCode": "BRI",
+                  "accountNumber": "0042000111",
+                  "accountName": "Toko Pizza Nusantara",
+                  "allocationFor": "BPP",
+                  "allocatedAmount": 90000
+                }
+              ],
+              "collections": [
+                {
+                  "method": "PREPAID",
+                  "status": "COLLECTED",
+                  "collectorRole": "PJP",
+                  "reportedCollectedAmount": 98900,
+                  "referenceId": "GW-QRIS-9876543210"
                 }
               ],
               "accord": true,
@@ -120,6 +145,7 @@
               "@type": "ion:IONSettlementReconciliation",
               "collectedBy": "BAP",
               "currency": "IDR",
+              "orderDate": "2026-09-27",
               "orderAmount": {
                 "value": 150000
               },
@@ -140,12 +166,14 @@
               "settlementAccounts": [
                 {
                   "holderRole": "BAP",
+                  "holderId": "bap.example.id",
                   "bankCode": "MANDIRI",
                   "accountNumber": "1370012345678",
                   "accountName": "PT Buyer App Indonesia"
                 },
                 {
                   "holderRole": "BPP",
+                  "holderId": "bpp.example.id",
                   "bankCode": "BCA",
                   "accountNumber": "1234567890",
                   "accountName": "PT Seller App Indonesia"
@@ -154,7 +182,110 @@
               "accord": false,
               "dispute": {
                 "code": "COMMISSION_MISMATCH",
+                "field": "commission",
                 "description": "commission 4200 is 3% of a 140000 item total; the buyer app's copy has a 150000 item total, so 4500"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "3c9d2a71-8e5b-4f0a-b6d4-2e7f1a9c5b30",
+        "commitments": [
+          {
+            "id": "L01",
+            "status": {
+              "descriptor": {
+                "code": "CLOSED"
+              }
+            },
+            "resources": [
+              {
+                "id": "NASI-GORENG-SPESIAL",
+                "quantity": {
+                  "count": 1
+                }
+              }
+            ],
+            "offer": {
+              "id": "OFFER-NASI-GORENG-001",
+              "resourceIds": [
+                "NASI-GORENG-SPESIAL"
+              ]
+            }
+          }
+        ],
+        "settlements": [
+          {
+            "id": "PAY-2026-00012390",
+            "settlementAttributes": {
+              "@context": "https://schema.ion.id/release1/schema/common/Settlement/v1/context.jsonld",
+              "@type": "ion:IONSettlementReconciliation",
+              "collectedBy": "BPP",
+              "currency": "IDR",
+              "orderDate": "2026-09-28",
+              "orderAmount": {
+                "value": 60000
+              },
+              "commission": {
+                "value": 1500
+              },
+              "withholdingAmount": {
+                "value": 0
+              },
+              "refundAmount": {
+                "value": 0
+              },
+              "netPayable": {
+                "value": 58500
+              },
+              "settlementAccounts": [
+                {
+                  "holderRole": "BAP",
+                  "holderId": "bap.example.id",
+                  "bankCode": "MANDIRI",
+                  "accountNumber": "1370012345678",
+                  "accountName": "PT Buyer App Indonesia"
+                },
+                {
+                  "holderRole": "BPP",
+                  "holderId": "bpp.example.id",
+                  "bankCode": "BCA",
+                  "accountNumber": "1234567890",
+                  "accountName": "PT Seller App Indonesia"
+                }
+              ],
+              "collections": [
+                {
+                  "method": "COD",
+                  "status": "COLLECTED",
+                  "collectorRole": "LOGISTICS",
+                  "collectorId": "courier.example.id",
+                  "reportedCollectedAmount": 60000,
+                  "referenceId": "AWB-77120045"
+                }
+              ],
+              "settlementObligations": [
+                {
+                  "payerId": "courier.example.id",
+                  "payeeId": "bpp.example.id",
+                  "amount": 60000,
+                  "purpose": "COD_REMITTANCE",
+                  "dueDate": "2026-09-30"
+                },
+                {
+                  "payerId": "bpp.example.id",
+                  "payeeId": "bap.example.id",
+                  "amount": 1500,
+                  "purpose": "BAP_COMMISSION",
+                  "dueDate": "2026-09-30"
+                }
+              ],
+              "accord": false,
+              "dispute": {
+                "code": "AWAITING_INFORMATION",
+                "referenceId": "AWB-77120045",
+                "description": "The buyer app has no delivery confirmation for this cash-on-delivery order yet; it will check the figures once the courier's delivery is confirmed."
               }
             }
           }
@@ -166,14 +297,35 @@
       "bppId": "bpp.example.id",
       "currency": "IDR",
       "settlementDate": "2026-09-30",
-      "contractCount": 2,
+      "contractCount": 3,
+      "settlementCount": 3,
       "agreedCount": 1,
       "disputedCount": 1,
-      "totalOrderAmount": 248900,
-      "totalCommission": 7170,
+      "pendingCount": 1,
+      "agreedSettlementCount": 1,
+      "disputedSettlementCount": 1,
+      "pendingSettlementCount": 1,
+      "totalOrderAmount": 308900,
+      "totalCommission": 8670,
       "totalWithholding": 0,
       "totalRefund": 20000,
-      "totalNetPayable": 221730
+      "totalNetPayable": 280230,
+      "totalAgreedCommission": 2670,
+      "totalUnreconciledCommission": 6000,
+      "totalAgreedNetPayable": 96230,
+      "totalUnreconciledNetPayable": 184000,
+      "orderDayCounts": [
+        {
+          "orderDate": "2026-09-27",
+          "reportedOrderCount": 1,
+          "remainingOrderCount": 1
+        },
+        {
+          "orderDate": "2026-09-28",
+          "reportedOrderCount": 4,
+          "remainingOrderCount": 3
+        }
+      ]
     }
   }
 }

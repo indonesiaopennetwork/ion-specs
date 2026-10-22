@@ -6,7 +6,7 @@
     "IONSettlementReconciliation": {
       "type": "object",
       "title": "IONSettlementReconciliation",
-      "description": "The order's settlement, carried as one object from init to reconciliation. The BAP declares it in init (its payout account, payment method, status PENDING, and estimated figures); the BPP answers in on_init (its payout account, and the figures on its final price, with commission equal to the contract consideration's buyerFinderFee.feeAmount); the BAP records the payment in confirm (status PAID, paidAt, gatewayRef, orderAmount = amount paid); the BPP keeps the figures current in on_cancel and on_update; and each participant sends its figures in /reconcile and /on_reconcile. Before reconciliation the figures are estimates. The buyer's payment is held at the PJP; the figures split it. Invariant: orderAmount.value = netPayable.value + commission.value + withholdingAmount.value + refundAmount.value. On agreement SEAM instructs the PJP to pay netPayable to the BPP and commission to the BAP, return refundAmount to the buyer, and keep withholdingAmount. The payment fields reuse the IONPayment definitions. The payout falls due as the commitments' offers state in policies.settlement (IONTradeOffer); with several offers, the one giving the latest due date applies. Earlier versions carried settlementBasis, settlementWindow and finderFee here; orders that still carry them remain valid (additionalProperties is true), but new settlements omit them.\n",
+      "description": "The order's settlement, carried as one object from init to reconciliation. The BAP declares it in init (its payout account, payment method, status PENDING, and estimated figures); the BPP answers in on_init (its payout account, and the figures on its final price, with commission equal to the contract consideration's buyerFinderFee.feeAmount); the BAP records the payment in confirm (status PAID, paidAt, gatewayRef, orderAmount = amount paid); the BPP keeps the figures current in on_cancel and on_update; and each participant sends its figures in /reconcile and /on_reconcile. Before reconciliation the figures are estimates. The figures are each participant's own calculation of the two network participants' entitlements: commission is the BAP's and netPayable the BPP's. Without ADDITIONAL breakup entries, orderAmount.value = netPayable.value + commission.value + withholdingAmount.value + refundAmount.value; each ADDITIONAL entry's effectOnNetPayable adds to netPayable. A prepaid buyer payment is held at the PJP; collections records who collected the money when it is not (cash on delivery, credit, transfer). Agreement (accord) is per settlement and covers only these entitlements: SEAM separately verifies the funds and the accounts before it has any amount paid out, netPayable to the BPP (or the BPP's recipients in settlementAccounts), commission to the BAP, refundAmount to the buyer, with withholdingAmount kept back. The payment fields reuse the IONPayment definitions. The payout falls due as the commitments' offers state in policies.settlement (IONTradeOffer); with several offers, the one giving the latest due date applies. Earlier versions carried settlementBasis, settlementWindow and finderFee here; orders that still carry them remain valid (additionalProperties is true), but new settlements omit them.\n",
       "x-ion-layer": "ion",
       "x-recommended-parent": "Settlement.settlementAttributes",
       "additionalProperties": true,
@@ -109,13 +109,27 @@
               "settlementAccounts": {
                 "contains": {
                   "type": "object",
-                  "properties": {
-                    "holderRole": {
-                      "const": "BPP"
+                  "anyOf": [
+                    {
+                      "properties": {
+                        "holderRole": {
+                          "const": "BPP"
+                        }
+                      },
+                      "required": [
+                        "holderRole"
+                      ]
+                    },
+                    {
+                      "properties": {
+                        "allocationFor": {
+                          "const": "BPP"
+                        }
+                      },
+                      "required": [
+                        "allocationFor"
+                      ]
                     }
-                  },
-                  "required": [
-                    "holderRole"
                   ]
                 }
               }
@@ -140,6 +154,11 @@
           }
         }
       ],
+      "dependentRequired": {
+        "adjustmentType": [
+          "relatedSettlementId"
+        ]
+      },
       "properties": {
         "collectedBy": {
           "$ref": "https://schema.ion.id/release1/schema/common/Payment/v1/attributes.yaml#/components/schemas/IONPayment/properties/collectedBy"
@@ -154,7 +173,7 @@
             }
           ],
           "minItems": 1,
-          "description": "Payout accounts, one per receiving participant: the BAP declares its account in init, the BPP adds its own in on_init. The BPP account is required once the payment is no longer PENDING; the BAP account is required when commission is greater than zero.\n"
+          "description": "Payout accounts: the BAP declares its account in init, the BPP adds its own in on_init, and the BPP may add the recipients it splits netPayable among (allocationFor BPP). Once the payment is no longer PENDING, the BPP's own account or its split is required; the BAP account is required when commission is greater than zero.\n"
         },
         "method": {
           "$ref": "https://schema.ion.id/release1/schema/common/Payment/v1/attributes.yaml#/components/schemas/IONPayment/properties/method"
@@ -186,7 +205,7 @@
               "$ref": "#/$defs/ReconAmount"
             }
           ],
-          "description": "Gross amount the buyer pays for the contract, held at the PJP: the order total in init and on_init, the amount paid from confirm on.\n"
+          "description": "Gross amount the buyer pays for this settlement: the order total in init and on_init, the amount paid from confirm on. When a contract has several settlements, each covers its own part.\n"
         },
         "commission": {
           "allOf": [
@@ -194,7 +213,7 @@
               "$ref": "#/$defs/ReconAmount"
             }
           ],
-          "description": "Commission the BPP pays the BAP for the contract: the buyer finder fee, equal to buyerFinderFee.feeAmount on the contract's price consideration in force (IONTradeConsideration), which sums the offers' fees; the PJP pays it to the BAP. Zero when the offers carry no buyer finder fee.\n"
+          "description": "The BAP's entitlement: the buyer finder fee the BPP owes the BAP for the contract, equal to buyerFinderFee.feeAmount on the contract's price consideration in force (IONTradeConsideration), which sums the offers' fees. Zero when the offers carry no buyer finder fee.\n"
         },
         "withholdingAmount": {
           "allOf": [
@@ -202,7 +221,7 @@
               "$ref": "#/$defs/ReconAmount"
             }
           ],
-          "description": "Amount the PJP keeps back, for example against returns."
+          "description": "Amount kept back from the BPP's side, for example against returns; breakup entries with includedIn WITHHOLDING itemize it.\n"
         },
         "refundAmount": {
           "allOf": [
@@ -210,7 +229,7 @@
               "$ref": "#/$defs/ReconAmount"
             }
           ],
-          "description": "Total the PJP returns to the buyer for the contract."
+          "description": "Total refunded to the buyer for this settlement; breakup entries with includedIn REFUND itemize it.\n"
         },
         "netPayable": {
           "allOf": [
@@ -218,16 +237,66 @@
               "$ref": "#/$defs/ReconAmount"
             }
           ],
-          "description": "Amount the PJP pays to the BPP for this contract: orderAmount − commission − withholdingAmount − refundAmount.\n"
+          "description": "The BPP's total entitlement for this settlement: orderAmount − commission − withholdingAmount − refundAmount, plus the effectOnNetPayable of each ADDITIONAL breakup entry. The BPP may split it among recipients in settlementAccounts; the BAP agrees the total, not the split.\n"
+        },
+        "recoveryAmount": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/ReconAmount"
+            }
+          ],
+          "description": "Amount owed back on a correction settlement (relatedSettlementId), for example after a chargeback or a refund forced after payout, when it exceeds what is still to be paid. Amounts are never negative; a recovery is stated here instead.\n"
+        },
+        "orderDate": {
+          "type": "string",
+          "format": "date",
+          "description": "Date the order was created, in Asia/Jakarta time (UTC+07:00), taken from the order's original creation timestamp. Groups settlements by order day; it is not the due date.\n"
+        },
+        "breakup": {
+          "type": "array",
+          "description": "Optional itemization of the figures. Entries with includedIn COMMISSION, WITHHOLDING or REFUND explain part of that amount and are not deducted again; ADDITIONAL entries change netPayable by their effectOnNetPayable.\n",
+          "items": {
+            "$ref": "#/$defs/FinancialComponent"
+          }
+        },
+        "collections": {
+          "type": "array",
+          "description": "Optional record of who collected the buyer's money and how much, for the cases the payment fields do not describe: cash on delivery, credit, bank transfer, partial or mixed collection. Reported by the sender; it is not proof of funds. Its method and status are the collection's (JSON-LD ion:collectionMethod and ion:collectionStatus), not the payment's.\n",
+          "items": {
+            "$ref": "#/$defs/CollectionInformation"
+          }
+        },
+        "settlementObligations": {
+          "type": "array",
+          "description": "Optional, informational: who is expected to pay whom, for example a cash-on-delivery collector remitting to the BPP and the BPP paying the BAP's commission. Not a payment instruction; legs that pass on the same money are not added up as separate value.\n",
+          "items": {
+            "$ref": "#/$defs/SettlementObligation"
+          }
+        },
+        "relatedSettlementId": {
+          "type": "string",
+          "description": "On a correction settlement, the Settlement.id of the earlier settlement it adjusts. The correction has its own Settlement.id; the earlier settlement is not sent or paid again.\n"
+        },
+        "adjustmentType": {
+          "type": "string",
+          "enum": [
+            "CORRECTION",
+            "REFUND",
+            "CHARGEBACK",
+            "REVERSAL",
+            "PENALTY",
+            "OTHER"
+          ],
+          "description": "Kind of correction. Requires relatedSettlementId."
         },
         "accord": {
           "type": "boolean",
-          "description": "Set only in /on_reconcile. true — the counterparty agrees with the figures it received; false — it disagrees (see diffValue and dispute). The batch is agreed, and SEAM triggers the payout, only when every contract in it has accord true.\n"
+          "description": "Set only in /on_reconcile, on every settlement. true — the counterparty agrees with the entitlements it received (commission and netPayable and the amounts that make them up); false — it disagrees (dispute code, diffValue) or the settlement is not ready (a pending dispute code). Agreement is per settlement: an agreed settlement stays agreed whatever happens to the others. It covers the BAP's and the BPP's entitlements, not the BPP's split among its recipients, and it does not by itself release any payout.\n"
         },
         "dueDate": {
           "type": "string",
           "format": "date",
-          "description": "Date by which the payout is due: settlementWindow after the settlementBasis event of the commitments' offers' policies.settlement, the latest such date when the offers differ. Required when accord is true.\n"
+          "description": "Date by which the payout is due: settlementWindow after the settlementBasis event of the commitments' offers' policies.settlement, the latest such date when the offers differ. Either participant may state it; required when accord is true.\n"
         },
         "dispute": {
           "$ref": "#/$defs/Dispute"
@@ -258,7 +327,7 @@
     "Dispute": {
       "type": "object",
       "title": "Dispute",
-      "description": "Why the counterparty disagrees with a contract's figures. Required when accord is false.",
+      "description": "Why a settlement has accord false. Required when accord is false. The code says whether the settlement is disputed or only pending.\n",
       "additionalProperties": false,
       "required": [
         "code"
@@ -266,11 +335,225 @@
       "properties": {
         "code": {
           "type": "string",
-          "description": "Short machine-readable reason, for example COMMISSION_MISMATCH. SETTLEMENT_WINDOW_NOT_REACHED marks a contract sent before its settlement window, which is sent again once due.\n"
+          "enum": [
+            "ORDER_AMOUNT_MISMATCH",
+            "COMMISSION_MISMATCH",
+            "WITHHOLDING_MISMATCH",
+            "REFUND_MISMATCH",
+            "TAX_MISMATCH",
+            "ADJUSTMENT_MISMATCH",
+            "MISSING_CONTRACT",
+            "MISSING_SETTLEMENT",
+            "DUPLICATE_SETTLEMENT",
+            "OTHER",
+            "SETTLEMENT_WINDOW_NOT_REACHED",
+            "AWAITING_INFORMATION"
+          ],
+          "description": "Machine-readable reason. SETTLEMENT_WINDOW_NOT_REACHED (sent before the settlement is due) and AWAITING_INFORMATION (the answering participant lacks what it needs to check the figures) make the settlement pending; it is sent again later. Every other code makes it disputed.\n"
+        },
+        "field": {
+          "type": "string",
+          "description": "Name of the field in dispute, for example commission or a breakup code, when the disagreement is about one figure.\n",
+          "examples": [
+            "commission"
+          ]
+        },
+        "referenceId": {
+          "type": "string",
+          "description": "Reference the disagreement rests on, such as an invoice or settlement ID."
         },
         "description": {
           "type": "string",
           "description": "Human-readable explanation of the disagreement."
+        }
+      }
+    },
+    "FinancialComponent": {
+      "type": "object",
+      "title": "FinancialComponent",
+      "description": "One itemized part of a settlement's figures. Amounts are explained once: an entry included in commission, withholdingAmount or refundAmount is not deducted again.\n",
+      "additionalProperties": false,
+      "required": [
+        "code",
+        "includedIn",
+        "amount"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "includedIn": {
+                "const": "ADDITIONAL"
+              }
+            },
+            "required": [
+              "includedIn"
+            ]
+          },
+          "then": {
+            "required": [
+              "effectOnNetPayable"
+            ]
+          }
+        }
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "enum": [
+            "PPN",
+            "PPH",
+            "PAYMENT_FEE",
+            "SELLER_APP_FEE",
+            "NETWORK_FEE",
+            "LOGISTICS",
+            "SELLER_FUNDED_DISCOUNT",
+            "BUYER_APP_SUBSIDY",
+            "PENALTY",
+            "COMPENSATION",
+            "CANCELLATION",
+            "RETURN",
+            "FORCED_REFUND",
+            "CHARGEBACK",
+            "CORRECTION",
+            "OFFSET",
+            "ROUNDING",
+            "OTHER"
+          ],
+          "description": "Category. PPN is Indonesian value-added tax and PPH Indonesian income-tax withholding; Release 1 withholds no tax from payouts, so tax entries only explain the figures.\n"
+        },
+        "includedIn": {
+          "type": "string",
+          "enum": [
+            "COMMISSION",
+            "WITHHOLDING",
+            "REFUND",
+            "ADDITIONAL"
+          ],
+          "description": "The amount this entry is part of. ADDITIONAL: not part of commission, withholdingAmount or refundAmount; it changes netPayable by effectOnNetPayable.\n"
+        },
+        "amount": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Size of the entry, in the settlement currency."
+        },
+        "effectOnNetPayable": {
+          "type": "number",
+          "description": "Signed change to netPayable; required when includedIn is ADDITIONAL. Negative for a fee or penalty charged to the BPP, positive for a credit to it.\n"
+        },
+        "referenceId": {
+          "type": "string",
+          "description": "Reference for the entry, such as an invoice or a return ID."
+        }
+      }
+    },
+    "CollectionInformation": {
+      "type": "object",
+      "title": "CollectionInformation",
+      "description": "One collection of the buyer's money, as reported by the sender. Not proof of funds: SEAM verifies collections separately.\n",
+      "additionalProperties": false,
+      "required": [
+        "method",
+        "status"
+      ],
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": [
+            "PREPAID",
+            "COD",
+            "BANK_TRANSFER",
+            "CREDIT",
+            "MIXED",
+            "OTHER"
+          ],
+          "description": "How the buyer pays this part."
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "NOT_COLLECTED",
+            "PARTIALLY_COLLECTED",
+            "COLLECTED",
+            "REVERSED",
+            "UNKNOWN"
+          ],
+          "description": "How far this part has been collected."
+        },
+        "collectorRole": {
+          "type": "string",
+          "enum": [
+            "PJP",
+            "BAP",
+            "BPP",
+            "SELLER",
+            "LOGISTICS",
+            "BUYER",
+            "OTHER"
+          ],
+          "description": "Who holds the money collected; BUYER when nothing has been collected yet on credit.\n"
+        },
+        "collectorId": {
+          "type": "string",
+          "description": "Identifier of the collector, such as a subscriber ID or the BPP's ID for a seller or courier."
+        },
+        "reportedCollectedAmount": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Amount the sender reports as collected so far."
+        },
+        "referenceId": {
+          "type": "string",
+          "description": "Reference for the collection, such as a payment-gateway or invoice reference."
+        },
+        "dueDate": {
+          "type": "string",
+          "format": "date",
+          "description": "When the buyer must pay, for credit."
+        }
+      }
+    },
+    "SettlementObligation": {
+      "type": "object",
+      "title": "SettlementObligation",
+      "description": "One expected payment between parties, for information. It is not a payment instruction.\n",
+      "additionalProperties": false,
+      "required": [
+        "payerId",
+        "payeeId",
+        "amount"
+      ],
+      "properties": {
+        "payerId": {
+          "type": "string",
+          "description": "Who is expected to pay."
+        },
+        "payeeId": {
+          "type": "string",
+          "description": "Who is expected to receive."
+        },
+        "amount": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Expected amount, in the settlement currency."
+        },
+        "purpose": {
+          "type": "string",
+          "enum": [
+            "BPP_PROCEEDS",
+            "BAP_COMMISSION",
+            "COD_REMITTANCE",
+            "REFUND",
+            "OTHER"
+          ],
+          "description": "What the payment is for."
+        },
+        "dueDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "referenceId": {
+          "type": "string"
         }
       }
     },
