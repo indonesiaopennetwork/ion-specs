@@ -398,7 +398,7 @@ artifactChecksums:
   schema/core/README.md: 4c7d5c984c8e74a41a54873aec2cb5b2fe3b48296c56e9eb7b2cfac2bc95903b
   schema/core/api/v2.0.0/examples/on-reconcile-response.json: 30a71273b0f72739703be77b9dff4ea55f71d3e9c20a03dfe31b4f52c3a48e56
   schema/core/api/v2.0.0/examples/reconcile-request.json: bb8f082c1f45fc36cc7e417b84b345d13bdf2e4b68519a25759f2c714f76f147
-  schema/core/api/v2.0.0/ion-additional.yaml: 825fd15c64fac90d87031a1493e129da3e69b0e5a002f5fd2751f4ed842bf990
+  schema/core/api/v2.0.0/ion-additional.yaml: 17d4bbb0c70c3e066d5625f4bd5af9fe29cc8832390388125b370b439b252f8d
   schema/extension/logistics/LogisticsCommitment/README.md: 3377fbb413071c7fdeb09210a8c6f8eba93ea4424becbd7b7f4c6fd436715713
   schema/extension/logistics/LogisticsCommitment/v1/README.md: fb96e7ee1f606d24e6a8c48f317d22b0de05736d647a2d552689b72ab98faabc
   schema/extension/logistics/LogisticsCommitment/v1/attributes.yaml: 83bd65c4059136c01b17b2f52c67937cbdb66f99db7f9ff14e9828bacd7f89f8
