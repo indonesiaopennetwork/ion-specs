@@ -33,7 +33,7 @@ ADDITIONAL`.
 | `method`, `paymentRail`, `timing`, `status`, `paidAt`, `gatewayRef`, ... | The payment (`IONPayment` definitions) |
 | `orderDate` | Order creation date in Asia/Jakarta time |
 | `orderAmount` | Gross amount the buyer pays for this settlement; the amount paid from `confirm` on |
-| `commission` | The BAP's entitlement. Equals `commission.feeAmount` on the contract's price consideration in force |
+| `commission` | The BAP's entitlement. Equals `buyerFinderFee.feeAmount` on the contract's price consideration in force |
 | `withholdingAmount` | Amount kept back from the BPP's side, for example against returns |
 | `refundAmount` | Total refunded to the buyer |
 | `netPayable` | The BPP's total entitlement, before it splits it among its recipients |
@@ -100,7 +100,7 @@ as the `settlementAttributes` of the contract's payment settlement:
 | Step | Sender | Adds or changes |
 |---|---|---|
 | `init` | BAP | its `settlementAccounts` entry, `method`, `paymentRail`, `collectedBy`, `timing`, `status: PENDING`, figures estimated on the quoted price |
-| `on_init` | BPP | its account, the figures on its final price (`commission` = the contract consideration's `commission.feeAmount`) |
+| `on_init` | BPP | its account, the figures on its final price (`commission` = the contract consideration's `buyerFinderFee.feeAmount`) |
 | `confirm` | BAP | `status: PAID`, `paidAt`, `gatewayRef`; `orderAmount` is the amount paid |
 | `on_cancel`, `on_update` | BPP | `commission`, `refundAmount`, `netPayable` |
 | `/reconcile`, `/on_reconcile` | either | each participant's figures, `accord` in the answer |
@@ -121,12 +121,11 @@ each offer:
   (a `SettlementWindow`). The payout falls due `settlementWindow` after the
   `settlementBasis` event; when an order has several offers, the term giving
   the latest due date applies to the contract.
-- **Commission** — `offerAttributes.policies.commission` (`IONTradeOffer`):
-  named entries (for example a finder fee) that add up. The BPP states the
-  contract's total, summed over every offer still ordered and all its entries,
-  on the contract's price consideration
-  (`considerationAttributes.commission.feeAmount`, `IONTradeConsideration`), and
-  the settlement's `commission` equals it.
+- **Commission** — the buyer finder fee on each offer's consideration
+  (`considerationAttributes.buyerFinderFee`, `IONTradeConsideration`): one fee
+  per offer. The BPP states the contract's total, summed over every offer
+  still ordered, on the contract's price consideration
+  (`buyerFinderFee.feeAmount`), and the settlement's `commission` equals it.
 
 Earlier versions carried `settlementBasis`, `settlementWindow` and `finderFee`
 on this object. `additionalProperties` is `true`, so orders that still carry
@@ -149,5 +148,5 @@ IRIs, and `orderAmount` takes the place of `IONPayment.amount`.
 | Version | Date | Summary |
 |---|---|---|
 | v1 | 2026-10-14 | Initial release: `IONSettlementReconciliation` attribute pack, used by the `/reconcile` and `/on_reconcile` endpoints in `core/api/v2.0.0/ion-additional.yaml` |
-| v1 | 2026-10-19 | Settlement terms moved to the offer: `settlementBasis` and `settlementWindow` to `IONTradeOffer.policies.settlement`, the finder fee to `IONTradeOffer.policies.commission` (the order's total in `IONTradeConsideration.commission.feeAmount`). `finderFee`, `settlementBasis`, `settlementWindow` and `FinderFee` removed from this pack |
+| v1 | 2026-10-19 | Settlement terms moved to the offer: `settlementBasis` and `settlementWindow` to `IONTradeOffer.policies.settlement`, the finder fee to `IONTradeConsideration.buyerFinderFee` on each offer's consideration (the order's total in `buyerFinderFee.feeAmount` on the contract's). `finderFee`, `settlementBasis`, `settlementWindow` and `FinderFee` removed from this pack |
 | v1 | 2026-10-19 | Agreement per settlement. Added `orderDate`, `recoveryAmount`, `breakup`, `collections`, `settlementObligations`, `relatedSettlementId` and `adjustmentType`; `Dispute` gains `field` and `referenceId`, and its codes became an enum separating pending from disputed |

@@ -35,18 +35,6 @@
       "rdfs:comment": "Tax detail associated with a consideration breakup entry."
     },
     {
-      "@id": "ion:commission",
-      "@type": "rdf:Property",
-      "rdfs:label": "commission",
-      "rdfs:comment": "Commission the order comes to: what the seller (BPP) pays the buyer app (BAP), deducted from the seller's payout. Not a charge to the buyer, and not part of breakup or totalAmount. Set only on the contract's price consideration in force; the offer's commission terms are IONTradeOffer.policies.commission (see IONCommission)."
-    },
-    {
-      "@id": "ion:IONCommission",
-      "@type": "rdfs:Class",
-      "rdfs:label": "IONCommission",
-      "rdfs:comment": "The commission an order comes to: what the seller (BPP) pays the buyer app (BAP), deducted from the seller's payout at settlement. Not a charge to the buyer, and not part of breakup or totalAmount. Set only on the contract's price consideration in force; the offer's terms are the named entries of IONTradeOffer.policies.commission.\namount is the total commission for the items still ordered: the sum, over every offer still ordered, of all its policies.commission entries. The BPP sets it in on_select and on_init and recomputes it in on_cancel and on_update after cancellations and returns.\nWhen every offer still ordered has exactly one commission entry and they all share the same PERCENT terms, the contract repeats that type, value and appliesTo; otherwise type is AMOUNT and value is the total.\nAt reconciliation the settlement's commission.value (IONSettlementReconciliation) equals amount."
-    },
-    {
       "@id": "ion:feeType",
       "@type": "rdf:Property",
       "rdfs:label": "feeType",
@@ -69,6 +57,18 @@
       "@type": "rdf:Property",
       "rdfs:label": "feeAmount",
       "rdfs:comment": "Total commission in the consideration currency for the items still ordered: the sum over every offer still ordered of all its policies.commission entries. Equals the settlement's commission.value at reconciliation."
+    },
+    {
+      "@id": "ion:buyerFinderFee",
+      "@type": "rdf:Property",
+      "rdfs:label": "buyerFinderFee",
+      "rdfs:comment": "The buyer finder fee the seller (BPP) pays the buyer app (BAP) for orders of an offer, deducted from the seller's payout. Not a charge to the buyer, and not part of breakup or totalAmount. On an offer's consideration: the fee terms (feeType, feeValue, appliesTo). On the contract's price consideration in force: feeAmount, the order's total (see IONBuyerFinderFee)."
+    },
+    {
+      "@id": "ion:IONBuyerFinderFee",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONBuyerFinderFee",
+      "rdfs:comment": "The buyer finder fee: what the seller (BPP) pays the buyer app (BAP) for orders of an offer, deducted from the seller's payout at settlement. Not a charge to the buyer, and not part of breakup or totalAmount.\nOn an offer's consideration the seller states the fee terms: feeType, feeValue, and for PERCENT appliesTo. One fee per offer.\nOn the contract's price consideration in force the BPP states feeAmount, the order's total: the sum, over every offer still ordered, of its fee on its own items -- PERCENT of the unit price (ITEM_TOTAL) or of the unit total with tax (ORDER_TOTAL), or the AMOUNT per unit, times the quantity still ordered. The BPP sets it in on_select and on_init and recomputes it in on_cancel and on_update after cancellations and returns. At reconciliation the settlement's commission.value (IONSettlementReconciliation) equals feeAmount."
     }
   ]
 }

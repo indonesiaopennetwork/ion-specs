@@ -17,11 +17,11 @@
     "IONTradeConsideration": "ion:IONTradeConsideration",
     "breakup": "rccna:breakup",
     "taxDetail": "rccna:taxDetail",
-    "commission": "ion:commission",
-    "IONCommission": "ion:IONCommission",
     "feeType": "ion:feeType",
     "feeValue": "ion:feeValue",
     "appliesTo": "ion:appliesTo",
-    "feeAmount": "ion:feeAmount"
+    "feeAmount": "ion:feeAmount",
+    "buyerFinderFee": "ion:buyerFinderFee",
+    "IONBuyerFinderFee": "ion:IONBuyerFinderFee"
   }
 }

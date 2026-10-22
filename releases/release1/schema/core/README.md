@@ -78,9 +78,9 @@ the figures:
 - `contract.id` identifies the contract and `settlements[].id` a settlement
   obligation, whether prepaid, cash on delivery or credit.
 - `commission` is the BAP's entitlement and `netPayable` the BPP's. The
-  commission is the contract consideration's `commission.feeAmount`
+  commission is the contract consideration's `buyerFinderFee.feeAmount`
   ([`IONTradeConsideration`](../extension/trade/TradeConsideration/v1/README.md)),
-  the sum of the offers' `policies.commission` entries;
+  the sum of the offers' buyer finder fees;
   the payout terms (`settlementBasis`, `settlementWindow`) are the
   commitments' offers' `policies.settlement`
   ([`IONTradeOffer`](../extension/trade/TradeOffer/v1/README.md)). Neither is

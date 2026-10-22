@@ -166,10 +166,7 @@
                 }
               }
             ],
-            "commission": {
-              "feeType": "PERCENT",
-              "feeValue": 3,
-              "appliesTo": "ITEM_TOTAL",
+            "buyerFinderFee": {
               "feeAmount": 2670
             }
           }

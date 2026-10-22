@@ -29,30 +29,24 @@ publishes with each offer:
 - `IONTradeOffer.policies.settlement` (`TradeOffer/v1`): the seller's payout
   terms, `settlementBasis` and `settlementWindow`. With several offers in an
   order, the term giving the latest due date applies.
-- `IONTradeOffer.policies.commission` (`TradeOffer/v1`, new
-  `IONOfferCommission`): the commission the seller pays the buyer app, as an
-  array of named entries that add up — `feeName` (e.g. `Finder fee`,
-  `Platform fee`), `feeType` (`PERCENT` or `AMOUNT` per unit sold), `feeValue`, and
-  `appliesTo` for `PERCENT` (`ITEM_TOTAL` or `ORDER_TOTAL`).
-- `IONTradeConsideration.commission` (`TradeConsideration/v1`, new
-  `IONCommission`): the commission the order comes to, on the contract's price
-  consideration only. `feeAmount` is the total over every offer still ordered and
-  all its `policies.commission` entries, set by the BPP in `on_select` and
-  `on_init` and recomputed in `on_cancel` and `on_update`. When every offer has
-  one entry with the same `PERCENT` terms the contract repeats them; otherwise
-  `feeType` is `AMOUNT` and `feeValue` is the total.
+- `IONTradeConsideration.buyerFinderFee` (`TradeConsideration/v1`, new
+  `IONBuyerFinderFee`): the buyer finder fee the seller pays the buyer app.
+  On each offer's consideration, one fee per offer: `feeType` (`PERCENT` or
+  `AMOUNT` per unit sold), `feeValue`, and `appliesTo` for `PERCENT`
+  (`ITEM_TOTAL` or `ORDER_TOTAL`). On the contract's price consideration,
+  `feeAmount`: the order's total over the offers still ordered, set by the BPP
+  in `on_select` and `on_init` and recomputed in `on_cancel` and `on_update`.
 - `IONSettlementReconciliation` (`common/Settlement/v1`): `finderFee`,
   `settlementBasis`, `settlementWindow` and the `FinderFee` definition are
   removed; `commission.value` equals the contract consideration's
-  `commission.feeAmount`. Older orders that still carry the removed fields stay
+  `buyerFinderFee.feeAmount`. Older orders that still carry the removed fields stay
   valid (`additionalProperties: true`).
 - Updated the Storefront pattern, the reconciliation API examples and the pack
   READMEs and examples.
-- The commission fields are named `feeName`, `feeType`, `feeValue`,
-  `appliesTo` and `feeAmount`, as `FinderFee` was, so their top-level JSON-LD
-  terms (required by the testbed schema validator for every property) do not
-  redefine `type`, `value`, `amount` or `name` elsewhere in those packs (for
-  example `breakup[].type`).
+- The fee fields are named `feeType`, `feeValue`, `appliesTo` and
+  `feeAmount`, as `FinderFee` was, so their top-level JSON-LD terms (required
+  by the testbed schema validator for every property) do not redefine `type`,
+  `value` or `amount` elsewhere in the pack (for example `breakup[].type`).
 
 ### Reconciliation agreed per settlement (19 October 2026)
 
