@@ -1,0 +1,29 @@
+{
+  "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeConsideration/v1/context.jsonld",
+  "@type": "ion:IONTradeConsideration",
+  "_comment": "Example: an offer's price consideration with the seller's own delivery charge, 10000 per order, which the contract states as a DELIVERY_CHARGE breakup line",
+  "currency": "IDR",
+  "totalAmount": 27750,
+  "breakup": [
+    {
+      "type": "BASE_PRICE",
+      "title": "Keripik Singkong Balado 150 g",
+      "amount": 25000
+    },
+    {
+      "type": "TAX",
+      "title": "PPN",
+      "amount": 2750,
+      "taxDetail": {
+        "rate": 0.11,
+        "included": false,
+        "taxableBase": 25000,
+        "taxRegime": "PPN",
+        "taxCategory": "BKP"
+      }
+    }
+  ],
+  "deliveryFee": {
+    "amount": 10000
+  }
+}

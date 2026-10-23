@@ -509,18 +509,19 @@ artifactChecksums:
   schema/extension/trade/TradeCommitment/v1/renderer.json: 9272bf577b6683187896b67949ae8836bcacb405fd5ebec8992e16b1f0904f42
   schema/extension/trade/TradeCommitment/v1/schema.json: 66fa274b204960576b81becf54c1831684e48f046b9b7ff9767db98e080e6705
   schema/extension/trade/TradeCommitment/v1/vocab.jsonld: 399f136e1a6ac648b476c36aecd7295b28e7ca4f06e0ac97af1763f450c622af
-  schema/extension/trade/TradeConsideration/v1/README.md: fb45013f10eb750428ca176eb110f2c08c6ea824740736f7b52c403093f91a01
-  schema/extension/trade/TradeConsideration/v1/attributes.yaml: 1d9bff0d20e28bad8b958439688397723c1e8e53f4d1ce06a51ba1c9d0f26bda
-  schema/extension/trade/TradeConsideration/v1/context.jsonld: 507d4942137360d7db0e785d6f6e4833fe4402ed762ffd1c35cd35527ef194a0
+  schema/extension/trade/TradeConsideration/v1/README.md: 58a909d0df29c5d1eaa19de1fa5dde52a234d47c27b5a814df1e5f8a112df057
+  schema/extension/trade/TradeConsideration/v1/attributes.yaml: fafe57a12ba6d2236ab1f6a872c9b0ad9f57cb1babff201afdfa0bb92a98d281
+  schema/extension/trade/TradeConsideration/v1/context.jsonld: 9ceaf23c4207a079ece35b4105f12ba377bfdfda21d4c86a6399f09e9890a36e
   schema/extension/trade/TradeConsideration/v1/docs/01-overview.md: 053bdfbc95bd6d435f5e762f3fefc8cf31427ad5b9e63388ffe137d74e2b33b7
   schema/extension/trade/TradeConsideration/v1/docs/README.md: 158c844e63e4c560ed616977e799bc1763fbab076c8383723d4d78d3a55d2b77
   schema/extension/trade/TradeConsideration/v1/examples/contract-buyer-finder-fee.json: e5d44cc7d62119dc60d3149a8ed2526783776539d53138a402c336d302349a3e
   schema/extension/trade/TradeConsideration/v1/examples/offer-buyer-finder-fee.json: ebd6ba65586b359ae0a523af393f3dad54f2f98b7c68a11ab6818f6ee8497f9a
+  schema/extension/trade/TradeConsideration/v1/examples/offer-delivery-fee.json: e6d44d2aaa7cbefd70105f3b3bd5eeac9ee4d9463cedcfeb546140b10139e83e
   schema/extension/trade/TradeConsideration/v1/examples/pizza-order-breakup.json: e1fe1e0f93281b9ca8b1c9731c1d835d39c744ce87cde565746b13eb44b642eb
   schema/extension/trade/TradeConsideration/v1/profile.json: df4f18bbaa27db3749c2963ed4d847b2f9dd032b6feaa455968e92d06bb8c439
   schema/extension/trade/TradeConsideration/v1/renderer.json: 221c46a8ded28c7c4c457beb58714af5e749bea42ae523f14877d3ff2c0374a8
-  schema/extension/trade/TradeConsideration/v1/schema.json: 28041157bb54e75353d00005f1056df262b92c6e3c51241023c749d54a20fa49
-  schema/extension/trade/TradeConsideration/v1/vocab.jsonld: 9da9a9285313098df98aded00dc5f4321b3438635531103dcdabdea39af95d80
+  schema/extension/trade/TradeConsideration/v1/schema.json: 5d01b8602bef45d21c898317c88d949f9c88f1049148a4cba5e39744d03d130f
+  schema/extension/trade/TradeConsideration/v1/vocab.jsonld: 07d690994f102b2a0569d180bcacd40ed8f2f077d56da898476158008f464734
   schema/extension/trade/TradeContract/v1/README.md: b29124a98d40579a2801e92899e0d0eb8762abd8c6ea4dbea01cdc8318cc7cbb
   schema/extension/trade/TradeContract/v1/attributes.yaml: 3c09c5714f98df41fd92ee0b8fe9251f1fe3e6ceade8667f561c46f40811ef62
   schema/extension/trade/TradeContract/v1/context.jsonld: c0444120b1180880553df7df2e52467621757cdbdf9e3629606e2e2eb4052fc0
