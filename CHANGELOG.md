@@ -21,6 +21,18 @@ Release-owned schema content is grouped under `releases/release1/schema/`:
 `core/`, `common/`, `extension/`, and `vendored/` are peers there, while
 `flows/` and `errors/` remain peers of `schema/` at the release root.
 
+### Delivery fee on the offer (23 October 2026)
+
+- `IONTradeConsideration.deliveryFee` (`TradeConsideration/v1`, new
+  `IONDeliveryFee`): the charge for the seller's own delivery, `amount` per
+  order, on an offer's consideration. For a `DELIVERY` order the BPP charges
+  the highest amount among the offers ordered, once, as a `DELIVERY_CHARGE`
+  breakup line on the contract's price consideration, included in
+  `totalAmount`; none for `SELF_PICKUP`. The line stays while any item is
+  still ordered and is refunded once none is; it is not part of the buyer
+  finder fee base.
+  Additive; no existing field changes.
+
 ### Settlement terms on the offer (19 October 2026)
 
 The settlement terms moved from the settlement object to what the seller

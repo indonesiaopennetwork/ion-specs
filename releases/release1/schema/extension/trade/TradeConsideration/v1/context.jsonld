@@ -22,6 +22,9 @@
     "appliesTo": "ion:appliesTo",
     "feeAmount": "ion:feeAmount",
     "buyerFinderFee": "ion:buyerFinderFee",
-    "IONBuyerFinderFee": "ion:IONBuyerFinderFee"
+    "IONBuyerFinderFee": "ion:IONBuyerFinderFee",
+    "deliveryFee": "ion:deliveryFee",
+    "amount": "ion:amount",
+    "IONDeliveryFee": "ion:IONDeliveryFee"
   }
 }

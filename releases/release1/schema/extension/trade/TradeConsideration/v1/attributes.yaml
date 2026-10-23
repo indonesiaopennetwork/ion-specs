@@ -7,7 +7,8 @@ info:
     RetailConsideration v2.1, refines tax details for ION, and adds the
     buyer finder fee (IONBuyerFinderFee): its terms on an offer's
     consideration, and the order's total on the contract's price
-    consideration.
+    consideration; and the seller's delivery charge (IONDeliveryFee) on an
+    offer's consideration.
     Attaches to: beckn:Consideration.considerationAttributes
   version: 1.0.0
   license:
@@ -63,6 +64,15 @@ components:
             consideration: the fee terms (feeType, feeValue, appliesTo). On the
             contract's price consideration in force: feeAmount, the order's
             total (see IONBuyerFinderFee).
+        deliveryFee:
+          x-attr-ion-layer: ion
+          allOf:
+            - $ref: '#/components/schemas/IONDeliveryFee'
+          description: >
+            On an offer's consideration: the charge per order for the seller's
+            own delivery of the offer's items (see IONDeliveryFee). The
+            contract states the charge as a DELIVERY_CHARGE breakup line, not
+            with this field.
       # Monetary breakup, payment methods, total amount, applied vouchers,
       # and loyalty points are inherited from RetailConsideration v2.1.
       # Realized discounts use breakup[].type: DISCOUNT and breakup[].amount;
@@ -77,6 +87,33 @@ components:
       # x-ion-condition: Required on PPNBM consideration lines for luxury goods
       # RetailConsideration v2.1 requires currency and totalAmount. These
       # inherited requirements cannot be relaxed by this allOf extension.
+
+    IONDeliveryFee:
+      type: object
+      title: IONDeliveryFee
+      description: >
+        The charge the buyer pays for the seller's own delivery, stated on an
+        offer's consideration. One charge per order: when an order's
+        performanceMode is DELIVERY, the BPP charges the highest deliveryFee
+        amount among the offers ordered, once, as a breakup line of type
+        DELIVERY_CHARGE on the contract's price consideration, included in
+        totalAmount. No charge for SELF_PICKUP, and none when no offer
+        ordered states a deliveryFee.
+
+        The line stays while any item is still ordered, through partial
+        cancellations and returns, and is refunded once none is. It is not
+        part of the buyer finder fee base (IONBuyerFinderFee).
+      x-ion-layer: ion
+      additionalProperties: false
+      required: [amount]
+      properties:
+        amount:
+          type: number
+          minimum: 0
+          description: >
+            The delivery charge per order in the consideration currency,
+            including any tax. 0 states free delivery.
+          example: 10000
 
     IONBuyerFinderFee:
       type: object

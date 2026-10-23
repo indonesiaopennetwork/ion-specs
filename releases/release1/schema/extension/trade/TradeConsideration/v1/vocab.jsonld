@@ -69,6 +69,24 @@
       "@type": "rdfs:Class",
       "rdfs:label": "IONBuyerFinderFee",
       "rdfs:comment": "The buyer finder fee: what the seller (BPP) pays the buyer app (BAP) for orders of an offer, deducted from the seller's payout at settlement. Not a charge to the buyer, and not part of breakup or totalAmount.\nOn an offer's consideration the seller states the fee terms: feeType, feeValue, and for PERCENT appliesTo. One fee per offer.\nOn the contract's price consideration in force the BPP states feeAmount, the order's total: the sum, over every offer still ordered, of its fee on its own items -- PERCENT of the unit price (ITEM_TOTAL) or of the unit total with tax (ORDER_TOTAL), or the AMOUNT per unit, times the quantity still ordered. The BPP sets it in on_select and on_init and recomputes it in on_cancel and on_update after cancellations and returns. At reconciliation the settlement's commission.value (IONSettlementReconciliation) equals feeAmount."
+    },
+    {
+      "@id": "ion:deliveryFee",
+      "@type": "rdf:Property",
+      "rdfs:label": "deliveryFee",
+      "rdfs:comment": "On an offer's consideration: the charge per order for the seller's own delivery of the offer's items (see IONDeliveryFee). The contract states the charge as a DELIVERY_CHARGE breakup line, not with this field."
+    },
+    {
+      "@id": "ion:amount",
+      "@type": "rdf:Property",
+      "rdfs:label": "amount",
+      "rdfs:comment": "The delivery charge per order in the consideration currency, including any tax. 0 states free delivery."
+    },
+    {
+      "@id": "ion:IONDeliveryFee",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONDeliveryFee",
+      "rdfs:comment": "The charge the buyer pays for the seller's own delivery, stated on an offer's consideration. One charge per order: when an order's performanceMode is DELIVERY, the BPP charges the highest deliveryFee amount among the offers ordered, once, as a breakup line of type DELIVERY_CHARGE on the contract's price consideration, included in totalAmount. No charge for SELF_PICKUP, and none when no offer ordered states a deliveryFee.\nThe line stays while any item is still ordered and is refunded only when the whole order is cancelled. It is not part of the buyer finder fee base (IONBuyerFinderFee)."
     }
   ]
 }
