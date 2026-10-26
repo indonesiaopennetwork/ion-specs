@@ -276,3 +276,6 @@ notes:
 - Schema content groups core, common, extension, and vendored below schema/ rather
   than flattening them at the release root.
 - Draft URLs are unsupported until the release is published.
+- The Grievance common pack attaches to Support.supportAttributes, a slot proposed
+  to Beckn and absent from the vendored Beckn 2.0.0 contract; support and on_support
+  messages carrying it validate only once that slot is released and vendored.

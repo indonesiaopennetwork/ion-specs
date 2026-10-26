@@ -72,6 +72,7 @@ x-beckn-attaches-to: BecknObject.attributesSlot
 - `Tracking.trackingAttributes`
 - `RatingInput.target.targetAttributes`
 - `Support.channels[*]` (array slot — use @type discriminator)
+- `Support.supportAttributes` (proposed to Beckn; not in Beckn 2.0.0 — see `common/Grievance/v1`)
 
 ### allOf with Beckn Attributes base (required)
 ```yaml

@@ -1,0 +1,36 @@
+{
+  "@context": "https://schema.ion.id/release1/schema/common/Grievance/v1/context.jsonld",
+  "@type": "ion:IONGrievance",
+  "grievanceId": "GRV-2026-00004410",
+  "eventType": "OPENED",
+  "caseStatus": "OPEN",
+  "occurredAt": "2026-04-24T15:00:00.000+07:00",
+  "openedAt": "2026-04-24T15:00:00.000+07:00",
+  "originatingNpId": "sellerapp.ion.id",
+  "raisedBy": {
+    "side": "SELLER",
+    "npId": "sellerapp.ion.id"
+  },
+  "raisedAgainst": {
+    "role": "BUYER",
+    "partyId": "buyer-anon-01"
+  },
+  "assignedNpId": "buyerapp.ion.id",
+  "category": "WRONG_RETURN",
+  "description": "The returned parcel contained a different, cheaper item than the one delivered.",
+  "affected": [
+    {
+      "commitmentId": "L01",
+      "performanceId": "PERF-RET-2026-00000088",
+      "quantity": 1
+    }
+  ],
+  "policyRef": "ion://policy/grievance-sla.consumer.standard",
+  "channelMode": "ASYNC",
+  "relatedReferences": [
+    {
+      "refType": "PERFORMANCE",
+      "refId": "PERF-RET-2026-00000088"
+    }
+  ]
+}
