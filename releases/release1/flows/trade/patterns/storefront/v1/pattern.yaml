@@ -374,6 +374,145 @@ phases:
         schemaPacks:
           common: [Settlement/v1]
 
+  phase5:
+    name: Grievance
+    communication: >-
+      Optional, after on_confirm. The participant whose user raised the
+      grievance opens it: the BAP with support for a buyer grievance, the BPP
+      with an unsolicited on_support for a seller grievance (an ION profile
+      rule pending Beckn approval). Every event carries an IONGrievance as
+      message.support.supportAttributes, which assumes the optional
+      Support.supportAttributes slot proposed to Beckn. Returns and
+      cancellations within the order's policy use update and cancel, not
+      support; a grievance about one that went wrong links it in
+      relatedReferences. Agreement on a resolution moves no money: the refund
+      runs through the settlement flow and is agreed in reconcile.
+    steps:
+      - step: support
+        trigger: OPENED
+        from: BAP
+        to: BPP
+        direction: request
+        description: The BAP opens a buyer grievance about the order.
+        requiredFields:
+          - message.support.orderId
+          - message.support.supportAttributes.grievanceId
+          - message.support.supportAttributes.eventType
+          - message.support.supportAttributes.caseStatus
+          - message.support.supportAttributes.occurredAt
+          - message.support.supportAttributes.openedAt
+          - message.support.supportAttributes.originatingNpId
+          - message.support.supportAttributes.raisedBy
+          - message.support.supportAttributes.raisedAgainst
+          - message.support.supportAttributes.category
+          - message.support.supportAttributes.description
+        conditionalFields:
+          - field: message.support.supportAttributes.relatedReferences[]
+            condition: if category is RETURN_REJECTED, RETURN_PICKUP_FAILED, RETURN_QC_DISPUTED or REFUND_NOT_RECEIVED (a CONTRACT, PERFORMANCE or SETTLEMENT entry)
+        schemaPacks:
+          common: [Grievance/v1]
+
+      - step: on_support
+        trigger: ACKNOWLEDGED
+        from: BPP
+        to: BAP
+        direction: callback
+        description: >-
+          The BPP acknowledges the grievance, repeating the context.messageId
+          of the support request it answers.
+        requiredFields:
+          - message.support.supportAttributes.grievanceId
+          - message.support.supportAttributes.eventType
+          - message.support.supportAttributes.caseStatus
+        schemaPacks:
+          common: [Grievance/v1]
+
+      - step: on_support
+        trigger: RESOLUTION_PROPOSED
+        from: BPP
+        to: BAP
+        direction: unsolicited
+        description: >-
+          The BPP proposes a resolution version with a new context.messageId.
+          A newer version of the same proposalId replaces it.
+        requiredFields:
+          - message.support.supportAttributes.resolution.proposalId
+          - message.support.supportAttributes.resolution.version
+          - message.support.supportAttributes.resolution.proposedByNpId
+          - message.support.supportAttributes.resolution.authorizationType
+          - message.support.supportAttributes.resolution.actions[].actionId
+          - message.support.supportAttributes.resolution.actions[].type
+          - message.support.supportAttributes.resolution.actions[].executionMethod
+        conditionalFields:
+          - field: message.support.supportAttributes.resolution.actions[].financialEffect
+            condition: if the action moves money (amount, currency, allocationBasis)
+          - field: message.support.supportAttributes.resolution.policyRef
+            condition: if authorizationType is POLICY_AUTHORIZED
+          - field: message.support.supportAttributes.resolution.verification
+            condition: if authorizationType is POLICY_AUTHORIZED
+          - field: message.support.supportAttributes.resolution.fundingNpId
+            condition: if authorizationType is UNILATERAL
+        schemaPacks:
+          common: [Grievance/v1]
+
+      - step: support
+        trigger: RESOLUTION_DECIDED
+        from: BAP
+        to: BPP
+        direction: request
+        description: >-
+          The BAP accepts or rejects the whole latest version. Needed only for
+          EXPLICIT_AGREEMENT; a POLICY_AUTHORIZED or UNILATERAL resolution goes
+          straight to execution.
+        requiredFields:
+          - message.support.supportAttributes.resolution
+          - message.support.supportAttributes.decision.proposalId
+          - message.support.supportAttributes.decision.version
+          - message.support.supportAttributes.decision.decidedByNpId
+          - message.support.supportAttributes.decision.result
+          - message.support.supportAttributes.decision.decidedAt
+        schemaPacks:
+          common: [Grievance/v1]
+
+      - step: on_support
+        trigger: ACTION_COMPLETED
+        from: BPP
+        to: BAP
+        direction: unsolicited
+        description: >-
+          The BPP reports the executed actions with the reference of the
+          refund, update or performance that carried each one out.
+        requiredFields:
+          - message.support.supportAttributes.resolution
+          - message.support.supportAttributes.execution.actionExecutions[].actionId
+          - message.support.supportAttributes.execution.actionExecutions[].completedAt
+          - message.support.supportAttributes.execution.actionExecutions[].executedByNpId
+        conditionalFields:
+          - field: message.support.supportAttributes.execution.actionExecutions[].executionReference
+            condition: if the action's executionMethod is not NONE
+        schemaPacks:
+          common: [Grievance/v1]
+
+      - step: on_support
+        trigger: RESOLVED
+        from: BPP
+        to: BAP
+        direction: unsolicited
+        description: >-
+          Every action that moves money or goods is executed. Without an
+          OBJECTION from the BAP within the grievance SLA policy's objection
+          period, both participants treat the grievance as closed; no message
+          is sent for deemed closure.
+        requiredFields:
+          - message.support.supportAttributes.caseStatus
+          - message.support.supportAttributes.resolution
+          - message.support.supportAttributes.execution
+        conditionalFields:
+          - field: message.support.supportAttributes.decision
+            condition: if authorizationType is EXPLICIT_AGREEMENT (result ACCEPTED)
+        schemaPacks:
+          common: [Grievance/v1]
+
 variantWindows:
   during-transaction:
     earliest: select
