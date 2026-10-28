@@ -361,8 +361,8 @@ artifactChecksums:
   schema/common/BusinessRegistration/v1/renderer.json: fd1ad073255674c4bba776c8b43a4d11ebb9b1e5bbcfcdac3a3018bca04beac6
   schema/common/BusinessRegistration/v1/schema.json: 754e541979f8e3aad00504f280bb6376ca9cd2ef29408b6f802b700e5651626a
   schema/common/BusinessRegistration/v1/vocab.jsonld: dcd58248892e9e205b0364fd1bc1fd0bf2f6247f935b2af4df1efaaee2b060d3
-  schema/common/Grievance/README.md: b1edebbc4261575a43a6ff2045dbd314652fbc0d0d695f0c3a25da2885cd88df
-  schema/common/Grievance/v1/README.md: 5c614033c2f8106d90f84238cee2d6574e002d6c01391f50e3675d69fd7e7869
+  schema/common/Grievance/README.md: 55cee694d5f34bc13255dea0829512318d39f656baec95b145003152483f6501
+  schema/common/Grievance/v1/README.md: 992b2050ee91124ef0cd3dc388b02f23ac9842620de7d6cf143840ddc781631a
   schema/common/Grievance/v1/attributes.yaml: 716f39ec3ba0063a9aa58dcc2af887606052cb94fa1b40d7c9d0256aeb43ca90
   schema/common/Grievance/v1/context.jsonld: 703d8db4a74de77c9f49c78599c8f1cc713adee81d9e28bc8eaeb417fdd200a1
   schema/common/Grievance/v1/examples/objection.json: ec9e3b1a91d54a1c77a5d4ee5bf20f5849109b2d480014df5329935d6b3deb7f

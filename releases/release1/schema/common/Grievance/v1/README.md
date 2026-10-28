@@ -22,6 +22,12 @@ messages of the vendored Beckn contract.
 > `/support` and `/on_support` messages carrying this pack fail validation
 > against the vendored contract. `Support.channels[]` keeps its Beckn meaning:
 > the contact channels (WhatsApp, helpdesk, in-app chat) for the grievance.
+>
+> Raised with Beckn in
+> [protocol-specifications-v2#203](https://github.com/beckn/protocol-specifications-v2/issues/203)
+> (draft PR [#204](https://github.com/beckn/protocol-specifications-v2/pull/204))
+> and with the Fabric team in
+> [fabric-support#116](https://github.com/Networks-for-Humanity/fabric-support/issues/116).
 
 ## What a grievance is
 
@@ -157,7 +163,9 @@ the grievance's earlier events:
 2. A seller grievance starts with an `/on_support` that follows no `/support`.
    This unsolicited `on_support`, and further events on the same endpoints,
    are an ION profile rule pending approval: Beckn 2.0.0 defines
-   `/on_support` only as the callback of an accepted `/support`.
+   `/on_support` only as the callback of an accepted `/support`. Raised in
+   [protocol-specifications-v2#205](https://github.com/beckn/protocol-specifications-v2/issues/205)
+   and [fabric-support#117](https://github.com/Networks-for-Humanity/fabric-support/issues/117).
 3. A direct callback repeats the request's `context.messageId`; every new
    event gets a new one. `context.transactionId` is the order's transaction.
 4. `decision.proposalId` and `decision.version` equal the latest
