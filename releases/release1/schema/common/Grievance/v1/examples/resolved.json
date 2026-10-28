@@ -1,0 +1,62 @@
+{
+  "@context": "https://schema.ion.id/release1/schema/common/Grievance/v1/context.jsonld",
+  "@type": "ion:IONGrievance",
+  "grievanceId": "GRV-2026-00004321",
+  "eventType": "RESOLVED",
+  "caseStatus": "RESOLVED",
+  "occurredAt": "2026-04-19T13:05:00.000+07:00",
+  "originatingNpId": "buyerapp.ion.id",
+  "resolution": {
+    "proposalId": "RES-2026-00004321",
+    "version": 2,
+    "proposedByNpId": "sellerapp.ion.id",
+    "authorizationType": "EXPLICIT_AGREEMENT",
+    "actions": [
+      {
+        "actionId": "ACT-001",
+        "type": "REFUND",
+        "description": "Full refund of the crushed pizza",
+        "affected": [
+          {
+            "commitmentId": "L01",
+            "quantity": 1
+          }
+        ],
+        "financialEffect": {
+          "effectType": "REFUND",
+          "amount": 89000,
+          "currency": "IDR",
+          "allocationBasis": "EXPLICIT",
+          "liablePartyId": "sellerapp.ion.id",
+          "allocationReason": "Full refund of the line agreed in version 2.",
+          "settlementRef": "PAY-RFD-2026-00004321"
+        },
+        "executionMethod": "SETTLEMENT"
+      }
+    ]
+  },
+  "decision": {
+    "proposalId": "RES-2026-00004321",
+    "version": 2,
+    "decidedByNpId": "buyerapp.ion.id",
+    "result": "ACCEPTED",
+    "decidedAt": "2026-04-19T12:40:00.000+07:00"
+  },
+  "execution": {
+    "actionExecutions": [
+      {
+        "actionId": "ACT-001",
+        "status": "COMPLETED",
+        "completedAt": "2026-04-19T13:00:00.000+07:00",
+        "executedByNpId": "sellerapp.ion.id",
+        "executionReference": "RFD-QRIS-20260419-0001"
+      }
+    ]
+  },
+  "relatedReferences": [
+    {
+      "refType": "SETTLEMENT",
+      "refId": "PAY-2026-00012345"
+    }
+  ]
+}

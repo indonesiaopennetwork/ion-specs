@@ -1,0 +1,38 @@
+{
+  "@context": "https://schema.ion.id/release1/schema/common/Grievance/v1/context.jsonld",
+  "@type": "ion:IONGrievance",
+  "grievanceId": "GRV-2026-00004560",
+  "eventType": "RESOLUTION_PROPOSED",
+  "caseStatus": "IN_PROGRESS",
+  "occurredAt": "2026-04-19T16:00:00.000+07:00",
+  "originatingNpId": "buyerapp.ion.id",
+  "resolution": {
+    "proposalId": "RES-2026-00004560",
+    "version": 1,
+    "proposedByNpId": "buyerapp.ion.id",
+    "authorizationType": "UNILATERAL",
+    "fundingNpId": "buyerapp.ion.id",
+    "actions": [
+      {
+        "actionId": "ACT-001",
+        "type": "REFUND",
+        "description": "Goodwill refund for the late delivery, funded by the buyer app",
+        "affected": [
+          {
+            "commitmentId": "L01",
+            "quantity": 1
+          }
+        ],
+        "financialEffect": {
+          "effectType": "REFUND",
+          "amount": 15000,
+          "currency": "IDR",
+          "allocationBasis": "UNILATERAL",
+          "liablePartyId": "buyerapp.ion.id",
+          "allocationReason": "Buyer app goodwill; no liability for the seller app."
+        },
+        "executionMethod": "SETTLEMENT"
+      }
+    ]
+  }
+}

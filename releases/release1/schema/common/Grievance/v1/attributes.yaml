@@ -1,0 +1,745 @@
+openapi: 3.1.1
+info:
+  title: ION Grievance Extension (v1)
+  description: >
+    Order grievance attributes. IONGrievance is one material event of an
+    order-level grievance raised by the buyer side or the seller side,
+    carried as Support.supportAttributes in the /support and /on_support
+    messages of the vendored Beckn contract. Each message is a snapshot of
+    the grievance after the event: its identity, current status, the active
+    resolution proposal, the decision on it, and the execution of its
+    actions. Conversations, evidence and case handling stay in each network
+    participant's own systems; formal disputes between participants go to
+    the ION SATU portal, not to this pack.
+    Attaches to:
+    beckn:Support.supportAttributes. Beckn 2.0.0 Support has no
+    supportAttributes slot yet (additionalProperties is false); this pack
+    assumes the optional slot proposed to Beckn and is not usable on the
+    network until that change is released and vendored.
+  version: 1.0.0
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    name: ION Network
+    url: https://schema.ion.id
+
+components:
+  schemas:
+    IONGrievance:
+      type: object
+      title: IONGrievance
+      description: >
+        One event in the life of an order grievance, sent between the BAP
+        (buyer app) and the BPP (seller app) of the order. The participant
+        whose user raised the grievance is the originating participant: it
+        opens the grievance with a grievanceId and owns its closure. A
+        grievance concerns exactly one order (Support.orderId) and may cover
+        several of its commitments. The responding participant acknowledges
+        it, investigates in its own systems and proposes one versioned
+        resolution at a time; a newer version replaces the earlier one. The
+        counterparty accepts or rejects a whole version when its agreement is
+        needed. Each action of the accepted or authorized resolution is then
+        executed through the order, fulfilment or settlement flows, and its
+        execution reference is reported; the grievance is RESOLVED only once
+        every action that moves money or goods is executed. A grievance is
+        never the way a return or cancellation is requested: those use update
+        and cancel. A grievance about a return, cancellation or refund that
+        went wrong links that record in relatedReferences. The support
+        exchange records material terms so that SEAM can check them later;
+        it never moves money, and neither a resolution nor closure is
+        agreement on the final settlement, which is reached in reconcile and
+        on_reconcile.
+      x-ion-layer: ion
+      x-recommended-parent: Support.supportAttributes
+      additionalProperties: true
+      x-jsonld:
+        '@context': 'https://schema.ion.id/release1/schema/common/Grievance/v1/context.jsonld'
+        '@type': ion:IONGrievance
+      x-beckn-attaches-to: Support.supportAttributes
+      required:
+        - grievanceId
+        - eventType
+        - caseStatus
+        - occurredAt
+        - originatingNpId
+      allOf:
+        - if:
+            properties:
+              eventType:
+                const: OPENED
+            required: [eventType]
+          then:
+            required: [openedAt, raisedBy, raisedAgainst, category, description]
+            properties:
+              caseStatus:
+                const: OPEN
+        - if:
+            properties:
+              eventType:
+                const: OPENED
+              category:
+                enum:
+                  - RETURN_REJECTED
+                  - RETURN_PICKUP_FAILED
+                  - RETURN_QC_DISPUTED
+                  - REFUND_NOT_RECEIVED
+            required: [eventType, category]
+          then:
+            required: [relatedReferences]
+            properties:
+              relatedReferences:
+                contains:
+                  type: object
+                  properties:
+                    refType:
+                      enum: [CONTRACT, PERFORMANCE, SETTLEMENT]
+                  required: [refType]
+        - if:
+            properties:
+              eventType:
+                enum:
+                  - RESOLUTION_PROPOSED
+                  - RESOLUTION_DECIDED
+                  - ACTION_COMPLETED
+                  - RESOLVED
+            required: [eventType]
+          then:
+            required: [resolution]
+        - if:
+            properties:
+              eventType:
+                const: RESOLUTION_DECIDED
+            required: [eventType]
+          then:
+            required: [decision]
+        - if:
+            properties:
+              eventType:
+                const: ACTION_COMPLETED
+            required: [eventType]
+          then:
+            required: [execution]
+        - if:
+            properties:
+              eventType:
+                const: RESOLVED
+            required: [eventType]
+          then:
+            properties:
+              caseStatus:
+                const: RESOLVED
+        - if:
+            properties:
+              eventType:
+                const: OBJECTION
+            required: [eventType]
+          then:
+            required: [explanation]
+            properties:
+              caseStatus:
+                enum: [OPEN, IN_PROGRESS]
+        - if:
+            properties:
+              eventType:
+                const: CLOSED
+            required: [eventType]
+          then:
+            properties:
+              caseStatus:
+                const: CLOSED
+      properties:
+        grievanceId:
+          type: string
+          minLength: 1
+          description: >
+            Identifier the originating participant gives the grievance when it
+            opens it. Every later event of the grievance carries the same
+            value. It is not the transaction ID, and one order may have
+            several grievances.
+          example: GRV-2026-00004321
+        eventType:
+          type: string
+          enum:
+            - OPENED
+            - ACKNOWLEDGED
+            - STATUS_CHANGED
+            - RESOLUTION_PROPOSED
+            - RESOLUTION_DECIDED
+            - ACTION_COMPLETED
+            - RESOLVED
+            - OBJECTION
+            - CLOSED
+          description: >
+            What happened in this message. OPENED starts the grievance;
+            ACKNOWLEDGED confirms receipt by a person or process, not just a
+            protocol ACK; STATUS_CHANGED reports a material change of
+            caseStatus or subStatus; RESOLUTION_PROPOSED shares a new
+            resolution version; RESOLUTION_DECIDED accepts or rejects one;
+            ACTION_COMPLETED reports executed actions; RESOLVED reports that
+            every required action is complete; OBJECTION is the originating
+            participant's timely disagreement with the reported outcome;
+            CLOSED is an optional explicit closure by the originating
+            participant.
+          example: OPENED
+        caseStatus:
+          type: string
+          enum:
+            - OPEN
+            - IN_PROGRESS
+            - RESOLVED
+            - CLOSED
+          description: >
+            Status of the grievance after this event. These values are
+            ION-defined and provisional: Beckn 2.0.0 Support defines no
+            grievance status. A RESOLVED grievance with no objection within
+            the grievance SLA policy's objection period is deemed CLOSED by
+            both participants without a further message; deemed closure is
+            never agreement to a financial adjustment.
+          example: OPEN
+        subStatus:
+          type: string
+          description: >
+            Optional sector- or participant-specific detail of caseStatus, for
+            example AWAITING_PICKUP. It does not change caseStatus.
+          example: AWAITING_PICKUP
+        occurredAt:
+          type: string
+          format: date-time
+          description: Time the event in this message occurred.
+          example: '2026-04-19T11:00:00.000+07:00'
+        openedAt:
+          type: string
+          format: date-time
+          description: Time the grievance was opened. Required on OPENED.
+          example: '2026-04-19T11:00:00.000+07:00'
+        originatingNpId:
+          type: string
+          minLength: 1
+          description: >
+            Network participant ID of the participant whose user raised the
+            grievance: the BAP for a buyer grievance, the BPP for a seller
+            grievance. It never changes during the grievance, and only this
+            participant may object to the outcome or close the grievance
+            explicitly.
+          example: buyerapp.ion.id
+        raisedBy:
+          allOf:
+            - $ref: '#/components/schemas/GrievanceParty'
+          description: Side and participant that raised the grievance. Required on OPENED.
+        raisedAgainst:
+          allOf:
+            - $ref: '#/components/schemas/GrievanceSubject'
+          description: >
+            Who the grievance is about. It names the subject of the
+            allegation, not a finding of fault, and the actual responsible
+            party may change during investigation. Required on OPENED.
+        assignedNpId:
+          type: string
+          description: Network participant ID of the participant expected to respond.
+          example: sellerapp.ion.id
+        category:
+          type: string
+          minLength: 1
+          description: >
+            Kind of problem, in SCREAMING_SNAKE_CASE, for example DAMAGED_ITEM,
+            WRONG_ITEM, MISSING_ITEM, LATE_DELIVERY or WRONG_RETURN. The return
+            and refund categories RETURN_REJECTED, RETURN_PICKUP_FAILED,
+            RETURN_QC_DISPUTED and REFUND_NOT_RECEIVED are for a return,
+            cancellation or refund made through update or cancel that went
+            wrong; an OPENED event with one of them must link the contract,
+            return performance or refund settlement in relatedReferences.
+            Required on OPENED.
+          example: DAMAGED_ITEM
+        description:
+          type: string
+          minLength: 1
+          maxLength: 1500
+          description: >
+            Short statement of the problem as raised. It carries no personal
+            contact data and no chat transcript. Required on OPENED.
+          example: Pizza arrived crushed; the buyer reports the box was damaged in transit.
+        affected:
+          type: array
+          items:
+            $ref: '#/components/schemas/AffectedLine'
+          description: Order lines or performances the grievance concerns.
+        policyRef:
+          type: string
+          format: uri
+          description: >
+            ION-registered grievance SLA policy bound to the order, which sets
+            the response and resolution targets and the objection period
+            before deemed closure.
+          example: ion://policy/grievance-sla.consumer.standard
+          x-ion-policy-registry: https://registry.ion.id/policies
+        channelMode:
+          type: string
+          enum:
+            - LIVE
+            - URGENT
+            - ASYNC
+            - EMERGENCY
+          description: >
+            How quickly a person is expected to engage. It is not a grievance
+            status. EMERGENCY help must go through a direct safety channel;
+            an asynchronous on_support is never the emergency response.
+          example: ASYNC
+        resolution:
+          allOf:
+            - $ref: '#/components/schemas/Resolution'
+          description: >
+            The active resolution proposal. Required on RESOLUTION_PROPOSED,
+            RESOLUTION_DECIDED, ACTION_COMPLETED and RESOLVED, so each message
+            states exactly which version it concerns.
+        decision:
+          allOf:
+            - $ref: '#/components/schemas/Decision'
+          description: Decision on the resolution version. Required on RESOLUTION_DECIDED.
+        execution:
+          allOf:
+            - $ref: '#/components/schemas/Execution'
+          description: Executed actions of the resolution. Required on ACTION_COMPLETED.
+        explanation:
+          type: string
+          maxLength: 2000
+          description: >
+            Reason for a status change or an objection. Required on
+            OBJECTION.
+          example: The buyer reports that the refund has not reached the original payment method.
+        relatedReferences:
+          type: array
+          items:
+            $ref: '#/components/schemas/RelatedReference'
+          description: >
+            Records in other flows that this grievance is about or that
+            evidence its outcome. Referencing a record never changes it. An
+            OPENED event in a return or refund category must reference the
+            contract, the return performance or the refund settlement.
+
+    GrievanceParty:
+      type: object
+      title: GrievanceParty
+      description: The side of the order that raised the grievance, and its participant.
+      additionalProperties: false
+      required: [side, npId]
+      properties:
+        side:
+          type: string
+          enum: [BUYER, SELLER]
+          description: BUYER when raised through the BAP, SELLER when raised through the BPP.
+          example: BUYER
+        npId:
+          type: string
+          minLength: 1
+          description: Network participant ID that raised the grievance.
+          example: buyerapp.ion.id
+        partyId:
+          type: string
+          minLength: 1
+          description: Optional opaque reference to the person or business; no contact data.
+          example: buyer-anon-01
+
+    GrievanceSubject:
+      type: object
+      title: GrievanceSubject
+      description: The party a grievance is about, as alleged when it is raised.
+      additionalProperties: false
+      required: [role]
+      properties:
+        role:
+          type: string
+          enum: [BUYER, SELLER, BAP, BPP, LOGISTICS, PAYMENT, OTHER]
+          description: Role of the party the grievance is about.
+          example: SELLER
+        partyId:
+          type: string
+          minLength: 1
+          description: Optional opaque identifier of that party, such as the provider ID; no contact data.
+          example: PROV-DOMINOS-SUDIRMAN-001
+
+    AffectedLine:
+      type: object
+      title: AffectedLine
+      description: >
+        A part of the order affected by the grievance or by a remedy action:
+        an order line (Commitment.id), a performance (Performance.id), or
+        both, with an optional quantity.
+      additionalProperties: false
+      anyOf:
+        - required: [commitmentId]
+        - required: [performanceId]
+      properties:
+        commitmentId:
+          type: string
+          description: Contract commitment (order line) ID.
+          example: L01
+        performanceId:
+          type: string
+          description: Contract performance ID, for a delivery or a return.
+          example: PERF-2026-00012345
+        quantity:
+          type: integer
+          minimum: 1
+          description: Number of units affected.
+          example: 1
+
+    FinancialEffect:
+      type: object
+      title: FinancialEffect
+      description: >
+        Money terms of a remedy action, stated so that the counterparty can
+        decide on them and SEAM can later check the settlement against them.
+        Stating them moves no money: the refund or charge itself runs through
+        the order and settlement flows.
+      additionalProperties: false
+      required: [effectType, amount, currency, allocationBasis]
+      allOf:
+        - if:
+            properties:
+              allocationBasis:
+                const: POLICY
+            required: [allocationBasis]
+          then:
+            required: [policyRef]
+        - if:
+            properties:
+              allocationBasis:
+                const: UNILATERAL
+            required: [allocationBasis]
+          then:
+            required: [liablePartyId]
+      properties:
+        effectType:
+          type: string
+          enum: [REFUND, ADJUSTMENT, EXTRA_CHARGE, CREDIT]
+          description: Kind of money movement the action causes.
+          example: REFUND
+        amount:
+          type: number
+          minimum: 0
+          description: Amount of the effect in currency units; never negative.
+          example: 30000
+        currency:
+          $ref: https://schema.ion.id/release1/schema/common/Payment/v1/attributes.yaml#/components/schemas/IONPayment/properties/currency
+        allocationBasis:
+          type: string
+          enum: [EXPLICIT, POLICY, UNILATERAL]
+          description: >
+            Why the liable party bears the amount: EXPLICIT, by the
+            counterparty's acceptance of this version; POLICY, by the policy
+            in policyRef; UNILATERAL, by the acting participant's own choice
+            to fund it. It must match the resolution's authorizationType.
+          example: EXPLICIT
+        liablePartyId:
+          type: string
+          description: >
+            Participant that bears the amount under allocationBasis. Naming
+            it records a term; it is not an agreed settlement deduction.
+            Required for UNILATERAL, where it must be the funding participant.
+          example: sellerapp.ion.id
+        allocationReason:
+          type: string
+          maxLength: 1000
+          description: Short reason for the allocation.
+          example: Partial refund agreed for a crushed but delivered item.
+        policyRef:
+          type: string
+          format: uri
+          description: ION-registered policy that sets the amount and liable party. Required for POLICY.
+          example: ion://policy/return.standard.7d-sellerpays
+          x-ion-policy-registry: https://registry.ion.id/policies
+        settlementRef:
+          type: string
+          minLength: 1
+          description: >
+            Settlement.id under which the money moves. When the grievance
+            completes a refund already agreed in the order flow, it reuses
+            that settlement's ID so that SEAM does not count the refund twice;
+            a new refund gets a new Settlement.id with relatedSettlementId
+            pointing to the earlier one. Required when the grievance
+            references a SETTLEMENT and the effect is a REFUND.
+          example: PAY-2026-00012345
+
+    RemedyAction:
+      type: object
+      title: RemedyAction
+      description: One thing a resolution will do, with the part of the order it affects and any money terms.
+      additionalProperties: false
+      required: [actionId, type, description, executionMethod]
+      properties:
+        actionId:
+          type: string
+          minLength: 1
+          description: Identifier of the action, unique within the resolution.
+          example: ACT-001
+        type:
+          type: string
+          enum:
+            - REFUND
+            - REPLACEMENT
+            - REDELIVERY
+            - CANCELLATION
+            - ADJUSTMENT
+            - INFORMATION_PROVIDED
+            - NO_ACTION
+            - WITHDRAWN
+            - OTHER
+          description: Kind of remedy.
+          example: REFUND
+        description:
+          type: string
+          minLength: 1
+          maxLength: 1500
+          description: Short statement of the action.
+          example: Partial refund for the crushed pizza
+        affected:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/AffectedLine'
+          description: Order lines or performances the action applies to.
+        financialEffect:
+          allOf:
+            - $ref: '#/components/schemas/FinancialEffect'
+          description: Money terms, when the action moves money.
+        executionMethod:
+          type: string
+          enum: [CONTRACT_UPDATE, SETTLEMENT, PERFORMANCE, NONE, OTHER]
+          description: >
+            Flow that executes the action: CONTRACT_UPDATE through update or
+            cancel, SETTLEMENT through a payment or refund settlement,
+            PERFORMANCE through a delivery, redelivery or replacement, and
+            NONE when nothing is executed, as for INFORMATION_PROVIDED or
+            NO_ACTION. Every action other than NONE needs an execution
+            reference before the grievance is RESOLVED.
+          example: SETTLEMENT
+        sectorSubtype:
+          type: string
+          description: Optional sector-specific refinement of type.
+          example: PARTIAL_REFUND
+
+    Verification:
+      type: object
+      title: Verification
+      description: >
+        The check that made a policy-authorized resolution applicable, done by
+        the verifier the policy designates, such as the seller's quality check
+        of a returned item.
+      additionalProperties: false
+      required: [verifiedByNpId, verificationReference, verifiedAt, method]
+      properties:
+        verifiedByNpId:
+          type: string
+          minLength: 1
+          description: Participant that performed the verification.
+          example: sellerapp.ion.id
+        verificationReference:
+          type: string
+          minLength: 1
+          description: Reference to the verification record kept by that participant.
+          example: QC-2026-00000777
+        verifiedAt:
+          type: string
+          format: date-time
+          description: Time of the verification.
+          example: '2026-04-21T09:00:00.000+07:00'
+        method:
+          type: string
+          minLength: 1
+          description: How the policy's conditions were verified, for example QUALITY_CHECK_OF_RETURNED_ITEM.
+          example: QUALITY_CHECK_OF_RETURNED_ITEM
+
+    Resolution:
+      type: object
+      title: Resolution
+      description: >
+        A versioned, whole proposal for resolving the grievance, made of one
+        or more actions. Only the latest version of a proposalId is active;
+        a decision applies to the whole version, and partial acceptance needs
+        a new version. authorizationType states why the actions may be
+        carried out: the counterparty's explicit acceptance, a policy bound to
+        the order that already authorizes them, or the acting participant's
+        own funding.
+      additionalProperties: false
+      required: [proposalId, version, proposedByNpId, authorizationType, actions]
+      allOf:
+        - if:
+            properties:
+              authorizationType:
+                const: POLICY_AUTHORIZED
+            required: [authorizationType]
+          then:
+            required: [policyRef, verification]
+        - if:
+            properties:
+              authorizationType:
+                const: UNILATERAL
+            required: [authorizationType]
+          then:
+            required: [fundingNpId]
+      properties:
+        proposalId:
+          type: string
+          minLength: 1
+          description: Identifier of the proposal; every version of it keeps the same value.
+          example: RES-2026-00004321
+        version:
+          type: integer
+          minimum: 1
+          description: Version of the proposal, starting at 1. A higher version replaces every lower one.
+          example: 1
+        proposedByNpId:
+          type: string
+          minLength: 1
+          description: Participant that made this version.
+          example: sellerapp.ion.id
+        authorizationType:
+          type: string
+          enum: [EXPLICIT_AGREEMENT, POLICY_AUTHORIZED, UNILATERAL]
+          description: >
+            EXPLICIT_AGREEMENT: the counterparty must accept this version
+            before it is carried out. POLICY_AUTHORIZED: a policy bound to the
+            order defines the eligibility, verifier, amount and liable party,
+            and a designated verifier confirmed the conditions, so no fresh
+            acceptance is needed; a general permission to refund is not
+            enough. UNILATERAL: the proposing participant funds the actions
+            itself and imposes no liability on the counterparty.
+          example: EXPLICIT_AGREEMENT
+        policyRef:
+          type: string
+          format: uri
+          description: ION-registered policy bound to the order that authorizes the actions. Required for POLICY_AUTHORIZED.
+          example: ion://policy/return.standard.7d-sellerpays
+          x-ion-policy-registry: https://registry.ion.id/policies
+        verification:
+          allOf:
+            - $ref: '#/components/schemas/Verification'
+          description: Verification of the policy's conditions. Required for POLICY_AUTHORIZED.
+        fundingNpId:
+          type: string
+          minLength: 1
+          description: Participant funding a UNILATERAL resolution. Required for UNILATERAL.
+          example: buyerapp.ion.id
+        actions:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/RemedyAction'
+          description: Actions of this version.
+
+    Decision:
+      type: object
+      title: Decision
+      description: >
+        Acceptance or rejection of one whole resolution version by the
+        participant that did not propose it. A protocol ACK is never a
+        decision. A rejected version authorizes nothing.
+      additionalProperties: false
+      required: [proposalId, version, decidedByNpId, result, decidedAt]
+      properties:
+        proposalId:
+          type: string
+          minLength: 1
+          description: Proposal decided on; equals resolution.proposalId.
+          example: RES-2026-00004321
+        version:
+          type: integer
+          minimum: 1
+          description: Version decided on; equals resolution.version, the latest version.
+          example: 1
+        decidedByNpId:
+          type: string
+          minLength: 1
+          description: Participant deciding; never the participant that proposed the version.
+          example: buyerapp.ion.id
+        result:
+          type: string
+          enum: [ACCEPTED, REJECTED]
+          description: The decision.
+          example: ACCEPTED
+        decidedAt:
+          type: string
+          format: date-time
+          description: Time of the decision.
+          example: '2026-04-19T12:15:00.000+07:00'
+        reason:
+          type: string
+          maxLength: 1000
+          description: Reason, typically given for a rejection.
+          example: The buyer asks for a full refund.
+
+    ActionExecution:
+      type: object
+      title: ActionExecution
+      description: Report that one resolution action has been carried out.
+      additionalProperties: false
+      required: [actionId, status, completedAt, executedByNpId]
+      properties:
+        actionId:
+          type: string
+          minLength: 1
+          description: Action carried out; one of resolution.actions[].actionId.
+          example: ACT-001
+        status:
+          type: string
+          const: COMPLETED
+          description: Execution status; only completed actions are reported.
+          example: COMPLETED
+        completedAt:
+          type: string
+          format: date-time
+          description: Time the action was completed.
+          example: '2026-04-19T13:00:00.000+07:00'
+        executedByNpId:
+          type: string
+          minLength: 1
+          description: Participant that carried out the action.
+          example: sellerapp.ion.id
+        executionReference:
+          type: string
+          description: >
+            Reference to the record that proves execution in its own flow,
+            such as the refund's payment reference, the update message or the
+            replacement performance. Required for every action whose
+            executionMethod is not NONE before the grievance is RESOLVED.
+          example: RFD-QRIS-20260419-0001
+
+    Execution:
+      type: object
+      title: Execution
+      description: Executed actions of the active resolution.
+      additionalProperties: false
+      required: [actionExecutions]
+      properties:
+        actionExecutions:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/ActionExecution'
+          description: One entry per completed action.
+
+    RelatedReference:
+      type: object
+      title: RelatedReference
+      description: >
+        A record in another flow that the grievance concerns or that evidences
+        its outcome, identified by its own ID.
+      additionalProperties: false
+      required: [refType, refId]
+      properties:
+        refType:
+          type: string
+          enum: [CONTRACT, PERFORMANCE, SETTLEMENT, RECONCILIATION, DISPUTE, EVIDENCE, OTHER]
+          description: >
+            Kind of record: CONTRACT, the order (as for a cancellation);
+            PERFORMANCE, a delivery or return (Performance.id); SETTLEMENT, a
+            payment or refund (Settlement.id); RECONCILIATION, a reconcile
+            exchange; DISPUTE, an ION SATU case; EVIDENCE, a record kept by a
+            participant; OTHER.
+          example: SETTLEMENT
+        refId:
+          type: string
+          minLength: 1
+          description: ID of the record in its own flow.
+          example: PAY-2026-00012345

@@ -13,6 +13,7 @@ BAP -> init -> BPP -> on_init
 BAP -> confirm -> BPP -> on_confirm
 BPP -> on_status [PACKED, DISPATCHED, OUT_FOR_DELIVERY, DELIVERED]
 BPP -> reconcile -> BAP -> on_reconcile    (after the settlement falls due)
+BAP -> support -> BPP -> on_support        (optional grievance, after on_confirm)
 ```
 
 Release 1 does not include the former cross-cutting branches or the other Trade
@@ -58,6 +59,42 @@ with agreed, disputed and pending settlements, where only the unresolved ones
 are sent again, is shown in the
 [reconciliation API docs](../../../../../schema/core/README.md#settlement-reconciliation).
 
+## Grievance
+
+Either participant may raise a grievance about the order after `on_confirm`.
+Each `/support` and `/on_support` message carries one event as an
+[`IONGrievance`](../../../../../schema/common/Grievance/v1/README.md) in
+`message.support.supportAttributes`, which assumes the optional
+`Support.supportAttributes` slot proposed to Beckn: until Beckn releases it,
+these messages do not validate against the vendored Beckn contract.
+
+Returns and cancellations within the order's policy are not grievances: the
+buyer app sends `update` for part of the order or `cancel` for the whole
+contract. A grievance is raised when one of them goes wrong (the return is
+rejected, the pickup never happens, the QC result is disputed or the refund
+never arrives), and it links the return performance, refund settlement or
+contract in `relatedReferences`.
+
+The example is a buyer grievance: the pizza arrived crushed, the seller offers
+a partial refund and the buyer accepts it.
+
+| Step | Sender | Example | Carries |
+|---|---|---|---|
+| `support` | BAP | [`support_OPENED.json`](examples/support_OPENED.json) | Grievance `GRV-2026-00004400`, category `DAMAGED_ITEM`, against the seller, on line `L01` |
+| `on_support` | BPP | [`on_support_ACKNOWLEDGED.json`](examples/on_support_ACKNOWLEDGED.json) | Acknowledgement; the callback repeats the request's `messageId` |
+| `on_support` | BPP | [`on_support_RESOLUTION_PROPOSED.json`](examples/on_support_RESOLUTION_PROPOSED.json) | Version 1: refund 30000 on `L01`, borne by the BPP, `EXPLICIT_AGREEMENT` |
+| `support` | BAP | [`support_RESOLUTION_DECIDED.json`](examples/support_RESOLUTION_DECIDED.json) | Version 1 `ACCEPTED` as a whole |
+| `on_support` | BPP | [`on_support_ACTION_COMPLETED.json`](examples/on_support_ACTION_COMPLETED.json) | Refund executed on settlement `PAY-RFD-2026-00004400`, with its reference |
+| `on_support` | BPP | [`on_support_RESOLVED.json`](examples/on_support_RESOLVED.json) | Grievance `RESOLVED` with the full record |
+
+With no objection within the objection period of
+`ion://policy/grievance-sla.consumer.standard`, both participants treat the
+grievance as closed without another message. The refund is not settled by the
+grievance: its settlement is agreed in `reconcile` like any other. Other
+cases (a seller grievance, a rejected version, a policy-authorized retry of a
+return refund, a unilateral goodwill refund and an objection) are in the
+[Grievance pack examples](../../../../../schema/common/Grievance/v1/README.md#examples).
+
 ## Included schema packs
 
 ### Trade
@@ -79,6 +116,7 @@ are sent again, is shown in the
 - [Payment](../../../../../schema/common/Payment/v1/README.md)
 - [Tax](../../../../../schema/common/Tax/v1/README.md)
 - [Settlement](../../../../../schema/common/Settlement/v1/README.md)
+- [Grievance](../../../../../schema/common/Grievance/v1/README.md)
 
 The reconcile phase uses the `/reconcile` and `/on_reconcile` endpoints of
 [`core/api/v2.0.0/ion-additional.yaml`](../../../../../schema/core/README.md#settlement-reconciliation).

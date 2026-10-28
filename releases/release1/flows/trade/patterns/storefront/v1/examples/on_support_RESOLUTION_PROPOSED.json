@@ -1,0 +1,86 @@
+{
+  "_meta": {
+    "description": "Storefront grievance — after checking with the store, the BPP proposes version 1: a partial refund of 30000 on line L01, borne by the BPP, which needs the BAP's explicit acceptance.",
+    "pattern": "storefront",
+    "step": "on_support_RESOLUTION_PROPOSED",
+    "sent_by": "BPP",
+    "received_by": "BAP",
+    "schemaPacks": [
+      "schema/common/Grievance/v1"
+    ]
+  },
+  "context": {
+    "domain": "ion:trade",
+    "action": "on_support",
+    "version": "2.0.0",
+    "bapId": "buyerapp.ion.id",
+    "bapUri": "https://buyerapp.ion.id/beckn",
+    "bppId": "sellerapp.ion.id",
+    "bppUri": "https://sellerapp.ion.id/beckn",
+    "senderId": "sellerapp.ion.id",
+    "receiverId": "buyerapp.ion.id",
+    "networkId": "ion.id",
+    "transactionId": "9fdb667c-76c6-456a-9742-ba9caa5eb765",
+    "messageId": "7b1e4c2d-3f5a-4b6c-8d7e-9f0a1b2c3d42",
+    "timestamp": "2026-04-19T11:45:00.000+07:00",
+    "ttl": "PT30S",
+    "location": {
+      "city": {
+        "code": "std:3171"
+      },
+      "country": {
+        "code": "IDN"
+      }
+    },
+    "schemaContext": [
+      "https://schema.ion.id/release1/schema/common/Grievance/v1/context.jsonld"
+    ]
+  },
+  "message": {
+    "support": {
+      "orderId": "4f9c2b7e-1a3d-4e5f-8b6a-9c0d1e2f3a4b",
+      "descriptor": {
+        "code": "GRIEVANCE",
+        "name": "Crushed pizza on delivery"
+      },
+      "supportAttributes": {
+        "@context": "https://schema.ion.id/release1/schema/common/Grievance/v1/context.jsonld",
+        "@type": "ion:IONGrievance",
+        "grievanceId": "GRV-2026-00004400",
+        "eventType": "RESOLUTION_PROPOSED",
+        "caseStatus": "IN_PROGRESS",
+        "occurredAt": "2026-04-19T11:45:00.000+07:00",
+        "originatingNpId": "buyerapp.ion.id",
+        "resolution": {
+          "proposalId": "RES-2026-00004400",
+          "version": 1,
+          "proposedByNpId": "sellerapp.ion.id",
+          "authorizationType": "EXPLICIT_AGREEMENT",
+          "actions": [
+            {
+              "actionId": "ACT-001",
+              "type": "REFUND",
+              "description": "Partial refund for the crushed pizza",
+              "affected": [
+                {
+                  "commitmentId": "L01",
+                  "quantity": 1
+                }
+              ],
+              "financialEffect": {
+                "effectType": "REFUND",
+                "amount": 30000,
+                "currency": "IDR",
+                "allocationBasis": "EXPLICIT",
+                "liablePartyId": "sellerapp.ion.id",
+                "allocationReason": "Partial refund agreed for a crushed but delivered item.",
+                "settlementRef": "PAY-RFD-2026-00004400"
+              },
+              "executionMethod": "SETTLEMENT"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

@@ -56,9 +56,10 @@ the Council publishes it into the `next` channel on `main`.
   ION endpoints that Beckn does not define, starting with settlement
   reconciliation (`/reconcile`, `/on_reconcile`).
 - [`releases/release1/schema/common/`](releases/release1/schema/common/) — Address, Business
-  Registration, Payment, and Tax packs required by Trade, and the Settlement
-  pack used by reconciliation, plus the reusable IdentifiableLocation wrapper
-  introduced for Logistics.
+  Registration, Payment, and Tax packs required by Trade, the Settlement
+  pack used by reconciliation, the Grievance pack used by `/support` and
+  `/on_support`, plus the reusable IdentifiableLocation wrapper introduced for
+  Logistics.
 - [`releases/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml`](releases/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml) —
   the immutable upstream Beckn Protocol contract.
 - [`releases/release1/schema/vendored/beckn/`](releases/release1/schema/vendored/beckn/) —

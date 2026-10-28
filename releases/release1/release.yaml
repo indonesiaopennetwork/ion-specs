@@ -310,7 +310,7 @@ artifactChecksums:
   flows/trade/patterns/marketplace-listed/v1/docs/README.md: dc9f9ad4255e3e8d21749ec6aaa36f20d59677247ecac7f9c16deb2d44135a1a
   flows/trade/patterns/marketplace-listed/v1/pattern.yaml: a1abb4739b7adf6e7137b8fe4110704b7504b0c3e421261c7ad0ead684ff4ff0
   flows/trade/patterns/marketplace-listed/v1/profile.json: 5a1fbc2d72edf5df3f40c91ffd951f57894f149925043b356c321f5b97dfe0a3
-  flows/trade/patterns/storefront/v1/README.md: e95f380ada300ed041e0912fb384fd85b20c2374a147c23b0ac616310c725b0e
+  flows/trade/patterns/storefront/v1/README.md: 9894cbf4f43c0c51da0c07e4f2da09f7794214ca7d5878d6e3972b2807341803
   flows/trade/patterns/storefront/v1/docs/01-happy-path.md: ed906dbe3a5e3ad884ec8b4c35a2007f91eb8261eb6d55c233021e2d608783dc
   flows/trade/patterns/storefront/v1/docs/README.md: 3f7122022e694e50b79d0c487178e97b70a4e35f17d95923d81074492124a54c
   flows/trade/patterns/storefront/v1/examples/confirm_request.json: 4b9875d778173272eb7cfe8ea57e5ad05717598538cf5d0788c0dee8a22b42f2
@@ -323,17 +323,23 @@ artifactChecksums:
   flows/trade/patterns/storefront/v1/examples/on_status_DISPATCHED.json: 994268451b2e60d7c030998bae777e910478526476d3b6d119b76dcb9e8271ec
   flows/trade/patterns/storefront/v1/examples/on_status_OUT_FOR_DELIVERY.json: d193327b0a4fac69a6820a1e46500b02b4446a239327bebb0cc4ec8345b9613c
   flows/trade/patterns/storefront/v1/examples/on_status_PACKED.json: 35df8507f15672f18ad152404f9b813043e913392b6288b37c50ec48b07ea916
+  flows/trade/patterns/storefront/v1/examples/on_support_ACKNOWLEDGED.json: d1653b46bd725b56641b4862c76e5d461cbe7d519db72c14cbf8f07e92eaf200
+  flows/trade/patterns/storefront/v1/examples/on_support_ACTION_COMPLETED.json: 747be6f5ece17bea0f35436e7e9daafe13f95a5210c5ee549233df0070658a58
+  flows/trade/patterns/storefront/v1/examples/on_support_RESOLUTION_PROPOSED.json: 17fec7a17d71d9e7b3149b6bbb7382a3166a1f00ea7732a17099765737c3befa
+  flows/trade/patterns/storefront/v1/examples/on_support_RESOLVED.json: 19b809693f7488b27b691a47cb7c74ed0815f0b7dfe9ac20e0559b2559e80abe
   flows/trade/patterns/storefront/v1/examples/publish_catalog.json: 3a6f1cef30bd6fe0970397c81cca32f0af5f762a9205cab6e209219ba800430a
   flows/trade/patterns/storefront/v1/examples/reconcile_request.json: 7bb9c69d67f716d5753ba8a91fe45abe7d4d4a98695fe17eeaab9e0eb9248eab
   flows/trade/patterns/storefront/v1/examples/select_request.json: 8df037f27d199590815180e4049c6bebbe9b2ef92f6725d933f589a415509cd5
-  flows/trade/patterns/storefront/v1/pattern.yaml: 06ddad09d7a4365fcc6c75f29ba425267f63ab525ccae7cd9f23f51a6c7e5814
-  flows/trade/patterns/storefront/v1/profile.json: 33d77c4851daa5d1676e7c945833c1a2674bab06ba62fe96d2fe7bd2a079050c
+  flows/trade/patterns/storefront/v1/examples/support_OPENED.json: 8b2d06cbdb5b5cfc91b60a8f14f2ee69f909f40de0e0af5a1301c904da756e4f
+  flows/trade/patterns/storefront/v1/examples/support_RESOLUTION_DECIDED.json: c3d06f136e6b1a5689c9d9b28bc3ead14f17d5ab14bb72b3f99c8bcacb249a4c
+  flows/trade/patterns/storefront/v1/pattern.yaml: a15dbeb15001fdf39c8e290ca47b5ed7f321a5363c0743c680f0a55ec3bc10f6
+  flows/trade/patterns/storefront/v1/profile.json: f57ef86e8558427b9f2ed93a6a033f4bb4864312434afbc0b0581e86b013c0f7
   flows/trade/variants/during-transaction/v1/README.md: f2b7b684ffc8d82ee9001f7ba2d235b1150d7561b1c7aef605f4fe630628794d
   flows/trade/variants/during-transaction/v1/docs/01-overview.md: b18a2f2096c79d69e65c0f161465e1fa16a1f886e7176f0868469a4833990025
   flows/trade/variants/during-transaction/v1/docs/README.md: 3a10bc924fcad39c30e7feb80995a79f7e17eb4d0cea2123db7a6a1b5d658d23
   flows/trade/variants/during-transaction/v1/profile.json: 32309094e158948412586efcdede7e751cc8aa1cbc33dee734ae25e1db6f88a9
   flows/trade/variants/during-transaction/v1/variant.yaml: 81d0803bf2cc4b07ebd524eba9b914b54aa013cd5a1265f3ab3d859890cc2340
-  schema/README.md: c0d4079456e5d97fc8d0502cdcbd8ae2f2008811263152b3476b146bd45cc1a0
+  schema/README.md: c36ec9edf0ee9e77dc3fecd0eeaa07ab336a5c8322afd654248ea7bbf54c9817
   schema/common/Address/v1/README.md: 1d09367461bfb360335ca6191c127b590de66621c17ac0b8a932baee19c1b15d
   schema/common/Address/v1/attributes.yaml: f5c720e050738df2cbc4e88bc09fb56f420a709e4f98012698c7400bc0d95763
   schema/common/Address/v1/context.jsonld: ca4f63bc42c0d989fc574dfad9f78a83e73577481bc73613a942083c16b10038
@@ -355,6 +361,21 @@ artifactChecksums:
   schema/common/BusinessRegistration/v1/renderer.json: fd1ad073255674c4bba776c8b43a4d11ebb9b1e5bbcfcdac3a3018bca04beac6
   schema/common/BusinessRegistration/v1/schema.json: 754e541979f8e3aad00504f280bb6376ca9cd2ef29408b6f802b700e5651626a
   schema/common/BusinessRegistration/v1/vocab.jsonld: dcd58248892e9e205b0364fd1bc1fd0bf2f6247f935b2af4df1efaaee2b060d3
+  schema/common/Grievance/README.md: 55cee694d5f34bc13255dea0829512318d39f656baec95b145003152483f6501
+  schema/common/Grievance/v1/README.md: 992b2050ee91124ef0cd3dc388b02f23ac9842620de7d6cf143840ddc781631a
+  schema/common/Grievance/v1/attributes.yaml: 716f39ec3ba0063a9aa58dcc2af887606052cb94fa1b40d7c9d0256aeb43ca90
+  schema/common/Grievance/v1/context.jsonld: 703d8db4a74de77c9f49c78599c8f1cc713adee81d9e28bc8eaeb417fdd200a1
+  schema/common/Grievance/v1/examples/objection.json: ec9e3b1a91d54a1c77a5d4ee5bf20f5849109b2d480014df5329935d6b3deb7f
+  schema/common/Grievance/v1/examples/opened-damaged-item.json: 284c861bbed566b8fe47fc693b56df9665f9c53f6cb77b11d55454c954c1c8fa
+  schema/common/Grievance/v1/examples/opened-wrong-return.json: 7249189deb32160e03c8e89df316c69afdd6822fc7cd8b4b039ea5533b6df99f
+  schema/common/Grievance/v1/examples/refund-not-received-policy.json: bb0694264910cca88319403021ad6ff0b7b79b1c8f81b78483ea88369e1d78f7
+  schema/common/Grievance/v1/examples/resolution-rejected.json: 4b1c785056841aa8db50ad15a495c0f100805e6c9c84d38713ac71c09c3b6132
+  schema/common/Grievance/v1/examples/resolved.json: c0d98cd5e90225e6b83adb9a6863d02a7ad9d21d8dbb57f1abef8d23699920ed
+  schema/common/Grievance/v1/examples/unilateral-goodwill-refund.json: 3f4ceb00b4c127283e2bed7fc93a76a378e100ebb8ff052416047d2a58c0e3a8
+  schema/common/Grievance/v1/profile.json: 6767763d030cc81206c3fbfe84e053ab30a163500892ca47770529c219b86473
+  schema/common/Grievance/v1/renderer.json: 31f8bb6adf278ef6980c910e99541bdcd1ead335c4bc5eff4d363359d2a071fe
+  schema/common/Grievance/v1/schema.json: b8f20b0ef8edbfb259f144407bb776bd0558ae1b339a2d668a8baf91ae80b49c
+  schema/common/Grievance/v1/vocab.jsonld: eb989eb24341833f16061c6a1b551fec218076763c6b7b091f9fb8512f318bb6
   schema/common/IdentifiableLocation/README.md: 5880a51b089d16ba1bb985c057a07d61c70298fc9ed0efa43eeeb1367f6ef160
   schema/common/IdentifiableLocation/v1/README.md: 371958dc078ab8dfb4d91798b336185facfe0dd7db02eedf9670ca490c8680ee
   schema/common/IdentifiableLocation/v1/attributes.yaml: 31fbec44c662e3a4dd022be3d27539e16fbb9d7cf0ef2c86c8a8d41a95269b47
@@ -631,3 +652,6 @@ notes:
 - Schema content groups core, common, extension, and vendored below schema/ rather
   than flattening them at the release root.
 - Draft URLs are unsupported until the release is published.
+- The Grievance common pack attaches to Support.supportAttributes, a slot proposed
+  to Beckn and absent from the vendored Beckn 2.0.0 contract; support and on_support
+  messages carrying it validate only once that slot is released and vendored.
