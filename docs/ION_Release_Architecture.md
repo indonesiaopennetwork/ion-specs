@@ -377,9 +377,12 @@ dependencies: []
 artifactChecksums: {}
 ```
 
-When the Council publishes a draft into the `next` channel, `status` is changed
-to `published`, `publishedAt` is populated, the dependency inventory is complete,
-and release checksums are recorded. The final manifest contract is defined in
+While a release is a draft, `artifactChecksums` covers only files below
+`schema/vendored/`; ION-authored files remain mutable and are protected by normal
+version control and validation. When the Council publishes a draft into the
+`next` channel, `status` is changed to `published`, `publishedAt` is populated,
+the dependency inventory is complete, and checksums are recorded for every
+normative artifact below `schema/`, `flows/`, and `errors/`. The final manifest contract is defined in
 `tools/release/release-manifest.schema.json` and enforced by the release tooling.
 
 ## Lifecycle and immutability
@@ -389,9 +392,11 @@ and release checksums are recorded. The final manifest contract is defined in
    network access disabled.
 3. When the Council selects the draft for `next`, populate its publication
    metadata and change its manifest to `status: published`.
-4. Publish the release and assign it to `next` in the same reviewed change.
-5. Create a matching protected Git tag, such as `release1`, for provenance.
-6. Prevent all subsequent modifications or deletions under that release
+4. Regenerate `artifactChecksums`; published status expands the inventory from
+   vendored files to every normative artifact.
+5. Publish the release and assign it to `next` in the same reviewed change.
+6. Create a matching protected Git tag, such as `release1`, for provenance.
+7. Prevent all subsequent modifications or deletions under that release
    directory.
 7. Begin the `next` stabilization period and create the following integer release
    as the new mutable draft.

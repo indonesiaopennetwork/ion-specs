@@ -783,8 +783,9 @@ against the Release 1 schema scope:
   of `tools/policies/generate_registry.rb` and
   `tools/release/generate_error_registry.rb`, respectively, and are checked for
   freshness.
-- The release manifest records `flows` and `errors` as `validated`, and its
-  checksum inventory covers all files under the normative release trees.
+- The release manifest records `flows` and `errors` as `validated`. While the
+  release remains a draft, its checksum inventory covers vendored artifacts;
+  publication records checksums for all files under the normative release trees.
 
 The complete root material remains available for later comparison. Once Release
 1 is published, any newly approved omitted object must be introduced in

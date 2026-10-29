@@ -111,14 +111,16 @@ publication and `next` assignment happen together:
    absent.
 2. Populate publication metadata and change the release manifest to
    `status: published`.
-3. Assign the release to `next` with `assignedAt`,
+3. Run `record_artifact_checksums.rb --write` to expand the draft's vendored-only
+   checksum set to every normative release artifact.
+4. Assign the release to `next` with `assignedAt`,
    `minimumStabilizationDays`, and `eligibleForCurrentAt`.
-4. Run the complete publication gate.
-5. Obtain Council approval and merge the publication and channel-state changes
+5. Run the complete publication gate.
+6. Obtain Council approval and merge the publication and channel-state changes
    to `main`.
-6. Create and protect the matching integer release tag.
-7. Enforce immutability for the published release directory.
-8. Create the following integer release as the new mutable draft.
+7. Create and protect the matching integer release tag.
+8. Enforce immutability for the published release directory.
+9. Create the following integer release as the new mutable draft.
 
 For the first release, publication would produce channel state such as:
 
@@ -224,7 +226,7 @@ as the new draft baseline:
    `status: draft`.
 3. Clear `publishedAt` and all other publication-only metadata.
 4. Rewrite release-qualified document URLs to the new namespace.
-5. Refresh generated registries and artifact checksums.
+5. Refresh generated registries and the draft's vendored artifact checksums.
 6. Validate the draft before feature work begins.
 
 The draft is not added to `releases/channels.yaml` until the Council publishes it

@@ -131,8 +131,9 @@ ruby tools/release/validate_logistics_errors.rb releases/release1
 ```
 
 Or run the complete local gate, which includes those checks, tool tests, release
-scope enforcement, the path map, generated registries, and complete release
-artifact checksums:
+scope enforcement, the path map, generated registries, and vendored artifact
+checksums. Publication expands the checksum inventory to every normative release
+artifact:
 
 ```bash
 ruby tools/release/validate_release.rb releases/release1
