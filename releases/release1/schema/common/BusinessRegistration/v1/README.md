@@ -6,14 +6,20 @@ Indonesian business KYC identifiers and licensing.
 `beckn:Provider.providerAttributes` and `beckn:Contract.contractAttributes`
 
 ## Fields
+The schema requires no field except `nikNumber` when `businessType` is
+`PERORANGAN`. Each Trade flow pattern states which fields it requires: a
+seller's provider registration in every pattern, and a business buyer's
+`buyerBusinessRegistration` in B2B procurement. A consumer buyer sends no
+business registration, NPWP, NIB or NIK.
+
 | Field | Type | Mandatory | Description |
 |---|---|---|---|
-| npwp | string(16) | always | Tax ID — Nomor Pokok Wajib Pajak |
-| nib | string(13) | always | Business registration — Nomor Induk Berusaha |
-| nikNumber | string(16) | conditional | National ID — for individual sellers |
-| pkpStatus | enum | always | VAT registration: PKP or NON_PKP |
-| legalEntityName | string | always | Registered business name |
-| businessType | enum | always | PT/CV/UD/PERORANGAN etc. |
+| npwp | string(16) | per pattern | Tax ID — Nomor Pokok Wajib Pajak |
+| nib | string(13) | per pattern | Business registration — Nomor Induk Berusaha |
+| nikNumber | string(16) | when businessType is PERORANGAN | National ID (e-KTP) — for an individual registered as a business |
+| pkpStatus | enum | per pattern | VAT registration: PKP or NON_PKP |
+| legalEntityName | string | per pattern | Registered business name |
+| businessType | enum | per pattern | PT/CV/UD/PERORANGAN etc. |
 | siupNumber | string | optional | Trade license (legacy, being replaced by NIB) |
 | spPIRTNumber | string | optional | Small-scale food production license |
 
@@ -55,3 +61,4 @@ Release 1 does not define an aggregate network-wide requirement for them.
 | Version | Date | Summary |
 |---|---|---|
 | v1 | 2026-06-02 | Initial release |
+| v1 | 2026-10-29 | Clarified that NPWP, NIB and NIK are required per flow pattern, not of consumer buyers |

@@ -21,6 +21,28 @@ Release-owned schema content is grouped under `releases/release1/schema/`:
 `core/`, `common/`, `extension/`, and `vendored/` are peers there, while
 `flows/` and `errors/` remain peers of `schema/` at the release root.
 
+### Buyer business registration optional for consumers (29 October 2026)
+
+A consumer buyer no longer has to send business registration numbers to place
+an order:
+
+- Storefront and Made-to-Order `confirm` no longer require
+  `contractAttributes.buyerBusinessRegistration.npwp` and `.nib`.
+  `buyerBusinessRegistration` is now a conditional field, sent only when the
+  buyer is a business or asks for a tax invoice. Business Procurement still
+  requires it.
+- The Storefront `confirm` and `on_confirm` examples show a consumer buyer
+  without business registration.
+- `IONBusinessRegistration` (`common/BusinessRegistration/v1`): the `npwp`,
+  `nib` and `nikNumber` descriptions and the README field table now say these
+  are required per flow pattern, not of consumer buyers. The schema itself is
+  unchanged; `nikNumber` is still required when `businessType` is `PERORANGAN`.
+
+Compatibility: this removes required fields, so validation is relaxed and
+messages that still send them stay valid. An implementation that relied on
+receiving the buyer's NPWP or NIB in Storefront or Made-to-Order `confirm` must
+stop requiring them.
+
 ### Settlement terms on the offer (19 October 2026)
 
 The settlement terms moved from the settlement object to what the seller
