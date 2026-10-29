@@ -75,6 +75,11 @@ module IonReleaseManifest
 
     if status == "draft"
       errors << "draft publishedAt must be null" unless data["publishedAt"].nil?
+      if checksums.is_a?(Hash)
+        checksums.each_key do |path|
+          errors << "draft artifactChecksums path must be under schema/vendored/: #{path}" unless path.to_s.start_with?("schema/vendored/")
+        end
+      end
     elsif status == "published"
       validate_published(data, dependencies, checksums, dependency_status, errors)
     end

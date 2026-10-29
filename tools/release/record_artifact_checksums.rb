@@ -21,7 +21,7 @@ unless manifest_path.file?
 end
 
 manifest = YAML.safe_load(File.read(manifest_path), permitted_classes: [Date, Time], aliases: true)
-checksums = IonArtifactChecksums.artifact_files(release_root).to_h do |relative_path|
+checksums = IonArtifactChecksums.checksummed_artifact_files(release_root, manifest).to_h do |relative_path|
   [relative_path, Digest::SHA256.file(release_root.join(relative_path)).hexdigest]
 end
 

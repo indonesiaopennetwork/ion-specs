@@ -36,6 +36,16 @@ class ValidateManifestTest < Minitest::Test
     assert_includes IonReleaseManifest.validate(@manifest), "draft publishedAt must be null"
   end
 
+  def test_draft_rejects_ion_owned_artifact_checksum
+    @manifest["artifactChecksums"] = {
+      "flows/trade/pattern.yaml" => "b" * 64
+    }
+
+    errors = IonReleaseManifest.validate(@manifest)
+
+    assert_includes errors, "draft artifactChecksums path must be under schema/vendored/: flows/trade/pattern.yaml"
+  end
+
   def test_policy_status_is_not_part_of_release_manifest
     @manifest["contentStatus"]["policies"] = "validated"
 
