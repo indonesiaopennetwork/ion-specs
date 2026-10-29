@@ -231,8 +231,11 @@ phases:
           - message.contract.settlements[].settlementAttributes.method
           - message.contract.settlements[].settlementAttributes.paidAt
           - message.contract.settlements[].settlementAttributes.orderAmount
-          - message.contract.contractAttributes.buyerBusinessRegistration.npwp
-          - message.contract.contractAttributes.buyerBusinessRegistration.nib
+        conditionalFields:
+          - field: message.contract.contractAttributes.buyerBusinessRegistration
+            condition: >
+              only when the buyer is a business or asks for a tax invoice; a
+              consumer buyer sends no NPWP, NIB or NIK
 
       - step: on_confirm
         from: BPP

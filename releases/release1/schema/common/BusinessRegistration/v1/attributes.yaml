@@ -1,8 +1,9 @@
 openapi: 3.1.1
 info:
   title: ION Business Registration Extension (v1)
-  description: 'Indonesian business KYC identifiers and licensing. Applies to all ION sectors — every provider must
-    declare their tax and business identity. Attaches to: beckn:Provider.providerAttributes and beckn:Contract.contractAttributes
+  description: 'Indonesian business KYC identifiers and licensing, for a seller (beckn:Provider.providerAttributes)
+    or a business buyer (IONTradeContract.buyerBusinessRegistration). The schema requires no field except nikNumber
+    for PERORANGAN; each flow pattern states which fields it requires. A consumer buyer sends none.
 
     '
   version: 1.0.0
@@ -54,7 +55,8 @@ components:
           type: string
           pattern: ^[0-9]{16}$
           description: 'Nomor Pokok Wajib Pajak — 16-digit tax identification number. New format post-2024 (previously
-            15 digits). Required for all registered sellers on ION. Validated against DJP registry.
+            15 digits). Required where the flow pattern requires it, for example of sellers and of business buyers in B2B
+            procurement; not of consumer buyers. Validated against DJP registry.
 
             '
           example: '1234567890123456'
@@ -63,7 +65,8 @@ components:
           type: string
           pattern: ^[0-9]{13}$
           description: 'Nomor Induk Berusaha — 13-digit business registration number issued by OSS (Online Single
-            Submission). Mandatory for all ION network participant sellers.
+            Submission). Required where the flow pattern requires it, for example of sellers and of business buyers
+            in B2B procurement; not of consumer buyers.
 
             '
           example: '1234567890123'
@@ -72,8 +75,9 @@ components:
           x-ion-data-residency: ID
           type: string
           pattern: ^[0-9]{16}$
-          description: 'Nomor Induk Kependudukan — 16-digit national identity number from e-KTP. Required for individual
-            (non-business) sellers.
+          description: 'Nomor Induk Kependudukan — 16-digit national identity number from e-KTP. Required when
+            businessType is PERORANGAN (an individual seller or buyer registered as a business). Not collected from
+            consumer buyers.
 
             '
           example: '3271012345678901'
