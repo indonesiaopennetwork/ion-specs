@@ -9,8 +9,8 @@ info:
 
 
     This file extends Beckn; it does not copy or embed it. Every Beckn type is
-    referenced from the Release 1 vendored upstream Beckn contract at
-    https://schema.ion.id/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml.
+    referenced from the Release 1 ION-maintained Beckn contract at
+    https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml.
     Validate this file together with that contract; do not merge them.
 
 
@@ -137,7 +137,7 @@ paths:
         Callback relationship: the receiver MUST answer with `/on_reconcile`
         correlated by `context.messageId`.
       parameters:
-        - $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml#/components/parameters/AuthorizationHeader'
+        - $ref: 'https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/parameters/AuthorizationHeader'
       requestBody:
         required: true
         content:
@@ -152,7 +152,7 @@ paths:
                     original orders, whoever sends; senderId and receiverId are the
                     actual sender and receiver.
                   allOf:
-                    - $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml#/components/schemas/Context'
+                    - $ref: 'https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/schemas/Context'
                     - type: object
                       properties:
                         action:
@@ -166,13 +166,13 @@ paths:
                   $ref: '#/components/schemas/ReconcileAction'
       responses:
         '200':
-          $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml#/components/responses/Ack'
+          $ref: 'https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/responses/Ack'
         '400':
-          $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml#/components/responses/NackBadRequest'
+          $ref: 'https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/responses/NackBadRequest'
         '401':
-          $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml#/components/responses/NackUnauthorized'
+          $ref: 'https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/responses/NackUnauthorized'
         '500':
-          $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml#/components/responses/ServerError'
+          $ref: 'https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/responses/ServerError'
 
   /on_reconcile:
     post:
@@ -189,7 +189,7 @@ paths:
         and pending ones again in a new `/reconcile`. Signed as a Beckn
         callback, whichever participant answers.
       parameters:
-        - $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml#/components/parameters/CallbackAuthorizationHeader'
+        - $ref: 'https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/parameters/CallbackAuthorizationHeader'
       requestBody:
         required: true
         content:
@@ -204,7 +204,7 @@ paths:
                     original orders, whoever sends; senderId and receiverId are the
                     actual sender and receiver.
                   allOf:
-                    - $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml#/components/schemas/Context'
+                    - $ref: 'https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/schemas/Context'
                     - type: object
                       properties:
                         action:
@@ -218,13 +218,13 @@ paths:
                   $ref: '#/components/schemas/OnReconcileAction'
       responses:
         '200':
-          $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml#/components/responses/Ack'
+          $ref: 'https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/responses/Ack'
         '400':
-          $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml#/components/responses/NackBadRequest'
+          $ref: 'https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/responses/NackBadRequest'
         '401':
-          $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml#/components/responses/NackUnauthorized'
+          $ref: 'https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/responses/NackUnauthorized'
         '500':
-          $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml#/components/responses/ServerError'
+          $ref: 'https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/responses/ServerError'
 
 components:
   schemas:
@@ -312,13 +312,13 @@ components:
         figures. id identifies the contract; each settlement's id identifies
         a settlement obligation, prepaid or not.
       allOf:
-        - $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml#/components/schemas/Contract'
+        - $ref: 'https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/schemas/Contract'
         - type: object
           required: [id, settlements]
           properties:
             id:
               description: The contract's Contract.id from the order flow.
-              $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml#/components/schemas/Contract/properties/id'
+              $ref: 'https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/schemas/Contract/properties/id'
             settlements:
               description: >
                 The contract's settlements to reconcile, each with the sender's figures.
@@ -338,7 +338,7 @@ components:
           description: >
             The settlement's Settlement.id, which identifies one settlement obligation
             of the contract.
-          $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml#/components/schemas/Settlement/properties/id'
+          $ref: 'https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/schemas/Settlement/properties/id'
         settlementAttributes:
           description: The sender's figures for the settlement.
           $ref: 'https://schema.ion.id/release1/schema/common/Settlement/v1/attributes.yaml#/components/schemas/IONSettlementReconciliation'
@@ -347,13 +347,13 @@ components:
       title: On Reconcile Contract
       description: A ReconcileContract whose settlements carry the counterparty's figures and accord.
       allOf:
-        - $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml#/components/schemas/Contract'
+        - $ref: 'https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/schemas/Contract'
         - type: object
           required: [id, settlements]
           properties:
             id:
               description: The Contract.id of the contract being answered.
-              $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml#/components/schemas/Contract/properties/id'
+              $ref: 'https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/schemas/Contract/properties/id'
             settlements:
               description: >
                 Every settlement of this contract in the /reconcile being answered, with
@@ -373,7 +373,7 @@ components:
       properties:
         id:
           description: The Settlement.id of the settlement being answered.
-          $ref: 'https://schema.ion.id/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml#/components/schemas/Settlement/properties/id'
+          $ref: 'https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/schemas/Settlement/properties/id'
         settlementAttributes:
           description: >
             The counterparty's figures for the settlement, with its accord, which is

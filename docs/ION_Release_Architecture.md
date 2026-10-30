@@ -110,9 +110,10 @@ releases/
     NOTICES.md
 
     schema/
-      core/                  # ION-owned API contracts
+      core/                  # ION-maintained API contracts
         api/
           v2.0.0/
+            ion-beckn.yaml
             ion-additional.yaml
 
       common/
@@ -147,6 +148,15 @@ releases/
 from existing pack names to public `SchemaName` directories MUST be established as
 part of the pre-release cleanup. Once published, directory names are part of the
 public API and cannot be renamed within that release.
+
+Release 1's active Beckn protocol contract is the ION-maintained
+`schema/core/api/v2.0.0/ion-beckn.yaml`. It began as a byte-identical copy of the
+upstream Beckn v2.0.0 contract so ION can correct protocol defects without
+waiting for an upstream publication. The immutable upstream file at
+`schema/vendored/beckn/api/v2.0.0/beckn.yaml` remains temporarily at its existing
+public URL for compatibility; new Release 1 references use the core contract.
+The maintained copy records its ION modifications in the release notice; both
+files retain upstream attribution and licensing.
 
 The manifest determines which content areas are part of a particular release.
 Every area MUST be `validated` or `excluded` before publication, and artifacts for
