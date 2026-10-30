@@ -1470,8 +1470,8 @@ paths:
                         resourceIds:
                         - MASTER-LAPTOP-XPS-15
                         validity:
-                          startDate: '2026-04-01'
-                          endDate: '2026-04-30'
+                          startDate: '2026-04-01T00:00:00Z'
+                          endDate: '2026-04-30T23:59:59Z'
                         offerAttributes:
                           '@context': https://schema.beckn.org/retail/schema/1.1.0/context.jsonld
                           '@type': DiscountOffer
@@ -3995,7 +3995,7 @@ components:
           - ANY
           - ALL
           - NONE
-          default: any
+          default: ANY
         srid:
           description: Coordinate Reference System identifier for `geometry`. Default is `"EPSG:4326"`. If provided, servers MAY reproject to EPSG:4326 internally.
           type: string

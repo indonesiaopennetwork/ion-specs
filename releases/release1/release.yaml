@@ -264,11 +264,13 @@ notes:
 - Logistics Phase 8 passed the complete schema-directory and example-object validator
   runs, connection checks, source-disposition closure, and the full Release 1 gate.
   Logistics is validated; the release itself remains draft.
-- The Beckn Protocol contract was copied without changes from upstream file commit
-  df1ade0c6610d4160968177a706f32df680e4758 to
-  schema/core/api/v2.0.0/ion-beckn.yaml as the ION-maintained contract. Active
-  references use this path; the immutable vendored file remains temporarily for
-  compatibility with its existing URL.
+- The Beckn Protocol contract was initially copied without changes from upstream
+  file commit df1ade0c6610d4160968177a706f32df680e4758 to
+  schema/core/api/v2.0.0/ion-beckn.yaml as the ION-maintained contract. ION then
+  corrected DiscoverAction.matchType.default from `any` to the declared enum
+  value `ANY` and corrected the /catalog/publish example's offer validity values
+  to RFC 3339 date-times. Active references use this path; the immutable vendored
+  file remains temporarily for compatibility with its existing URL.
 - Schema content groups core, common, extension, and vendored below schema/ rather
   than flattening them at the release root.
 - Draft URLs are unsupported until the release is published.

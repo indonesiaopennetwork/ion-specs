@@ -81,8 +81,10 @@ schema/core/api/v2.0.0/ion-beckn.yaml
 ```
 
 It was copied from Beckn's `api/v2.0.0/beckn.yaml` at commit
-`df1ade0c6610d4160968177a706f32df680e4758` and may receive ION fixes. The
-byte-identical immutable vendored file remains at
+`df1ade0c6610d4160968177a706f32df680e4758` and receives ION fixes. The first
+fix corrects `DiscoverAction.matchType.default` from `any` to the declared enum
+value `ANY`; the second corrects the `/catalog/publish` example's offer validity
+values to RFC 3339 date-times. The unmodified immutable vendored file remains at
 `schema/vendored/beckn/api/v2.0.0/beckn.yaml` during the URL migration, but new
 references use `ion-beckn.yaml`.
 

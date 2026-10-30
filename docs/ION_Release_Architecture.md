@@ -155,7 +155,8 @@ upstream Beckn v2.0.0 contract so ION can correct protocol defects without
 waiting for an upstream publication. The immutable upstream file at
 `schema/vendored/beckn/api/v2.0.0/beckn.yaml` remains temporarily at its existing
 public URL for compatibility; new Release 1 references use the core contract.
-Both files retain upstream attribution and licensing.
+The maintained copy records its ION modifications in the release notice; both
+files retain upstream attribution and licensing.
 
 The manifest determines which content areas are part of a particular release.
 Every area MUST be `validated` or `excluded` before publication, and artifacts for
