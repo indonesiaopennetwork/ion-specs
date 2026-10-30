@@ -14,8 +14,10 @@ stabilization period; it will not automatically make Release 1 `current`.
 
 Migration Phases 3 and 4 moved all nine Trade packs and the four common packs
 required by Trade into this draft, then vendored the Beckn dependencies at
-immutable upstream commits. Active schema references now use Release 1 public
-URLs, and the graph resolves offline.
+immutable upstream commits. The Beckn Protocol contract now has an
+ION-maintained core copy, while the immutable vendored copy remains available
+at its existing URL. Active schema references use Release 1 public URLs, and the
+graph resolves offline.
 
 Phase 5 validated the standalone Trade packs and the four common packs required by
 Trade, including their JSON-LD documents and all 17 example objects. Phase 6
@@ -64,19 +66,25 @@ excluded for callback misuse, missing Contract lifecycle, non-Beckn escalation,
 or Logistics dependencies.
 
 ION endpoints that Beckn does not define live in one file,
-`schema/core/api/v2.0.0/ion-additional.yaml`, which references the vendored
-`schema/vendored/beckn/api/v2.0.0/beckn.yaml` contract. Release 1 adds the settlement reconciliation endpoints
+`schema/core/api/v2.0.0/ion-additional.yaml`, which references the
+ION-maintained `schema/core/api/v2.0.0/ion-beckn.yaml` contract. Release 1 adds the settlement reconciliation endpoints
 (`/reconcile`, `/on_reconcile`) there, with their `IONSettlementReconciliation`
 attribute pack at `schema/common/Settlement/v1`. This does not reintroduce the
 `ion.yaml` aggregate.
 
 ## Protocol dependency
 
-Release 1 includes the immutable upstream Beckn Protocol contract used by its schemas:
+Release 1 uses this ION-maintained copy of the Beckn Protocol contract:
 
 ```text
-schema/vendored/beckn/api/v2.0.0/beckn.yaml
+schema/core/api/v2.0.0/ion-beckn.yaml
 ```
+
+It was copied from Beckn's `api/v2.0.0/beckn.yaml` at commit
+`df1ade0c6610d4160968177a706f32df680e4758` and may receive ION fixes. The
+byte-identical immutable vendored file remains at
+`schema/vendored/beckn/api/v2.0.0/beckn.yaml` during the URL migration, but new
+references use `ion-beckn.yaml`.
 
 Release 1 does not publish `ion.yaml` or a merged `ion-full.yaml`. Its normative
 ION-owned schemas currently present are the API additions under `schema/core/`,

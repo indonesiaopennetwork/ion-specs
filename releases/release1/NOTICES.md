@@ -20,6 +20,15 @@ The upstream materials identify the license as Creative Commons
 Attribution-NonCommercial-ShareAlike 4.0 International. The precise upstream and
 released SHA-256 values for every dependency are recorded in `release.yaml`.
 
+`schema/core/api/v2.0.0/ion-beckn.yaml` is the ION-maintained copy of the Beckn
+Protocol contract. Its initial contents were copied without changes from
+`beckn/protocol-specifications-v2` commit
+`df1ade0c6610d4160968177a706f32df680e4758`, with SHA-256
+`5afc7586ef1fbc378ea6abb139292dbe85750e4c5ea1a2fd410a40479aadc0f0`. It remains
+subject to the upstream license above. The immutable vendored contract is
+retained temporarily as a compatibility URL while consumers migrate to the
+ION-maintained path.
+
 The vendored protocol and ten schema files are byte-for-byte copies of their
 pinned upstream sources. Seven schema files—`GeoJSONGeometry`, `Location`,
 `PriceSpecification`, `RetailCommitment`, `RetailOffer`, `RetailPerformance`, and

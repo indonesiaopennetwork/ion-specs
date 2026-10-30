@@ -20,7 +20,8 @@ Release 1 currently contains the standalone Trade schema packs, the common packs
 they require, the settlement reconciliation API, the scoped Storefront,
 Made-to-Order, Live Commerce, Digital Goods, Business Procurement, Marketplace
 In-house, and Marketplace Listed flows and connected registries, the ION API
-additions, and pinned vendored Beckn protocol and schema dependencies.
+additions, an ION-maintained Beckn protocol contract, and pinned vendored Beckn
+schema dependencies.
 Logistics has been reopened for independent review and migration into this draft;
 that migration now includes the independently validated `LogisticsResource`,
 `LogisticsProvider`, `LogisticsParticipant`, `LogisticsOffer`, `LogisticsCommitment`, `LogisticsConsideration`, `LogisticsContract`, `LogisticsPerformance`, and `LogisticsTracking` v1 packs, plus six reviewed patterns, nine included/scoped variants, the validated `LogisticsPerformanceStates` v1 flow registry, and 30 connected Logistics errors. Release 1 remains mutable and unchannelled until
@@ -52,6 +53,8 @@ the Council publishes it into the `next` channel on `main`.
   the migrated Logistics live-tracking pack.
 - [`releases/release1/flows/logistics/`](releases/release1/flows/logistics/) —
   the reviewed Logistics patterns, variants, and shared execution-state registry.
+- [`releases/release1/schema/core/api/v2.0.0/ion-beckn.yaml`](releases/release1/schema/core/api/v2.0.0/ion-beckn.yaml) —
+  the ION-maintained Beckn Protocol contract used by Release 1.
 - [`releases/release1/schema/core/api/v2.0.0/ion-additional.yaml`](releases/release1/schema/core/api/v2.0.0/ion-additional.yaml) —
   ION endpoints that Beckn does not define, starting with settlement
   reconciliation (`/reconcile`, `/on_reconcile`).
@@ -60,7 +63,8 @@ the Council publishes it into the `next` channel on `main`.
   pack used by reconciliation, plus the reusable IdentifiableLocation wrapper
   introduced for Logistics.
 - [`releases/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml`](releases/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml) —
-  the immutable upstream Beckn Protocol contract.
+  the immutable upstream Beckn Protocol contract retained temporarily for
+  consumers of its existing URL.
 - [`releases/release1/schema/vendored/beckn/`](releases/release1/schema/vendored/beckn/) —
   immutable upstream protocol and schema dependencies.
 - [`releases/release1/flows/trade/`](releases/release1/flows/trade/) — the
@@ -91,11 +95,12 @@ releases/
   release1/                    Draft release bundle
     release.yaml
     schema/
-      core/api/v2.0.0/ion-additional.yaml  ION endpoints Beckn does not define
+      core/api/v2.0.0/ion-beckn.yaml       ION-maintained Beckn contract
+      core/api/v2.0.0/ion-additional.yaml ION endpoints Beckn does not define
       common/                  Validated common packs used by Trade
       extension/trade/         Validated Trade packs
       extension/logistics/     Validated Logistics packs
-      vendored/beckn/api/v2.0.0/beckn.yaml  Pinned upstream protocol contract
+      vendored/beckn/api/v2.0.0/beckn.yaml  Legacy URL compatibility copy
       vendored/beckn/schemas/  Pinned upstream schema dependencies
     flows/trade/               Seven flows plus reviewed Trade variants
     flows/logistics/           Validated Logistics patterns and variants
