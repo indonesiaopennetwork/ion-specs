@@ -28,9 +28,14 @@ Protocol contract. Its initial contents were copied without changes from
 corrected `DiscoverAction.matchType.default` from the invalid lowercase `any` to
 the declared enum value `ANY`, and changed the `/catalog/publish` example's
 date-only offer validity values to RFC 3339 date-time values matching the
-`TimePeriod` schema. The maintained copy remains subject to the upstream license
-above. The immutable vendored contract is retained temporarily as a compatibility
-URL while consumers migrate to the ION-maintained path.
+`TimePeriod` schema. ION subsequently integrated the `beckn.yaml` changes
+proposed in Beckn PR #202, "Add AsyncError to on_xxxAction". Those changes make
+asynchronous callback envelopes carry `context` and exactly one of `message` or
+`error`, and specialize `AsyncError` without reopening the base error object's
+property set. The two earlier ION corrections were retained during the
+integration. The maintained copy remains subject to the upstream license above.
+The immutable vendored contract is retained temporarily as a compatibility URL
+while consumers migrate to the ION-maintained path.
 
 The vendored protocol and ten schema files are byte-for-byte copies of their
 pinned upstream sources. Seven schema files—`GeoJSONGeometry`, `Location`,

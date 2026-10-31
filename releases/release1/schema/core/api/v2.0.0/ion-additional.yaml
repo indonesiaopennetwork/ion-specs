@@ -187,7 +187,9 @@ paths:
         figures, a `diffValue` on each differing component, and a `dispute`
         code. Agreed settlements go on to SEAM; the sender sends the disputed
         and pending ones again in a new `/reconcile`. Signed as a Beckn
-        callback, whichever participant answers.
+        callback, whichever participant answers. For a failed asynchronous
+        outcome, the top-level `error` field contains a Beckn `AsyncError`
+        instead of `message`.
       parameters:
         - $ref: 'https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/parameters/CallbackAuthorizationHeader'
       requestBody:
@@ -196,7 +198,7 @@ paths:
           application/json:
             schema:
               type: object
-              required: [context, message]
+              required: [context]
               properties:
                 context:
                   description: >
@@ -216,6 +218,11 @@ paths:
                     The counterparty's figures and accord for every settlement in the
                     /reconcile being answered.
                   $ref: '#/components/schemas/OnReconcileAction'
+                error:
+                  $ref: 'https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/schemas/AsyncError'
+              oneOf:
+                - required: [message]
+                - required: [error]
       responses:
         '200':
           $ref: 'https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/responses/Ack'
