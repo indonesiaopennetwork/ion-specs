@@ -1,6 +1,10 @@
 # ION Transport and HTTP Signing
 
-This document covers everything a developer needs to implement the HTTP transport layer for ION — signing outbound requests, verifying inbound messages, and understanding the synchronous ACK/callback pattern. It is derived from `beckn.yaml → components/schemas/Signature` and the ION network profile in `ion.yaml`.
+This document covers everything a developer needs to implement the HTTP transport
+layer for ION — signing outbound requests, verifying inbound messages, and
+understanding the synchronous ACK/callback pattern. It is derived from
+`releases/release1/schema/core/api/v2.0.0/ion-beckn.yaml` and the ION endpoints in
+`releases/release1/schema/core/api/v2.0.0/ion-additional.yaml`.
 
 ---
 
@@ -16,7 +20,18 @@ BPP later:      POST {bapUri}/on_select  ← BPP sends callback to CN (async)
                 → HTTP 200 + ACK         ← CN acknowledges callback
 ```
 
-**The ACK is not the response.** The ACK is only "I received and authenticated your request." The actual response — the quote, the confirmation, the order status — arrives as a separate HTTP POST to the other party's registered callback URL. You must implement both sides: the endpoint that receives requests and sends ACKs, and the mechanism that sends callbacks to counterparty callback URLs.
+**The ACK is not the response.** The ACK is only "I received and authenticated
+your request." The actual outcome arrives as a separate HTTP POST to the other
+party's registered callback URL. A successful callback carries top-level
+`message`; a processing failure carries top-level `error` (`AsyncError`) instead.
+A callback must contain exactly one of those outcome fields. You must implement
+both sides: the endpoint that receives requests and sends ACKs, and the mechanism
+that sends callbacks to counterparty callback URLs.
+
+An asynchronous callback carrying `error` terminates the callback sequence for
+its `context.messageId`. A retry requires a new forward request with a new
+`messageId`; the enclosing transaction is not terminated merely by that callback
+error.
 
 Synchronous errors (invalid signature, malformed payload, missing required field) return a NACK instead of an ACK, with an `error.code` in the body. Schema validation rejections are `ION-8xxx`. See `errors/README.md`.
 

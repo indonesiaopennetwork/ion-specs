@@ -18,8 +18,10 @@ manifest records `ionApi: review-required` while this draft work remains incompl
 now ION-maintained so protocol fixes need not wait for a new upstream release.
 ION corrected `DiscoverAction.matchType.default` from `any` to the permitted enum
 value `ANY` and corrected the `/catalog/publish` example's offer validity dates
-to RFC 3339 date-time values. The unmodified vendored file is retained
-temporarily for consumers of the old URL. New references, including those in
+to RFC 3339 date-time values. ION then integrated the `beckn.yaml` changes
+proposed in Beckn PR #202, making asynchronous callback envelopes carry exactly
+one of `message` or `error`. The unmodified vendored file is retained temporarily
+for consumers of the old URL. New references, including those in
 `ion-additional.yaml`, use the core contract. Validate the two core contracts
 together:
 
@@ -33,7 +35,7 @@ https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-additional.yaml
 | Endpoint | Sender | Message | Purpose |
 |---|---|---|---|
 | `POST /reconcile` | BAP or BPP | `ReconcileAction` | The contracts whose settlement falls due on `settlementDate`, with the sender's figures |
-| `POST /on_reconcile` | The counterparty | `OnReconcileAction` | The counterparty's figures and `accord` for each settlement |
+| `POST /on_reconcile` | The counterparty | `OnReconcileAction` or `AsyncError` | The counterparty's figures and `accord`, or an asynchronous processing failure |
 
 ## Settlement reconciliation
 
@@ -127,6 +129,12 @@ otherwise `PENDING` — and never overrides a settlement's `accord`.
 `SETTLEMENT_WINDOW_NOT_REACHED` and `AWAITING_INFORMATION` make a settlement
 pending; every other dispute code makes it disputed. On a differing figure,
 `diffValue` is the answering participant's value minus the value it answers.
+
+If reconciliation processing fails before a business answer can be produced,
+`/on_reconcile` carries top-level `error` instead of `message`. That
+`AsyncError` terminates the callback sequence for the request's
+`context.messageId`; retrying requires a new `/reconcile` with a new
+`messageId`.
 
 `accord: true` means the two participants agree on their entitlements; it is
 not a payout instruction and not proof of funds. SEAM (Settlement Assurance
