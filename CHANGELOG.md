@@ -35,11 +35,9 @@ grievance design package:
   `POLICY_AUTHORIZED` with a policy and a verification, `UNILATERAL` with a
   funding participant); money terms with their allocation basis; and the
   execution reference of each action.
-- It attaches to `Support.supportAttributes`, which Beckn 2.0.0 does not have
-  (`Support` is `additionalProperties: false`). The pack assumes that optional
-  slot, proposed to Beckn; until it is released and vendored, `/support` and
-  `/on_support` messages with the pack fail the vendored contract.
-  `Support.channels[]` keeps its meaning: the contact channels.
+- It attaches to `Support.supportAttributes`, the optional slot that ION added
+  to `ion-beckn.yaml` (Beckn 2.0.0 does not have it; proposed to Beckn in PR
+  #204). `Support.channels[]` keeps its meaning: the contact channels.
 - Returns and cancellations within the order's policy use `update` (part of
   the order) and `cancel` (the whole contract), not `support`. A grievance
   about one that went wrong (`RETURN_REJECTED`, `RETURN_PICKUP_FAILED`,
@@ -55,8 +53,7 @@ grievance design package:
 - Storefront: new Grievance phase with six example messages (a buyer
   grievance resolved by an accepted partial refund); `Grievance/v1` added to
   the pattern's schema packs.
-- Style guide: `Support.supportAttributes` listed as a proposed attachment
-  point.
+- Style guide: `Support.supportAttributes` listed as an attachment point.
 - Not included: the proposed grievance SLA and resolution-authorization
   policies, which need Council approval; no `raise` / `on_raise` API, formal
   disputes go to the ION SATU portal.
