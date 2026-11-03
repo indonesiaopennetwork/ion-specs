@@ -1,0 +1,42 @@
+{
+  "id": "ion-trade-variant-cancellation-v1",
+  "version": "1.0.0",
+  "type": "Variant",
+  "variantName": "cancellation",
+  "branchName": "cancellation",
+  "sector": "ion:trade",
+  "status": "ready",
+  "description": "Release 1 cancellation of a confirmed Trade contract: preview, buyer full and partial cancellation, policy rejection, and seller-initiated cancellation.",
+  "branchFile": "./variant.yaml",
+  "applicablePatterns": [
+    "storefront",
+    "made-to-order",
+    "live-commerce",
+    "digital-goods",
+    "business-procurement",
+    "marketplace-inhouse",
+    "marketplace-listed"
+  ],
+  "includedSubBranches": [
+    "preview",
+    "buyer-full",
+    "buyer-partial",
+    "rejected",
+    "seller-initiated"
+  ],
+  "excludedSubBranches": [
+    "partial-quantity",
+    "technical-cancellation-confirm-failure",
+    "forced-cancellation"
+  ],
+  "schemaPacksRequired": {
+    "common": ["Settlement/v1"],
+    "trade": ["TradeContract/v1", "TradeCommitment/v1", "TradeConsideration/v1", "TradePerformance/v1"]
+  },
+  "policyRequirements": {
+    "requiredCategories": ["CANCELLATION"],
+    "enforcedBy": "BPP",
+    "enforcementPoint": "cancel",
+    "note": "Each cancelled commitment is evaluated against the policyRef of its offer's policies.cancellation; a seller cancellation without cause against that policy's sellerPenaltyOnCancelWithoutCause."
+  }
+}

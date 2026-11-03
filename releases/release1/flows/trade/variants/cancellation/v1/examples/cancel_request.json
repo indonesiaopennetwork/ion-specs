@@ -1,0 +1,151 @@
+{
+  "context": {
+    "domain": "ion:trade",
+    "action": "cancel",
+    "version": "2.0.0",
+    "bapId": "buyerapp.ion.id",
+    "bapUri": "https://buyerapp.ion.id/beckn",
+    "bppId": "sellerapp.ion.id",
+    "bppUri": "https://sellerapp.ion.id/beckn",
+    "networkId": "ion.id",
+    "transactionId": "5e7a2c91-3b4d-4f6e-8a1b-2c3d4e5f6a7b",
+    "messageId": "msg-cancel-001",
+    "timestamp": "2026-04-20T10:06:00.000+07:00",
+    "ttl": "PT30S"
+  },
+  "message": {
+    "contract": {
+      "id": "ORD-2026-00020001",
+      "commitments": [
+        {
+          "id": "L01",
+          "status": {
+            "descriptor": {
+              "code": "ACTIVE"
+            }
+          },
+          "offer": {
+            "id": "OFFER-BATIK-PARANG-001",
+            "provider": {
+              "id": "PROV-NUSANTARA-001",
+              "descriptor": {
+                "name": "Toko Batik & Camilan Nusantara"
+              }
+            },
+            "resourceIds": [
+              "RES-BATIK-PARANG-L"
+            ],
+            "offerAttributes": {
+              "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeOffer/v1/context.jsonld",
+              "@type": "ion:IONTradeOffer",
+              "policies": {
+                "cancellation": {
+                  "policyRef": "ion://policy/cancel.partial.refund-packed-threshold",
+                  "fee": {
+                    "type": "PERCENTAGE",
+                    "value": 10
+                  }
+                },
+                "settlement": {
+                  "settlementBasis": "AFTER_DELIVERY",
+                  "settlementWindow": "P1D"
+                }
+              }
+            }
+          },
+          "resources": [
+            {
+              "id": "RES-BATIK-PARANG-L",
+              "quantity": {
+                "unitQuantity": 1,
+                "unitCode": "EA"
+              }
+            }
+          ],
+          "commitmentAttributes": {
+            "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeCommitment/v1/context.jsonld",
+            "@type": "ion:IONTradeCommitment",
+            "lineId": "L01",
+            "resourceId": "RES-BATIK-PARANG-L",
+            "offerId": "OFFER-BATIK-PARANG-001",
+            "quantity": {
+              "unitQuantity": 1,
+              "unitCode": "EA"
+            },
+            "price": {
+              "price": 150000,
+              "priceCurrency": "IDR"
+            }
+          }
+        },
+        {
+          "id": "L02",
+          "status": {
+            "descriptor": {
+              "code": "ACTIVE"
+            }
+          },
+          "offer": {
+            "id": "OFFER-KERIPIK-BALADO-001",
+            "provider": {
+              "id": "PROV-NUSANTARA-001",
+              "descriptor": {
+                "name": "Toko Batik & Camilan Nusantara"
+              }
+            },
+            "resourceIds": [
+              "RES-KERIPIK-BALADO-150G"
+            ],
+            "offerAttributes": {
+              "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeOffer/v1/context.jsonld",
+              "@type": "ion:IONTradeOffer",
+              "policies": {
+                "cancellation": {
+                  "policyRef": "ion://policy/cancel.standard.until-dispatched"
+                },
+                "settlement": {
+                  "settlementBasis": "AFTER_DELIVERY",
+                  "settlementWindow": "P1D"
+                }
+              }
+            }
+          },
+          "resources": [
+            {
+              "id": "RES-KERIPIK-BALADO-150G",
+              "quantity": {
+                "unitQuantity": 2,
+                "unitCode": "EA"
+              }
+            }
+          ],
+          "commitmentAttributes": {
+            "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeCommitment/v1/context.jsonld",
+            "@type": "ion:IONTradeCommitment",
+            "lineId": "L02",
+            "resourceId": "RES-KERIPIK-BALADO-150G",
+            "offerId": "OFFER-KERIPIK-BALADO-001",
+            "quantity": {
+              "unitQuantity": 2,
+              "unitCode": "EA"
+            },
+            "price": {
+              "price": 25000,
+              "priceCurrency": "IDR"
+            }
+          }
+        }
+      ],
+      "contractAttributes": {
+        "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeContract/v1/context.jsonld",
+        "@type": "ion:IONTradeContract",
+        "cancellation": {
+          "reason": {
+            "code": "CHANGE_OF_MIND",
+            "name": "Berubah pikiran"
+          }
+        }
+      }
+    }
+  }
+}
