@@ -74,9 +74,8 @@ attribute pack at `schema/common/Settlement/v1`. This does not reintroduce the
 
 Order grievances use the Beckn `/support` and `/on_support` endpoints, with an
 `IONGrievance` event (`schema/common/Grievance/v1`) in
-`Support.supportAttributes`. That slot is proposed to Beckn and is not in the
-vendored Beckn 2.0.0 contract, so these messages validate only once Beckn
-releases it and it is vendored.
+`Support.supportAttributes`, the optional slot ION added to `Support` in
+`ion-beckn.yaml`.
 
 ## Protocol dependency
 

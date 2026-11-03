@@ -64,9 +64,8 @@ are sent again, is shown in the
 Either participant may raise a grievance about the order after `on_confirm`.
 Each `/support` and `/on_support` message carries one event as an
 [`IONGrievance`](../../../../../schema/common/Grievance/v1/README.md) in
-`message.support.supportAttributes`, which assumes the optional
-`Support.supportAttributes` slot proposed to Beckn: until Beckn releases it,
-these messages do not validate against the vendored Beckn contract.
+`message.support.supportAttributes`, the optional slot ION added to `Support`
+in `ion-beckn.yaml`.
 
 Returns and cancellations within the order's policy are not grievances: the
 buyer app sends `update` for part of the order or `cancel` for the whole
