@@ -13,17 +13,18 @@ https://schema.ion.id/release1/schema/common/Grievance/v1/context.jsonld
 ## Attaches to
 
 `beckn:Support.supportAttributes`, in the `/support` and `/on_support`
-messages of the vendored Beckn contract.
+messages of the ION-maintained Beckn contract
+[`ion-beckn.yaml`](../../../core/api/v2.0.0/ion-beckn.yaml).
 
-> **Pending Beckn change.** Beckn 2.0.0 `Support` allows only `orderId`,
-> `descriptor` and `channels`, with `additionalProperties: false`. This pack
-> assumes an optional `supportAttributes` slot of type `Attributes` on
-> `Support`, proposed to Beckn. Until that change is released and vendored,
-> `/support` and `/on_support` messages carrying this pack fail validation
-> against the vendored contract. `Support.channels[]` keeps its Beckn meaning:
-> the contact channels (WhatsApp, helpdesk, in-app chat) for the grievance.
+> **ION addition to Beckn.** Beckn 2.0.0 `Support` allows only `orderId`,
+> `descriptor` and `channels`, with `additionalProperties: false`. ION added an
+> optional `supportAttributes` slot of type `Attributes` to `Support` in
+> `ion-beckn.yaml`, which carries this pack. Messages carrying it do not
+> validate against the unmodified vendored `beckn.yaml`. `Support.channels[]`
+> keeps its Beckn meaning: the contact channels (WhatsApp, helpdesk, in-app
+> chat) for the grievance.
 >
-> Raised with Beckn in
+> Proposed to Beckn in
 > [protocol-specifications-v2#203](https://github.com/beckn/protocol-specifications-v2/issues/203)
 > (draft PR [#204](https://github.com/beckn/protocol-specifications-v2/pull/204))
 > and with the Fabric team in

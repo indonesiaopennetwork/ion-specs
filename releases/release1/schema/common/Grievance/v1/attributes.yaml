@@ -5,17 +5,16 @@ info:
     Order grievance attributes. IONGrievance is one material event of an
     order-level grievance raised by the buyer side or the seller side,
     carried as Support.supportAttributes in the /support and /on_support
-    messages of the vendored Beckn contract. Each message is a snapshot of
+    messages of the ION-maintained Beckn contract (ion-beckn.yaml). Each message is a snapshot of
     the grievance after the event: its identity, current status, the active
     resolution proposal, the decision on it, and the execution of its
     actions. Conversations, evidence and case handling stay in each network
     participant's own systems; formal disputes between participants go to
     the ION SATU portal, not to this pack.
     Attaches to:
-    beckn:Support.supportAttributes. Beckn 2.0.0 Support has no
-    supportAttributes slot yet (additionalProperties is false); this pack
-    assumes the optional slot proposed to Beckn and is not usable on the
-    network until that change is released and vendored.
+    beckn:Support.supportAttributes, an optional slot that ION added to
+    Support in ion-beckn.yaml. Beckn 2.0.0 Support has no such slot; it is
+    proposed to Beckn.
   version: 1.0.0
   license:
     name: Apache-2.0

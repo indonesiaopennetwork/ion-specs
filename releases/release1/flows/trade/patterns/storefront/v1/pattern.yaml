@@ -384,8 +384,8 @@ phases:
       grievance opens it: the BAP with support for a buyer grievance, the BPP
       with an unsolicited on_support for a seller grievance (an ION profile
       rule pending Beckn approval). Every event carries an IONGrievance as
-      message.support.supportAttributes, which assumes the optional
-      Support.supportAttributes slot proposed to Beckn. Returns and
+      message.support.supportAttributes, the optional slot ION added to
+      Support in ion-beckn.yaml. Returns and
       cancellations within the order's policy use update and cancel, not
       support; a grievance about one that went wrong links it in
       relatedReferences. Agreement on a resolution moves no money: the refund

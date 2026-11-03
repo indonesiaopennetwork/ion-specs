@@ -33,7 +33,8 @@ proposed in Beckn PR #202, "Add AsyncError to on_xxxAction". Those changes make
 asynchronous callback envelopes carry `context` and exactly one of `message` or
 `error`, and specialize `AsyncError` without reopening the base error object's
 property set. The two earlier ION corrections were retained during the
-integration. The maintained copy remains subject to the upstream license above.
+integration. ION then added the optional `Support.supportAttributes` slot
+proposed in Beckn PR #204, "Support: add optional supportAttributes". The maintained copy remains subject to the upstream license above.
 The immutable vendored contract is retained temporarily as a compatibility URL
 while consumers migrate to the ION-maintained path.
 
