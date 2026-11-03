@@ -40,5 +40,9 @@ inside Release 1.
   two COD collection models, multi-performance fulfilment, and cancellation-fee
   display. Four incompatible source sub-branches are explicitly excluded in the
   variant definition.
+- [`variants/cancellation/v1`](variants/cancellation/v1/) — cancellation of a
+  confirmed contract: an optional preview, buyer full and partial cancellation,
+  rejection under the offer's cancellation policy, and seller-initiated
+  cancellation, each with example messages.
 
 Other root variants remain non-normative until they are reviewed individually.

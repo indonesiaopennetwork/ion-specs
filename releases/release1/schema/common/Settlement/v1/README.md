@@ -120,7 +120,9 @@ each offer:
   `settlementBasis` (a `SettlementBasis` defined here) and `settlementWindow`
   (a `SettlementWindow`). The payout falls due `settlementWindow` after the
   `settlementBasis` event; when an order has several offers, the term giving
-  the latest due date applies to the contract.
+  the latest due date applies to the contract. When the contract is cancelled
+  before its basis event, the cancellation takes its place: the payout falls
+  due `settlementWindow` after the cancellation.
 - **Commission** — the buyer finder fee on each offer's consideration
   (`considerationAttributes.buyerFinderFee`, `IONTradeConsideration`): one fee
   per offer. The BPP states the contract's total, summed over every offer
