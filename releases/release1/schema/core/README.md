@@ -20,7 +20,9 @@ ION corrected `DiscoverAction.matchType.default` from `any` to the permitted enu
 value `ANY` and corrected the `/catalog/publish` example's offer validity dates
 to RFC 3339 date-time values. ION then integrated the `beckn.yaml` changes
 proposed in Beckn PR #202, making asynchronous callback envelopes carry exactly
-one of `message` or `error`. The unmodified vendored file is retained temporarily
+one of `message` or `error`. ION then added the optional
+`Support.supportAttributes` slot proposed in Beckn PR #204, so `/support` and
+`/on_support` can carry network-defined attributes. The unmodified vendored file is retained temporarily
 for consumers of the old URL. New references, including those in
 `ion-additional.yaml`, use the core contract. Validate the two core contracts
 together:

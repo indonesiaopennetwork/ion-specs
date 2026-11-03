@@ -92,7 +92,9 @@ fix corrects `DiscoverAction.matchType.default` from `any` to the declared enum
 value `ANY`; the second corrects the `/catalog/publish` example's offer validity
 values to RFC 3339 date-times. ION also integrated the callback-envelope changes
 proposed in Beckn PR #202: asynchronous callbacks now carry exactly one of
-`message` for success or `error` for failure. The unmodified immutable vendored
+`message` for success or `error` for failure. ION then added the optional
+`Support.supportAttributes` slot proposed in Beckn PR #204, so `/support` and
+`/on_support` can carry network-defined attributes. The unmodified immutable vendored
 file remains at
 `schema/vendored/beckn/api/v2.0.0/beckn.yaml` during the URL migration, but new
 references use `ion-beckn.yaml`.
