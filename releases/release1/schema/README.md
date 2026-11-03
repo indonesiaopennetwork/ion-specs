@@ -3,8 +3,9 @@
 All schema contracts and their vendored schema dependencies are contained below
 this directory:
 
-- `common/` contains the four common packs required by Trade, and the
-  Settlement pack (`IONSettlementReconciliation`) used by reconciliation.
+- `common/` contains the four common packs required by Trade, the
+  Settlement pack (`IONSettlementReconciliation`) used by reconciliation, and
+  the Grievance pack (`IONGrievance`) used by `/support` and `/on_support`.
 - `extension/trade/` contains the nine Release 1 Trade packs.
 - `core/` contains the ION-maintained Beckn contract at
   `api/v2.0.0/ion-beckn.yaml` and `api/v2.0.0/ion-additional.yaml`, which holds

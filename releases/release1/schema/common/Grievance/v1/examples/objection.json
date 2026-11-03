@@ -1,0 +1,10 @@
+{
+  "@context": "https://schema.ion.id/release1/schema/common/Grievance/v1/context.jsonld",
+  "@type": "ion:IONGrievance",
+  "grievanceId": "GRV-2026-00004321",
+  "eventType": "OBJECTION",
+  "caseStatus": "OPEN",
+  "occurredAt": "2026-04-21T09:30:00.000+07:00",
+  "originatingNpId": "buyerapp.ion.id",
+  "explanation": "The buyer reports that the refund has not reached the original payment method."
+}
