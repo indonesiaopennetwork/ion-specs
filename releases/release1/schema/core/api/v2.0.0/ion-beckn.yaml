@@ -3193,8 +3193,9 @@ components:
         \ value-exchange lifecycle. The CN includes draft commitments in SelectAction\
         \ referencing the resources and offers chosen from the catalog; the PN updates\
         \ commitment status as the contract progresses through the DRAFT, ACTIVE, and\
-        \ CLOSED states.\n\nRelationship: Composes Resource schemas (with required\
-        \ id and quantity) in the resources array and an Offer schema (with required\
+        \ CLOSED states.\n\nRelationship: Composes resource-and-quantity entries\
+        \ in the resources array, with each entry containing a Resource schema (with\
+        \ required id) and a Quantity schema, and composes an Offer schema (with required\
         \ id and resourceIds) in the offer field. The commitmentAttributes field extends\
         \ the core schema with domain-specific attributes via the Attributes schema."
       required:
@@ -3219,10 +3220,16 @@ components:
         resources:
           type: array
           items:
+            type: object
             required:
-            - id
+            - resource
             - quantity
-            $ref: '#/components/schemas/Resource'
+            properties:
+              resource:
+                $ref: '#/components/schemas/Resource'
+              quantity:
+                $ref: '#/components/schemas/Quantity'
+            additionalProperties: false
         offer:
           required:
           - id
