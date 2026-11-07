@@ -2976,6 +2976,7 @@ components:
 
             For other consideration types, use a generic Attributes bag.'
           $ref: '#/components/schemas/Attributes'
+      additionalProperties: false
 
     Context:
       description: "The message envelope header that accompanies every Beckn API\
@@ -3178,8 +3179,6 @@ components:
           description: Domain-specific extension attributes for this contract.
           allOf:
           - $ref: '#/components/schemas/Attributes'
-          - {}
-          - properties: {}
       additionalProperties: false
       required:
       - commitments
@@ -3239,7 +3238,7 @@ components:
           description: Domain-specific extension attributes for this commitment.
           allOf:
           - $ref: '#/components/schemas/Attributes'
-          - properties: {}
+      additionalProperties: false
 
     Descriptor:
       $schema: https://json-schema.org/draft/2020-12/schema
@@ -3445,6 +3444,7 @@ components:
         participantAttributes:
           description: 'Domain-specific extension attributes for this participant.'
           $ref: '#/components/schemas/Attributes'
+      additionalProperties: false
 
     GeoJSONGeometry:
       description: "A GeoJSON geometry object per RFC 7946, representing the spatial\
@@ -3788,6 +3788,7 @@ components:
           $ref: '#/components/schemas/TimePeriod'
         offerAttributes:
           $ref: '#/components/schemas/Attributes'
+      additionalProperties: false
 
     Provider:
       type: object
@@ -3941,6 +3942,7 @@ components:
           - COMPLETE
         settlementAttributes:
           $ref: '#/components/schemas/Attributes'
+      additionalProperties: false
 
     Signature:
       title: Beckn HTTP Signature
@@ -4199,6 +4201,7 @@ components:
         trackingAttributes:
           description: Information specific to the use case for which the tracking is performed
           $ref: "#/components/schemas/Attributes"
+      additionalProperties: false
       required:
       - url
       - status
