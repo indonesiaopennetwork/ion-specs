@@ -3815,6 +3815,30 @@ components:
       - descriptor
       additionalProperties: false
 
+    Quantity:
+      type: object
+      title: Quantity
+      description: Schema definition for Quantity in the Beckn Protocol v2.0.1
+      properties:
+        maxQuantity:
+          type: number
+          description: Maximum quantity for this price
+        minQuantity:
+          type: number
+          description: Minimum quantity for this price
+        unitCode:
+          type: string
+          description: Unit code for the quoted price (e.g., KWH, MIN, H, MON)
+        unitQuantity:
+          type: number
+          description: Quantity of the unit
+        unitText:
+          type: string
+          description: Unit for the quoted price (e.g., kWh, minute, hour, month)
+      additionalProperties: false
+      x-tags:
+      - common
+
     RatingInput:
       $schema: https://json-schema.org/draft/2020-12/schema
       description: "A structured rating record that captures a consumer's numeric\
@@ -3881,6 +3905,7 @@ components:
         resourceAttributes:
           description: All the properties of a resource that describe its value, its terms of usage, fulfillment, and consideration
           $ref: '#/components/schemas/Attributes'
+      additionalProperties: false
 
     Settlement:
       type: object
