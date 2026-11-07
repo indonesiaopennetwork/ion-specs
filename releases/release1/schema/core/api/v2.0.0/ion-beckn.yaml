@@ -2976,6 +2976,7 @@ components:
 
             For other consideration types, use a generic Attributes bag.'
           $ref: '#/components/schemas/Attributes'
+      additionalProperties: false
 
     Context:
       description: "The message envelope header that accompanies every Beckn API\
@@ -3178,8 +3179,6 @@ components:
           description: Domain-specific extension attributes for this contract.
           allOf:
           - $ref: '#/components/schemas/Attributes'
-          - {}
-          - properties: {}
       additionalProperties: false
       required:
       - commitments
@@ -3193,8 +3192,9 @@ components:
         \ value-exchange lifecycle. The CN includes draft commitments in SelectAction\
         \ referencing the resources and offers chosen from the catalog; the PN updates\
         \ commitment status as the contract progresses through the DRAFT, ACTIVE, and\
-        \ CLOSED states.\n\nRelationship: Composes Resource schemas (with required\
-        \ id and quantity) in the resources array and an Offer schema (with required\
+        \ CLOSED states.\n\nRelationship: Composes resource-and-quantity entries\
+        \ in the resources array, with each entry containing a Resource schema (with\
+        \ required id) and a Quantity schema, and composes an Offer schema (with required\
         \ id and resourceIds) in the offer field. The commitmentAttributes field extends\
         \ the core schema with domain-specific attributes via the Attributes schema."
       required:
@@ -3219,10 +3219,16 @@ components:
         resources:
           type: array
           items:
+            type: object
             required:
-            - id
+            - resource
             - quantity
-            $ref: '#/components/schemas/Resource'
+            properties:
+              resource:
+                $ref: '#/components/schemas/Resource'
+              quantity:
+                $ref: '#/components/schemas/Quantity'
+            additionalProperties: false
         offer:
           required:
           - id
@@ -3232,7 +3238,7 @@ components:
           description: Domain-specific extension attributes for this commitment.
           allOf:
           - $ref: '#/components/schemas/Attributes'
-          - properties: {}
+      additionalProperties: false
 
     Descriptor:
       $schema: https://json-schema.org/draft/2020-12/schema
@@ -3438,6 +3444,7 @@ components:
         participantAttributes:
           description: 'Domain-specific extension attributes for this participant.'
           $ref: '#/components/schemas/Attributes'
+      additionalProperties: false
 
     GeoJSONGeometry:
       description: "A GeoJSON geometry object per RFC 7946, representing the spatial\
@@ -3781,6 +3788,7 @@ components:
           $ref: '#/components/schemas/TimePeriod'
         offerAttributes:
           $ref: '#/components/schemas/Attributes'
+      additionalProperties: false
 
     Provider:
       type: object
@@ -3814,6 +3822,30 @@ components:
       - id
       - descriptor
       additionalProperties: false
+
+    Quantity:
+      type: object
+      title: Quantity
+      description: Schema definition for Quantity in the Beckn Protocol v2.0.1
+      properties:
+        maxQuantity:
+          type: number
+          description: Maximum quantity for this price
+        minQuantity:
+          type: number
+          description: Minimum quantity for this price
+        unitCode:
+          type: string
+          description: Unit code for the quoted price (e.g., KWH, MIN, H, MON)
+        unitQuantity:
+          type: number
+          description: Quantity of the unit
+        unitText:
+          type: string
+          description: Unit for the quoted price (e.g., kWh, minute, hour, month)
+      additionalProperties: false
+      x-tags:
+      - common
 
     RatingInput:
       $schema: https://json-schema.org/draft/2020-12/schema
@@ -3881,6 +3913,7 @@ components:
         resourceAttributes:
           description: All the properties of a resource that describe its value, its terms of usage, fulfillment, and consideration
           $ref: '#/components/schemas/Attributes'
+      additionalProperties: false
 
     Settlement:
       type: object
@@ -3909,6 +3942,7 @@ components:
           - COMPLETE
         settlementAttributes:
           $ref: '#/components/schemas/Attributes'
+      additionalProperties: false
 
     Signature:
       title: Beckn HTTP Signature
@@ -4167,6 +4201,7 @@ components:
         trackingAttributes:
           description: Information specific to the use case for which the tracking is performed
           $ref: "#/components/schemas/Attributes"
+      additionalProperties: false
       required:
       - url
       - status
