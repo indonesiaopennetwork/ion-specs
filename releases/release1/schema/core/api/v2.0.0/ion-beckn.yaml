@@ -3210,6 +3210,7 @@ components:
         \ id and resourceIds) in the offer field. The commitmentAttributes field extends\
         \ the core schema with domain-specific attributes via the Attributes schema."
       required:
+      - id
       - status
       - resources
       - offer

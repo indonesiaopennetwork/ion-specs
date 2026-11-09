@@ -106,7 +106,6 @@
           "commitmentAttributes": {
             "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeCommitment/v1/context.jsonld",
             "@type": "ion:IONTradeCommitment",
-            "lineId": "L01",
             "selectedCustomizations": [
               {
                 "groupId": "CG-CRUST",
@@ -118,12 +117,8 @@
               }
             ],
             "specialInstructions": "Tolong dipotong 8 bagian.",
-            "resourceId": "PIZZA-PEPPERONI-LARGE",
-            "quantity": {
-              "count": 1
-            },
             "price": {
-              "value": "89000",
+              "value": 89000,
               "currency": "IDR"
             }
           }

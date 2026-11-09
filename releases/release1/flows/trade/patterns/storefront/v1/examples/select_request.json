@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "description": "B2C-SF select \u2014 BAP sends item selection. Beckn v2.0 SelectAction shape. Note: example uses generic item IDs; replace with your actual resource and offer IDs.",
+    "description": "B2C-SF select — BAP sends item selection. Beckn v2.0 SelectAction shape. Note: example uses generic item IDs; replace with your actual resource and offer IDs.",
     "pattern": "B2C-SF",
     "step": "select",
     "sent_by": "BAP",
@@ -50,6 +50,9 @@
           },
           "offer": {
             "id": "OFFER-PIZZA-001",
+            "resourceIds": [
+              "PIZZA-PEPPERONI-LARGE"
+            ],
             "provider": {
               "id": "PROV-DOMINOS-SUDIRMAN-001",
               "descriptor": {
@@ -59,13 +62,12 @@
           },
           "resources": [
             {
-              "id": "PIZZA-PEPPERONI-LARGE",
-              "resourceAttributes": {
-                "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeResource/v1/context.jsonld",
-                "@type": "ion:IONTradeResource",
-                "quantity": {
-                  "count": 1
-                }
+              "resource": {
+                "id": "PIZZA-PEPPERONI-LARGE"
+              },
+              "quantity": {
+                "unitQuantity": 1,
+                "unitCode": "EA"
               }
             }
           ],
@@ -82,12 +84,7 @@
                 "optionId": "OPT-TOMATO"
               }
             ],
-            "specialInstructions": "Tolong dipotong 8 bagian.",
-            "lineId": "L01",
-            "resourceId": "PIZZA-PEPPERONI-LARGE",
-            "quantity": {
-              "count": 1
-            }
+            "specialInstructions": "Tolong dipotong 8 bagian."
           }
         }
       ],

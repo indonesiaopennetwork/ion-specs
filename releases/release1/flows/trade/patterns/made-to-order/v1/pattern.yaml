@@ -116,11 +116,10 @@ phases:
           - context.location.city.code
           - message.contract.participants[role=PROVIDER].id
           - message.contract.commitments[].id
-          - message.contract.commitments[].commitmentAttributes.lineId
-          - message.contract.commitments[].commitmentAttributes.resourceId
-          - message.contract.commitments[].commitmentAttributes.offerId
-          - message.contract.commitments[].commitmentAttributes.quantity.value
-          - message.contract.commitments[].resources[].quantity.count
+          - message.contract.commitments[].resources[].resource.id
+          - message.contract.commitments[].resources[].quantity.unitQuantity
+          - message.contract.commitments[].resources[].quantity.unitCode
+          - message.contract.commitments[].offer.id
           - message.contract.performance[].performanceAttributes.performanceMode
         conditionalFields:
           - field: message.contract.commitments[].commitmentAttributes.selectedCustomizations

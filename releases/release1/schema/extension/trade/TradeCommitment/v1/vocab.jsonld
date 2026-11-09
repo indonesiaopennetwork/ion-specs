@@ -13,10 +13,7 @@
       "@id": "ion:IONTradeCommitment",
       "@type": "rdfs:Class",
       "rdfs:label": "IONTradeCommitment",
-      "rdfs:comment": "ION trade commitment extension. Extends RetailCommitment v2.1 with line-specific replacement preference semantics.",
-      "rdfs:subClassOf": {
-        "@id": "rccma:RetailCommitment"
-      },
+      "rdfs:comment": "Trade-specific attributes attached to a Beckn Commitment for committed prices, selected add-ons, customizations, buyer instructions, and replacement preference.",
       "skos:broader": {
         "@id": "beckn:Commitment"
       }
@@ -32,6 +29,54 @@
       "rdfs:range": {
         "@id": "http://www.w3.org/2001/XMLSchema#boolean"
       }
+    },
+    {
+      "@id": "rccma:price",
+      "@type": "rdf:Property",
+      "rdfs:label": "price",
+      "rdfs:comment": "Committed post-discount price for this commitment."
+    },
+    {
+      "@id": "rccma:originalPrice",
+      "@type": "rdf:Property",
+      "rdfs:label": "originalPrice",
+      "rdfs:comment": "Pre-discount price for display and audit. Omit when it is equal to price and no discount applies."
+    },
+    {
+      "@id": "rccma:addOnIds",
+      "@type": "rdf:Property",
+      "rdfs:label": "addOnIds",
+      "rdfs:comment": "Identifiers of offer add-ons selected for this commitment. Add-ons are defined by the selected Offer; this field records the buyer's selection."
+    },
+    {
+      "@id": "rccma:selectedCustomizations",
+      "@type": "rdf:Property",
+      "rdfs:label": "selectedCustomizations",
+      "rdfs:comment": "Customization options selected for this commitment. The combination of groupId and optionId must identify each selection without ambiguity; label is display-only."
+    },
+    {
+      "@id": "rccma:specialInstructions",
+      "@type": "rdf:Property",
+      "rdfs:label": "specialInstructions",
+      "rdfs:comment": "Buyer instructions that apply specifically to this commitment."
+    },
+    {
+      "@id": "rccma:customizationGroupId",
+      "@type": "rdf:Property",
+      "rdfs:label": "groupId",
+      "rdfs:comment": "Identifier of the customization group."
+    },
+    {
+      "@id": "rccma:customizationOptionId",
+      "@type": "rdf:Property",
+      "rdfs:label": "optionId",
+      "rdfs:comment": "Identifier of the selected option within the group."
+    },
+    {
+      "@id": "rccma:customizationLabel",
+      "@type": "rdf:Property",
+      "rdfs:label": "label",
+      "rdfs:comment": "Human-readable display label for the selection."
     }
   ]
 }
