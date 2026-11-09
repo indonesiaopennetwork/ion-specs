@@ -1321,7 +1321,7 @@ paths:
         \ Service) for validation and indexing so that CNs may discover them via /discover.\n\
         \nAdditional preconditions: At least one Catalog object MUST be present in\
         \ the message.\n\nThe message MUST contain a CatalogPublishAction with a non-empty catalogs array.\
-        \ Each Catalog MUST include an id, descriptor, and provider.\n\nCallback relationship:\
+        \ Each Catalog MUST include an id, descriptor, provider, bppId, and bppUri.\n\nCallback relationship:\
         \ After indexing each submitted catalog, the CS sends a /catalog/on_publish\
         \ callback to the PN carrying a CatalogOnPublishAction with per-catalog processing\
         \ results (ACCEPTED, REJECTED, or PARTIAL). The PN MUST correlate the callback\
@@ -1374,6 +1374,8 @@ paths:
                   message:
                     catalogs:
                     - id: CAT-TECHMART-2026
+                      bppId: bpp.techmart.com
+                      bppUri: https://bpp.techmart.com
                       descriptor:
                         name: TechMart Product Catalog
                       provider:
@@ -1410,6 +1412,8 @@ paths:
                       updateMode: FULL
                     catalogs:
                     - id: MASTER-ELECTRONICS-2026
+                      bppId: manufacturer.example.com
+                      bppUri: https://manufacturer.example.com
                       descriptor:
                         name: Official Electronics Master Catalog 2026
                       provider:
@@ -1450,6 +1454,8 @@ paths:
                           masterResourceId: MASTER-LAPTOP-XPS-15
                     catalogs:
                     - id: CAT-TECHMART-2026
+                      bppId: bpp.techmart.com
+                      bppUri: https://bpp.techmart.com
                       descriptor:
                         name: TechMart Product Catalog
                       provider:
@@ -1495,6 +1501,8 @@ paths:
                           label: Bangalore region
                     catalogs:
                     - id: CAT-FRESHMART-2026
+                      bppId: bpp.freshmart.com
+                      bppUri: https://bpp.freshmart.com
                       descriptor:
                         name: FreshMart Grocery Catalog
                       provider:
@@ -1527,6 +1535,8 @@ paths:
                       updateMode: MERGE
                     catalogs:
                     - id: CAT-TECHMART-OFFERS-2026
+                      bppId: bpp.techmart.com
+                      bppUri: https://bpp.techmart.com
                       descriptor:
                         name: TechMart Seasonal Offers
                       provider:
@@ -2868,6 +2878,8 @@ components:
       - id
       - descriptor
       - provider
+      - bppId
+      - bppUri
       anyOf:
       - required:
         - resources
