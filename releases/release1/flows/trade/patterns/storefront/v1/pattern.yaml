@@ -107,7 +107,7 @@ phases:
           - context.timestamp
           - context.ttl
           - context.location.city.code
-          - message.contract.participants[role=PROVIDER].id
+          - message.contract.commitments[].offer.provider.id
           - message.contract.commitments[].id
           - message.contract.commitments[].resources[].resource.id
           - message.contract.commitments[].resources[].quantity.unitQuantity
@@ -124,7 +124,7 @@ phases:
         direction: callback
         description: BPP validates availability, computes quote, returns supported modes and SLA.
         requiredFields:
-          - message.contract.participants[role=PROVIDER].id
+          - message.contract.commitments[].offer.provider.id
           - message.contract.commitments[].id
           - message.contract.consideration[].considerationAttributes.breakup[]
           - message.contract.consideration[].considerationAttributes.totalAmount

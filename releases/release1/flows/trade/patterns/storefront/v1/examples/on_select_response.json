@@ -40,12 +40,6 @@
   },
   "message": {
     "contract": {
-      "participants": [
-        {
-          "role": "PROVIDER",
-          "id": "PROV-APOTEK-SEHAT-001"
-        }
-      ],
       "commitments": [
         {
           "id": "L01",
@@ -56,11 +50,20 @@
           },
           "resources": [
             {
-              "id": "RES-PANADOL-500MG-STRIP"
+              "resource": {
+                "id": "RES-PANADOL-500MG-STRIP"
+              },
+              "quantity": {
+                "unitQuantity": 1,
+                "unitCode": "EA"
+              }
             }
           ],
           "offer": {
             "id": "OFFER-PANADOL-001",
+            "resourceIds": [
+              "RES-PANADOL-500MG-STRIP"
+            ],
             "provider": {
               "id": "PROV-APOTEK-SEHAT-001",
               "descriptor": {
