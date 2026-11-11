@@ -1,0 +1,57 @@
+{
+  "@context": "https://schema.ion.id/release1/schema/common/Grievance/v1/context.jsonld",
+  "@type": "ion:IONGrievance",
+  "grievanceId": "GRV-2026-00004502",
+  "eventType": "RESOLUTION_PROPOSED",
+  "caseStatus": "IN_PROGRESS",
+  "occurredAt": "2026-04-28T10:00:00.000+07:00",
+  "originatingNpId": "buyerapp.ion.id",
+  "resolution": {
+    "proposalId": "RES-2026-00004502",
+    "version": 1,
+    "proposedByNpId": "sellerapp.ion.id",
+    "authorizationType": "POLICY_AUTHORIZED",
+    "policyRef": "ion://policy/return.standard.7d-sellerpays",
+    "verification": {
+      "verifiedByNpId": "sellerapp.ion.id",
+      "verificationReference": "QC-2026-00000777",
+      "verifiedAt": "2026-04-21T09:00:00.000+07:00",
+      "method": "QUALITY_CHECK_OF_RETURNED_ITEM"
+    },
+    "actions": [
+      {
+        "actionId": "ACT-001",
+        "type": "REFUND",
+        "description": "Retry the return refund on its existing settlement; the first payout to the buyer failed",
+        "affected": [
+          {
+            "commitmentId": "L01",
+            "performanceId": "PERF-RET-2026-00000091",
+            "quantity": 1
+          }
+        ],
+        "financialEffect": {
+          "effectType": "REFUND",
+          "amount": 89000,
+          "currency": "IDR",
+          "allocationBasis": "POLICY",
+          "liablePartyId": "sellerapp.ion.id",
+          "allocationReason": "Refund agreed in the return flow after QC passed under the order's return policy.",
+          "policyRef": "ion://policy/return.standard.7d-sellerpays",
+          "settlementRef": "PAY-RFD-2026-00000091"
+        },
+        "executionMethod": "SETTLEMENT"
+      }
+    ]
+  },
+  "relatedReferences": [
+    {
+      "refType": "PERFORMANCE",
+      "refId": "PERF-RET-2026-00000091"
+    },
+    {
+      "refType": "SETTLEMENT",
+      "refId": "PAY-RFD-2026-00000091"
+    }
+  ]
+}

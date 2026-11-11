@@ -1,0 +1,29 @@
+{
+  "@context": "https://schema.ion.id/release1/schema/common/Grievance/v1/context.jsonld",
+  "@type": "ion:IONGrievance",
+  "grievanceId": "GRV-2026-00004321",
+  "eventType": "OPENED",
+  "caseStatus": "OPEN",
+  "occurredAt": "2026-04-19T11:00:00.000+07:00",
+  "openedAt": "2026-04-19T11:00:00.000+07:00",
+  "originatingNpId": "buyerapp.ion.id",
+  "raisedBy": {
+    "side": "BUYER",
+    "npId": "buyerapp.ion.id"
+  },
+  "raisedAgainst": {
+    "role": "SELLER",
+    "partyId": "PROV-DOMINOS-SUDIRMAN-001"
+  },
+  "assignedNpId": "sellerapp.ion.id",
+  "category": "DAMAGED_ITEM",
+  "description": "Pizza arrived crushed; the buyer reports the box was damaged in transit.",
+  "affected": [
+    {
+      "commitmentId": "L01",
+      "quantity": 1
+    }
+  ],
+  "policyRef": "ion://policy/grievance-sla.consumer.standard",
+  "channelMode": "ASYNC"
+}

@@ -24,6 +24,13 @@ module IonArtifactChecksums
     end.sort.map { |path| Pathname.new(path).relative_path_from(root).to_s }
   end
 
+  def checksummed_artifact_files(root, manifest)
+    files = artifact_files(root)
+    return files if manifest["status"] == "published"
+
+    files.select { |path| path.start_with?("schema/vendored/") }
+  end
+
   def validate(release_root, manifest = nil)
     root = Pathname.new(File.expand_path(release_root))
     manifest ||= YAML.safe_load(File.read(root.join("release.yaml")), aliases: true)
@@ -42,11 +49,17 @@ module IonArtifactChecksums
     end
 
     release_files = artifact_files(root)
-    missing_checksums = release_files - checksums.keys
+    expected_checksums = checksummed_artifact_files(root, manifest)
+    missing_checksums = expected_checksums - checksums.keys
     missing_checksums.each { |path| errors << "release artifact is not checksummed: #{path}" }
     recorded_release_files = checksums.keys.select { |path| ARTIFACT_ROOTS.include?(path.split("/", 2).first) }
     (recorded_release_files - release_files).each do |path|
       errors << "checksum records missing release artifact: #{path}"
+    end
+    if manifest["status"] == "draft"
+      (recorded_release_files - expected_checksums).each do |path|
+        errors << "draft checksum records ION-authored artifact: #{path}"
+      end
     end
 
     manifest.fetch("dependencies", []).each do |dependency|

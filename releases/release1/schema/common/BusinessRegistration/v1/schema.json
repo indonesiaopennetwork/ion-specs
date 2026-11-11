@@ -7,21 +7,21 @@
     "npwp": {
       "type": "string",
       "pattern": "^[0-9]{16}$",
-      "description": "Nomor Pokok Wajib Pajak — 16-digit tax identification number. New format post-2024 (previously 15 digits). Required for all registered sellers on ION. Validated against DJP registry.\n",
+      "description": "Nomor Pokok Wajib Pajak — 16-digit tax identification number. New format post-2024 (previously 15 digits). Required where the flow pattern requires it, for example of sellers and of business buyers in B2B procurement; not of consumer buyers. Validated against DJP registry.\n",
       "example": "1234567890123456",
       "x-ion-regulatory": "PMK 136/2023 tentang Perubahan atas PMK No 112/PMK.03/2022"
     },
     "nib": {
       "type": "string",
       "pattern": "^[0-9]{13}$",
-      "description": "Nomor Induk Berusaha — 13-digit business registration number issued by OSS (Online Single Submission). Mandatory for all ION network participant sellers.\n",
+      "description": "Nomor Induk Berusaha — 13-digit business registration number issued by OSS (Online Single Submission). Required where the flow pattern requires it, for example of sellers and of business buyers in B2B procurement; not of consumer buyers.\n",
       "example": "1234567890123",
       "x-ion-regulatory": "PP 5/2021 tentang Penyelenggaraan Perizinan Berusaha Berbasis Risiko"
     },
     "nikNumber": {
       "type": "string",
       "pattern": "^[0-9]{16}$",
-      "description": "Nomor Induk Kependudukan — 16-digit national identity number from e-KTP. Required for individual (non-business) sellers.\n",
+      "description": "Nomor Induk Kependudukan — 16-digit national identity number from e-KTP. Required when businessType is PERORANGAN (an individual seller or buyer registered as a business). Not collected from consumer buyers.\n",
       "example": "3271012345678901",
       "x-ion-regulatory": "UU 24/2013 tentang Administrasi Kependudukan"
     },

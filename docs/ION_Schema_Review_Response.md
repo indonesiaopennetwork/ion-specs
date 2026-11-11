@@ -18,7 +18,9 @@
 | Minor (m) | 6 | 5 | 1 | 0 |
 | **Total** | **22** | **20** | **2** | **0** |
 
-All 20 fixable observations are resolved. The 2 not-applicable items exist in the upstream vendored `beckn.yaml` which ION does not own or modify.
+All 20 observations that were fixable in ION-authored schema packs are resolved.
+The remaining upstream observations can now be corrected in the ION-maintained
+`ion-beckn.yaml`; the immutable vendored compatibility copy remains unchanged.
 
 ---
 
@@ -112,7 +114,11 @@ New market entrants are now registered in the ION vocabulary registry — no sch
 
 **Observation:** The upstream `beckn.yaml` carries `title: Fulfillment` on the `Performance` schema.
 
-**Status:** This is in the upstream vendored `beckn.yaml`, which ION does not author or modify. ION's own schemas correctly use `Performance` throughout. This has been logged as an upstream contribution item for the Beckn Core Working Group (NFH-012 issue tracker).
+**Status:** This originated in upstream `beckn.yaml`. ION's own schemas correctly
+use `Performance` throughout. Release 1 now has an ION-maintained
+`ion-beckn.yaml` where this can be corrected independently; the issue remains an
+upstream contribution item for the Beckn Core Working Group (NFH-012 issue
+tracker).
 
 ---
 
@@ -325,7 +331,11 @@ Any conformant JSON-LD processor can now resolve and verify every `ion:` CURIE.
 
 **Observation:** A `$schema` keyword was visible inside component schemas in the Beckn core section of the composed file — non-standard in an OpenAPI 3.1.1 document.
 
-**Fix:** Was an artefact of embedding the upstream `beckn.yaml` verbatim in the old monolithic file. The current architecture keeps `beckn.yaml` as a separate immutable vendored file at `releases/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml` and ION-owned API additions in `schema/core/`. ION-authored component schemas contain no `$schema` keyword.
+**Fix:** Was an artefact of embedding upstream `beckn.yaml` verbatim in the old
+monolithic file. The current architecture keeps the ION-maintained protocol at
+`releases/release1/schema/core/api/v2.0.0/ion-beckn.yaml`, retains the immutable
+vendored file temporarily for URL compatibility, and keeps ION API additions in
+`schema/core/`. ION-authored component schemas contain no `$schema` keyword.
 
 **Verification:** `$schema` absent from all ION-authored component schemas.
 
@@ -377,7 +387,10 @@ The reconcile `taxWithholdings` field had an `x-ion-regulatory:` key accidentall
 
 **Observation:** Typos visible in the composed file at ~line 2800 and ~line 1900.
 
-**Status:** Both typos exist only in the upstream vendored `beckn.yaml`. ION-authored files are clean. Logged for upstream contribution to the Beckn Core Working Group.
+**Status:** Both typos originated in upstream `beckn.yaml`. They can now be
+corrected in the ION-maintained `ion-beckn.yaml` without changing the immutable
+vendored compatibility copy. They remain logged for upstream contribution to the
+Beckn Core Working Group.
 
 ---
 

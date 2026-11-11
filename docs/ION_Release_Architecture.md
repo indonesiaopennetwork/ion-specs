@@ -110,9 +110,10 @@ releases/
     NOTICES.md
 
     schema/
-      core/                  # ION-owned API contracts
+      core/                  # ION-maintained API contracts
         api/
           v2.0.0/
+            ion-beckn.yaml
             ion-additional.yaml
 
       common/
@@ -147,6 +148,15 @@ releases/
 from existing pack names to public `SchemaName` directories MUST be established as
 part of the pre-release cleanup. Once published, directory names are part of the
 public API and cannot be renamed within that release.
+
+Release 1's active Beckn protocol contract is the ION-maintained
+`schema/core/api/v2.0.0/ion-beckn.yaml`. It began as a byte-identical copy of the
+upstream Beckn v2.0.0 contract so ION can correct protocol defects without
+waiting for an upstream publication. The immutable upstream file at
+`schema/vendored/beckn/api/v2.0.0/beckn.yaml` remains temporarily at its existing
+public URL for compatibility; new Release 1 references use the core contract.
+The maintained copy records its ION modifications in the release notice; both
+files retain upstream attribution and licensing.
 
 The manifest determines which content areas are part of a particular release.
 Every area MUST be `validated` or `excluded` before publication, and artifacts for
@@ -377,9 +387,12 @@ dependencies: []
 artifactChecksums: {}
 ```
 
-When the Council publishes a draft into the `next` channel, `status` is changed
-to `published`, `publishedAt` is populated, the dependency inventory is complete,
-and release checksums are recorded. The final manifest contract is defined in
+While a release is a draft, `artifactChecksums` covers only files below
+`schema/vendored/`; ION-authored files remain mutable and are protected by normal
+version control and validation. When the Council publishes a draft into the
+`next` channel, `status` is changed to `published`, `publishedAt` is populated,
+the dependency inventory is complete, and checksums are recorded for every
+normative artifact below `schema/`, `flows/`, and `errors/`. The final manifest contract is defined in
 `tools/release/release-manifest.schema.json` and enforced by the release tooling.
 
 ## Lifecycle and immutability
@@ -389,9 +402,11 @@ and release checksums are recorded. The final manifest contract is defined in
    network access disabled.
 3. When the Council selects the draft for `next`, populate its publication
    metadata and change its manifest to `status: published`.
-4. Publish the release and assign it to `next` in the same reviewed change.
-5. Create a matching protected Git tag, such as `release1`, for provenance.
-6. Prevent all subsequent modifications or deletions under that release
+4. Regenerate `artifactChecksums`; published status expands the inventory from
+   vendored files to every normative artifact.
+5. Publish the release and assign it to `next` in the same reviewed change.
+6. Create a matching protected Git tag, such as `release1`, for provenance.
+7. Prevent all subsequent modifications or deletions under that release
    directory.
 7. Begin the `next` stabilization period and create the following integer release
    as the new mutable draft.

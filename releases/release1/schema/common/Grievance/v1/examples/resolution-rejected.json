@@ -1,0 +1,45 @@
+{
+  "@context": "https://schema.ion.id/release1/schema/common/Grievance/v1/context.jsonld",
+  "@type": "ion:IONGrievance",
+  "grievanceId": "GRV-2026-00004321",
+  "eventType": "RESOLUTION_DECIDED",
+  "caseStatus": "IN_PROGRESS",
+  "occurredAt": "2026-04-19T12:15:00.000+07:00",
+  "originatingNpId": "buyerapp.ion.id",
+  "resolution": {
+    "proposalId": "RES-2026-00004321",
+    "version": 1,
+    "proposedByNpId": "sellerapp.ion.id",
+    "authorizationType": "EXPLICIT_AGREEMENT",
+    "actions": [
+      {
+        "actionId": "ACT-001",
+        "type": "REFUND",
+        "description": "Partial refund for the crushed pizza",
+        "affected": [
+          {
+            "commitmentId": "L01",
+            "quantity": 1
+          }
+        ],
+        "financialEffect": {
+          "effectType": "REFUND",
+          "amount": 30000,
+          "currency": "IDR",
+          "allocationBasis": "EXPLICIT",
+          "liablePartyId": "sellerapp.ion.id",
+          "allocationReason": "Partial refund agreed for a crushed but delivered item."
+        },
+        "executionMethod": "SETTLEMENT"
+      }
+    ]
+  },
+  "decision": {
+    "proposalId": "RES-2026-00004321",
+    "version": 1,
+    "decidedByNpId": "buyerapp.ion.id",
+    "result": "REJECTED",
+    "decidedAt": "2026-04-19T12:15:00.000+07:00",
+    "reason": "The buyer asks for a full refund of the line."
+  }
+}

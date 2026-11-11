@@ -21,6 +21,65 @@ Release-owned schema content is grouped under `releases/release1/schema/`:
 `core/`, `common/`, `extension/`, and `vendored/` are peers there, while
 `flows/` and `errors/` remain peers of `schema/` at the release root.
 
+### Order grievances in support and on_support (3 November 2026)
+
+Adds order-level grievance handling (issue #28), from the ION support
+grievance design package:
+
+- New common pack `common/Grievance/v1`: `IONGrievance`, one event of a
+  grievance raised by the buyer side or the seller side about one order
+  (`OPENED`, `ACKNOWLEDGED`, `STATUS_CHANGED`, `RESOLUTION_PROPOSED`,
+  `RESOLUTION_DECIDED`, `ACTION_COMPLETED`, `RESOLVED`, `OBJECTION`,
+  `CLOSED`). It carries one versioned resolution at a time, accepted or
+  rejected as a whole; three authorization routes (`EXPLICIT_AGREEMENT`,
+  `POLICY_AUTHORIZED` with a policy and a verification, `UNILATERAL` with a
+  funding participant); money terms with their allocation basis; and the
+  execution reference of each action.
+- It attaches to `Support.supportAttributes`, the optional slot that ION added
+  to `ion-beckn.yaml` (Beckn 2.0.0 does not have it; proposed to Beckn in PR
+  #204). `Support.channels[]` keeps its meaning: the contact channels.
+- Returns and cancellations within the order's policy use `update` (part of
+  the order) and `cancel` (the whole contract), not `support`. A grievance
+  about one that went wrong (`RETURN_REJECTED`, `RETURN_PICKUP_FAILED`,
+  `RETURN_QC_DISPUTED`, `REFUND_NOT_RECEIVED`) must link the return
+  performance, refund settlement or contract in `relatedReferences`, and a
+  refund that completes an existing one reuses its `Settlement.id`
+  (`settlementRef`) so that SEAM does not count it twice.
+- Statuses `OPEN`, `IN_PROGRESS`, `RESOLVED`, `CLOSED` are ION-defined and
+  provisional. A resolved grievance with no objection within the grievance SLA
+  policy's objection period is deemed closed without a message; neither a
+  resolution nor closure is agreement on the settlement, which stays in
+  `reconcile`.
+- Storefront: new Grievance phase with six example messages (a buyer
+  grievance resolved by an accepted partial refund); `Grievance/v1` added to
+  the pattern's schema packs.
+- Style guide: `Support.supportAttributes` listed as an attachment point.
+- Not included: the proposed grievance SLA and resolution-authorization
+  policies, which need Council approval; no `raise` / `on_raise` API, formal
+  disputes go to the ION SATU portal.
+
+### Buyer business registration optional for consumers (29 October 2026)
+
+A consumer buyer no longer has to send business registration numbers to place
+an order:
+
+- Storefront and Made-to-Order `confirm` no longer require
+  `contractAttributes.buyerBusinessRegistration.npwp` and `.nib`.
+  `buyerBusinessRegistration` is now a conditional field, sent only when the
+  buyer is a business or asks for a tax invoice. Business Procurement still
+  requires it.
+- The Storefront `confirm` and `on_confirm` examples show a consumer buyer
+  without business registration.
+- `IONBusinessRegistration` (`common/BusinessRegistration/v1`): the `npwp`,
+  `nib` and `nikNumber` descriptions and the README field table now say these
+  are required per flow pattern, not of consumer buyers. The schema itself is
+  unchanged; `nikNumber` is still required when `businessType` is `PERORANGAN`.
+
+Compatibility: this removes required fields, so validation is relaxed and
+messages that still send them stay valid. An implementation that relied on
+receiving the buyer's NPWP or NIB in Storefront or Made-to-Order `confirm` must
+stop requiring them.
+
 ### Delivery fee on the offer (23 October 2026)
 
 - `IONTradeConsideration.deliveryFee` (`TradeConsideration/v1`, new

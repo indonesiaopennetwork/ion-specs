@@ -71,12 +71,14 @@ permanent integer releases. It is not copied into individual release bundles.
 - `generate_error_registry.rb` deterministically generates or checks the
   combined release-local Trade and Logistics error registry. The shared policy registry is maintained by
   `tools/policies/generate_registry.rb`.
-- `record_artifact_checksums.rb` records or checks the complete artifact
-  inventory under the release's normative content trees.
+- `record_artifact_checksums.rb` records or checks vendored artifact checksums
+  while a release is a draft and the complete normative artifact inventory once
+  it is published.
 - `validate_release_scope.rb` ensures validated content is present and excluded
   content is absent from a release directory.
-- `validate_artifact_checksums.rb` verifies every release artifact against the
-  manifest and rejects unrecorded or missing artifacts.
+- `validate_artifact_checksums.rb` verifies every vendored draft artifact, and
+  every artifact in a published release, against the manifest. Draft manifests
+  reject checksum entries for ION-authored files.
 - `validate_release_immutability.rb` rejects changes to any release whose
   manifest is already `published`.
 - `validate_release.rb` is the complete local and CI entry point.

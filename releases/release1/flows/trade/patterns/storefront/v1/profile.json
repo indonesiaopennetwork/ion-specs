@@ -21,7 +21,8 @@
       "Payment/v1",
       "Tax/v1",
       "Address/v1",
-      "Settlement/v1"
+      "Settlement/v1",
+      "Grievance/v1"
     ],
     "trade": [
       "TradeProvider/v1",

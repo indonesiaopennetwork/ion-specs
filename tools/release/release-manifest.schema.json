@@ -88,7 +88,15 @@
       },
       "then": {
         "properties": {
-          "publishedAt": { "type": "null" }
+          "publishedAt": { "type": "null" },
+          "artifactChecksums": {
+            "propertyNames": {
+              "allOf": [
+                { "$ref": "#/$defs/releaseRelativePath" },
+                { "pattern": "^schema/vendored/" }
+              ]
+            }
+          }
         }
       }
     },

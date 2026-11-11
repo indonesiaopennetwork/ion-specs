@@ -6,6 +6,8 @@
 
 **Policy placement amended:** 2026-10-12
 
+**Protocol ownership amended:** 2026-10-30
+
 **Target:** `releases/release1/`
 
 **Related decision:** `docs/ION_Release_Architecture.md`
@@ -45,8 +47,12 @@ The following decisions are already accepted:
   `schema.ion.id` URLs.
 - JSON-LD semantic IRIs are not blindly rewritten as schema dependencies.
 - Beckn validation dependencies are vendored transitively within each release.
-- There is no merged `ion-full.yaml`. Release 1 includes the vendored
-  `beckn.yaml`; the unreconciled ION-native `ion.yaml` is excluded.
+- Release 1 uses `schema/core/api/v2.0.0/ion-beckn.yaml` as its ION-maintained
+  Beckn Protocol contract. The immutable vendored contract remains temporarily
+  at its existing URL for compatibility, but active references use the core
+  copy.
+- There is no merged `ion-full.yaml`. Release 1 includes the ION-maintained
+  `ion-beckn.yaml`; the unreconciled ION-native `ion.yaml` is excluded.
 - Cross-sector extension packs move from the confusing `core` classification to
   `common` in the release structure.
 - Common repository documentation remains in the root `docs/` directory.
@@ -783,8 +789,9 @@ against the Release 1 schema scope:
   of `tools/policies/generate_registry.rb` and
   `tools/release/generate_error_registry.rb`, respectively, and are checked for
   freshness.
-- The release manifest records `flows` and `errors` as `validated`, and its
-  checksum inventory covers all files under the normative release trees.
+- The release manifest records `flows` and `errors` as `validated`. While the
+  release remains a draft, its checksum inventory covers vendored artifacts;
+  publication records checksums for all files under the normative release trees.
 
 The complete root material remains available for later comparison. Once Release
 1 is published, any newly approved omitted object must be introduced in

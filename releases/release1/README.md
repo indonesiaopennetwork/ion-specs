@@ -14,8 +14,10 @@ stabilization period; it will not automatically make Release 1 `current`.
 
 Migration Phases 3 and 4 moved all nine Trade packs and the four common packs
 required by Trade into this draft, then vendored the Beckn dependencies at
-immutable upstream commits. Active schema references now use Release 1 public
-URLs, and the graph resolves offline.
+immutable upstream commits. The Beckn Protocol contract now has an
+ION-maintained core copy, while the immutable vendored copy remains available
+at its existing URL. Active schema references use Release 1 public URLs, and the
+graph resolves offline.
 
 Phase 5 validated the standalone Trade packs and the four common packs required by
 Trade, including their JSON-LD documents and all 17 example objects. Phase 6
@@ -64,19 +66,37 @@ excluded for callback misuse, missing Contract lifecycle, non-Beckn escalation,
 or Logistics dependencies.
 
 ION endpoints that Beckn does not define live in one file,
-`schema/core/api/v2.0.0/ion-additional.yaml`, which references the vendored
-`schema/vendored/beckn/api/v2.0.0/beckn.yaml` contract. Release 1 adds the settlement reconciliation endpoints
+`schema/core/api/v2.0.0/ion-additional.yaml`, which references the
+ION-maintained `schema/core/api/v2.0.0/ion-beckn.yaml` contract. Release 1 adds the settlement reconciliation endpoints
 (`/reconcile`, `/on_reconcile`) there, with their `IONSettlementReconciliation`
 attribute pack at `schema/common/Settlement/v1`. This does not reintroduce the
 `ion.yaml` aggregate.
 
+Order grievances use the Beckn `/support` and `/on_support` endpoints, with an
+`IONGrievance` event (`schema/common/Grievance/v1`) in
+`Support.supportAttributes`, the optional slot ION added to `Support` in
+`ion-beckn.yaml`.
+
 ## Protocol dependency
 
-Release 1 includes the immutable upstream Beckn Protocol contract used by its schemas:
+Release 1 uses this ION-maintained copy of the Beckn Protocol contract:
 
 ```text
-schema/vendored/beckn/api/v2.0.0/beckn.yaml
+schema/core/api/v2.0.0/ion-beckn.yaml
 ```
+
+It was copied from Beckn's `api/v2.0.0/beckn.yaml` at commit
+`df1ade0c6610d4160968177a706f32df680e4758` and receives ION fixes. The first
+fix corrects `DiscoverAction.matchType.default` from `any` to the declared enum
+value `ANY`; the second corrects the `/catalog/publish` example's offer validity
+values to RFC 3339 date-times. ION also integrated the callback-envelope changes
+proposed in Beckn PR #202: asynchronous callbacks now carry exactly one of
+`message` for success or `error` for failure. ION then added the optional
+`Support.supportAttributes` slot proposed in Beckn PR #204, so `/support` and
+`/on_support` can carry network-defined attributes. The unmodified immutable vendored
+file remains at
+`schema/vendored/beckn/api/v2.0.0/beckn.yaml` during the URL migration, but new
+references use `ion-beckn.yaml`.
 
 Release 1 does not publish `ion.yaml` or a merged `ion-full.yaml`. Its normative
 ION-owned schemas currently present are the API additions under `schema/core/`,
@@ -131,8 +151,9 @@ ruby tools/release/validate_logistics_errors.rb releases/release1
 ```
 
 Or run the complete local gate, which includes those checks, tool tests, release
-scope enforcement, the path map, generated registries, and complete release
-artifact checksums:
+scope enforcement, the path map, generated registries, and vendored artifact
+checksums. Publication expands the checksum inventory to every normative release
+artifact:
 
 ```bash
 ruby tools/release/validate_release.rb releases/release1
