@@ -1,0 +1,309 @@
+{
+  "context": {
+    "domain": "ion:trade",
+    "action": "on_cancel",
+    "version": "2.0.0",
+    "bapId": "buyerapp.ion.id",
+    "bapUri": "https://buyerapp.ion.id/beckn",
+    "bppId": "sellerapp.ion.id",
+    "bppUri": "https://sellerapp.ion.id/beckn",
+    "networkId": "ion.id",
+    "transactionId": "5e7a2c91-3b4d-4f6e-8a1b-2c3d4e5f6a7b",
+    "messageId": "msg-cancel-001",
+    "timestamp": "2026-04-20T10:06:02.000+07:00",
+    "ttl": "PT30S"
+  },
+  "message": {
+    "contract": {
+      "id": "ORD-2026-00020001",
+      "status": {
+        "code": "CANCELLED"
+      },
+      "participants": [
+        {
+          "id": "PROV-NUSANTARA-001",
+          "descriptor": {
+            "name": "Toko Batik & Camilan Nusantara"
+          }
+        }
+      ],
+      "commitments": [
+        {
+          "id": "L01",
+          "status": {
+            "descriptor": {
+              "code": "CLOSED",
+              "name": "Cancelled"
+            }
+          },
+          "offer": {
+            "id": "OFFER-BATIK-PARANG-001",
+            "provider": {
+              "id": "PROV-NUSANTARA-001",
+              "descriptor": {
+                "name": "Toko Batik & Camilan Nusantara"
+              }
+            },
+            "resourceIds": [
+              "RES-BATIK-PARANG-L"
+            ],
+            "offerAttributes": {
+              "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeOffer/v1/context.jsonld",
+              "@type": "ion:IONTradeOffer",
+              "policies": {
+                "cancellation": {
+                  "policyRef": "ion://policy/cancel.partial.refund-packed-threshold",
+                  "fee": {
+                    "type": "PERCENTAGE",
+                    "value": 10
+                  }
+                },
+                "settlement": {
+                  "settlementBasis": "AFTER_DELIVERY",
+                  "settlementWindow": "P1D"
+                }
+              }
+            }
+          },
+          "resources": [
+            {
+              "id": "RES-BATIK-PARANG-L",
+              "quantity": {
+                "unitQuantity": 1,
+                "unitCode": "EA"
+              }
+            }
+          ],
+          "commitmentAttributes": {
+            "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeCommitment/v1/context.jsonld",
+            "@type": "ion:IONTradeCommitment",
+            "lineId": "L01",
+            "resourceId": "RES-BATIK-PARANG-L",
+            "offerId": "OFFER-BATIK-PARANG-001",
+            "quantity": {
+              "unitQuantity": 1,
+              "unitCode": "EA"
+            },
+            "price": {
+              "price": 150000,
+              "priceCurrency": "IDR"
+            }
+          }
+        },
+        {
+          "id": "L02",
+          "status": {
+            "descriptor": {
+              "code": "CLOSED",
+              "name": "Cancelled"
+            }
+          },
+          "offer": {
+            "id": "OFFER-KERIPIK-BALADO-001",
+            "provider": {
+              "id": "PROV-NUSANTARA-001",
+              "descriptor": {
+                "name": "Toko Batik & Camilan Nusantara"
+              }
+            },
+            "resourceIds": [
+              "RES-KERIPIK-BALADO-150G"
+            ],
+            "offerAttributes": {
+              "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeOffer/v1/context.jsonld",
+              "@type": "ion:IONTradeOffer",
+              "policies": {
+                "cancellation": {
+                  "policyRef": "ion://policy/cancel.standard.until-dispatched"
+                },
+                "settlement": {
+                  "settlementBasis": "AFTER_DELIVERY",
+                  "settlementWindow": "P1D"
+                }
+              }
+            }
+          },
+          "resources": [
+            {
+              "id": "RES-KERIPIK-BALADO-150G",
+              "quantity": {
+                "unitQuantity": 2,
+                "unitCode": "EA"
+              }
+            }
+          ],
+          "commitmentAttributes": {
+            "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeCommitment/v1/context.jsonld",
+            "@type": "ion:IONTradeCommitment",
+            "lineId": "L02",
+            "resourceId": "RES-KERIPIK-BALADO-150G",
+            "offerId": "OFFER-KERIPIK-BALADO-001",
+            "quantity": {
+              "unitQuantity": 2,
+              "unitCode": "EA"
+            },
+            "price": {
+              "price": 25000,
+              "priceCurrency": "IDR"
+            }
+          }
+        }
+      ],
+      "consideration": [
+        {
+          "id": "CONSID-ORD-2026-00020001",
+          "status": {
+            "code": "CLOSED"
+          },
+          "considerationAttributes": {
+            "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeConsideration/v1/context.jsonld",
+            "@type": "ion:IONTradeConsideration",
+            "currency": "IDR",
+            "totalAmount": 232000,
+            "breakup": [
+              {
+                "title": "Kemeja Batik Tulis Parang (L)",
+                "commitmentId": "L01",
+                "resourceId": "RES-BATIK-PARANG-L",
+                "amount": 150000,
+                "type": "BASE_PRICE"
+              },
+              {
+                "title": "Keripik Singkong Balado 150 g",
+                "commitmentId": "L02",
+                "resourceId": "RES-KERIPIK-BALADO-150G",
+                "amount": 50000,
+                "type": "BASE_PRICE"
+              },
+              {
+                "title": "Biaya Pengiriman",
+                "amount": 10000,
+                "type": "DELIVERY_CHARGE"
+              },
+              {
+                "title": "PPN 11%",
+                "amount": 22000,
+                "type": "TAX",
+                "taxDetail": {
+                  "rate": 0.11,
+                  "included": false,
+                  "taxableBase": 200000,
+                  "taxRegime": "PPN",
+                  "taxCategory": "BKP"
+                }
+              }
+            ],
+            "buyerFinderFee": {
+              "feeAmount": 6000
+            }
+          }
+        },
+        {
+          "id": "CANCEL-FEE-ORD-2026-00020001-c1",
+          "status": {
+            "code": "ACTIVE"
+          },
+          "considerationAttributes": {
+            "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeConsideration/v1/context.jsonld",
+            "@type": "ion:IONTradeConsideration",
+            "currency": "IDR",
+            "totalAmount": 16650,
+            "breakup": [
+              {
+                "title": "Biaya Pembatalan (10%)",
+                "commitmentId": "L01",
+                "amount": 16650,
+                "type": "CANCELLATION_FEE"
+              }
+            ]
+          }
+        }
+      ],
+      "performance": [
+        {
+          "id": "PERF-2026-00020001",
+          "commitmentIds": [
+            "L01",
+            "L02"
+          ],
+          "status": {
+            "code": "CANCELLED"
+          },
+          "performanceAttributes": {
+            "@context": "https://schema.ion.id/release1/schema/extension/trade/TradePerformance/v1/context.jsonld",
+            "@type": "ion:IONTradePerformance",
+            "performanceMode": "DELIVERY",
+            "supportedPerformanceModes": [
+              "DELIVERY"
+            ]
+          }
+        }
+      ],
+      "settlements": [
+        {
+          "id": "PAY-2026-00020001",
+          "considerationId": "CONSID-ORD-2026-00020001",
+          "status": "COMMITTED",
+          "settlementAttributes": {
+            "@context": "https://schema.ion.id/release1/schema/common/Settlement/v1/context.jsonld",
+            "@type": "ion:IONSettlementReconciliation",
+            "method": "QRIS",
+            "collectedBy": "BAP",
+            "timing": "ON_ORDER",
+            "status": "PAID",
+            "paidAt": "2026-04-20T09:15:02.000+07:00",
+            "gatewayRef": "GW-QRIS-5550001234",
+            "currency": "IDR",
+            "orderAmount": {
+              "value": 232000
+            },
+            "commission": {
+              "value": 0
+            },
+            "withholdingAmount": {
+              "value": 0
+            },
+            "refundAmount": {
+              "value": 215350
+            },
+            "netPayable": {
+              "value": 16650
+            },
+            "settlementAccounts": [
+              {
+                "holderRole": "BAP",
+                "bankCode": "MANDIRI",
+                "accountNumber": "1370098765432",
+                "accountName": "PT Buyer App Indonesia"
+              },
+              {
+                "holderRole": "BPP",
+                "bankCode": "BCA",
+                "accountNumber": "8730012345",
+                "accountName": "PT Seller App Indonesia"
+              }
+            ],
+            "dueDate": "2026-04-21",
+            "breakup": [
+              {
+                "code": "CANCELLATION",
+                "includedIn": "REFUND",
+                "amount": 215350
+              }
+            ]
+          }
+        }
+      ],
+      "contractAttributes": {
+        "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeContract/v1/context.jsonld",
+        "@type": "ion:IONTradeContract",
+        "cancellation": {
+          "reason": {
+            "code": "CHANGE_OF_MIND",
+            "name": "Berubah pikiran"
+          }
+        }
+      }
+    }
+  }
+}

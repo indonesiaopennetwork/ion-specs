@@ -46,7 +46,8 @@ similar files) as authoritative project state. They may be local and stale.
   `schema/`, the content classes are `core/`, `common/`, `extension/`, and
   `vendored/`; do not flatten them back to the release root.
 - Release 1 contains nine Trade packs, four common packs required by Trade, seven
-  Trade v1 reference flows, the During-Transaction v1 variant, 10 Trade errors,
+  Trade v1 reference flows, the During-Transaction v1 and Cancellation v1
+  variants, 10 Trade errors,
   and its pinned Beckn dependency closure. The 67 shared policy terms live under
   root `policies/` outside the release cycle.
 - `releases/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml` is the immutable,

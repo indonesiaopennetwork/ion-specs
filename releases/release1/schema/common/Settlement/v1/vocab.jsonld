@@ -31,7 +31,7 @@
       "@id": "ion:SettlementBasis",
       "@type": "rdfs:Class",
       "rdfs:label": "SettlementBasis",
-      "rdfs:comment": "Contract lifecycle event from which a settlement falls due. ON_CONFIRMATION starts at order confirmation, AFTER_SHIPMENT at hand-over to logistics, AFTER_DELIVERY at confirmed delivery, and AFTER_RETURN_WINDOW when the applicable return window closes."
+      "rdfs:comment": "Contract lifecycle event from which a settlement falls due. ON_CONFIRMATION starts at order confirmation, AFTER_SHIPMENT at hand-over to logistics, AFTER_DELIVERY at confirmed delivery, and AFTER_RETURN_WINDOW when the applicable return window closes. When the contract is cancelled before its basis event occurs, the cancellation takes its place."
     },
     {
       "@id": "ion:SettlementWindow",

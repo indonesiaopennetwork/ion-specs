@@ -1,7 +1,7 @@
 # trade/consideration/v1
 
-Retail monetary consideration with ION tax-detail refinement, and the
-commission an order comes to, on the contract's price consideration.
+Retail monetary consideration with ION tax-detail refinement, the buyer
+finder fee, and the seller's delivery charge.
 
 ## Attaches to
 `beckn:Consideration.considerationAttributes`
@@ -49,11 +49,36 @@ payout; it is not a charge to the buyer and is not part of `breakup` or
 The payout terms (when the seller is paid) are the offer's
 `policies.settlement` ([`IONTradeOffer`](../../TradeOffer/v1/README.md)).
 
+## Delivery fee
+
+`deliveryFee` (`IONDeliveryFee`) on an offer's consideration is the charge the
+buyer pays for the seller's own delivery: `amount` per order, in the
+consideration currency, including any tax (`0` is free delivery).
+
+```json
+"offer": { "considerations": [{ "considerationAttributes": {
+  "totalAmount": 27750, "breakup": [ … ],
+  "deliveryFee": { "amount": 10000 } } }] }
+
+"contract": { "consideration": [{ "considerationAttributes": {
+  "totalAmount": 65500, "breakup": [ …,
+    { "type": "DELIVERY_CHARGE", "title": "Delivery fee", "amount": 10000 } ] } }] }
+```
+
+- One charge per order: when the order's `performanceMode` is `DELIVERY`, the
+  BPP charges the highest `deliveryFee.amount` among the offers ordered, once,
+  as a `DELIVERY_CHARGE` breakup line on the contract's price consideration,
+  included in `totalAmount`. There is no charge for `SELF_PICKUP`.
+- The line stays while any item is still ordered, through partial
+  cancellations and returns, and is refunded once none is.
+- It is not part of the buyer finder fee base.
+
 ## Examples
 
 - [`examples/pizza-order-breakup.json`](examples/pizza-order-breakup.json) — a price breakup with tax.
 - [`examples/offer-buyer-finder-fee.json`](examples/offer-buyer-finder-fee.json) — an offer's price consideration with its buyer finder fee terms (3% of the item value).
 - [`examples/contract-buyer-finder-fee.json`](examples/contract-buyer-finder-fee.json) — a contract's price consideration with the order's total buyer finder fee.
+- [`examples/offer-delivery-fee.json`](examples/offer-delivery-fee.json) — an offer's price consideration with the seller's delivery charge per order.
 
 ## Per-step required fields
 
@@ -76,3 +101,4 @@ errors.
 |---|---|---|
 | v1 | 2026-06-02 | Initial release |
 | v1 | 2026-10-22 | `buyerFinderFee` (`IONBuyerFinderFee`): the fee terms on an offer's consideration and the order's total (`feeAmount`) on the contract's price consideration. Replaces the earlier `commission` here and `IONTradeOffer.policies.commission` |
+| v1 | 2026-10-23 | `deliveryFee` (`IONDeliveryFee`): the seller's delivery charge per order on an offer's consideration, charged on the contract as a `DELIVERY_CHARGE` breakup line |

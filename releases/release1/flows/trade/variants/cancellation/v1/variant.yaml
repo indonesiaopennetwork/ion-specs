@@ -1,0 +1,284 @@
+# ION Trade Variant — Cancellation v1
+# NOT OAS. ION variant specification document.
+
+id: ion-trade-variant-cancellation-v1
+version: "1.0.0"
+variantType: cancellation
+sector: ion:trade
+status: ready
+description: >
+  Cancellation of a confirmed Trade contract after on_confirm and before
+  delivery: the buyer previews and requests a full or partial cancellation
+  with Beckn cancel / on_cancel, the BPP rejects a cancellation its policy
+  does not allow with an AsyncError, and the seller cancels with a proactive
+  on_update. Every outcome is evaluated against the cancellation terms of
+  the offer behind each cancelled commitment: its policies.cancellation fee
+  and allowedReasons, and the policy its policyRef names.
+
+attachmentWindow:
+  earliest: on_confirm
+  latest: before-terminal-state
+
+applicablePatterns:
+  - storefront
+  - made-to-order
+  - live-commerce
+  - digital-goods
+  - business-procurement
+  - marketplace-inhouse
+  - marketplace-listed
+
+subBranches:
+  preview:
+    id: preview
+    window:
+      earliest: on_confirm
+      latest: before-terminal-state
+    description: >
+      Optional. The BAP asks what a cancellation would cost before the buyer
+      commits to it. The BPP answers with the contract as it would be after
+      the cancellation and persists nothing.
+    steps:
+      - step: cancel
+        from: BAP
+        to: BPP
+        direction: request
+        requiredFields:
+          - context.try
+          - message.contract.id
+          - message.contract.contractAttributes.cancellation.reason.code
+        conditionalFields:
+          - field: message.contract.contractAttributes.cancellation.commitmentIds
+            condition: for a partial cancellation
+      - step: on_cancel
+        from: BPP
+        to: BAP
+        direction: callback
+        requiredFields:
+          - context.try
+          - message.contract.consideration[]
+          - message.contract.settlements[].settlementAttributes.refundAmount
+        conditionalFields:
+          - field: error
+            condition: instead of message when the cancellation would be rejected (see rejected)
+    businessRules:
+      - context.try is true on both messages
+      - the BPP computes the outcome exactly as for buyer-full or buyer-partial and changes no state
+      - the BAP shows the cancellation fee and the refund before sending the committing cancel
+    schemaPacks:
+      trade: [TradeContract/v1, TradeConsideration/v1]
+      common: [Settlement/v1]
+
+  buyer-full:
+    id: buyer-full
+    window:
+      earliest: on_confirm
+      latest: before-terminal-state
+    description: The buyer cancels the whole order.
+    steps:
+      - step: cancel
+        from: BAP
+        to: BPP
+        direction: request
+        requiredFields:
+          - message.contract.id
+          - message.contract.contractAttributes.cancellation.reason.code
+      - step: on_cancel
+        from: BPP
+        to: BAP
+        direction: callback
+        requiredFields:
+          - message.contract.status
+          - message.contract.commitments[].status
+          - message.contract.consideration[]
+          - message.contract.performance[].status
+          - message.contract.settlements[].settlementAttributes.commission
+          - message.contract.settlements[].settlementAttributes.refundAmount
+          - message.contract.settlements[].settlementAttributes.netPayable
+          - message.contract.contractAttributes.cancellation.reason
+        conditionalFields:
+          - field: message.contract.consideration[].considerationAttributes.breakup[type=CANCELLATION_FEE]
+            condition: on its own ACTIVE consideration when a cancelled commitment's policy charges a fee
+          - field: message.contract.settlements[].settlementAttributes.breakup[code=CANCELLATION]
+            condition: when the cancellation refunds an amount
+    businessRules:
+      - Contract.status becomes CANCELLED; every commitment is CLOSED (name Cancelled); the performance is CANCELLED
+      - the price consideration is CLOSED and keeps its figures; no ACTIVE price consideration remains
+      - each cancelled commitment's fee is its offer's policies.cancellation.fee - PERCENTAGE (value 10 is 10 percent) of the amount paid for the commitment, with tax, or a FIXED amount - and the policyRef's cancellationFee when the offer states none; the fees are one ACTIVE consideration with a CANCELLATION_FEE line per commitment charged
+      - the delivery charge is refunded; no buyer finder fee is due, so commission is 0
+      - refundAmount = orderAmount - the fees; netPayable = the fees
+      - the cancellation takes the place of the offers' settlementBasis event, so the settlement's dueDate is settlementWindow after the cancellation
+    schemaPacks:
+      trade: [TradeContract/v1, TradeCommitment/v1, TradeConsideration/v1, TradePerformance/v1]
+      common: [Settlement/v1]
+
+  buyer-partial:
+    id: buyer-partial
+    window:
+      earliest: on_confirm
+      latest: before-terminal-state
+    description: >
+      The buyer cancels whole commitments of the order and keeps the rest.
+      Cancelling some units of a commitment is an update, not a cancellation.
+    steps:
+      - step: cancel
+        from: BAP
+        to: BPP
+        direction: request
+        requiredFields:
+          - message.contract.id
+          - message.contract.contractAttributes.cancellation.reason.code
+          - message.contract.contractAttributes.cancellation.commitmentIds
+      - step: on_cancel
+        from: BPP
+        to: BAP
+        direction: callback
+        requiredFields:
+          - message.contract.status
+          - message.contract.commitments[].status
+          - message.contract.consideration[]
+          - message.contract.consideration[].considerationAttributes.buyerFinderFee.feeAmount
+          - message.contract.settlements[].considerationId
+          - message.contract.settlements[].settlementAttributes.commission
+          - message.contract.settlements[].settlementAttributes.refundAmount
+          - message.contract.settlements[].settlementAttributes.netPayable
+          - message.contract.contractAttributes.cancellation.commitmentIds
+    businessRules:
+      - Contract.status stays ACTIVE; the cancelled commitments are CLOSED (name Cancelled); the others stay ACTIVE
+      - the price consideration is CLOSED and a replacement ACTIVE price consideration prices what remains, with the delivery charge, which stays while any item is still ordered
+      - buyerFinderFee.feeAmount on the replacement is recomputed from the offers' terms over what remains, and the settlement's commission equals it
+      - the settlement's considerationId names the replacement price consideration
+      - refundAmount = orderAmount - the replacement's totalAmount - any fees
+      - the performance lists only the commitments still ordered
+      - the settlementBasis is unchanged, since the remaining commitments are still to be fulfilled
+    schemaPacks:
+      trade: [TradeContract/v1, TradeCommitment/v1, TradeConsideration/v1, TradePerformance/v1]
+      common: [Settlement/v1]
+
+  rejected:
+    id: rejected
+    window:
+      earliest: on_confirm
+      latest: before-terminal-state
+    description: >
+      The BPP cannot apply the cancellation and answers with an AsyncError
+      instead of a contract. Nothing changes.
+    steps:
+      - step: on_cancel
+        from: BPP
+        to: BAP
+        direction: callback
+        requiredFields:
+          - error.code
+          - error.message
+    businessRules:
+      - POL_CANCELLATION_NOT_ALLOWED when a cancelled commitment's policy forbids it or its window (cancellationWindowCloses) has passed
+      - BIZ_INVALID_CANCELLATION_REASON when the reason is not in the offer's allowedReasons or the policy's cancellationReasonsAllowed
+      - BIZ_ALREADY_CANCELLED when the contract, or a named commitment, is already cancelled
+      - a commitment already delivered is returned, not cancelled
+      - the error ends the callback sequence for the cancel's messageId; a retry is a new cancel with a new messageId
+    schemaPacks:
+      trade: [TradeContract/v1]
+
+  seller-initiated:
+    id: seller-initiated
+    window:
+      earliest: on_confirm
+      latest: before-terminal-state
+    description: >
+      The seller cancels the order, or some commitments, for example when it
+      cannot supply them, and tells the BAP with a proactive on_update. It
+      does not fabricate a BAP cancel.
+    steps:
+      - step: on_update
+        from: BPP
+        to: BAP
+        direction: callback
+        requiredFields:
+          - message.contract.status
+          - message.contract.commitments[].status
+          - message.contract.consideration[]
+          - message.contract.settlements[].settlementAttributes.refundAmount
+          - message.contract.contractAttributes.cancellation.reason
+        conditionalFields:
+          - field: message.contract.contractAttributes.cancellation.commitmentIds
+            condition: when only some commitments are cancelled
+          - field: message.contract.settlements[].settlementAttributes.dueDate
+            condition: when the whole contract is cancelled
+    businessRules:
+      - the contract changes as in buyer-full or buyer-partial, but no buyer cancellation fee is charged
+      - reason.code is one of sellerReasonCodes
+      - the buyer is refunded everything cancelled, including the delivery charge on a full cancellation
+      - a seller cancellation whose reason has validCause false is penalised under the policy's sellerPenaltyOnCancelWithoutCause, applied at reconciliation (appliedVia reconcile.slaPenaltyDeduction), not in on_update
+    schemaPacks:
+      trade: [TradeContract/v1, TradeCommitment/v1, TradeConsideration/v1, TradePerformance/v1]
+      common: [Settlement/v1]
+
+settlementRules:
+  - The cancellation updates the order's one payment settlement (IONSettlementReconciliation) while it is not yet paid out; refundAmount carries the refund and SEAM has the PJP pay it from the funds it holds.
+  - When the payment settlement has already been paid out (agreed and released), the refund is a correction settlement - its own Settlement.id, relatedSettlementId naming the payment settlement, adjustmentType REFUND - and what the BPP owes back is its recoveryAmount. The paid-out settlement is not sent or paid again.
+
+sellerReasonCodes:
+  description: >
+    Codes for contractAttributes.cancellation.reason.code when the seller
+    cancels. validCause false means the cancellation is the seller's fault
+    and the cancellation policy's sellerPenaltyOnCancelWithoutCause applies.
+  codes:
+    - code: ITEM_OUT_OF_STOCK
+      name: The item is out of stock
+      validCause: false
+    - code: ITEM_DAMAGED_BEFORE_DISPATCH
+      name: The item was damaged before dispatch
+      validCause: false
+    - code: PRICING_ERROR
+      name: The item was listed at a wrong price
+      validCause: false
+    - code: UNABLE_TO_FULFIL
+      name: The seller cannot prepare or dispatch the order in time
+      validCause: false
+    - code: UNDELIVERABLE_ADDRESS
+      name: The delivery address cannot be served
+      validCause: true
+    - code: BUYER_UNREACHABLE
+      name: The buyer cannot be reached to complete the order
+      validCause: true
+    - code: BUYER_FRAUD_SUSPECTED
+      name: The order is suspected to be fraudulent
+      validCause: true
+    - code: FORCE_MAJEURE
+      name: Events beyond the seller's control
+      validCause: true
+
+excludedSubBranches:
+  partial-quantity:
+    reason: >
+      Cancelling some units of one commitment changes the commitment's
+      quantity, which is an update of the contract rather than a
+      cancellation. It belongs to a later Trade update variant.
+  technical-cancellation-confirm-failure:
+    reason: >
+      A rejected or timed-out confirm does not establish a contract that can
+      be cancelled (see the During-Transaction variant's exclusions).
+  forced-cancellation:
+    reason: >
+      IONTradeContract.cancellation carries forced, lastProviderInteractionAt
+      and expectedStatusBy for a cancellation forced by a missed provider SLA.
+      ion://policy/penalty.seller-late-dispatch.standard already auto-cancels
+      and refunds an order dispatched 72 hours late, but no Trade policy
+      states the dispatch deadline that lateness is measured from. It stays
+      deferred until one is registered.
+
+examples:
+  preview:
+    - examples/cancel_preview_request.json
+    - examples/on_cancel_preview_response.json
+  buyer-full:
+    - examples/cancel_request.json
+    - examples/on_cancel_response.json
+  buyer-partial:
+    - examples/cancel_partial_request.json
+    - examples/on_cancel_partial_response.json
+  rejected:
+    - examples/on_cancel_rejected_response.json
+  seller-initiated:
+    - examples/on_update_seller_cancellation.json
