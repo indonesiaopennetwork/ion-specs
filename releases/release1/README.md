@@ -63,7 +63,9 @@ boundary.
 Phase 8F began variant migration with the During-Transaction v1 family. Six
 sub-branches were included using existing Release 1 objects; four branches were
 excluded for callback misuse, missing Contract lifecycle, non-Beckn escalation,
-or Logistics dependencies.
+or Logistics dependencies. The Cancellation v1 variant followed: preview, buyer
+full and partial cancellation, policy rejection, and seller-initiated
+cancellation of a confirmed contract.
 
 ION endpoints that Beckn does not define live in one file,
 `schema/core/api/v2.0.0/ion-additional.yaml`, which references the

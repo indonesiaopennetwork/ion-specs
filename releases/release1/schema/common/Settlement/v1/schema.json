@@ -296,7 +296,7 @@
         "dueDate": {
           "type": "string",
           "format": "date",
-          "description": "Date by which the payout is due: settlementWindow after the settlementBasis event of the commitments' offers' policies.settlement, the latest such date when the offers differ. Either participant may state it; required when accord is true.\n"
+          "description": "Date by which the payout is due: settlementWindow after the settlementBasis event of the commitments' offers' policies.settlement, the latest such date when the offers differ. When the contract is cancelled before that event, the cancellation is the event. Either participant may state it; required when accord is true.\n"
         },
         "dispute": {
           "$ref": "#/$defs/Dispute"
@@ -559,7 +559,7 @@
     },
     "SettlementBasis": {
       "title": "SettlementBasis",
-      "description": "Contract lifecycle event from which a settlement falls due. Used by IONTradeOffer.policies.settlement.settlementBasis. ON_CONFIRMATION starts at order confirmation, AFTER_SHIPMENT at hand-over to logistics, AFTER_DELIVERY at confirmed delivery, and AFTER_RETURN_WINDOW when the applicable return window closes.\n",
+      "description": "Contract lifecycle event from which a settlement falls due. Used by IONTradeOffer.policies.settlement.settlementBasis. ON_CONFIRMATION starts at order confirmation, AFTER_SHIPMENT at hand-over to logistics, AFTER_DELIVERY at confirmed delivery, and AFTER_RETURN_WINDOW when the applicable return window closes. When the contract is cancelled before its basis event occurs, the cancellation takes its place: the settlement falls due settlementWindow after the cancellation.\n",
       "type": "string",
       "enum": [
         "ON_CONFIRMATION",

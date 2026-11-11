@@ -70,7 +70,7 @@ the Council publishes it into the `next` channel on `main`.
   immutable upstream protocol and schema dependencies.
 - [`releases/release1/flows/trade/`](releases/release1/flows/trade/) — the
   seven validated Trade v1 reference flows and the reviewed During-Transaction
-  v1 variant.
+  v1 and Cancellation v1 variants.
 - [`releases/release1/flows/logistics/`](releases/release1/flows/logistics/) —
   six Logistics v1 patterns, nine included or scoped variants, and their shared
   state-machine registry; six additional variants are explicitly deferred.

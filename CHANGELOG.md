@@ -58,6 +58,41 @@ grievance design package:
   policies, which need Council approval; no `raise` / `on_raise` API, formal
   disputes go to the ION SATU portal.
 
+### Trade cancellation flow (2 November 2026)
+
+New variant `flows/trade/variants/cancellation/v1`, applicable to every
+included Trade pattern, for cancelling a confirmed contract before delivery:
+
+- `preview` (optional): `cancel` / `on_cancel` with `context.try: true`; the
+  BPP returns the fee and refund the cancellation would give and changes
+  nothing.
+- `buyer-full` and `buyer-partial`: `cancel` / `on_cancel`, with
+  `contractAttributes.cancellation.reason` and, for a partial cancellation,
+  `commitmentIds`. Cancelled commitments become `CLOSED`; the price
+  consideration is closed and, when items remain, replaced by one pricing them
+  with the delivery charge and a recomputed `buyerFinderFee.feeAmount`; the
+  offer's `policies.cancellation.fee` (of the amount paid, with tax; the
+  policy's `cancellationFee` when the offer states none) is its own
+  consideration with a `CANCELLATION_FEE` line; the payment settlement's
+  `commission`, `refundAmount` and `netPayable` are updated. After payout the
+  refund is a correction settlement (`adjustmentType` `REFUND`).
+- `rejected`: `on_cancel` with an `AsyncError`
+  (`POL_CANCELLATION_NOT_ALLOWED`, `BIZ_INVALID_CANCELLATION_REASON`,
+  `BIZ_ALREADY_CANCELLED`) when the offer's cancellation policy does not allow
+  it.
+- `seller-initiated`: a proactive `on_update`, with no buyer fee and one of
+  eight seller reason codes; a penalty for a code without valid cause is
+  applied at reconciliation.
+
+Eight example messages cover the sub-branches. Cancelling some units of a
+commitment (an update), technical cancellation after a failed confirm, and
+forced cancellation are excluded.
+
+`common/Settlement/v1`: `SettlementBasis` and `dueDate` now state that when a
+contract is cancelled before its basis event, the cancellation takes its
+place, so the payout falls due `settlementWindow` after the cancellation.
+Description only; no change to the schema's shape.
+
 ### Buyer business registration optional for consumers (29 October 2026)
 
 A consumer buyer no longer has to send business registration numbers to place
