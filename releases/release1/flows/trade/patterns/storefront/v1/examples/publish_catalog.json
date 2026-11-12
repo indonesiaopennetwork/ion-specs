@@ -108,20 +108,19 @@
             "descriptor": {
               "name": "Panadol 500mg Strip 4 Tablet",
               "shortDesc": "Analgesik dan antipiretik OTC. Untuk dewasa dan anak >12 tahun.",
-              "longDesc": "Panadol 500mg mengandung paracetamol 500mg per tablet. Digunakan untuk meredakan demam, sakit kepala, dan nyeri ringan hingga sedang. Tersedia dalam strip 4 tablet. Tidak memerlukan resep dokter."
+              "longDesc": "Panadol 500mg mengandung paracetamol 500mg per tablet. Digunakan untuk meredakan demam, sakit kepala, dan nyeri ringan hingga sedang. Tersedia dalam strip 4 tablet. Tidak memerlukan resep dokter.",
+              "mediaFile": [
+                {
+                  "mimeType": "image/jpeg",
+                  "uri": "https://cdn.apotek-sehat.id/panadol-500mg.jpg"
+                }
+              ]
             },
             "resourceAttributes": {
               "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeResource/v1/context.jsonld",
               "@type": "ion:IONTradeResource",
               "crc": "TRC-health-beauty",
-              "resourceStructure": "PLAIN",
-              "resourceTangibility": "PHYSICAL",
-              "logisticsServiceType": "DOMESTIC_SURFACE",
               "ageRestricted": false,
-              "countryOfOrigin": "IDN",
-              "images": [
-                "https://cdn.apotek-sehat.id/panadol-500mg.jpg"
-              ],
               "availability": {
                 "status": "IN_STOCK",
                 "maxOrderQty": 10,
@@ -129,19 +128,19 @@
               },
               "identity": {
                 "brand": "GSK",
+                "originCountry": "IDN",
                 "sku": "PANADOL-500MG-STRIP4"
               },
-              "packaged": {
+              "packagedGoodsDeclaration": {
                 "netQuantity": {
-                  "value": 4,
-                  "unit": "PIECE"
+                  "unitQuantity": 4,
+                  "unitCode": "PIECE"
                 },
                 "manufacturerOrPacker": {
                   "type": "MANUFACTURER",
                   "name": "PT Sterling Products Indonesia",
                   "address": "Jl. Raya Bogor Km 38, Depok"
                 },
-                "expiryDate": "2027-12-31",
                 "commonOrGenericName": "Paracetamol 500mg"
               },
               "regulatory": {
