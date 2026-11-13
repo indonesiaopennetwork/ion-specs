@@ -1,20 +1,23 @@
-# ion-core/address/v1
+# ION Address v1
 
-Indonesian address subdivisions (provinsi / kabupaten / kecamatan / kelurahan / RT / RW). Reusable shape embedded inside other ION Attributes bags — does NOT attach to Beckn's `Address` object directly.
+ION-maintained postal Address with an `addressAttributes` extension point. The
+`IONAddress` type supplies Indonesian subdivisions and delivery-premises details.
 
 ## Attaches to
 
-Used as a standalone object embedded within `Participant` (billing/delivery address), `Provider` (outlet locations), and `Performance` (delivery destination). Not an `*Attributes` extension pack — no `@context`/`@type` wrapper required.
+`IONAddress` attaches to `Address.addressAttributes` and therefore carries the
+usual `@context` and `@type` fields.
 
-## Why not attach to `beckn:Address`?
+## Why ION maintains Address
 
-Beckn 2.0.0's `Address` schema is `additionalProperties: false` — it has no extension slot. The Beckn fields (streetAddress, addressLocality, postalCode, addressRegion, addressCountry, extendedAddress) cover international postal-address needs and are used as-is.
+The upstream Beckn Address is closed and has no extension slot. ION maintains a
+compatible Address that retains its standard fields and adds only
+`addressAttributes`.
 
 ## Where this shape is embedded
 
-- `Participant.participantAttributes.addressDetail` — via `core/participant/v1` (primary use). Every ION participant with a physical location (buyer, seller, merchant, warehouse, consignor, consignee, agent) carries this.
-- `Provider.providerAttributes.availableAt[*].ionSubdivisions` — via sector provider packs, for physical presence locations of a provider.
-- `Performance.performanceAttributes.stops[*].location.ionSubdivisions` — via sector performance packs, for pickup/drop stops in delivery flows.
+- `Location.address.addressAttributes`
+- Any direct use of the ION-maintained `Address`
 
 ## Fields
 | Field | Type | Mandatory | Description |
@@ -25,6 +28,8 @@ Beckn 2.0.0's `Address` schema is `additionalProperties: false` — it has no ex
 | kecamatan | string | conditional | District/sub-city. Required for delivery addresses. |
 | rt | string | optional | Rukun Tetangga — neighborhood group |
 | rw | string | optional | Rukun Warga — association of RTs |
+| addressType | enum | optional | Nature of the destination premises |
+| landmark | string | optional | Nearby landmark used to locate the address |
 
 ## Why RT/RW
 RT and RW are critical for last-mile delivery in Indonesia. Riders use RT/RW to locate specific houses in dense residential kampung areas where street names alone are insufficient.

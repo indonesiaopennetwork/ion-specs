@@ -159,7 +159,7 @@ phases:
           - message.contract.performance[].performanceAttributes.stops[].location.address
           - message.contract.performance[].performanceAttributes.stops[].location.geo
           - message.contract.performance[].performanceAttributes.stops[].location.address.postalCode
-          - message.contract.performance[].performanceAttributes.stops[].location.ionAddressAttributes.provinsiCode
+          - message.contract.performance[].performanceAttributes.stops[].location.address.addressAttributes.provinsiCode
           - message.contract.settlements[].settlementAttributes.method
           - message.contract.settlements[].settlementAttributes.paymentRail
           - message.contract.settlements[].settlementAttributes.collectedBy

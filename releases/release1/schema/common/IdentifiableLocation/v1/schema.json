@@ -25,12 +25,12 @@
           "description": "Identifier unique within the enclosing object or transaction scope."
         },
         "geo": {
-          "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/Location/2.0/attributes.yaml#/components/schemas/Location/properties/geo",
-          "description": "Authoritative geometry, using the Beckn Location property definition."
+          "$ref": "https://schema.ion.id/release1/schema/common/Location/v1/attributes.yaml#/components/schemas/Location/properties/geo",
+          "description": "Authoritative geometry, using the common Location property definition."
         },
         "address": {
-          "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/Location/2.0/attributes.yaml#/components/schemas/Location/properties/address",
-          "description": "Optional postal address, using the Beckn Location property definition."
+          "$ref": "https://schema.ion.id/release1/schema/common/Location/v1/attributes.yaml#/components/schemas/Location/properties/address",
+          "description": "Optional extensible postal address, using the common Location property definition."
         }
       }
     }

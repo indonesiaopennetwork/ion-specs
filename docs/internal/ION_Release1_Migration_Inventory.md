@@ -724,9 +724,11 @@ present under `schema/extension/logistics/`; Phase 6 moved the registry to
 `flows/logistics/state-machines/v1/` after confirming that it is operational
 flow metadata rather than a message-validation schema. It retains its formal
 grammar and dedicated graph, schema-pointer, and flow-reference validator.
-The reusable common `IdentifiableLocation` v1 wrapper was added because the
-pinned Beckn Location 2.0 has no identifier and cannot be extended through
-`allOf`.
+The reusable common `Location` v1 schema provides an ION-maintained Location
+whose Address supports `addressAttributes`; the pinned upstream Address is
+closed and cannot be extended through `allOf`. The common
+`IdentifiableLocation` v1 wrapper composes that Location shape and adds a stable
+identifier because pinned Beckn Location 2.0 has none.
 
 Phase 5 subsequently reviewed all 59 policy IRI strings used by the pinned
 legacy Logistics flows. Twenty-two baseline terms were normalized into the root

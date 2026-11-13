@@ -60,7 +60,7 @@ components:
         externalCode: {type: string}
         codeScheme: {type: string, enum: [UN_LOCODE, IATA, PROVIDER, NETWORK, OTHER]}
         location:
-          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Location/2.0/attributes.yaml#/components/schemas/Location
+          $ref: https://schema.ion.id/release1/schema/common/Location/v1/attributes.yaml#/components/schemas/Location
         scheduledWindow:
           $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/TimePeriod/2.0/attributes.yaml#/components/schemas/TimePeriod
         estimatedArrival: {type: string, format: date-time}

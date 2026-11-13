@@ -279,9 +279,8 @@ components:
           type: array
           description: >
             Ordered list of stops for this performance leg. Each stop carries a
-            location and a role (START, END, INTERMEDIATE). The location reuses
-            Beckn GeoJSONGeometry and Address and adds IONAddress for Indonesian
-            administrative subdivisions.
+            location and a role (START, END, INTERMEDIATE). The location uses the
+            common ION Location so its Address can carry Indonesian addressAttributes.
           items:
             type: object
             additionalProperties: false
@@ -299,20 +298,7 @@ components:
                   START — pickup/origin point. END — delivery/destination point.
                   INTERMEDIATE — waypoint (e.g. multi-stop deliveries, hub transfers).
               location:
-                type: object
-                additionalProperties: false
-                description: >
-                  ION-aware location. The geo and address properties have the
-                  same shapes as Beckn Location; ionAddressAttributes carries
-                  Indonesian administrative subdivisions that cannot be added
-                  directly to the closed Beckn Address object.
-                properties:
-                  geo:
-                    $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/GeoJSONGeometry/2.0/attributes.yaml#/components/schemas/GeoJSONGeometry
-                  address:
-                    $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Address/2.0/attributes.yaml#/components/schemas/Address
-                  ionAddressAttributes:
-                    $ref: 'https://schema.ion.id/release1/schema/common/Address/v1/attributes.yaml#/components/schemas/IONAddress'
+                $ref: https://schema.ion.id/release1/schema/common/Location/v1/attributes.yaml#/components/schemas/Location
               instructions:
                 type: string
                 description: Delivery or pickup instructions for this stop
