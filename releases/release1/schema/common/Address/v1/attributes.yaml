@@ -17,19 +17,6 @@ info:
     url: https://schema.ion.id
 components:
   schemas:
-    Address:
-      type: object
-      title: Address
-      description: >
-        Network-agnostic generic layer for Address. Inherits from Beckn core Attributes.
-        Downstream ION-specific layer (IONAddress) extends this schema via allOf.
-        This layer carries only fields that are meaningful across any Beckn network — 
-        no Indonesia-specific regulatory or compliance fields.
-      x-ion-layer: generic
-      x-ion-split-version: "0.7.0"
-      x-recommended-parent: Location (via Performance/Participant)
-      additionalProperties: true
-        # - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Attributes/2.0/attributes.yaml#/components/schemas/Attributes
     IONAddress:
       type: object
       x-ion-layer: ion

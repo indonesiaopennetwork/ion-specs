@@ -1,0 +1,44 @@
+openapi: 3.1.1
+info:
+  title: Provider
+  version: 2.1.0
+  description: "Container schemas fetched from beckn.yaml. This cannot be extended as it is a reserved schema in beckn protocol. Any additional properties added to this schema can only be made using its *Attributes property"
+  license:
+    name: CC-BY-NC-SA 4.0 International
+  contact:
+    name: Beckn Labs
+    url: https://beckn.io
+components:
+  schemas:
+    Provider:
+      x-iri: https://schema.beckn.io/Provider/v2.1
+      type: object
+      description: "A registered entity on the Beckn network that makes resources and offers available through one or more catalogs, operating from one or more physical or virtual locations.\n\nProviders appear in the discovery phase of the value-exchange lifecycle as part of a Catalog, and persist through the negotiation phase as the counterparty identified in Offers. The PN produces provider records; the CN consumes them to identify and display the source of the resources and offers being considered.\n\nRelationship: Composed within the Catalog and Offer schemas. The availableAt field composes one or more Location schemas representing the provider's physical operating sites. The providerAttributes field extends the core schema with domain-specific attributes via the Attributes schema."
+      title: Provider
+      properties:
+        id:
+          description: Unique identifier for the provider
+          type: string
+          example: tech-store-001
+        descriptor:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Descriptor/2.1/attributes.yaml#/components/schemas/Descriptor
+        url:
+          description: The Beckn API URL of the provider. It MUST carry a fully
+            qualified domain name (FQDN) of its host application — i.e. the Provider
+            Node. The domain name MUST be the one that the Provider Node's namespace
+            was verified against. If the domain name does not match the namespace-linked
+            domain name, the provider is assumed to be untrusted and MAY be rejected by
+            the consumer node or cataloging service.
+          type: string
+          format: uri
+        availableAt:
+          description: Physical locations where the provider operates
+          type: array
+          items:
+            $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Location/2.0/attributes.yaml#/components/schemas/Location
+        providerAttributes:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Attributes/2.0/attributes.yaml#/components/schemas/Attributes
+      required:
+      - id
+      - descriptor
+      additionalProperties: false
