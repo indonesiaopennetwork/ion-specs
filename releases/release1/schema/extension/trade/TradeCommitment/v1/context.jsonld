@@ -13,8 +13,15 @@
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "owl": "http://www.w3.org/2002/07/owl#",
     "Commitment": "beckn:Commitment",
-    "RetailCommitment": "rccma:RetailCommitment",
     "IONTradeCommitment": "ion:IONTradeCommitment",
+    "price": "rccma:price",
+    "originalPrice": "rccma:originalPrice",
+    "addOnIds": "rccma:addOnIds",
+    "selectedCustomizations": "rccma:selectedCustomizations",
+    "groupId": "rccma:customizationGroupId",
+    "optionId": "rccma:customizationOptionId",
+    "label": "rccma:customizationLabel",
+    "specialInstructions": "rccma:specialInstructions",
     "replacementPreferred": "ion:replacementPreferred"
   }
 }

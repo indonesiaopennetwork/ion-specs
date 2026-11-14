@@ -14,7 +14,7 @@
   },
   "context": {
     "domain": "ion:trade",
-    "action": "catalog_publish",
+    "action": "catalog/publish",
     "version": "2.0.0",
     "bapId": "buyerapp.ion.id",
     "bapUri": "https://buyerapp.ion.id/beckn",
@@ -40,187 +40,195 @@
     ]
   },
   "message": {
-    "catalog": {
-      "provider": {
-        "id": "PROV-APOTEK-SEHAT-001",
+    "catalogs": [
+      {
+        "id": "CAT-APOTEK-SEHAT-001",
+        "bppId": "sellerapp.ion.id",
+        "bppUri": "https://sellerapp.ion.id/beckn",
         "descriptor": {
-          "name": "Apotek Sehat Mandiri"
+          "name": "Apotek Sehat Mandiri Product Catalog"
         },
-        "providerAttributes": {
-          "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeProvider/v1/context.jsonld",
-          "@type": "ion:IONTradeProvider",
-          "operationalStatus": {
-            "status": "OPEN"
-          },
-          "operatingHours": [
-            {
-              "type": "ORDER",
-              "dayFrom": 1,
-              "dayTo": 6,
-              "startTime": "08:00:00+07:00",
-              "endTime": "21:00:00+07:00"
-            },
-            {
-              "type": "ORDER",
-              "dayFrom": 7,
-              "dayTo": 7,
-              "startTime": "09:00:00+07:00",
-              "endTime": "18:00:00+07:00"
-            }
-          ],
-          "providerCategories": [
-            "FMCG"
-          ],
-          "businessRegistration": {
-            "nib": "1234567890123"
-          },
-          "invoicing": {
-            "model": "CENTRAL",
-            "entityId": "PROV-APOTEK-SEHAT-001"
-          },
-          "verification": {
-            "status": "APPROVED",
-            "level": "STANDARD"
-          }
-        },
-        "availableAt": [
-          {
-            "id": "LOC-KEMANG-001",
-            "gps": "-6.2604,106.8111"
-          }
-        ]
-      },
-      "resources": [
-        {
-          "id": "RES-PANADOL-500MG-STRIP",
+        "provider": {
+          "id": "PROV-APOTEK-SEHAT-001",
           "descriptor": {
-            "name": "Panadol 500mg Strip 4 Tablet",
-            "shortDesc": "Analgesik dan antipiretik OTC. Untuk dewasa dan anak >12 tahun.",
-            "longDesc": "Panadol 500mg mengandung paracetamol 500mg per tablet. Digunakan untuk meredakan demam, sakit kepala, dan nyeri ringan hingga sedang. Tersedia dalam strip 4 tablet. Tidak memerlukan resep dokter."
+            "name": "Apotek Sehat Mandiri"
           },
-          "resourceAttributes": {
-            "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeResource/v1/context.jsonld",
-            "@type": "ion:IONTradeResource",
-            "crc": "TRC-health-beauty",
-            "resourceStructure": "PLAIN",
-            "resourceTangibility": "PHYSICAL",
-            "logisticsServiceType": "DOMESTIC_SURFACE",
-            "ageRestricted": false,
-            "countryOfOrigin": "IDN",
-            "images": [
-              "https://cdn.apotek-sehat.id/panadol-500mg.jpg"
-            ],
-            "availability": {
-              "status": "IN_STOCK",
-              "maxOrderQty": 10,
-              "backorderAllowed": false
+          "providerAttributes": {
+            "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeProvider/v1/context.jsonld",
+            "@type": "ion:IONTradeProvider",
+            "operationalStatus": {
+              "status": "OPEN"
             },
-            "identity": {
-              "brand": "GSK",
-              "sku": "PANADOL-500MG-STRIP4"
-            },
-            "packaged": {
-              "netQuantity": {
-                "value": 4,
-                "unit": "PIECE"
+            "operatingHours": [
+              {
+                "type": "ORDER",
+                "dayFrom": 1,
+                "dayTo": 6,
+                "startTime": "08:00:00+07:00",
+                "endTime": "21:00:00+07:00"
               },
-              "manufacturerOrPacker": {
-                "type": "MANUFACTURER",
-                "name": "PT Sterling Products Indonesia",
-                "address": "Jl. Raya Bogor Km 38, Depok"
-              },
-              "expiryDate": "2027-12-31",
-              "commonOrGenericName": "Paracetamol 500mg"
-            },
-            "regulatory": {
-              "registrations": [
-                {
-                  "scheme": "KEMENKES",
-                  "id": "DTL8707002337A1",
-                  "role": "MANUFACTURER",
-                  "validUntil": "2028-01-01"
-                }
-              ]
-            }
-          }
-        }
-      ],
-      "offers": [
-        {
-          "id": "OFFER-PANADOL-001",
-          "resourceIds": [
-            "RES-PANADOL-500MG-STRIP"
-          ],
-          "price": {
-            "value": 8500,
-            "currency": "IDR"
-          },
-          "offerAttributes": {
-            "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeOffer/v1/context.jsonld",
-            "@type": "ion:IONTradeOffer",
-            "policies": {
-              "returns": {
-                "allowed": false,
-                "policyRef": "ion://policy/return.standard.7d-sellerpays"
-              },
-              "cancellation": {
-                "policyRef": "ion://policy/cancel.prepacked.free"
-              },
-              "warranty": {
-                "policyRef": "ion://policy/warranty.standard.none"
-              },
-              "dispute": {
-                "policyRef": "ion://policy/dispute.consumer.bpsk"
-              },
-              "grievanceSla": {
-                "policyRef": "ion://policy/grievance-sla.consumer.standard"
-              },
-              "paymentTerms": {
-                "policyRef": "ion://policy/payment-terms.upfront.full"
-              },
-              "settlement": {
-                "settlementBasis": "AFTER_DELIVERY",
-                "settlementWindow": "P1D"
+              {
+                "type": "ORDER",
+                "dayFrom": 7,
+                "dayTo": 7,
+                "startTime": "09:00:00+07:00",
+                "endTime": "18:00:00+07:00"
               }
+            ],
+            "providerCategories": [
+              "FMCG"
+            ],
+            "businessRegistration": {
+              "nib": "1234567890123"
             },
-            "timeToShip": "PT2H",
-            "paymentConstraints": {
-              "codAvailable": true
+            "invoicing": {
+              "model": "CENTRAL",
+              "entityId": "PROV-APOTEK-SEHAT-001"
             },
-            "contactDetailsConsumerCare": {
-              "name": "Customer Service",
-              "email": "cs@apotek-sehat.id",
-              "phone": "+6221-5555-1234"
-            },
-            "displayLanguage": [
-              "id"
-            ]
+            "verification": {
+              "status": "APPROVED",
+              "level": "STANDARD"
+            }
           },
-          "considerations": [
+          "availableAt": [
             {
-              "id": "CONSID-OFFER-PANADOL-001",
-              "considerationAttributes": {
-                "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeConsideration/v1/context.jsonld",
-                "@type": "ion:IONTradeConsideration",
-                "currency": "IDR",
-                "totalAmount": 8500,
-                "breakup": [
-                  {
-                    "title": "Harga",
-                    "amount": 8500,
-                    "type": "BASE_PRICE"
-                  }
-                ],
-                "buyerFinderFee": {
-                  "feeType": "PERCENT",
-                  "feeValue": 3,
-                  "appliesTo": "ITEM_TOTAL"
-                }
+              "geo": {
+                "type": "Point",
+                "coordinates": [
+                  106.8111,
+                  -6.2604
+                ]
               }
             }
           ]
-        }
-      ]
-    }
+        },
+        "resources": [
+          {
+            "id": "RES-PANADOL-500MG-STRIP",
+            "descriptor": {
+              "name": "Panadol 500mg Strip 4 Tablet",
+              "shortDesc": "Analgesik dan antipiretik OTC. Untuk dewasa dan anak >12 tahun.",
+              "longDesc": "Panadol 500mg mengandung paracetamol 500mg per tablet. Digunakan untuk meredakan demam, sakit kepala, dan nyeri ringan hingga sedang. Tersedia dalam strip 4 tablet. Tidak memerlukan resep dokter.",
+              "mediaFile": [
+                {
+                  "mimeType": "image/jpeg",
+                  "uri": "https://cdn.apotek-sehat.id/panadol-500mg.jpg"
+                }
+              ]
+            },
+            "resourceAttributes": {
+              "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeResource/v1/context.jsonld",
+              "@type": "ion:IONTradeResource",
+              "crc": "TRC-health-beauty",
+              "ageRestricted": false,
+              "availability": {
+                "status": "IN_STOCK",
+                "maxOrderQty": 10,
+                "backorderAllowed": false
+              },
+              "identity": {
+                "brand": "GSK",
+                "originCountry": "IDN",
+                "sku": "PANADOL-500MG-STRIP4"
+              },
+              "packagedGoodsDeclaration": {
+                "netQuantity": {
+                  "unitQuantity": 4,
+                  "unitCode": "PIECE"
+                },
+                "manufacturerOrPacker": {
+                  "type": "MANUFACTURER",
+                  "name": "PT Sterling Products Indonesia",
+                  "address": "Jl. Raya Bogor Km 38, Depok"
+                },
+                "commonOrGenericName": "Paracetamol 500mg"
+              },
+              "regulatory": {
+                "registrations": [
+                  {
+                    "scheme": "KEMENKES",
+                    "id": "DTL8707002337A1",
+                    "role": "MANUFACTURER",
+                    "validUntil": "2028-01-01"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "offers": [
+          {
+            "id": "OFFER-PANADOL-001",
+            "resourceIds": [
+              "RES-PANADOL-500MG-STRIP"
+            ],
+            "offerAttributes": {
+              "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeOffer/v1/context.jsonld",
+              "@type": "ion:IONTradeOffer",
+              "policies": {
+                "returns": {
+                  "allowed": false,
+                  "policyRef": "ion://policy/return.standard.7d-sellerpays"
+                },
+                "cancellation": {
+                  "policyRef": "ion://policy/cancel.prepacked.free"
+                },
+                "warranty": {
+                  "policyRef": "ion://policy/warranty.standard.none"
+                },
+                "dispute": {
+                  "policyRef": "ion://policy/dispute.consumer.bpsk"
+                },
+                "grievanceSla": {
+                  "policyRef": "ion://policy/grievance-sla.consumer.standard"
+                },
+                "paymentTerms": {
+                  "policyRef": "ion://policy/payment-terms.upfront.full"
+                },
+                "settlement": {
+                  "settlementBasis": "AFTER_DELIVERY",
+                  "settlementWindow": "P1D"
+                }
+              },
+              "timeToShip": "PT2H",
+              "paymentConstraints": {
+                "codAvailable": true
+              },
+              "contactDetailsConsumerCare": {
+                "name": "Customer Service",
+                "email": "cs@apotek-sehat.id",
+                "phone": "+6221-5555-1234"
+              },
+              "displayLanguage": [
+                "id"
+              ]
+            },
+            "considerations": [
+              {
+                "id": "CONSID-OFFER-PANADOL-001",
+                "considerationAttributes": {
+                  "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeConsideration/v1/context.jsonld",
+                  "@type": "ion:IONTradeConsideration",
+                  "currency": "IDR",
+                  "totalAmount": 8500,
+                  "breakup": [
+                    {
+                      "title": "Harga",
+                      "amount": 8500,
+                      "type": "BASE_PRICE"
+                    }
+                  ],
+                  "buyerFinderFee": {
+                    "feeType": "PERCENT",
+                    "feeValue": 3,
+                    "appliesTo": "ITEM_TOTAL"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 }

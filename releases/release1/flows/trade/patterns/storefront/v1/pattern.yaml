@@ -43,13 +43,10 @@ phases:
           - message.catalog.resources[].resourceAttributes.name.id
           - message.catalog.resources[].resourceAttributes.shortDesc.id
           - message.catalog.resources[].resourceAttributes.shortDesc.id
-          - message.catalog.resources[].resourceAttributes.resourceStructure
           - message.catalog.resources[].resourceAttributes.availability.status
-          - message.catalog.resources[].resourceAttributes.images[]
-          - message.catalog.resources[].resourceAttributes.countryOfOrigin
+          - message.catalog.resources[].descriptor.mediaFile[].uri
+          - message.catalog.resources[].resourceAttributes.identity.originCountry
           - message.catalog.resources[].resourceAttributes.ageRestricted
-          - message.catalog.resources[].resourceAttributes.logisticsServiceType
-          - message.catalog.resources[].resourceAttributes.resourceTangibility
           - message.catalog.resources[].resourceAttributes.minAge
           - message.catalog.offers[].id
           - message.catalog.offers[].price
@@ -71,7 +68,7 @@ phases:
             condition: required for food/grocery and quick-commerce providers (packaged food only)
           - field: message.catalog.resources[].resourceAttributes.food
             condition: required for packaged food and beverage items (FMCG/grocery — not restaurant meals)
-          - field: message.catalog.resources[].resourceAttributes.packaged
+          - field: message.catalog.resources[].resourceAttributes.packagedGoodsDeclaration
             condition: required for packaged goods
           - field: message.catalog.resources[].resourceAttributes.customisationGroups[]
             condition: required for COMPOSED and WITH_EXTRAS resource types
@@ -107,13 +104,12 @@ phases:
           - context.timestamp
           - context.ttl
           - context.location.city.code
-          - message.contract.participants[role=PROVIDER].id
+          - message.contract.commitments[].offer.provider.id
           - message.contract.commitments[].id
-          - message.contract.commitments[].commitmentAttributes.lineId
-          - message.contract.commitments[].commitmentAttributes.resourceId
-          - message.contract.commitments[].commitmentAttributes.offerId
-          - message.contract.commitments[].commitmentAttributes.quantity.value
-          - message.contract.commitments[].resources[].quantity.count
+          - message.contract.commitments[].resources[].resource.id
+          - message.contract.commitments[].resources[].quantity.unitQuantity
+          - message.contract.commitments[].resources[].quantity.unitCode
+          - message.contract.commitments[].offer.id
           - message.contract.performance[].performanceAttributes.performanceMode
         conditionalFields:
           - field: message.contract.commitments[].commitmentAttributes.selectedCustomizations
@@ -125,7 +121,7 @@ phases:
         direction: callback
         description: BPP validates availability, computes quote, returns supported modes and SLA.
         requiredFields:
-          - message.contract.participants[role=PROVIDER].id
+          - message.contract.commitments[].offer.provider.id
           - message.contract.commitments[].id
           - message.contract.consideration[].considerationAttributes.breakup[]
           - message.contract.consideration[].considerationAttributes.totalAmount
