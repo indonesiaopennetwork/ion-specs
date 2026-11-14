@@ -39,9 +39,9 @@ SLA `unitBasis` options:
 - `ageVerification.method` carries the KTP-, SIM-, passport-, selfie-, or
   biometric-aware verification method.
 - `stops[].location.geo` uses Beckn GeoJSON geometry.
-- `stops[].location` uses the common ION Location shape.
-- `stops[].location.address.addressAttributes` carries Indonesian administrative
-  and delivery-premises attributes.
+- `stops[].location.address` uses the closed Beckn Address shape.
+- `stops[].location.ionAddressAttributes` adds Indonesian administrative
+  subdivisions without modifying the Beckn Address object.
 
 ## Implementation guidance carried over from the excluded aggregate
 

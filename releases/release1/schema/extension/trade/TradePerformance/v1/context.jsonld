@@ -69,6 +69,7 @@
     "location": "ion:location",
     "geo": "beckn:geo",
     "address": "beckn:address",
+    "ionAddressAttributes": "ion:ionAddressAttributes",
     "instructions": "ion:instructions",
     "estimatedArrival": {
       "@id": "ion:estimatedArrival",

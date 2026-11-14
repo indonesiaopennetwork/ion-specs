@@ -58,12 +58,11 @@ the Council publishes it into the `next` channel on `main`.
 - [`releases/release1/schema/core/api/v2.0.0/ion-additional.yaml`](releases/release1/schema/core/api/v2.0.0/ion-additional.yaml) —
   ION endpoints that Beckn does not define, starting with settlement
   reconciliation (`/reconcile`, `/on_reconcile`).
-- [`releases/release1/schema/common/`](releases/release1/schema/common/) — Address, Location, Business
+- [`releases/release1/schema/common/`](releases/release1/schema/common/) — Address, Business
   Registration, Payment, and Tax packs required by Trade, the Settlement
   pack used by reconciliation, the Grievance pack used by `/support` and
   `/on_support`, plus the reusable IdentifiableLocation wrapper introduced for
-  Logistics. The ION-maintained Address and Location add address extensibility
-  while the pinned upstream schemas remain immutable.
+  Logistics.
 - [`releases/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml`](releases/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml) —
   the immutable upstream Beckn Protocol contract retained temporarily for
   consumers of its existing URL.

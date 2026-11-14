@@ -219,6 +219,12 @@
       "rdfs:comment": "Location associated with a performance stop."
     },
     {
+      "@id": "ion:ionAddressAttributes",
+      "@type": "rdf:Property",
+      "rdfs:label": "ionAddressAttributes",
+      "rdfs:comment": "ION-specific structured address attributes."
+    },
+    {
       "@id": "ion:instructions",
       "@type": "rdf:Property",
       "rdfs:label": "instructions",

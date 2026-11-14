@@ -50,7 +50,9 @@
           },
           "offer": {
             "id": "OFFER-PIZZA-001",
-            "resourceIds": ["PIZZA-PEPPERONI-LARGE"],
+            "resourceIds": [
+              "PIZZA-PEPPERONI-LARGE"
+            ],
             "provider": {
               "id": "PROV-DOMINOS-SUDIRMAN-001",
               "descriptor": {
@@ -92,22 +94,12 @@
           "status": {
             "code": "PLANNED"
           },
-          "commitmentIds": ["L01"],
           "performanceAttributes": {
             "@context": "https://schema.ion.id/release1/schema/extension/trade/TradePerformance/v1/context.jsonld",
             "@type": "ion:IONTradePerformance",
             "performanceMode": "DELIVERY",
-            "supportedPerformanceModes": ["DELIVERY"],
-            "stops": [
-              {
-                "type": "END",
-                "location": {
-                  "address": {
-                    "addressCountry": "ID",
-                    "postalCode": "12190"
-                  }
-                }
-              }
+            "supportedPerformanceModes": [
+              "DELIVERY"
             ]
           }
         }

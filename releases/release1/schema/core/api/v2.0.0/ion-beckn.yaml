@@ -2755,8 +2755,7 @@ components:
         \ produce and consume it depending on context.\n\nRelationship: Used as a\
         \ component within the Location schema, which also carries geometric coordinates\
         \ via the GeoJSONGeometry schema. Geometry MUST be expressed in Location.geo\
-        \ rather than embedded in Address. Domain- and network-specific address fields\
-        \ are carried through addressAttributes."
+        \ rather than embedded in Address."
       title: Address
       type: object
       properties:
@@ -2784,9 +2783,6 @@ components:
           description: Street address (building name/number and street).
           type: string
           example: 123 Tech Street
-        addressAttributes:
-          description: Domain- or network-specific extension attributes for this address.
-          $ref: '#/components/schemas/Attributes'
       additionalProperties: false
 
     AsyncError:
@@ -3625,22 +3621,17 @@ components:
     Location:
       description: "A geographic place combining a precise GeoJSON geometry with an\
         \ optional human-readable postal address, used to express physical positions,\
-        \ service areas, delivery points, and provider operating locations. A Location\
-        \ MUST contain at least geometry or a postal address; both may be supplied when\
-        \ available.\n\nLocation\
+        \ service areas, delivery points, and provider operating locations.\n\nLocation\
         \ appears throughout the value-exchange lifecycle wherever a physical place\
         \ must be specified, including provider operating locations in Catalog, delivery\
         \ and pickup points in Performance, and spatial constraint reference points\
         \ in SpatialConstraint. Both CNs and PNs produce and consume it.\n\nRelationship:\
-        \ Composes the GeoJSONGeometry and Address schemas. Geometry is authoritative\
-        \ when supplied; an address-only Location is valid when the available precision\
-        \ is postal, such as a postal-code service area."
+        \ Composes the GeoJSONGeometry schema in the required geo field and the Address\
+        \ schema in the optional address field. Geometry is the authoritative spatial\
+        \ representation; Address is the human-readable supplement."
       type: object
-      anyOf:
-      - required:
-        - geo
-      - required:
-        - address
+      required:
+      - geo
       additionalProperties: false
       properties:
         geo:

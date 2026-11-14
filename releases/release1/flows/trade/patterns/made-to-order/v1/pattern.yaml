@@ -171,7 +171,7 @@ phases:
             condition: required for DELIVERY
           - field: message.contract.performance[].performanceAttributes.stops[].location.address.postalCode
             condition: required for DELIVERY
-          - field: message.contract.performance[].performanceAttributes.stops[].location.address.addressAttributes.provinsiCode
+          - field: message.contract.performance[].performanceAttributes.stops[].location.ionAddressAttributes.provinsiCode
             condition: required for DELIVERY addresses in Indonesia
         schemaPacks:
           common: [Address/v1, Payment/v1]

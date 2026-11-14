@@ -285,7 +285,20 @@
                 "description": "Role of this stop in the route."
               },
               "location": {
-                "$ref": "https://schema.ion.id/release1/schema/common/Location/v1/attributes.yaml#/components/schemas/Location"
+                "type": "object",
+                "additionalProperties": false,
+                "description": "ION-aware location composed from Beckn geographic and postal-address shapes plus Indonesian subdivisions.",
+                "properties": {
+                  "geo": {
+                    "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/GeoJSONGeometry/2.0/attributes.yaml#/components/schemas/GeoJSONGeometry"
+                  },
+                  "address": {
+                    "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/Address/2.0/attributes.yaml#/components/schemas/Address"
+                  },
+                  "ionAddressAttributes": {
+                    "$ref": "https://schema.ion.id/release1/schema/common/Address/v1/attributes.yaml#/components/schemas/IONAddress"
+                  }
+                }
               },
               "instructions": {
                 "type": "string"

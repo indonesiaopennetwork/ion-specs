@@ -26,7 +26,7 @@ Hospitality, and Finance sectors from Release 1. On 16 October 2026, Logistics
 was reopened as `review-required` so its legacy material can be migrated and
 validated independently. Phase 4 now includes the complete `LogisticsResource`,
 `LogisticsProvider`, `LogisticsParticipant`, `LogisticsOffer`, `LogisticsCommitment`, `LogisticsConsideration`, `LogisticsContract`, `LogisticsPerformance`, and `LogisticsTracking` v1 vertical slices and the reusable common
-`Location` v1 and `IdentifiableLocation` v1 wrappers. The validated `LogisticsPerformanceStates`
+`IdentifiableLocation` v1 wrapper. The validated `LogisticsPerformanceStates`
 v1 registry completed Phase 4 and now lives under the Logistics flow tree
 because it describes execution graphs rather than message shape. Logistics
 Phase 5 migrated 22 reviewed baseline policy terms into the

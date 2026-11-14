@@ -204,16 +204,15 @@
                     "addressLocality": "Jakarta Selatan",
                     "addressRegion": "DKI Jakarta",
                     "postalCode": "12190",
-                    "addressCountry": "ID",
-                    "addressAttributes": {
-                      "provinsiCode": "BPS-31",
-                      "kabupatenCode": "3171",
-                      "kelurahan": "Senayan",
-                      "kecamatan": "Kebayoran Baru",
-                      "addressType": "OFFICE",
-                      "@context": "https://schema.ion.id/release1/schema/common/Address/v1/context.jsonld",
-                      "@type": "ion:IONAddress"
-                    }
+                    "addressCountry": "ID"
+                  },
+                  "ionAddressAttributes": {
+                    "provinsiCode": "BPS-31",
+                    "kabupatenCode": "3171",
+                    "kelurahan": "Senayan",
+                    "kecamatan": "Kebayoran Baru",
+                    "@context": "https://schema.ion.id/release1/schema/common/Address/v1/context.jsonld",
+                    "@type": "ion:IONAddress"
                   }
                 }
               }

@@ -2,12 +2,15 @@
   "id": "ion-core-address-v1",
   "version": "1.0.0",
   "domain": "ion-core",
-  "name": "ION Address (v1)",
-  "description": "Extensible postal Address plus Indonesian administrative and delivery-premises attributes.",
+  "name": "ION Address Extension (v1)",
+  "description": "Indonesian address subdivisions \u2014 provinsiCode, kabupatenCode, kelurahan, kecamatan, RT, RW.",
   "packSchema": "./schema.json",
   "jsonldContext": "./context.jsonld",
   "attachmentPoints": {
-    "addressAttributes": [
+    "ionAddressAttributes": [
+      "IONAddress"
+    ],
+    "providerAttributes": [
       "IONAddress"
     ]
   },
@@ -19,11 +22,17 @@
     "indexable": [
       {
         "path": "$.provinsiCode"
+      },
+      {
+        "path": "$.postalCode"
       }
     ],
     "filterable": [
       {
         "path": "$.provinsiCode"
+      },
+      {
+        "path": "$.postalCode"
       }
     ],
     "sortable": []
