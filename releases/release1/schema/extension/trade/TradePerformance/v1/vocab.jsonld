@@ -247,6 +247,24 @@
       "@type": "rdf:Property",
       "rdfs:label": "proof",
       "rdfs:comment": "Proof associated with completion of a performance stop."
+    },
+    {
+      "@id": "ion:contact",
+      "@type": "rdf:Property",
+      "rdfs:label": "contact",
+      "rdfs:comment": "contact property."
+    },
+    {
+      "@id": "ion:name",
+      "@type": "rdf:Property",
+      "rdfs:label": "name",
+      "rdfs:comment": "name property."
+    },
+    {
+      "@id": "ion:phone",
+      "@type": "rdf:Property",
+      "rdfs:label": "phone",
+      "rdfs:comment": "phone property."
     }
   ]
 }

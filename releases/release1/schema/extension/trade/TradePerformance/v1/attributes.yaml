@@ -118,7 +118,7 @@ components:
             fulfilment progresses.
 
             '
-          example: 2026-04-19 14:30:00+07:00
+          example: '2026-04-19 14:30:00+07:00'
           x-ion-condition: Present from DISPATCHED state onwards
         logisticsProviderId:
           type: string
@@ -313,6 +313,16 @@ components:
                     $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Address/2.0/attributes.yaml#/components/schemas/Address
                   ionAddressAttributes:
                     $ref: 'https://schema.ion.id/release1/schema/common/Address/v1/attributes.yaml#/components/schemas/IONAddress'
+              contact:
+                type: object
+                required:
+                  - name
+                  - phone
+                properties:
+                  name:
+                    type: string
+                  phone:
+                    type: string
               instructions:
                 type: string
                 description: Delivery or pickup instructions for this stop

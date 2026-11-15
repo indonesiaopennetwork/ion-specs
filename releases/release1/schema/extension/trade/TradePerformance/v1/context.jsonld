@@ -11,14 +11,11 @@
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "owl": "http://www.w3.org/2002/07/owl#",
-
     "Performance": "beckn:Performance",
     "RetailPerformance": "rcpa:RetailPerformance",
     "IONTradePerformance": "ion:IONTradePerformance",
     "fulfillingLocationId": "ion:fulfillingLocationId",
-
     "agent": "rcpa:agent",
-
     "performanceMode": "ion:performanceMode",
     "trackingNumber": "ion:trackingNumber",
     "trackingUrl": {
@@ -64,12 +61,14 @@
     "packageCount": "ion:packageCount",
     "totalWeight": "ion:totalWeight",
     "deliveryReceiptId": "ion:deliveryReceiptId",
-
     "stops": "ion:stops",
     "location": "ion:location",
     "geo": "beckn:geo",
     "address": "beckn:address",
     "ionAddressAttributes": "ion:ionAddressAttributes",
+    "contact": "ion:contact",
+    "name": "ion:name",
+    "phone": "ion:phone",
     "instructions": "ion:instructions",
     "estimatedArrival": {
       "@id": "ion:estimatedArrival",
