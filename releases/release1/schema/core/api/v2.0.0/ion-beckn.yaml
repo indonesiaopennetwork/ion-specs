@@ -4066,7 +4066,7 @@ components:
         supportAttributes:
           description: Network-defined attributes of the support request, such as a grievance event, expressed as a linked data JSON object
           $ref: '#/components/schemas/Attributes'
-      additionalProperties: true
+      additionalProperties: false
 
     SpatialConstraint:
       description: "An OGC CQL2 spatial predicate applied to one or more geometry\
