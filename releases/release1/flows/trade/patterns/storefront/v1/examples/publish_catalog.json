@@ -189,6 +189,60 @@
                 "email": "cs@dominos-sudirman.id",
                 "phone": "+6221-5555-1234"
               },
+              "customization": {
+                "groups": [
+                  {
+                    "code": "CG-CRUST",
+                    "name": "Pizza Crust",
+                    "selection": "SINGLE_REQUIRED",
+                    "options": [
+                      {
+                        "code": "OPT-THIN",
+                        "name": "Thin Crust",
+                        "priceDelta": {
+                          "type": "FIXED",
+                          "value": 0
+                        },
+                        "available": true
+                      },
+                      {
+                        "code": "OPT-PAN",
+                        "name": "Pan Crust",
+                        "priceDelta": {
+                          "type": "FIXED",
+                          "value": 5000
+                        },
+                        "available": true
+                      }
+                    ]
+                  },
+                  {
+                    "code": "CG-SAUCE",
+                    "name": "Sauce",
+                    "selection": "SINGLE_REQUIRED",
+                    "options": [
+                      {
+                        "code": "OPT-TOMATO",
+                        "name": "Tomato Sauce",
+                        "priceDelta": {
+                          "type": "FIXED",
+                          "value": 0
+                        },
+                        "available": true
+                      },
+                      {
+                        "code": "OPT-BBQ",
+                        "name": "BBQ Sauce",
+                        "priceDelta": {
+                          "type": "FIXED",
+                          "value": 3000
+                        },
+                        "available": true
+                      }
+                    ]
+                  }
+                ]
+              },
               "displayLanguage": [
                 "id"
               ]

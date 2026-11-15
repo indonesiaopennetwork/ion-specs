@@ -66,10 +66,10 @@
             "billingAddress": {
               "addressCountry": "ID",
               "addressRegion": "DKI Jakarta",
-              "addressLocality": "Jakarta Pusat",
-              "streetAddress": "Jl. KH. Mas Mansyur No. 121",
-              "extendedAddress": "Unit 12B, Apartemen Sudirman Park",
-              "postalCode": "10220",
+              "addressLocality": "Jakarta Selatan",
+              "streetAddress": "Jl. Jend. Sudirman",
+              "extendedAddress": "No. 45, Gedung Sudirman Plaza",
+              "postalCode": "12190",
               "provinsiCode": "BPS-31",
               "kabupatenCode": "3171",
               "addressType": "APARTMENT"
@@ -124,15 +124,15 @@
                   "geo": {
                     "type": "Point",
                     "coordinates": [
-                      106.82,
-                      -6.21
+                  106.807,
+                  -6.2271
                     ]
                   },
                   "address": {
-                    "streetAddress": "Unit 12B, Apartemen Sudirman Park, Jl. KH. Mas Mansyur No. 121",
-                    "addressLocality": "Jakarta Pusat",
+                "streetAddress": "No. 45, Gedung Sudirman Plaza, Jl. Jend. Sudirman",
+                "addressLocality": "Jakarta Selatan",
                     "addressRegion": "DKI Jakarta",
-                    "postalCode": "10220",
+                "postalCode": "12190",
                     "addressCountry": "ID"
                   },
                   "ionAddressAttributes": {
@@ -140,10 +140,8 @@
                     "@type": "ion:IONAddress",
                     "provinsiCode": "BPS-31",
                     "kabupatenCode": "3171",
-                    "kelurahan": "Karet Tengsin",
-                    "kecamatan": "Tanah Abang",
-                    "rt": "005",
-                    "rw": "003"
+                "kelurahan": "Senayan",
+                "kecamatan": "Kebayoran Baru"
                   }
                 }
               }

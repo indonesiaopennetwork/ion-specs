@@ -4,7 +4,15 @@ Terms of sale. Every commercial condition a buyer needs to know before committin
 
 ## Schema layers
 
-The pack has two layers. `TradeOffer` contains generic offer mechanics that can apply in any trade network. `IONTradeOffer` extends it with ION policy-registry fields, Indonesian payment-method eligibility, ION language policy, and domestic IDR weight slabs. Property definitions are intentionally unchanged in this structural split and will be reviewed separately against upstream `RetailOffer/v2.1`.
+The pack has two layers. `TradeOffer` contains generic offer mechanics that can apply in any trade network. `IONTradeOffer` extends it with ION policy-registry fields, Indonesian payment-method eligibility, ION language policy, domestic IDR weight slabs, and offer customization groups. Property definitions are intentionally unchanged in this structural split and will be reviewed separately against upstream `RetailOffer/v2.1`.
+
+## Customizations
+
+`customization.groups` declares the selectable groups and options offered to a
+buyer. A group specifies whether selection is required or optional and whether
+one or multiple options may be chosen. Options can carry price deltas and can
+reference Resources or Offers. The selected group and option codes become
+`IONTradeCommitment.selectedCustomizations` when the buyer selects the offer.
 
 ## Policy IRIs
 ION encodes standard policies as IRI strings — not freeform text. This enables machine-readable policy enforcement:

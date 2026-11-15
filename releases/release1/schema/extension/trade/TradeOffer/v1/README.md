@@ -7,7 +7,15 @@ Terms of sale — cancellation, returns, warranties, COD, promotions.
 
 ## Schema layers
 
-`TradeOffer` inherits from upstream `RetailOffer/v2.1` and carries 27 local network-agnostic offer properties. `IONTradeOffer` inherits from `TradeOffer` and carries 4 local ION-specific properties: policy overlays, payment eligibility, language policy, and domestic-logistics weight slabs. The root of `schema.json` resolves to `IONTradeOffer`.
+`TradeOffer` inherits from upstream `RetailOffer/v2.1` and carries 27 local network-agnostic offer properties. `IONTradeOffer` inherits from `TradeOffer` and carries 5 local ION-specific property groups: policy overlays, payment eligibility, language policy, domestic-logistics weight slabs, and offer customization groups. The root of `schema.json` resolves to `IONTradeOffer`.
+
+## Customization groups
+
+`customization.groups` publishes the choices available for an offer. Each group
+declares its selection rule and its available options; an option may include a
+fixed or percentage price delta and may refer to another Resource or Offer.
+The buyer's chosen group and option codes are recorded later in
+`IONTradeCommitment.selectedCustomizations`.
 
 ## Policy IRIs
 ION uses IRI-encoded policy identifiers for canonical terms:
@@ -59,7 +67,7 @@ this policy.
 
 ## Examples
 
-- [`examples/food-offer.json`](examples/food-offer.json) — an F&B offer with its policies and settlement terms.
+- [`examples/food-offer.json`](examples/food-offer.json) — an F&B offer with customization groups, policies, and settlement terms.
 - [`examples/electronics-offer.json`](examples/electronics-offer.json) — an electronics offer with its policies and settlement terms.
 
 ## Implementation guidance carried over from the excluded aggregate
@@ -103,3 +111,4 @@ errors.
 |---|---|---|
 | v1 | 2026-06-02 | Initial release |
 | v1 | 2026-10-19 | `policies.settlement`: the seller's payout terms (`settlementBasis`, `settlementWindow`) per offer |
+| v1 | 2026-11-15 | Added native ION offer customization groups and options |

@@ -74,7 +74,30 @@
               "descriptor": {
                 "name": "Domino's Pizza Sudirman"
               }
+          },
+          "considerations": [
+            {
+              "id": "CONSID-OFFER-PIZZA-001",
+              "considerationAttributes": {
+                "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeConsideration/v1/context.jsonld",
+                "@type": "ion:IONTradeConsideration",
+                "currency": "IDR",
+                "totalAmount": 89000,
+                "breakup": [
+                  {
+                    "title": "Harga",
+                    "amount": 89000,
+                    "type": "BASE_PRICE"
+                  }
+                ],
+                "buyerFinderFee": {
+                  "feeType": "PERCENT",
+                  "feeValue": 3,
+                  "appliesTo": "ITEM_TOTAL"
+                }
+              }
             }
+          ]
           },
           "commitmentAttributes": {
             "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeCommitment/v1/context.jsonld",
