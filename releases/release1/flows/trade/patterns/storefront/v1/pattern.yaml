@@ -149,11 +149,12 @@ phases:
           with figures estimated on the quote (commission as the quote's
           consideration buyerFinderFee.feeAmount).
         requiredFields:
-          - message.contract.participants[role=PROVIDER].id
+          - message.contract.participants[participantAttributes.role=PROVIDER].id
           - message.contract.commitments[].id
-          - message.contract.participants[role=BUYER].person.name
-          - message.contract.participants[role=BUYER].contact.phone
-          - message.contract.participants[role=BUYER].address
+          - message.contract.participants[participantAttributes.role=BUYER].participantAttributes.person.id
+          - message.contract.participants[participantAttributes.role=BUYER].participantAttributes.person.name
+          - message.contract.participants[participantAttributes.role=BUYER].participantAttributes.person.telephone
+          - message.contract.participants[participantAttributes.role=BUYER].participantAttributes.billingAddress
           - message.contract.performance[].id
           - message.contract.performance[].performanceAttributes.performanceMode
           - message.contract.performance[].performanceAttributes.stops[].location.address
@@ -179,7 +180,7 @@ phases:
             condition: if gifting is declared
         schemaPacks:
           common: [Address/v1, Settlement/v1]
-          trade: [TradeContract/v1]
+          trade: [TradeParticipant/v1, TradeContract/v1]
 
       - step: on_init
         from: BPP

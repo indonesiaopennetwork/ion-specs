@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "description": "Storefront reconcile \u2014 after delivery the BPP (seller app) sends its settlement figures for the confirmed QRIS order. The PJP holds 98900; the BPP claims 96230 and the BAP's 3% finder fee on the 89000 item total is 2670.",
+    "description": "Storefront reconcile \u2014 after delivery the BPP (seller app) sends its settlement figures for the confirmed QRIS order. The PJP holds 98790; the BPP claims 96120 and the BAP's 3% finder fee on the 89000 item total is 2670.",
     "pattern": "storefront",
     "step": "reconcile",
     "sent_by": "BPP",
@@ -20,7 +20,7 @@
     "senderId": "sellerapp.ion.id",
     "receiverId": "buyerapp.ion.id",
     "networkId": "ion.id",
-    "transactionId": "c3d9e2a1-5b7f-4e8c-9a1d-2f3e4b5c6d7e",
+    "transactionId": "9fdb667c-76c6-456a-9742-ba9caa5eb765",
     "messageId": "5e6f7a8b-9c0d-4e1f-8a2b-3c4d5e6f7a8b",
     "timestamp": "2026-04-20T17:00:00.000+07:00",
     "ttl": "PT30S",
@@ -76,7 +76,7 @@
               "currency": "IDR",
               "orderDate": "2026-04-19",
               "orderAmount": {
-                "value": 98900
+                "value": 98790
               },
               "commission": {
                 "value": 2670
@@ -88,7 +88,7 @@
                 "value": 0
               },
               "netPayable": {
-                "value": 96230
+                "value": 96120
               },
               "settlementAccounts": [
                 {
@@ -117,11 +117,11 @@
       "settlementDate": "2026-04-20",
       "contractCount": 1,
       "settlementCount": 1,
-      "totalOrderAmount": 98900,
+      "totalOrderAmount": 98790,
       "totalCommission": 2670,
       "totalWithholding": 0,
       "totalRefund": 0,
-      "totalNetPayable": 96230
+      "totalNetPayable": 96120
     }
   }
 }

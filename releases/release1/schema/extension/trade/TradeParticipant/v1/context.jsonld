@@ -1,0 +1,20 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@protected": true,
+    "ion": "https://schema.ion.id/release1/schema/extension/trade/TradeParticipant/v1#",
+    "ionParticipant": "https://schema.ion.id/release1/schema/common/IONParticipant/v1#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "schema": "https://schema.org/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "IONTradeParticipant": "ion:IONTradeParticipant",
+    "IONParticipant": "ionParticipant:IONParticipant",
+    "role": "ionParticipant:role",
+    "person": "ionParticipant:person",
+    "organization": "ionParticipant:organization",
+    "billingAddress": "ion:billingAddress"
+  }
+}

@@ -4,33 +4,46 @@
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
     "beckn": "https://schema.beckn.io/",
+    "schema": "https://schema.org/",
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "owl": "http://www.w3.org/2002/07/owl#"
   },
   "@graph": [
     {
-      "@id": "ion:Address",
-      "@type": "rdfs:Class",
-      "rdfs:label": "Address",
-      "rdfs:comment": "Network-agnostic generic layer for Address. Inherits from Beckn core Attributes.",
-      "rdfs:subClassOf": {
-        "@id": "beckn:Address"
-      },
-      "skos:broader": {
-        "@id": "https://spec.beckn.io/vocab/v2.0.0#Address"
-      }
-    },
-    {
       "@id": "ion:IONAddress",
       "@type": "rdfs:Class",
       "rdfs:label": "IONAddress",
-      "rdfs:comment": "ION-specific layer for Indonesian address subdivisions. Extends the network-agnostic Address layer.",
-      "rdfs:subClassOf": {
-        "@id": "ion:Address"
-      },
-      "skos:broader": {
-        "@id": "https://spec.beckn.io/vocab/v2.0.0#Address"
-      }
+      "rdfs:comment": "Complete Indonesian postal address combining the standard Beckn Address wire fields with Indonesian administrative subdivisions and delivery details."
+    },
+    {
+      "@id": "schema:addressCountry",
+      "@type": "rdf:Property",
+      "rdfs:label": "addressCountry",
+      "rdfs:comment": "Country name or ISO-3166-1 alpha-2 code; use ID for an Indonesian address."
+    },
+    {
+      "@id": "schema:addressLocality",
+      "@type": "rdf:Property",
+      "rdfs:label": "addressLocality",
+      "rdfs:comment": "City or locality name, such as Jakarta Pusat."
+    },
+    {
+      "@id": "schema:addressRegion",
+      "@type": "rdf:Property",
+      "rdfs:label": "addressRegion",
+      "rdfs:comment": "Province or region name, such as DKI Jakarta."
+    },
+    {
+      "@id": "schema:extendedAddress",
+      "@type": "rdf:Property",
+      "rdfs:label": "extendedAddress",
+      "rdfs:comment": "Apartment, suite, floor, care-of, or other supplemental address information."
+    },
+    {
+      "@id": "schema:streetAddress",
+      "@type": "rdf:Property",
+      "rdfs:label": "streetAddress",
+      "rdfs:comment": "Building name or number and street name."
     },
     {
       "@id": "ion:provinsiCode",

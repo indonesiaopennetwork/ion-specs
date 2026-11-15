@@ -25,7 +25,7 @@
     "bppUri": "https://sellerapp.ion.id/beckn",
     "networkId": "ion.id",
     "transactionId": "9fdb667c-76c6-456a-9742-ba9caa5eb765",
-    "messageId": "3a4b5c6d-7e8f-9012-bcde-f12345678901",
+    "messageId": "d577c44a-e4c8-462b-a54f-3f197304f812",
     "timestamp": "2026-04-19T10:31:05.000+07:00",
     "ttl": "PT30S",
     "location": {
@@ -133,7 +133,7 @@
           "considerationAttributes": {
             "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeConsideration/v1/context.jsonld",
             "@type": "ion:IONTradeConsideration",
-            "totalAmount": 98900,
+            "totalAmount": 98790,
             "currency": "IDR",
             "breakup": [
               {
@@ -150,7 +150,7 @@
               },
               {
                 "title": "PPN 11%",
-                "amount": 9900,
+                "amount": 9790,
                 "type": "TAX",
                 "taxDetail": {
                   "rate": 0.11,
@@ -169,7 +169,7 @@
       ],
       "performance": [
         {
-          "id": "PERF-2026-00012345",
+          "id": "PERF-001",
           "commitmentIds": [
             "L01"
           ],
@@ -239,7 +239,7 @@
             "gatewayRef": "GW-QRIS-9876543210",
             "currency": "IDR",
             "orderAmount": {
-              "value": 98900
+              "value": 98790
             },
             "commission": {
               "value": 2670
@@ -251,7 +251,7 @@
               "value": 0
             },
             "netPayable": {
-              "value": 96230
+              "value": 96120
             },
             "settlementAccounts": [
               {

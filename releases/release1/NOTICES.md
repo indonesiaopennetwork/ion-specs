@@ -7,7 +7,10 @@ commits:
 
 - `beckn/protocol-specifications-v2` at
   `a22300aa83796cb8dfc2b63cd9dd0e36a7f4d3a1`;
-- `beckn/schemas` at `b0ffbdd409c2fbe988a344161345a88ebb11d544`;
+- `beckn/schemas` at `b0ffbdd409c2fbe988a344161345a88ebb11d544`
+  for the original Release 1 closure and at
+  `a3cab3da821bc0d5c4d8918ab77e8477fe867454` for the NFH `Person`,
+  `Organization`, `Credential`, `Skill`, and `CategoryCode/2.1` additions;
 - `beckn/local-retail` at `280726e123f907173f31db840931426045fcfd52`.
 
 The corresponding license texts are preserved at:
@@ -38,12 +41,13 @@ proposed in Beckn PR #204, "Support: add optional supportAttributes". The mainta
 The immutable vendored contract is retained temporarily as a compatibility URL
 while consumers migrate to the ION-maintained path.
 
-The vendored protocol and ten schema files are byte-for-byte copies of their
-pinned upstream sources. Seven schema files—`GeoJSONGeometry`, `Location`,
-`PriceSpecification`, `RetailCommitment`, `RetailOffer`, `RetailPerformance`, and
-`RetailResource`—contain only a vendoring transformation: active
-`schema.beckn.io` `$ref` values were rewritten to permanent Release 1 URLs under
-`schema.ion.id`. No semantic vocabulary IRI was rewritten.
+The vendored protocol and 13 schema files are byte-for-byte copies of their
+pinned upstream sources. The other 22 schema files contain only a vendoring
+transformation: active `schema.beckn.io` or `schema.nfh.global` `$ref` values
+were rewritten to permanent Release 1 URLs under `schema.ion.id`. No semantic
+vocabulary IRI, including the `schema.nfh.global` IRIs identifying the NFH
+concepts, was rewritten. The exact transformed set and both the upstream and
+released checksums are recorded per dependency in `release.yaml`.
 
 This notice covers dependency provenance for the draft. Release 1 remains
 unpublished until its content validation and approval gates are complete.

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "domain": "ion-core",
   "name": "ION Address Extension (v1)",
-  "description": "Indonesian address subdivisions \u2014 provinsiCode, kabupatenCode, kelurahan, kecamatan, RT, RW.",
+  "description": "Complete Indonesian postal address combining Beckn Address fields with Indonesian administrative subdivisions and delivery details.",
   "packSchema": "./schema.json",
   "jsonldContext": "./context.jsonld",
   "attachmentPoints": {
@@ -38,6 +38,9 @@
     "sortable": []
   },
   "minimalForDiscovery": [
+    "addressCountry",
+    "streetAddress",
+    "postalCode",
     "provinsiCode"
   ],
   "x-ion-layer": {

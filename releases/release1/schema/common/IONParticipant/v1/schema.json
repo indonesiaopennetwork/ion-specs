@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schema.ion.id/release1/schema/common/IONParticipant/v1",
+  "$ref": "#/$defs/IONParticipant",
+  "$defs": {
+    "IONParticipant": {
+      "type": "object",
+      "title": "IONParticipant",
+      "description": "Common attributes describing the role and identity of a Beckn Participant in an ION relationship or transaction.\n",
+      "additionalProperties": true,
+      "x-ion-closed-extensions": false,
+      "x-beckn-attaches-to": "Participant.participantAttributes",
+      "x-jsonld": {
+        "@context": "https://schema.ion.id/release1/schema/common/IONParticipant/v1/context.jsonld",
+        "@type": "ion:IONParticipant"
+      },
+      "allOf": [
+        {
+          "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/Attributes/2.0/attributes.yaml#/components/schemas/Attributes"
+        }
+      ],
+      "properties": {
+        "role": {
+          "type": "string",
+          "enum": [
+            "BUYER",
+            "PROVIDER",
+            "DRIVER",
+            "COURIER",
+            "CUSTOMS_BROKER"
+          ],
+          "description": "Role performed by the participant in the applicable relationship or transaction."
+        },
+        "person": {
+          "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/Person/2.0/attributes.yaml#/components/schemas/Person",
+          "description": "Natural-person identity details when the participant is an individual."
+        },
+        "organization": {
+          "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/Organization/2.0/attributes.yaml#/components/schemas/Organization",
+          "description": "Organization identity details when the participant is an organization."
+        }
+      }
+    }
+  }
+}

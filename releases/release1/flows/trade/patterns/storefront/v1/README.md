@@ -49,11 +49,11 @@ accounts, and the figures:
 The buyer's QRIS payment is held at the PJP, not in either participant's
 account. After delivery and the agreed one-day window, the BPP sends
 [`reconcile_request.json`](examples/reconcile_request.json) with its figures:
-order 98900, a 3% commission of 2670 on the 89000 item total, and BPP proceeds
-of 96230. The BAP answers with
+order 98790, a 3% commission of 2670 on the 89000 item total, and BPP proceeds
+of 96120. The BAP answers with
 [`on_reconcile_response.json`](examples/on_reconcile_response.json) and
 `accord: true`, so the settlement is agreed and SEAM, after verifying the funds
-and accounts, has the PJP pay 96230 to the BPP and 2670 to the BAP. Either
+and accounts, has the PJP pay 96120 to the BPP and 2670 to the BAP. Either
 participant may start reconciliation. Agreement is per settlement; a batch
 with agreed, disputed and pending settlements, where only the unresolved ones
 are sent again, is shown in the
@@ -104,6 +104,7 @@ return refund, a unilateral goodwill refund and an objection) are in the
 - [TradeCommitment](../../../../../schema/extension/trade/TradeCommitment/v1/README.md)
 - [TradeConsideration](../../../../../schema/extension/trade/TradeConsideration/v1/README.md)
 - [TradePerformance](../../../../../schema/extension/trade/TradePerformance/v1/README.md)
+- [TradeParticipant](../../../../../schema/extension/trade/TradeParticipant/v1/README.md)
 - [TradeContract](../../../../../schema/extension/trade/TradeContract/v1/README.md)
 - [TradeSettlement](../../../../../schema/extension/trade/TradeSettlement/v1/README.md)
 - [TradePerformanceStates](../../../../../schema/extension/trade/TradePerformanceStates/v1/README.md)

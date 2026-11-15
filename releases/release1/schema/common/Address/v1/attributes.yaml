@@ -1,13 +1,11 @@
 openapi: 3.1.1
 info:
   title: ION Address Extension (v1)
-  description: "Indonesian address subdivisions (provinsi/kabupaten/kecamatan/kelurahan/RT/RW). Use ALONGSIDE Beckn\
-    \ core Address fields (streetAddress, addressLocality, postalCode, etc.). Covers the full Indonesian administrative\
-    \ hierarchy below city level.\nIMPORTANT — Beckn's Address schema is `additionalProperties: false` and has no\
-    \ extension slot. This pack therefore does NOT attach to `Address` directly. Instead, its fields are reused\
-    \ inside:\n  - `Participant.participantAttributes.addressDetail` (via core/participant/v1)\n  - `Provider.providerAttributes.availableAt[*].ionSubdivisions`\
-    \ (via sector provider packs)\n  - `Performance.performanceAttributes.stops[*].location.ionAddressAttributes`\n\n\
-    The Beckn `Address` object is used as-is for standard international fields.\n"
+  description: >
+    Complete Indonesian postal address shape. Reuses every property of the
+    pinned Beckn Address and adds Indonesian administrative subdivisions and
+    delivery details. Beckn Address is closed, so its properties are composed
+    here through property-level references rather than allOf inheritance.
   version: 1.0.0
   license:
     name: Apache-2.0
@@ -21,15 +19,34 @@ components:
       type: object
       x-ion-layer: ion
       x-ion-split-version: "0.7.0"
-      title: Indonesia Address Subdivisions
+      title: Complete Indonesian Address
+      description: >
+        Complete Indonesian postal address combining the standard Beckn Address
+        wire fields with Indonesian administrative subdivisions and delivery
+        details.
       additionalProperties: true
       x-jsonld:
         '@context': 'https://schema.ion.id/release1/schema/common/Address/v1/context.jsonld'
         '@type': ion:IONAddress
       x-ion-data-residency: ID  # RT/RW and building sub-fields can identify a household
-      x-beckn-attaches-to: (reusable shape — embedded inside participantAttributes.addressDetail, providerAttributes.availableAt[*].ionSubdivisions,
-        performanceAttributes.stops[*].location.ionSubdivisions)
+      x-beckn-attaches-to: (reusable shape — embedded by participant, provider,
+        performance, and other attribute packs that require a complete Indonesian address)
       properties:
+        addressCountry:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Address/2.0/attributes.yaml#/components/schemas/Address/properties/addressCountry
+          description: Country name or ISO-3166-1 alpha-2 code; use ID for an Indonesian address.
+        addressLocality:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Address/2.0/attributes.yaml#/components/schemas/Address/properties/addressLocality
+          description: City or locality name, such as Jakarta Pusat.
+        addressRegion:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Address/2.0/attributes.yaml#/components/schemas/Address/properties/addressRegion
+          description: Province or region name, such as DKI Jakarta.
+        extendedAddress:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Address/2.0/attributes.yaml#/components/schemas/Address/properties/extendedAddress
+          description: Apartment, suite, floor, care-of, or other supplemental address information.
+        streetAddress:
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Address/2.0/attributes.yaml#/components/schemas/Address/properties/streetAddress
+          description: Building name or number and street name.
         provinsiCode:
           type: string
           enum:
@@ -113,8 +130,10 @@ components:
             '
           example: '03'
         postalCode:
-          type: string
-          pattern: ^[0-9]{5}$
+          allOf:
+          - $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Address/2.0/attributes.yaml#/components/schemas/Address/properties/postalCode
+          - type: string
+            pattern: ^[0-9]{5}$
           description: 'Indonesian kodepos (postal code). 5 digits. Distinct from Beckn core area_code which conflates
             many country-specific codes.
 

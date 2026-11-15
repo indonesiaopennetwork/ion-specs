@@ -47,15 +47,15 @@
           },
           "resources": [
             {
-              "id": "RES-PANADOL-500MG-STRIP"
+              "id": "PIZZA-PEPPERONI-LARGE"
             }
           ],
           "offer": {
-            "id": "OFFER-PANADOL-001",
+            "id": "OFFER-PIZZA-001",
             "provider": {
-              "id": "PROV-APOTEK-SEHAT-001",
+              "id": "PROV-DOMINOS-SUDIRMAN-001",
               "descriptor": {
-                "name": "Apotek Sehat Mandiri"
+                "name": "Domino's Pizza Sudirman"
               }
             }
           }

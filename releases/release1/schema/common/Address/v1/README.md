@@ -1,25 +1,38 @@
-# ion-core/address/v1
+# IONAddress v1
 
-Indonesian address subdivisions (provinsi / kabupaten / kecamatan / kelurahan / RT / RW). Reusable shape embedded inside other ION Attributes bags — does NOT attach to Beckn's `Address` object directly.
+`IONAddress` is a complete Indonesian postal-address shape. It includes every
+standard Beckn `Address/2.0` wire field and adds Indonesian administrative
+subdivisions and delivery details.
 
 ## Attaches to
 
-Used as a standalone object embedded within `Participant` (billing/delivery address), `Provider` (outlet locations), and `Performance` (delivery destination). Not an `*Attributes` extension pack — no `@context`/`@type` wrapper required.
+Used as a standalone object embedded within `Participant` (billing/delivery
+address), `Provider` (outlet locations), and `Performance` (delivery
+destination).
 
 ## Why not attach to `beckn:Address`?
 
-Beckn 2.0.0's `Address` schema is `additionalProperties: false` — it has no extension slot. The Beckn fields (streetAddress, addressLocality, postalCode, addressRegion, addressCountry, extendedAddress) cover international postal-address needs and are used as-is.
+Beckn 2.0.0's `Address` schema is `additionalProperties: false`, so extending it
+with `allOf` would cause the Beckn branch to reject every Indonesian field.
+`IONAddress` instead references each Beckn property definition individually and
+adds the Indonesian properties to the same flat object.
 
 ## Where this shape is embedded
 
-- `Participant.participantAttributes.addressDetail` — via `core/participant/v1` (primary use). Every ION participant with a physical location (buyer, seller, merchant, warehouse, consignor, consignee, agent) carries this.
+- `IONTradeParticipant.billingAddress` — billing address for the buyer or other Trade participant.
 - `Provider.providerAttributes.availableAt[*].ionSubdivisions` — via sector provider packs, for physical presence locations of a provider.
 - `Performance.performanceAttributes.stops[*].location.ionSubdivisions` — via sector performance packs, for pickup/drop stops in delivery flows.
 
 ## Fields
 | Field | Type | Mandatory | Description |
 |---|---|---|---|
-| provinsiCode | enum | always | BPS province code (BPS-11 to BPS-94). 34 provinces. |
+| addressCountry | string | optional | Country name or ISO-3166-1 alpha-2 code; use `ID` for Indonesia. |
+| addressRegion | string | optional | Province or region name. |
+| addressLocality | string | optional | City or locality name. |
+| streetAddress | string | optional | Building name or number and street name. |
+| extendedAddress | string | optional | Apartment, suite, floor, care-of, or other supplemental information. |
+| postalCode | string | optional | Indonesian five-digit postal code. |
+| provinsiCode | enum | network policy | BPS province code (BPS-11 to BPS-94). 34 provinces. |
 | kabupatenCode | string | optional | BPS 4-digit kabupaten/kota code |
 | kelurahan | string | conditional | Village/urban zone. Required for delivery addresses. |
 | kecamatan | string | conditional | District/sub-city. Required for delivery addresses. |
@@ -57,3 +70,4 @@ Release 1 [Trade error registry](../../../../errors/README.md) for included erro
 | Version | Date | Summary |
 |---|---|---|
 | v1 | 2026-06-02 | Initial release |
+| v1 draft | 2026-11-15 | Made `IONAddress` a complete address by composing all Beckn `Address/2.0` properties with the Indonesian fields. |

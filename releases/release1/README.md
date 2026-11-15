@@ -67,6 +67,12 @@ or Logistics dependencies. The Cancellation v1 variant followed: preview, buyer
 full and partial cancellation, policy rejection, and seller-initiated
 cancellation of a confirmed contract.
 
+The draft subsequently added the common `IONParticipant` v1 pack and the
+Trade-specific `IONTradeParticipant` v1 extension point. They provide a common
+participant role plus NFH `Person` or `Organization` identity details for
+`Participant.participantAttributes`. The associated NFH dependency closure is
+pinned under `schema/vendored/beckn/schemas/` and resolves offline.
+
 ION endpoints that Beckn does not define live in one file,
 `schema/core/api/v2.0.0/ion-additional.yaml`, which references the
 ION-maintained `schema/core/api/v2.0.0/ion-beckn.yaml` contract. Release 1 adds the settlement reconciliation endpoints
