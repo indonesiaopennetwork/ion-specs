@@ -4,6 +4,25 @@
   "operationalStatus": {
     "status": "OPEN"
   },
+  "providerLocations": [
+    {
+      "id": "FC-PROVIDER-001",
+      "geo": {
+        "type": "Point",
+        "coordinates": [
+          106.8111,
+          -6.2604
+        ]
+      },
+      "address": {
+        "streetAddress": "Jl. Jend. Sudirman",
+        "addressLocality": "Jakarta Selatan",
+        "addressRegion": "DKI Jakarta",
+        "postalCode": "12190",
+        "addressCountry": "ID"
+      }
+    }
+  ],
   "invoicing": {
     "model": "CENTRAL",
     "entityId": "PROVIDER-001"

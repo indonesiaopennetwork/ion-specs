@@ -7,6 +7,7 @@
     "received_by": "ION Catalog Service",
     "schemaPacks": [
       "schema/common/BusinessRegistration/v1",
+      "schema/common/IdentifiableLocation/v1",
       "schema/extension/trade/TradeProvider/v1",
       "schema/extension/trade/TradeResource/v1",
       "schema/extension/trade/TradeOffer/v1"
@@ -23,7 +24,7 @@
     "networkId": "ion.id",
     "transactionId": "9fdb667c-76c6-456a-9742-ba9caa5eb765",
     "messageId": "msg-catalog-publish-001",
-    "timestamp": "2026-04-19T10:30:00.000+07:00",
+    "timestamp": "2026-04-19T09:00:00.000+07:00",
     "ttl": "PT30S",
     "location": {
       "city": {
@@ -34,6 +35,7 @@
       }
     },
     "schemaContext": [
+      "https://schema.ion.id/release1/schema/common/IdentifiableLocation/v1/context.jsonld",
       "https://schema.ion.id/release1/schema/extension/trade/TradeResource/v1/context.jsonld",
       "https://schema.ion.id/release1/schema/extension/trade/TradeOffer/v1/context.jsonld",
       "https://schema.ion.id/release1/schema/extension/trade/TradeProvider/v1/context.jsonld"
@@ -59,6 +61,25 @@
             "operationalStatus": {
               "status": "OPEN"
             },
+            "providerLocations": [
+              {
+                "id": "FC-DOMINOS-SUDIRMAN-001",
+                "geo": {
+                  "type": "Point",
+                  "coordinates": [
+                    106.8111,
+                    -6.2604
+                  ]
+                },
+                "address": {
+                  "streetAddress": "Jl. Jend. Sudirman",
+                  "addressLocality": "Jakarta Selatan",
+                  "addressRegion": "DKI Jakarta",
+                  "postalCode": "12190",
+                  "addressCountry": "ID"
+                }
+              }
+            ],
             "operatingHours": [
               {
                 "type": "ORDER",

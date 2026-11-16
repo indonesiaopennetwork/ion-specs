@@ -7,7 +7,9 @@
     "received_by": "BPP",
     "schemaPacks": [
       "schema/common/Address/v1",
+      "schema/common/IdentifiableLocation/v1",
       "schema/extension/trade/TradeParticipant/v1",
+      "schema/extension/trade/TradeProvider/v1",
       "schema/extension/trade/TradeContract/v1",
       "schema/extension/trade/TradeCommitment/v1",
       "schema/extension/trade/TradeConsideration/v1",
@@ -26,7 +28,7 @@
     "networkId": "ion.id",
     "transactionId": "9fdb667c-76c6-456a-9742-ba9caa5eb765",
     "messageId": "65c35bd6-c7c7-43ab-aa05-6b45ef2ebbe3",
-    "timestamp": "2026-04-19T10:30:00.000+07:00",
+    "timestamp": "2026-04-19T10:05:00.000+07:00",
     "ttl": "PT30S",
     "location": {
       "city": {
@@ -38,7 +40,9 @@
     },
     "schemaContext": [
       "https://schema.ion.id/release1/schema/common/Address/v1/context.jsonld",
+      "https://schema.ion.id/release1/schema/common/IdentifiableLocation/v1/context.jsonld",
       "https://schema.ion.id/release1/schema/extension/trade/TradeParticipant/v1/context.jsonld",
+      "https://schema.ion.id/release1/schema/extension/trade/TradeProvider/v1/context.jsonld",
       "https://schema.ion.id/release1/schema/extension/trade/TradeContract/v1/context.jsonld",
       "https://schema.ion.id/release1/schema/extension/trade/TradeCommitment/v1/context.jsonld",
       "https://schema.ion.id/release1/schema/extension/trade/TradeConsideration/v1/context.jsonld",
@@ -114,6 +118,29 @@
               "id": "PROV-DOMINOS-SUDIRMAN-001",
               "descriptor": {
                 "name": "Domino's Pizza Sudirman"
+              },
+              "providerAttributes": {
+                "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeProvider/v1/context.jsonld",
+                "@type": "ion:IONTradeProvider",
+                "providerLocations": [
+                  {
+                    "id": "FC-DOMINOS-SUDIRMAN-001",
+                    "geo": {
+                      "type": "Point",
+                      "coordinates": [
+                        106.8111,
+                        -6.2604
+                      ]
+                    },
+                    "address": {
+                      "streetAddress": "Jl. Jend. Sudirman",
+                      "addressLocality": "Jakarta Selatan",
+                      "addressRegion": "DKI Jakarta",
+                      "postalCode": "12190",
+                      "addressCountry": "ID"
+                    }
+                  }
+                ]
               }
             },
             "considerations": [
@@ -159,7 +186,7 @@
       ],
       "consideration": [
         {
-          "id": "CONSID-DRAFT-001",
+          "id": "CONSID-001",
           "status": {
             "code": "QUOTED"
           },
@@ -219,8 +246,8 @@
             "@type": "ion:IONTradePerformance",
             "performanceMode": "DELIVERY",
             "sla": {
-              "min": "PT1H",
-              "max": "PT3H",
+              "min": "PT5M",
+              "max": "PT2H",
               "unitBasis": "ORDER_CONFIRMATION"
             },
             "stops": [
@@ -264,8 +291,8 @@
       ],
       "settlements": [
         {
-          "id": "SETTLEMENT-DRAFT-001",
-          "considerationId": "CONSID-DRAFT-001",
+          "id": "SETTLEMENT-001",
+          "considerationId": "CONSID-001",
           "status": "DRAFT",
           "settlementAttributes": {
             "@context": "https://schema.ion.id/release1/schema/common/Settlement/v1/context.jsonld",
@@ -301,7 +328,18 @@
             ]
           }
         }
-      ]
+      ],
+      "contractAttributes": {
+        "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeContract/v1/context.jsonld",
+        "@type": "ion:IONTradeContract",
+        "buyerInstructions": "Tinggalkan di depan pintu jika tidak ada di rumah.",
+        "invoicePreferences": {
+          "invoiceType": "RECEIPT"
+        },
+        "deliveryPreferences": {
+          "leaveAtDoor": true
+        }
+      }
     }
   }
 }

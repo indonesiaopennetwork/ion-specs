@@ -1,13 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://schema.ion.id/release1/schema/extension/trade/TradeProvider/v1",
-  "title": "ION Trade Provider Schema Pack v1",
   "$ref": "#/$defs/IONTradeProvider",
   "$defs": {
     "IONTradeProvider": {
       "type": "object",
       "title": "IONTradeProvider",
-      "description": "ION trade-provider attributes carried by Provider.providerAttributes. Inherits directly from Beckn Attributes and combines generic provider operations with Indonesia-specific registration, trust, verification-tier, and category-licensing extensions. Properties originating in the former ION-specific layer are identified by x-attr-ion-layer: ion.",
+      "description": "ION trade-provider attributes carried by Provider.providerAttributes. Inherits directly from Beckn Attributes and combines generic provider operations with Indonesia-specific registration, trust, verification-tier, and category-licensing extensions.\nProperties originating in the former ION-specific layer are identified by x-attr-ion-layer: ion.\n",
       "x-ion-layer": "ion",
       "x-ion-split-version": "0.7.0",
       "x-recommended-parent": "Provider.providerAttributes",
@@ -17,7 +16,6 @@
         "@type": "ion:IONTradeProvider"
       },
       "x-beckn-attaches-to": "Provider.providerAttributes",
-      "x-ion-closed-extensions": false,
       "allOf": [
         {
           "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/Attributes/2.0/attributes.yaml#/components/schemas/Attributes"
@@ -26,6 +24,7 @@
           "type": "object",
           "properties": {
             "verification": {
+              "x-attr-ion-layer": "ion",
               "allOf": [
                 {
                   "type": "object",
@@ -38,13 +37,12 @@
                         "ENHANCED",
                         "ENTERPRISE"
                       ],
-                      "description": "ION provider-verification tier.",
+                      "description": "ION provider-verification tier. The criteria and transaction limits associated with each tier are ION network policy.\n",
                       "example": "STANDARD"
                     }
                   }
                 }
-              ],
-              "x-attr-ion-layer": "ion"
+              ]
             }
           }
         }
@@ -53,7 +51,7 @@
         "invoicing": {
           "type": "object",
           "additionalProperties": false,
-          "description": "Provider-level invoicing arrangement.",
+          "description": "Provider-level invoicing arrangement. Transaction-specific invoice details remain on the Contract and Consideration.\n",
           "properties": {
             "model": {
               "type": "string",
@@ -61,11 +59,12 @@
                 "CENTRAL",
                 "PER_FULFILMENT_CENTRE"
               ],
+              "description": "CENTRAL uses one invoicing entity across the provider. PER_FULFILMENT_CENTRE allows each fulfilment centre to invoice through its own entity.\n",
               "x-ion-regulatory": "UU 6/1983 tentang Ketentuan Umum Perpajakan — NPWP obligation per taxable entity"
             },
             "entityId": {
               "type": "string",
-              "description": "Identifier of the Participant or Provider that issues invoices when the model is CENTRAL.",
+              "description": "Identifier of the Participant or Provider that issues invoices when the model is CENTRAL.\n",
               "x-ion-regulatory": "PMK 168/PMK.010/2023 tentang Faktur Pajak"
             }
           }
@@ -90,15 +89,24 @@
             }
           }
         },
+        "providerLocations": {
+          "x-attr-ion-layer": "ion",
+          "type": "array",
+          "description": "Identifiable provider operating locations used as stable reference targets by Performance fulfillingLocationId, operating hours, closures, and serviceability rules. Each entry preserves the Beckn Location wire shape while adding the identifier that Beckn Location 2.0 does not define.\n",
+          "items": {
+            "$ref": "https://schema.ion.id/release1/schema/common/IdentifiableLocation/v1/attributes.yaml#/components/schemas/IdentifiableLocation"
+          }
+        },
         "operatingHours": {
           "type": "array",
-          "description": "Recurring weekly operating windows.",
+          "description": "Recurring weekly operating windows. A locationId scopes the window to an IONTradeProvider.providerLocations entry; when omitted, it applies to the provider as a whole.\n",
           "items": {
             "type": "object",
             "additionalProperties": false,
             "properties": {
               "locationId": {
-                "type": "string"
+                "type": "string",
+                "description": "Identifier of the applicable providerLocations entry."
               },
               "type": {
                 "type": "string",
@@ -112,12 +120,14 @@
               "dayFrom": {
                 "type": "integer",
                 "minimum": 1,
-                "maximum": 7
+                "maximum": 7,
+                "description": "Day of week, where 1 is Monday and 7 is Sunday."
               },
               "dayTo": {
                 "type": "integer",
                 "minimum": 1,
-                "maximum": 7
+                "maximum": 7,
+                "description": "Last applicable day, where 1 is Monday and 7 is Sunday."
               },
               "startTime": {
                 "type": "string",
@@ -132,7 +142,7 @@
         },
         "closures": {
           "type": "array",
-          "description": "Exceptional dates on which the provider or a specific operating location is closed.",
+          "description": "Exceptional dates on which the provider or a specific operating location is closed.\n",
           "items": {
             "type": "object",
             "additionalProperties": false,
@@ -142,23 +152,26 @@
                 "format": "date"
               },
               "locationId": {
-                "type": "string"
+                "type": "string",
+                "description": "Identifier of the applicable providerLocations entry. When omitted, the closure applies provider-wide.\n"
               }
             }
           }
         },
         "serviceabilityByCategory": {
           "type": "array",
-          "description": "Provider-level geographic serviceability overrides for a category.",
+          "description": "Provider-level geographic serviceability overrides for a category. Offer- or Resource-specific serviceability takes precedence.\n",
           "items": {
             "type": "object",
             "additionalProperties": false,
             "properties": {
               "categoryId": {
-                "type": "string"
+                "type": "string",
+                "description": "Identifier of the applicable trade category."
               },
               "locationId": {
-                "type": "string"
+                "type": "string",
+                "description": "Optional identifier of the providerLocations origin to which this area applies.\n"
               },
               "geo": {
                 "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/GeoJSONGeometry/2.0/attributes.yaml#/components/schemas/GeoJSONGeometry"
@@ -169,13 +182,13 @@
         "averagePreparationTime": {
           "type": "string",
           "format": "duration",
-          "description": "Provider-level average duration from confirmation until a resource is ready for pickup or delivery.",
+          "description": "Provider-level average duration from confirmation until a resource is ready for pickup or delivery. A Resource-specific preparation duration takes precedence.\n",
           "example": "PT25M"
         },
         "providerCategories": {
           "type": "array",
           "uniqueItems": true,
-          "description": "Categories in which the provider operates.",
+          "description": "Categories in which the provider operates. Values are category identifiers governed by the applicable trade taxonomy rather than a closed schema enum.\n",
           "items": {
             "type": "string"
           },
@@ -205,10 +218,12 @@
           "description": "Provider-level logistics arrangement and preference.",
           "properties": {
             "preferredProviderId": {
-              "type": "string"
+              "type": "string",
+              "description": "Identifier of the preferred logistics provider."
             },
             "managedByMarketplace": {
-              "type": "boolean"
+              "type": "boolean",
+              "description": "Whether the marketplace, rather than the seller, normally orchestrates logistics for this provider.\n"
             }
           }
         },
@@ -231,6 +246,7 @@
             "authorizedStreamerIds": {
               "type": "array",
               "uniqueItems": true,
+              "description": "Participant identifiers authorized to feature this provider's resources in live-commerce sessions.\n",
               "items": {
                 "type": "string"
               }
@@ -240,7 +256,7 @@
         "verification": {
           "type": "object",
           "additionalProperties": false,
-          "description": "Catalog-visible summary of provider verification performed by the Provider Node.",
+          "description": "Catalog-visible summary of provider verification performed by the Provider Node. Sensitive evidence is not transmitted in the catalog.\n",
           "properties": {
             "level": {
               "type": "string",
@@ -284,21 +300,22 @@
           }
         },
         "businessRegistration": {
+          "x-attr-ion-layer": "ion",
           "$ref": "https://schema.ion.id/release1/schema/common/BusinessRegistration/v1/attributes.yaml#/components/schemas/IONBusinessRegistration",
-          "description": "Indonesian business identity for the provider. The actual nib replaces the former nibRegistered boolean.",
-          "x-attr-ion-layer": "ion"
+          "description": "Indonesian business identity for the provider. The presence and validity of the actual nib value replaces the former nibRegistered boolean.\n"
         },
         "trustMarks": {
+          "x-attr-ion-layer": "ion",
           "type": "array",
-          "description": "Signed or otherwise verifiable trust marks awarded to the provider.",
+          "description": "Signed or otherwise verifiable trust marks awarded to the provider, including an ION Trusted Seller credential. A provider must not assert trust through an unverified boolean.\n",
           "items": {
             "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/Document/2.0/attributes.yaml#/components/schemas/Document"
-          },
-          "x-attr-ion-layer": "ion"
+          }
         },
         "categoryLicenses": {
+          "x-attr-ion-layer": "ion",
           "type": "array",
-          "description": "Indonesian operating licences applicable to one or more provider categories.",
+          "description": "Indonesian operating licences applicable to one or more provider categories. Licence types are governed by ION policy so new regulatory codes do not require a schema revision.\n",
           "items": {
             "type": "object",
             "additionalProperties": false,
@@ -330,17 +347,18 @@
                 "format": "date"
               },
               "issuingAuthority": {
-                "type": "string"
+                "type": "string",
+                "example": "BPOM"
               },
               "evidence": {
                 "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/Document/2.0/attributes.yaml#/components/schemas/Document"
               }
             }
           },
-          "x-ion-regulatory": "PP 5/2021; PerBPOM various",
-          "x-attr-ion-layer": "ion"
+          "x-ion-regulatory": "PP 5/2021; PerBPOM various"
         }
-      }
+      },
+      "x-ion-closed-extensions": false
     }
   }
 }

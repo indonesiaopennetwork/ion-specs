@@ -51,9 +51,12 @@
             },
             "resources": [
               {
-                "id": "PIZZA-PEPPERONI-LARGE",
+                "resource": {
+                  "id": "PIZZA-PEPPERONI-LARGE"
+                },
                 "quantity": {
-                  "count": 1
+                  "unitQuantity": 1,
+                  "unitCode": "EA"
                 }
               }
             ],

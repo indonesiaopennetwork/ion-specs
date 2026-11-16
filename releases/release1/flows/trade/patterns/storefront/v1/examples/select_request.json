@@ -7,7 +7,9 @@
     "received_by": "BPP",
     "becknAction": "SelectAction",
     "schemaPacks": [
+      "schema/common/IdentifiableLocation/v1",
       "schema/extension/trade/TradeCommitment/v1",
+      "schema/extension/trade/TradeProvider/v1",
       "schema/extension/trade/TradeResource/v1"
     ]
   },
@@ -22,7 +24,7 @@
     "networkId": "ion.id",
     "transactionId": "9fdb667c-76c6-456a-9742-ba9caa5eb765",
     "messageId": "db5a887e-660d-4ec5-8bd4-dcd860a86651",
-    "timestamp": "2026-04-19T10:30:00.000+07:00",
+    "timestamp": "2026-04-19T10:00:00.000+07:00",
     "ttl": "PT30S",
     "location": {
       "city": {
@@ -33,6 +35,8 @@
       }
     },
     "schemaContext": [
+      "https://schema.ion.id/release1/schema/common/IdentifiableLocation/v1/context.jsonld",
+      "https://schema.ion.id/release1/schema/extension/trade/TradeProvider/v1/context.jsonld",
       "https://schema.ion.id/release1/schema/extension/trade/TradeResource/v1/context.jsonld",
       "https://schema.ion.id/release1/schema/extension/trade/TradeCommitment/v1/context.jsonld",
       "https://schema.ion.id/release1/schema/extension/trade/TradePerformance/v1/context.jsonld"
@@ -60,6 +64,29 @@
               "id": "PROV-DOMINOS-SUDIRMAN-001",
               "descriptor": {
                 "name": "Domino's Pizza Sudirman"
+              },
+              "providerAttributes": {
+                "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeProvider/v1/context.jsonld",
+                "@type": "ion:IONTradeProvider",
+                "providerLocations": [
+                  {
+                    "id": "FC-DOMINOS-SUDIRMAN-001",
+                    "geo": {
+                      "type": "Point",
+                      "coordinates": [
+                        106.8111,
+                        -6.2604
+                      ]
+                    },
+                    "address": {
+                      "streetAddress": "Jl. Jend. Sudirman",
+                      "addressLocality": "Jakarta Selatan",
+                      "addressRegion": "DKI Jakarta",
+                      "postalCode": "12190",
+                      "addressCountry": "ID"
+                    }
+                  }
+                ]
               }
             }
           },

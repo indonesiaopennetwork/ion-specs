@@ -7,11 +7,15 @@
     "received_by": "BAP",
     "becknAction": "OnConfirmAction",
     "schemaPacks": [
-      "schema/common/BusinessRegistration/v1",
+      "schema/common/Address/v1",
+      "schema/common/IdentifiableLocation/v1",
+      "schema/extension/trade/TradeParticipant/v1",
+      "schema/extension/trade/TradeProvider/v1",
       "schema/extension/trade/TradePerformance/v1",
       "schema/extension/trade/TradeContract/v1",
       "schema/extension/trade/TradeConsideration/v1",
       "schema/extension/trade/TradeCommitment/v1",
+      "schema/extension/trade/TradeOffer/v1",
       "schema/common/Settlement/v1"
     ]
   },
@@ -26,7 +30,7 @@
     "networkId": "ion.id",
     "transactionId": "9fdb667c-76c6-456a-9742-ba9caa5eb765",
     "messageId": "d577c44a-e4c8-462b-a54f-3f197304f812",
-    "timestamp": "2026-04-19T10:31:05.000+07:00",
+    "timestamp": "2026-04-19T10:32:20.000+07:00",
     "ttl": "PT30S",
     "location": {
       "city": {
@@ -37,11 +41,15 @@
       }
     },
     "schemaContext": [
+      "https://schema.ion.id/release1/schema/common/Address/v1/context.jsonld",
+      "https://schema.ion.id/release1/schema/common/IdentifiableLocation/v1/context.jsonld",
+      "https://schema.ion.id/release1/schema/extension/trade/TradeParticipant/v1/context.jsonld",
+      "https://schema.ion.id/release1/schema/extension/trade/TradeProvider/v1/context.jsonld",
       "https://schema.ion.id/release1/schema/extension/trade/TradePerformance/v1/context.jsonld",
       "https://schema.ion.id/release1/schema/extension/trade/TradeContract/v1/context.jsonld",
       "https://schema.ion.id/release1/schema/extension/trade/TradeConsideration/v1/context.jsonld",
       "https://schema.ion.id/release1/schema/extension/trade/TradeCommitment/v1/context.jsonld",
-      "https://schema.ion.id/release1/schema/common/BusinessRegistration/v1/context.jsonld",
+      "https://schema.ion.id/release1/schema/extension/trade/TradeOffer/v1/context.jsonld",
       "https://schema.ion.id/release1/schema/common/Settlement/v1/context.jsonld"
     ]
   },
@@ -53,25 +61,37 @@
       },
       "participants": [
         {
-          "role": "BUYER",
-          "person": {
-            "name": "Ahmad Fauzi"
-          },
-          "contact": {
-            "phone": "08123456789",
-            "email": "ahmad.fauzi@email.com"
-          },
-          "address": {
-            "door": "No. 45",
-            "building": "Gedung Sudirman Plaza",
-            "street": "Jl. Jend. Sudirman",
-            "city": "Jakarta Selatan",
-            "areaCode": "12190"
+          "id": "PROV-DOMINOS-SUDIRMAN-001",
+          "participantAttributes": {
+            "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeParticipant/v1/context.jsonld",
+            "@type": "ion:IONTradeParticipant",
+            "role": "PROVIDER"
           }
         },
         {
-          "role": "SELLER",
-          "id": "PROV-DOMINOS-SUDIRMAN-001"
+          "id": "PERSON-BUYER-001",
+          "participantAttributes": {
+            "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeParticipant/v1/context.jsonld",
+            "@type": "ion:IONTradeParticipant",
+            "role": "BUYER",
+            "person": {
+              "id": "PERSON-BUYER-001",
+              "name": "Ahmad Fauzi",
+              "telephone": "+628123456789",
+              "email": "ahmad@example.com"
+            },
+            "billingAddress": {
+              "addressCountry": "ID",
+              "addressRegion": "DKI Jakarta",
+              "addressLocality": "Jakarta Selatan",
+              "streetAddress": "Jl. Jend. Sudirman",
+              "extendedAddress": "No. 45, Gedung Sudirman Plaza",
+              "postalCode": "12190",
+              "provinsiCode": "BPS-31",
+              "kabupatenCode": "3171",
+              "addressType": "APARTMENT"
+            }
+          }
         }
       ],
       "commitments": [
@@ -84,22 +104,99 @@
           },
           "offer": {
             "id": "OFFER-PIZZA-001",
+            "resourceIds": [
+              "PIZZA-PEPPERONI-LARGE"
+            ],
             "provider": {
               "id": "PROV-DOMINOS-SUDIRMAN-001",
               "descriptor": {
                 "name": "Domino's Pizza Sudirman"
+              },
+              "providerAttributes": {
+                "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeProvider/v1/context.jsonld",
+                "@type": "ion:IONTradeProvider",
+                "providerLocations": [
+                  {
+                    "id": "FC-DOMINOS-SUDIRMAN-001",
+                    "geo": {
+                      "type": "Point",
+                      "coordinates": [
+                        106.8111,
+                        -6.2604
+                      ]
+                    },
+                    "address": {
+                      "streetAddress": "Jl. Jend. Sudirman",
+                      "addressLocality": "Jakarta Selatan",
+                      "addressRegion": "DKI Jakarta",
+                      "postalCode": "12190",
+                      "addressCountry": "ID"
+                    }
+                  }
+                ]
+              }
+            },
+            "considerations": [
+              {
+                "id": "CONSID-OFFER-PIZZA-001",
+                "considerationAttributes": {
+                  "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeConsideration/v1/context.jsonld",
+                  "@type": "ion:IONTradeConsideration",
+                  "currency": "IDR",
+                  "totalAmount": 89000,
+                  "breakup": [
+                    {
+                      "title": "Harga",
+                      "amount": 89000,
+                      "type": "BASE_PRICE"
+                    }
+                  ],
+                  "buyerFinderFee": {
+                    "feeType": "PERCENT",
+                    "feeValue": 3,
+                    "appliesTo": "ITEM_TOTAL"
+                  }
+                }
+              }
+            ],
+            "offerAttributes": {
+              "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeOffer/v1/context.jsonld",
+              "@type": "ion:IONTradeOffer",
+              "policies": {
+                "returns": {
+                  "allowed": false,
+                  "policyRef": "ion://policy/return.standard.7d-sellerpays"
+                },
+                "cancellation": {
+                  "policyRef": "ion://policy/cancel.prepacked.free"
+                },
+                "warranty": {
+                  "policyRef": "ion://policy/warranty.standard.none"
+                },
+                "dispute": {
+                  "policyRef": "ion://policy/dispute.consumer.bpsk"
+                },
+                "grievanceSla": {
+                  "policyRef": "ion://policy/grievance-sla.consumer.standard"
+                },
+                "paymentTerms": {
+                  "policyRef": "ion://policy/payment-terms.upfront.full"
+                },
+                "settlement": {
+                  "settlementBasis": "AFTER_DELIVERY",
+                  "settlementWindow": "P1D"
+                }
               }
             }
           },
           "resources": [
             {
-              "id": "PIZZA-PEPPERONI-LARGE",
-              "resourceAttributes": {
-                "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeResource/v1/context.jsonld",
-                "@type": "ion:IONTradeResource",
-                "quantity": {
-                  "count": 1
-                }
+              "resource": {
+                "id": "PIZZA-PEPPERONI-LARGE"
+              },
+              "quantity": {
+                "unitQuantity": 1,
+                "unitCode": "EA"
               }
             }
           ],
@@ -116,17 +213,13 @@
                 "optionId": "OPT-TOMATO"
               }
             ],
-            "specialInstructions": "Tolong dipotong 8 bagian.",
-            "price": {
-              "value": 89000,
-              "currency": "IDR"
-            }
+            "specialInstructions": "Tolong dipotong 8 bagian."
           }
         }
       ],
       "consideration": [
         {
-          "id": "CONSID-ORD-2026-00012345",
+          "id": "CONSID-001",
           "status": {
             "code": "ACTIVE"
           },
@@ -135,6 +228,11 @@
             "@type": "ion:IONTradeConsideration",
             "totalAmount": 98790,
             "currency": "IDR",
+            "paymentMethods": [
+              "PREPAID",
+              "COD",
+              "QR_CODE"
+            ],
             "breakup": [
               {
                 "title": "Pepperoni Pizza Large",
@@ -144,7 +242,7 @@
                 "type": "BASE_PRICE"
               },
               {
-                "title": "Biaya Pengiriman",
+                "title": "Ongkos Kirim",
                 "amount": 0,
                 "type": "DELIVERY_CHARGE"
               },
@@ -182,13 +280,32 @@
             "fulfillingLocationId": "FC-DOMINOS-SUDIRMAN-001",
             "performanceMode": "DELIVERY",
             "sla": {
-              "min": "PT30M",
-              "max": "PT45M",
+              "min": "PT5M",
+              "max": "PT2H",
               "unitBasis": "ORDER_CONFIRMATION"
             },
-            "estimatedDeliveryTime": "2026-04-19T11:15:00+07:00",
             "deliveryOtp": "482930",
             "stops": [
+              {
+                "id": "STOP-ORIGIN-001",
+                "type": "START",
+                "location": {
+                  "geo": {
+                    "type": "Point",
+                    "coordinates": [
+                      106.8111,
+                      -6.2604
+                    ]
+                  },
+                  "address": {
+                    "streetAddress": "Jl. Jend. Sudirman",
+                    "addressLocality": "Jakarta Selatan",
+                    "addressRegion": "DKI Jakarta",
+                    "postalCode": "12190",
+                    "addressCountry": "ID"
+                  }
+                }
+              },
               {
                 "type": "END",
                 "location": {
@@ -214,6 +331,10 @@
                     "@context": "https://schema.ion.id/release1/schema/common/Address/v1/context.jsonld",
                     "@type": "ion:IONAddress"
                   }
+                },
+                "contact": {
+                  "name": "Ahmad Fauzi",
+                  "phone": "+628123456789"
                 }
               }
             ],
@@ -225,18 +346,25 @@
       ],
       "settlements": [
         {
-          "id": "PAY-2026-00012345",
-          "considerationId": "CONSID-ORD-2026-00012345",
+          "id": "SETTLEMENT-001",
+          "considerationId": "CONSID-001",
           "status": "COMMITTED",
           "settlementAttributes": {
             "@context": "https://schema.ion.id/release1/schema/common/Settlement/v1/context.jsonld",
             "@type": "ion:IONSettlementReconciliation",
             "method": "QRIS",
+            "paymentRail": "QRIS",
             "collectedBy": "BAP",
             "timing": "ON_ORDER",
             "status": "PAID",
-            "paidAt": "2026-04-19T10:30:58.000+07:00",
-            "gatewayRef": "GW-QRIS-9876543210",
+            "methodDetail": {
+              "qrisType": "DYNAMIC",
+              "qrisString": "00020101021226580014ID.CO.BCA.WWW011893600014301234560208INV00010303UMI51440014ID.CO.QRIS.WWW0215ID20200340123450303UMI5204581253033605405987905802ID5916DOMINOS SUDIRMAN6013JAKARTA PUSAT61051219062560703A016304CCE8",
+              "merchantId": "QRIS-DOMINOS-SUDIRMAN-001",
+              "expiresAt": "2026-04-19T10:45:00.000+07:00"
+            },
+            "paidAt": "2026-04-19T10:32:15.000+07:00",
+            "gatewayRef": "GW-QRIS-2026041900001",
             "currency": "IDR",
             "orderAmount": {
               "value": 98790
@@ -276,7 +404,10 @@
         "invoicePreferences": {
           "invoiceType": "RECEIPT"
         },
-        "buyerInstructions": "Tinggalkan di depan pintu jika tidak ada di rumah."
+        "buyerInstructions": "Tinggalkan di depan pintu jika tidak ada di rumah.",
+        "deliveryPreferences": {
+          "leaveAtDoor": true
+        }
       }
     }
   }

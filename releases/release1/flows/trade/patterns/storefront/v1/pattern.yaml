@@ -259,22 +259,40 @@ phases:
 
   phase3:
     name: Fulfilment
-    communication: BPP pushes unsolicited, BAP polls optionally
+    communication: >-
+      BAP polls optionally; the BPP may return the current state and subsequent
+      significant updates using the request messageId. Every on_status message
+      carries the full current Contract snapshot, not a sparse delta. Without a
+      poll, the BPP may push significant updates unsolicited.
     stateMachine: schema/extension/trade/TradePerformanceStates/v1/states.yaml#standard
     steps:
+      - step: status
+        from: BAP
+        to: BPP
+        direction: request
+        optional: true
+        description: BAP optionally polls for the current state of the confirmed contract.
+        requiredFields:
+          - message.contract.id
+
       - step: on_status
         trigger: PACKED
         from: BPP
         to: BAP
-        direction: unsolicited
-        description: Order packed and ready for logistics pickup.
+        direction: callback
+        description: >-
+          BPP returns the first state update for the status request. The order
+          is packed and ready for logistics pickup.
 
       - step: on_status
         trigger: DISPATCHED
         from: BPP
         to: BAP
-        direction: unsolicited
-        description: Package picked up by logistics. AWB number and tracking URL added.
+        direction: callback
+        description: >-
+          BPP sends an additional update correlated to the status request.
+          The package is picked up by logistics; AWB number, tracking URL,
+          and ETA are added.
         requiredFields:
           - message.contract.performance[].status.descriptor.code
           - message.contract.performance[].performanceAttributes.trackingNumber
@@ -288,14 +306,17 @@ phases:
         trigger: OUT_FOR_DELIVERY
         from: BPP
         to: BAP
-        direction: unsolicited
+        direction: callback
+        description: Additional update correlated to the status request.
 
       - step: on_status
         trigger: DELIVERED
         from: BPP
         to: BAP
-        direction: unsolicited
-        description: Package delivered. Contract COMPLETE. Rating window opens.
+        direction: callback
+        description: >-
+          Final update correlated to the status request. Package delivered,
+          Contract COMPLETE, and the rating window opens.
         requiredFields:
           - message.contract.performance[].status.descriptor.code
           - message.contract.status
