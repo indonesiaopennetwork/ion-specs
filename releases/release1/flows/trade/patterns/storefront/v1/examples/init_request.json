@@ -18,7 +18,6 @@
     ]
   },
   "context": {
-    "domain": "ion:trade",
     "action": "init",
     "version": "2.0.0",
     "bapId": "buyerapp.ion.id",
@@ -29,26 +28,7 @@
     "transactionId": "9fdb667c-76c6-456a-9742-ba9caa5eb765",
     "messageId": "65c35bd6-c7c7-43ab-aa05-6b45ef2ebbe3",
     "timestamp": "2026-04-19T10:05:00.000+07:00",
-    "ttl": "PT30S",
-    "location": {
-      "city": {
-        "code": "std:3171"
-      },
-      "country": {
-        "code": "IDN"
-      }
-    },
-    "schemaContext": [
-      "https://schema.ion.id/release1/schema/common/Address/v1/context.jsonld",
-      "https://schema.ion.id/release1/schema/common/IdentifiableLocation/v1/context.jsonld",
-      "https://schema.ion.id/release1/schema/extension/trade/TradeParticipant/v1/context.jsonld",
-      "https://schema.ion.id/release1/schema/extension/trade/TradeProvider/v1/context.jsonld",
-      "https://schema.ion.id/release1/schema/extension/trade/TradeContract/v1/context.jsonld",
-      "https://schema.ion.id/release1/schema/extension/trade/TradeCommitment/v1/context.jsonld",
-      "https://schema.ion.id/release1/schema/extension/trade/TradeConsideration/v1/context.jsonld",
-      "https://schema.ion.id/release1/schema/extension/trade/TradePerformance/v1/context.jsonld",
-      "https://schema.ion.id/release1/schema/common/Settlement/v1/context.jsonld"
-    ]
+    "ttl": "PT30S"
   },
   "message": {
     "contract": {
