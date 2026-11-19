@@ -722,9 +722,9 @@ paths:
         \ for which the CN MUST use /status and /on_status.\n\nAdditional preconditions:\
         \ A /confirm request MUST have completed and the CN MUST have received an\
         \ /on_confirm callback with a confirmed Contract before this endpoint may be\
-        \ called.\n\nThe message MUST contain a TrackAction with a Tracking object\
-        \ whose contract.id identifies the contract whose performance stage is to be\
-        \ tracked.\n\nCallback relationship: After preparing the tracking handle, the\
+        \ called.\n\nThe message MUST contain a TrackAction with a TrackingRequest object\
+        \ whose id identifies the active contract or fulfillment stage to be tracked.\
+        \n\nCallback relationship: After preparing the tracking handle, the\
         \ PN MUST send an /on_track callback to the CN carrying a Tracking object\
         \ with the URL or WebSocket endpoint. The CN MUST correlate the callback\
         \ using the messageId from Context and MAY open the tracking connection immediately\
@@ -2696,16 +2696,15 @@ components:
         \ updates.\n\nThis schema appears in the performance phase of the value-exchange\
         \ lifecycle. The CN produces it as the message payload of a /track request;\
         \ the PN consumes it to identify the performance stage and return an appropriate\
-        \ tracking handle via /on_track.\n\nRelationship: Composes the Tracking schema\
-        \ as its primary carrier. The Tracking object MUST include a contract reference\
-        \ with an id identifying the active contract whose performance stage is to\
-        \ be tracked."
+        \ tracking handle via /on_track.\n\nRelationship: Composes the TrackingRequest\
+        \ schema as its primary carrier. TrackingRequest.id MUST identify the active\
+        \ contract or fulfillment stage to be tracked."
       additionalProperties: false
       properties:
-        tracking:
-          $ref: '#/components/schemas/Tracking'
+        trackingRequest:
+          $ref: '#/components/schemas/TrackingRequest'
       required:
-      - tracking
+      - trackingRequest
 
     UpdateAction:
       title: Update Action
@@ -4180,16 +4179,45 @@ components:
         - endTime
       additionalProperties: false
 
+    TrackingRequest:
+      x-iri: https://schema.nfh.global/TrackingRequest/v2.0
+      description: Schema definition for TrackingRequest in the Beckn Protocol v2.0.1
+      title: TrackingRequest
+      x-tags:
+      - common
+      type: object
+      properties:
+        id:
+          description: Tracking reference identifier
+          type: string
+        callbackUrl:
+          description: Optional callback URL for streaming tracking coordinates/updates
+          type: string
+          format: uri
+        modeHint:
+          description: Optional delivery mode for the tracking handle.
+          type: string
+          enum:
+          - LINK_ONLY
+          - DEEP_LINK
+          - WEBHOOK
+          - WS_HANDLE
+        trackingDataSchema:
+          description: A JSON Schema (2020-12) that describes the structure of trackingData payloads.
+      required:
+      - id
+      additionalProperties: false
+
     Tracking:
       description: "A handle that provides the CN with the URL or WebSocket endpoint\
         \ needed to subscribe to real-time position and progress updates for an active\
         \ fulfillment stage of a confirmed contract.\n\nTracking appears in the fulfillment\
-        \ phase of the value-exchange lifecycle, within TrackAction (produced by the\
-        \ CN) and OnTrackAction (produced by the PN). The PN produces it when a\
+        \ phase of the value-exchange lifecycle within OnTrackAction. The PN produces\
+        \ it when a\
         \ /track request is received, supplying the live data stream endpoint and\
         \ indicating whether tracking is currently active or inactive; the CN consumes\
         \ it to connect to the real-time data stream.\n\nRelationship: Composed within\
-        \ the TrackAction and OnTrackAction schemas as the primary carrier. The contract\
+        \ the OnTrackAction schema as the primary carrier. The contract\
         \ field composes the Contract schema (with a required id) to identify the\
         \ contract being tracked. The trackingAttributes field extends the core schema\
         \ with domain-specific tracking metadata via the Attributes schema."

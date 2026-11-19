@@ -37,7 +37,12 @@ asynchronous callback envelopes carry `context` and exactly one of `message` or
 `error`, and specialize `AsyncError` without reopening the base error object's
 property set. The two earlier ION corrections were retained during the
 integration. ION then added the optional `Support.supportAttributes` slot
-proposed in Beckn PR #204, "Support: add optional supportAttributes". The maintained copy remains subject to the upstream license above.
+proposed in Beckn PR #204, "Support: add optional supportAttributes". ION also
+inlined the NFH `TrackingRequest` v2.0 component from
+`https://schema.nfh.global/TrackingRequest/v2.0/attributes.yaml` and changed
+`TrackAction` to carry it under `trackingRequest`, keeping the response-oriented
+`Tracking` component on `OnTrackAction`. The maintained copy remains subject to
+the upstream license above.
 The immutable vendored contract is retained temporarily as a compatibility URL
 while consumers migrate to the ION-maintained path.
 

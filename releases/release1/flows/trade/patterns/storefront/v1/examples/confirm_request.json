@@ -28,7 +28,7 @@
     "networkId": "ion.id",
     "transactionId": "9fdb667c-76c6-456a-9742-ba9caa5eb765",
     "messageId": "d577c44a-e4c8-462b-a54f-3f197304f812",
-    "timestamp": "2026-04-19T10:32:16.000+07:00",
+    "timestamp": "2026-09-19T10:32:16.000+07:00",
     "ttl": "PT30S"
   },
   "message": {
@@ -316,9 +316,9 @@
               "qrisType": "DYNAMIC",
               "qrisString": "00020101021226580014ID.CO.BCA.WWW011893600014301234560208INV00010303UMI51440014ID.CO.QRIS.WWW0215ID20200340123450303UMI5204581253033605405987905802ID5916DOMINOS SUDIRMAN6013JAKARTA PUSAT61051219062560703A016304CCE8",
               "merchantId": "QRIS-DOMINOS-SUDIRMAN-001",
-              "expiresAt": "2026-04-19T10:45:00.000+07:00"
+              "expiresAt": "2026-09-19T10:45:00.000+07:00"
             },
-            "paidAt": "2026-04-19T10:32:15.000+07:00",
+            "paidAt": "2026-09-19T10:32:15.000+07:00",
             "gatewayRef": "GW-QRIS-2026041900001",
             "currency": "IDR",
             "orderAmount": {
