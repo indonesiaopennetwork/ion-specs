@@ -67,6 +67,12 @@ or Logistics dependencies. The Cancellation v1 variant followed: preview, buyer
 full and partial cancellation, policy rejection, and seller-initiated
 cancellation of a confirmed contract.
 
+The draft subsequently added the common `IONParticipant` v1 pack and the
+Trade-specific `IONTradeParticipant` v1 extension point. They provide a common
+participant role plus NFH `Person` or `Organization` identity details for
+`Participant.participantAttributes`. The associated NFH dependency closure is
+pinned under `schema/vendored/beckn/schemas/` and resolves offline.
+
 ION endpoints that Beckn does not define live in one file,
 `schema/core/api/v2.0.0/ion-additional.yaml`, which references the
 ION-maintained `schema/core/api/v2.0.0/ion-beckn.yaml` contract. Release 1 adds the settlement reconciliation endpoints
@@ -95,8 +101,10 @@ values to RFC 3339 date-times. ION also integrated the callback-envelope changes
 proposed in Beckn PR #202: asynchronous callbacks now carry exactly one of
 `message` for success or `error` for failure. ION then added the optional
 `Support.supportAttributes` slot proposed in Beckn PR #204, so `/support` and
-`/on_support` can carry network-defined attributes. The unmodified immutable vendored
-file remains at
+`/on_support` can carry network-defined attributes. ION also inlined NFH's
+`TrackingRequest` v2.0 component and changed `TrackAction` to carry
+`trackingRequest`, separating the request identifier from the live `Tracking`
+handle returned by `OnTrackAction`. The unmodified immutable vendored file remains at
 `schema/vendored/beckn/api/v2.0.0/beckn.yaml` during the URL migration, but new
 references use `ion-beckn.yaml`.
 

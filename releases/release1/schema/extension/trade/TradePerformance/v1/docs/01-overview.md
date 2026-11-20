@@ -15,3 +15,9 @@ Declared capability is in `resource.installation` (does it need installation? do
 `/on_status` carries durable performance state and execution facts. `/on_track`
 carries transient position information in `Tracking.trackingAttributes`; live GPS
 is not stored in `Performance.performanceAttributes`.
+
+## Stop contacts
+
+Each entry in `stops` may carry a `contact` for the person at that pickup,
+delivery, or intermediate stop. When present, the contact requires both `name`
+and `phone`.

@@ -1,7 +1,8 @@
 # trade/provider/v1
 
 Trade-sector provider attributes covering operational availability, operating
-hours, serviceability, invoicing, logistics, commerce channels, and verification.
+locations, hours, serviceability, invoicing, logistics, commerce channels, and
+verification.
 
 ## Attaches to
 `beckn:Provider.providerAttributes`
@@ -21,6 +22,10 @@ from Trade flow material included in the release.
 
 ## ION-specific refinements
 
+- `providerLocations[]` supplies stable identifiers for provider operating
+  locations while retaining the Beckn `Location` geo and address shape. These
+  identifiers are the reference targets for performance
+  `fulfillingLocationId` values and location-scoped provider rules.
 - `businessRegistration` composes `IONBusinessRegistration`; the actual `nib`
   replaces the former registration boolean.
 - `trustMarks[]` contains signed or verifiable Beckn Documents instead of a

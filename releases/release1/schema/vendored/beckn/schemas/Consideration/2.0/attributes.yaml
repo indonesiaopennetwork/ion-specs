@@ -1,0 +1,47 @@
+openapi: 3.1.1
+info:
+  title: Consideration
+  version: 2.0.0
+  description: "Container schemas fetched from beckn.yaml. This cannot be extended as it is a reserved schema in beckn protocol. Any additional properties added to this schema can only be made using its *Attributes property"
+  license:
+    name: CC-BY-NC-SA 4.0 International
+  contact:
+    name: Beckn Labs
+    url: https://beckn.io
+components:
+  schemas:
+    Consideration:
+      x-iri: https://schema.beckn.io/Consideration/v2.0
+      type: object
+      description: 'Generalized representation of value exchanged under a Contract.
+
+
+        Consideration is domain-neutral and may represent:
+
+        - Monetary value
+
+        - Credits / tokens
+
+        - Asset transfer
+
+        - Service exchange
+
+        - Compliance artifact'
+      required:
+      - id
+      - status
+      properties:
+        id:
+          description: Identifier of this consideration
+          type: string
+        status:
+          description: The status of this consideration
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Descriptor/2.1/attributes.yaml#/components/schemas/Descriptor
+        considerationAttributes:
+          description: 'Domain-specific attributes of this consideration. For monetary
+            considerations,
+
+            use the PriceSpecification schema to capture total value with breakup.
+
+            For other consideration types, use a generic Attributes bag.'
+          $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Attributes/2.0/attributes.yaml#/components/schemas/Attributes

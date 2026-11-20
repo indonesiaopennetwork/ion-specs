@@ -1,0 +1,33 @@
+{
+  "id": "ion-common-participant-v1",
+  "version": "1.0.0",
+  "status": "draft",
+  "domain": "common",
+  "type": "AttributePack",
+  "name": "ION Participant Extension (v1)",
+  "description": "Common participant role and identity attributes for ION transactions.",
+  "packSchema": "./schema.json",
+  "jsonldContext": "./context.jsonld",
+  "extends": "beckn:Participant",
+  "attachmentPoints": {
+    "participantAttributes": [
+      "IONParticipant"
+    ]
+  },
+  "indexing": {
+    "indexable": [
+      {
+        "path": "$.role"
+      }
+    ],
+    "filterable": [
+      {
+        "path": "$.role"
+      }
+    ],
+    "sortable": []
+  },
+  "minimalForDiscovery": [
+    "role"
+  ]
+}

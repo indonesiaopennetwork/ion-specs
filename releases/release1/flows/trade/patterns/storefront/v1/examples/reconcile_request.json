@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "description": "Storefront reconcile \u2014 after delivery the BPP (seller app) sends its settlement figures for the confirmed QRIS order. The PJP holds 98900; the BPP claims 96230 and the BAP's 3% finder fee on the 89000 item total is 2670.",
+    "description": "Storefront reconcile \u2014 after delivery the BPP (seller app) sends its settlement figures for the confirmed QRIS order. The PJP holds 98790; the BPP claims 96120 and the BAP's 3% finder fee on the 89000 item total is 2670.",
     "pattern": "storefront",
     "step": "reconcile",
     "sent_by": "BPP",
@@ -10,7 +10,6 @@
     ]
   },
   "context": {
-    "domain": "ion:trade",
     "action": "reconcile",
     "version": "2.0.0",
     "bapId": "buyerapp.ion.id",
@@ -20,24 +19,13 @@
     "senderId": "sellerapp.ion.id",
     "receiverId": "buyerapp.ion.id",
     "networkId": "ion.id",
-    "transactionId": "c3d9e2a1-5b7f-4e8c-9a1d-2f3e4b5c6d7e",
+    "transactionId": "9fdb667c-76c6-456a-9742-ba9caa5eb765",
     "messageId": "5e6f7a8b-9c0d-4e1f-8a2b-3c4d5e6f7a8b",
-    "timestamp": "2026-04-20T17:00:00.000+07:00",
-    "ttl": "PT30S",
-    "location": {
-      "city": {
-        "code": "std:3171"
-      },
-      "country": {
-        "code": "IDN"
-      }
-    },
-    "schemaContext": [
-      "https://schema.ion.id/release1/schema/common/Settlement/v1/context.jsonld"
-    ]
+    "timestamp": "2026-09-20T17:00:00.000+07:00",
+    "ttl": "PT30S"
   },
   "message": {
-    "settlementDate": "2026-04-20",
+    "settlementDate": "2026-09-20",
     "contracts": [
       {
         "id": "4f9c2b7e-1a3d-4e5f-8b6a-9c0d1e2f3a4b",
@@ -51,9 +39,12 @@
             },
             "resources": [
               {
-                "id": "PIZZA-PEPPERONI-LARGE",
+                "resource": {
+                  "id": "PIZZA-PEPPERONI-LARGE"
+                },
                 "quantity": {
-                  "count": 1
+                  "unitQuantity": 1,
+                  "unitCode": "EA"
                 }
               }
             ],
@@ -74,9 +65,9 @@
               "@type": "ion:IONSettlementReconciliation",
               "collectedBy": "BAP",
               "currency": "IDR",
-              "orderDate": "2026-04-19",
+              "orderDate": "2026-09-19",
               "orderAmount": {
-                "value": 98900
+                "value": 98790
               },
               "commission": {
                 "value": 2670
@@ -88,7 +79,7 @@
                 "value": 0
               },
               "netPayable": {
-                "value": 96230
+                "value": 96120
               },
               "settlementAccounts": [
                 {
@@ -104,7 +95,7 @@
                   "accountName": "PT Seller App Indonesia"
                 }
               ],
-              "dueDate": "2026-04-20"
+              "dueDate": "2026-09-20"
             }
           }
         ]
@@ -114,14 +105,14 @@
       "bapId": "buyerapp.ion.id",
       "bppId": "sellerapp.ion.id",
       "currency": "IDR",
-      "settlementDate": "2026-04-20",
+      "settlementDate": "2026-09-20",
       "contractCount": 1,
       "settlementCount": 1,
-      "totalOrderAmount": 98900,
+      "totalOrderAmount": 98790,
       "totalCommission": 2670,
       "totalWithholding": 0,
       "totalRefund": 0,
-      "totalNetPayable": 96230
+      "totalNetPayable": 96120
     }
   }
 }

@@ -1,7 +1,6 @@
 {
   "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeOffer/v1/context.jsonld",
   "@type": "ion:IONTradeOffer",
-  "_comment": "Example: F&B offer (food-qsr/delivery) — returns not allowed, free cancellation before preparation",
   "timeToShip": "PT30M",
   "selfPickupOtp": true,
   "selfPickupInstructions": "Tunjukkan kode pickup di kasir",
@@ -15,6 +14,60 @@
     "id",
     "en"
   ],
+  "customization": {
+    "groups": [
+      {
+        "code": "CG-CRUST",
+        "name": "Pizza Crust",
+        "selection": "SINGLE_REQUIRED",
+        "options": [
+          {
+            "code": "OPT-THIN",
+            "name": "Thin Crust",
+            "priceDelta": {
+              "type": "FIXED",
+              "value": 0
+            },
+            "available": true
+          },
+          {
+            "code": "OPT-PAN",
+            "name": "Pan Crust",
+            "priceDelta": {
+              "type": "FIXED",
+              "value": 5000
+            },
+            "available": true
+          }
+        ]
+      },
+      {
+        "code": "CG-SAUCE",
+        "name": "Sauce",
+        "selection": "SINGLE_REQUIRED",
+        "options": [
+          {
+            "code": "OPT-TOMATO",
+            "name": "Tomato Sauce",
+            "priceDelta": {
+              "type": "FIXED",
+              "value": 0
+            },
+            "available": true
+          },
+          {
+            "code": "OPT-BBQ",
+            "name": "BBQ Sauce",
+            "priceDelta": {
+              "type": "FIXED",
+              "value": 3000
+            },
+            "available": true
+          }
+        ]
+      }
+    ]
+  },
   "policies": {
     "returns": {
       "allowed": false,

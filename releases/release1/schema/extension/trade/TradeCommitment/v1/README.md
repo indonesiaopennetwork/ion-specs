@@ -1,25 +1,26 @@
 # trade/commitment/v1
 
-Per-line trade attributes extending RetailCommitment v2.1. The upstream schema supplies line, resource, offer, quantity, committed-price, selected-customization, add-on, and special-instruction fields. This pack adds line-specific replacement preference and an ION extension point.
+Trade-specific attributes attached to a Beckn Commitment. The core Commitment
+object carries its identity, resources, quantities, and selected offer. This pack
+carries committed prices, selected add-ons, customizations, special instructions,
+and replacement preference.
 
 ## Attaches to
 `beckn:Commitment.commitmentAttributes`
 
 See `attributes.yaml` for complete field definitions.
 
-## Required fields
+## Core and extension responsibilities
 
-RetailCommitment v2.1 requires these inherited attributes:
+Use these core locations as the authoritative commitment references:
 
-- `lineId`
-- `resourceId`
-- `quantity`
+- `Commitment.id`
+- `Commitment.resources[].resource.id`
+- `Commitment.resources[].quantity`
+- `Commitment.offer.id`
 
-ION network policy additionally requires inherited `offerId`.
-
-These compatibility attributes overlap the current core locations
-`Commitment.id`, `Commitment.resources[]`, and `Commitment.offer`. The overlap
-comes from RetailCommitment v2.1 and cannot be removed by this child schema.
+Do not repeat those values in `commitmentAttributes`. The extension properties
+are optional unless an active flow or business rule requires them.
 
 ## Per-step required fields
 
@@ -40,4 +41,5 @@ to the active ONIX validation profile. See the Release 1
 
 | Version | Date | Summary |
 |---|---|---|
+| v1 draft | 2026-11-09 | Removed RetailCommitment inheritance and duplicate core reference fields; retained the trade-specific fields directly. |
 | v1 | 2026-06-02 | Initial release |

@@ -66,7 +66,9 @@
           },
           "resources": [
             {
-              "id": "RES-BATIK-PARANG-L",
+              "resource": {
+                "id": "RES-BATIK-PARANG-L"
+              },
               "quantity": {
                 "unitQuantity": 1,
                 "unitCode": "EA"
@@ -76,13 +78,6 @@
           "commitmentAttributes": {
             "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeCommitment/v1/context.jsonld",
             "@type": "ion:IONTradeCommitment",
-            "lineId": "L01",
-            "resourceId": "RES-BATIK-PARANG-L",
-            "offerId": "OFFER-BATIK-PARANG-001",
-            "quantity": {
-              "unitQuantity": 1,
-              "unitCode": "EA"
-            },
             "price": {
               "price": 150000,
               "priceCurrency": "IDR"
@@ -124,7 +119,9 @@
           },
           "resources": [
             {
-              "id": "RES-KERIPIK-BALADO-150G",
+              "resource": {
+                "id": "RES-KERIPIK-BALADO-150G"
+              },
               "quantity": {
                 "unitQuantity": 2,
                 "unitCode": "EA"
@@ -134,13 +131,6 @@
           "commitmentAttributes": {
             "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeCommitment/v1/context.jsonld",
             "@type": "ion:IONTradeCommitment",
-            "lineId": "L02",
-            "resourceId": "RES-KERIPIK-BALADO-150G",
-            "offerId": "OFFER-KERIPIK-BALADO-001",
-            "quantity": {
-              "unitQuantity": 2,
-              "unitCode": "EA"
-            },
             "price": {
               "price": 25000,
               "priceCurrency": "IDR"

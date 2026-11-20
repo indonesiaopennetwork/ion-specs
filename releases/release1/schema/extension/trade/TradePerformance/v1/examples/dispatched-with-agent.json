@@ -1,7 +1,6 @@
 {
   "@context": "https://schema.ion.id/release1/schema/extension/trade/TradePerformance/v1/context.jsonld",
   "@type": "ion:IONTradePerformance",
-  "_comment": "Example: on_status payload when DISPATCHED — agent assigned, tracking available",
   "performanceMode": "DELIVERY",
   "supportedPerformanceModes": ["DELIVERY"],
   "sla": {
@@ -28,6 +27,23 @@
     "startAt": "2026-04-19T12:30:00+07:00",
     "endAt": "2026-04-19T13:00:00+07:00"
   },
+  "stops": [
+    {
+      "id": "STOP-DELIVERY-001",
+      "type": "END",
+      "location": {
+        "address": {
+          "addressCountry": "ID",
+          "addressLocality": "Jakarta Selatan",
+          "postalCode": "12190"
+        }
+      },
+      "contact": {
+        "name": "Budi Santoso",
+        "phone": "+6281234567890"
+      }
+    }
+  ],
   "fulfillmentType": "INSTANT",
   "shippingProviderType": "THIRD_PARTY_ON_NETWORK"
 }

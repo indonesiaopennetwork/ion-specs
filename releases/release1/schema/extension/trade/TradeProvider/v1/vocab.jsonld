@@ -246,6 +246,12 @@
       "@type": "rdf:Property",
       "rdfs:label": "evidence",
       "rdfs:comment": "Documentary evidence for the category licence."
+    },
+    {
+      "@id": "ion:providerLocations",
+      "@type": "rdf:Property",
+      "rdfs:label": "providerLocations",
+      "rdfs:comment": "Identifiable provider operating locations used as stable reference targets by Performance fulfillingLocationId, operating hours, closures, and serviceability rules. Each entry preserves the Beckn Location wire shape while adding the identifier that Beckn Location 2.0 does not define."
     }
   ]
 }

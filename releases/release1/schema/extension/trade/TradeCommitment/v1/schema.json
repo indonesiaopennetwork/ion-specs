@@ -2,16 +2,14 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://schema.ion.id/release1/schema/extension/trade/TradeCommitment/v1",
   "title": "ION Trade Commitment Schema Pack v1",
-  "description": "JSON Schema 2020-12 mirror of the trade/commitment/v1 OpenAPI schema pack. The root resolves to IONTradeCommitment, which inherits directly from RetailCommitment v2.1.",
+  "description": "JSON Schema 2020-12 mirror of the TradeCommitment v1 OpenAPI schema pack. Core commitment identity, resources, offers, and quantities remain on the Beckn Commitment object.",
   "type": "object",
   "$ref": "#/$defs/IONTradeCommitment",
   "$defs": {
     "IONTradeCommitment": {
       "type": "object",
       "title": "IONTradeCommitment",
-      "description": "ION trade commitment attributes. Inherits directly from RetailCommitment v2.1 and adds replacement preference semantics. The former ION-specific layer defined no additional properties, so no x-attr-ion-layer markers are needed.",
-      "x-ion-layer": "ion",
-      "x-ion-split-version": "0.7.0",
+      "description": "Trade-specific attributes of a Beckn Commitment. Core Commitment fields identify the commitment, resources, quantities, and offer; this extension carries only the line-specific commercial and buyer-selection details that are not represented by the core object.",
       "x-recommended-parent": "Commitment.commitmentAttributes",
       "additionalProperties": true,
       "x-jsonld": {
@@ -20,12 +18,67 @@
       },
       "x-beckn-attaches-to": "Commitment.commitmentAttributes",
       "x-ion-closed-extensions": false,
-      "allOf": [
-        {
-          "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/RetailCommitment/2.1/attributes.yaml#/components/schemas/RetailCommitment"
-        }
-      ],
       "properties": {
+        "price": {
+          "allOf": [
+            {
+              "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/PriceSpecification/2.0/attributes.yaml#/components/schemas/PriceSpecification"
+            }
+          ],
+          "description": "Committed post-discount price for this commitment.",
+          "x-jsonld-id": "rccma:price"
+        },
+        "originalPrice": {
+          "allOf": [
+            {
+              "$ref": "https://schema.ion.id/release1/schema/vendored/beckn/schemas/PriceSpecification/2.0/attributes.yaml#/components/schemas/PriceSpecification"
+            }
+          ],
+          "description": "Pre-discount price for display and audit. Omit when it is equal to price and no discount applies.\n",
+          "x-jsonld-id": "rccma:originalPrice"
+        },
+        "addOnIds": {
+          "type": "array",
+          "description": "Identifiers of offer add-ons selected for this commitment. Add-ons are defined by the selected Offer; this field records the buyer's selection.\n",
+          "items": {
+            "type": "string"
+          },
+          "x-jsonld-id": "rccma:addOnIds"
+        },
+        "selectedCustomizations": {
+          "type": "array",
+          "description": "Customization options selected for this commitment. The combination of groupId and optionId must identify each selection without ambiguity; label is display-only.\n",
+          "items": {
+            "type": "object",
+            "required": [
+              "groupId",
+              "optionId"
+            ],
+            "properties": {
+              "groupId": {
+                "type": "string",
+                "description": "Identifier of the customization group.",
+                "x-jsonld-id": "rccma:customizationGroupId"
+              },
+              "optionId": {
+                "type": "string",
+                "description": "Identifier of the selected option within the group.",
+                "x-jsonld-id": "rccma:customizationOptionId"
+              },
+              "label": {
+                "type": "string",
+                "description": "Human-readable display label for the selection.",
+                "x-jsonld-id": "rccma:customizationLabel"
+              }
+            }
+          },
+          "x-jsonld-id": "rccma:selectedCustomizations"
+        },
+        "specialInstructions": {
+          "type": "string",
+          "description": "Buyer instructions that apply specifically to this commitment.",
+          "x-jsonld-id": "rccma:specialInstructions"
+        },
         "replacementPreferred": {
           "type": "boolean",
           "description": "Whether the buyer prefers replacement over refund for this committed line if the supplied resource is defective, incorrect, or otherwise eligible for remediation. This is line-specific because different commitments in the same contract may require different remedies.\n",

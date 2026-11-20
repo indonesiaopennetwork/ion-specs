@@ -518,6 +518,90 @@
       "@type": "rdf:Property",
       "rdfs:label": "settlement",
       "rdfs:comment": "The seller's payout terms for orders of this offer: the payout to the seller falls due settlementWindow after the settlementBasis event. When an order has several offers, the term giving the latest due date applies to the whole contract. The commission the seller pays the buyer app is policies.commission, not part of this policy."
+    },
+    {
+      "@id": "ion:customization",
+      "@type": "rdf:Property",
+      "rdfs:label": "customization",
+      "rdfs:comment": "Customization groups and options offered for this trade offer. The buyer's selections are recorded on the commitment."
+    },
+    {
+      "@id": "ion:minSelections",
+      "@type": "rdf:Property",
+      "rdfs:label": "minSelections",
+      "rdfs:comment": "Minimum number of options that must be selected for a MULTIPLE_OPTIONAL group."
+    },
+    {
+      "@id": "ion:maxSelections",
+      "@type": "rdf:Property",
+      "rdfs:label": "maxSelections",
+      "rdfs:comment": "Maximum number of options that may be selected for a MULTIPLE_OPTIONAL group."
+    },
+    {
+      "@id": "ion:priceDelta",
+      "@type": "rdf:Property",
+      "rdfs:label": "priceDelta",
+      "rdfs:comment": "Price adjustment for selecting this option."
+    },
+    {
+      "@id": "ion:itemRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "itemRef",
+      "rdfs:comment": "Reference to a Beckn Resource when this option represents a distinct item."
+    },
+    {
+      "@id": "ion:offerRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "offerRef",
+      "rdfs:comment": "Reference to a Beckn Offer when this option represents a distinct offer."
+    },
+    {
+      "@id": "ion:available",
+      "@type": "rdf:Property",
+      "rdfs:label": "available",
+      "rdfs:comment": "Whether this option is currently available."
+    },
+    {
+      "@id": "ion:groups",
+      "@type": "rdf:Property",
+      "rdfs:label": "groups",
+      "rdfs:comment": "Customization groups such as SIZE, TOPPINGS, or SAUCE."
+    },
+    {
+      "@id": "ion:code",
+      "@type": "rdf:Property",
+      "rdfs:label": "code",
+      "rdfs:comment": "Unique code for the customization group (for example, SIZE, TOPPINGS, or SAUCE)."
+    },
+    {
+      "@id": "ion:name",
+      "@type": "rdf:Property",
+      "rdfs:label": "name",
+      "rdfs:comment": "Human-readable name for the customization group (for example, Pizza Size or Extra Toppings)."
+    },
+    {
+      "@id": "ion:selection",
+      "@type": "rdf:Property",
+      "rdfs:label": "selection",
+      "rdfs:comment": "Selection constraint for this group. SINGLE_REQUIRED means the buyer must select exactly one option. SINGLE_OPTIONAL means the buyer may select zero or one option. MULTIPLE_OPTIONAL means the buyer may select zero or more options."
+    },
+    {
+      "@id": "ion:options",
+      "@type": "rdf:Property",
+      "rdfs:label": "options",
+      "rdfs:comment": "Available options for this customization group."
+    },
+    {
+      "@id": "ion:type",
+      "@type": "rdf:Property",
+      "rdfs:label": "type",
+      "rdfs:comment": "Price delta type. FIXED is an absolute amount; PERCENTAGE is a percentage of the base price."
+    },
+    {
+      "@id": "ion:value",
+      "@type": "rdf:Property",
+      "rdfs:label": "value",
+      "rdfs:comment": "Price delta value, which may be positive or negative."
     }
   ]
 }

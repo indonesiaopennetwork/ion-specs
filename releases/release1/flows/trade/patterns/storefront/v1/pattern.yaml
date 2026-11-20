@@ -43,13 +43,10 @@ phases:
           - message.catalog.resources[].resourceAttributes.name.id
           - message.catalog.resources[].resourceAttributes.shortDesc.id
           - message.catalog.resources[].resourceAttributes.shortDesc.id
-          - message.catalog.resources[].resourceAttributes.resourceStructure
           - message.catalog.resources[].resourceAttributes.availability.status
-          - message.catalog.resources[].resourceAttributes.images[]
-          - message.catalog.resources[].resourceAttributes.countryOfOrigin
+          - message.catalog.resources[].descriptor.mediaFile[].uri
+          - message.catalog.resources[].resourceAttributes.identity.originCountry
           - message.catalog.resources[].resourceAttributes.ageRestricted
-          - message.catalog.resources[].resourceAttributes.logisticsServiceType
-          - message.catalog.resources[].resourceAttributes.resourceTangibility
           - message.catalog.resources[].resourceAttributes.minAge
           - message.catalog.offers[].id
           - message.catalog.offers[].price
@@ -71,7 +68,7 @@ phases:
             condition: required for food/grocery and quick-commerce providers (packaged food only)
           - field: message.catalog.resources[].resourceAttributes.food
             condition: required for packaged food and beverage items (FMCG/grocery — not restaurant meals)
-          - field: message.catalog.resources[].resourceAttributes.packaged
+          - field: message.catalog.resources[].resourceAttributes.packagedGoodsDeclaration
             condition: required for packaged goods
           - field: message.catalog.resources[].resourceAttributes.customisationGroups[]
             condition: required for COMPOSED and WITH_EXTRAS resource types
@@ -107,13 +104,12 @@ phases:
           - context.timestamp
           - context.ttl
           - context.location.city.code
-          - message.contract.participants[role=PROVIDER].id
+          - message.contract.commitments[].offer.provider.id
           - message.contract.commitments[].id
-          - message.contract.commitments[].commitmentAttributes.lineId
-          - message.contract.commitments[].commitmentAttributes.resourceId
-          - message.contract.commitments[].commitmentAttributes.offerId
-          - message.contract.commitments[].commitmentAttributes.quantity.value
-          - message.contract.commitments[].resources[].quantity.count
+          - message.contract.commitments[].resources[].resource.id
+          - message.contract.commitments[].resources[].quantity.unitQuantity
+          - message.contract.commitments[].resources[].quantity.unitCode
+          - message.contract.commitments[].offer.id
           - message.contract.performance[].performanceAttributes.performanceMode
         conditionalFields:
           - field: message.contract.commitments[].commitmentAttributes.selectedCustomizations
@@ -125,7 +121,7 @@ phases:
         direction: callback
         description: BPP validates availability, computes quote, returns supported modes and SLA.
         requiredFields:
-          - message.contract.participants[role=PROVIDER].id
+          - message.contract.commitments[].offer.provider.id
           - message.contract.commitments[].id
           - message.contract.consideration[].considerationAttributes.breakup[]
           - message.contract.consideration[].considerationAttributes.totalAmount
@@ -153,11 +149,12 @@ phases:
           with figures estimated on the quote (commission as the quote's
           consideration buyerFinderFee.feeAmount).
         requiredFields:
-          - message.contract.participants[role=PROVIDER].id
+          - message.contract.participants[participantAttributes.role=PROVIDER].id
           - message.contract.commitments[].id
-          - message.contract.participants[role=BUYER].person.name
-          - message.contract.participants[role=BUYER].contact.phone
-          - message.contract.participants[role=BUYER].address
+          - message.contract.participants[participantAttributes.role=BUYER].participantAttributes.person.id
+          - message.contract.participants[participantAttributes.role=BUYER].participantAttributes.person.name
+          - message.contract.participants[participantAttributes.role=BUYER].participantAttributes.person.telephone
+          - message.contract.participants[participantAttributes.role=BUYER].participantAttributes.billingAddress
           - message.contract.performance[].id
           - message.contract.performance[].performanceAttributes.performanceMode
           - message.contract.performance[].performanceAttributes.stops[].location.address
@@ -183,7 +180,7 @@ phases:
             condition: if gifting is declared
         schemaPacks:
           common: [Address/v1, Settlement/v1]
-          trade: [TradeContract/v1]
+          trade: [TradeParticipant/v1, TradeContract/v1]
 
       - step: on_init
         from: BPP
@@ -262,22 +259,40 @@ phases:
 
   phase3:
     name: Fulfilment
-    communication: BPP pushes unsolicited, BAP polls optionally
+    communication: >-
+      BAP polls optionally; the BPP may return the current state and subsequent
+      significant updates using the request messageId. Every on_status message
+      carries the full current Contract snapshot, not a sparse delta. Without a
+      poll, the BPP may push significant updates unsolicited.
     stateMachine: schema/extension/trade/TradePerformanceStates/v1/states.yaml#standard
     steps:
+      - step: status
+        from: BAP
+        to: BPP
+        direction: request
+        optional: true
+        description: BAP optionally polls for the current state of the confirmed contract.
+        requiredFields:
+          - message.contract.id
+
       - step: on_status
         trigger: PACKED
         from: BPP
         to: BAP
-        direction: unsolicited
-        description: Order packed and ready for logistics pickup.
+        direction: callback
+        description: >-
+          BPP returns the first state update for the status request. The order
+          is packed and ready for logistics pickup.
 
       - step: on_status
         trigger: DISPATCHED
         from: BPP
         to: BAP
-        direction: unsolicited
-        description: Package picked up by logistics. AWB number and tracking URL added.
+        direction: callback
+        description: >-
+          BPP sends an additional update correlated to the status request.
+          The package is picked up by logistics; AWB number, tracking URL,
+          and ETA are added.
         requiredFields:
           - message.contract.performance[].status.descriptor.code
           - message.contract.performance[].performanceAttributes.trackingNumber
@@ -291,14 +306,17 @@ phases:
         trigger: OUT_FOR_DELIVERY
         from: BPP
         to: BAP
-        direction: unsolicited
+        direction: callback
+        description: Additional update correlated to the status request.
 
       - step: on_status
         trigger: DELIVERED
         from: BPP
         to: BAP
-        direction: unsolicited
-        description: Package delivered. Contract COMPLETE. Rating window opens.
+        direction: callback
+        description: >-
+          Final update correlated to the status request. Package delivered,
+          Contract COMPLETE, and the rating window opens.
         requiredFields:
           - message.contract.performance[].status.descriptor.code
           - message.contract.status

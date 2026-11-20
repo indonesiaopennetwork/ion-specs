@@ -10,11 +10,9 @@
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
     "skos": "http://www.w3.org/2004/02/skos/core#",
     "owl": "http://www.w3.org/2002/07/owl#",
-
     "Provider": "beckn:Provider",
     "Attributes": "beckn:Attributes",
     "IONTradeProvider": "ion:IONTradeProvider",
-
     "invoicing": "ion:invoicing",
     "model": "ion:model",
     "entityId": "ion:entityId",
@@ -24,6 +22,7 @@
       "@id": "ion:until",
       "@type": "xsd:dateTime"
     },
+    "providerLocations": "ion:providerLocations",
     "operatingHours": "ion:operatingHours",
     "locationId": "ion:locationId",
     "type": "ion:type",
@@ -59,7 +58,6 @@
       "@type": "xsd:date"
     },
     "caveats": "ion:caveats",
-
     "businessRegistration": "ion:businessRegistration",
     "trustMarks": "ion:trustMarks",
     "level": "ion:level",

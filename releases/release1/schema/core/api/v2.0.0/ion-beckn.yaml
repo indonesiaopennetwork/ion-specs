@@ -222,11 +222,6 @@ paths:
                   $ref: '#/components/schemas/OnDiscoverAction'
                 error:
                   $ref: '#/components/schemas/AsyncError'
-              oneOf:
-              - required:
-                - message
-              - required:
-                - error
       responses:
         '200':
           $ref: '#/components/responses/Ack'
@@ -338,11 +333,6 @@ paths:
                   $ref: '#/components/schemas/OnSelectAction'
                 error:
                   $ref: '#/components/schemas/AsyncError'
-              oneOf:
-              - required:
-                - message
-              - required:
-                - error
       responses:
         '200':
           $ref: '#/components/responses/Ack'
@@ -455,11 +445,6 @@ paths:
                   $ref: '#/components/schemas/OnInitAction'
                 error:
                   $ref: '#/components/schemas/AsyncError'
-              oneOf:
-              - required:
-                - message
-              - required:
-                - error
       responses:
         '200':
           $ref: '#/components/responses/Ack'
@@ -574,11 +559,6 @@ paths:
                   $ref: '#/components/schemas/OnConfirmAction'
                 error:
                   $ref: '#/components/schemas/AsyncError'
-              oneOf:
-              - required:
-                - message
-              - required:
-                - error
       responses:
         '200':
           $ref: '#/components/responses/Ack'
@@ -695,11 +675,6 @@ paths:
                   $ref: '#/components/schemas/OnStatusAction'
                 error:
                   $ref: '#/components/schemas/AsyncError'
-              oneOf:
-              - required:
-                - message
-              - required:
-                - error
       responses:
         '200':
           $ref: '#/components/responses/Ack'
@@ -722,9 +697,9 @@ paths:
         \ for which the CN MUST use /status and /on_status.\n\nAdditional preconditions:\
         \ A /confirm request MUST have completed and the CN MUST have received an\
         \ /on_confirm callback with a confirmed Contract before this endpoint may be\
-        \ called.\n\nThe message MUST contain a TrackAction with a Tracking object\
-        \ whose contract.id identifies the contract whose performance stage is to be\
-        \ tracked.\n\nCallback relationship: After preparing the tracking handle, the\
+        \ called.\n\nThe message MUST contain a TrackAction with a TrackingRequest object\
+        \ whose id identifies the active contract or fulfillment stage to be tracked.\
+        \n\nCallback relationship: After preparing the tracking handle, the\
         \ PN MUST send an /on_track callback to the CN carrying a Tracking object\
         \ with the URL or WebSocket endpoint. The CN MUST correlate the callback\
         \ using the messageId from Context and MAY open the tracking connection immediately\
@@ -813,11 +788,6 @@ paths:
                   $ref: '#/components/schemas/OnTrackAction'
                 error:
                   $ref: '#/components/schemas/AsyncError'
-              oneOf:
-              - required:
-                - message
-              - required:
-                - error
       responses:
         '200':
           $ref: '#/components/responses/Ack'
@@ -940,11 +910,6 @@ paths:
                   $ref: '#/components/schemas/OnUpdateAction'
                 error:
                   $ref: '#/components/schemas/AsyncError'
-              oneOf:
-              - required:
-                - message
-              - required:
-                - error
       responses:
         '200':
           $ref: '#/components/responses/Ack'
@@ -1067,11 +1032,6 @@ paths:
                   $ref: '#/components/schemas/OnCancelAction'
                 error:
                   $ref: '#/components/schemas/AsyncError'
-              oneOf:
-              - required:
-                - message
-              - required:
-                - error
       responses:
         '200':
           $ref: '#/components/responses/Ack'
@@ -1181,11 +1141,6 @@ paths:
                   $ref: '#/components/schemas/OnRateAction'
                 error:
                   $ref: '#/components/schemas/AsyncError'
-              oneOf:
-              - required:
-                - message
-              - required:
-                - error
       responses:
         '200':
           $ref: '#/components/responses/Ack'
@@ -1297,11 +1252,6 @@ paths:
                   $ref: '#/components/schemas/OnSupportAction'
                 error:
                   $ref: '#/components/schemas/AsyncError'
-              oneOf:
-              - required:
-                - message
-              - required:
-                - error
       responses:
         '200':
           $ref: '#/components/responses/Ack'
@@ -1321,7 +1271,7 @@ paths:
         \ Service) for validation and indexing so that CNs may discover them via /discover.\n\
         \nAdditional preconditions: At least one Catalog object MUST be present in\
         \ the message.\n\nThe message MUST contain a CatalogPublishAction with a non-empty catalogs array.\
-        \ Each Catalog MUST include an id, descriptor, and provider.\n\nCallback relationship:\
+        \ Each Catalog MUST include an id, descriptor, provider, bppId, and bppUri.\n\nCallback relationship:\
         \ After indexing each submitted catalog, the CS sends a /catalog/on_publish\
         \ callback to the PN carrying a CatalogOnPublishAction with per-catalog processing\
         \ results (ACCEPTED, REJECTED, or PARTIAL). The PN MUST correlate the callback\
@@ -1374,6 +1324,8 @@ paths:
                   message:
                     catalogs:
                     - id: CAT-TECHMART-2026
+                      bppId: bpp.techmart.com
+                      bppUri: https://bpp.techmart.com
                       descriptor:
                         name: TechMart Product Catalog
                       provider:
@@ -1410,6 +1362,8 @@ paths:
                       updateMode: FULL
                     catalogs:
                     - id: MASTER-ELECTRONICS-2026
+                      bppId: manufacturer.example.com
+                      bppUri: https://manufacturer.example.com
                       descriptor:
                         name: Official Electronics Master Catalog 2026
                       provider:
@@ -1450,6 +1404,8 @@ paths:
                           masterResourceId: MASTER-LAPTOP-XPS-15
                     catalogs:
                     - id: CAT-TECHMART-2026
+                      bppId: bpp.techmart.com
+                      bppUri: https://bpp.techmart.com
                       descriptor:
                         name: TechMart Product Catalog
                       provider:
@@ -1495,6 +1451,8 @@ paths:
                           label: Bangalore region
                     catalogs:
                     - id: CAT-FRESHMART-2026
+                      bppId: bpp.freshmart.com
+                      bppUri: https://bpp.freshmart.com
                       descriptor:
                         name: FreshMart Grocery Catalog
                       provider:
@@ -1527,6 +1485,8 @@ paths:
                       updateMode: MERGE
                     catalogs:
                     - id: CAT-TECHMART-OFFERS-2026
+                      bppId: bpp.techmart.com
+                      bppUri: https://bpp.techmart.com
                       descriptor:
                         name: TechMart Seasonal Offers
                       provider:
@@ -1603,11 +1563,6 @@ paths:
                   $ref: '#/components/schemas/CatalogOnPublishAction'
                 error:
                   $ref: '#/components/schemas/AsyncError'
-              oneOf:
-              - required:
-                - message
-              - required:
-                - error
       responses:
         '200':
           $ref: '#/components/responses/Ack'
@@ -2022,11 +1977,6 @@ paths:
                   $ref: '#/components/schemas/CatalogPullCallbackAction'
                 error:
                   $ref: '#/components/schemas/AsyncError'
-              oneOf:
-              - required:
-                - message
-              - required:
-                - error
       responses:
         '200':
           $ref: '#/components/responses/Ack'
@@ -2686,16 +2636,24 @@ components:
         \ updates.\n\nThis schema appears in the performance phase of the value-exchange\
         \ lifecycle. The CN produces it as the message payload of a /track request;\
         \ the PN consumes it to identify the performance stage and return an appropriate\
-        \ tracking handle via /on_track.\n\nRelationship: Composes the Tracking schema\
-        \ as its primary carrier. The Tracking object MUST include a contract reference\
-        \ with an id identifying the active contract whose performance stage is to\
-        \ be tracked."
+        \ tracking handle via /on_track.\n\nRelationship: TrackingRequest is the recommended\
+        \ request carrier and its id MUST identify the active contract or fulfillment\
+        \ stage to be tracked. Tracking remains available for compatibility."
       additionalProperties: false
+      x-ion-recommended-property: trackingRequest
       properties:
         tracking:
+          deprecated: true
+          description: Compatibility carrier for tracking requests. Producers SHOULD use trackingRequest.
           $ref: '#/components/schemas/Tracking'
-      required:
-      - tracking
+        trackingRequest:
+          description: Recommended carrier for identifying the contract or fulfillment stage to track.
+          $ref: '#/components/schemas/TrackingRequest'
+      anyOf:
+      - required:
+        - trackingRequest
+      - required:
+        - tracking
 
     UpdateAction:
       title: Update Action
@@ -3178,8 +3136,6 @@ components:
           description: Domain-specific extension attributes for this contract.
           allOf:
           - $ref: '#/components/schemas/Attributes'
-          - {}
-          - properties: {}
       additionalProperties: false
       required:
       - commitments
@@ -3193,8 +3149,9 @@ components:
         \ value-exchange lifecycle. The CN includes draft commitments in SelectAction\
         \ referencing the resources and offers chosen from the catalog; the PN updates\
         \ commitment status as the contract progresses through the DRAFT, ACTIVE, and\
-        \ CLOSED states.\n\nRelationship: Composes Resource schemas (with required\
-        \ id and quantity) in the resources array and an Offer schema (with required\
+        \ CLOSED states.\n\nRelationship: Composes resource-and-quantity entries\
+        \ in the resources array. The recommended representation carries a Resource\
+        \ schema in resource and a Quantity schema in quantity, and composes an Offer schema (with required\
         \ id and resourceIds) in the offer field. The commitmentAttributes field extends\
         \ the core schema with domain-specific attributes via the Attributes schema."
       required:
@@ -3219,10 +3176,16 @@ components:
         resources:
           type: array
           items:
+            type: object
             required:
-            - id
             - quantity
-            $ref: '#/components/schemas/Resource'
+            properties:
+              resource:
+                $ref: '#/components/schemas/Resource'
+              quantity:
+                description: Quantity associated with the resource. Producers SHOULD use the Quantity object identified by x-ion-recommended-schema.
+                x-ion-recommended-schema:
+                  $ref: '#/components/schemas/Quantity'
         offer:
           required:
           - id
@@ -3232,7 +3195,6 @@ components:
           description: Domain-specific extension attributes for this commitment.
           allOf:
           - $ref: '#/components/schemas/Attributes'
-          - properties: {}
 
     Descriptor:
       $schema: https://json-schema.org/draft/2020-12/schema
@@ -3815,6 +3777,30 @@ components:
       - descriptor
       additionalProperties: false
 
+    Quantity:
+      type: object
+      title: Quantity
+      description: Schema definition for Quantity in the Beckn Protocol v2.0.1
+      properties:
+        maxQuantity:
+          type: number
+          description: Maximum quantity for this price
+        minQuantity:
+          type: number
+          description: Minimum quantity for this price
+        unitCode:
+          type: string
+          description: Unit code for the quoted price (e.g., KWH, MIN, H, MON)
+        unitQuantity:
+          type: number
+          description: Quantity of the unit
+        unitText:
+          type: string
+          description: Unit for the quoted price (e.g., kWh, minute, hour, month)
+      additionalProperties: false
+      x-tags:
+      - common
+
     RatingInput:
       $schema: https://json-schema.org/draft/2020-12/schema
       description: "A structured rating record that captures a consumer's numeric\
@@ -4019,7 +4005,7 @@ components:
         supportAttributes:
           description: Network-defined attributes of the support request, such as a grievance event, expressed as a linked data JSON object
           $ref: '#/components/schemas/Attributes'
-      additionalProperties: true
+      additionalProperties: false
 
     SpatialConstraint:
       description: "An OGC CQL2 spatial predicate applied to one or more geometry\
@@ -4133,16 +4119,45 @@ components:
         - endTime
       additionalProperties: false
 
+    TrackingRequest:
+      x-iri: https://schema.nfh.global/TrackingRequest/v2.0
+      description: Schema definition for TrackingRequest in the Beckn Protocol v2.0.1
+      title: TrackingRequest
+      x-tags:
+      - common
+      type: object
+      properties:
+        id:
+          description: Tracking reference identifier
+          type: string
+        callbackUrl:
+          description: Optional callback URL for streaming tracking coordinates/updates
+          type: string
+          format: uri
+        modeHint:
+          description: Optional delivery mode for the tracking handle.
+          type: string
+          enum:
+          - LINK_ONLY
+          - DEEP_LINK
+          - WEBHOOK
+          - WS_HANDLE
+        trackingDataSchema:
+          description: A JSON Schema (2020-12) that describes the structure of trackingData payloads.
+      required:
+      - id
+      additionalProperties: false
+
     Tracking:
       description: "A handle that provides the CN with the URL or WebSocket endpoint\
         \ needed to subscribe to real-time position and progress updates for an active\
         \ fulfillment stage of a confirmed contract.\n\nTracking appears in the fulfillment\
-        \ phase of the value-exchange lifecycle, within TrackAction (produced by the\
-        \ CN) and OnTrackAction (produced by the PN). The PN produces it when a\
+        \ phase of the value-exchange lifecycle within OnTrackAction. The PN produces\
+        \ it when a\
         \ /track request is received, supplying the live data stream endpoint and\
         \ indicating whether tracking is currently active or inactive; the CN consumes\
         \ it to connect to the real-time data stream.\n\nRelationship: Composed within\
-        \ the TrackAction and OnTrackAction schemas as the primary carrier. The contract\
+        \ the OnTrackAction schema as the primary carrier. The contract\
         \ field composes the Contract schema (with a required id) to identify the\
         \ contract being tracked. The trackingAttributes field extends the core schema\
         \ with domain-specific tracking metadata via the Attributes schema."

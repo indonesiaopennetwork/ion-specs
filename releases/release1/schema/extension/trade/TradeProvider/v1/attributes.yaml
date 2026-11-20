@@ -99,19 +99,31 @@ components:
               description: Expected end of a temporary closure.
           # x-ion-condition: until is required by network policy when status is TEMPORARILY_CLOSED
 
+        providerLocations:
+          x-attr-ion-layer: ion
+          type: array
+          description: >
+            Identifiable provider operating locations used as stable reference
+            targets by Performance fulfillingLocationId, operating hours,
+            closures, and serviceability rules. Each entry preserves the Beckn
+            Location wire shape while adding the identifier that Beckn Location
+            2.0 does not define.
+          items:
+            $ref: https://schema.ion.id/release1/schema/common/IdentifiableLocation/v1/attributes.yaml#/components/schemas/IdentifiableLocation
+
         operatingHours:
           type: array
           description: >
             Recurring weekly operating windows. A locationId scopes the window
-            to a Provider.availableAt location; when omitted, it applies to the
-            provider as a whole.
+            to an IONTradeProvider.providerLocations entry; when omitted, it
+            applies to the provider as a whole.
           items:
             type: object
             additionalProperties: false
             properties:
               locationId:
                 type: string
-                description: Identifier of the applicable Provider.availableAt location.
+                description: Identifier of the applicable providerLocations entry.
               type:
                 type: string
                 enum:
@@ -151,7 +163,7 @@ components:
               locationId:
                 type: string
                 description: >
-                  Identifier of the applicable Provider.availableAt location.
+                  Identifier of the applicable providerLocations entry.
                   When omitted, the closure applies provider-wide.
 
         serviceabilityByCategory:
@@ -168,9 +180,11 @@ components:
                 description: Identifier of the applicable trade category.
               locationId:
                 type: string
-                description: Optional origin location to which this area applies.
+                description: >
+                  Optional identifier of the providerLocations origin to which
+                  this area applies.
               geo:
-                $ref: https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/schemas/GeoJSONGeometry
+                $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/GeoJSONGeometry/2.0/attributes.yaml#/components/schemas/GeoJSONGeometry
 
         averagePreparationTime:
           type: string
@@ -302,7 +316,7 @@ components:
             including an ION Trusted Seller credential. A provider must not
             assert trust through an unverified boolean.
           items:
-            $ref: https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/schemas/Document
+            $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Document/2.0/attributes.yaml#/components/schemas/Document
 
         categoryLicenses:
           x-attr-ion-layer: ion
@@ -339,7 +353,7 @@ components:
                 type: string
                 example: BPOM
               evidence:
-                $ref: https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/schemas/Document
+                $ref: https://schema.ion.id/release1/schema/vendored/beckn/schemas/Document/2.0/attributes.yaml#/components/schemas/Document
           x-ion-regulatory: PP 5/2021; PerBPOM various
           # x-ion-condition: Required by network policy for regulated categories
 

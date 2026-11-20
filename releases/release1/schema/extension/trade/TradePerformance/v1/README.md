@@ -42,6 +42,8 @@ SLA `unitBasis` options:
 - `stops[].location.address` uses the closed Beckn Address shape.
 - `stops[].location.ionAddressAttributes` adds Indonesian administrative
   subdivisions without modifying the Beckn Address object.
+- `stops[].contact` identifies the contact person at that stop and requires both
+  `name` and `phone`.
 
 ## Implementation guidance carried over from the excluded aggregate
 
@@ -73,3 +75,4 @@ error codes included in this release.
 | Version | Date | Summary |
 |---|---|---|
 | v1 | 2026-06-02 | Initial release |
+| v1 | 2026-11-16 | Added the required name and phone structure for `stops[].contact` |

@@ -1,0 +1,24 @@
+{
+  "@context": "https://schema.ion.id/release1/schema/extension/trade/TradeParticipant/v1/context.jsonld",
+  "@type": "ion:IONTradeParticipant",
+  "role": "BUYER",
+  "person": {
+    "id": "PERSON-BUYER-001",
+    "name": "Ayu Pratama",
+    "email": "ayu@example.com",
+    "telephone": "+628123456789"
+  },
+  "billingAddress": {
+    "addressCountry": "ID",
+    "addressRegion": "DKI Jakarta",
+    "addressLocality": "Jakarta Pusat",
+    "streetAddress": "Jl. Medan Merdeka Timur No. 17",
+    "extendedAddress": "Lantai 2",
+    "provinsiCode": "BPS-31",
+    "kabupatenCode": "3171",
+    "kecamatan": "Gambir",
+    "kelurahan": "Gambir",
+    "postalCode": "10110",
+    "addressType": "HOME"
+  }
+}

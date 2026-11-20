@@ -30,6 +30,7 @@
       "TradeOffer/v1",
       "TradeConsideration/v1",
       "TradePerformance/v1",
+      "TradeParticipant/v1",
       "TradeContract/v1",
       "TradeCommitment/v1",
       "TradeSettlement/v1"

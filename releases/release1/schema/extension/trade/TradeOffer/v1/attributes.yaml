@@ -237,6 +237,105 @@ components:
             email: cs@toko.com
             phone: '08001234567'
           x-ion-regulatory: UU 8/1999 tentang Perlindungan Konsumen Pasal 7
+        customization:
+          x-attr-ion-layer: ion
+          type: object
+          required:
+          - groups
+          properties:
+            groups:
+              type: array
+              minItems: 1
+              items:
+                type: object
+                required:
+                - code
+                - selection
+                - options
+                properties:
+                  code:
+                    type: string
+                    description: Unique code for the customization group (for example, SIZE, TOPPINGS, or SAUCE).
+                    x-jsonld-id: ion:code
+                  name:
+                    type: string
+                    description: Human-readable name for the customization group (for example, Pizza Size or Extra Toppings).
+                    x-jsonld-id: ion:name
+                  selection:
+                    type: string
+                    enum:
+                    - SINGLE_REQUIRED
+                    - SINGLE_OPTIONAL
+                    - MULTIPLE_OPTIONAL
+                    description: >
+                      Selection constraint for this group. SINGLE_REQUIRED means
+                      the buyer must select exactly one option. SINGLE_OPTIONAL
+                      means the buyer may select zero or one option.
+                      MULTIPLE_OPTIONAL means the buyer may select zero or more
+                      options.
+                    x-jsonld-id: ion:selection
+                  minSelections:
+                    type: integer
+                    minimum: 0
+                    description: Minimum number of options that must be selected for a MULTIPLE_OPTIONAL group.
+                    x-jsonld-id: ion:minSelections
+                  maxSelections:
+                    type: integer
+                    minimum: 1
+                    description: Maximum number of options that may be selected for a MULTIPLE_OPTIONAL group.
+                    x-jsonld-id: ion:maxSelections
+                  options:
+                    type: array
+                    minItems: 1
+                    items:
+                      type: object
+                      required:
+                      - code
+                      - name
+                      properties:
+                        code:
+                          type: string
+                          description: Unique code for the option within this group (for example, SMALL, MEDIUM, or LARGE for SIZE).
+                          x-jsonld-id: ion:code
+                        name:
+                          type: string
+                          description: Human-readable name for the option (for example, Small - 8 inch or Extra Cheese).
+                          x-jsonld-id: ion:name
+                        priceDelta:
+                          type: object
+                          properties:
+                            type:
+                              type: string
+                              enum:
+                              - FIXED
+                              - PERCENTAGE
+                              description: Price delta type. FIXED is an absolute amount; PERCENTAGE is a percentage of the base price.
+                              x-jsonld-id: ion:type
+                            value:
+                              type: number
+                              description: Price delta value, which may be positive or negative.
+                              x-jsonld-id: ion:value
+                          description: Price adjustment for selecting this option.
+                          x-jsonld-id: ion:priceDelta
+                        itemRef:
+                          type: string
+                          description: Reference to a Beckn Resource when this option represents a distinct item.
+                          x-jsonld-id: ion:itemRef
+                        offerRef:
+                          type: string
+                          description: Reference to a Beckn Offer when this option represents a distinct offer.
+                          x-jsonld-id: ion:offerRef
+                        available:
+                          type: boolean
+                          default: true
+                          description: Whether this option is currently available.
+                          x-jsonld-id: ion:available
+                    description: Available options for this customization group.
+                    x-jsonld-id: ion:options
+              description: Customization groups such as SIZE, TOPPINGS, or SAUCE.
+              x-jsonld-id: ion:groups
+          description: Customization groups and options offered for this trade offer. The buyer's selections are recorded on the commitment.
+          x-jsonld-id: ion:customization
         offerType:
           type: string
           enum:

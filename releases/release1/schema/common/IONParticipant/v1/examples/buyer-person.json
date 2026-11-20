@@ -1,0 +1,11 @@
+{
+  "@context": "https://schema.ion.id/release1/schema/common/IONParticipant/v1/context.jsonld",
+  "@type": "ion:IONParticipant",
+  "role": "BUYER",
+  "person": {
+    "id": "PERSON-BUYER-001",
+    "name": "Ayu Pratama",
+    "email": "ayu@example.com",
+    "telephone": "+628123456789"
+  }
+}

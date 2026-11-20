@@ -1,0 +1,43 @@
+openapi: 3.1.1
+info:
+  title: ION Trade Participant Extension (v1)
+  description: >
+    Trade-sector participant attributes attached to
+    Participant.participantAttributes. Inherits the common IONParticipant role
+    and identity fields and adds the participant's billing address.
+  version: 1.0.0
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    name: ION Network
+    url: https://schema.ion.id
+
+components:
+  schemas:
+    IONTradeParticipant:
+      type: object
+      title: IONTradeParticipant
+      description: >
+        Participant attributes used in Trade messages. Inherits the common ION
+        participant role and person-or-organization identity model and carries
+        the billing address used for the trade transaction.
+      x-ion-layer: ion
+      additionalProperties: true
+      x-ion-closed-extensions: false
+      x-beckn-attaches-to: Participant.participantAttributes
+      x-jsonld:
+        '@context': https://schema.ion.id/release1/schema/extension/trade/TradeParticipant/v1/context.jsonld
+        '@type': ion:IONTradeParticipant
+      allOf:
+        - $ref: https://schema.ion.id/release1/schema/common/IONParticipant/v1/attributes.yaml#/components/schemas/IONParticipant
+      properties:
+        role:
+          $ref: https://schema.ion.id/release1/schema/common/IONParticipant/v1/attributes.yaml#/components/schemas/IONParticipant/properties/role
+        person:
+          $ref: https://schema.ion.id/release1/schema/common/IONParticipant/v1/attributes.yaml#/components/schemas/IONParticipant/properties/person
+        organization:
+          $ref: https://schema.ion.id/release1/schema/common/IONParticipant/v1/attributes.yaml#/components/schemas/IONParticipant/properties/organization
+        billingAddress:
+          $ref: https://schema.ion.id/release1/schema/common/Address/v1/attributes.yaml#/components/schemas/IONAddress
+          description: Billing address associated with the participant for the trade transaction.
