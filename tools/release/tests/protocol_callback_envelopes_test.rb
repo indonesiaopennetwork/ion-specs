@@ -26,9 +26,11 @@ class ProtocolCallbackEnvelopesTest < Minitest::Test
     @additional = load_yaml(File.join(api_root, "ion-additional.yaml"))
   end
 
-  def test_core_callbacks_require_exactly_one_outcome
+  def test_core_callbacks_keep_both_outcomes_without_enforcing_exclusivity
     CORE_CALLBACKS.each do |path|
-      assert_callback_envelope(callback_schema(@core, path), path, "#/components/schemas/AsyncError")
+      schema = callback_schema(@core, path)
+      assert_callback_properties(schema, path, "#/components/schemas/AsyncError")
+      refute schema.key?("oneOf"), "#{path} must not make message and error mutually exclusive"
     end
   end
 
@@ -39,9 +41,15 @@ class ProtocolCallbackEnvelopesTest < Minitest::Test
     )
   end
 
-  def test_on_reconcile_uses_the_same_callback_envelope
+  def test_on_reconcile_retains_exactly_one_outcome
     error_ref = "https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml#/components/schemas/AsyncError"
-    assert_callback_envelope(callback_schema(@additional, "/on_reconcile"), "/on_reconcile", error_ref)
+    schema = callback_schema(@additional, "/on_reconcile")
+    assert_callback_properties(schema, "/on_reconcile", error_ref)
+    assert_equal(
+      [["message"], ["error"]],
+      schema.fetch("oneOf").map { |alternative| alternative["required"] },
+      "/on_reconcile must allow exactly one callback outcome"
+    )
   end
 
   private
@@ -54,15 +62,10 @@ class ProtocolCallbackEnvelopesTest < Minitest::Test
     document.dig("paths", path, "post", "requestBody", "content", "application/json", "schema")
   end
 
-  def assert_callback_envelope(schema, path, error_ref)
+  def assert_callback_properties(schema, path, error_ref)
     refute_nil schema, "#{path} request schema is missing"
     assert_equal ["context"], schema["required"], "#{path} must require context"
     assert schema.dig("properties", "message"), "#{path} message outcome is missing"
     assert_equal error_ref, schema.dig("properties", "error", "$ref"), "#{path} AsyncError reference differs"
-    assert_equal(
-      [["message"], ["error"]],
-      schema.fetch("oneOf").map { |alternative| alternative["required"] },
-      "#{path} must allow exactly one callback outcome"
-    )
   end
 end

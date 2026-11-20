@@ -222,11 +222,6 @@ paths:
                   $ref: '#/components/schemas/OnDiscoverAction'
                 error:
                   $ref: '#/components/schemas/AsyncError'
-              oneOf:
-              - required:
-                - message
-              - required:
-                - error
       responses:
         '200':
           $ref: '#/components/responses/Ack'
@@ -338,11 +333,6 @@ paths:
                   $ref: '#/components/schemas/OnSelectAction'
                 error:
                   $ref: '#/components/schemas/AsyncError'
-              oneOf:
-              - required:
-                - message
-              - required:
-                - error
       responses:
         '200':
           $ref: '#/components/responses/Ack'
@@ -455,11 +445,6 @@ paths:
                   $ref: '#/components/schemas/OnInitAction'
                 error:
                   $ref: '#/components/schemas/AsyncError'
-              oneOf:
-              - required:
-                - message
-              - required:
-                - error
       responses:
         '200':
           $ref: '#/components/responses/Ack'
@@ -574,11 +559,6 @@ paths:
                   $ref: '#/components/schemas/OnConfirmAction'
                 error:
                   $ref: '#/components/schemas/AsyncError'
-              oneOf:
-              - required:
-                - message
-              - required:
-                - error
       responses:
         '200':
           $ref: '#/components/responses/Ack'
@@ -695,11 +675,6 @@ paths:
                   $ref: '#/components/schemas/OnStatusAction'
                 error:
                   $ref: '#/components/schemas/AsyncError'
-              oneOf:
-              - required:
-                - message
-              - required:
-                - error
       responses:
         '200':
           $ref: '#/components/responses/Ack'
@@ -813,11 +788,6 @@ paths:
                   $ref: '#/components/schemas/OnTrackAction'
                 error:
                   $ref: '#/components/schemas/AsyncError'
-              oneOf:
-              - required:
-                - message
-              - required:
-                - error
       responses:
         '200':
           $ref: '#/components/responses/Ack'
@@ -940,11 +910,6 @@ paths:
                   $ref: '#/components/schemas/OnUpdateAction'
                 error:
                   $ref: '#/components/schemas/AsyncError'
-              oneOf:
-              - required:
-                - message
-              - required:
-                - error
       responses:
         '200':
           $ref: '#/components/responses/Ack'
@@ -1067,11 +1032,6 @@ paths:
                   $ref: '#/components/schemas/OnCancelAction'
                 error:
                   $ref: '#/components/schemas/AsyncError'
-              oneOf:
-              - required:
-                - message
-              - required:
-                - error
       responses:
         '200':
           $ref: '#/components/responses/Ack'
@@ -1181,11 +1141,6 @@ paths:
                   $ref: '#/components/schemas/OnRateAction'
                 error:
                   $ref: '#/components/schemas/AsyncError'
-              oneOf:
-              - required:
-                - message
-              - required:
-                - error
       responses:
         '200':
           $ref: '#/components/responses/Ack'
@@ -1297,11 +1252,6 @@ paths:
                   $ref: '#/components/schemas/OnSupportAction'
                 error:
                   $ref: '#/components/schemas/AsyncError'
-              oneOf:
-              - required:
-                - message
-              - required:
-                - error
       responses:
         '200':
           $ref: '#/components/responses/Ack'
@@ -1613,11 +1563,6 @@ paths:
                   $ref: '#/components/schemas/CatalogOnPublishAction'
                 error:
                   $ref: '#/components/schemas/AsyncError'
-              oneOf:
-              - required:
-                - message
-              - required:
-                - error
       responses:
         '200':
           $ref: '#/components/responses/Ack'
@@ -2032,11 +1977,6 @@ paths:
                   $ref: '#/components/schemas/CatalogPullCallbackAction'
                 error:
                   $ref: '#/components/schemas/AsyncError'
-              oneOf:
-              - required:
-                - message
-              - required:
-                - error
       responses:
         '200':
           $ref: '#/components/responses/Ack'
@@ -2696,15 +2636,24 @@ components:
         \ updates.\n\nThis schema appears in the performance phase of the value-exchange\
         \ lifecycle. The CN produces it as the message payload of a /track request;\
         \ the PN consumes it to identify the performance stage and return an appropriate\
-        \ tracking handle via /on_track.\n\nRelationship: Composes the TrackingRequest\
-        \ schema as its primary carrier. TrackingRequest.id MUST identify the active\
-        \ contract or fulfillment stage to be tracked."
+        \ tracking handle via /on_track.\n\nRelationship: TrackingRequest is the recommended\
+        \ request carrier and its id MUST identify the active contract or fulfillment\
+        \ stage to be tracked. Tracking remains available for compatibility."
       additionalProperties: false
+      x-ion-recommended-property: trackingRequest
       properties:
+        tracking:
+          deprecated: true
+          description: Compatibility carrier for tracking requests. Producers SHOULD use trackingRequest.
+          $ref: '#/components/schemas/Tracking'
         trackingRequest:
+          description: Recommended carrier for identifying the contract or fulfillment stage to track.
           $ref: '#/components/schemas/TrackingRequest'
-      required:
-      - trackingRequest
+      anyOf:
+      - required:
+        - trackingRequest
+      - required:
+        - tracking
 
     UpdateAction:
       title: Update Action
@@ -2877,8 +2826,6 @@ components:
       - id
       - descriptor
       - provider
-      - bppId
-      - bppUri
       anyOf:
       - required:
         - resources
@@ -2987,7 +2934,6 @@ components:
 
             For other consideration types, use a generic Attributes bag.'
           $ref: '#/components/schemas/Attributes'
-      additionalProperties: false
 
     Context:
       description: "The message envelope header that accompanies every Beckn API\
@@ -3204,12 +3150,11 @@ components:
         \ referencing the resources and offers chosen from the catalog; the PN updates\
         \ commitment status as the contract progresses through the DRAFT, ACTIVE, and\
         \ CLOSED states.\n\nRelationship: Composes resource-and-quantity entries\
-        \ in the resources array, with each entry containing a Resource schema (with\
-        \ required id) and a Quantity schema, and composes an Offer schema (with required\
+        \ in the resources array. The recommended representation carries a Resource\
+        \ schema in resource and a Quantity schema in quantity, and composes an Offer schema (with required\
         \ id and resourceIds) in the offer field. The commitmentAttributes field extends\
         \ the core schema with domain-specific attributes via the Attributes schema."
       required:
-      - id
       - status
       - resources
       - offer
@@ -3233,14 +3178,14 @@ components:
           items:
             type: object
             required:
-            - resource
             - quantity
             properties:
               resource:
                 $ref: '#/components/schemas/Resource'
               quantity:
-                $ref: '#/components/schemas/Quantity'
-            additionalProperties: false
+                description: Quantity associated with the resource. Producers SHOULD use the Quantity object identified by x-ion-recommended-schema.
+                x-ion-recommended-schema:
+                  $ref: '#/components/schemas/Quantity'
         offer:
           required:
           - id
@@ -3250,7 +3195,6 @@ components:
           description: Domain-specific extension attributes for this commitment.
           allOf:
           - $ref: '#/components/schemas/Attributes'
-      additionalProperties: false
 
     Descriptor:
       $schema: https://json-schema.org/draft/2020-12/schema
@@ -3456,7 +3400,6 @@ components:
         participantAttributes:
           description: 'Domain-specific extension attributes for this participant.'
           $ref: '#/components/schemas/Attributes'
-      additionalProperties: false
 
     GeoJSONGeometry:
       description: "A GeoJSON geometry object per RFC 7946, representing the spatial\
@@ -3800,7 +3743,6 @@ components:
           $ref: '#/components/schemas/TimePeriod'
         offerAttributes:
           $ref: '#/components/schemas/Attributes'
-      additionalProperties: false
 
     Provider:
       type: object
@@ -3925,7 +3867,6 @@ components:
         resourceAttributes:
           description: All the properties of a resource that describe its value, its terms of usage, fulfillment, and consideration
           $ref: '#/components/schemas/Attributes'
-      additionalProperties: false
 
     Settlement:
       type: object
@@ -3954,7 +3895,6 @@ components:
           - COMPLETE
         settlementAttributes:
           $ref: '#/components/schemas/Attributes'
-      additionalProperties: false
 
     Signature:
       title: Beckn HTTP Signature
@@ -4242,7 +4182,6 @@ components:
         trackingAttributes:
           description: Information specific to the use case for which the tracking is performed
           $ref: "#/components/schemas/Attributes"
-      additionalProperties: false
       required:
       - url
       - status
