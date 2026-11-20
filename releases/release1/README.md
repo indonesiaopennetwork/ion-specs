@@ -1,201 +1,204 @@
 # ION Release 1
 
-> **Status: DRAFT — not published or assigned to a release channel.**
+> **Status: DRAFT — publication pending.**
 
-This directory is the working envelope for the first permanent integer release of
-the ION Trade specification and the Logistics material under independent review
-for this draft. It is mutable while `release.yaml` has
-`status: draft`. Its contents and public URLs carry no compatibility guarantee
-until the ION Council approves the release and changes its status to `published`.
-Publication will assign Release 1 to the `next` channel and begin its operational
-stabilization period; it will not automatically make Release 1 `current`.
+Release 1 is the first versioned bundle of the ION Network Specification. It
+defines the ION API additions, common attribute packs, Trade and Logistics
+extensions, reference flows, errors, and pinned Beckn dependencies included in
+this release.
 
-## Current state
+The release remains mutable while [`release.yaml`](release.yaml) has
+`status: draft`. Publication assigns it to the `next` channel and makes every
+file in this directory immutable. Promotion to `current` is a separate Council
+decision after the stabilization period.
 
-Migration Phases 3 and 4 moved all nine Trade packs and the four common packs
-required by Trade into this draft, then vendored the Beckn dependencies at
-immutable upstream commits. The Beckn Protocol contract now has an
-ION-maintained core copy, while the immutable vendored copy remains available
-at its existing URL. Active schema references use Release 1 public URLs, and the
-graph resolves offline.
+## Release contents
 
-Phase 5 validated the standalone Trade packs and the four common packs required by
-Trade, including their JSON-LD documents and all 17 example objects. Phase 6
-explicitly excluded the unreconciled `ion.yaml` aggregate and the Logistics,
-Hospitality, and Finance sectors from Release 1. On 16 October 2026, Logistics
-was reopened as `review-required` so its legacy material can be migrated and
-validated independently. Phase 4 now includes the complete `LogisticsResource`,
-`LogisticsProvider`, `LogisticsParticipant`, `LogisticsOffer`, `LogisticsCommitment`, `LogisticsConsideration`, `LogisticsContract`, `LogisticsPerformance`, and `LogisticsTracking` v1 vertical slices and the reusable common
-`IdentifiableLocation` v1 wrapper. The validated `LogisticsPerformanceStates`
-v1 registry completed Phase 4 and now lives under the Logistics flow tree
-because it describes execution graphs rather than message shape. Logistics
-Phase 5 migrated 22 reviewed baseline policy terms into the
-shared root registry as drafts, mapped 10 obsolete legacy IRIs to current terms,
-and explicitly deferred 27 unsourced or agreement-specific strings. Logistics
-Phase 6 migrated all six patterns and nine included/scoped variants after
-reviewing all fifteen legacy variants; six variants remain explicitly deferred.
-Logistics Phase 7 reviewed all 97 legacy errors, migrated 30 connected errors,
-and explicitly deferred 67 entries without valid Release 1 targets or error
-semantics. Logistics Phase 8 then passed the complete schema-directory validator,
-all nine example-object validations, source-disposition checks, connection
-validators, and the complete Release 1 gate. Logistics is now `validated`.
-`ion.yaml`,
-Hospitality, and Finance remain excluded, and the repository does not retain
-separate root-level normative copies.
+### API contracts
 
-Phase 8A added the independently reviewable connected Trade baseline:
-Storefront v1 and 8 Trade errors whose schema and flow targets are present in
-this release. Its policy references resolve against the shared root policy
-registry, which is governed outside the integer release cycle. Phase 8B added the
-Made-to-Order v1 flow after reconciling its schema-pack names, category boundary,
-MTO state-machine target, and concrete cancellation policy. Phase 8C added the
-standard-action subset of Live Commerce v1 and restored its two release-local
-errors, bringing the included error count to 10.
-Phase 8D added the standard-action, target-free subset of Digital Goods v1 for
-electronically delivered vouchers and subscriptions. Push-to-target, account
-credit, and digital top-up transactions remain outside Release 1 because no
-transaction-level delivery-target schema exists in Release 1.
-Phase 8E added Business Procurement, Marketplace In-house, and Marketplace
-Listed using the existing Release 1 schema packs. Cross-Border, Government,
-Forward Auction, and Reverse Auction were reviewed and deferred because their
-defining objects or state semantics are not available within the Trade release
-boundary.
-Phase 8F began variant migration with the During-Transaction v1 family. Six
-sub-branches were included using existing Release 1 objects; four branches were
-excluded for callback misuse, missing Contract lifecycle, non-Beckn escalation,
-or Logistics dependencies. The Cancellation v1 variant followed: preview, buyer
-full and partial cancellation, policy rejection, and seller-initiated
-cancellation of a confirmed contract.
+- [`schema/core/api/v2.0.0/ion-beckn.yaml`](schema/core/api/v2.0.0/ion-beckn.yaml)
+  is the ION-maintained Beckn Protocol 2.0.0 contract used by this release.
+- [`schema/core/api/v2.0.0/ion-additional.yaml`](schema/core/api/v2.0.0/ion-additional.yaml)
+  defines ION endpoints that are not part of the Beckn contract. Release 1 adds
+  settlement reconciliation through `/reconcile` and `/on_reconcile`.
+- Order grievances use Beckn's `/support` and `/on_support` endpoints. The
+  `Support.supportAttributes` field carries an `IONGrievance` event.
 
-The draft subsequently added the common `IONParticipant` v1 pack and the
-Trade-specific `IONTradeParticipant` v1 extension point. They provide a common
-participant role plus NFH `Person` or `Organization` identity details for
-`Participant.participantAttributes`. The associated NFH dependency closure is
-pinned under `schema/vendored/beckn/schemas/` and resolves offline.
+Release 1 does not provide a merged `ion.yaml` or `ion-full.yaml` contract.
+Implementations use the two API documents above together with the applicable
+standalone attribute packs.
 
-ION endpoints that Beckn does not define live in one file,
-`schema/core/api/v2.0.0/ion-additional.yaml`, which references the
-ION-maintained `schema/core/api/v2.0.0/ion-beckn.yaml` contract. Release 1 adds the settlement reconciliation endpoints
-(`/reconcile`, `/on_reconcile`) there, with their `IONSettlementReconciliation`
-attribute pack at `schema/common/Settlement/v1`. This does not reintroduce the
-`ion.yaml` aggregate.
+### Common attribute packs
 
-Order grievances use the Beckn `/support` and `/on_support` endpoints, with an
-`IONGrievance` event (`schema/common/Grievance/v1`) in
-`Support.supportAttributes`, the optional slot ION added to `Support` in
-`ion-beckn.yaml`.
+[`schema/common/`](schema/common/) contains eight reusable v1 packs:
 
-## Protocol dependency
+- `Address`
+- `BusinessRegistration`
+- `Grievance`
+- `IdentifiableLocation`
+- `IONParticipant`
+- `Payment`
+- `Settlement`
+- `Tax`
 
-Release 1 uses this ION-maintained copy of the Beckn Protocol contract:
+### Trade
+
+[`schema/extension/trade/`](schema/extension/trade/) contains ten v1 packs:
+
+- `TradeCommitment`
+- `TradeConsideration`
+- `TradeContract`
+- `TradeOffer`
+- `TradeParticipant`
+- `TradePerformance`
+- `TradePerformanceStates`
+- `TradeProvider`
+- `TradeResource`
+- `TradeSettlement`
+
+[`flows/trade/`](flows/trade/) provides seven v1 reference patterns:
+Storefront, Made-to-Order, Live Commerce, Digital Goods, Business Procurement,
+Marketplace In-house, and Marketplace Listed. It also includes the
+During-Transaction and Cancellation v1 variant families. Each flow declares
+the schema packs, state machines, and policies it requires.
+
+### Logistics
+
+[`schema/extension/logistics/`](schema/extension/logistics/) contains nine v1
+packs:
+
+- `LogisticsCommitment`
+- `LogisticsConsideration`
+- `LogisticsContract`
+- `LogisticsOffer`
+- `LogisticsParticipant`
+- `LogisticsPerformance`
+- `LogisticsProvider`
+- `LogisticsResource`
+- `LogisticsTracking`
+
+[`flows/logistics/`](flows/logistics/) provides six base transaction patterns,
+nine included or scoped variant families, and the shared
+`LogisticsPerformanceStates` v1 execution-state registry.
+
+### Errors and policies
+
+[`errors/`](errors/) contains 10 Trade errors and 30 Logistics errors.
+`trade.yaml` and `logistics.yaml` are the authoritative sector sources;
+`registry.json` is their generated combined index.
+
+Policies have an independent governance lifecycle and are not copied into the
+release. Flow and error documents refer to stable `ion://policy/...` IRIs in the
+shared registry published at
+[`https://schema.ion.id/policies/registry.json`](https://schema.ion.id/policies/registry.json).
+
+### Vendored dependencies
+
+[`schema/vendored/beckn/`](schema/vendored/beckn/) contains the complete pinned
+Beckn dependency closure needed to resolve Release 1 without network access.
+Dependency repositories, commits, transformations, licenses, and checksums are
+recorded in [`release.yaml`](release.yaml) and [`NOTICES.md`](NOTICES.md).
+
+The immutable upstream Beckn protocol file remains at
+[`schema/vendored/beckn/api/v2.0.0/beckn.yaml`](schema/vendored/beckn/api/v2.0.0/beckn.yaml)
+for compatibility. New integrations should use the ION-maintained core contract.
+
+## ION protocol changes
+
+The ION-maintained Beckn contract includes these Release 1 changes from its
+upstream baseline:
+
+- corrected the `DiscoverAction.matchType` default and the `/catalog/publish`
+  offer-validity examples;
+- made asynchronous callback envelopes carry exactly one of `message` or
+  `error`;
+- added optional `Support.supportAttributes` for network-defined support data;
+  and
+- added `TrackingRequest` to `TrackAction`, keeping the live `Tracking` handle
+  on `OnTrackAction`.
+
+[`NOTICES.md`](NOTICES.md) records the exact provenance and modification history.
+
+## Scope
+
+The authoritative scope and validation state are defined by
+[`release.yaml`](release.yaml). Trade, Logistics, their common dependencies,
+flows, and errors are validated. Hospitality and Finance are excluded.
+The aggregate ION API remains excluded; the standalone core API additions are
+still marked `review-required` while the release is a draft.
+
+The contents of this directory define the release boundary. Material elsewhere
+in the repository is not part of Release 1 unless a release artifact explicitly
+references it, as with the shared policy registry.
+
+## Public URLs
+
+After publication, every file maps to a permanent URL by removing the
+repository-only `releases/` path segment:
 
 ```text
-schema/core/api/v2.0.0/ion-beckn.yaml
+Repository: releases/release1/<path>
+Public URL: https://schema.ion.id/release1/<path>
 ```
 
-It was copied from Beckn's `api/v2.0.0/beckn.yaml` at commit
-`df1ade0c6610d4160968177a706f32df680e4758` and receives ION fixes. The first
-fix corrects `DiscoverAction.matchType.default` from `any` to the declared enum
-value `ANY`; the second corrects the `/catalog/publish` example's offer validity
-values to RFC 3339 date-times. ION also integrated the callback-envelope changes
-proposed in Beckn PR #202: asynchronous callbacks now carry exactly one of
-`message` for success or `error` for failure. ION then added the optional
-`Support.supportAttributes` slot proposed in Beckn PR #204, so `/support` and
-`/on_support` can carry network-defined attributes. ION also inlined NFH's
-`TrackingRequest` v2.0 component and changed `TrackAction` to carry
-`trackingRequest`, separating the request identifier from the live `Tracking`
-handle returned by `OnTrackAction`. The unmodified immutable vendored file remains at
-`schema/vendored/beckn/api/v2.0.0/beckn.yaml` during the URL migration, but new
-references use `ion-beckn.yaml`.
+For example:
 
-Release 1 does not publish `ion.yaml` or a merged `ion-full.yaml`. Its normative
-ION-owned schemas currently present are the API additions under `schema/core/`,
-the standalone packs under `schema/common/`, the packs under `schema/extension/trade/`, and the
-individually reviewed Logistics packs under `schema/extension/logistics/`.
-These currently comprise `LogisticsResource`, `LogisticsProvider`,
-`LogisticsParticipant`, `LogisticsOffer`, `LogisticsCommitment`, and
-`LogisticsConsideration`, `LogisticsContract`, `LogisticsPerformance`, and
-`LogisticsTracking` v1. The standalone `LogisticsPerformanceStates` v1 registry
-is flow metadata under `flows/logistics/state-machines/v1/`. Pinned
-protocol and schema dependencies live under `schema/vendored/`;
-the scoped `flows/` and `errors/` trees remain release-level peers. Policies are
-resolved from the repository-level registry at
-`https://schema.ion.id/policies/registry.json`.
+```text
+https://schema.ion.id/release1/schema/extension/trade/TradeResource/v1/attributes.yaml
+```
+
+Schema `$ref` values use these absolute, release-qualified URLs. JSON-LD
+semantic IRIs identify concepts and may retain their stable Beckn or NFH
+namespaces; they are not retrieval dependencies.
+
+## Directory layout
 
 ```text
 release1/
+  release.yaml              Release scope, state, provenance, and checksums
+  NOTICES.md                Dependency attribution and modifications
   schema/
-    core/
-    common/
-    extension/
-    vendored/
+    core/                   ION-maintained API contracts
+    common/                 Cross-sector ION attribute packs
+    extension/trade/        Trade attribute packs
+    extension/logistics/    Logistics attribute packs
+    vendored/beckn/         Pinned Beckn dependencies and licenses
   flows/
-  errors/
+    trade/                  Trade reference patterns and variants
+    logistics/              Logistics patterns, variants, and state machines
+  errors/                   Sector error sources and generated registry
 ```
-
-## Planned public namespace
-
-Files in this directory will map to:
-
-```text
-https://schema.ion.id/release1/<path>
-```
-
-For example, TradeResource is available at
-`https://schema.ion.id/release1/schema/extension/trade/TradeResource/v1/attributes.yaml`.
-
-Draft paths may be visible through the backing repository, but consumers must not
-depend on them before publication.
 
 ## Validation
 
-Validate the draft manifest:
-
-```bash
-ruby tools/release/validate_manifest.rb releases/release1/release.yaml
-ruby tools/release/validate_offline_refs.rb releases/release1
-ruby tools/policies/generate_registry.rb
-ruby tools/release/generate_error_registry.rb releases/release1
-ruby tools/release/validate_trade_connections.rb releases/release1
-ruby tools/release/validate_logistics_errors.rb releases/release1
-```
-
-Or run the complete local gate, which includes those checks, tool tests, release
-scope enforcement, the path map, generated registries, and vendored artifact
-checksums. Publication expands the checksum inventory to every normative release
-artifact:
+Run the complete Release 1 gate from the repository root:
 
 ```bash
 ruby tools/release/validate_release.rb releases/release1
 ```
 
-GitHub Actions uses the same command. The **Release validation** workflow can be
-run manually and optionally includes the publication gate. After a push to
-`main`, the workflow also verifies that every non-hidden Release 1 file is live
-at `schema.ion.id` with the expected media type and exact repository bytes. The
-same post-merge check can be run locally with:
+This is also the CI entry point. It runs the release-tool tests and verifies the
+manifest, scope, generated registries, artifact checksums, offline references,
+public-path mapping, and Trade and Logistics connections.
 
-```bash
-ruby tools/release/validate_deployed_urls.rb releases/release1
-```
-
-For the deeper Trade schema-pack consistency validation maintained in the ION
-testbed:
-
-```bash
-cd /path/to/ion-testbed/tools/schemav2validator
-go run ./cmd/schemav2validator schema-dir /path/to/ion-specs/releases/release1/schema/extension/trade/
-```
-
-Before the Council publishes Release 1 into `next`, run the complete publication
-gate with:
+Before publication, run the stricter publication gate:
 
 ```bash
 ruby tools/release/validate_release.rb --publication releases/release1
 ```
 
-This command intentionally fails while Release 1 remains a draft.
+The publication form is expected to fail while the manifest remains a draft.
+After the release is merged to `main` and deployed, verify the public origin:
 
-See `docs/ION_Release_Architecture.md` and
-`docs/internal/ION_Release1_Migration_Inventory.md` for the governing decision and migration
-plan.
+```bash
+ruby tools/release/validate_deployed_urls.rb releases/release1
+```
+
+For tooling details, see [`tools/release/README.md`](../../tools/release/README.md).
+
+## Release policy
+
+- [Release Architecture](../../docs/ION_Release_Architecture.md) defines the
+  bundle structure, permanent URL scheme, and immutability rules.
+- [Release Channel Policy](../../docs/ION_Release_Channel_Policy.md) defines
+  publication into `next`, stabilization, promotion to `current`, and LTS.
