@@ -34,7 +34,7 @@ class ValidatePathMapTest < Minitest::Test
   end
 
   def test_target_must_stay_inside_release
-    @path_map["mappings"][0]["target"] = "releases/release2/schema/core/api/v2.0.0/ion.yaml"
+    @path_map["mappings"][0]["target"] = "releases/release2/schema/core/api/v2.0.0/ion-additional.yaml"
 
     errors = IonReleasePathMap.validate(@path_map)
 

@@ -41,7 +41,6 @@ during evaluation will be made in Release 2.
 - Order grievances use Beckn's `/support` and `/on_support` endpoints. The
   `Support.supportAttributes` field carries an `IONGrievance` event.
 
-Release 1 does not provide a merged `ion.yaml` or `ion-full.yaml` contract.
 Implementations use the two API documents above together with the applicable
 standalone attribute packs.
 
@@ -139,9 +138,8 @@ upstream baseline:
 
 The authoritative scope and validation state are defined by
 [`release.yaml`](release.yaml). Trade, Logistics, their common dependencies,
-flows, and errors are validated. Hospitality and Finance are excluded.
-The unreconciled aggregate `ion.yaml` remains excluded. The standalone core API
-contracts, `ion-beckn.yaml` and `ion-additional.yaml`, have completed review and
+flows, and errors are validated. Hospitality and Finance are excluded. The
+standalone core API contracts, `ion-beckn.yaml` and `ion-additional.yaml`, have completed review and
 are validated for Release 1.
 
 The contents of this directory define the release boundary. Material elsewhere

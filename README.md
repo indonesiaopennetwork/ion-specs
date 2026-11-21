@@ -81,7 +81,7 @@ for evaluation and interoperability testing, not Release 1 production adoption.
 - [`releases/release1/errors/registry.json`](releases/release1/errors/registry.json)
   — 40 connected errors: 10 Trade and 30 Logistics.
 
-Release 1 excludes `ion.yaml`, Hospitality, and Finance. Logistics is
+Release 1 excludes Hospitality and Finance. Logistics is
 `validated`: its included schemas, flows, state machines, policy connections,
 errors, and examples have passed the Phase 8 closure gate. The repository
 does not maintain separate editable `schema/`, `flows/`, or `errors/` trees at

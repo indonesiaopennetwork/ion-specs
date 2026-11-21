@@ -45,10 +45,10 @@ SLA `unitBasis` options:
 - `stops[].contact` identifies the contact person at that stop and requires both
   `name` and `phone`.
 
-## Implementation guidance carried over from the excluded aggregate
+## Implementation guidance
 
-The unreconciled `ion.yaml` draft previously treated the following fields as
-network-required:
+The following fields are implementation guidance rather than normative Release 1
+requirements:
 
 - `performanceMode`
 - `performanceState`

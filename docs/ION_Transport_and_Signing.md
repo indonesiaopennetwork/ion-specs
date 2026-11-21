@@ -325,7 +325,7 @@ def verify_inbound(
 | Discovery service | `https://discover.ion.id` |
 | Sandbox BPP gateway | Provided at participant registration |
 
-> **Note:** Production endpoint URLs are provided at participant registration. This spec document covers the sandbox environment (`ion.yaml → x-ion-profile.environment: sandbox`). Do not hardcode these URLs — resolve them from the network registry at startup.
+> **Note:** Production endpoint URLs are provided at participant registration. This document uses the sandbox environment. Do not hardcode these URLs — resolve them from the network registry at startup.
 
 ---
 

@@ -19,8 +19,7 @@ BAP -> support -> BPP -> on_support        (optional grievance, after on_confirm
 
 Release 1 does not include the former cross-cutting branches. Six other Trade
 patterns are included as validated reference profiles with narrower
-implementation coverage. In particular, `raise` behavior from the excluded
-`ion.yaml` aggregate is outside this flow.
+implementation coverage. The `/raise` family is outside this flow.
 
 ## Settlement terms
 

@@ -45,10 +45,10 @@ RT and RW are critical for last-mile delivery in Indonesia. Riders use RT/RW to 
 ## Regulatory
 Permendagri 72/2019 tentang Perubahan atas Permendagri 137/2017
 
-## Implementation guidance carried over from the excluded aggregate
+## Implementation guidance
 
-The unreconciled `ion.yaml` draft previously treated the following field as
-network-required:
+The following field is implementation guidance rather than a normative Release 1
+requirement:
 
 - `provinsiCode`
 

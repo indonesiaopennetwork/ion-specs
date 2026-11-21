@@ -30,8 +30,8 @@ carried by the other `source` fields.
 Group-buy states are excluded because they are not present in the standard Trade
 performance state machine. Creator-specific commission breakup enums and
 reconciliation amounts are also excluded; `TradeConsideration` supports the
-standard Beckn breakup types only. The former cross-cutting variants and the
-excluded `ion.yaml` actions are not part of this flow.
+standard Beckn breakup types only. The former cross-cutting variants and their
+actions are not part of this flow.
 
 ## Included schema packs
 

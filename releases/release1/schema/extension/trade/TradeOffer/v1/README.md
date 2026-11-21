@@ -70,10 +70,10 @@ this policy.
 - [`examples/food-offer.json`](examples/food-offer.json) — an F&B offer with customization groups, policies, and settlement terms.
 - [`examples/electronics-offer.json`](examples/electronics-offer.json) — an electronics offer with its policies and settlement terms.
 
-## Implementation guidance carried over from the excluded aggregate
+## Implementation guidance
 
-The unreconciled `ion.yaml` draft previously treated the following fields as
-network-required:
+The following fields are implementation guidance rather than normative Release 1
+requirements:
 
 - `policies.cancellation.policyRef`
 - `policies.returns.policyRef`

@@ -49,10 +49,10 @@ In Release 1 Trade orders, the payment settlement's `settlementAttributes` is
 `paymentGatewayProvider`, `methodDetail`, `collectedBy`, `timing`, `status`,
 `currency`, `paidAt`, `gatewayRef`), and states the amount as `orderAmount`.
 
-## Implementation guidance carried over from the excluded aggregate
+## Implementation guidance
 
-The unreconciled `ion.yaml` draft previously treated the following fields as
-network-required:
+The following fields are implementation guidance rather than normative Release 1
+requirements:
 
 - `method`
 - `paymentRail`

@@ -437,7 +437,8 @@ maintainedArtifacts:
   transformations:
   - Corrected DiscoverAction.matchType.default to the declared ANY enum value.
   - Corrected catalog publication offer validity examples to RFC 3339 date-time values.
-  - Added AsyncError support to asynchronous callback envelopes following Beckn PR 202.
+  - Added AsyncError support to asynchronous callback envelopes following Beckn PR
+    202.
   - Added Support.supportAttributes following Beckn PR 204.
   - Added the NFH TrackingRequest component and used it for TrackAction requests.
 implementationGuidance:
@@ -445,21 +446,24 @@ implementationGuidance:
     id: ion-trade-pattern-storefront-v1
     path: flows/trade/patterns/storefront/v1/pattern.yaml
     maturity: implementation-ready
-    description: Storefront is the primary Release 1 implementation profile and has the most complete transaction coverage, examples, variants, and guidance.
+    description: Storefront is the primary Release 1 implementation profile and has
+      the most complete transaction coverage, examples, variants, and guidance.
   areas:
     trade:
       maturity: reference
       primaryProfile: ion-trade-pattern-storefront-v1
       notes:
       - Storefront is the recommended starting point for Release 1 implementations.
-      - Other Trade patterns are validated reference profiles with narrower implementation coverage.
+      - Other Trade patterns are validated reference profiles with narrower implementation
+        coverage.
     logistics:
       maturity: preview
       productionRecommended: false
       notes:
       - Logistics artifacts pass Release 1 structural and connection validation.
       - They have not received sufficient implementation and interoperability testing.
-      - Implementers should treat Logistics as an evaluation target and expect refinements in Release 2.
+      - Implementers should treat Logistics as an evaluation target and expect refinements
+        in Release 2.
 artifactChecksums:
   schema/vendored/beckn/licenses/local-retail/LICENSE.md: 8386f4aded6116293b4a2daf378638abe4ed49406c696c12d4e8c19310aec46e
   schema/vendored/beckn/licenses/protocol-specifications-v2/LICENSE: ec5bc2d54dae0ebc2c8ec5a147d0b48d48af5b3f73acdcb8e33f104a7ad4407c
@@ -508,8 +512,8 @@ notes:
 - Standalone Trade and Trade-required common packs, JSON-LD files, and examples were
   validated during Phase 5.
 - Release 1 contains standalone Trade and its required common packs plus Logistics
-  material under independent review. The unreconciled ion.yaml aggregate and the Hospitality
-  and Finance sectors are explicitly excluded.
+  material under independent review. The Hospitality and Finance sectors are explicitly
+  excluded.
 - Phase 8A initially included the Storefront v1 flow, 67 Trade or cross-sector policy
   terms, and 8 Trade errors. Later Trade phases expanded this to seven reference flows,
   the During-Transaction v1 and Cancellation v1 variants, and 10 Trade errors.
@@ -524,14 +528,14 @@ notes:
 - The Beckn Protocol contract was initially copied without changes from upstream file
   commit df1ade0c6610d4160968177a706f32df680e4758 to schema/core/api/v2.0.0/ion-beckn.yaml
   as the ION-maintained contract and the identical upstream bytes were re-verified
-  at manifest-pinned commit a22300aa83796cb8dfc2b63cd9dd0e36a7f4d3a1. ION then corrected DiscoverAction.matchType.default
-  from `any` to the declared enum value `ANY` and corrected the /catalog/publish example's
-  offer validity values to RFC 3339 date-times. ION then integrated the beckn.yaml
-  changes proposed in Beckn pull request 202, making asynchronous callback envelopes
-  carry exactly one of message or error. ION then added the optional Support.supportAttributes
-  slot proposed in Beckn pull request 204. Release 1 publishes only this maintained
-  protocol path; its upstream source and ION transformations are recorded under
-  maintainedArtifacts.
+  at manifest-pinned commit a22300aa83796cb8dfc2b63cd9dd0e36a7f4d3a1. ION then corrected
+  DiscoverAction.matchType.default from `any` to the declared enum value `ANY` and
+  corrected the /catalog/publish example's offer validity values to RFC 3339 date-times.
+  ION then integrated the beckn.yaml changes proposed in Beckn pull request 202, making
+  asynchronous callback envelopes carry exactly one of message or error. ION then
+  added the optional Support.supportAttributes slot proposed in Beckn pull request
+  204. Release 1 publishes only this maintained protocol path; its upstream source
+  and ION transformations are recorded under maintainedArtifacts.
 - Schema content groups core, common, extension, and vendored below schema/ rather
   than flattening them at the release root.
 - Draft URLs are unsupported until the release is published.

@@ -65,8 +65,8 @@ Released ION schema extensions must:
 
 ## Release 1 scope
 
-Release 1 includes Trade, its four validated common packs, and vendored Beckn
-dependencies. `ion.yaml`, Logistics, Hospitality, and Finance are explicitly
-excluded. If published, Release 1 will first enter the `next` channel and begin
+Release 1 includes its validated Trade and Logistics content, common packs, and
+vendored Beckn dependencies. Hospitality and Finance are explicitly excluded.
+If published, Release 1 will first enter the `next` channel and begin
 its stabilization period. Its policy references resolve against the shared root
 policy registry, which is not part of Release 1 or its channel lifecycle.

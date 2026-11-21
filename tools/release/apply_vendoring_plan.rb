@@ -11,18 +11,11 @@ require "yaml"
 require_relative "plan_vendoring"
 
 module IonVendoringApply
-  PROTOCOL_PUBLIC_URL = "https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml".freeze
   LICENSE_TARGETS = {
     "https://github.com/beckn/protocol-specifications-v2" => "releases/release1/schema/vendored/beckn/licenses/protocol-specifications-v2/LICENSE",
     "https://github.com/beckn/schemas" => "releases/release1/schema/vendored/beckn/licenses/schemas/LICENSE.md",
     "https://github.com/beckn/local-retail" => "releases/release1/schema/vendored/beckn/licenses/local-retail/LICENSE.md"
   }.freeze
-  ION_INTERNAL_REFS = {
-    "#/components/schemas/Attributes" => "#{PROTOCOL_PUBLIC_URL}#/components/schemas/Attributes",
-    "#/components/schemas/GeoJSONGeometry" => "#{PROTOCOL_PUBLIC_URL}#/components/schemas/GeoJSONGeometry",
-    "#/components/schemas/Document" => "#{PROTOCOL_PUBLIC_URL}#/components/schemas/Document"
-  }.freeze
-
   module_function
 
   def sha256(body)
@@ -106,8 +99,7 @@ module IonVendoringApply
 
       rewrite_count = 0
       staged.keys.grep(/\.(?:yaml|yml|json)\z/).each do |path|
-        extra_refs = path == File.join(release_root, "schema/core/api/v2.0.0/ion.yaml") ? ION_INTERNAL_REFS : {}
-        rewritten, count = IonVendoringApply.rewrite_ref_lines(staged.fetch(path), aliases, extra_refs: extra_refs)
+        rewritten, count = IonVendoringApply.rewrite_ref_lines(staged.fetch(path), aliases)
         IonVendoringApply.parse_document(rewritten, path)
         staged[path] = rewritten
         rewrite_count += count

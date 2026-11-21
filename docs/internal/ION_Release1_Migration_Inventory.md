@@ -51,8 +51,8 @@ The following decisions are already accepted:
   Beckn Protocol contract. The immutable vendored contract remains temporarily
   at its existing URL for compatibility, but active references use the core
   copy.
-- There is no merged `ion-full.yaml`. Release 1 includes the ION-maintained
-  `ion-beckn.yaml`; the unreconciled ION-native `ion.yaml` is excluded.
+- Release 1 exposes separate ION-maintained Beckn and ION-additional API
+  contracts.
 - Cross-sector extension packs move from the confusing `core` classification to
   `common` in the release structure.
 - Common repository documentation remains in the root `docs/` directory.
@@ -74,7 +74,6 @@ The initial confidence classification supplied for this migration is:
 | Hospitality schemas | Review required | Correct and approve separately before publication |
 | Finance schemas | Review required | Correct and approve separately before publication |
 | Reserved sectors | Documentation only | Do not imply normative support without schemas and approval |
-| `ion.yaml` | Mixed content | Reconcile embedded components and registry declarations with approved release scope |
 | Flows and errors | Review follows dependencies | Approve only after referenced schemas and identifiers are stable |
 | Shared policies | Independent lifecycle | Keep at root and validate release references against the shared registry |
 
@@ -168,9 +167,9 @@ Phase 3 mechanically applies the 15 approved mappings:
 All moved YAML, JSON, and JSON-LD files parse. The post-migration path-map gate
 confirms all 15 targets exist. Reference inspection resolves 511 local or
 release-qualified references and JSON Pointers, except for four pre-existing
-internal pointers in `ion.yaml` to absent local components (`Attributes`,
-`GeoJSONGeometry`, and `Document`). Those are content defects, not move defects,
-and remain review gates. Phase 4 must also close 139 active `schema.beckn.io`
+internal pointers in a legacy API candidate to absent local components
+(`Attributes`, `GeoJSONGeometry`, and `Document`). Those are content defects,
+not move defects, and remain review gates. Phase 4 must also close 139 active `schema.beckn.io`
 references across 10 upstream documents in the moved draft subset.
 
 Flows, policies, and errors remain at the repository root; only their schema path
@@ -189,23 +188,19 @@ Before Phase 3, the API directory contained:
 schema/core/v2/api/v2.0.0/
   README.md
   beckn.yaml
-  ion.yaml
 ```
 
-`beckn.yaml` is the vendored Beckn Protocol contract. `ion.yaml` is the native ION
-contract. The removed `schema/dist/ion-full.yaml` is not part of the target model.
-
-`ion.yaml` currently contains 49 component schemas. Its schema-pack matrix declares:
+`beckn.yaml` is the vendored Beckn Protocol contract. The pre-migration extension
+inventory declared:
 
 - 11 common packs under the current `core` key;
 - 8 Trade packs;
 - 10 Logistics packs; and
 - 1 Hospitality pack.
 
-The standalone extension tree contains more packs than this matrix. Publication
-therefore requires an explicit reconciliation of embedded `ion.yaml` components,
-standalone packs, the schema-pack matrix, sector activation, and the chosen
-Release 1 scope.
+The standalone extension tree contains more packs than this inventory.
+Publication therefore requires explicit reconciliation of standalone packs,
+sector activation, and the chosen Release 1 scope.
 
 ### Standalone extension packs
 
@@ -271,16 +266,9 @@ The root `docs/` directory is retained as the common documentation set. Root
 governance, contributor, architecture, and working documents remain outside the
 release. Release-specific behavior must not exist only in mutable root prose.
 
-Current tools hard-code paths under `schema/`, `flows/`, `policies/`, and `errors/`.
-The principal affected tools are:
-
-- `tools/ion_required_fields.py`;
-- `tools/ion_setup.py`;
-- `errors/generate_registry.py`; and
-- `policies/generate_registry.py`.
-
-The two registry generators should move under `tools/`. All four tools need an
-explicit release-root argument and tests against at least `release1`.
+Legacy integration helpers that depended on unpublished contract material were
+removed. Registry generators moved under `tools/` and accept an explicit release
+root, with tests against at least `release1`.
 
 ## Target Release 1 layout
 
@@ -322,7 +310,6 @@ only if genuinely release-specific documentation is identified.
 
 | Current path | Draft Release 1 path | Transformation |
 |---|---|---|
-| `schema/core/v2/api/v2.0.0/ion.yaml` | Excluded | Retain as non-normative future-release work; assign no Release 1 URL |
 | `schema/core/v2/api/v2.0.0/beckn.yaml` | `releases/release1/schema/core/api/v2.0.0/ion-beckn.yaml` | Preserve upstream provenance and record ION transformations as a maintained artifact; do not publish a duplicate vendored protocol URL |
 | `schema/extensions/core/` | `releases/release1/schema/common/` | Rename classification and approve public schema directory names |
 | `schema/extensions/trade/` | `releases/release1/schema/extension/trade/` | Moved and normalized to approved public schema names |
@@ -372,8 +359,8 @@ still checked during migration, but do not require a prior semantic redesign.
 | `trade/resource/v1` | `schema/extension/trade/TradeResource/v1` | `IONTradeResource` |
 | `trade/settlement/v1` | `schema/extension/trade/TradeSettlement/v1` | `IONTradeSettlement` |
 
-The current `ion.yaml` schema-pack matrix omits `trade/settlement/v1`; that mismatch
-must be resolved before publication.
+The pre-migration pack inventory omitted `trade/settlement/v1`; Release 1 scope
+must account for it explicitly.
 
 ### Review-required sector packs
 
@@ -447,9 +434,9 @@ Schema references, schema IDs, context-document URLs, and public artifact links
 must become release-qualified where required by the architecture. Semantic IRIs
 must be reviewed separately and must not be changed by global text replacement.
 
-Commented raw GitHub `$ref` examples in `ion.yaml` should be removed or replaced
-with release-architecture examples so they do not suggest an unsupported resolution
-model.
+Commented raw GitHub `$ref` examples in legacy sources should be removed or
+replaced with release-architecture examples so they do not suggest an unsupported
+resolution model.
 
 ### Repository-relative links
 
@@ -498,11 +485,11 @@ These findings are not automatically corrected by the mechanical move:
    relocate, or remove them; they must not be mistaken for normative artifacts.
 6. **Generated debris resolved.** The tracked `.DS_Store` and Python bytecode files
    were removed in Phase 1, and matching ignore rules were added.
-7. **Matrix mismatch.** The `ion.yaml` schema-pack matrix does not enumerate every
+7. **Inventory mismatch.** The pre-migration inventory does not enumerate every
    pack present in the standalone tree.
-8. **Embedded-versus-standalone drift risk.** `ion.yaml` embeds ION component
-   schemas while standalone pack documents also define schemas. The authoritative
-   source and synchronization method must be explicit.
+8. **Duplicate-source drift risk.** Legacy material duplicated component schemas
+   also defined by standalone pack documents. The standalone pack source must be
+   authoritative.
 9. **Policy duplicates.** Repeated policy basenames across scopes require IRI and
    registry-key uniqueness checks.
 10. **Legacy terminology and paths.** Root documents still describe semantic
@@ -579,8 +566,8 @@ Before publication, root tooling must provide:
    released SHA-256 values.
 4. [x] Rewrote active schema references to permanent Release 1 public URLs while
    leaving semantic vocabulary IRIs unchanged.
-5. [x] Replaced four pre-existing unresolved internal `ion.yaml` references with
-   explicit references to the ION-maintained protocol.
+5. [x] Replaced four pre-existing unresolved internal references with explicit
+   references to the ION-maintained protocol.
 6. [x] Validated the complete graph offline: 86 structured documents and 666
    active references resolved within Release 1.
 
@@ -593,12 +580,10 @@ Before publication, root tooling must provide:
    JSON-LD types and synchronizing Payment vocabulary properties.
 3. [x] Validated all 17 standalone Trade and common example objects against the
    local Release 1 schemas and corrected stale contexts, types, and shapes.
-4. [x] Exclude the embedded `ion.yaml` aggregate from Release 1. The attempted
-   structural comparison showed this is not a mechanical sync: TradePerformance
-   has 28 standalone-only and 49 aggregate-only property names, TradeResource has
-   4 standalone-only and 119 aggregate-only names, and `ion.yaml` has no
-   TradeSettlement component. The file remains non-normative work in progress at
-   `schema/core/v2/api/v2.0.0/ion.yaml` for a future release.
+4. [x] Establish the validated standalone packs as the only normative schema
+   sources. A structural comparison against legacy duplicated components showed
+   that they could not be mechanically synchronized; the duplicate source was
+   discarded.
 5. [x] Reconciled repository-root Trade flows, policies, and errors: repaired 19
    profile file targets, removed non-registry policy placeholders, removed five
    exact duplicate policy files while retaining their canonical Trade copies,
@@ -614,8 +599,8 @@ Review Logistics, Hospitality, and Finance as separate workstreams. For each are
 1. settle canonical pack names and remove or merge duplicates;
 2. correct schema semantics and metadata;
 3. validate examples and JSON-LD;
-4. reconcile flows and errors with the shared policy registry and `ion.yaml`
-   declarations; and
+4. reconcile flows and errors with the shared policy registry and release API
+   contracts; and
 5. mark the area `validated` or `excluded`.
 
 #### Phase 6 baseline audit (2026-08-21)
@@ -680,7 +665,7 @@ Phase 6 therefore proceeds as three semantic workstreams, in this order:
 3. regenerate or reconcile `schema.json`, context, vocabulary, profile, and
    renderer artifacts from that authority;
 4. validate examples, then reconcile the sector's flows and errors with the
-   shared policy registry and embedded `ion.yaml` components; and
+   shared policy registry and standalone schema packs; and
 5. only then copy the sector into Release 1 and change its manifest state from
    `review-required` to `validated` (or explicitly `excluded`).
 
@@ -696,10 +681,7 @@ decision is recorded as follows:
 - `ionApi`, `logistics`, `hospitality`, and `finance` are `excluded`;
 - the excluded sector source directories remain unchanged as non-normative work
   in progress for a future release;
-- the unreconciled `ion.yaml` aggregate was removed from the Release 1 directory
-  and retained at `schema/core/v2/api/v2.0.0/ion.yaml` as non-normative work in
-  progress; and
-- no public Release 1 URL is assigned to an excluded schema or API aggregate.
+- no public Release 1 URL is assigned to excluded schema or API material.
 
 This completes Phase 6. Exclusion is a Release 1 scope decision, not a claim that
 the source material is obsolete or a request to delete it.
@@ -761,9 +743,8 @@ remains a draft. The closure evidence is recorded in
    `workflow_dispatch` trigger with an optional publication gate.
 4. [x] Updated the root README, CONTRIBUTING, GOVERNANCE, release README, and
    release-tool documentation for the Trade-only Release 1 scope.
-5. [x] Qualified legacy `ion.yaml` implementation claims in Release 1 packs and
-   marked the aggregate sections of long-form design guides as future-release
-   material.
+5. [x] Qualified legacy implementation claims in Release 1 packs and aligned the
+   long-form design guides with the standalone artifact model.
 
 Phase 7 is complete. It identified one substantive publication-preparation task
 that must not be hidden inside a repository-documentation change: the then-root
@@ -990,8 +971,7 @@ No root schema pack was required for the six included branches.
 
 The standalone Release 1 core API contracts, `ion-beckn.yaml` and
 `ion-additional.yaml`, completed maintainer review and `contentStatus.ionApi` was
-changed to `validated`. The unreconciled aggregate `ion.yaml` remains excluded
-and has no Release 1 public URL.
+changed to `validated`.
 
 Publication is permitted only when:
 

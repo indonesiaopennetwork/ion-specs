@@ -7,8 +7,8 @@ The first permanent integer release is being prepared under
 four common packs required by Trade, pinned vendored Beckn dependencies, the
 approved Trade flows, and 10 Trade errors whose targets are included in the
 release. The 67 Trade or cross-sector policy terms are maintained in the shared
-root registry outside the release cycle. `ion.yaml`, Hospitality, Finance, other
-Trade flows, and errors tied to those flows remain explicitly excluded.
+root registry outside the release cycle. Hospitality, Finance, other Trade flows,
+and errors tied to those flows remain explicitly excluded.
 
 On 16 October 2026, Logistics was reopened as `review-required` in the still-draft
 Release 1 manifest. This scope transition starts an independent migration and
@@ -234,17 +234,12 @@ This is the first version of the ION Network Specification made available extern
 
 #### Protocol specification
 
-The specification lives in two files at `schema/core/v2/api/v2.0.0/`:
+The protocol specification and ION additions were maintained as separate
+OpenAPI contracts:
 
 - **`beckn.yaml`** — Beckn Protocol v2.0.0, vendored and pinned to `core-v2.0.0-rc1`. Defines 30 API endpoints and the core data model. Annotated with upgrade instructions. Do not edit.
-- **`ion.yaml`** — The complete ION extension specification in a single OpenAPI 3.1.1 file. Contains:
-  - **L2** — ION network profile: Ed25519 signing rules, Indonesian regulatory requirements (NPWP, NIB, halal, BPOM), allowed payment rails, conformance matrix, 90-day upgrade policy
-  - **L3** — 8 ION-only endpoints: `/raise`, `/on_raise`, `/raise_status`, `/on_raise_status`, `/raise_details`, `/on_raise_details`, `/reconcile`, `/on_reconcile`
-  - **L4** — 11 cross-sector attribute pack schemas (50 schemas total, 42 `$ref` links to `beckn.yaml`)
-  - **L5** — 18 sector attribute pack schemas (trade: 7 packs, logistics: 10 packs, plus 1 logistics participant addendum)
-  - **`x-ion-conditional-rules`** — 5 cross-schema conditional requirements enforced by ONIX at runtime
-
-All `$ref` links in `ion.yaml` point to the local `beckn.yaml`. No external URLs.
+- ION-only endpoints, network rules, and extension schemas were maintained in
+  their dedicated API, policy, flow, and schema-pack artifacts.
 
 #### Schema extension packs
 

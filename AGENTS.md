@@ -54,8 +54,8 @@ similar files) as authoritative project state. They may be local and stale.
   Beckn Protocol contract. Preserve its recorded upstream provenance, license,
   transformations, and released checksum. Files under `schema/vendored/` remain
   immutable upstream schema dependencies.
-- Release 1 intentionally excludes `ion.yaml`, Logistics, Hospitality, and
-  Finance. Their artifacts are absent from the release.
+- Release 1 intentionally excludes Hospitality and Finance. Their artifacts are
+  absent from the release.
 - The repository has no separate root `schema/`, `flows/`, or `errors/` source
   trees. Normative work in those areas belongs in the active draft release.
   Root `policies/` is the canonical policy source and registry.

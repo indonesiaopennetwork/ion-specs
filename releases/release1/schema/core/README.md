@@ -1,7 +1,6 @@
 # Release 1 core API scope
 
-Release 1 does not include the unreconciled ION-native `ion.yaml` aggregate.
-Its core API contracts are `api/v2.0.0/ion-beckn.yaml`, the ION-maintained
+The Release 1 core API contracts are `api/v2.0.0/ion-beckn.yaml`, the ION-maintained
 Beckn Protocol contract, and `api/v2.0.0/ion-additional.yaml`, which contains
 ION endpoints that Beckn does not define. Both contracts have completed their
 Release 1 review, and the manifest records `ionApi: validated`.

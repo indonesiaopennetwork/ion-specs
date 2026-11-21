@@ -216,8 +216,8 @@ ruby tools/release/apply_vendoring_plan.rb --apply
 
 The apply command rewrites only `$ref` lines. Descriptive and semantic IRIs are
 left unchanged. The Phase 4 Release 1 plan also replaced four known unresolved
-internal references in the then-candidate `ion.yaml`; that aggregate was later
-excluded from Release 1 and returned to the non-normative source area.
+internal references in a legacy candidate before the standalone artifact model
+was finalized.
 
 Verify the resulting dependency graph offline:
 

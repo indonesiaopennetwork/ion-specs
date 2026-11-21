@@ -19,10 +19,10 @@ The generic monetary fields are inherited from RetailConsideration v2.1:
 The containing breakup entry's `amount` is the calculated tax amount.
 `IONTaxDetail` adds only `taxRegime`, `taxCategory`, and `eFakturRef`.
 
-## Implementation guidance carried over from the excluded aggregate
+## Implementation guidance
 
-The unreconciled `ion.yaml` draft previously treated the following fields as
-network-required:
+The following fields are implementation guidance rather than normative Release 1
+requirements:
 
 - `taxRegime`
 - `taxCategory`

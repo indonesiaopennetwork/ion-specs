@@ -159,9 +159,8 @@ and licensing.
 
 The manifest determines which content areas are part of a particular release.
 Every area MUST be `validated` or `excluded` before publication, and artifacts for
-an excluded area MUST NOT appear in the release directory. In particular, a
-release may omit the aggregate `schema/core/api/.../ion.yaml` when `ionApi` is
-`excluded`; standalone validated schema packs remain valid release content.
+an excluded area MUST NOT appear in the release directory. Standalone validated
+schema packs remain valid release content independently of the `ionApi` status.
 
 ### Normative registries and flows
 
