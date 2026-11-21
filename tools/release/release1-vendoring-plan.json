@@ -11,9 +11,9 @@
   "protocol": {
     "name": "BecknProtocol",
     "version": "2.0.0",
-    "existingCandidate": "releases/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml",
-    "candidateSha256": "5afc7586ef1fbc378ea6abb139292dbe85750e4c5ea1a2fd410a40479aadc0f0",
-    "candidatePayloadSha256": "5afc7586ef1fbc378ea6abb139292dbe85750e4c5ea1a2fd410a40479aadc0f0",
+    "existingCandidate": "releases/release1/schema/core/api/v2.0.0/ion-beckn.yaml",
+    "candidateSha256": "73780247e58cdec5b0c1edfa5a3bee8cc187bb50f63fc6ba793cbfa3f63d37b6",
+    "candidatePayloadSha256": "73780247e58cdec5b0c1edfa5a3bee8cc187bb50f63fc6ba793cbfa3f63d37b6",
     "vendoringHeaderPresent": false,
     "upstream": {
       "repository": "https://github.com/beckn/protocol-specifications-v2",
@@ -25,15 +25,24 @@
       "rawUrl": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/a22300aa83796cb8dfc2b63cd9dd0e36a7f4d3a1/api/v2.0.0/beckn.yaml",
       "sha256": "5afc7586ef1fbc378ea6abb139292dbe85750e4c5ea1a2fd410a40479aadc0f0"
     },
-    "candidatePayloadMatchesUpstream": true,
+    "candidatePayloadMatchesUpstream": false,
     "candidatePayloadDifference": {
       "upstreamLineCount": 4985,
-      "candidateLineCount": 4985,
-      "differenceCount": 0,
+      "candidateLineCount": 5084,
+      "differenceCount": 4871,
       "differences": [
-
+        {
+          "line": 3,
+          "upstream": "  title: Beckn Protocol API",
+          "candidate": "  title: Beckn Protocol API - with ION changes"
+        },
+        {
+          "line": 5,
+          "upstream": "    The Beckn Protocol API v2.0.0 — an OpenAPI 3.1.1 specification defining one named path per Beckn protocol action.",
+          "candidate": "    The Beckn Protocol API v2.0.0 — an OpenAPI 3.1.1 specification defining one named path per Beckn protocol action. In addition to NFH release, it has some minor changes that ION team wanted urgently and have not yet been integrated with the NFH copy. Eventually once all the proposals are incorporated within NFH version, this version will be redundant."
+        }
       ],
-      "truncated": false
+      "truncated": true
     },
     "alternative": {
       "selectionMode": "historical",
@@ -51,7 +60,7 @@
       "sha256": "ec5bc2d54dae0ebc2c8ec5a147d0b48d48af5b3f73acdcb8e33f104a7ad4407c",
       "reviewStatus": "proposed"
     },
-    "action": "retain",
+    "action": "retain-provenance-for-maintained-artifact",
     "provenanceStatus": "verified"
   },
   "dependencies": [

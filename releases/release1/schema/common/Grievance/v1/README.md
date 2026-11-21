@@ -20,7 +20,7 @@ messages of the ION-maintained Beckn contract
 > `descriptor` and `channels`, with `additionalProperties: false`. ION added an
 > optional `supportAttributes` slot of type `Attributes` to `Support` in
 > `ion-beckn.yaml`, which carries this pack. Messages carrying it do not
-> validate against the unmodified vendored `beckn.yaml`. `Support.channels[]`
+> validate against the unmodified upstream Beckn contract. `Support.channels[]`
 > keeps its Beckn meaning: the contact channels (WhatsApp, helpdesk, in-app
 > chat) for the grievance.
 >

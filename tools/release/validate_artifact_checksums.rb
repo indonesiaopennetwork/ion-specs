@@ -75,6 +75,19 @@ module IonArtifactChecksums
       end
     end
 
+    manifest.fetch("maintainedArtifacts", []).each do |artifact|
+      relative_path = artifact["path"]
+      path = contained_path(root, relative_path, errors)
+      next unless path&.file?
+      actual = Digest::SHA256.file(path).hexdigest
+      unless actual == artifact["releasedSha256"]
+        errors << "maintained artifact released checksum mismatch: #{artifact['name']}"
+      end
+      if checksums.key?(relative_path) && checksums[relative_path] != artifact["releasedSha256"]
+        errors << "maintained artifact and artifact checksum disagree: #{artifact['name']}"
+      end
+    end
+
     errors
   rescue Psych::SyntaxError => e
     ["invalid release manifest: #{e.message.lines.first.strip}"]

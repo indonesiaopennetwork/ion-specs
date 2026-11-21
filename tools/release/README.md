@@ -6,7 +6,8 @@ permanent integer releases. It is not copied into individual release bundles.
 ## Files
 
 - `release-manifest.schema.json` defines the machine-readable `release.yaml`
-  contract.
+  contract, including vendored dependencies and ION-maintained artifacts that
+  preserve upstream provenance plus explicit transformations.
 - `release1-path-map.json` records approved mechanical source-to-target paths for
   the primary API files, Trade packs, and the common packs directly referenced by
   Trade.
@@ -72,8 +73,8 @@ permanent integer releases. It is not copied into individual release bundles.
   combined release-local Trade and Logistics error registry. The shared policy registry is maintained by
   `tools/policies/generate_registry.rb`.
 - `record_artifact_checksums.rb` records or checks vendored artifact checksums
-  while a release is a draft and the complete normative artifact inventory once
-  it is published.
+  while a release is a draft, refreshes maintained-artifact released checksums,
+  and records the complete normative artifact inventory once it is published.
 - `validate_release_scope.rb` ensures validated content is present and excluded
   content is absent from a release directory.
 - `validate_artifact_checksums.rb` verifies every vendored draft artifact, and

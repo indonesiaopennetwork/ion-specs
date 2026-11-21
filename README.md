@@ -63,11 +63,8 @@ the Council publishes it into the `next` channel on `main`.
   pack used by reconciliation, the Grievance pack used by `/support` and
   `/on_support`, plus the reusable IdentifiableLocation wrapper introduced for
   Logistics.
-- [`releases/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml`](releases/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml) —
-  the immutable upstream Beckn Protocol contract retained temporarily for
-  consumers of its existing URL.
 - [`releases/release1/schema/vendored/beckn/`](releases/release1/schema/vendored/beckn/) —
-  immutable upstream protocol and schema dependencies.
+  pinned upstream schema dependencies and their license texts.
 - [`releases/release1/flows/trade/`](releases/release1/flows/trade/) — the
   seven validated Trade v1 reference flows and the reviewed During-Transaction
   v1 and Cancellation v1 variants.
@@ -101,7 +98,6 @@ releases/
       common/                  Validated common packs used by Trade
       extension/trade/         Validated Trade packs
       extension/logistics/     Validated Logistics packs
-      vendored/beckn/api/v2.0.0/beckn.yaml  Legacy URL compatibility copy
       vendored/beckn/schemas/  Pinned upstream schema dependencies
     flows/trade/               Seven flows plus reviewed Trade variants
     flows/logistics/           Validated Logistics patterns and variants

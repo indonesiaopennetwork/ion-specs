@@ -16,6 +16,7 @@ contentStatus:
   errors: review-required
 dependencyStatus: incomplete
 dependencies: []
+maintainedArtifacts: []
 artifactChecksums: {}
 toolingCommit: null
 notes:

@@ -15,7 +15,7 @@ class ValidatePathMapTest < Minitest::Test
 
   def test_release1_path_map
     assert_empty IonReleasePathMap.validate(@path_map)
-    assert_equal 14, @path_map.fetch("mappings").size
+    assert_equal 13, @path_map.fetch("mappings").size
   end
 
   def test_release1_logistics_path_map

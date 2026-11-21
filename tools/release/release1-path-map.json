@@ -4,14 +4,6 @@
   "publicBaseUrl": "https://schema.ion.id/release1/",
   "mappings": [
     {
-      "kind": "vendored-protocol",
-      "source": "schema/core/v2/api/v2.0.0/beckn.yaml",
-      "target": "releases/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml",
-      "publicUrl": "https://schema.ion.id/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml",
-      "pathStatus": "approved",
-      "contentStatus": "provenance-pending"
-    },
-    {
       "kind": "common-pack",
       "source": "schema/extensions/core/address/v1",
       "target": "releases/release1/schema/common/Address/v1",

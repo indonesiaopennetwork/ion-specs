@@ -17,6 +17,10 @@ module IonReleaseManifest
     name type upstreamVersion upstreamRepository upstreamCommit upstreamUrl
     vendoredPath upstreamSha256 releasedSha256 license transformations
   ].freeze
+  MAINTAINED_ARTIFACT_FIELDS = %w[
+    name type path upstreamVersion upstreamRepository upstreamCommit upstreamUrl
+    upstreamSha256 releasedSha256 license transformations
+  ].freeze
 
   module_function
 
@@ -28,7 +32,7 @@ module IonReleaseManifest
 
     required = %w[
       schemaVersion release name status publishedAt publicBaseUrl sourceBranch
-      contentStatus dependencyStatus dependencies artifactChecksums
+      contentStatus dependencyStatus dependencies maintainedArtifacts artifactChecksums
     ]
     missing = required.reject { |key| data.key?(key) }
     errors << "missing required fields: #{missing.join(', ')}" unless missing.empty?
@@ -61,6 +65,15 @@ module IonReleaseManifest
       end
     else
       errors << "dependencies must be an array"
+    end
+
+    maintained_artifacts = data["maintainedArtifacts"]
+    if maintained_artifacts.is_a?(Array)
+      maintained_artifacts.each_with_index do |artifact, index|
+        validate_maintained_artifact(artifact, index, errors)
+      end
+    else
+      errors << "maintainedArtifacts must be an array"
     end
 
     checksums = data["artifactChecksums"]
@@ -136,6 +149,30 @@ module IonReleaseManifest
       errors << "dependency #{index} vendoredPath must be under schema/vendored/"
     end
     errors << "dependency #{index} transformations must be an array" unless dependency["transformations"].is_a?(Array)
+  end
+
+  def validate_maintained_artifact(artifact, index, errors)
+    unless artifact.is_a?(Hash)
+      errors << "maintained artifact #{index} must be an object"
+      return
+    end
+
+    missing = MAINTAINED_ARTIFACT_FIELDS.reject { |field| artifact.key?(field) }
+    errors << "maintained artifact #{index} missing: #{missing.join(', ')}" unless missing.empty?
+    errors << "maintained artifact #{index} type must be protocol" unless artifact["type"] == "protocol"
+    errors << "maintained artifact #{index} upstreamCommit must be a 40-character commit" unless artifact["upstreamCommit"].to_s.match?(SHA1)
+    %w[upstreamSha256 releasedSha256].each do |field|
+      errors << "maintained artifact #{index} #{field} must be SHA-256" unless artifact[field].to_s.match?(SHA256)
+    end
+    unless safe_relative_path?(artifact["path"])
+      errors << "maintained artifact #{index} path must be release-relative"
+    end
+    unless artifact["path"].to_s.start_with?("schema/core/")
+      errors << "maintained artifact #{index} path must be under schema/core/"
+    end
+    unless artifact["transformations"].is_a?(Array) && !artifact["transformations"].empty?
+      errors << "maintained artifact #{index} transformations must be a non-empty array"
+    end
   end
 
   def validate_published(data, dependencies, checksums, dependency_status, errors)

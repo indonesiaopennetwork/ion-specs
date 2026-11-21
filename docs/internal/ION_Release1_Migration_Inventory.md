@@ -323,7 +323,7 @@ only if genuinely release-specific documentation is identified.
 | Current path | Draft Release 1 path | Transformation |
 |---|---|---|
 | `schema/core/v2/api/v2.0.0/ion.yaml` | Excluded | Retain as non-normative future-release work; assign no Release 1 URL |
-| `releases/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml` | `releases/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml` | Re-vendor from the verified immutable source; record upstream provenance |
+| `schema/core/v2/api/v2.0.0/beckn.yaml` | `releases/release1/schema/core/api/v2.0.0/ion-beckn.yaml` | Preserve upstream provenance and record ION transformations as a maintained artifact; do not publish a duplicate vendored protocol URL |
 | `schema/extensions/core/` | `releases/release1/schema/common/` | Rename classification and approve public schema directory names |
 | `schema/extensions/trade/` | `releases/release1/schema/extension/trade/` | Moved and normalized to approved public schema names |
 | Other `schema/extensions/<sector>/` | Excluded | Retain outside Release 1 as non-normative future-release work |
@@ -572,14 +572,15 @@ Before publication, root tooling must provide:
 
 1. [x] Generated a review-only proposal and selected the latest official
    upstream snapshots, pinned at the commits recorded in `release.yaml`.
-2. [x] Re-vendored Beckn Protocol and vendored all 17 direct and transitive
-   Beckn schema dependencies.
+2. [x] Verified the Beckn Protocol source used by the ION-maintained contract and
+   vendored all direct and transitive Beckn schema dependencies. The temporary
+   byte-identical protocol copy was removed before publication.
 3. [x] Preserved all three upstream license texts and recorded upstream and
    released SHA-256 values.
 4. [x] Rewrote active schema references to permanent Release 1 public URLs while
    leaving semantic vocabulary IRIs unchanged.
 5. [x] Replaced four pre-existing unresolved internal `ion.yaml` references with
-   explicit references to the vendored protocol.
+   explicit references to the ION-maintained protocol.
 6. [x] Validated the complete graph offline: 86 structured documents and 666
    active references resolved within Release 1.
 

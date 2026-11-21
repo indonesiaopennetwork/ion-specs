@@ -76,6 +76,28 @@ class ValidateArtifactChecksumsTest < Minitest::Test
     end
   end
 
+  def test_maintained_artifact_checksum_must_match_file
+    Dir.mktmpdir do |root|
+      relative = "schema/core/api/v2.0.0/ion-beckn.yaml"
+      FileUtils.mkdir_p(File.dirname(File.join(root, relative)))
+      File.write(File.join(root, relative), "maintained")
+      manifest = {
+        "status" => "draft",
+        "artifactChecksums" => {},
+        "dependencies" => [],
+        "maintainedArtifacts" => [{
+          "name" => "IONBecknProtocol",
+          "path" => relative,
+          "releasedSha256" => "0" * 64
+        }]
+      }
+
+      errors = IonArtifactChecksums.validate(root, manifest)
+
+      assert_includes errors, "maintained artifact released checksum mismatch: IONBecknProtocol"
+    end
+  end
+
   private
 
   def with_release(status: "draft")
@@ -87,6 +109,7 @@ class ValidateArtifactChecksumsTest < Minitest::Test
       manifest = {
         "status" => status,
         "artifactChecksums" => { relative => checksum },
+        "maintainedArtifacts" => [],
         "dependencies" => [{
           "name" => "dependency",
           "vendoredPath" => relative,
