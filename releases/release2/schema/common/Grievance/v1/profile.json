@@ -1,0 +1,46 @@
+{
+  "id": "ion-core-grievance-v1",
+  "version": "1.0.0",
+  "domain": "ion-core",
+  "name": "ION Grievance Extension (v1)",
+  "description": "Order-level grievance events exchanged in support and on_support: opening, acknowledgement, versioned resolution, decision, execution, resolution, objection and closure.",
+  "packSchema": "./schema.json",
+  "jsonldContext": "./context.jsonld",
+  "attachmentPoints": {
+    "supportAttributes": [
+      "IONGrievance"
+    ]
+  },
+  "extends": "beckn:Support",
+  "type": "AttributePack",
+  "indexing": {
+    "indexable": [
+      {
+        "path": "$.grievanceId"
+      },
+      {
+        "path": "$.caseStatus"
+      },
+      {
+        "path": "$.category"
+      }
+    ],
+    "filterable": [
+      {
+        "path": "$.caseStatus"
+      },
+      {
+        "path": "$.eventType"
+      },
+      {
+        "path": "$.category"
+      }
+    ],
+    "sortable": [
+      {
+        "path": "$.occurredAt"
+      }
+    ]
+  },
+  "minimalForDiscovery": []
+}

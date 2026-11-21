@@ -1,0 +1,62 @@
+{
+  "id": "ion-trade-settlement-v1",
+  "version": "1.0.0",
+  "domain": "trade",
+  "name": "ION Trade Settlement Extension (v1)",
+  "description": "Retail settlement discharge records with an ION-specific extension point.",
+  "packSchema": "./schema.json",
+  "jsonldContext": "./context.jsonld",
+  "attachmentPoints": {
+    "settlementAttributes": [
+      "IONTradeSettlement"
+    ]
+  },
+  "extends": "beckn:Settlement",
+  "type": "AttributePack",
+  "indexing": {
+    "indexable": [
+      {
+        "path": "$.method"
+      },
+      {
+        "path": "$.paymentRail"
+      },
+      {
+        "path": "$.reconciliationStatus"
+      }
+    ],
+    "filterable": [
+      {
+        "path": "$.method"
+      },
+      {
+        "path": "$.paymentRail"
+      },
+      {
+        "path": "$.currency"
+      },
+      {
+        "path": "$.reconciliationStatus"
+      }
+    ],
+    "sortable": [
+      {
+        "path": "$.settledAt"
+      },
+      {
+        "path": "$.settledAmount"
+      }
+    ]
+  },
+  "minimalForDiscovery": [
+    "method",
+    "settledAt",
+    "settledAmount",
+    "currency"
+  ],
+  "x-ion-layer": {
+    "generic": "TradeSettlement",
+    "ion": "IONTradeSettlement",
+    "splitVersion": "0.7.0"
+  }
+}

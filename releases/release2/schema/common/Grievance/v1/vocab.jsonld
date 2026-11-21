@@ -1,0 +1,451 @@
+{
+  "@context": {
+    "ion": "https://schema.ion.id/core/grievance/v1#",
+    "ionpay": "https://schema.ion.id/core/payment/v1#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "beckn": "https://schema.beckn.io/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "owl": "http://www.w3.org/2002/07/owl#"
+  },
+  "@graph": [
+    {
+      "@id": "ion:grievanceId",
+      "@type": "rdf:Property",
+      "rdfs:label": "grievanceId",
+      "rdfs:comment": "Identifier the originating participant gives the grievance when it opens it. Every later event of the grievance carries the same value. It is not the transaction ID, and one order may have several grievances."
+    },
+    {
+      "@id": "ion:eventType",
+      "@type": "rdf:Property",
+      "rdfs:label": "eventType",
+      "rdfs:comment": "What happened in this message. OPENED starts the grievance; ACKNOWLEDGED confirms receipt by a person or process, not just a protocol ACK; STATUS_CHANGED reports a material change of caseStatus or subStatus; RESOLUTION_PROPOSED shares a new resolution version; RESOLUTION_DECIDED accepts or rejects one; ACTION_COMPLETED reports executed actions; RESOLVED reports that every required action is complete; OBJECTION is the originating participant's timely disagreement with the reported outcome; CLOSED is an optional explicit closure by the originating participant."
+    },
+    {
+      "@id": "ion:caseStatus",
+      "@type": "rdf:Property",
+      "rdfs:label": "caseStatus",
+      "rdfs:comment": "Status of the grievance after this event. These values are ION-defined and provisional: Beckn 2.0.0 Support defines no grievance status. A RESOLVED grievance with no objection within the grievance SLA policy's objection period is deemed CLOSED by both participants without a further message; deemed closure is never agreement to a financial adjustment."
+    },
+    {
+      "@id": "ion:subStatus",
+      "@type": "rdf:Property",
+      "rdfs:label": "subStatus",
+      "rdfs:comment": "Optional sector- or participant-specific detail of caseStatus, for example AWAITING_PICKUP. It does not change caseStatus."
+    },
+    {
+      "@id": "ion:occurredAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "occurredAt",
+      "rdfs:comment": "Time the event in this message occurred."
+    },
+    {
+      "@id": "ion:openedAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "openedAt",
+      "rdfs:comment": "Time the grievance was opened. Required on OPENED."
+    },
+    {
+      "@id": "ion:originatingNpId",
+      "@type": "rdf:Property",
+      "rdfs:label": "originatingNpId",
+      "rdfs:comment": "Network participant ID of the participant whose user raised the grievance: the BAP for a buyer grievance, the BPP for a seller grievance. It never changes during the grievance, and only this participant may object to the outcome or close the grievance explicitly."
+    },
+    {
+      "@id": "ion:raisedBy",
+      "@type": "rdf:Property",
+      "rdfs:label": "raisedBy",
+      "rdfs:comment": "Side and participant that raised the grievance. Required on OPENED."
+    },
+    {
+      "@id": "ion:raisedAgainst",
+      "@type": "rdf:Property",
+      "rdfs:label": "raisedAgainst",
+      "rdfs:comment": "Who the grievance is about. It names the subject of the allegation, not a finding of fault, and the actual responsible party may change during investigation. Required on OPENED."
+    },
+    {
+      "@id": "ion:assignedNpId",
+      "@type": "rdf:Property",
+      "rdfs:label": "assignedNpId",
+      "rdfs:comment": "Network participant ID of the participant expected to respond."
+    },
+    {
+      "@id": "ion:category",
+      "@type": "rdf:Property",
+      "rdfs:label": "category",
+      "rdfs:comment": "Kind of problem, in SCREAMING_SNAKE_CASE, for example DAMAGED_ITEM, WRONG_ITEM, MISSING_ITEM, LATE_DELIVERY or WRONG_RETURN. The return and refund categories RETURN_REJECTED, RETURN_PICKUP_FAILED, RETURN_QC_DISPUTED and REFUND_NOT_RECEIVED are for a return, cancellation or refund made through update or cancel that went wrong; an OPENED event with one of them must link the contract, return performance or refund settlement in relatedReferences. Required on OPENED."
+    },
+    {
+      "@id": "ion:description",
+      "@type": "rdf:Property",
+      "rdfs:label": "description",
+      "rdfs:comment": "Short statement in plain text: of the problem as raised on IONGrievance, or of the remedy on RemedyAction. It carries no personal contact data and no chat transcript."
+    },
+    {
+      "@id": "ion:affected",
+      "@type": "rdf:Property",
+      "rdfs:label": "affected",
+      "rdfs:comment": "Order lines or performances concerned: by the grievance on IONGrievance, or by one remedy on RemedyAction."
+    },
+    {
+      "@id": "ion:policyRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "policyRef",
+      "rdfs:comment": "ION-registered policy URI bound to the order: the grievance SLA policy on IONGrievance, the authorizing policy on Resolution, or the allocating policy on FinancialEffect."
+    },
+    {
+      "@id": "ion:channelMode",
+      "@type": "rdf:Property",
+      "rdfs:label": "channelMode",
+      "rdfs:comment": "How quickly a person is expected to engage. It is not a grievance status. EMERGENCY help must go through a direct safety channel; an asynchronous on_support is never the emergency response."
+    },
+    {
+      "@id": "ion:resolution",
+      "@type": "rdf:Property",
+      "rdfs:label": "resolution",
+      "rdfs:comment": "The active resolution proposal. Required on RESOLUTION_PROPOSED, RESOLUTION_DECIDED, ACTION_COMPLETED and RESOLVED, so each message states exactly which version it concerns."
+    },
+    {
+      "@id": "ion:decision",
+      "@type": "rdf:Property",
+      "rdfs:label": "decision",
+      "rdfs:comment": "Decision on the resolution version. Required on RESOLUTION_DECIDED."
+    },
+    {
+      "@id": "ion:execution",
+      "@type": "rdf:Property",
+      "rdfs:label": "execution",
+      "rdfs:comment": "Executed actions of the resolution. Required on ACTION_COMPLETED."
+    },
+    {
+      "@id": "ion:explanation",
+      "@type": "rdf:Property",
+      "rdfs:label": "explanation",
+      "rdfs:comment": "Reason for a status change or an objection. Required on OBJECTION."
+    },
+    {
+      "@id": "ion:relatedReferences",
+      "@type": "rdf:Property",
+      "rdfs:label": "relatedReferences",
+      "rdfs:comment": "Records in other flows that this grievance is about or that evidence its outcome. Referencing a record never changes it. An OPENED event in a return or refund category must reference the contract, the return performance or the refund settlement."
+    },
+    {
+      "@id": "ion:type",
+      "@type": "rdf:Property",
+      "rdfs:label": "type",
+      "rdfs:comment": "Kind of remedy a resolution action carries out."
+    },
+    {
+      "@id": "ion:side",
+      "@type": "rdf:Property",
+      "rdfs:label": "side",
+      "rdfs:comment": "BUYER when raised through the BAP, SELLER when raised through the BPP."
+    },
+    {
+      "@id": "ion:npId",
+      "@type": "rdf:Property",
+      "rdfs:label": "npId",
+      "rdfs:comment": "Network participant ID that raised the grievance."
+    },
+    {
+      "@id": "ion:partyId",
+      "@type": "rdf:Property",
+      "rdfs:label": "partyId",
+      "rdfs:comment": "Optional opaque reference to the person or business; no contact data."
+    },
+    {
+      "@id": "ion:role",
+      "@type": "rdf:Property",
+      "rdfs:label": "role",
+      "rdfs:comment": "Role of the party the grievance is about."
+    },
+    {
+      "@id": "ion:commitmentId",
+      "@type": "rdf:Property",
+      "rdfs:label": "commitmentId",
+      "rdfs:comment": "Contract commitment (order line) ID."
+    },
+    {
+      "@id": "ion:performanceId",
+      "@type": "rdf:Property",
+      "rdfs:label": "performanceId",
+      "rdfs:comment": "Contract performance ID, for a delivery or a return."
+    },
+    {
+      "@id": "ion:quantity",
+      "@type": "rdf:Property",
+      "rdfs:label": "quantity",
+      "rdfs:comment": "Number of units affected."
+    },
+    {
+      "@id": "ion:effectType",
+      "@type": "rdf:Property",
+      "rdfs:label": "effectType",
+      "rdfs:comment": "Kind of money movement the action causes."
+    },
+    {
+      "@id": "ion:amount",
+      "@type": "rdf:Property",
+      "rdfs:label": "amount",
+      "rdfs:comment": "Amount of the effect in currency units; never negative."
+    },
+    {
+      "@id": "ionpay:currency",
+      "@type": "rdf:Property",
+      "rdfs:label": "currency",
+      "rdfs:comment": "ISO 4217 currency of every amount in the financial effect (IONPayment.currency)."
+    },
+    {
+      "@id": "ion:allocationBasis",
+      "@type": "rdf:Property",
+      "rdfs:label": "allocationBasis",
+      "rdfs:comment": "Why the liable party bears the amount: EXPLICIT, by the counterparty's acceptance of this version; POLICY, by the policy in policyRef; UNILATERAL, by the acting participant's own choice to fund it. It must match the resolution's authorizationType."
+    },
+    {
+      "@id": "ion:liablePartyId",
+      "@type": "rdf:Property",
+      "rdfs:label": "liablePartyId",
+      "rdfs:comment": "Participant that bears the amount under allocationBasis. Naming it records a term; it is not an agreed settlement deduction. Required for UNILATERAL, where it must be the funding participant."
+    },
+    {
+      "@id": "ion:allocationReason",
+      "@type": "rdf:Property",
+      "rdfs:label": "allocationReason",
+      "rdfs:comment": "Short reason for the allocation."
+    },
+    {
+      "@id": "ion:settlementRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "settlementRef",
+      "rdfs:comment": "Settlement.id under which the money moves. When the grievance completes a refund already agreed in the order flow, it reuses that settlement's ID so that SEAM does not count the refund twice; a new refund gets a new Settlement.id with relatedSettlementId pointing to the earlier one. Required when the grievance references a SETTLEMENT and the effect is a REFUND."
+    },
+    {
+      "@id": "ion:actionId",
+      "@type": "rdf:Property",
+      "rdfs:label": "actionId",
+      "rdfs:comment": "Identifier of the action, unique within the resolution."
+    },
+    {
+      "@id": "ion:financialEffect",
+      "@type": "rdf:Property",
+      "rdfs:label": "financialEffect",
+      "rdfs:comment": "Money terms, when the action moves money."
+    },
+    {
+      "@id": "ion:executionMethod",
+      "@type": "rdf:Property",
+      "rdfs:label": "executionMethod",
+      "rdfs:comment": "Flow that executes the action: CONTRACT_UPDATE through update or cancel, SETTLEMENT through a payment or refund settlement, PERFORMANCE through a delivery, redelivery or replacement, and NONE when nothing is executed, as for INFORMATION_PROVIDED or NO_ACTION. Every action other than NONE needs an execution reference before the grievance is RESOLVED."
+    },
+    {
+      "@id": "ion:sectorSubtype",
+      "@type": "rdf:Property",
+      "rdfs:label": "sectorSubtype",
+      "rdfs:comment": "Optional sector-specific refinement of type."
+    },
+    {
+      "@id": "ion:verifiedByNpId",
+      "@type": "rdf:Property",
+      "rdfs:label": "verifiedByNpId",
+      "rdfs:comment": "Participant that performed the verification."
+    },
+    {
+      "@id": "ion:verificationReference",
+      "@type": "rdf:Property",
+      "rdfs:label": "verificationReference",
+      "rdfs:comment": "Reference to the verification record kept by that participant."
+    },
+    {
+      "@id": "ion:verifiedAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "verifiedAt",
+      "rdfs:comment": "Time of the verification."
+    },
+    {
+      "@id": "ion:method",
+      "@type": "rdf:Property",
+      "rdfs:label": "method",
+      "rdfs:comment": "How the policy's conditions were verified, for example QUALITY_CHECK_OF_RETURNED_ITEM."
+    },
+    {
+      "@id": "ion:proposalId",
+      "@type": "rdf:Property",
+      "rdfs:label": "proposalId",
+      "rdfs:comment": "Identifier of the proposal; every version of it keeps the same value."
+    },
+    {
+      "@id": "ion:version",
+      "@type": "rdf:Property",
+      "rdfs:label": "version",
+      "rdfs:comment": "Version of the proposal, starting at 1. A higher version replaces every lower one."
+    },
+    {
+      "@id": "ion:proposedByNpId",
+      "@type": "rdf:Property",
+      "rdfs:label": "proposedByNpId",
+      "rdfs:comment": "Participant that made this version."
+    },
+    {
+      "@id": "ion:authorizationType",
+      "@type": "rdf:Property",
+      "rdfs:label": "authorizationType",
+      "rdfs:comment": "EXPLICIT_AGREEMENT: the counterparty must accept this version before it is carried out. POLICY_AUTHORIZED: a policy bound to the order defines the eligibility, verifier, amount and liable party, and a designated verifier confirmed the conditions, so no fresh acceptance is needed; a general permission to refund is not enough. UNILATERAL: the proposing participant funds the actions itself and imposes no liability on the counterparty."
+    },
+    {
+      "@id": "ion:verification",
+      "@type": "rdf:Property",
+      "rdfs:label": "verification",
+      "rdfs:comment": "Verification of the policy's conditions. Required for POLICY_AUTHORIZED."
+    },
+    {
+      "@id": "ion:fundingNpId",
+      "@type": "rdf:Property",
+      "rdfs:label": "fundingNpId",
+      "rdfs:comment": "Participant funding a UNILATERAL resolution. Required for UNILATERAL."
+    },
+    {
+      "@id": "ion:actions",
+      "@type": "rdf:Property",
+      "rdfs:label": "actions",
+      "rdfs:comment": "Actions of this version."
+    },
+    {
+      "@id": "ion:decidedByNpId",
+      "@type": "rdf:Property",
+      "rdfs:label": "decidedByNpId",
+      "rdfs:comment": "Participant deciding; never the participant that proposed the version."
+    },
+    {
+      "@id": "ion:result",
+      "@type": "rdf:Property",
+      "rdfs:label": "result",
+      "rdfs:comment": "The decision."
+    },
+    {
+      "@id": "ion:decidedAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "decidedAt",
+      "rdfs:comment": "Time of the decision."
+    },
+    {
+      "@id": "ion:reason",
+      "@type": "rdf:Property",
+      "rdfs:label": "reason",
+      "rdfs:comment": "Reason, typically given for a rejection."
+    },
+    {
+      "@id": "ion:status",
+      "@type": "rdf:Property",
+      "rdfs:label": "status",
+      "rdfs:comment": "Execution status of a resolution action; only completed actions are reported."
+    },
+    {
+      "@id": "ion:completedAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "completedAt",
+      "rdfs:comment": "Time the action was completed."
+    },
+    {
+      "@id": "ion:executedByNpId",
+      "@type": "rdf:Property",
+      "rdfs:label": "executedByNpId",
+      "rdfs:comment": "Participant that carried out the action."
+    },
+    {
+      "@id": "ion:executionReference",
+      "@type": "rdf:Property",
+      "rdfs:label": "executionReference",
+      "rdfs:comment": "Reference to the record that proves execution in its own flow, such as the refund's payment reference, the update message or the replacement performance. Required for every action whose executionMethod is not NONE before the grievance is RESOLVED."
+    },
+    {
+      "@id": "ion:actionExecutions",
+      "@type": "rdf:Property",
+      "rdfs:label": "actionExecutions",
+      "rdfs:comment": "One entry per completed action."
+    },
+    {
+      "@id": "ion:IONGrievance",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONGrievance",
+      "rdfs:comment": "One event in the life of an order grievance, sent between the BAP (buyer app) and the BPP (seller app) of the order. The participant whose user raised the grievance is the originating participant: it opens the grievance with a grievanceId and owns its closure. A grievance concerns exactly one order (Support.orderId) and may cover several of its commitments. The responding participant acknowledges it, investigates in its own systems and proposes one versioned resolution at a time; a newer version replaces the earlier one. The counterparty accepts or rejects a whole version when its agreement is needed. Each action of the accepted or authorized resolution is then executed through the order, fulfilment or settlement flows, and its execution reference is reported; the grievance is RESOLVED only once every action that moves money or goods is executed. A grievance is never the way a return or cancellation is requested: those use update and cancel. A grievance about a return, cancellation or refund that went wrong links that record in relatedReferences. The support exchange records material terms so that SEAM can check them later; it never moves money, and neither a resolution nor closure is agreement on the final settlement, which is reached in reconcile and on_reconcile."
+    },
+    {
+      "@id": "ion:GrievanceParty",
+      "@type": "rdfs:Class",
+      "rdfs:label": "GrievanceParty",
+      "rdfs:comment": "The side of the order that raised the grievance, and its participant."
+    },
+    {
+      "@id": "ion:GrievanceSubject",
+      "@type": "rdfs:Class",
+      "rdfs:label": "GrievanceSubject",
+      "rdfs:comment": "The party a grievance is about, as alleged when it is raised."
+    },
+    {
+      "@id": "ion:AffectedLine",
+      "@type": "rdfs:Class",
+      "rdfs:label": "AffectedLine",
+      "rdfs:comment": "A part of the order affected by the grievance or by a remedy action: an order line (Commitment.id), a performance (Performance.id), or both, with an optional quantity."
+    },
+    {
+      "@id": "ion:FinancialEffect",
+      "@type": "rdfs:Class",
+      "rdfs:label": "FinancialEffect",
+      "rdfs:comment": "Money terms of a remedy action, stated so that the counterparty can decide on them and SEAM can later check the settlement against them. Stating them moves no money: the refund or charge itself runs through the order and settlement flows."
+    },
+    {
+      "@id": "ion:RemedyAction",
+      "@type": "rdfs:Class",
+      "rdfs:label": "RemedyAction",
+      "rdfs:comment": "One thing a resolution will do, with the part of the order it affects and any money terms."
+    },
+    {
+      "@id": "ion:Verification",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Verification",
+      "rdfs:comment": "The check that made a policy-authorized resolution applicable, done by the verifier the policy designates, such as the seller's quality check of a returned item."
+    },
+    {
+      "@id": "ion:Resolution",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Resolution",
+      "rdfs:comment": "A versioned, whole proposal for resolving the grievance, made of one or more actions. Only the latest version of a proposalId is active; a decision applies to the whole version, and partial acceptance needs a new version. authorizationType states why the actions may be carried out: the counterparty's explicit acceptance, a policy bound to the order that already authorizes them, or the acting participant's own funding."
+    },
+    {
+      "@id": "ion:Decision",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Decision",
+      "rdfs:comment": "Acceptance or rejection of one whole resolution version by the participant that did not propose it. A protocol ACK is never a decision. A rejected version authorizes nothing."
+    },
+    {
+      "@id": "ion:ActionExecution",
+      "@type": "rdfs:Class",
+      "rdfs:label": "ActionExecution",
+      "rdfs:comment": "Report that one resolution action has been carried out."
+    },
+    {
+      "@id": "ion:Execution",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Execution",
+      "rdfs:comment": "Executed actions of the active resolution."
+    },
+    {
+      "@id": "ion:RelatedReference",
+      "@type": "rdfs:Class",
+      "rdfs:label": "RelatedReference",
+      "rdfs:comment": "A record in another flow that the grievance concerns or that evidences its outcome, identified by its own ID."
+    },
+    {
+      "@id": "ion:refType",
+      "@type": "rdf:Property",
+      "rdfs:label": "refType",
+      "rdfs:comment": "refType property."
+    },
+    {
+      "@id": "ion:refId",
+      "@type": "rdf:Property",
+      "rdfs:label": "refId",
+      "rdfs:comment": "ID of the record in its own flow."
+    }
+  ]
+}

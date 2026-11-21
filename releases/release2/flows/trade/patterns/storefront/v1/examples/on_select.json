@@ -1,0 +1,216 @@
+{
+  "_meta": {
+    "description": "Storefront on_select \u2014 BPP returns quote with price breakdown and SLA.",
+    "pattern": "storefront",
+    "step": "on_select",
+    "sent_by": "BPP",
+    "received_by": "BAP",
+    "schemaPacks": [
+      "schema/common/IdentifiableLocation/v1",
+      "schema/extension/trade/TradeCommitment/v1",
+      "schema/extension/trade/TradeConsideration/v1",
+      "schema/extension/trade/TradePerformance/v1",
+      "schema/extension/trade/TradeProvider/v1",
+      "schema/common/Tax/v1"
+    ]
+  },
+  "context": {
+    "action": "on_select",
+    "version": "2.0.0",
+    "bapId": "buyerapp.ion.id",
+    "bapUri": "https://buyerapp.ion.id/beckn",
+    "bppId": "sellerapp.ion.id",
+    "bppUri": "https://sellerapp.ion.id/beckn",
+    "networkId": "ion.id",
+    "transactionId": "9fdb667c-76c6-456a-9742-ba9caa5eb765",
+    "messageId": "db5a887e-660d-4ec5-8bd4-dcd860a86651",
+    "timestamp": "2026-09-19T10:00:05.000+07:00",
+    "ttl": "PT30S"
+  },
+  "message": {
+    "contract": {
+      "status": {
+        "code": "DRAFT"
+      },
+      "commitments": [
+        {
+          "id": "L01",
+          "status": {
+            "descriptor": {
+              "code": "DRAFT"
+            }
+          },
+          "resources": [
+            {
+              "resource": {
+                "id": "PIZZA-PEPPERONI-LARGE"
+              },
+              "quantity": {
+                "unitQuantity": 1,
+                "unitCode": "EA"
+              }
+            }
+          ],
+          "offer": {
+            "id": "OFFER-PIZZA-001",
+            "resourceIds": [
+              "PIZZA-PEPPERONI-LARGE"
+            ],
+            "provider": {
+              "id": "PROV-DOMINOS-SUDIRMAN-001",
+              "descriptor": {
+                "name": "Domino's Pizza Sudirman"
+              },
+              "providerAttributes": {
+                "@context": "https://schema.ion.id/release2/schema/extension/trade/TradeProvider/v1/context.jsonld",
+                "@type": "ion:IONTradeProvider",
+                "providerLocations": [
+                  {
+                    "id": "FC-DOMINOS-SUDIRMAN-001",
+                    "geo": {
+                      "type": "Point",
+                      "coordinates": [
+                        106.8111,
+                        -6.2604
+                      ]
+                    },
+                    "address": {
+                      "streetAddress": "Jl. Jend. Sudirman",
+                      "addressLocality": "Jakarta Selatan",
+                      "addressRegion": "DKI Jakarta",
+                      "postalCode": "12190",
+                      "addressCountry": "ID"
+                    }
+                  }
+                ]
+              }
+            },
+          "considerations": [
+            {
+              "id": "CONSID-OFFER-PIZZA-001",
+              "considerationAttributes": {
+                "@context": "https://schema.ion.id/release2/schema/extension/trade/TradeConsideration/v1/context.jsonld",
+                "@type": "ion:IONTradeConsideration",
+                "currency": "IDR",
+                "totalAmount": 89000,
+                "breakup": [
+                  {
+                    "title": "Harga",
+                    "amount": 89000,
+                    "type": "BASE_PRICE"
+                  }
+                ],
+                "buyerFinderFee": {
+                  "feeType": "PERCENT",
+                  "feeValue": 3,
+                  "appliesTo": "ITEM_TOTAL"
+                }
+              }
+            }
+          ]
+          },
+          "commitmentAttributes": {
+            "@context": "https://schema.ion.id/release2/schema/extension/trade/TradeCommitment/v1/context.jsonld",
+            "@type": "ion:IONTradeCommitment",
+            "selectedCustomizations": [
+              {
+                "groupId": "CG-CRUST",
+                "optionId": "OPT-THIN"
+              },
+              {
+                "groupId": "CG-SAUCE",
+                "optionId": "OPT-TOMATO"
+              }
+            ],
+            "specialInstructions": "Tolong dipotong 8 bagian."
+          }
+        }
+      ],
+      "consideration": [
+        {
+          "id": "CONSID-001",
+          "status": {
+            "code": "QUOTED"
+          },
+          "considerationAttributes": {
+            "@context": "https://schema.ion.id/release2/schema/extension/trade/TradeConsideration/v1/context.jsonld",
+            "@type": "ion:IONTradeConsideration",
+            "totalAmount": 98790,
+            "currency": "IDR",
+            "paymentMethods": [
+              "PREPAID",
+              "COD",
+              "QR_CODE"
+            ],
+            "breakup": [
+              {
+                "title": "Pepperoni Pizza Large",
+                "commitmentId": "L01",
+                "resourceId": "PIZZA-PEPPERONI-LARGE",
+                "amount": 89000,
+                "type": "BASE_PRICE"
+              },
+              {
+                "title": "Ongkos Kirim",
+                "_note": "Free delivery for this offer",
+                "amount": 0,
+                "type": "DELIVERY_CHARGE"
+              },
+              {
+                "title": "PPN 11%",
+                "amount": 9790,
+                "type": "TAX",
+                "taxDetail": {
+                  "rate": 0.11,
+                  "included": false,
+                  "taxableBase": 89000,
+                  "taxRegime": "PPN",
+                  "taxCategory": "BKP"
+                }
+              }
+            ],
+            "buyerFinderFee": {
+              "feeAmount": 2670
+            }
+          }
+        }
+      ],
+      "performance": [
+        {
+          "id": "PERF-001",
+          "status": {
+            "code": "PLANNED"
+          },
+          "commitmentIds": [
+            "L01"
+          ],
+          "performanceAttributes": {
+            "@context": "https://schema.ion.id/release2/schema/extension/trade/TradePerformance/v1/context.jsonld",
+            "@type": "ion:IONTradePerformance",
+            "performanceMode": "DELIVERY",
+            "supportedPerformanceModes": [
+              "DELIVERY",
+              "SELF_PICKUP"
+            ],
+            "sla": {
+              "min": "PT5M",
+              "max": "PT2H",
+              "unitBasis": "ORDER_CONFIRMATION"
+            },
+            "stops": [
+              {
+                "type": "END",
+                "location": {
+                  "address": {
+                    "addressCountry": "ID",
+                    "postalCode": "12190"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "_meta": {
+    "description": "Storefront discover — BAP searches for Pepperoni Pizza within 2 km of a location in South Jakarta.",
+    "pattern": "storefront",
+    "step": "discover",
+    "sent_by": "BAP",
+    "received_by": "ION Discovery Service",
+    "becknAction": "DiscoverAction",
+    "schemaPacks": []
+  },
+  "context": {
+    "action": "discover",
+    "version": "2.0.0",
+    "bapId": "buyerapp.ion.id",
+    "bapUri": "https://buyerapp.ion.id/beckn",
+    "bppId": "discovery.ion.id",
+    "bppUri": "https://discovery.ion.id/beckn",
+    "networkId": "ion.id",
+    "transactionId": "9fdb667c-76c6-456a-9742-ba9caa5eb765",
+    "messageId": "e6c7df10-d1f3-4b0d-a763-e5fb1cbb40b9",
+    "timestamp": "2026-09-19T09:57:00.000+07:00",
+    "ttl": "PT30S"
+  },
+  "message": {
+    "intent": {
+      "textSearch": "Pepperoni Pizza",
+      "spatial": [
+        {
+          "op": "S_DWITHIN",
+          "targets": "$['provider']['providerAttributes']['providerLocations'][*]['geo']",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              106.81,
+              -6.26
+            ]
+          },
+          "distanceMeters": 2000,
+          "quantifier": "ANY",
+          "srid": "EPSG:4326"
+        }
+      ]
+    }
+  }
+}

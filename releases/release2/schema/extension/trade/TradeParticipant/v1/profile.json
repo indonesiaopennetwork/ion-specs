@@ -1,0 +1,34 @@
+{
+  "id": "ion-trade-participant-v1",
+  "version": "1.0.0",
+  "status": "ready",
+  "domain": "trade",
+  "sectorCode": "G",
+  "type": "AttributePack",
+  "name": "ION Trade Participant Extension (v1)",
+  "description": "Trade participant attributes inherited from the common ION participant model, with a billing address.",
+  "packSchema": "./schema.json",
+  "jsonldContext": "./context.jsonld",
+  "extends": "ion:IONParticipant",
+  "attachmentPoints": {
+    "participantAttributes": [
+      "IONTradeParticipant"
+    ]
+  },
+  "indexing": {
+    "indexable": [
+      {
+        "path": "$.role"
+      }
+    ],
+    "filterable": [
+      {
+        "path": "$.role"
+      }
+    ],
+    "sortable": []
+  },
+  "minimalForDiscovery": [
+    "role"
+  ]
+}

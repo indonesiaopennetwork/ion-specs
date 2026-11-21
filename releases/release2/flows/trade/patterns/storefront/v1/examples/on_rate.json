@@ -1,0 +1,42 @@
+{
+  "_meta": {
+    "description": "Storefront on_rate — BPP confirms the 4-out-of-5 resource rating was recorded.",
+    "pattern": "storefront",
+    "step": "on_rate",
+    "sent_by": "BPP",
+    "received_by": "BAP",
+    "becknAction": "OnRateAction",
+    "schemaPacks": []
+  },
+  "context": {
+    "action": "on_rate",
+    "version": "2.0.0",
+    "bapId": "buyerapp.ion.id",
+    "bapUri": "https://buyerapp.ion.id/beckn",
+    "bppId": "sellerapp.ion.id",
+    "bppUri": "https://sellerapp.ion.id/beckn",
+    "networkId": "ion.id",
+    "transactionId": "9fdb667c-76c6-456a-9742-ba9caa5eb765",
+    "messageId": "e0c4741b-c77f-40f9-a382-d65e3c792e81",
+    "timestamp": "2026-09-19T11:20:01.000+07:00",
+    "ttl": "PT30S"
+  },
+  "message": {
+    "ratings": [
+      {
+        "target": {
+          "id": "PIZZA-PEPPERONI-LARGE",
+          "descriptor": {
+            "code": "RESOURCE",
+            "name": "Pepperoni Pizza Large"
+          }
+        },
+        "range": {
+          "min": 1,
+          "max": 5,
+          "value": 4
+        }
+      }
+    ]
+  }
+}

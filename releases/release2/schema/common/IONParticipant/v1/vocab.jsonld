@@ -1,0 +1,37 @@
+{
+  "@context": {
+    "ion": "https://schema.ion.id/release2/schema/common/IONParticipant/v1#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "schema": "https://schema.org/",
+    "skos": "http://www.w3.org/2004/02/skos/core#"
+  },
+  "@graph": [
+    {
+      "@id": "ion:IONParticipant",
+      "@type": "rdfs:Class",
+      "rdfs:label": "ION Participant",
+      "rdfs:comment": "Common attributes describing the role and identity of a Beckn Participant in an ION relationship or transaction."
+    },
+    {
+      "@id": "ion:role",
+      "@type": "rdf:Property",
+      "rdfs:label": "role",
+      "rdfs:comment": "Role performed by the participant in the applicable relationship or transaction."
+    },
+    {
+      "@id": "ion:person",
+      "@type": "rdf:Property",
+      "rdfs:label": "person",
+      "rdfs:comment": "Natural-person identity details when the participant is an individual."
+    },
+    {
+      "@id": "ion:organization",
+      "@type": "rdf:Property",
+      "rdfs:label": "organization",
+      "rdfs:comment": "Organization identity details when the participant is an organization."
+    }
+  ]
+}

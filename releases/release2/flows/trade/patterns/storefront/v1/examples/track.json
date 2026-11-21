@@ -1,0 +1,29 @@
+{
+  "_meta": {
+    "description": "Storefront track — BAP requests a real-time tracking handle for the confirmed pizza order.",
+    "pattern": "storefront",
+    "step": "track",
+    "sent_by": "BAP",
+    "received_by": "BPP",
+    "becknAction": "TrackAction",
+    "schemaPacks": []
+  },
+  "context": {
+    "action": "track",
+    "version": "2.0.0",
+    "bapId": "buyerapp.ion.id",
+    "bapUri": "https://buyerapp.ion.id/beckn",
+    "bppId": "sellerapp.ion.id",
+    "bppUri": "https://sellerapp.ion.id/beckn",
+    "networkId": "ion.id",
+    "transactionId": "9fdb667c-76c6-456a-9742-ba9caa5eb765",
+    "messageId": "7790bac3-77ad-42ee-95d9-f36ef411c8af",
+    "timestamp": "2026-09-19T10:40:05.000+07:00",
+    "ttl": "PT30S"
+  },
+  "message": {
+    "trackingRequest": {
+      "id": "4f9c2b7e-1a3d-4e5f-8b6a-9c0d1e2f3a4b"
+    }
+  }
+}

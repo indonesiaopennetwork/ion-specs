@@ -1,0 +1,103 @@
+{
+  "@context": "https://schema.ion.id/release2/schema/extension/trade/TradeOffer/v1/context.jsonld",
+  "@type": "ion:IONTradeOffer",
+  "timeToShip": "PT30M",
+  "selfPickupOtp": true,
+  "selfPickupInstructions": "Tunjukkan kode pickup di kasir",
+  "proofOfDeliveryType": "PHOTO",
+  "contactDetailsConsumerCare": {
+    "name": "Customer Service Domino's",
+    "email": "cs@dominos.co.id",
+    "phone": "021-500300"
+  },
+  "displayLanguage": [
+    "id",
+    "en"
+  ],
+  "customization": {
+    "groups": [
+      {
+        "code": "CG-CRUST",
+        "name": "Pizza Crust",
+        "selection": "SINGLE_REQUIRED",
+        "options": [
+          {
+            "code": "OPT-THIN",
+            "name": "Thin Crust",
+            "priceDelta": {
+              "type": "FIXED",
+              "value": 0
+            },
+            "available": true
+          },
+          {
+            "code": "OPT-PAN",
+            "name": "Pan Crust",
+            "priceDelta": {
+              "type": "FIXED",
+              "value": 5000
+            },
+            "available": true
+          }
+        ]
+      },
+      {
+        "code": "CG-SAUCE",
+        "name": "Sauce",
+        "selection": "SINGLE_REQUIRED",
+        "options": [
+          {
+            "code": "OPT-TOMATO",
+            "name": "Tomato Sauce",
+            "priceDelta": {
+              "type": "FIXED",
+              "value": 0
+            },
+            "available": true
+          },
+          {
+            "code": "OPT-BBQ",
+            "name": "BBQ Sauce",
+            "priceDelta": {
+              "type": "FIXED",
+              "value": 3000
+            },
+            "available": true
+          }
+        ]
+      }
+    ]
+  },
+  "policies": {
+    "returns": {
+      "allowed": false,
+      "policyRef": "ion://policy/return.standard.none"
+    },
+    "cancellation": {
+      "allowedReasons": [
+        "CHANGE_OF_MIND",
+        "WRONG_ITEM_ORDERED"
+      ],
+      "policyRef": "ion://policy/cancel.mto.nofee-before-prepare"
+    },
+    "warranty": {
+      "policyRef": "ion://policy/warranty.standard.none"
+    },
+    "dispute": {
+      "policyRef": "ion://policy/dispute.consumer.bpsk"
+    },
+    "grievanceSla": {
+      "policyRef": "ion://policy/grievance-sla.consumer.standard"
+    },
+    "paymentTerms": {
+      "policyRef": "ion://policy/payment-terms.upfront.full"
+    },
+    "settlement": {
+      "settlementBasis": "AFTER_DELIVERY",
+      "settlementWindow": "P1D"
+    }
+  },
+  "paymentConstraints": {
+    "codAvailable": true
+  }
+}

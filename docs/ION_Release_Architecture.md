@@ -210,8 +210,8 @@ releases. Tools MUST accept an explicit release directory and remain capable of
 validating every published release, for example:
 
 ```bash
-python tools/validate_release.py releases/release1
-python tools/create_release.py releases/release1 releases/release2
+ruby tools/release/validate_release.rb releases/release1
+ruby tools/release/create_release.rb --write releases/release1 releases/release2
 ```
 
 Generated output belongs to the applicable release. A release manifest SHOULD

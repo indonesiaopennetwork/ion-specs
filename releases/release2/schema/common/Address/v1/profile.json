@@ -1,0 +1,51 @@
+{
+  "id": "ion-core-address-v1",
+  "version": "1.0.0",
+  "domain": "ion-core",
+  "name": "ION Address Extension (v1)",
+  "description": "Complete Indonesian postal address combining Beckn Address fields with Indonesian administrative subdivisions and delivery details.",
+  "packSchema": "./schema.json",
+  "jsonldContext": "./context.jsonld",
+  "attachmentPoints": {
+    "ionAddressAttributes": [
+      "IONAddress"
+    ],
+    "providerAttributes": [
+      "IONAddress"
+    ]
+  },
+  "regulatory": [
+    "Permendagri 72/2019"
+  ],
+  "type": "AttributePack",
+  "indexing": {
+    "indexable": [
+      {
+        "path": "$.provinsiCode"
+      },
+      {
+        "path": "$.postalCode"
+      }
+    ],
+    "filterable": [
+      {
+        "path": "$.provinsiCode"
+      },
+      {
+        "path": "$.postalCode"
+      }
+    ],
+    "sortable": []
+  },
+  "minimalForDiscovery": [
+    "addressCountry",
+    "streetAddress",
+    "postalCode",
+    "provinsiCode"
+  ],
+  "x-ion-layer": {
+    "generic": "Address",
+    "ion": "IONAddress",
+    "splitVersion": "0.7.0"
+  }
+}

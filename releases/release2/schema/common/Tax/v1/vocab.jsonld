@@ -1,0 +1,58 @@
+{
+  "@context": {
+    "ion": "https://schema.ion.id/core/tax/v1#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "rccna": "https://schema.beckn.io/RetailConsideration#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "ion:IONTaxDetail",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONTaxDetail",
+      "rdfs:comment": "Indonesia-specific classification and compliance semantics for the taxDetail object of a RetailConsideration breakup item.",
+      "skos:broader": {
+        "@id": "rccna:RetailConsideration"
+      }
+    },
+    {
+      "@id": "ion:taxRegime",
+      "@type": "rdf:Property",
+      "rdfs:label": "taxRegime",
+      "rdfs:comment": "Indonesian tax regime applied by this tax breakup entry.",
+      "rdfs:domain": {
+        "@id": "ion:IONTaxDetail"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
+    },
+    {
+      "@id": "ion:taxCategory",
+      "@type": "rdf:Property",
+      "rdfs:label": "taxCategory",
+      "rdfs:comment": "Indonesian taxable-supply classification: BKP, JKP, or NON_BKP.",
+      "rdfs:domain": {
+        "@id": "ion:IONTaxDetail"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
+    },
+    {
+      "@id": "ion:eFakturRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "eFakturRef",
+      "rdfs:comment": "DJP e-Faktur reference for the tax entry, when issued.",
+      "rdfs:domain": {
+        "@id": "ion:IONTaxDetail"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
+    }
+  ]
+}

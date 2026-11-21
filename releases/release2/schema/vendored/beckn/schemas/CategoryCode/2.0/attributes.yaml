@@ -1,0 +1,39 @@
+openapi: 3.1.1
+info:
+  title: CategoryCode
+  version: 2.0.0
+  description: Schema definition for CategoryCode in the Beckn Protocol
+  license:
+    name: CC-BY-NC-SA 4.0 International
+  contact:
+    name: Beckn Labs
+    url: https://beckn.io
+components:
+  schemas:
+    CategoryCode:
+      x-iri: https://schema.beckn.io/CategoryCode/v2.0
+      description: Schema definition for CategoryCode in the Beckn Protocol
+      title: CategoryCode
+      type: object
+      properties:
+        '@type':
+          type: string
+          enum:
+          - schema:CategoryCode
+          description: Type of the category code
+          example: schema:CategoryCode
+        schema:codeValue:
+          type: string
+          description: Category code value
+          example: electronics
+        schema:name:
+          type: string
+          description: Category name
+          example: Electronics
+        schema:description:
+          type: string
+          description: Category description
+          example: Electronic devices and equipment
+      required:
+      - '@type'
+      - schema:codeValue

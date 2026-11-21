@@ -1,0 +1,46 @@
+{
+  "@context": {
+    "ion": "https://schema.ion.id/release2/schema/extension/trade/TradeParticipant/v1#",
+    "ionParticipant": "https://schema.ion.id/release2/schema/common/IONParticipant/v1#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "schema": "https://schema.org/",
+    "skos": "http://www.w3.org/2004/02/skos/core#"
+  },
+  "@graph": [
+    {
+      "@id": "ion:IONTradeParticipant",
+      "@type": "rdfs:Class",
+      "rdfs:subClassOf": {
+        "@id": "ionParticipant:IONParticipant"
+      },
+      "rdfs:label": "ION Trade Participant",
+      "rdfs:comment": "Participant attributes used in Trade messages, inheriting the common ION participant role and identity model and carrying the billing address used for the trade transaction."
+    },
+    {
+      "@id": "ionParticipant:role",
+      "@type": "rdf:Property",
+      "rdfs:label": "role",
+      "rdfs:comment": "role property."
+    },
+    {
+      "@id": "ionParticipant:person",
+      "@type": "rdf:Property",
+      "rdfs:label": "person",
+      "rdfs:comment": "person property."
+    },
+    {
+      "@id": "ionParticipant:organization",
+      "@type": "rdf:Property",
+      "rdfs:label": "organization",
+      "rdfs:comment": "organization property."
+    },
+    {
+      "@id": "ion:billingAddress",
+      "@type": "rdf:Property",
+      "rdfs:label": "billingAddress",
+      "rdfs:comment": "Billing address associated with the participant for the trade transaction."
+    }
+  ]
+}

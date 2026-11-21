@@ -21,7 +21,7 @@ on:
       release:
         description: Release directory name
         required: true
-        default: release1
+        default: release2
         type: string
       publication_gate:
         description: Also require published manifest metadata
@@ -36,7 +36,7 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     env:
-      RELEASE_NAME: ${{ inputs.release || 'release1' }}
+      RELEASE_NAME: ${{ inputs.release || 'release2' }}
       ION_IMMUTABILITY_BASE: ${{ github.event.pull_request.base.sha || github.event.before || '' }}
     steps:
       - uses: actions/checkout@v4
@@ -55,13 +55,14 @@ jobs:
     if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
     needs: validate
     runs-on: ubuntu-latest
-    env:
-      RELEASE_NAME: ${{ inputs.release || 'release1' }}
     steps:
       - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.3"
+      - name: Resolve current release
+        run: |
+          echo "RELEASE_NAME=$(ruby -ryaml -e 'puts YAML.load_file("releases/channels.yaml").fetch("current")')" >> "$GITHUB_ENV"
       - name: Validate deployed release tree
         run: >-
           ruby tools/release/validate_deployed_urls.rb

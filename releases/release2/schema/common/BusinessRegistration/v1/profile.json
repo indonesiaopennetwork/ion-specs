@@ -1,0 +1,54 @@
+{
+  "id": "ion-core-identity-v1",
+  "version": "1.0.0",
+  "domain": "ion-core",
+  "name": "ION Business Registration Extension (v1)",
+  "description": "Indonesian business KYC \u2014 NPWP, NIB, NIK, PKP status, legal entity type.",
+  "packSchema": "./schema.json",
+  "jsonldContext": "./context.jsonld",
+  "attachmentPoints": {
+    "providerAttributes": [
+      "IONBusinessRegistration"
+    ],
+    "contractAttributes": [
+      "IONBusinessRegistration"
+    ]
+  },
+  "regulatory": [
+    "PMK 136/2023",
+    "PP 5/2021",
+    "UU 24/2013"
+  ],
+  "type": "AttributePack",
+  "indexing": {
+    "indexable": [
+      {
+        "path": "$.npwp"
+      },
+      {
+        "path": "$.nib"
+      },
+      {
+        "path": "$.pkpStatus"
+      }
+    ],
+    "filterable": [
+      {
+        "path": "$.npwp"
+      },
+      {
+        "path": "$.nib"
+      }
+    ],
+    "sortable": []
+  },
+  "minimalForDiscovery": [
+    "npwp",
+    "nib"
+  ],
+  "x-ion-layer": {
+    "generic": "BusinessRegistration",
+    "ion": "IONBusinessRegistration",
+    "splitVersion": "0.7.0"
+  }
+}

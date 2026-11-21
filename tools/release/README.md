@@ -88,6 +88,9 @@ permanent integer releases. It is not copied into individual release bundles.
 - `validate_release_immutability.rb` rejects changes to any release whose
   manifest is already `published`.
 - `validate_release.rb` is the complete local and CI entry point.
+- `create_release.rb` safely copies a published release into the next integer
+  draft, rewrites the release namespace, and clears publication-only metadata.
+  It is dry-run-only unless `--write` is supplied.
 
 ## Run the complete Release 1 gate
 

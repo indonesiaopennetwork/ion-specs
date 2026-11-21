@@ -1,0 +1,16 @@
+{
+  "@context": "https://schema.ion.id/release2/schema/common/Address/v1/context.jsonld",
+  "@type": "ion:IONAddress",
+  "addressCountry": "ID",
+  "addressRegion": "DKI Jakarta",
+  "addressLocality": "Jakarta Selatan",
+  "streetAddress": "Jl. H. R. Rasuna Said Kav. C-22",
+  "extendedAddress": "Lantai 5",
+  "postalCode": "12940",
+  "provinsiCode": "BPS-31",
+  "kabupatenCode": "3171",
+  "kecamatan": "Setiabudi",
+  "kelurahan": "Kuningan Timur",
+  "rt": "02",
+  "rw": "05"
+}

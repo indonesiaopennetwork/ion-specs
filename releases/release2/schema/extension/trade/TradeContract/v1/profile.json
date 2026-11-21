@@ -1,0 +1,51 @@
+{
+  "id": "ion-trade-contract-v1",
+  "version": "1.0.0",
+  "domain": "trade",
+  "name": "ION Trade Contract Extension (v1)",
+  "description": "Contract-level purchase-order, parent, cancellation, subscription, source, gift, invoice, and buyer-registration attributes.",
+  "packSchema": "./schema.json",
+  "jsonldContext": "./context.jsonld",
+  "attachmentPoints": {
+    "contractAttributes": [
+      "IONTradeContract"
+    ]
+  },
+  "extends": "beckn:Contract",
+  "type": "AttributePack",
+  "indexing": {
+    "indexable": [
+      {
+        "path": "$.purchaseOrderReference"
+      },
+      {
+        "path": "$.parentContractId"
+      },
+      {
+        "path": "$.source.channel"
+      }
+    ],
+    "filterable": [
+      {
+        "path": "$.subscription.status"
+      },
+      {
+        "path": "$.source.channel"
+      },
+      {
+        "path": "$.invoicePreferences.invoiceType"
+      }
+    ],
+    "sortable": [
+      {
+        "path": "$.subscription.nextBillingAt"
+      }
+    ]
+  },
+  "minimalForDiscovery": [],
+  "x-ion-layer": {
+    "generic": "TradeContract",
+    "ion": "IONTradeContract",
+    "splitVersion": "0.7.0"
+  }
+}
