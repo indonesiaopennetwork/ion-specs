@@ -48,10 +48,10 @@ accounts, and the figures:
 
 The buyer's QRIS payment is held at the PJP, not in either participant's
 account. After delivery and the agreed one-day window, the BPP sends
-[`reconcile_request.json`](examples/reconcile_request.json) with its figures:
+[`reconcile.json`](examples/reconcile.json) with its figures:
 order 98790, a 3% commission of 2670 on the 89000 item total, and BPP proceeds
 of 96120. The BAP answers with
-[`on_reconcile_response.json`](examples/on_reconcile_response.json) and
+[`on_reconcile.json`](examples/on_reconcile.json) and
 `accord: true`, so the settlement is agreed and SEAM, after verifying the funds
 and accounts, has the PJP pay 96120 to the BPP and 2670 to the BAP. Either
 participant may start reconciliation. Agreement is per settlement; a batch

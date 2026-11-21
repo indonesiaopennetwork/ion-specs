@@ -120,16 +120,16 @@ The examples cancel one order, `ORD-2026-00020001`, while it is `PACKED`:
 | Example | Fee | Refund | Commission | Net payable to BPP |
 |---|---|---|---|---|
 | Before cancellation | | 0 | 6000 | 226000 |
-| [Full cancellation](examples/on_cancel_response.json) (reason `CHANGE_OF_MIND`) | 16650 (10% of L01's 166500 with tax) | 215350 | 0 | 16650 |
-| [Partial: L02](examples/on_cancel_partial_response.json) (reason `ITEM_NO_LONGER_NEEDED`) | 0 | 55500 | 4500 | 172000 |
+| [Full cancellation](examples/on_cancel.json) (reason `CHANGE_OF_MIND`) | 16650 (10% of L01's 166500 with tax) | 215350 | 0 | 16650 |
+| [Partial: L02](examples/on_cancel_partial.json) (reason `ITEM_NO_LONGER_NEEDED`) | 0 | 55500 | 4500 | 172000 |
 | [Seller cancels](examples/on_update_seller_cancellation.json) (reason `ITEM_OUT_OF_STOCK`) | 0 | 232000 | 0 | 0 |
 
 In each case `orderAmount` = `netPayable` + `commission` + `refundAmount`.
 The full and seller cancellations happen on 20 April, so their `dueDate` is
 2026-04-21.
-The [preview](examples/on_cancel_preview_response.json) of the full
+The [preview](examples/on_cancel_preview.json) of the full
 cancellation returns the same figures with `context.try: true`. The
-[rejected](examples/on_cancel_rejected_response.json) example answers the same
+[rejected](examples/on_cancel_rejected.json) example answers the same
 cancel sent after the order was `DISPATCHED`.
 
 ## Excluded
