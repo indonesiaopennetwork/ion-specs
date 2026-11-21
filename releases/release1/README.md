@@ -140,8 +140,9 @@ upstream baseline:
 The authoritative scope and validation state are defined by
 [`release.yaml`](release.yaml). Trade, Logistics, their common dependencies,
 flows, and errors are validated. Hospitality and Finance are excluded.
-The aggregate ION API remains excluded; the standalone core API additions are
-still marked `review-required` while the release is a draft.
+The unreconciled aggregate `ion.yaml` remains excluded. The standalone core API
+contracts, `ion-beckn.yaml` and `ion-additional.yaml`, have completed review and
+are validated for Release 1.
 
 The contents of this directory define the release boundary. Material elsewhere
 in the repository is not part of Release 1 unless a release artifact explicitly

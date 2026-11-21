@@ -604,7 +604,8 @@ Before publication, root tooling must provide:
    exact duplicate policy files while retaining their canonical Trade copies,
    and aligned `ION-A8001` with `TradeResource.food.classification`.
 6. [x] Marked standalone Trade and the four approved common packs `validated`;
-   `ionApi` remains `review-required`.
+   `ionApi` remained `review-required` at the end of this phase and was validated
+   by the later pre-publication review recorded below.
 
 ### Phase 6 — Review other sectors independently
 
@@ -984,6 +985,13 @@ Four source sub-branches were excluded within the release-local variant:
   NACK to `confirm`.
 
 No root schema pack was required for the six included branches.
+
+#### Pre-publication ION API review (2026-11-21)
+
+The standalone Release 1 core API contracts, `ion-beckn.yaml` and
+`ion-additional.yaml`, completed maintainer review and `contentStatus.ionApi` was
+changed to `validated`. The unreconciled aggregate `ion.yaml` remains excluded
+and has no Release 1 public URL.
 
 Publication is permitted only when:
 

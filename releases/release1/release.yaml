@@ -6,7 +6,7 @@ publishedAt: null
 publicBaseUrl: https://schema.ion.id/release1/
 sourceBranch: main
 contentStatus:
-  ionApi: review-required
+  ionApi: validated
   common: validated
   trade: validated
   logistics: validated
