@@ -47,7 +47,13 @@ class ValidateTradeConnectionsTest < Minitest::Test
   def write_pattern(root, schema_packs)
     directory = File.join(root, "flows/trade/patterns/sample/v1")
     FileUtils.mkdir_p(directory)
-    pattern = { "phases" => { "phase1" => { "steps" => [{ "step" => "reconcile", "schemaPacks" => schema_packs }] } } }
+    pattern = {
+      "patternName" => "sample",
+      "status" => "ready",
+      "implementationRole" => "reference",
+      "implementationMaturity" => "reference",
+      "phases" => { "phase1" => { "steps" => [{ "step" => "reconcile", "schemaPacks" => schema_packs }] } }
+    }
     File.write(File.join(directory, "pattern.yaml"), pattern.to_yaml)
   end
 end

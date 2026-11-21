@@ -4,6 +4,8 @@
   "sector": "trade",
   "sectorCode": "A",
   "status": "ready",
+  "implementationRole": "reference",
+  "implementationMaturity": "reference",
   "description": "B2B wholesale procurement with minimum order quantities, purchase-order linkage, tax invoicing, and upfront payment.",
   "spineFile": "./pattern.yaml",
   "applicableCategories": ["fmcg", "electronics", "agritech", "fashion", "pharmacy", "automotive-parts"],

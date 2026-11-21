@@ -4,6 +4,8 @@
   "sector": "trade",
   "sectorCode": "A",
   "status": "ready",
+  "implementationRole": "reference",
+  "implementationMaturity": "reference",
   "description": "First-party or consignment marketplace commerce fulfilled from marketplace-held inventory.",
   "spineFile": "./pattern.yaml",
   "applicableCategories": ["all"],

@@ -6,6 +6,8 @@
   "branchName": "cancellation",
   "sector": "ion:trade",
   "status": "ready",
+  "implementationRole": "reference",
+  "implementationMaturity": "reference",
   "description": "Release 1 cancellation of a confirmed Trade contract: preview, buyer full and partial cancellation, policy rejection, and seller-initiated cancellation.",
   "branchFile": "./variant.yaml",
   "applicablePatterns": [

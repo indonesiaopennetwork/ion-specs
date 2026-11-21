@@ -2,7 +2,9 @@ id: ion-logistics-variant-rts-handoff-v1
 version: 1.0.0
 variantType: rts-handoff
 sector: ion:logistics
-status: ready
+status: preview
+implementationRole: reference
+implementationMaturity: preview
 attachmentWindow: {earliest: on_confirm, latest: pickup}
 steps:
   - {step: update, from: BAP, to: BPP, direction: request}

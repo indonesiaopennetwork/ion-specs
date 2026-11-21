@@ -9,10 +9,10 @@ verification.
 
 See `attributes.yaml` for complete field definitions.
 
-## Implementation guidance carried over from the excluded aggregate
+## Implementation guidance
 
-The unreconciled `ion.yaml` draft previously treated the following fields as
-network-required:
+The following fields are implementation guidance rather than normative Release 1
+requirements:
 
 - `operationalStatus.status`
 - `businessRegistration.nib`

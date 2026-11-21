@@ -6,6 +6,8 @@ version: "1.0.0"
 variantType: cancellation
 sector: ion:trade
 status: ready
+implementationRole: reference
+implementationMaturity: reference
 description: >
   Cancellation of a confirmed Trade contract after on_confirm and before
   delivery: the buyer previews and requests a full or partial cancellation

@@ -2,7 +2,9 @@ id: ion-logistics-variant-weight-dispute-v1
 version: 1.0.0
 variantType: weight-dispute
 sector: ion:logistics
-status: ready
+status: preview
+implementationRole: reference
+implementationMaturity: preview
 steps:
   - {step: on_update, from: BPP, to: BAP, direction: unsolicited}
   - {step: update, from: BAP, to: BPP, direction: request, optional: true}

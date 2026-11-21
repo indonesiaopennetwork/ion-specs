@@ -1,11 +1,10 @@
 # ION Schema Design Guide
 
-> **Release 1 scope note:** Release 1 contains validated standalone Trade and
-> required common packs, plus validated Logistics packs. This guide
-> also discusses the unreleased `ion.yaml` aggregate and future sectors as design
-> inputs; those sections are not part of the normative Release 1 contract.
+> **Release 1 scope note:** Release 1 contains validated standalone Trade,
+> Logistics, and common packs. Only artifacts present in the release directory
+> are part of the normative Release 1 contract.
 
-**Audience:** Contributors authoring or reviewing schema packs, flow patterns, or `ion.yaml` changes.  
+**Audience:** Contributors authoring or reviewing schema packs, flow patterns, policies, or API changes.
 **Relationship to NFH-012:** This document does not replace NFH-012. It translates NFH-012's three design principles into ION-specific terms, adds the ION structural constraints that sit above NFH-012, and gives contributors the decision framework for choices that NFH-012 leaves open.
 
 Read this document before authoring. Read `docs/ION_Schema_Style_Guide.md` for file-format rules.
@@ -104,7 +103,10 @@ Every aspect of ION participation belongs to one of three planes. Schema contrib
 
 ## 4. The CRC taxonomy as a schema design input
 
-The ION Catalogue Resource Category system assigns every product or service to one of 46 CRCs (defined in `ion.yaml → x-ion-crc-registry`). CRCs are ION's answer to the question "what kind of thing is this?" They sit in the catalogue plane.
+The ION Catalogue Resource Category system assigns every product or service to a
+CRC. Applicable CRCs are declared by the relevant schema-pack and flow
+documentation. CRCs answer the question "what kind of thing is this?" and sit in
+the catalogue plane.
 
 ### How CRCs drive schema design
 
@@ -173,7 +175,7 @@ When authoring a new pack:
 
 ### Exception: ION-native schemas
 
-Some schemas have no meaningful generic layer because they model concepts that exist only in the ION context. Examples: `IONReconcile` (ION's settlement reconciliation protocol), `IONTicket` (ION's network dispute mechanism), `IONTax` (Indonesian PPN/PPnBM regime). These are ION-native and do not require a split. They are identified in `ion.yaml → x-ion-schema-dependencies` with status `ION_NATIVE`.
+Some schemas have no meaningful generic layer because they model concepts that exist only in the ION context. Examples: `IONReconcile` (ION's settlement reconciliation protocol), `IONTicket` (ION's network dispute mechanism), `IONTax` (Indonesian PPN/PPnBM regime). These are ION-native and do not require a split. Their pack metadata and documentation must state that status explicitly.
 
 ---
 
@@ -185,7 +187,9 @@ Every `*Attributes` bag on ION is divided into four zones. Contributors must und
 `@context` and `@type`. Governed by `beckn.yaml`. Never add fields here.
 
 ### Zone 2: ion_mandated
-ION core and sector fields. This is where schema pack fields live. Governed by `ion.yaml` and the schema packs in `schema/extensions/`. Fields here use the `ion:` IRI prefix.
+ION core and sector fields. This is where schema-pack fields live. They are
+governed by the published common and sector packs. Fields here use the `ion:` IRI
+prefix.
 
 ### Zone 3: participant_extensions
 NP-declared fields that a specific network participant needs but that are not standardised across ION. Governed by the participant. Rules:
@@ -202,7 +206,9 @@ Pilot fields proposed by a Sector Working Group (SWG) that are not yet ratified.
 - Auto-expire after one ION release cycle if not ratified
 - Governed by the relevant ION Sector Working Group
 
-New fields in an experimental state go into Zone 4 in `ion.yaml` with the SWG's endorsement. Once ratified through the contribution process, they move to Zone 2 in a schema pack.
+New experimental fields are added to their owning schema pack with the SWG's
+endorsement and the annotation above. Once ratified through the contribution
+process, the experimental annotation is removed in a subsequent release.
 
 ---
 
@@ -295,7 +301,7 @@ Use the `beckn-payload-builder` skill to validate your `examples/` JSON. Paste t
 Before raising your PR, use `beckn-schema-builder` to run the schema pack through its validation checklist. The skill will surface:
 - Missing `rdfs:subClassOf` or `skos:broader` linkages
 - Missing `@version: 1.1` or `@protected: true` in `context.jsonld`
-- `required:` arrays that should be in `ion.yaml` policy instead
+- `required:` arrays that belong in the applicable flow, profile, or policy instead
 - Field descriptions that are structural restatements rather than semantic prose
 
 Document which skill checklist items were flagged and how you resolved them. This goes in the PR description.
@@ -361,7 +367,7 @@ For each NFH-012 conformance requirement (CON-012-xx), here is the ION-specific 
 | NFH-012 requirement | ION operationalisation |
 |---|---|
 | CON-012-02 — required artifact files | Seven files required per pack. See `docs/ION_Schema_Style_Guide.md` §2. |
-| CON-012-18 — no mandatory fields in schema | Mandatoriness declared in `ion.yaml → x-ion-field-requirements` (always-required) or `x-ion-crc-rules` (CRC-conditional). Schema `required:` arrays are only permitted on Action schemas and within sub-object internal constraints. |
+| CON-012-18 — no mandatory fields in schema | Cross-artifact mandatoriness is declared in the applicable flow, profile, or policy artifact. Schema `required:` arrays are only permitted on Action schemas and within sub-object internal constraints. |
 | CON-012-22 — `@context` as single string | The ION network publishes a single composed context document per sector. The wire always carries one URL. Multi-context composition happens in the published document, not in the payload. |
 | CON-012-27 — AI-first design + vocabulary linkages | Every ION-specific class in `vocab.jsonld` must have `rdfs:subClassOf beckn:{parent}` or `skos:broader beckn:{parent}`. beckn-agents skill validation checks this. |
 | CON-012-28 — thin Attributes, dense Descriptor | Apply the ION structured-field test in Section 7. Reviewers will reject new structured fields that fail it. |

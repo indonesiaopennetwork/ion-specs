@@ -31,6 +31,23 @@ class ValidateLogisticsConnectionsTest < Minitest::Test
     end
   end
 
+  def test_logistics_flow_profiles_must_be_marked_preview
+    errors = []
+    path = Pathname.new("/tmp/release/flows/logistics/patterns/parcel/v1/pattern.yaml")
+    source = Pathname.new("flows/logistics/patterns/parcel/v1/pattern.yaml")
+
+    IonLogisticsConnections.validate_implementation_metadata(
+      { "status" => "ready", "implementationRole" => "primary", "implementationMaturity" => "reference" },
+      path,
+      source,
+      errors
+    )
+
+    assert_includes errors, "#{source}: status must be preview"
+    assert_includes errors, "#{source}: implementationRole must be reference"
+    assert_includes errors, "#{source}: implementationMaturity must be preview"
+  end
+
   private
 
   def build_fixture(root, repository_root)

@@ -6,6 +6,8 @@ version: "1.0.0"
 patternName: marketplace-inhouse
 sector: ion:trade
 status: ready
+implementationRole: reference
+implementationMaturity: reference
 description: >
   A first-party or consignment marketplace acts as the BPP, holds physical
   inventory in its fulfilment centres, invoices centrally, and owns the

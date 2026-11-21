@@ -4,7 +4,9 @@
   "type": "Variant",
   "variantName": "rts-handoff",
   "sector": "ion:logistics",
-  "status": "ready",
+  "status": "preview",
+  "implementationRole": "reference",
+  "implementationMaturity": "preview",
   "branchFile": "./variant.yaml",
   "applicablePatterns": ["parcel", "hyperlocal", "warehouse"],
   "requiredPolicyRefs": ["ion://policy/rts-handoff.standard", "ion://policy/rts-handoff.cross-bpp-timeout"]

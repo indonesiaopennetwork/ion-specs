@@ -22,8 +22,7 @@ durations. The concrete cancellation policy
 the first `PREPARING` status.
 
 Release 1 does not include the former cross-cutting branches. In particular,
-`raise` and `reconcile` behavior from the excluded `ion.yaml` aggregate is
-outside this flow.
+`raise` and `reconcile` behavior is outside this flow.
 
 ## Included schema packs
 

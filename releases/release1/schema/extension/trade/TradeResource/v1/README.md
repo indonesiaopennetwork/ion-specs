@@ -72,10 +72,10 @@ PerBPOM 31/2018 (packaged goods), UU 8/1999 (consumer protection),
 PerBPOM 23/2019 (cosmetics), PP 36/2023 (electronics warranty),
 Permenkominfo 16/2018 (SDPPI device certification), Permenperin 29/2017 (TKDN)
 
-## Implementation guidance carried over from the excluded aggregate
+## Implementation guidance
 
-The unreconciled `ion.yaml` draft previously treated the following fields as
-network-required:
+The following fields are implementation guidance rather than normative Release 1
+requirements:
 
 - `resourceStructure`
 - `resourceTangibility`
@@ -95,8 +95,8 @@ Which fields within this pack are mandatory depends on the CRC (Catalogue Resour
 - `TRC-food-bev` — `food.*` block and `packaged.*` block become required
 - `TRC-electronics` — `electronics.connectivity[]` and `warranty` become required
 
-The category examples below came from the excluded aggregate and are informative
-only. Release 1 does not publish an `x-ion-crc-rules` registry.
+These category examples are informative only. Release 1 does not publish an
+`x-ion-crc-rules` registry.
 
 ## Required for catalogue indexing
 
@@ -113,8 +113,7 @@ lists the required fields at each included API step.
 
 ## Common rejection reasons
 
-Consult the included Trade error and flow material for Release 1 rejection rules;
-do not infer them from the excluded aggregate.
+Consult the included Trade error and flow material for Release 1 rejection rules.
 
 ## Changelog
 

@@ -6,6 +6,8 @@ version: "1.0.0"
 variantType: during-transaction
 sector: ion:trade
 status: ready
+implementationRole: reference
+implementationMaturity: reference
 description: >
   Optional branches that refine an included Trade pattern between select and
   on_confirm. Release 1 includes fulfilment-mode selection, BAP-collected

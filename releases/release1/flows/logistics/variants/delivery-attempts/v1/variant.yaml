@@ -2,7 +2,9 @@ id: ion-logistics-variant-delivery-attempts-v1
 version: 1.0.0
 variantType: delivery-attempts
 sector: ion:logistics
-status: ready
+status: preview
+implementationRole: reference
+implementationMaturity: preview
 flowIds: [delivery-attempts]
 attachmentWindow: {earliest: OUT_FOR_DELIVERY, latest: terminal-state}
 steps:

@@ -4,6 +4,8 @@
   "sector": "trade",
   "sectorCode": "A",
   "status": "ready",
+  "implementationRole": "reference",
+  "implementationMaturity": "reference",
   "description": "Physical-goods commerce initiated from live, OTT, social, or attributed content using standard Beckn actions.",
   "spineFile": "./pattern.yaml",
   "applicableCategories": [

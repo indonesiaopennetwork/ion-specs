@@ -4,7 +4,9 @@
   "type": "Pattern",
   "patternName": "hyperlocal",
   "sector": "ion:logistics",
-  "status": "ready",
+  "status": "preview",
+  "implementationRole": "reference",
+  "implementationMaturity": "preview",
   "spineFile": "./pattern.yaml",
   "schemaPacksRequired": {"common": ["Address/v1", "IdentifiableLocation/v1", "Payment/v1"], "logistics": ["LogisticsProvider/v1", "LogisticsResource/v1", "LogisticsOffer/v1", "LogisticsContract/v1", "LogisticsPerformance/v1", "LogisticsTracking/v1"]},
   "performanceStateMachineSelection": {

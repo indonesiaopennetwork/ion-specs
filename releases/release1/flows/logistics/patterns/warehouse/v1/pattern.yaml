@@ -2,7 +2,9 @@ id: ion-logistics-pattern-warehouse-v1
 version: 1.0.0
 patternName: warehouse
 sector: ion:logistics
-status: ready
+status: preview
+implementationRole: reference
+implementationMaturity: preview
 description: Storage and inventory execution that may launch child outbound transport work.
 baseSequence: [discover, on_discover, select, on_select, init, on_init, confirm, on_confirm, status, on_status]
 stateMachine: flows/logistics/state-machines/v1/states.yaml#warehouse-inventory

@@ -26,10 +26,10 @@ business registration, NPWP, NIB or NIK.
 ## Regulatory
 PMK 136/2023, PP 5/2021, UU 24/2013
 
-## Implementation guidance carried over from the excluded aggregate
+## Implementation guidance
 
-The unreconciled `ion.yaml` draft previously treated the following fields as
-network-required:
+The following fields are implementation guidance rather than normative Release 1
+requirements:
 
 - `npwp`
 - `nib`

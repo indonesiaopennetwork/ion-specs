@@ -4,6 +4,8 @@
   "sector": "trade",
   "sectorCode": "A",
   "status": "ready",
+  "implementationRole": "reference",
+  "implementationMaturity": "reference",
   "description": "Electronically delivered vouchers and subscriptions using standard Beckn actions.",
   "spineFile": "./pattern.yaml",
   "applicableCategories": [

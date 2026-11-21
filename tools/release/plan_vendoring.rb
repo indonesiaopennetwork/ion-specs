@@ -12,6 +12,7 @@ require "yaml"
 module IonVendoringPlan
   REGISTRY_HOST = "schema.beckn.io".freeze
   PUBLIC_RELEASE_BASE = "https://schema.ion.id/release1/".freeze
+  PROTOCOL_BASELINE_DATE = "2026-06-02".freeze
 
   SOURCE_RULES = [
     {
@@ -399,7 +400,7 @@ module IonVendoringPlan
           "selectionBasis" => if @protocol_selection == "latest"
                                 "Current main HEAD at plan generation, explicitly selected for Release 1"
                               else
-                                "Latest commit touching #{path} on or before #{sync_date}, derived from becknCoreUpstreamTag"
+                                "Latest commit touching #{path} on or before the recorded protocol baseline date"
                               end,
           "declaredSyncDate" => sync_date,
           "commit" => commit,
@@ -429,11 +430,7 @@ module IonVendoringPlan
     end
 
     def protocol_sync_date
-      ion_path = File.join(@release_root, "schema/core/api/v2.0.0/ion.yaml")
-      content = File.read(ion_path)
-      match = content.match(/becknCoreUpstreamTag:\s*main-(\d{4}-\d{2}-\d{2})/)
-      raise ArgumentError, "cannot derive protocol sync date from becknCoreUpstreamTag" unless match
-      match[1]
+      PROTOCOL_BASELINE_DATE
     end
 
     def repository_file_commit(repo, branch, path, through_date)

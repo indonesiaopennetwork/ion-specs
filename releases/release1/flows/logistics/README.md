@@ -5,6 +5,12 @@ their shared execution-state registry. Flow documents constrain how the core
 Beckn actions and the Release 1 Logistics attribute packs are used; they do not
 define additional message fields.
 
+Logistics is published at `preview` implementation maturity. Its schemas, flows,
+state machines, policies, errors, and examples pass the Release 1 validation
+gates, but the area has not received sufficient implementation and
+interoperability testing for production adoption. Implementers should use it for
+evaluation and feed normative refinements into Release 2.
+
 - [`patterns/`](patterns/) contains the six base transaction patterns.
 - [`variants/`](variants/) contains only branches whose actions, schemas,
   states, and policy dependencies are available in Release 1.

@@ -10,6 +10,7 @@ module IonReleaseManifest
   CONTENT_STATES = %w[review-required validation-pending validated excluded].freeze
   RELEASE_STATUSES = %w[draft published].freeze
   DEPENDENCY_STATUSES = %w[incomplete complete].freeze
+  IMPLEMENTATION_MATURITIES = %w[implementation-ready reference preview excluded].freeze
   SHA1 = /\A[0-9a-f]{40}\z/.freeze
   SHA256 = /\A[0-9a-f]{64}\z/.freeze
   URL_PREFIX = "https://schema.ion.id/".freeze
@@ -32,7 +33,8 @@ module IonReleaseManifest
 
     required = %w[
       schemaVersion release name status publishedAt publicBaseUrl sourceBranch
-      contentStatus dependencyStatus dependencies maintainedArtifacts artifactChecksums
+      contentStatus dependencyStatus dependencies maintainedArtifacts implementationGuidance
+      artifactChecksums
     ]
     missing = required.reject { |key| data.key?(key) }
     errors << "missing required fields: #{missing.join(', ')}" unless missing.empty?
@@ -75,6 +77,8 @@ module IonReleaseManifest
     else
       errors << "maintainedArtifacts must be an array"
     end
+
+    validate_implementation_guidance(data["implementationGuidance"], errors)
 
     checksums = data["artifactChecksums"]
     if checksums.is_a?(Hash)
@@ -172,6 +176,57 @@ module IonReleaseManifest
     end
     unless artifact["transformations"].is_a?(Array) && !artifact["transformations"].empty?
       errors << "maintained artifact #{index} transformations must be a non-empty array"
+    end
+  end
+
+  def validate_implementation_guidance(guidance, errors)
+    unless guidance.is_a?(Hash)
+      errors << "implementationGuidance must be an object"
+      return
+    end
+
+    extra = guidance.keys - %w[primaryProfile areas]
+    errors << "implementationGuidance has unknown fields: #{extra.join(', ')}" unless extra.empty?
+    primary = guidance["primaryProfile"]
+    unless primary.is_a?(Hash)
+      errors << "implementationGuidance.primaryProfile must be an object"
+    else
+      required = %w[id path maturity description]
+      missing = required.reject { |field| primary.key?(field) }
+      errors << "implementationGuidance.primaryProfile missing: #{missing.join(', ')}" unless missing.empty?
+      errors << "implementationGuidance.primaryProfile path must be under flows/" unless safe_relative_path?(primary["path"]) && primary["path"].start_with?("flows/")
+      unless IMPLEMENTATION_MATURITIES.include?(primary["maturity"])
+        errors << "implementationGuidance.primaryProfile has invalid maturity: #{primary['maturity']}"
+      end
+    end
+
+    areas = guidance["areas"]
+    unless areas.is_a?(Hash) && !areas.empty?
+      errors << "implementationGuidance.areas must be a non-empty object"
+      return
+    end
+    areas.each do |area, value|
+      errors << "implementationGuidance.areas has unknown area: #{area}" unless CONTENT_AREAS.include?(area)
+      unless value.is_a?(Hash)
+        errors << "implementationGuidance.areas.#{area} must be an object"
+        next
+      end
+      missing = %w[maturity notes].reject { |field| value.key?(field) }
+      errors << "implementationGuidance.areas.#{area} missing: #{missing.join(', ')}" unless missing.empty?
+      unless IMPLEMENTATION_MATURITIES.include?(value["maturity"])
+        errors << "implementationGuidance.areas.#{area} has invalid maturity: #{value['maturity']}"
+      end
+      if value.key?("productionRecommended") && ![true, false].include?(value["productionRecommended"])
+        errors << "implementationGuidance.areas.#{area}.productionRecommended must be boolean"
+      end
+      notes = value["notes"]
+      unless notes.is_a?(Array) && !notes.empty? && notes.all? { |note| note.is_a?(String) && !note.empty? }
+        errors << "implementationGuidance.areas.#{area}.notes must be a non-empty string array"
+      end
+    end
+
+    if primary.is_a?(Hash) && areas.dig("trade", "primaryProfile") != primary["id"]
+      errors << "Trade primaryProfile must match implementationGuidance.primaryProfile.id"
     end
   end
 

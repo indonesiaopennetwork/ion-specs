@@ -2,7 +2,9 @@ id: ion-logistics-variant-exception-v1
 version: 1.0.0
 variantType: exception
 sector: ion:logistics
-status: ready
+status: preview
+implementationRole: reference
+implementationMaturity: preview
 flowIds: [pickup-failure]
 subBranches:
   loss:

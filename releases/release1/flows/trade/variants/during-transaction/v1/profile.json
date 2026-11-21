@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "branchName": "during-transaction",
   "status": "ready",
+  "implementationRole": "reference",
+  "implementationMaturity": "reference",
   "description": "Release 1 transaction-time fulfilment, payment, split-performance, and cancellation-term branches.",
   "branchFile": "./variant.yaml",
   "applicablePatterns": [

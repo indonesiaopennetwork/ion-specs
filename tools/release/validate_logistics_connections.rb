@@ -34,6 +34,7 @@ module IonLogisticsConnections
       validate_schema_packs(document, release_root, relative, errors)
       validate_state_references(document, release_root, machines, relative, errors)
       validate_policy_references(document, policy_iris, relative, errors)
+      validate_implementation_metadata(document, path, relative, errors)
       if path.basename.to_s == "profile.json"
         validate_profile_file_targets(document, path, relative, errors)
         owned_flow_ids.concat(Array(document["flowIds"]))
@@ -120,6 +121,17 @@ module IonLogisticsConnections
       next unless key.end_with?("File") && value.is_a?(String)
       target = Pathname.new(File.expand_path(value.split("#", 2).first, path.dirname))
       errors << "#{source}: #{key} target does not exist: #{value}" unless target.file?
+    end
+  end
+
+  def validate_implementation_metadata(document, path, source, errors)
+    return unless source.to_s.start_with?("flows/logistics/patterns/") || source.to_s.start_with?("flows/logistics/variants/")
+    return unless %w[pattern.yaml variant.yaml profile.json].include?(path.basename.to_s)
+
+    errors << "#{source}: status must be preview" unless document["status"] == "preview"
+    errors << "#{source}: implementationRole must be reference" unless document["implementationRole"] == "reference"
+    unless document["implementationMaturity"] == "preview"
+      errors << "#{source}: implementationMaturity must be preview"
     end
   end
 

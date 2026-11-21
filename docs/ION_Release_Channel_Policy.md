@@ -30,6 +30,12 @@ explicit release URLs such as:
 https://schema.ion.id/release5/schema/...
 ```
 
+Release-local implementation maturity is separate from channel assignment. A
+published release may identify an implementation-ready primary profile and
+preview areas. It is recommended for new production integrations only while it
+occupies `current`. Preview identifies limited implementation and
+interoperability evidence, not failed structural validation.
+
 Mutable labels such as `next` and `current` are operational guidance, not schema
 retrieval paths.
 
@@ -61,13 +67,13 @@ Release 4 to `current`, but promotion is discretionary rather than automatic.
 
 ## Channel State
 
-The repository should record channel state in a small machine-readable file:
+The repository MUST record channel state in a small machine-readable file:
 
 ```text
 releases/channels.yaml
 ```
 
-Suggested shape:
+Required shape:
 
 ```yaml
 schemaVersion: 1
@@ -135,6 +141,19 @@ lts: []
 ```
 
 Release 2 would then become the draft used for feature requests.
+
+## Inaugural Direct-To-Current Exception
+
+When the repository has no `current`, `next`, or LTS release, the first published
+release may be assigned directly to `current`. The publication change must set
+`current` to that release and `next` to `null`; the release may not occupy both
+channels. This exception exists only to establish the initial recommended
+baseline. Later releases follow the normal `next` stabilization path.
+
+An inaugural release assigned directly to `current` is immediately subject to
+the normal immutability and LTS obligations of a current release. Preview areas
+inside it retain their preview adoption guidance even though the release-wide
+channel is `current`.
 
 ## Stabilizing `next`
 
@@ -218,8 +237,8 @@ another supported LTS release.
 
 ## Opening The Next Draft
 
-Soon after a draft is published as `next`, create the following integer release
-as the new draft baseline:
+Soon after a draft is published into a channel, create the following integer
+release as the new draft baseline:
 
 1. Copy the newly published release to `releases/releaseN+1/`.
 2. Set the new manifest to `release: N+1`, `name: releaseN+1`, and

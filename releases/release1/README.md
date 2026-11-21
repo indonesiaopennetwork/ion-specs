@@ -1,16 +1,31 @@
 # ION Release 1
 
-> **Status: DRAFT — publication pending.**
+> **Status: PUBLISHED — `current` channel.**
 
 Release 1 is the first versioned bundle of the ION Network Specification. It
 defines the ION API additions, common attribute packs, Trade and Logistics
 extensions, reference flows, errors, and pinned Beckn dependencies included in
 this release.
 
-The release remains mutable while [`release.yaml`](release.yaml) has
-`status: draft`. Publication assigns it to the `next` channel and makes every
-file in this directory immutable. Promotion to `current` is a separate Council
-decision after the stabilization period.
+Release 1 was published on 21 November 2026 as the inaugural `current` release.
+Every file in this directory is now immutable.
+
+## Implementation maturity
+
+Validation and implementation maturity are separate signals. `validated` in the
+manifest means the release artifacts pass their structural, reference, registry,
+and connection gates; it does not by itself claim production experience.
+
+| Area or profile | Maturity | Adoption guidance |
+|---|---|---|
+| Trade — Storefront | Implementation-ready | Primary Release 1 starting point; it has the most complete transaction coverage, examples, variants, and guidance. |
+| Other Trade profiles | Reference | Validated reference profiles with narrower implementation coverage; adopt after establishing Storefront where applicable. |
+| Logistics | Preview | Evaluation and interoperability testing only; not recommended for production use in Release 1. |
+
+Release 1 Logistics is normative and validation-complete, but it has not received
+sufficient implementation and interoperability testing to be considered battle
+ready. Because a published release is immutable, any normative refinements found
+during evaluation will be made in Release 2.
 
 ## Release contents
 
@@ -24,7 +39,6 @@ decision after the stabilization period.
 - Order grievances use Beckn's `/support` and `/on_support` endpoints. The
   `Support.supportAttributes` field carries an `IONGrievance` event.
 
-Release 1 does not provide a merged `ion.yaml` or `ion-full.yaml` contract.
 Implementations use the two API documents above together with the applicable
 standalone attribute packs.
 
@@ -122,9 +136,9 @@ upstream baseline:
 
 The authoritative scope and validation state are defined by
 [`release.yaml`](release.yaml). Trade, Logistics, their common dependencies,
-flows, and errors are validated. Hospitality and Finance are excluded.
-The aggregate ION API remains excluded; the standalone core API additions are
-still marked `review-required` while the release is a draft.
+flows, and errors are validated. Hospitality and Finance are excluded. The
+standalone core API contracts, `ion-beckn.yaml` and `ion-additional.yaml`, have completed review and
+are validated for Release 1.
 
 The contents of this directory define the release boundary. Material elsewhere
 in the repository is not part of Release 1 unless a release artifact explicitly
@@ -180,13 +194,13 @@ This is also the CI entry point. It runs the release-tool tests and verifies the
 manifest, scope, generated registries, artifact checksums, offline references,
 public-path mapping, and Trade and Logistics connections.
 
-Before publication, run the stricter publication gate:
+Run the publication gate to verify the immutable release and its channel
+assignment:
 
 ```bash
 ruby tools/release/validate_release.rb --publication releases/release1
 ```
 
-The publication form is expected to fail while the manifest remains a draft.
 After the release is merged to `main` and deployed, verify the public origin:
 
 ```bash

@@ -7,7 +7,12 @@ permanent integer releases. It is not copied into individual release bundles.
 
 - `release-manifest.schema.json` defines the machine-readable `release.yaml`
   contract, including vendored dependencies and ION-maintained artifacts that
-  preserve upstream provenance plus explicit transformations.
+  preserve upstream provenance plus explicit transformations, and separates
+  validation status from implementation maturity and primary-profile guidance.
+- `channels.schema.json` and `validate_channels.rb` define and validate the
+  repository channel state, require channelled releases to be published, prevent
+  a release from occupying multiple channels, and verify the `next`
+  stabilization dates.
 - `release1-path-map.json` records approved mechanical source-to-target paths for
   the primary API files, Trade packs, and the common packs directly referenced by
   Trade.
@@ -96,13 +101,17 @@ This is the same command used by `.github/workflows/release-validation.yml`.
 The workflow runs automatically for relevant pull requests and changes on
 `main`, and it supports manual `workflow_dispatch` runs.
 
-To include the manifest requirements for publishing a draft into `next`:
+To include the manifest requirements for publishing a draft into a channel:
 
 ```bash
 ruby tools/release/validate_release.rb --publication releases/release1
 ```
 
 The publication form is expected to fail while the manifest is a draft.
+When a manifest already has `status: published`, the complete gate enables
+publication mode automatically and requires `releases/channels.yaml` to assign
+that release to exactly one valid channel. The explicit flag remains useful for
+testing a proposed publication state.
 
 ## Validate a manifest
 
@@ -207,8 +216,8 @@ ruby tools/release/apply_vendoring_plan.rb --apply
 
 The apply command rewrites only `$ref` lines. Descriptive and semantic IRIs are
 left unchanged. The Phase 4 Release 1 plan also replaced four known unresolved
-internal references in the then-candidate `ion.yaml`; that aggregate was later
-excluded from Release 1 and returned to the non-normative source area.
+internal references in a legacy candidate before the standalone artifact model
+was finalized.
 
 Verify the resulting dependency graph offline:
 

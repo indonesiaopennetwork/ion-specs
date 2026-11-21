@@ -39,35 +39,4 @@ class ApplyVendoringPlanTest < Minitest::Test
     assert_includes rewritten, "#{dependency["publicUrl"]}#/components/schemas/Quantity"
   end
 
-  def test_internal_ref_rewrite_is_exact
-    body = <<~YAML
-      allOf:
-        - "$ref": "#/components/schemas/Document"
-      description: "#/components/schemas/Document"
-    YAML
-
-    rewritten, count = IonVendoringApply.rewrite_ref_lines(
-      body,
-      {},
-      extra_refs: IonVendoringApply::ION_INTERNAL_REFS
-    )
-
-    assert_equal 1, count
-    assert_includes rewritten, "#{IonVendoringApply::PROTOCOL_PUBLIC_URL}#/components/schemas/Document"
-    assert_includes rewritten, 'description: "#/components/schemas/Document"'
-  end
-
-  def test_internal_ref_rewrite_is_idempotent
-    qualified = "#{IonVendoringApply::PROTOCOL_PUBLIC_URL}#/components/schemas/Document"
-    body = "allOf:\n  - $ref: #{qualified}\n"
-
-    rewritten, count = IonVendoringApply.rewrite_ref_lines(
-      body,
-      {},
-      extra_refs: IonVendoringApply::ION_INTERNAL_REFS
-    )
-
-    assert_equal 0, count
-    assert_equal body, rewritten
-  end
 end

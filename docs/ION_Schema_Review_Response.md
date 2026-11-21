@@ -398,7 +398,7 @@ Beckn Core Working Group.
 
 **Observation:** The Beckn draft carries `security: []` with inline auth commentary; ION dropped it silently.
 
-**Fix:** `security: []` added to `ion.yaml` with documentation comment:
+**Fix:** `security: []` added to the maintained API contract with documentation comment:
 
 ```yaml
 security: []
@@ -407,7 +407,7 @@ security: []
 # security: [] means no global OAS security scheme is applied; auth is handled at network layer.
 ```
 
-**Verification:** `security:` key present at root level of `ion.yaml`.
+**Verification:** `security:` is present at the API contract root.
 
 ---
 

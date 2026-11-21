@@ -1,6 +1,6 @@
 # ION Release Architecture
 
-**Status:** Accepted — implemented for the Release 1 draft
+**Status:** Accepted — implemented for published Release 1
 
 **Decision date:** 2026-08-21
 
@@ -159,9 +159,8 @@ and licensing.
 
 The manifest determines which content areas are part of a particular release.
 Every area MUST be `validated` or `excluded` before publication, and artifacts for
-an excluded area MUST NOT appear in the release directory. In particular, a
-release may omit the aggregate `schema/core/api/.../ion.yaml` when `ionApi` is
-`excluded`; standalone validated schema packs remain valid release content.
+an excluded area MUST NOT appear in the release directory. Standalone validated
+schema packs remain valid release content independently of the `ionApi` status.
 
 ### Normative registries and flows
 
@@ -384,13 +383,37 @@ contentStatus:
 dependencyStatus: incomplete
 dependencies: []
 maintainedArtifacts: []
+implementationGuidance:
+  primaryProfile:
+    id: ion-trade-pattern-storefront-v1
+    path: flows/trade/patterns/storefront/v1/pattern.yaml
+    maturity: implementation-ready
+    description: Primary implementation profile for this release.
+  areas:
+    trade:
+      maturity: reference
+      primaryProfile: ion-trade-pattern-storefront-v1
+      notes: [Storefront is the recommended starting point.]
+    logistics:
+      maturity: preview
+      productionRecommended: false
+      notes: [Evaluation and interoperability testing only.]
 artifactChecksums: {}
 ```
 
+`contentStatus` and `implementationGuidance` answer different questions.
+`validated` means an included area passes the release's structural, reference,
+registry, and connection gates. Implementation maturity records the available
+implementation evidence: `implementation-ready`, `reference`, `preview`, or
+`excluded`. A primary profile identifies the most complete starting point without
+claiming that every profile in its area has equal coverage. Channel state remains
+the release-wide adoption signal; maturity metadata must not be used to imply a
+channel assignment.
+
 While a release is a draft, `artifactChecksums` covers only files below
 `schema/vendored/`; ION-authored files remain mutable and are protected by normal
-version control and validation. When the Council publishes a draft into the
-`next` channel, `status` is changed to `published`, `publishedAt` is populated,
+version control and validation. When a draft is published into a channel,
+`status` is changed to `published`, `publishedAt` is populated,
 the dependency inventory is complete, and checksums are recorded for every
 normative artifact below `schema/`, `flows/`, and `errors/`. The final manifest contract is defined in
 `tools/release/release-manifest.schema.json` and enforced by the release tooling.
@@ -400,16 +423,18 @@ normative artifact below `schema/`, `flows/`, and `errors/`. The final manifest 
 1. Develop approved specification and dependency changes in the active draft.
 2. Regenerate derived artifacts and validate the complete release locally with
    network access disabled.
-3. When the Council selects the draft for `next`, populate its publication
-   metadata and change its manifest to `status: published`.
+3. When the draft is selected for publication, populate its publication metadata
+   and change its manifest to `status: published`.
 4. Regenerate `artifactChecksums`; published status expands the inventory from
    vendored files to every normative artifact.
-5. Publish the release and assign it to `next` in the same reviewed change.
+5. Publish the release and assign it to a channel in the same reviewed change.
+   The inaugural release may enter `current` directly when all channels are
+   otherwise empty; later releases enter `next`.
 6. Create a matching protected Git tag, such as `release1`, for provenance.
 7. Prevent all subsequent modifications or deletions under that release
    directory.
-7. Begin the `next` stabilization period and create the following integer release
-   as the new mutable draft.
+7. Begin the applicable channel lifecycle and create the following integer
+   release as the new mutable draft.
 8. After the minimum stabilization period, allow the Council to promote `next` to
    `current`, retain it as `next`, or later supersede it with another published
    release.

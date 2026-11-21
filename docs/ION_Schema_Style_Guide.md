@@ -1,10 +1,8 @@
 # ION Schema Style Guide
 
-> **Release 1 scope note:** Release 1 contains validated standalone Trade and
-> required common packs, plus validated Logistics packs. References
-> in this authoring guide to `ion.yaml`, L2/L3 configuration, CRC registries, or
-> other unreleased sectors describe future-release design work in
-> `schema/core/v2/api/v2.0.0/ion.yaml`; they are not Release 1 requirements.
+> **Release 1 scope note:** Release 1 contains validated standalone Trade,
+> Logistics, and common packs. Only artifacts present in the release directory
+> are part of the normative Release 1 contract.
 
 Authoritative conventions for pack authors. All contributions must follow this guide.
 
@@ -13,10 +11,10 @@ Authoritative conventions for pack authors. All contributions must follow this g
 | Layer | Location | What goes here |
 |---|---|---|
 | L1 | `releases/release1/schema/core/api/v2.0.0/ion-beckn.yaml` | ION-maintained Beckn core protocol contract |
-| L2 | `schema/core/v2/api/v2.0.0/ion.yaml` | Unreleased ION network profile overlay |
-| L3 | `schema/core/v2/api/v2.0.0/ion.yaml` → `paths:` block | Unreleased `/raise` family (6 endpoints) + `/reconcile` + `/on_reconcile` |
-| L4 | `schema/extensions/core/*/v1/` | Cross-sector attribute packs |
-| L5 | `schema/extensions/{trade,logistics}/*/v1/` | Sector-specific attribute packs |
+| L2 | Root `policies/` and release flow/profile metadata | ION network policy and conformance rules |
+| L3 | `releases/releaseN/schema/core/api/v2.0.0/ion-additional.yaml` | ION endpoints that Beckn does not define |
+| L4 | `releases/releaseN/schema/common/*/v1/` | Cross-sector attribute packs |
+| L5 | `releases/releaseN/schema/extension/{trade,logistics}/*/v1/` | Sector-specific attribute packs |
 
 ## 2. Required files per pack version
 
@@ -106,7 +104,9 @@ For conditions within the same schema, use JSON Schema `if/then/else`:
     required: [minAge]
 ```
 
-For cross-schema conditions (trigger field in a different schema bag), add a rule to the `x-ion-conditional-rules:` block in `ion.yaml`. ONIX reads this block and enforces the rule at every API boundary.
+For cross-schema conditions (a trigger field in a different schema bag), declare
+the rule in the applicable flow, profile, or policy artifact and add validator
+coverage. Do not hide cross-artifact requirements in a single pack schema.
 
 ## 4. context.jsonld rules
 

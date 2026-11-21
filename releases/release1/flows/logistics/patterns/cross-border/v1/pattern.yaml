@@ -2,7 +2,9 @@ id: ion-logistics-pattern-cross-border-v1
 version: 1.0.0
 patternName: cross-border
 sector: ion:logistics
-status: ready
+status: preview
+implementationRole: reference
+implementationMaturity: preview
 description: International freight or parcel movement with declared trade and customs terms.
 baseSequence: [discover, on_discover, select, on_select, init, on_init, confirm, on_confirm, status, on_status]
 stateMachine: flows/logistics/state-machines/v1/states.yaml#xb

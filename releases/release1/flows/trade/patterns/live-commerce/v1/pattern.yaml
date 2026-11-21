@@ -7,6 +7,8 @@ version: "1.0.0"
 patternName: live-commerce
 sector: ion:trade
 status: ready
+implementationRole: reference
+implementationMaturity: reference
 description: >
   Consumer purchases a physical product from a live stream, OTT shoppable
   moment, social-commerce surface, or attributed content link. The transaction
