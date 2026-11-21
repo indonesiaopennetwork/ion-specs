@@ -38,10 +38,9 @@ similar files) as authoritative project state. They may be local and stale.
 
 ## Repository And Release Awareness
 
-- Release 1 is currently a **draft**. It becomes permanent when the Council
-  publishes it into the `next` channel, changes
-  `releases/release1/release.yaml` to `published` on `main`, and creates the
-  protected release tag.
+- Release 1 is **published** in the `current` channel and its release directory is
+  immutable. The protected release tag is created after the publication commit
+  merges to `main`.
 - The release layout is `releases/release1/{schema,flows,errors}`. Within
   `schema/`, the content classes are `core/`, `common/`, `extension/`, and
   `vendored/`; do not flatten them back to the release root.
@@ -71,9 +70,9 @@ similar files) as authoritative project state. They may be local and stale.
   them merely because validation schemas are vendored.
 - A published `releaseN` is immutable. Corrections and additions after publication
   belong in the next integer release rather than edits to the published tree.
-- Only published releases may be assigned to `next`, `current`, or LTS. A draft
-  becomes published when it enters `next`; promotion to `current` is a later,
-  discretionary Council decision and does not change release contents.
+- Only published releases may be assigned to `next`, `current`, or LTS. Normally
+  a draft becomes published when it enters `next`; the inaugural release may be
+  published directly as `current` when no prior channel state exists.
 - A release superseded while it is `next` may become unchannelled. Every release
   that leaves `current` must enter LTS for its approved support period before it
   can become unsupported. The minimum LTS duration is pending Council decision;

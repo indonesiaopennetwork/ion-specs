@@ -1,9 +1,10 @@
 # ION Network Specification — Changelog
 
-## Release 1 — Draft (August 2026)
+## Release 1 — Published (21 November 2026)
 
-The first permanent integer release is being prepared under
-`releases/release1/`. Its included baseline is the standalone Trade schemas, the
+The first permanent integer release is published under `releases/release1/` and
+assigned directly to the `current` channel under the inaugural-release exception.
+Its included baseline is the standalone Trade schemas, the
 four common packs required by Trade, pinned vendored Beckn dependencies, the
 approved Trade flows, and 10 Trade errors whose targets are included in the
 release. The 67 Trade or cross-sector policy terms are maintained in the shared

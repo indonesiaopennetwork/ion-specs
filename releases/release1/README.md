@@ -1,16 +1,14 @@
 # ION Release 1
 
-> **Status: DRAFT — publication pending.**
+> **Status: PUBLISHED — `current` channel.**
 
 Release 1 is the first versioned bundle of the ION Network Specification. It
 defines the ION API additions, common attribute packs, Trade and Logistics
 extensions, reference flows, errors, and pinned Beckn dependencies included in
 this release.
 
-The release remains mutable while [`release.yaml`](release.yaml) has
-`status: draft`. Publication assigns it to the `next` channel and makes every
-file in this directory immutable. Promotion to `current` is a separate Council
-decision after the stabilization period.
+Release 1 was published on 21 November 2026 as the inaugural `current` release.
+Every file in this directory is now immutable.
 
 ## Implementation maturity
 
@@ -196,13 +194,13 @@ This is also the CI entry point. It runs the release-tool tests and verifies the
 manifest, scope, generated registries, artifact checksums, offline references,
 public-path mapping, and Trade and Logistics connections.
 
-Before publication, run the stricter publication gate:
+Run the publication gate to verify the immutable release and its channel
+assignment:
 
 ```bash
 ruby tools/release/validate_release.rb --publication releases/release1
 ```
 
-The publication form is expected to fail while the manifest remains a draft.
 After the release is merged to `main` and deployed, verify the public origin:
 
 ```bash

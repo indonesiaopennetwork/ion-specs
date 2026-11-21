@@ -10,11 +10,11 @@ in the network and is based on Beckn Protocol 2.0.0.
 | Lifecycle position | Release | Current state |
 |---|---|---|
 | LTS | None | No releases are currently under long-term support. |
-| Current | None | No release is currently recommended for production integrations. |
-| Next | None | No published release is currently undergoing stabilization. |
-| Draft | [Release 1](releases/release1/README.md) | Mutable and not yet assigned to a release channel. |
+| Current | [Release 1](releases/release1/README.md) | Published, immutable, and recommended for new Storefront implementations. |
+| Next | None | No newer published release is undergoing stabilization. |
+| Draft | None | Release 2 has not yet been opened. |
 
-### Release 1 (draft)
+### Release 1 (`current`)
 
 Release 1 currently contains the standalone Trade schema packs, the common packs
 they require, the settlement reconciliation API, the scoped Storefront,
@@ -24,10 +24,8 @@ additions, an ION-maintained Beckn protocol contract, and pinned vendored Beckn
 schema dependencies. Storefront is the primary, implementation-ready Trade
 profile and the recommended starting point; the other Trade profiles are
 validated references with narrower implementation coverage.
-Logistics has been reopened for independent review and migration into this draft;
-that migration now includes the independently validated `LogisticsResource`,
-`LogisticsProvider`, `LogisticsParticipant`, `LogisticsOffer`, `LogisticsCommitment`, `LogisticsConsideration`, `LogisticsContract`, `LogisticsPerformance`, and `LogisticsTracking` v1 packs, plus six reviewed patterns, nine included/scoped variants, the validated `LogisticsPerformanceStates` v1 flow registry, and 30 connected Logistics errors. Release 1 remains mutable and unchannelled until
-the Council publishes it into the `next` channel on `main`. Logistics is
+Release 1 also includes the independently validated `LogisticsResource`,
+`LogisticsProvider`, `LogisticsParticipant`, `LogisticsOffer`, `LogisticsCommitment`, `LogisticsConsideration`, `LogisticsContract`, `LogisticsPerformance`, and `LogisticsTracking` v1 packs, plus six reviewed patterns, nine included/scoped variants, the validated `LogisticsPerformanceStates` v1 flow registry, and 30 connected Logistics errors. Release 1 was published directly as the inaugural `current` release on 21 November 2026. Logistics is
 validation-complete but has `preview` implementation maturity: it is intended
 for evaluation and interoperability testing, not Release 1 production adoption.
 
@@ -94,7 +92,7 @@ registry live in root `policies/` and evolve independently of integer releases.
 policies/                         Shared policy sources and registry
 
 releases/
-  release1/                    Draft release bundle
+  release1/                    Published immutable release bundle
     release.yaml
     schema/
       core/api/v2.0.0/ion-beckn.yaml       ION-maintained Beckn contract
@@ -133,7 +131,7 @@ Policy documents use their independent root namespace, for example
 | Document | What it covers |
 |---|---|
 | [Release Architecture](docs/ION_Release_Architecture.md) | How specifications are packaged into immutable releases, addressed through public URLs, and kept independently verifiable. |
-| [Release Channel Policy](docs/ION_Release_Channel_Policy.md) | How drafts enter `next`, may advance to `current`, and receive guaranteed LTS after leaving `current`. |
+| [Release Channel Policy](docs/ION_Release_Channel_Policy.md) | How releases enter `next` or the inaugural `current` exception, advance through channels, and receive guaranteed LTS after leaving `current`. |
 | [Entity Hierarchy Model](docs/ION_Entity_Hierarchy_Model.md) | How participants, roles, sectors, and business classifications fit together across ION. |
 | [Resource Categories](docs/ION_Resource_Categories.md) | The draft cross-sector taxonomy and machine-readable codes used to classify products and services. |
 | [Transport and HTTP Signing](docs/ION_Transport_and_Signing.md) | The request/callback model, HTTP signatures, acknowledgements, and transport-level errors. |

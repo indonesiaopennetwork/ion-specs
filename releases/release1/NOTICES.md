@@ -1,6 +1,6 @@
 # Release 1 Notices
 
-**Status:** Draft release; dependency inventory complete
+**Status:** Published Release 1
 
 Release 1 uses protocol or schema materials from these official Beckn
 repositories at immutable commits:
@@ -57,5 +57,4 @@ vocabulary IRI, including the `schema.nfh.global` IRIs identifying the NFH
 concepts, was rewritten. The exact transformed set and both the upstream and
 released checksums are recorded per dependency in `release.yaml`.
 
-This notice covers dependency provenance for the draft. Release 1 remains
-unpublished until its content validation and approval gates are complete.
+This notice records the dependency provenance of the published Release 1 bundle.

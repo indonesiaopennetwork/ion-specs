@@ -11,7 +11,7 @@ module IonReleaseChannels
 
   module_function
 
-  def validate(data, releases_root:, require_next: nil)
+  def validate(data, releases_root:, require_next: nil, require_channel: nil)
     errors = []
     return ["channel state root must be an object"] unless data.is_a?(Hash)
 
@@ -64,6 +64,9 @@ module IonReleaseChannels
     end
 
     assigned = [current, next_release, *lts_releases].compact
+    if require_channel && !assigned.include?(require_channel)
+      errors << "a channel must assign #{require_channel}"
+    end
     duplicates = assigned.group_by(&:itself).select { |_, entries| entries.length > 1 }.keys
     duplicates.each { |release| errors << "release occupies more than one channel: #{release}" }
     assigned.uniq.each { |release| validate_published_release(release, releases_root, errors) }
@@ -116,9 +119,10 @@ module IonReleaseChannels
 end
 
 if $PROGRAM_NAME == __FILE__
-  options = { require_next: nil }
+  options = { require_next: nil, require_channel: nil }
   OptionParser.new do |parser|
     parser.on("--require-next RELEASE") { |value| options[:require_next] = value }
+    parser.on("--require-channel RELEASE") { |value| options[:require_channel] = value }
   end.parse!(ARGV)
   channels_path = Pathname.new(File.expand_path(ARGV.fetch(0, "releases/channels.yaml")))
   unless channels_path.file?
@@ -131,7 +135,8 @@ if $PROGRAM_NAME == __FILE__
     errors = IonReleaseChannels.validate(
       data,
       releases_root: channels_path.dirname,
-      require_next: options[:require_next]
+      require_next: options[:require_next],
+      require_channel: options[:require_channel]
     )
   rescue Psych::SyntaxError => e
     errors = ["invalid channel state: #{e.message.lines.first.strip}"]

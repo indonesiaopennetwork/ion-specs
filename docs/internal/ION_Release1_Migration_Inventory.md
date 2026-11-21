@@ -988,11 +988,12 @@ Publication is permitted only when:
 - all documented public URLs map to committed files on `main`; and
 - the ION Council approves the release.
 
-After approval, set `status: published`, record the publication date and checksums,
-assign Release 1 to `next`, create the protected `release1` tag, and enable
-immutable-directory enforcement. Its stabilization period begins at that channel
-assignment. Release 2 then becomes the mutable draft for subsequent feature work;
-promotion of Release 1 to `current` remains a separate Council decision.
+On 21 November 2026 the publication change set `status: published`, recorded the
+publication date and complete artifact checksums, and assigned Release 1 directly
+to `current` under the inaugural-release exception, with `next: null`. After this
+change merges to `main`, the remaining operational steps are to create the
+protected `release1` tag, verify the deployed public URLs, and open Release 2 as
+the mutable draft.
 
 ## Inventory completion criteria
 
@@ -1006,5 +1007,6 @@ This inventory is complete enough to begin migration when:
 - known duplicates and stray files have assigned cleanup actions; and
 - the mechanical move can be reviewed independently of semantic corrections.
 
-This document remains a working inventory until those inputs are approved. It is
-not itself evidence that any schema or sector is correct.
+This document is retained as the completed Release 1 migration record. Validation
+reports and the release gate, rather than this inventory alone, provide evidence
+for schema and sector correctness.

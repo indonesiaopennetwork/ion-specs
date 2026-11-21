@@ -101,7 +101,7 @@ This is the same command used by `.github/workflows/release-validation.yml`.
 The workflow runs automatically for relevant pull requests and changes on
 `main`, and it supports manual `workflow_dispatch` runs.
 
-To include the manifest requirements for publishing a draft into `next`:
+To include the manifest requirements for publishing a draft into a channel:
 
 ```bash
 ruby tools/release/validate_release.rb --publication releases/release1
@@ -110,8 +110,8 @@ ruby tools/release/validate_release.rb --publication releases/release1
 The publication form is expected to fail while the manifest is a draft.
 When a manifest already has `status: published`, the complete gate enables
 publication mode automatically and requires `releases/channels.yaml` to assign
-that release to `next`. The explicit flag remains useful for testing a proposed
-publication state.
+that release to exactly one valid channel. The explicit flag remains useful for
+testing a proposed publication state.
 
 ## Validate a manifest
 

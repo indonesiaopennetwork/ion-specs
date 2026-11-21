@@ -13,6 +13,23 @@ class ValidateChannelsTest < Minitest::Test
     end
   end
 
+  def test_valid_inaugural_current_assignment
+    with_releases("release1" => "published") do |root|
+      channels = valid_channels.merge("current" => "release1", "next" => nil)
+
+      assert_empty IonReleaseChannels.validate(channels, releases_root: root, require_channel: "release1")
+    end
+  end
+
+  def test_required_channel_must_assign_release
+    with_releases("release1" => "published") do |root|
+      channels = valid_channels.merge("next" => nil)
+      errors = IonReleaseChannels.validate(channels, releases_root: root, require_channel: "release1")
+
+      assert_includes errors, "a channel must assign release1"
+    end
+  end
+
   def test_channel_release_must_be_published
     with_releases("release1" => "draft") do |root|
       errors = IonReleaseChannels.validate(valid_channels, releases_root: root, require_next: "release1")

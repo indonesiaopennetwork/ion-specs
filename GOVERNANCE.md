@@ -24,7 +24,9 @@ Each content area in `release.yaml` must be `validated` or `excluded` before
 publication. Excluded content is not a supported part of that release.
 
 Only published releases may be assigned to `next`, `current`, or LTS. Publishing
-a draft and assigning it to `next` happen together. Promotion from `next` to
+a draft and assigning it to `next` normally happen together. The inaugural
+release may instead be published directly as `current` when no release yet
+occupies any channel. Promotion from `next` to
 `current` is discretionary after the minimum stabilization period. The Council
 may instead supersede `next` with a later published release. Published releases
 remain immutable whether or not they have a channel assignment.
@@ -67,6 +69,7 @@ Released ION schema extensions must:
 
 Release 1 includes its validated Trade and Logistics content, common packs, and
 vendored Beckn dependencies. Hospitality and Finance are explicitly excluded.
-If published, Release 1 will first enter the `next` channel and begin
-its stabilization period. Its policy references resolve against the shared root
+Release 1 is published as the inaugural `current` release. Storefront is the
+recommended implementation profile; Logistics remains preview.
+Its policy references resolve against the shared root
 policy registry, which is not part of Release 1 or its channel lifecycle.

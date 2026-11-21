@@ -38,7 +38,7 @@ commands = [
 channels_path = repository_root.join("releases/channels.yaml")
 if publication || channels_path.file?
   channel_command = ["ruby", "tools/release/validate_channels.rb"]
-  channel_command.concat(["--require-next", release_name]) if publication
+  channel_command.concat(["--require-channel", release_name]) if publication
   channel_command << channels_path.to_s
   commands.insert(2, ["Release channels", channel_command])
 end

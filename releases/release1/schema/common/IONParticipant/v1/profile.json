@@ -1,7 +1,7 @@
 {
   "id": "ion-common-participant-v1",
   "version": "1.0.0",
-  "status": "draft",
+  "status": "ready",
   "domain": "common",
   "type": "AttributePack",
   "name": "ION Participant Extension (v1)",
