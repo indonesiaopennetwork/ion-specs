@@ -7,6 +7,8 @@ version: "1.0.0"
 patternName: storefront
 sector: ion:trade
 status: ready
+implementationRole: primary
+implementationMaturity: implementation-ready
 description: >
   Consumer discovers, selects, and purchases a physical product.
   Covers: Packaged Food (FMCG, grocery), Fashion, Electronics, Beauty, Home & Kitchen.

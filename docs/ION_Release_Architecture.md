@@ -384,8 +384,32 @@ contentStatus:
 dependencyStatus: incomplete
 dependencies: []
 maintainedArtifacts: []
+implementationGuidance:
+  primaryProfile:
+    id: ion-trade-pattern-storefront-v1
+    path: flows/trade/patterns/storefront/v1/pattern.yaml
+    maturity: implementation-ready
+    description: Primary implementation profile for this release.
+  areas:
+    trade:
+      maturity: reference
+      primaryProfile: ion-trade-pattern-storefront-v1
+      notes: [Storefront is the recommended starting point.]
+    logistics:
+      maturity: preview
+      productionRecommended: false
+      notes: [Evaluation and interoperability testing only.]
 artifactChecksums: {}
 ```
+
+`contentStatus` and `implementationGuidance` answer different questions.
+`validated` means an included area passes the release's structural, reference,
+registry, and connection gates. Implementation maturity records the available
+implementation evidence: `implementation-ready`, `reference`, `preview`, or
+`excluded`. A primary profile identifies the most complete starting point without
+claiming that every profile in its area has equal coverage. Channel state remains
+the release-wide adoption signal; maturity metadata must not be used to describe
+a `next` release as `current`.
 
 While a release is a draft, `artifactChecksums` covers only files below
 `schema/vendored/`; ION-authored files remain mutable and are protected by normal

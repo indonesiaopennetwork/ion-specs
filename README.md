@@ -21,11 +21,15 @@ they require, the settlement reconciliation API, the scoped Storefront,
 Made-to-Order, Live Commerce, Digital Goods, Business Procurement, Marketplace
 In-house, and Marketplace Listed flows and connected registries, the ION API
 additions, an ION-maintained Beckn protocol contract, and pinned vendored Beckn
-schema dependencies.
+schema dependencies. Storefront is the primary, implementation-ready Trade
+profile and the recommended starting point; the other Trade profiles are
+validated references with narrower implementation coverage.
 Logistics has been reopened for independent review and migration into this draft;
 that migration now includes the independently validated `LogisticsResource`,
 `LogisticsProvider`, `LogisticsParticipant`, `LogisticsOffer`, `LogisticsCommitment`, `LogisticsConsideration`, `LogisticsContract`, `LogisticsPerformance`, and `LogisticsTracking` v1 packs, plus six reviewed patterns, nine included/scoped variants, the validated `LogisticsPerformanceStates` v1 flow registry, and 30 connected Logistics errors. Release 1 remains mutable and unchannelled until
-the Council publishes it into the `next` channel on `main`.
+the Council publishes it into the `next` channel on `main`. Logistics is
+validation-complete but has `preview` implementation maturity: it is intended
+for evaluation and interoperability testing, not Release 1 production adoption.
 
 - [`releases/release1/release.yaml`](releases/release1/release.yaml) — scope,
   dependency provenance, checksums, and publication state.

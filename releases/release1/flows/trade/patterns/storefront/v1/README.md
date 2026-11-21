@@ -1,7 +1,8 @@
 # Trade Storefront Pattern v1
 
-This is the Release 1 reference flow for a consumer purchasing a packaged
-physical product for delivery or self-pickup.
+This is the primary, implementation-ready Release 1 flow for a consumer
+purchasing a packaged physical product for delivery or self-pickup. It is the
+recommended starting point for Release 1 implementers.
 
 ## API sequence
 
@@ -16,9 +17,10 @@ BPP -> reconcile -> BAP -> on_reconcile    (after the settlement falls due)
 BAP -> support -> BPP -> on_support        (optional grievance, after on_confirm)
 ```
 
-Release 1 does not include the former cross-cutting branches or the other Trade
-patterns. In particular, `raise` behavior from the excluded `ion.yaml`
-aggregate is outside this flow.
+Release 1 does not include the former cross-cutting branches. Six other Trade
+patterns are included as validated reference profiles with narrower
+implementation coverage. In particular, `raise` behavior from the excluded
+`ion.yaml` aggregate is outside this flow.
 
 ## Settlement terms
 

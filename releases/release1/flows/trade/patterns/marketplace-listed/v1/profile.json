@@ -4,6 +4,8 @@
   "sector": "trade",
   "sectorCode": "A",
   "status": "ready",
+  "implementationRole": "reference",
+  "implementationMaturity": "reference",
   "description": "Third-party marketplace commerce routed from a marketplace BAP to an independent seller BPP.",
   "spineFile": "./pattern.yaml",
   "applicableCategories": ["all"],

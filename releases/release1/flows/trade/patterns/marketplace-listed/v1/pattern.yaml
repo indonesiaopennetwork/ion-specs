@@ -6,6 +6,8 @@ version: "1.0.0"
 patternName: marketplace-listed
 sector: ion:trade
 status: ready
+implementationRole: reference
+implementationMaturity: reference
 description: >
   A third-party marketplace is the buyer-facing BAP and routes a transaction to
   the selected independent seller BPP. The seller owns inventory and physical

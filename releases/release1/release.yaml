@@ -440,6 +440,26 @@ maintainedArtifacts:
   - Added AsyncError support to asynchronous callback envelopes following Beckn PR 202.
   - Added Support.supportAttributes following Beckn PR 204.
   - Added the NFH TrackingRequest component and used it for TrackAction requests.
+implementationGuidance:
+  primaryProfile:
+    id: ion-trade-pattern-storefront-v1
+    path: flows/trade/patterns/storefront/v1/pattern.yaml
+    maturity: implementation-ready
+    description: Storefront is the primary Release 1 implementation profile and has the most complete transaction coverage, examples, variants, and guidance.
+  areas:
+    trade:
+      maturity: reference
+      primaryProfile: ion-trade-pattern-storefront-v1
+      notes:
+      - Storefront is the recommended starting point for Release 1 implementations.
+      - Other Trade patterns are validated reference profiles with narrower implementation coverage.
+    logistics:
+      maturity: preview
+      productionRecommended: false
+      notes:
+      - Logistics artifacts pass Release 1 structural and connection validation.
+      - They have not received sufficient implementation and interoperability testing.
+      - Implementers should treat Logistics as an evaluation target and expect refinements in Release 2.
 artifactChecksums:
   schema/vendored/beckn/licenses/local-retail/LICENSE.md: 8386f4aded6116293b4a2daf378638abe4ed49406c696c12d4e8c19310aec46e
   schema/vendored/beckn/licenses/protocol-specifications-v2/LICENSE: ec5bc2d54dae0ebc2c8ec5a147d0b48d48af5b3f73acdcb8e33f104a7ad4407c

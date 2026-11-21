@@ -17,6 +17,18 @@ contentStatus:
 dependencyStatus: incomplete
 dependencies: []
 maintainedArtifacts: []
+implementationGuidance:
+  primaryProfile:
+    id: ion-trade-pattern-storefront-v1
+    path: flows/trade/patterns/storefront/v1/pattern.yaml
+    maturity: implementation-ready
+    description: Primary Release 1 implementation profile.
+  areas:
+    trade:
+      maturity: reference
+      primaryProfile: ion-trade-pattern-storefront-v1
+      notes:
+      - Storefront is the primary implementation profile.
 artifactChecksums: {}
 toolingCommit: null
 notes:

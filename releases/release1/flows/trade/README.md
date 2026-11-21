@@ -1,6 +1,8 @@
 # Release 1 Trade flows
 
-Release 1 includes seven validated reference flows:
+Release 1 includes seven validated flows. Storefront is the primary,
+implementation-ready profile and the recommended starting point. The other six
+are reference profiles with narrower implementation coverage:
 
 - [`storefront/v1`](patterns/storefront/v1/) — a standard B2C purchase of a
   packaged physical product, from catalog publication through delivery.

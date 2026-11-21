@@ -4,7 +4,9 @@
   "type": "Variant",
   "variantName": "weight-dispute",
   "sector": "ion:logistics",
-  "status": "ready",
+  "status": "preview",
+  "implementationRole": "reference",
+  "implementationMaturity": "preview",
   "branchFile": "./variant.yaml",
   "applicablePatterns": ["parcel", "freight"],
   "requiredPolicyRefs": ["ion://policy/weight-dispute.standard-10pct-tolerance", "ion://policy/evidence.standard.photo-24hr"]

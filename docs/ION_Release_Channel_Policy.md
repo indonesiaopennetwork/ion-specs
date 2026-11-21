@@ -30,6 +30,13 @@ explicit release URLs such as:
 https://schema.ion.id/release5/schema/...
 ```
 
+Release-local implementation maturity is separate from channel assignment. A
+published release may identify an implementation-ready primary profile and
+preview areas, but the release is not recommended for new production
+integrations until the Council promotes it to `current`. Preview identifies
+limited implementation and interoperability evidence, not failed structural
+validation.
+
 Mutable labels such as `next` and `current` are operational guidance, not schema
 retrieval paths.
 

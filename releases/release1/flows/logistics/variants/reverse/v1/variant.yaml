@@ -2,7 +2,9 @@ id: ion-logistics-variant-reverse-v1
 version: 1.0.0
 variantType: reverse
 sector: ion:logistics
-status: ready
+status: preview
+implementationRole: reference
+implementationMaturity: preview
 flowIds: [parcel-reverse-qc]
 appliesTo: [parcel]
 stateMachine: flows/logistics/state-machines/v1/states.yaml#parcel-reverse-qc

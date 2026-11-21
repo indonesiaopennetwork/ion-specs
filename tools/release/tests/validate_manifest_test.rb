@@ -120,6 +120,22 @@ class ValidateManifestTest < Minitest::Test
     assert_includes errors, "maintained artifact 0 transformations must be a non-empty array"
   end
 
+  def test_implementation_guidance_rejects_unknown_maturity
+    @manifest["implementationGuidance"]["areas"]["trade"]["maturity"] = "battle-ready"
+
+    errors = IonReleaseManifest.validate(@manifest)
+
+    assert_includes errors, "implementationGuidance.areas.trade has invalid maturity: battle-ready"
+  end
+
+  def test_trade_primary_profile_must_match_release_primary_profile
+    @manifest["implementationGuidance"]["areas"]["trade"]["primaryProfile"] = "another-profile"
+
+    errors = IonReleaseManifest.validate(@manifest)
+
+    assert_includes errors, "Trade primaryProfile must match implementationGuidance.primaryProfile.id"
+  end
+
   private
 
   def valid_dependency

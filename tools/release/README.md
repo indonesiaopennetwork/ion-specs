@@ -7,7 +7,8 @@ permanent integer releases. It is not copied into individual release bundles.
 
 - `release-manifest.schema.json` defines the machine-readable `release.yaml`
   contract, including vendored dependencies and ION-maintained artifacts that
-  preserve upstream provenance plus explicit transformations.
+  preserve upstream provenance plus explicit transformations, and separates
+  validation status from implementation maturity and primary-profile guidance.
 - `release1-path-map.json` records approved mechanical source-to-target paths for
   the primary API files, Trade packs, and the common packs directly referenced by
   Trade.

@@ -2,7 +2,9 @@ id: ion-logistics-pattern-parcel-v1
 version: 1.0.0
 patternName: parcel
 sector: ion:logistics
-status: ready
+status: preview
+implementationRole: reference
+implementationMaturity: preview
 description: >
   Reference flow for point-to-point and hub-routed parcel transport. The
   confirmed Offer routing topology selects one of three state machines.

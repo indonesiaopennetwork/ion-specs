@@ -6,6 +6,8 @@ version: "1.0.0"
 patternName: business-procurement
 sector: ion:trade
 status: ready
+implementationRole: reference
+implementationMaturity: reference
 description: >
   A registered business buyer purchases physical goods from a distributor or
   brand with upfront payment. Release 1 covers minimum-order enforcement, bulk

@@ -2,7 +2,9 @@ id: ion-logistics-variant-cancellation-v1
 version: 1.0.0
 variantType: cancellation
 sector: ion:logistics
-status: ready
+status: preview
+implementationRole: reference
+implementationMaturity: preview
 attachmentWindow: {earliest: on_confirm, latest: before-terminal-state}
 steps:
   - {step: cancel, from: BAP, to: BPP, direction: request}

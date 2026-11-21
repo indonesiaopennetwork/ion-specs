@@ -2,7 +2,9 @@ id: ion-logistics-pattern-roro-v1
 version: 1.0.0
 patternName: roro
 sector: ion:logistics
-status: ready
+status: preview
+implementationRole: reference
+implementationMaturity: preview
 description: Scheduled roll-on/roll-off vehicle transport between ports.
 baseSequence: [discover, on_discover, select, on_select, init, on_init, confirm, on_confirm, status, on_status]
 stateMachine: flows/logistics/state-machines/v1/states.yaml#roro

@@ -4,6 +4,8 @@
   "sector": "trade",
   "sectorCode": "A",
   "status": "ready",
+  "implementationRole": "reference",
+  "implementationMaturity": "reference",
   "description": "Consumer purchases goods prepared or assembled after confirmation; cancellation closes when PREPARING begins.",
   "applicableCategories": [
     "custom-bakery",

@@ -40,6 +40,24 @@ flow_files = Dir[release_root.join("flows/trade/**/*.{yaml,yml,json}").to_s].sor
 flow_documents = flow_files.to_h { |path| [path, load_document.call(path)] }
 
 flow_documents.each do |path, document|
+  next unless document.is_a?(Hash)
+  next unless path.include?("/flows/trade/patterns/") || path.include?("/flows/trade/variants/")
+  next unless %w[pattern.yaml variant.yaml profile.json].include?(File.basename(path))
+
+  pattern_name = document["patternName"]
+  primary = pattern_name == "storefront"
+  expected_role = primary ? "primary" : "reference"
+  expected_maturity = primary ? "implementation-ready" : "reference"
+  errors << "#{relative.call(path)}: status must be ready" unless document["status"] == "ready"
+  unless document["implementationRole"] == expected_role
+    errors << "#{relative.call(path)}: implementationRole must be #{expected_role}"
+  end
+  unless document["implementationMaturity"] == expected_maturity
+    errors << "#{relative.call(path)}: implementationMaturity must be #{expected_maturity}"
+  end
+end
+
+flow_documents.each do |path, document|
   next unless File.basename(path) == "profile.json" && document.is_a?(Hash)
 
   document.each do |key, value|

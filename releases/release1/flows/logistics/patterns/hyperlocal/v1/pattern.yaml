@@ -2,7 +2,9 @@ id: ion-logistics-pattern-hyperlocal-v1
 version: 1.0.0
 patternName: hyperlocal
 sector: ion:logistics
-status: ready
+status: preview
+implementationRole: reference
+implementationMaturity: preview
 description: Sub-day point-to-point delivery with explicit courier-assignment semantics and optional live tracking.
 baseSequence: [discover, on_discover, select, on_select, init, on_init, confirm, on_confirm, status, on_status]
 stateMachineSelection:

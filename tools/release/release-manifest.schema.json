@@ -16,6 +16,7 @@
     "dependencyStatus",
     "dependencies",
     "maintainedArtifacts",
+    "implementationGuidance",
     "artifactChecksums"
   ],
   "properties": {
@@ -63,6 +64,9 @@
       "items": {
         "$ref": "#/$defs/maintainedArtifact"
       }
+    },
+    "implementationGuidance": {
+      "$ref": "#/$defs/implementationGuidance"
     },
     "artifactChecksums": {
       "type": "object",
@@ -237,6 +241,56 @@
           "items": { "type": "string", "minLength": 1 }
         }
       }
+    },
+    "implementationGuidance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["primaryProfile", "areas"],
+      "properties": {
+        "primaryProfile": { "$ref": "#/$defs/primaryImplementationProfile" },
+        "areas": {
+          "type": "object",
+          "minProperties": 1,
+          "propertyNames": {
+            "enum": ["ionApi", "common", "trade", "logistics", "hospitality", "finance", "flows", "errors"]
+          },
+          "additionalProperties": { "$ref": "#/$defs/implementationAreaGuidance" }
+        }
+      }
+    },
+    "primaryImplementationProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "path", "maturity", "description"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "path": {
+          "allOf": [
+            { "$ref": "#/$defs/releaseRelativePath" },
+            { "pattern": "^flows/" }
+          ]
+        },
+        "maturity": { "$ref": "#/$defs/implementationMaturity" },
+        "description": { "type": "string", "minLength": 1 }
+      }
+    },
+    "implementationAreaGuidance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["maturity", "notes"],
+      "properties": {
+        "maturity": { "$ref": "#/$defs/implementationMaturity" },
+        "primaryProfile": { "type": "string", "minLength": 1 },
+        "productionRecommended": { "type": "boolean" },
+        "notes": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "implementationMaturity": {
+      "enum": ["implementation-ready", "reference", "preview", "excluded"]
     },
     "releaseRelativePath": {
       "type": "string",

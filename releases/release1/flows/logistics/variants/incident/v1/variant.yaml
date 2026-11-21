@@ -2,7 +2,9 @@ id: ion-logistics-variant-incident-v1
 version: 1.0.0
 variantType: incident
 sector: ion:logistics
-status: ready
+status: preview
+implementationRole: reference
+implementationMaturity: preview
 description: In-transit incident notification and durable evidence recording.
 steps:
   - {step: on_update, from: BPP, to: BAP, direction: unsolicited}

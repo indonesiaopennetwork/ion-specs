@@ -12,6 +12,23 @@ The release remains mutable while [`release.yaml`](release.yaml) has
 file in this directory immutable. Promotion to `current` is a separate Council
 decision after the stabilization period.
 
+## Implementation maturity
+
+Validation and implementation maturity are separate signals. `validated` in the
+manifest means the release artifacts pass their structural, reference, registry,
+and connection gates; it does not by itself claim production experience.
+
+| Area or profile | Maturity | Adoption guidance |
+|---|---|---|
+| Trade — Storefront | Implementation-ready | Primary Release 1 starting point; it has the most complete transaction coverage, examples, variants, and guidance. |
+| Other Trade profiles | Reference | Validated reference profiles with narrower implementation coverage; adopt after establishing Storefront where applicable. |
+| Logistics | Preview | Evaluation and interoperability testing only; not recommended for production use in Release 1. |
+
+Release 1 Logistics is normative and validation-complete, but it has not received
+sufficient implementation and interoperability testing to be considered battle
+ready. Because a published release is immutable, any normative refinements found
+during evaluation will be made in Release 2.
+
 ## Release contents
 
 ### API contracts
