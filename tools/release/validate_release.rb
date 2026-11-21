@@ -2,6 +2,7 @@
 
 require "open3"
 require "pathname"
+require "yaml"
 
 publication = ARGV.delete("--publication")
 release_root = Pathname.new(File.expand_path(ARGV.fetch(0, "releases/release1")))
@@ -11,6 +12,13 @@ release_name = release_root.basename.to_s
 unless release_root.directory?
   warn "release directory does not exist: #{release_root}"
   exit 2
+end
+
+begin
+  manifest_status = YAML.safe_load(File.read(release_root.join("release.yaml")), aliases: true)["status"]
+  publication ||= manifest_status == "published"
+rescue Psych::SyntaxError
+  # The manifest validation command below reports the actionable parse error.
 end
 
 commands = [
@@ -26,6 +34,14 @@ commands = [
   ["Public release URLs", ["ruby", "tools/release/validate_public_urls.rb", release_root.to_s]],
   ["Offline references", ["ruby", "tools/release/validate_offline_refs.rb", release_root.to_s]]
 ]
+
+channels_path = repository_root.join("releases/channels.yaml")
+if publication || channels_path.file?
+  channel_command = ["ruby", "tools/release/validate_channels.rb"]
+  channel_command.concat(["--require-next", release_name]) if publication
+  channel_command << channels_path.to_s
+  commands.insert(2, ["Release channels", channel_command])
+end
 
 if ENV["ION_IMMUTABILITY_BASE"] && !ENV["ION_IMMUTABILITY_BASE"].empty?
   commands[1][1].insert(2, "--against", ENV["ION_IMMUTABILITY_BASE"])

@@ -23,6 +23,24 @@ class ValidateReleaseImmutabilityTest < Minitest::Test
     assert_includes errors.first, "published release is immutable"
   end
 
+  def test_existing_draft_may_transition_to_published
+    errors = IonReleaseImmutability.validate_transitions(
+      { "releases/release1" => "draft" },
+      { "releases/release1" => "published" }
+    )
+
+    assert_empty errors
+  end
+
+  def test_new_release_may_not_appear_as_published
+    errors = IonReleaseImmutability.validate_transitions(
+      {},
+      { "releases/release1" => "published" }
+    )
+
+    assert_equal ["published release must transition from an existing draft: releases/release1"], errors
+  end
+
   private
 
   def write_manifest(root, name, status)

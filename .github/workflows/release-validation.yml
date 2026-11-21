@@ -45,7 +45,7 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.3"
-      - name: Validate release
+      - name: Validate release (publication gate is automatic for published manifests)
         run: ruby tools/release/validate_release.rb "releases/${RELEASE_NAME}"
       - name: Run publication gate
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.publication_gate }}

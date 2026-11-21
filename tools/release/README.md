@@ -9,6 +9,10 @@ permanent integer releases. It is not copied into individual release bundles.
   contract, including vendored dependencies and ION-maintained artifacts that
   preserve upstream provenance plus explicit transformations, and separates
   validation status from implementation maturity and primary-profile guidance.
+- `channels.schema.json` and `validate_channels.rb` define and validate the
+  repository channel state, require channelled releases to be published, prevent
+  a release from occupying multiple channels, and verify the `next`
+  stabilization dates.
 - `release1-path-map.json` records approved mechanical source-to-target paths for
   the primary API files, Trade packs, and the common packs directly referenced by
   Trade.
@@ -104,6 +108,10 @@ ruby tools/release/validate_release.rb --publication releases/release1
 ```
 
 The publication form is expected to fail while the manifest is a draft.
+When a manifest already has `status: published`, the complete gate enables
+publication mode automatically and requires `releases/channels.yaml` to assign
+that release to `next`. The explicit flag remains useful for testing a proposed
+publication state.
 
 ## Validate a manifest
 

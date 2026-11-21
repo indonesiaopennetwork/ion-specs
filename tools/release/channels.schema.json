@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ION Release Channels",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "current", "next", "lts"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "current": {
+      "oneOf": [
+        { "type": "null" },
+        { "$ref": "#/$defs/releaseName" }
+      ]
+    },
+    "next": {
+      "oneOf": [
+        { "type": "null" },
+        { "$ref": "#/$defs/nextChannel" }
+      ]
+    },
+    "lts": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/ltsChannel" }
+    }
+  },
+  "$defs": {
+    "releaseName": {
+      "type": "string",
+      "pattern": "^release[1-9][0-9]*$"
+    },
+    "nextChannel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["release", "assignedAt", "minimumStabilizationDays", "eligibleForCurrentAt"],
+      "properties": {
+        "release": { "$ref": "#/$defs/releaseName" },
+        "assignedAt": { "type": "string", "format": "date-time" },
+        "minimumStabilizationDays": { "type": "integer", "minimum": 1 },
+        "eligibleForCurrentAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "ltsChannel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["release", "supportedUntil"],
+      "properties": {
+        "release": { "$ref": "#/$defs/releaseName" },
+        "supportedUntil": { "type": "string", "format": "date" }
+      }
+    }
+  }
+}

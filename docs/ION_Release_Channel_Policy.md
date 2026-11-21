@@ -68,13 +68,13 @@ Release 4 to `current`, but promotion is discretionary rather than automatic.
 
 ## Channel State
 
-The repository should record channel state in a small machine-readable file:
+The repository MUST record channel state in a small machine-readable file:
 
 ```text
 releases/channels.yaml
 ```
 
-Suggested shape:
+Required shape:
 
 ```yaml
 schemaVersion: 1
