@@ -270,15 +270,15 @@ excludedSubBranches:
 
 examples:
   preview:
-    - examples/cancel_preview_request.json
-    - examples/on_cancel_preview_response.json
+    - examples/cancel_preview.json
+    - examples/on_cancel_preview.json
   buyer-full:
-    - examples/cancel_request.json
-    - examples/on_cancel_response.json
+    - examples/cancel.json
+    - examples/on_cancel.json
   buyer-partial:
-    - examples/cancel_partial_request.json
-    - examples/on_cancel_partial_response.json
+    - examples/cancel_partial.json
+    - examples/on_cancel_partial.json
   rejected:
-    - examples/on_cancel_rejected_response.json
+    - examples/on_cancel_rejected.json
   seller-initiated:
     - examples/on_update_seller_cancellation.json
