@@ -135,7 +135,6 @@ releases/
 
       vendored/
         beckn/
-          api/v2.0.0/beckn.yaml
           schemas/<SchemaName>/<upstream-version>/attributes.yaml
 
     flows/
@@ -152,11 +151,11 @@ public API and cannot be renamed within that release.
 Release 1's active Beckn protocol contract is the ION-maintained
 `schema/core/api/v2.0.0/ion-beckn.yaml`. It began as a byte-identical copy of the
 upstream Beckn v2.0.0 contract so ION can correct protocol defects without
-waiting for an upstream publication. The immutable upstream file at
-`schema/vendored/beckn/api/v2.0.0/beckn.yaml` remains temporarily at its existing
-public URL for compatibility; new Release 1 references use the core contract.
-The maintained copy records its ION modifications in the release notice; both
-files retain upstream attribution and licensing.
+waiting for an upstream publication. Release 1 exposes only the maintained core
+contract; it does not publish a second byte-identical upstream protocol URL under
+`schema/vendored/`. The manifest's `maintainedArtifacts` entry and the release
+notice preserve the upstream commit, checksums, ION transformations, attribution,
+and licensing.
 
 The manifest determines which content areas are part of a particular release.
 Every area MUST be `validated` or `excluded` before publication, and artifacts for
@@ -384,6 +383,7 @@ contentStatus:
   errors: review-required
 dependencyStatus: incomplete
 dependencies: []
+maintainedArtifacts: []
 artifactChecksums: {}
 ```
 

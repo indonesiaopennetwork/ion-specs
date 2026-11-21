@@ -29,6 +29,9 @@ if options[:write]
   manifest.fetch("dependencies", []).each do |dependency|
     dependency["releasedSha256"] = checksums.fetch(dependency.fetch("vendoredPath"))
   end
+  manifest.fetch("maintainedArtifacts", []).each do |artifact|
+    artifact["releasedSha256"] = Digest::SHA256.file(release_root.join(artifact.fetch("path"))).hexdigest
+  end
   manifest["artifactChecksums"] = checksums
   output = YAML.dump(manifest).sub(/\A---\n/, "")
   output = output.gsub(/^(publishedAt|toolingCommit):[ \t]*$/, '\\1: null')

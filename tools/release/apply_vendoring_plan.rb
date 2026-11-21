@@ -11,7 +11,7 @@ require "yaml"
 require_relative "plan_vendoring"
 
 module IonVendoringApply
-  PROTOCOL_PUBLIC_URL = "https://schema.ion.id/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml".freeze
+  PROTOCOL_PUBLIC_URL = "https://schema.ion.id/release1/schema/core/api/v2.0.0/ion-beckn.yaml".freeze
   LICENSE_TARGETS = {
     "https://github.com/beckn/protocol-specifications-v2" => "releases/release1/schema/vendored/beckn/licenses/protocol-specifications-v2/LICENSE",
     "https://github.com/beckn/schemas" => "releases/release1/schema/vendored/beckn/licenses/schemas/LICENSE.md",
@@ -145,7 +145,7 @@ module IonVendoringApply
       staged = {}
       protocol = plan.fetch("protocol")
       upstream = protocol.fetch("upstream")
-      stage_fetch(staged, contained_path(protocol.fetch("existingCandidate")), upstream)
+      verify_pinned_source(upstream)
 
       plan.fetch("dependencies").each do |dependency|
         stage_fetch(staged, contained_path(dependency.fetch("target")), dependency.fetch("upstream"))
@@ -156,6 +156,13 @@ module IonVendoringApply
         stage_fetch(staged, contained_path(target), license)
       end
       staged
+    end
+
+    def verify_pinned_source(source)
+      body = @fetcher.fetch(source.fetch("rawUrl"))
+      actual = IonVendoringApply.sha256(body)
+      expected = source.fetch("sha256")
+      raise ArgumentError, "checksum mismatch for #{source.fetch('rawUrl')}: expected #{expected}, got #{actual}" unless actual == expected
     end
 
     def stage_fetch(staged, target, source)

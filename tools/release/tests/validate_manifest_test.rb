@@ -99,6 +99,27 @@ class ValidateManifestTest < Minitest::Test
     assert_includes errors, "dependency 0 vendoredPath must be under schema/vendored/"
   end
 
+  def test_maintained_protocol_requires_a_core_path_and_transformations
+    @manifest["maintainedArtifacts"] = [{
+      "name" => "IONBecknProtocol",
+      "type" => "protocol",
+      "path" => "schema/vendored/beckn/api/v2.0.0/beckn.yaml",
+      "upstreamVersion" => "2.0.0",
+      "upstreamRepository" => "https://github.com/beckn/protocol-specifications-v2",
+      "upstreamCommit" => "a" * 40,
+      "upstreamUrl" => "https://raw.githubusercontent.com/example/beckn.yaml",
+      "upstreamSha256" => "b" * 64,
+      "releasedSha256" => "c" * 64,
+      "license" => "CC-BY-NC-SA-4.0",
+      "transformations" => []
+    }]
+
+    errors = IonReleaseManifest.validate(@manifest)
+
+    assert_includes errors, "maintained artifact 0 path must be under schema/core/"
+    assert_includes errors, "maintained artifact 0 transformations must be a non-empty array"
+  end
+
   private
 
   def valid_dependency

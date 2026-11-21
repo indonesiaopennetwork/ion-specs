@@ -81,8 +81,8 @@ allOf:
 ```
 
 Extension and common packs MUST reference the separately vendored Beckn schema
-documents. They MUST NOT reference component fragments inside the vendored
-`schema/vendored/beckn/api/v2.0.0/beckn.yaml` contract. This keeps attribute packs
+documents. They MUST NOT reference component fragments inside the maintained
+`schema/core/api/v2.0.0/ion-beckn.yaml` contract. This keeps attribute packs
 independent of a monolithic protocol snapshot and allows each Beckn
 component dependency to retain its own version and provenance.
 

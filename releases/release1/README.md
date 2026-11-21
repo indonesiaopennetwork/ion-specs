@@ -97,11 +97,10 @@ shared registry published at
 [`schema/vendored/beckn/`](schema/vendored/beckn/) contains the complete pinned
 Beckn dependency closure needed to resolve Release 1 without network access.
 Dependency repositories, commits, transformations, licenses, and checksums are
-recorded in [`release.yaml`](release.yaml) and [`NOTICES.md`](NOTICES.md).
-
-The immutable upstream Beckn protocol file remains at
-[`schema/vendored/beckn/api/v2.0.0/beckn.yaml`](schema/vendored/beckn/api/v2.0.0/beckn.yaml)
-for compatibility. New integrations should use the ION-maintained core contract.
+recorded in [`release.yaml`](release.yaml) and [`NOTICES.md`](NOTICES.md). The
+upstream provenance and ION transformations for the maintained protocol contract
+are recorded under `maintainedArtifacts`; Release 1 exposes only the maintained
+`schema/core/api/v2.0.0/ion-beckn.yaml` protocol URL.
 
 ## ION protocol changes
 

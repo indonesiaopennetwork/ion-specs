@@ -13,6 +13,13 @@ require_relative "validate_artifact_checksums"
 module IonVendoringManifest
   LICENSE_ID = "CC-BY-NC-SA-4.0".freeze
   REF_TRANSFORMATION = "Rewrote schema.beckn.io $ref values to Release 1 public vendored URLs.".freeze
+  PROTOCOL_TRANSFORMATIONS = [
+    "Corrected DiscoverAction.matchType.default to the declared ANY enum value.",
+    "Corrected catalog publication offer validity examples to RFC 3339 date-time values.",
+    "Added AsyncError support to asynchronous callback envelopes following Beckn PR 202.",
+    "Added Support.supportAttributes following Beckn PR 204.",
+    "Added the NFH TrackingRequest component and used it for TrackAction requests."
+  ].freeze
 
   module_function
 
@@ -48,6 +55,23 @@ module IonVendoringManifest
     }
   end
 
+  def maintained_protocol_record(protocol:, target:, release_root:)
+    upstream = protocol.fetch("upstream")
+    {
+      "name" => "IONBecknProtocol",
+      "type" => "protocol",
+      "path" => release_relative(target, release_root),
+      "upstreamVersion" => protocol.fetch("version"),
+      "upstreamRepository" => upstream.fetch("repository"),
+      "upstreamCommit" => upstream.fetch("commit"),
+      "upstreamUrl" => upstream.fetch("rawUrl"),
+      "upstreamSha256" => upstream.fetch("sha256"),
+      "releasedSha256" => sha256_file(target),
+      "license" => LICENSE_ID,
+      "transformations" => PROTOCOL_TRANSFORMATIONS
+    }
+  end
+
   class Finalizer
     attr_reader :summary
 
@@ -72,12 +96,9 @@ module IonVendoringManifest
 
       dependencies = []
       protocol = plan.fetch("protocol")
-      dependencies << IonVendoringManifest.dependency_record(
-        name: protocol.fetch("name"),
-        type: "protocol",
-        version: protocol.fetch("version"),
-        upstream: protocol.fetch("upstream"),
-        target: repository_path(protocol.fetch("existingCandidate")),
+      maintained_protocol = IonVendoringManifest.maintained_protocol_record(
+        protocol: protocol,
+        target: repository_path("releases/release1/schema/core/api/v2.0.0/ion-beckn.yaml"),
         release_root: @release_root
       )
       plan.fetch("dependencies").each do |dependency|
@@ -91,11 +112,12 @@ module IonVendoringManifest
         )
       end
 
-      artifact_checksums = IonArtifactChecksums.artifact_files(Pathname.new(@release_root)).to_h do |relative_path|
+      artifact_checksums = IonArtifactChecksums.checksummed_artifact_files(Pathname.new(@release_root), manifest).to_h do |relative_path|
         [relative_path, IonVendoringManifest.sha256_file(File.join(@release_root, relative_path))]
       end
       manifest["dependencyStatus"] = "complete"
       manifest["dependencies"] = dependencies
+      manifest["maintainedArtifacts"] = [maintained_protocol]
       manifest["artifactChecksums"] = artifact_checksums
       manifest["notes"] = [
         "Draft release envelope created during migration Phase 2.",
@@ -109,6 +131,7 @@ module IonVendoringManifest
       @summary = {
         "mode" => @apply ? "apply" : "dry-run",
         "dependencies" => dependencies.length,
+        "maintainedArtifacts" => 1,
         "transformedDependencies" => dependencies.count { |dependency| !dependency.fetch("transformations").empty? },
         "artifactChecksums" => artifact_checksums.length,
         "offlineDocuments" => validator.document_count,

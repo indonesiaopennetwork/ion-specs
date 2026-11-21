@@ -50,9 +50,10 @@ similar files) as authoritative project state. They may be local and stale.
   variants, 10 Trade errors,
   and its pinned Beckn dependency closure. The 67 shared policy terms live under
   root `policies/` outside the release cycle.
-- `releases/release1/schema/vendored/beckn/api/v2.0.0/beckn.yaml` is the immutable,
-  upstream Beckn Protocol contract. Preserve its provenance and bytes. Files under
-  `schema/vendored/` remain immutable upstream dependencies.
+- `releases/release1/schema/core/api/v2.0.0/ion-beckn.yaml` is the ION-maintained
+  Beckn Protocol contract. Preserve its recorded upstream provenance, license,
+  transformations, and released checksum. Files under `schema/vendored/` remain
+  immutable upstream schema dependencies.
 - Release 1 intentionally excludes `ion.yaml`, Logistics, Hospitality, and
   Finance. Their artifacts are absent from the release.
 - The repository has no separate root `schema/`, `flows/`, or `errors/` source
