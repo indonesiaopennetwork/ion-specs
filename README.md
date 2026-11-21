@@ -12,7 +12,7 @@ in the network and is based on Beckn Protocol 2.0.0.
 | LTS | None | No releases are currently under long-term support. |
 | Current | [Release 1](releases/release1/README.md) | Published, immutable, and recommended for new Storefront implementations. |
 | Next | None | No newer published release is undergoing stabilization. |
-| Draft | None | Release 2 has not yet been opened. |
+| Draft | [Release 2](releases/release2/README.md) | Active mutable draft derived from the Release 1 baseline. |
 
 ### Release 1 (`current`)
 
@@ -104,6 +104,12 @@ releases/
     flows/trade/               Seven flows plus reviewed Trade variants
     flows/logistics/           Validated Logistics patterns and variants
     errors/                    Included Trade and Logistics errors and registry
+
+  release2/                    Active mutable draft for subsequent changes
+    release.yaml               Draft scope, provenance, and checksums
+    schema/                    Release 2 API, packs, and vendored dependencies
+    flows/                     Release 2 Trade and Logistics flows
+    errors/                    Release 2 error sources and registry
 
 docs/                          Architecture and contributor documentation
 tools/release/                 Release construction and validation tools

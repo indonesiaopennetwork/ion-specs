@@ -1,0 +1,24 @@
+{
+  "@context": "https://schema.ion.id/release2/schema/extension/trade/TradeCommitment/v1/context.jsonld",
+  "@type": "ion:IONTradeCommitment",
+  "price": {
+    "value": 89000,
+    "currency": "IDR"
+  },
+  "selectedCustomizations": [
+    {
+      "groupId": "CG-SIZE",
+      "optionId": "OPT-REGULAR"
+    },
+    {
+      "groupId": "CG-CRUST",
+      "optionId": "OPT-CLASSIC"
+    },
+    {
+      "groupId": "CG-EXTRAS",
+      "optionId": "OPT-EXTRA-CHEESE"
+    }
+  ],
+  "specialInstructions": "Pinggiran extra crispy",
+  "replacementPreferred": true
+}

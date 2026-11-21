@@ -1,0 +1,9 @@
+{
+  "@context": "https://schema.ion.id/release2/schema/extension/trade/TradeCommitment/v1/context.jsonld",
+  "@type": "ion:IONTradeCommitment",
+  "price": {
+    "value": 58000,
+    "currency": "IDR"
+  },
+  "selectedCustomizations": []
+}

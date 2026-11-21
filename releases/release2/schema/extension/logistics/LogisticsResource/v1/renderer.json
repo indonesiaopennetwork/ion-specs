@@ -1,0 +1,68 @@
+{
+  "version": "1.0.0",
+  "displayLabel": "Logistics Resource",
+  "accentColor": "#1565C0",
+  "fieldGroups": [
+    {
+      "id": "classification",
+      "label": {
+        "id": "Klasifikasi",
+        "en": "Classification"
+      },
+      "fields": [
+        "resourceType",
+        "consignment.quantity",
+        "consignment.totalVolume"
+      ]
+    },
+    {
+      "id": "packages",
+      "label": {
+        "id": "Paket dan penanganan",
+        "en": "Packages and handling"
+      },
+      "conditional": "packages != null",
+      "fields": [
+        "packages"
+      ]
+    },
+    {
+      "id": "customs",
+      "label": {
+        "id": "Kepabeanan",
+        "en": "Customs"
+      },
+      "conditional": "consignment.customsDeclaration != null",
+      "fields": [
+        "consignment.customsDeclaration"
+      ]
+    },
+    {
+      "id": "specialCargo",
+      "label": {
+        "id": "Muatan khusus",
+        "en": "Special cargo"
+      },
+      "conditional": "inventoryManifest != null || vehicleCargo != null",
+      "fields": [
+        "inventoryManifest",
+        "vehicleCargo"
+      ]
+    }
+  ],
+  "displayPreferences": {
+    "primaryFields": [
+      "resourceType"
+    ],
+    "cardSummaryFields": [
+      "consignment.quantity",
+      "packages"
+    ],
+    "currencyFields": [
+      "packages.declaredValue"
+    ],
+    "locale": "id-ID",
+    "currency": "IDR"
+  }
+}
+

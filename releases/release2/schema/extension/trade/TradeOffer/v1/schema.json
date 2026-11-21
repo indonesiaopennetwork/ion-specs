@@ -1,0 +1,756 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schema.ion.id/release2/schema/extension/trade/TradeOffer/v1",
+  "$ref": "#/$defs/IONTradeOffer",
+  "$defs": {
+    "IONTradeOffer": {
+      "type": "object",
+      "title": "IONTradeOffer",
+      "description": "ION trade offer attributes. Inherits directly from RetailOffer v2.1 and combines generic trade offer mechanics with Indonesia-specific policy, language, logistics-pricing, and payment-method extensions.\nProperties originating in the former ION-specific layer are identified by x-attr-ion-layer: ion.\n",
+      "x-ion-layer": "ion",
+      "x-ion-split-version": "0.7.0",
+      "x-recommended-parent": "Offer.offerAttributes",
+      "additionalProperties": true,
+      "x-jsonld": {
+        "@context": "https://schema.ion.id/release2/schema/extension/trade/TradeOffer/v1/context.jsonld",
+        "@type": "ion:IONTradeOffer"
+      },
+      "x-beckn-attaches-to": "Offer.offerAttributes",
+      "x-ion-closed-extensions": false,
+      "allOf": [
+        {
+          "$ref": "https://schema.ion.id/release2/schema/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml#/components/schemas/RetailOffer"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "policies": {
+              "x-attr-ion-layer": "ion",
+              "type": "object",
+              "properties": {
+                "cancellation": {
+                  "type": "object",
+                  "properties": {
+                    "policyRef": {
+                      "allOf": [
+                        {
+                          "$ref": "https://schema.ion.id/release2/schema/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/cancellation/properties/policyRef"
+                        }
+                      ],
+                      "description": "ION-registered cancellation policy URI.",
+                      "example": "ion://policy/cancel.prepacked.free",
+                      "x-ion-policy-registry": "https://registry.ion.id/policies",
+                      "x-ion-regulatory": "UU 8/1999 Pasal 19"
+                    }
+                  }
+                },
+                "returns": {
+                  "type": "object",
+                  "properties": {
+                    "policyRef": {
+                      "allOf": [
+                        {
+                          "$ref": "https://schema.ion.id/release2/schema/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/returns/properties/policyRef"
+                        }
+                      ],
+                      "description": "ION-registered returns policy URI.",
+                      "example": "ion://policy/return.standard.7d-sellerpays",
+                      "x-ion-policy-registry": "https://registry.ion.id/policies",
+                      "x-ion-regulatory": "UU 8/1999 Pasal 25; Permendag 19/M-DAG/PER/5/2009"
+                    }
+                  }
+                },
+                "warranty": {
+                  "type": "object",
+                  "properties": {
+                    "policyRef": {
+                      "allOf": [
+                        {
+                          "$ref": "https://schema.ion.id/release2/schema/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/warranty/properties/policyRef"
+                        }
+                      ],
+                      "description": "ION-registered warranty policy URI.",
+                      "example": "ion://policy/warranty.manufacturer.1y-distance-service",
+                      "x-ion-policy-registry": "https://registry.ion.id/policies",
+                      "x-ion-regulatory": "UU 8/1999 Pasal 25; PP 36/2023"
+                    }
+                  }
+                },
+                "dispute": {
+                  "type": "object",
+                  "properties": {
+                    "policyRef": {
+                      "type": "string",
+                      "format": "uri",
+                      "description": "ION-registered dispute-resolution policy URI.",
+                      "example": "ion://policy/dispute.consumer.bpsk",
+                      "x-ion-policy-registry": "https://registry.ion.id/policies",
+                      "x-ion-regulatory": "UU 8/1999 Pasal 45; UU 30/1999 tentang Arbitrase"
+                    }
+                  }
+                },
+                "grievanceSla": {
+                  "type": "object",
+                  "properties": {
+                    "policyRef": {
+                      "type": "string",
+                      "format": "uri",
+                      "description": "ION-registered grievance SLA policy URI.",
+                      "example": "ion://policy/grievance-sla.consumer.standard",
+                      "x-ion-policy-registry": "https://registry.ion.id/policies",
+                      "x-ion-regulatory": "UU 8/1999 Pasal 45; Permendag 50/2020 Pasal 6"
+                    }
+                  }
+                },
+                "paymentTerms": {
+                  "type": "object",
+                  "properties": {
+                    "policyRef": {
+                      "type": "string",
+                      "format": "uri",
+                      "description": "ION-registered payment-terms policy URI.",
+                      "example": "ion://policy/payment-terms.upfront.full",
+                      "x-ion-policy-registry": "https://registry.ion.id/policies",
+                      "x-ion-regulatory": "UU 7/2021 HPP; OJK POJK terkait metode pembayaran"
+                    }
+                  }
+                },
+                "penalty": {
+                  "type": "object",
+                  "properties": {
+                    "policyRef": {
+                      "type": "string",
+                      "format": "uri",
+                      "description": "Optional ION-registered per-offer penalty-policy override. It cannot be weaker than the seller-tier minimum.",
+                      "example": "ion://policy/penalty.seller-sla-breach.standard",
+                      "x-ion-policy-registry": "https://registry.ion.id/policies"
+                    }
+                  }
+                },
+                "settlement": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "settlementBasis",
+                    "settlementWindow"
+                  ],
+                  "description": "The seller's payout terms for orders of this offer: the payout to the seller falls due settlementWindow after the settlementBasis event. When an order has several offers, the term giving the latest due date applies to the whole contract. The buyer finder fee the seller pays the buyer app is on the offer's consideration (IONTradeConsideration.buyerFinderFee), not part of this policy.\n",
+                  "properties": {
+                    "policyRef": {
+                      "type": "string",
+                      "format": "uri",
+                      "description": "Optional ION-registered settlement policy URI the terms follow.",
+                      "example": "ion://policy/settlement.after-delivery.1d",
+                      "x-ion-policy-registry": "https://registry.ion.id/policies"
+                    },
+                    "settlementBasis": {
+                      "$ref": "https://schema.ion.id/release2/schema/common/Settlement/v1/attributes.yaml#/components/schemas/SettlementBasis"
+                    },
+                    "settlementWindow": {
+                      "$ref": "https://schema.ion.id/release2/schema/common/Settlement/v1/attributes.yaml#/components/schemas/SettlementWindow"
+                    }
+                  },
+                  "example": {
+                    "settlementBasis": "AFTER_DELIVERY",
+                    "settlementWindow": "P1D"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "properties": {
+        "policies": {
+          "allOf": [
+            {
+              "$ref": "https://schema.ion.id/release2/schema/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "cancellation": {
+                  "allOf": [
+                    {
+                      "$ref": "https://schema.ion.id/release2/schema/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/cancellation"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "allowedReasons": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "enum": [
+                              "CHANGE_OF_MIND",
+                              "WRONG_ITEM_ORDERED",
+                              "ORDERED_WRONG_VARIANT",
+                              "FOUND_BETTER_PRICE",
+                              "DELIVERY_TOO_LONG",
+                              "INCORRECT_ADDRESS",
+                              "DUPLICATE_ORDER",
+                              "PAYMENT_METHOD_CHANGE",
+                              "ITEM_NO_LONGER_NEEDED",
+                              "SELLER_UNRESPONSIVE",
+                              "BUYER_FRAUD_SUSPECTED",
+                              "QUALITY_ISSUE_AT_PREVIEW"
+                            ]
+                          },
+                          "description": "Seller-declared reasons for which cancellation is accepted when the inherited cancellation policy allows cancellation.",
+                          "example": [
+                            "CHANGE_OF_MIND",
+                            "WRONG_ITEM_ORDERED"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "returns": {
+                  "allOf": [
+                    {
+                      "$ref": "https://schema.ion.id/release2/schema/vendored/beckn/schemas/RetailOffer/2.1/attributes.yaml#/components/schemas/RetailOffer/properties/policies/properties/returns"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "evidenceRequirement": {
+                          "type": "string",
+                          "enum": [
+                            "NONE",
+                            "PHOTO_OPTIONAL",
+                            "PHOTO_REQUIRED",
+                            "VIDEO_UNBOXING_REQUIRED",
+                            "VIDEO_UNBOXING_AND_PHOTO",
+                            "PHYSICAL_INSPECTION"
+                          ],
+                          "description": "Evidence required from buyer when initiating a return. VIDEO_UNBOXING_REQUIRED is standard for high-value electronics. PHYSICAL_INSPECTION is used for high-value items (>IDR 10M) where seller sends an inspector before accepting the return.\n",
+                          "example": "PHOTO_REQUIRED"
+                        },
+                        "evidenceMinPhotos": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 10,
+                          "description": "Minimum number of evidence photos required."
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "timeToShip": {
+          "type": "string",
+          "format": "duration",
+          "description": "Time from order confirm to when seller hands package to logistics. ISO 8601 duration.\n",
+          "example": "PT2H"
+        },
+        "selfPickupOtp": {
+          "type": "boolean",
+          "description": "Whether OTP verification is required when consumer picks up order. If true, BPP generates deliveryOtp in performanceAttributes.\n",
+          "example": false
+        },
+        "selfPickupInstructions": {
+          "type": "string",
+          "description": "Instructions for self-pickup — counter number, floor, collection point.",
+          "example": "Ambil di counter F&B lantai 1, tunjukkan kode pesanan Anda."
+        },
+        "proofOfDeliveryType": {
+          "type": "string",
+          "enum": [
+            "OTP",
+            "SIGNATURE",
+            "PHOTO",
+            "NONE"
+          ],
+          "description": "Type of delivery confirmation proof required.",
+          "example": "OTP"
+        },
+        "contactDetailsConsumerCare": {
+          "allOf": [
+            {
+              "$ref": "https://schema.ion.id/release2/schema/vendored/beckn/schemas/Contact/2.0/attributes.yaml#/components/schemas/Contact"
+            }
+          ],
+          "description": "Structured consumer-care contact displayed for pre- and post-purchase support.",
+          "example": {
+            "name": "Customer Service",
+            "email": "cs@toko.com",
+            "phone": "08001234567"
+          },
+          "x-ion-regulatory": "UU 8/1999 tentang Perlindungan Konsumen Pasal 7"
+        },
+        "customization": {
+          "x-attr-ion-layer": "ion",
+          "type": "object",
+          "required": [
+            "groups"
+          ],
+          "properties": {
+            "groups": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "required": [
+                  "code",
+                  "selection",
+                  "options"
+                ],
+                "properties": {
+                  "code": {
+                    "type": "string",
+                    "description": "Unique code for the customization group (for example, SIZE, TOPPINGS, or SAUCE).",
+                    "x-jsonld-id": "ion:code"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Human-readable name for the customization group (for example, Pizza Size or Extra Toppings).",
+                    "x-jsonld-id": "ion:name"
+                  },
+                  "selection": {
+                    "type": "string",
+                    "enum": [
+                      "SINGLE_REQUIRED",
+                      "SINGLE_OPTIONAL",
+                      "MULTIPLE_OPTIONAL"
+                    ],
+                    "description": "Selection constraint for this group. SINGLE_REQUIRED means the buyer must select exactly one option. SINGLE_OPTIONAL means the buyer may select zero or one option. MULTIPLE_OPTIONAL means the buyer may select zero or more options.\n",
+                    "x-jsonld-id": "ion:selection"
+                  },
+                  "minSelections": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Minimum number of options that must be selected for a MULTIPLE_OPTIONAL group.",
+                    "x-jsonld-id": "ion:minSelections"
+                  },
+                  "maxSelections": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Maximum number of options that may be selected for a MULTIPLE_OPTIONAL group.",
+                    "x-jsonld-id": "ion:maxSelections"
+                  },
+                  "options": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "code",
+                        "name"
+                      ],
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "description": "Unique code for the option within this group (for example, SMALL, MEDIUM, or LARGE for SIZE).",
+                          "x-jsonld-id": "ion:code"
+                        },
+                        "name": {
+                          "type": "string",
+                          "description": "Human-readable name for the option (for example, Small - 8 inch or Extra Cheese).",
+                          "x-jsonld-id": "ion:name"
+                        },
+                        "priceDelta": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "enum": [
+                                "FIXED",
+                                "PERCENTAGE"
+                              ],
+                              "description": "Price delta type. FIXED is an absolute amount; PERCENTAGE is a percentage of the base price.",
+                              "x-jsonld-id": "ion:type"
+                            },
+                            "value": {
+                              "type": "number",
+                              "description": "Price delta value, which may be positive or negative.",
+                              "x-jsonld-id": "ion:value"
+                            }
+                          },
+                          "description": "Price adjustment for selecting this option.",
+                          "x-jsonld-id": "ion:priceDelta"
+                        },
+                        "itemRef": {
+                          "type": "string",
+                          "description": "Reference to a Beckn Resource when this option represents a distinct item.",
+                          "x-jsonld-id": "ion:itemRef"
+                        },
+                        "offerRef": {
+                          "type": "string",
+                          "description": "Reference to a Beckn Offer when this option represents a distinct offer.",
+                          "x-jsonld-id": "ion:offerRef"
+                        },
+                        "available": {
+                          "type": "boolean",
+                          "default": true,
+                          "description": "Whether this option is currently available.",
+                          "x-jsonld-id": "ion:available"
+                        }
+                      }
+                    },
+                    "description": "Available options for this customization group.",
+                    "x-jsonld-id": "ion:options"
+                  }
+                }
+              },
+              "description": "Customization groups such as SIZE, TOPPINGS, or SAUCE.",
+              "x-jsonld-id": "ion:groups"
+            }
+          },
+          "description": "Customization groups and options offered for this trade offer. The buyer's selections are recorded on the commitment.",
+          "x-jsonld-id": "ion:customization"
+        },
+        "offerType": {
+          "type": "string",
+          "enum": [
+            "LIST_PRICE",
+            "DISCOUNT",
+            "BUNDLE",
+            "BUY_X_GET_Y",
+            "CASHBACK",
+            "FREE_DELIVERY",
+            "VOUCHER",
+            "AUCTION",
+            "FLASH_SALE"
+          ],
+          "description": "Commercial offer mechanic. AUCTION identifies bid-based offers; FLASH_SALE identifies time- or quantity-limited sale events.",
+          "example": "DISCOUNT"
+        },
+        "priceModel": {
+          "type": "string",
+          "enum": [
+            "FIXED",
+            "DYNAMIC",
+            "TIERED"
+          ],
+          "description": "How pricing is determined for this offer.",
+          "example": "FIXED"
+        },
+        "minBasketAmount": {
+          "type": "number",
+          "description": "Minimum basket value in IDR for offer to be valid.",
+          "example": 50000
+        },
+        "maxDiscountAmount": {
+          "type": "number",
+          "description": "Maximum discount cap in IDR for percentage offers.",
+          "example": 20000
+        },
+        "voucherCode": {
+          "type": "string",
+          "description": "Voucher or promo code to activate offer.",
+          "example": "HEMAT50"
+        },
+        "usageLimitPerUser": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Maximum times this offer can be used by a single user.",
+          "example": 1
+        },
+        "customerSegment": {
+          "type": "string",
+          "enum": [
+            "ALL",
+            "NEW_USER",
+            "LOYALTY",
+            "MEMBERSHIP",
+            "VERIFIED_SELLER"
+          ],
+          "description": "Segment of customers eligible for this offer.",
+          "example": "ALL"
+        },
+        "subsidyBreakup": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Who funds the discount/promotion.",
+          "properties": {
+            "sellerSubsidy": {
+              "type": "number",
+              "minimum": 0
+            },
+            "platformSubsidy": {
+              "type": "number",
+              "minimum": 0
+            },
+            "brandSubsidy": {
+              "type": "number",
+              "minimum": 0
+            }
+          }
+        },
+        "priceChangeSchedule": {
+          "type": "array",
+          "description": "Price validity timeline for a campaign. Use one entry for a single price window and multiple entries when the price changes during the campaign. BAPs MUST render countdown UI and compute the correct price at transaction time. Entries MUST NOT overlap and must be sorted ascending by validFrom.\n",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "validFrom": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "validUntil": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "priceValue": {
+                "type": "number",
+                "description": "IDR amount valid in this window"
+              },
+              "phaseLabel": {
+                "type": "string",
+                "description": "Human label e.g. \"Jam pertama harga hemat\"",
+                "example": "First hour at flash price"
+              }
+            },
+            "required": [
+              "validFrom",
+              "validUntil",
+              "priceValue"
+            ]
+          }
+        },
+        "reservationWindowSeconds": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3600,
+          "description": "Seconds for which the BPP will hold availability and the on_select price quote. Default 300. BPP soft-reserves at on_select, hard-reserves at on_init. After window expires, availability is released and any subsequent /confirm for this messageId returns ION-3006.\n",
+          "example": 300,
+          "x-ion-default": 300
+        },
+        "totalStockCap": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Absolute total quantity available under this offer. When reached, all subsequent /select calls return ION-3008. Distinct from resource.availability.maxOrderQty (per-order cap).\n",
+          "example": 100
+        },
+        "perUserQuantityCap": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Maximum units a single buyer can purchase under this offer across all transactions (enforced by BPP). Distinct from usageLimitPerUser which is number of separate redemptions.\n",
+          "example": 2
+        },
+        "queueEnabled": {
+          "type": "boolean",
+          "description": "Whether BPP uses a queue/throttle mechanism when demand exceeds supply. When true, on_select may return queuePosition.\n",
+          "default": false
+        },
+        "queuePosition": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Consumer's current position in the purchase queue. 0 = at front. Returned in on_select when queueEnabled=true.\n"
+        },
+        "estimatedWaitSeconds": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Estimated wait time before this consumer reaches front of queue."
+        },
+        "stackingGroup": {
+          "type": "string",
+          "enum": [
+            "PLATFORM",
+            "SELLER",
+            "PAYMENT",
+            "BRAND",
+            "SHIPPING",
+            "CASHBACK"
+          ],
+          "description": "Voucher stacking group. Vouchers from different groups stack by default. Within a single group only one voucher can apply per order unless stackingRules override.\n"
+        },
+        "stackingRules": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Explicit voucher stacking rules. Used when offer has complex combination logic beyond the default group rules.\n",
+          "properties": {
+            "mustCombineWith": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Offer IDs that must also be applied for this offer to activate."
+            },
+            "cannotCombineWith": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Offer IDs with which this offer cannot be combined."
+            },
+            "maxDiscountWhenStacked": {
+              "type": "number",
+              "description": "Cap on total discount when multiple offers stack (IDR)."
+            }
+          }
+        },
+        "codEligibilityForBuyer": {
+          "type": "boolean",
+          "description": "BPP-evaluated COD eligibility for the specific buyer in this transaction. Returned in on_select. Distinct from paymentConstraints.codAvailable which is offer-level availability. Allows BPP to decline COD for new buyers, previous COD failures, high-value items exceeding buyer's verified tier, etc.\n"
+        },
+        "codEligibilityReason": {
+          "type": "string",
+          "enum": [
+            "ELIGIBLE",
+            "NEW_BUYER",
+            "PREVIOUS_COD_FAILURE",
+            "ADDRESS_NOT_VERIFIED",
+            "AMOUNT_EXCEEDS_LIMIT",
+            "PINCODE_NOT_SERVICED_FOR_COD",
+            "HIGH_RISK_CATEGORY",
+            "OTP_VERIFICATION_REQUIRED"
+          ],
+          "description": "Reason for the codEligibilityForBuyer decision."
+        },
+        "handlingTime": {
+          "type": "string",
+          "format": "duration",
+          "description": "Time from order confirmation until the package is ready for logistics. Used for custom-print, made-to-measure, and pre-order merchandise.",
+          "example": "PT72H"
+        },
+        "customTermsAddendum": {
+          "type": "string",
+          "maxLength": 1000,
+          "description": "Free-text addendum for edge cases (e.g. watchmaker offering lifetime service). Supplements the declared policy IRIs but cannot contradict them. If addendum contradicts base policy, base policy wins and addendum is informational only. BAP displays addendum below the structured policy terms.\n",
+          "example": "Garansi seumur hidup untuk mekanisme jam tangan mewah (terms & conditions apply - see seller page)."
+        },
+        "displayLanguage": {
+          "x-attr-ion-layer": "ion",
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "id",
+              "en",
+              "ms",
+              "zh",
+              "ar",
+              "ta",
+              "ko",
+              "ja"
+            ]
+          },
+          "description": "Languages in which this offer's catalog content is available.",
+          "example": [
+            "id",
+            "en"
+          ],
+          "x-ion-regulatory": "ION Network Policy — language completeness validation"
+        },
+        "weightSlabs": {
+          "x-attr-ion-layer": "ion",
+          "type": "array",
+          "description": "Weight-based pricing tiers for catalogued logistics offers.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "minKg": {
+                "type": "number",
+                "minimum": 0
+              },
+              "maxKg": {
+                "type": "number"
+              },
+              "priceIDR": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "minKg",
+              "maxKg",
+              "priceIDR"
+            ]
+          },
+          "example": [
+            {
+              "minKg": 0,
+              "maxKg": 5,
+              "priceIDR": 15000
+            },
+            {
+              "minKg": 5,
+              "maxKg": 10,
+              "priceIDR": 25000
+            }
+          ]
+        },
+        "paymentMethodEligibility": {
+          "x-attr-ion-layer": "ion",
+          "type": "array",
+          "description": "Structured ION payment-method restrictions applied in addition to inherited acceptedPaymentMethod.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "method": {
+                "$ref": "https://schema.ion.id/release2/schema/common/Payment/v1/attributes.yaml#/components/schemas/IONPayment/properties/method"
+              },
+              "minAmount": {
+                "type": "number",
+                "minimum": 0,
+                "description": "Minimum order value in IDR for this method to be eligible."
+              },
+              "maxAmount": {
+                "type": "number",
+                "minimum": 0,
+                "description": "Maximum order value in IDR for this method to be eligible."
+              },
+              "requiresBuyerTier": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "NEW",
+                    "STANDARD",
+                    "VERIFIED",
+                    "PREMIUM",
+                    "VIP"
+                  ]
+                },
+                "description": "Buyer tiers eligible for this method."
+              },
+              "requiresAddressVerification": {
+                "type": "boolean",
+                "description": "Whether the buyer must have a verified delivery address.",
+                "default": false
+              },
+              "requiresPhoneVerification": {
+                "type": "boolean",
+                "description": "Whether the buyer must have a verified phone number.",
+                "default": false
+              },
+              "excludedCategories": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string"
+                },
+                "description": "Category codes excluded from this method."
+              },
+              "requiredBnplProvider": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string"
+                },
+                "description": "BNPL providers accepted when method is BNPL."
+              },
+              "eligibilityNote": {
+                "type": "string",
+                "description": "Optional human-readable explanation."
+              }
+            },
+            "required": [
+              "method"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

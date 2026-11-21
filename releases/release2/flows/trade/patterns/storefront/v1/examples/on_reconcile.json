@@ -1,0 +1,127 @@
+{
+  "_meta": {
+    "description": "Storefront on_reconcile \u2014 the BAP agrees with the BPP's figures. Both participants have agreed, so SEAM instructs the PJP to pay 96120 to the BPP and 2670 to the BAP.",
+    "pattern": "storefront",
+    "step": "on_reconcile",
+    "sent_by": "BAP",
+    "received_by": "BPP",
+    "schemaPacks": [
+      "schema/common/Settlement/v1"
+    ]
+  },
+  "context": {
+    "action": "on_reconcile",
+    "version": "2.0.0",
+    "bapId": "buyerapp.ion.id",
+    "bapUri": "https://buyerapp.ion.id/beckn",
+    "bppId": "sellerapp.ion.id",
+    "bppUri": "https://sellerapp.ion.id/beckn",
+    "senderId": "buyerapp.ion.id",
+    "receiverId": "sellerapp.ion.id",
+    "networkId": "ion.id",
+    "transactionId": "9fdb667c-76c6-456a-9742-ba9caa5eb765",
+    "messageId": "5e6f7a8b-9c0d-4e1f-8a2b-3c4d5e6f7a8b",
+    "timestamp": "2026-09-20T17:05:00.000+07:00",
+    "ttl": "PT30S"
+  },
+  "message": {
+    "settlementDate": "2026-09-20",
+    "reconciliationStatus": "AGREED",
+    "contracts": [
+      {
+        "id": "4f9c2b7e-1a3d-4e5f-8b6a-9c0d1e2f3a4b",
+        "commitments": [
+          {
+            "id": "L01",
+            "status": {
+              "descriptor": {
+                "code": "CLOSED"
+              }
+            },
+            "resources": [
+              {
+                "resource": {
+                  "id": "PIZZA-PEPPERONI-LARGE"
+                },
+                "quantity": {
+                  "unitQuantity": 1,
+                  "unitCode": "EA"
+                }
+              }
+            ],
+            "offer": {
+              "id": "OFFER-PIZZA-001",
+              "resourceIds": [
+                "PIZZA-PEPPERONI-LARGE"
+              ]
+            }
+          }
+        ],
+        "settlements": [
+          {
+            "id": "PAY-2026-00012345",
+            "considerationId": "CONSID-ORD-2026-00012345",
+            "settlementAttributes": {
+              "@context": "https://schema.ion.id/release2/schema/common/Settlement/v1/context.jsonld",
+              "@type": "ion:IONSettlementReconciliation",
+              "collectedBy": "BAP",
+              "currency": "IDR",
+              "orderDate": "2026-09-19",
+              "orderAmount": {
+                "value": 98790
+              },
+              "commission": {
+                "value": 2670
+              },
+              "withholdingAmount": {
+                "value": 0
+              },
+              "refundAmount": {
+                "value": 0
+              },
+              "netPayable": {
+                "value": 96120
+              },
+              "settlementAccounts": [
+                {
+                  "holderRole": "BAP",
+                  "bankCode": "MANDIRI",
+                  "accountNumber": "1370098765432",
+                  "accountName": "PT Buyer App Indonesia"
+                },
+                {
+                  "holderRole": "BPP",
+                  "bankCode": "BCA",
+                  "accountNumber": "8730012345",
+                  "accountName": "PT Seller App Indonesia"
+                }
+              ],
+              "accord": true,
+              "dueDate": "2026-09-20"
+            }
+          }
+        ]
+      }
+    ],
+    "settlementSummary": {
+      "bapId": "buyerapp.ion.id",
+      "bppId": "sellerapp.ion.id",
+      "currency": "IDR",
+      "settlementDate": "2026-09-20",
+      "contractCount": 1,
+      "settlementCount": 1,
+      "agreedCount": 1,
+      "disputedCount": 0,
+      "pendingCount": 0,
+      "totalOrderAmount": 98790,
+      "totalCommission": 2670,
+      "totalWithholding": 0,
+      "totalRefund": 0,
+      "totalNetPayable": 96120,
+      "totalAgreedCommission": 2670,
+      "totalUnreconciledCommission": 0,
+      "totalAgreedNetPayable": 96120,
+      "totalUnreconciledNetPayable": 0
+    }
+  }
+}

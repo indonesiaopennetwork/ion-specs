@@ -1,0 +1,57 @@
+# trade/provider/v1
+
+Trade-sector provider attributes covering operational availability, operating
+locations, hours, serviceability, invoicing, logistics, commerce channels, and
+verification.
+
+## Attaches to
+`beckn:Provider.providerAttributes`
+
+See `attributes.yaml` for complete field definitions.
+
+## Implementation guidance
+
+The following fields are implementation guidance rather than normative Release 2
+requirements:
+
+- `operationalStatus.status`
+- `businessRegistration.nib`
+
+This is not a normative Release 2 requirement. Per-step requirements must come
+from Trade flow material included in the release.
+
+## ION-specific refinements
+
+- `providerLocations[]` supplies stable identifiers for provider operating
+  locations while retaining the Beckn `Location` geo and address shape. These
+  identifiers are the reference targets for performance
+  `fulfillingLocationId` values and location-scoped provider rules.
+- `businessRegistration` composes `IONBusinessRegistration`; the actual `nib`
+  replaces the former registration boolean.
+- `trustMarks[]` contains signed or verifiable Beckn Documents instead of a
+  self-declared trusted-seller flag.
+- `verification.level` adds the ION verification tier to the generic
+  verification summary.
+- `categoryLicenses[]` records category scope, licence identifiers, validity,
+  issuer, and typed documentary evidence.
+
+## Per-step required fields
+
+The Release 2 [Storefront pattern](../../../../../flows/trade/patterns/storefront/v1/pattern.yaml)
+lists the required fields at each included API step.
+
+## Used in
+
+[Release 2 Trade flow](../../../../../flows/trade/README.md) — Storefront catalog
+publish step.
+
+## Common rejection reasons
+
+See the Release 2 [Trade error registry](../../../../../errors/README.md) for the
+error codes included in this release.
+
+## Changelog
+
+| Version | Date | Summary |
+|---|---|---|
+| v1 | 2026-06-02 | Initial release |

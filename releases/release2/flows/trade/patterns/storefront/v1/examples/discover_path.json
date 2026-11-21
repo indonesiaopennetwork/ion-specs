@@ -1,0 +1,32 @@
+{
+  "_meta": {
+    "description": "Storefront discover — BAP searches the ION catalog for Domino's Pizza providers at postal code 12190.",
+    "pattern": "storefront",
+    "step": "discover",
+    "sent_by": "BAP",
+    "received_by": "ION Discovery Service",
+    "becknAction": "DiscoverAction",
+    "schemaPacks": []
+  },
+  "context": {
+    "action": "discover",
+    "version": "2.0.0",
+    "bapId": "buyerapp.ion.id",
+    "bapUri": "https://buyerapp.ion.id/beckn",
+    "bppId": "discovery.ion.id",
+    "bppUri": "https://discovery.ion.id/beckn",
+    "networkId": "ion.id",
+    "transactionId": "9fdb667c-76c6-456a-9742-ba9caa5eb765",
+    "messageId": "a31ea9d8-e7dc-46ac-a032-b8aa5aefad5f",
+    "timestamp": "2026-09-19T09:56:00.000+07:00",
+    "ttl": "PT30S"
+  },
+  "message": {
+    "intent": {
+      "filters": {
+        "type": "jsonpath",
+        "expression": "$[?(search(@.provider.descriptor.name, \"Domino's Pizza\") && @.provider.providerAttributes.providerLocations[?(@.address.postalCode == \"12190\")])]"
+      }
+    }
+  }
+}

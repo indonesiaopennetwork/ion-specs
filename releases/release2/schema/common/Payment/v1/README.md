@@ -1,0 +1,78 @@
+# ion-core/payment/v1
+
+Indonesian payment method objects and PaymentDeclaration wrapper.
+
+## Attaches to
+`beckn:Settlement.settlementAttributes`
+
+## Payment types
+| Object | Description |
+|---|---|
+| QRIS | Quick Response Code Indonesian Standard (static or dynamic) |
+| VirtualAccount | Bank virtual account (BCA, BRI, Mandiri, BNI, etc.) |
+| EWallet | OVO, DANA, GoPay, LinkAja, ShopeePay, AstraPay, Sakuku |
+| CashOnDelivery | COD with collection amount and change instructions |
+| BankTransfer | Direct bank transfer |
+| SettlementAccount | A bank account that receives part of a settlement payout |
+| BISettlement | BI-FAST / RTGS / SKN interbank settlement |
+| BNPL | Buy Now Pay Later (Kredivo, Akulaku, etc.) |
+| CardPayment | Credit/debit card (Visa, Mastercard, JCB, UnionPay) |
+
+## PaymentDeclaration
+Wraps the specific payment instrument with transaction-level context:
+`method`, `collectedBy`, `timing`, `status`, `amount`, `paidAt`, `gatewayRef`, `methodDetail`
+
+## Settlement accounts
+
+In ION a prepaid buyer payment is held at the PJP, not in a network
+participant's account. After [reconciliation](../../../core/README.md#settlement-reconciliation),
+SEAM verifies the accounts and has each agreed settlement paid into them.
+`settlementAccounts[]` carries one `SettlementAccount` per receiving account:
+
+| `holderRole` | Receives | Declared in |
+|---|---|---|
+| `BAP` | Commission (`commission`) | `init` |
+| `BPP` | Order proceeds (`netPayable`), or the part it keeps when it splits them | `on_init`, which also echoes the BAP's account |
+| `SELLER`, `LOGISTICS`, `PROVIDER`, `OTHER` | Part of the BPP's `netPayable` | By the BPP, when it splits its share |
+
+Each entry carries `bankCode`, `accountNumber`, and `accountName`, with the
+same meanings as in `BankTransfer`, and optionally `holderId`. To split its
+share, the BPP gives each recipient's entry `allocationFor: BPP` and an
+`allocatedAmount`; a complete split adds up to `netPayable`. `holderId` and
+`allocationFor: BPP` are required for `SELLER`, `LOGISTICS`, `PROVIDER` and
+`OTHER`. The BAP agrees the BPP's total, not its split.
+
+In Release 2 Trade orders, the payment settlement's `settlementAttributes` is
+[`IONSettlementReconciliation`](../../Settlement/v1/README.md) from
+`init` on. It reuses this pack's definitions and JSON-LD IRIs for
+`settlementAccounts` and for the payment fields (`method`, `paymentRail`,
+`paymentGatewayProvider`, `methodDetail`, `collectedBy`, `timing`, `status`,
+`currency`, `paidAt`, `gatewayRef`), and states the amount as `orderAmount`.
+
+## Implementation guidance
+
+The following fields are implementation guidance rather than normative Release 2
+requirements:
+
+- `method`
+- `paymentRail`
+
+This is not a normative Release 2 requirement. Release 2 validation is defined by
+the standalone schema and included Trade flow material.
+
+## Used in
+
+[Release 2 Trade flow](../../../../flows/trade/README.md)
+
+## Common rejection reasons
+
+See the Release 2 [Trade error registry](../../../../errors/README.md) for the error
+codes included in this release.
+
+## Changelog
+
+| Version | Date | Summary |
+|---|---|---|
+| v1 | 2026-06-02 | Initial release |
+| v1 | 2026-10-12 | Added `settlementAccounts` (`SettlementAccount` per BAP/BPP) for PJP settlement payouts |
+| v1 | 2026-10-19 | `SettlementAccount`: `holderRole` adds `SELLER`, `LOGISTICS`, `PROVIDER` and `OTHER`; added `holderId`, `allocationFor` and `allocatedAmount` for the BPP's split |

@@ -1,0 +1,26 @@
+{
+  "id": "ion-trade-commitment-v1",
+  "version": "1.0.0",
+  "domain": "trade",
+  "name": "ION Trade Commitment Extension (v1)",
+  "description": "Trade-specific commitment prices, add-on selections, customizations, buyer instructions, and replacement preference.",
+  "packSchema": "./schema.json",
+  "jsonldContext": "./context.jsonld",
+  "attachmentPoints": {
+    "commitmentAttributes": [
+      "IONTradeCommitment"
+    ]
+  },
+  "extends": "beckn:Commitment",
+  "type": "AttributePack",
+  "indexing": {
+    "indexable": [],
+    "filterable": [
+      {
+        "path": "$.replacementPreferred"
+      }
+    ],
+    "sortable": []
+  },
+  "minimalForDiscovery": []
+}

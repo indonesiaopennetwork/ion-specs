@@ -1,0 +1,40 @@
+{
+  "@context": "https://schema.ion.id/release2/schema/extension/trade/TradeProvider/v1/context.jsonld",
+  "@type": "ion:IONTradeProvider",
+  "operationalStatus": {
+    "status": "OPEN"
+  },
+  "providerLocations": [
+    {
+      "id": "FC-PROVIDER-001",
+      "geo": {
+        "type": "Point",
+        "coordinates": [
+          106.8111,
+          -6.2604
+        ]
+      },
+      "address": {
+        "streetAddress": "Jl. Jend. Sudirman",
+        "addressLocality": "Jakarta Selatan",
+        "addressRegion": "DKI Jakarta",
+        "postalCode": "12190",
+        "addressCountry": "ID"
+      }
+    }
+  ],
+  "invoicing": {
+    "model": "CENTRAL",
+    "entityId": "PROVIDER-001"
+  },
+  "verification": {
+    "status": "APPROVED",
+    "level": "STANDARD"
+  },
+  "businessRegistration": {
+    "nib": "1234567890123"
+  },
+  "providerCategories": [
+    "FMCG"
+  ]
+}

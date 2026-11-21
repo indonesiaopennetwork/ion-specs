@@ -1,0 +1,29 @@
+{
+  "_meta": {
+    "description": "Storefront discover — BAP searches the ION catalog for a large pepperoni pizza.",
+    "pattern": "storefront",
+    "step": "discover",
+    "sent_by": "BAP",
+    "received_by": "ION Discovery Service",
+    "becknAction": "DiscoverAction",
+    "schemaPacks": []
+  },
+  "context": {
+    "action": "discover",
+    "version": "2.0.0",
+    "bapId": "buyerapp.ion.id",
+    "bapUri": "https://buyerapp.ion.id/beckn",
+    "bppId": "discovery.ion.id",
+    "bppUri": "https://discovery.ion.id/beckn",
+    "networkId": "ion.id",
+    "transactionId": "9fdb667c-76c6-456a-9742-ba9caa5eb765",
+    "messageId": "ee91bde7-35ff-4d30-bf39-3dbb221fa80e",
+    "timestamp": "2026-09-19T09:55:00.000+07:00",
+    "ttl": "PT30S"
+  },
+  "message": {
+    "intent": {
+      "textSearch": "pepperoni pizza large"
+    }
+  }
+}

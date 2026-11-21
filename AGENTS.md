@@ -39,9 +39,10 @@ similar files) as authoritative project state. They may be local and stale.
 ## Repository And Release Awareness
 
 - Release 1 is **published** in the `current` channel and its release directory is
-  immutable. The protected release tag is created after the publication commit
-  merges to `main`.
-- The release layout is `releases/release1/{schema,flows,errors}`. Within
+  immutable. The `release1` tag records its published commit.
+- Release 2 is the active **draft**. Normative schema, flow, and error work now
+  belongs under `releases/release2/`.
+- The release layout is `releases/releaseN/{schema,flows,errors}`. Within
   `schema/`, the content classes are `core/`, `common/`, `extension/`, and
   `vendored/`; do not flatten them back to the release root.
 - Release 1 contains nine Trade packs, four common packs required by Trade, seven
@@ -117,28 +118,28 @@ similar files) as authoritative project state. They may be local and stale.
 
 ## Validation And Testing
 
-- Run the complete Release 1 gate from the repository root with:
+- Run the complete active-draft gate from the repository root with:
 
   ```bash
-  ruby tools/release/validate_release.rb releases/release1
+  ruby tools/release/validate_release.rb releases/release2
   ```
 
   This is also the CI entry point and includes tool tests, manifest and scope
   checks, generated-registry freshness, artifact checksums, offline references,
   public-path mapping, and Trade connections.
-- The publication form is intentionally expected to fail while Release 1 is a
+- The publication form is intentionally expected to fail while Release 2 is a
   draft:
 
   ```bash
-  ruby tools/release/validate_release.rb --publication releases/release1
+  ruby tools/release/validate_release.rb --publication releases/release2
   ```
 
 - When policy sources change, regenerate the shared registry with
   `ruby tools/policies/generate_registry.rb --write`. When error source files
   change, regenerate their release-local views with
-  `ruby tools/release/generate_error_registry.rb --write releases/release1`,
+  `ruby tools/release/generate_error_registry.rb --write releases/release2`,
   review them, and then refresh release artifact checksums with
-  `ruby tools/release/record_artifact_checksums.rb --write releases/release1`.
+  `ruby tools/release/record_artifact_checksums.rb --write releases/release2`.
 - The external deep schema validator is maintained in the ION testbed. In this
   workspace it can be run with:
 

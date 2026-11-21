@@ -1,0 +1,557 @@
+# ION Trade Pattern — storefront (storefront)
+# NOT OAS. ION pattern specification document.
+# Defines the API sequence for the most common B2C commerce pattern.
+
+id: ion-trade-pattern-storefront-v1
+version: "1.0.0"
+patternName: storefront
+sector: ion:trade
+status: ready
+implementationRole: primary
+implementationMaturity: implementation-ready
+description: >
+  Consumer discovers, selects, and purchases a physical product.
+  Covers: Packaged Food (FMCG, grocery), Fashion, Electronics, Beauty, Home & Kitchen.
+  NOTE: Restaurant and cloud kitchen food ordering → Hospitality sector.
+  This pattern covers packaged food products sold from warehouse/store stock.
+
+participants:
+  BAP: Buyer App Platform
+  BPP: Buyer Price Provider (seller-facing)
+  ION_CATALOG: ION Catalogue Service (Phase 1 only)
+
+phases:
+  phase1:
+    name: Catalog
+    communication: async pub/sub
+    steps:
+      - step: publish_catalog
+        from: BPP
+        to: ION_CATALOG
+        direction: publish
+        requiredFields:
+          - context.domain
+          - context.bppId
+          - context.timestamp
+          - message.catalog.provider.id
+          - message.catalog.provider.descriptor.name
+          - message.catalog.provider.providerAttributes.operationalStatus.status
+          - message.catalog.provider.providerAttributes.operatingHours[]
+          - message.catalog.provider.providerAttributes.providerCategories[]
+          - message.catalog.provider.providerAttributes.businessRegistration.nib
+          - message.catalog.provider.providerAttributes.invoicing.model
+          - message.catalog.provider.availableAt[].gps
+          - message.catalog.resources[].id
+          - message.catalog.resources[].resourceAttributes.name.id
+          - message.catalog.resources[].resourceAttributes.shortDesc.id
+          - message.catalog.resources[].resourceAttributes.shortDesc.id
+          - message.catalog.resources[].resourceAttributes.availability.status
+          - message.catalog.resources[].descriptor.mediaFile[].uri
+          - message.catalog.resources[].resourceAttributes.identity.originCountry
+          - message.catalog.resources[].resourceAttributes.ageRestricted
+          - message.catalog.resources[].resourceAttributes.minAge
+          - message.catalog.offers[].id
+          - message.catalog.offers[].price
+          - message.catalog.offers[].offerAttributes.policies.cancellation.policyRef
+          - message.catalog.offers[].offerAttributes.policies.returns.allowed
+          - message.catalog.offers[].offerAttributes.policies.returns.policyRef
+          - message.catalog.offers[].offerAttributes.policies.warranty.policyRef
+          - message.catalog.offers[].offerAttributes.policies.dispute.policyRef
+          - message.catalog.offers[].offerAttributes.policies.settlement.settlementBasis
+          - message.catalog.offers[].offerAttributes.policies.settlement.settlementWindow
+          - message.catalog.offers[].offerAttributes.timeToShip
+          - message.catalog.offers[].offerAttributes.paymentConstraints.codAvailable
+          - message.catalog.offers[].offerAttributes.contactDetailsConsumerCare
+          - message.catalog.offers[].offerAttributes.displayLanguage[]
+        conditionalFields:
+          - field: message.catalog.offers[].considerations[].considerationAttributes.buyerFinderFee
+            condition: if the seller pays the buyer app a buyer finder fee on the offer (feeType, feeValue, appliesTo)
+          - field: message.catalog.provider.providerAttributes.averagePreparationTime
+            condition: required for food/grocery and quick-commerce providers (packaged food only)
+          - field: message.catalog.resources[].resourceAttributes.food
+            condition: required for packaged food and beverage items (FMCG/grocery — not restaurant meals)
+          - field: message.catalog.resources[].resourceAttributes.packagedGoodsDeclaration
+            condition: required for packaged goods
+          - field: message.catalog.resources[].resourceAttributes.customisationGroups[]
+            condition: required for COMPOSED and WITH_EXTRAS resource types
+          - field: message.catalog.resources[].resourceAttributes.regulatory
+            condition: required for regulated product categories
+        schemaPacks:
+          common: [BusinessRegistration/v1, Address/v1]
+          trade: [TradeProvider/v1, TradeResource/v1, TradeOffer/v1, TradeConsideration/v1]
+
+      - step: on_discover
+        from: ION_CATALOG
+        to: BAP
+        direction: push
+        description: Catalog pushed to BAP subscription. Incremental on updates.
+
+  phase2:
+    name: Transaction
+    communication: direct BAP-BPP
+    steps:
+      - step: select
+        from: BAP
+        to: BPP
+        direction: request
+        description: BAP sends selected items with quantities and performance preference.
+        requiredFields:
+          - context.transactionId
+          - context.messageId
+          - context.domain
+          - context.bapId
+          - context.bapUri
+          - context.bppId
+          - context.bppUri
+          - context.timestamp
+          - context.ttl
+          - context.location.city.code
+          - message.contract.commitments[].offer.provider.id
+          - message.contract.commitments[].id
+          - message.contract.commitments[].resources[].resource.id
+          - message.contract.commitments[].resources[].quantity.unitQuantity
+          - message.contract.commitments[].resources[].quantity.unitCode
+          - message.contract.commitments[].offer.id
+          - message.contract.performance[].performanceAttributes.performanceMode
+        conditionalFields:
+          - field: message.contract.commitments[].commitmentAttributes.selectedCustomizations
+            condition: required for COMPOSED and WITH_EXTRAS resources
+
+      - step: on_select
+        from: BPP
+        to: BAP
+        direction: callback
+        description: BPP validates availability, computes quote, returns supported modes and SLA.
+        requiredFields:
+          - message.contract.commitments[].offer.provider.id
+          - message.contract.commitments[].id
+          - message.contract.consideration[].considerationAttributes.breakup[]
+          - message.contract.consideration[].considerationAttributes.totalAmount
+          - message.contract.performance[].performanceAttributes.performanceMode
+          - message.contract.performance[].performanceAttributes.supportedPerformanceModes
+          - message.contract.performance[].performanceAttributes.sla
+        conditionalFields:
+          - field: message.contract.consideration[].considerationAttributes.breakup[].taxDetail.rate
+            condition: required on TAX breakup lines
+          - field: message.contract.consideration[].considerationAttributes.buyerFinderFee.feeAmount
+            condition: if the offers carry a buyer finder fee (the order's total over the offers ordered)
+          - field: message.contract.performance[].performanceAttributes.handling[]
+            condition: required for cold-chain or fragile items
+        schemaPacks:
+          trade: [TradeConsideration/v1, TradePerformance/v1]
+          common: [Tax/v1]
+
+      - step: init
+        from: BAP
+        to: BPP
+        direction: request
+        description: >-
+          BAP provides delivery address, payment method, and performance mode.
+          The payment settlement is the order's IONSettlementReconciliation,
+          with figures estimated on the quote (commission as the quote's
+          consideration buyerFinderFee.feeAmount).
+        requiredFields:
+          - message.contract.participants[participantAttributes.role=PROVIDER].id
+          - message.contract.commitments[].id
+          - message.contract.participants[participantAttributes.role=BUYER].participantAttributes.person.id
+          - message.contract.participants[participantAttributes.role=BUYER].participantAttributes.person.name
+          - message.contract.participants[participantAttributes.role=BUYER].participantAttributes.person.telephone
+          - message.contract.participants[participantAttributes.role=BUYER].participantAttributes.billingAddress
+          - message.contract.performance[].id
+          - message.contract.performance[].performanceAttributes.performanceMode
+          - message.contract.performance[].performanceAttributes.stops[].location.address
+          - message.contract.performance[].performanceAttributes.stops[].location.geo
+          - message.contract.performance[].performanceAttributes.stops[].location.address.postalCode
+          - message.contract.performance[].performanceAttributes.stops[].location.ionAddressAttributes.provinsiCode
+          - message.contract.settlements[].settlementAttributes.method
+          - message.contract.settlements[].settlementAttributes.paymentRail
+          - message.contract.settlements[].settlementAttributes.collectedBy
+          - message.contract.settlements[].settlementAttributes.status
+          - message.contract.settlements[].settlementAttributes.currency
+          - message.contract.settlements[].settlementAttributes.orderAmount
+          - message.contract.settlements[].settlementAttributes.commission
+          - message.contract.settlements[].settlementAttributes.netPayable
+        conditionalFields:
+          - field: message.contract.settlements[].settlementAttributes.settlementAccounts[holderRole=BAP]
+            condition: if the offers carry a commission (the PJP pays it into this account)
+          - field: message.contract.contractAttributes.invoicePreferences
+            condition: if buyer wants tax invoice
+          - field: message.contract.contractAttributes.deliveryPreferences
+            condition: if buyer has time preference
+          - field: message.contract.contractAttributes.gift
+            condition: if gifting is declared
+        schemaPacks:
+          common: [Address/v1, Settlement/v1]
+          trade: [TradeParticipant/v1, TradeContract/v1]
+
+      - step: on_init
+        from: BPP
+        to: BAP
+        direction: callback
+        description: >-
+          BPP returns payment instructions, the commission amount on the
+          final price consideration, and its account and the figures on the
+          payment settlement. Final quote confirmed.
+        requiredFields:
+          - message.contract.settlements[].settlementAttributes.methodDetail
+          - message.contract.consideration[].considerationAttributes.breakup[]
+          - message.contract.consideration[].considerationAttributes.totalAmount
+          - message.contract.settlements[].settlementAttributes.currency
+          - message.contract.settlements[].settlementAttributes.orderAmount
+          - message.contract.settlements[].settlementAttributes.commission
+          - message.contract.settlements[].settlementAttributes.netPayable
+          - message.contract.settlements[].settlementAttributes.settlementAccounts[holderRole=BPP]
+        conditionalFields:
+          - field: message.contract.consideration[].considerationAttributes.buyerFinderFee.feeAmount
+            condition: if the offers carry a buyer finder fee (computed by the BPP from the final price)
+          - field: message.contract.settlements[].settlementAttributes.settlementAccounts[holderRole=BAP]
+            condition: echoed if the BAP declared it in init
+          - field: message.contract.settlements[].settlementAttributes.methodDetail.qrisString
+            condition: for QRIS method
+          - field: message.contract.settlements[].settlementAttributes.methodDetail.vaNumber
+            condition: for VIRTUAL_ACCOUNT method
+          - field: message.contract.settlements[].settlementAttributes.methodDetail.deepLink
+            condition: for EWALLET method
+        schemaPacks:
+          common: [Settlement/v1]
+          trade: [TradeConsideration/v1]
+
+      - step: confirm
+        from: BAP
+        to: BPP
+        direction: request
+        description: BAP confirms order. Binding commit. Payment status declared.
+        requiredFields:
+          - message.contract.participants[role=PROVIDER].id
+          - message.contract.commitments[]
+          - message.contract.participants[role=BUYER]
+          - message.contract.performance[]
+          - message.contract.settlements[].settlementAttributes.status
+          - message.contract.settlements[].settlementAttributes.method
+          - message.contract.settlements[].settlementAttributes.paidAt
+          - message.contract.settlements[].settlementAttributes.orderAmount
+        conditionalFields:
+          - field: message.contract.contractAttributes.buyerBusinessRegistration
+            condition: >
+              only when the buyer is a business or asks for a tax invoice; a
+              consumer buyer sends no NPWP, NIB or NIK
+
+      - step: on_confirm
+        from: BPP
+        to: BAP
+        direction: callback
+        description: BPP creates order. Returns contract ID, performance ID.
+        requiredFields:
+          - message.contract.id
+          - message.contract.status
+          - message.contract.performance[].id
+          - message.contract.performance[].status.descriptor.code
+          - message.contract.settlements[].settlementAttributes.status
+          - message.contract.performance[].performanceAttributes.fulfillingLocationId
+        conditionalFields:
+          - field: message.contract.performance[].performanceAttributes.deliveryOtp
+            condition: if proofOfDeliveryType=OTP
+          - field: message.contract.performance[].performanceAttributes.selfPickupCode
+            condition: if performanceMode=SELF_PICKUP
+          - field: message.contract.contractAttributes.subscription.billingCycle
+            condition: for B2C-SUB commerce pattern
+        schemaPacks:
+          common: [Settlement/v1]
+          trade: [TradePerformance/v1, TradeContract/v1]
+
+  phase3:
+    name: Fulfilment
+    communication: >-
+      BAP polls optionally; the BPP may return the current state and subsequent
+      significant updates using the request messageId. Every on_status message
+      carries the full current Contract snapshot, not a sparse delta. Without a
+      poll, the BPP may push significant updates unsolicited.
+    stateMachine: schema/extension/trade/TradePerformanceStates/v1/states.yaml#standard
+    steps:
+      - step: status
+        from: BAP
+        to: BPP
+        direction: request
+        optional: true
+        description: BAP optionally polls for the current state of the confirmed contract.
+        requiredFields:
+          - message.contract.id
+
+      - step: on_status
+        trigger: PACKED
+        from: BPP
+        to: BAP
+        direction: callback
+        description: >-
+          BPP returns the first state update for the status request. The order
+          is packed and ready for logistics pickup.
+
+      - step: on_status
+        trigger: DISPATCHED
+        from: BPP
+        to: BAP
+        direction: callback
+        description: >-
+          BPP sends an additional update correlated to the status request.
+          The package is picked up by logistics; AWB number, tracking URL,
+          and ETA are added.
+        requiredFields:
+          - message.contract.performance[].status.descriptor.code
+          - message.contract.performance[].performanceAttributes.trackingNumber
+          - message.contract.performance[].performanceAttributes.trackingUrl
+          - message.contract.performance[].performanceAttributes.estimatedDeliveryTime
+        conditionalFields:
+          - field: message.contract.performance[].performanceAttributes.logisticsProviderId
+            condition: present when fulfilment is handled by on-network logistics provider
+
+      - step: on_status
+        trigger: OUT_FOR_DELIVERY
+        from: BPP
+        to: BAP
+        direction: callback
+        description: Additional update correlated to the status request.
+
+      - step: on_status
+        trigger: DELIVERED
+        from: BPP
+        to: BAP
+        direction: callback
+        description: >-
+          Final update correlated to the status request. Package delivered,
+          Contract COMPLETE, and the rating window opens.
+        requiredFields:
+          - message.contract.performance[].status.descriptor.code
+          - message.contract.status
+        conditionalFields:
+          - field: message.contract.performance[].performanceAttributes.deliveryProofUrl
+            condition: if proofOfDeliveryType=PHOTO
+
+  phase4:
+    name: Settlement reconciliation
+    communication: >-
+      Either participant sends reconcile once the settlement falls due
+      (the offers' policies.settlement: settlementBasis + settlementWindow,
+      the latest due date when the offers differ); the counterparty answers with
+      on_reconcile. The buyer payment is held at the PJP. Agreement is per
+      settlement: each settlement with accord true goes on to SEAM, which
+      verifies the funds and accounts before the PJP payout; the sender
+      resends only the disputed and pending settlements, in a new reconcile
+      with the same context.transactionId and a new context.messageId.
+    steps:
+      - step: reconcile
+        from: BPP
+        to: BAP
+        direction: request
+        description: >-
+          BPP sends its settlement figures for the delivered order. The BAP
+          may send reconcile instead; context.bapId and context.bppId stay
+          those of the order, and context.senderId identifies the sender.
+        requiredFields:
+          - message.settlementDate
+          - message.contracts[].id
+          - message.contracts[].commitments[]
+          - message.contracts[].settlements[].id
+          - message.contracts[].settlements[].settlementAttributes.orderAmount
+          - message.contracts[].settlements[].settlementAttributes.commission
+          - message.contracts[].settlements[].settlementAttributes.netPayable
+          - message.contracts[].settlements[].settlementAttributes.orderDate
+          - message.contracts[].settlements[].settlementAttributes.dueDate
+          - message.contracts[].settlements[].settlementAttributes.settlementAccounts[holderRole=BPP]
+          - message.settlementSummary
+        conditionalFields:
+          - field: message.contracts[].settlements[].settlementAttributes.settlementAccounts[holderRole=BAP]
+            condition: if commission is greater than zero
+          - field: message.contracts[].settlements[].settlementAttributes.settlementAccounts[allocationFor=BPP].allocatedAmount
+            condition: if the BPP splits netPayable among sellers or other recipients; the allocations add up to netPayable
+        schemaPacks:
+          common: [Settlement/v1]
+
+      - step: on_reconcile
+        from: BAP
+        to: BPP
+        direction: callback
+        description: >-
+          BAP agrees with the figures (accord true), with the same
+          context.transactionId and context.messageId. The settlement is
+          agreed, so SEAM verifies the funds and accounts and has the PJP pay
+          netPayable to the BPP and commission to the BAP. Payout status
+          arrives by PJP webhook.
+        requiredFields:
+          - message.settlementDate
+          - message.reconciliationStatus
+          - message.contracts[].settlements[].settlementAttributes.accord
+          - message.settlementSummary.agreedCount
+          - message.settlementSummary.disputedCount
+          - message.settlementSummary.pendingCount
+          - message.settlementSummary.totalAgreedCommission
+          - message.settlementSummary.totalUnreconciledCommission
+          - message.settlementSummary.totalAgreedNetPayable
+          - message.settlementSummary.totalUnreconciledNetPayable
+        conditionalFields:
+          - field: message.contracts[].settlements[].settlementAttributes.dueDate
+            condition: if accord is true
+          - field: message.contracts[].settlements[].settlementAttributes.dispute
+            condition: if accord is false (disputed, or pending for SETTLEMENT_WINDOW_NOT_REACHED or AWAITING_INFORMATION; the sender resends that settlement)
+          - field: message.contracts[].settlements[].settlementAttributes.*.diffValue
+            condition: if accord is false and the counterparty's value differs
+        schemaPacks:
+          common: [Settlement/v1]
+
+  phase5:
+    name: Grievance
+    communication: >-
+      Optional, after on_confirm. The participant whose user raised the
+      grievance opens it: the BAP with support for a buyer grievance, the BPP
+      with an unsolicited on_support for a seller grievance (an ION profile
+      rule pending Beckn approval). Every event carries an IONGrievance as
+      message.support.supportAttributes, the optional slot ION added to
+      Support in ion-beckn.yaml. Returns and
+      cancellations within the order's policy use update and cancel, not
+      support; a grievance about one that went wrong links it in
+      relatedReferences. Agreement on a resolution moves no money: the refund
+      runs through the settlement flow and is agreed in reconcile.
+    steps:
+      - step: support
+        trigger: OPENED
+        from: BAP
+        to: BPP
+        direction: request
+        description: The BAP opens a buyer grievance about the order.
+        requiredFields:
+          - message.support.orderId
+          - message.support.supportAttributes.grievanceId
+          - message.support.supportAttributes.eventType
+          - message.support.supportAttributes.caseStatus
+          - message.support.supportAttributes.occurredAt
+          - message.support.supportAttributes.openedAt
+          - message.support.supportAttributes.originatingNpId
+          - message.support.supportAttributes.raisedBy
+          - message.support.supportAttributes.raisedAgainst
+          - message.support.supportAttributes.category
+          - message.support.supportAttributes.description
+        conditionalFields:
+          - field: message.support.supportAttributes.relatedReferences[]
+            condition: if category is RETURN_REJECTED, RETURN_PICKUP_FAILED, RETURN_QC_DISPUTED or REFUND_NOT_RECEIVED (a CONTRACT, PERFORMANCE or SETTLEMENT entry)
+        schemaPacks:
+          common: [Grievance/v1]
+
+      - step: on_support
+        trigger: ACKNOWLEDGED
+        from: BPP
+        to: BAP
+        direction: callback
+        description: >-
+          The BPP acknowledges the grievance, repeating the context.messageId
+          of the support request it answers.
+        requiredFields:
+          - message.support.supportAttributes.grievanceId
+          - message.support.supportAttributes.eventType
+          - message.support.supportAttributes.caseStatus
+        schemaPacks:
+          common: [Grievance/v1]
+
+      - step: on_support
+        trigger: RESOLUTION_PROPOSED
+        from: BPP
+        to: BAP
+        direction: unsolicited
+        description: >-
+          The BPP proposes a resolution version with a new context.messageId.
+          A newer version of the same proposalId replaces it.
+        requiredFields:
+          - message.support.supportAttributes.resolution.proposalId
+          - message.support.supportAttributes.resolution.version
+          - message.support.supportAttributes.resolution.proposedByNpId
+          - message.support.supportAttributes.resolution.authorizationType
+          - message.support.supportAttributes.resolution.actions[].actionId
+          - message.support.supportAttributes.resolution.actions[].type
+          - message.support.supportAttributes.resolution.actions[].executionMethod
+        conditionalFields:
+          - field: message.support.supportAttributes.resolution.actions[].financialEffect
+            condition: if the action moves money (amount, currency, allocationBasis)
+          - field: message.support.supportAttributes.resolution.policyRef
+            condition: if authorizationType is POLICY_AUTHORIZED
+          - field: message.support.supportAttributes.resolution.verification
+            condition: if authorizationType is POLICY_AUTHORIZED
+          - field: message.support.supportAttributes.resolution.fundingNpId
+            condition: if authorizationType is UNILATERAL
+        schemaPacks:
+          common: [Grievance/v1]
+
+      - step: support
+        trigger: RESOLUTION_DECIDED
+        from: BAP
+        to: BPP
+        direction: request
+        description: >-
+          The BAP accepts or rejects the whole latest version. Needed only for
+          EXPLICIT_AGREEMENT; a POLICY_AUTHORIZED or UNILATERAL resolution goes
+          straight to execution.
+        requiredFields:
+          - message.support.supportAttributes.resolution
+          - message.support.supportAttributes.decision.proposalId
+          - message.support.supportAttributes.decision.version
+          - message.support.supportAttributes.decision.decidedByNpId
+          - message.support.supportAttributes.decision.result
+          - message.support.supportAttributes.decision.decidedAt
+        schemaPacks:
+          common: [Grievance/v1]
+
+      - step: on_support
+        trigger: ACTION_COMPLETED
+        from: BPP
+        to: BAP
+        direction: unsolicited
+        description: >-
+          The BPP reports the executed actions with the reference of the
+          refund, update or performance that carried each one out.
+        requiredFields:
+          - message.support.supportAttributes.resolution
+          - message.support.supportAttributes.execution.actionExecutions[].actionId
+          - message.support.supportAttributes.execution.actionExecutions[].completedAt
+          - message.support.supportAttributes.execution.actionExecutions[].executedByNpId
+        conditionalFields:
+          - field: message.support.supportAttributes.execution.actionExecutions[].executionReference
+            condition: if the action's executionMethod is not NONE
+        schemaPacks:
+          common: [Grievance/v1]
+
+      - step: on_support
+        trigger: RESOLVED
+        from: BPP
+        to: BAP
+        direction: unsolicited
+        description: >-
+          Every action that moves money or goods is executed. Without an
+          OBJECTION from the BAP within the grievance SLA policy's objection
+          period, both participants treat the grievance as closed; no message
+          is sent for deemed closure.
+        requiredFields:
+          - message.support.supportAttributes.caseStatus
+          - message.support.supportAttributes.resolution
+          - message.support.supportAttributes.execution
+        conditionalFields:
+          - field: message.support.supportAttributes.decision
+            condition: if authorizationType is EXPLICIT_AGREEMENT (result ACCEPTED)
+        schemaPacks:
+          common: [Grievance/v1]
+
+variantWindows:
+  during-transaction:
+    earliest: select
+    latest: on_confirm
+  cancellation:
+    earliest: on_confirm
+    latest: "on_status[DISPATCHED]"
+  returns:
+    earliest: "on_status[DELIVERED]"
+    latest: returnWindow_expiry
+  RTO:
+    earliest: "on_status[DISPATCHED]"
+    latest: "on_status[DELIVERED]"
+  updates:
+    earliest: on_confirm
+    latest: "on_status[DELIVERED]"
+  cross-cutting:
+    earliest: on_confirm
+    latest: contract_COMPLETE

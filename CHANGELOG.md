@@ -1,5 +1,11 @@
 # ION Network Specification — Changelog
 
+## Release 2 — Draft (21 November 2026)
+
+Release 2 was opened from the published Release 1 baseline. It is mutable,
+unchannelled, and uses the `https://schema.ion.id/release2/` namespace. No
+post-Release-1 normative changes are included yet.
+
 ## Release 1 — Published (21 November 2026)
 
 The first permanent integer release is published under `releases/release1/` and
