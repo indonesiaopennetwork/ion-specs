@@ -58,7 +58,7 @@ ION supplies and operates relevant shared network infrastructure (including the 
 | **PJP** | Licensed payment-service provider | Performs regulated payment activities under its arrangements |
 | **ION** | Network operator / shared-service provider | Specifications, Registry, onboarding, rules and relevant network services |
 
-**Names matter:** Some material says *BNP/SNP* and some says *BAP/BPP*. These are related, but not identical concepts: BNP/SNP describes ION network participation; BAP/BPP describes buyer/seller protocol roles. This handbook uses **BNP (BAP)** and **SNP (BPP)** together until the distinction is familiar.
+**Names matter:** Some material says *BNP/SNP* and some says *BAP/BPP*. These are related, but not identical concepts: BNP/SNP describes ION network participation; BAP/BPP describes buyer/seller protocol roles in Beckn. In version 2 of the Beckn protocol, these are also called as Consumer Node(CN) and Producer Node(PN). This handbook uses **BNP (BAP)** and **SNP (BPP)** together until the distinction is familiar.
 
 ### 1.2 One company can have more than one role
 
@@ -120,11 +120,11 @@ The ION Registry identifies permitted participants, roles, network endpoints and
 
 ### 2.4 Distributed catalogues
 
-In the described Trade model, Seller Apps prepare catalogue files and indexes, host them on the seller side and register their locations; Buyer Apps discover and ingest these catalogues or use applicable optional discovery tools. **This is not a central ION catalogue into which every seller uploads inventory.** Verify the current publication/index format and mechanisms in the selected Trade specifications.
+In the described Trade model, Seller Apps prepare catalogue files and indexes, host them on their side and register their locations; Buyer Apps discover and ingest these catalogues or use applicable optional discovery tools. **This is not a central ION catalogue into which every seller uploads inventory.** Verify the current publication/index format and mechanisms in the selected Trade specifications.
 
 ### 2.5 Identity, security and message tracking
 
-- **Private signing keys** remain with participants; public keys are registered and discovered as required.
+- **Private signing keys** remain with Network Participants; public keys are registered and discovered as required.
 - The Technical Overview describes **Ed25519** signed messages. Follow the selected transport/signing contract for exact headers, canonicalization, timestamps and verification rules.
 - A **transaction ID** links messages in the same business exchange; a **message ID** identifies an individual protocol message. Do not use one as a substitute for the other.
 - Internal systems must account for duplicate deliveries, retries, callback timing and network errors; the exact protocol retry and idempotency rules belong to the normative transport specification.
@@ -153,7 +153,7 @@ Example of the *concept* (not an ION normative rule): a request might be valid J
 
 **Further reading:** [ION policy directory](https://github.com/indonesiaopennetwork/ion-specs/tree/main/policies), [ION contributing rules](https://github.com/indonesiaopennetwork/ion-specs/blob/main/CONTRIBUTING.md), [OPA and Rego documentation](https://www.openpolicyagent.org/docs).
 
-### 2.7 ION Observability & Intelligence — and what you still need to monitor
+### 2.7 What you need to monitor
 
 **ION Observability & Intelligence** is ION's shared service for network-level events, operational diagnostics and reporting. It helps participants and ION operations investigate network interactions. It does **not** replace the participant's own application logs, order records, inventory/fulfilment traces, customer support tools or payment-provider records.
 
@@ -294,7 +294,7 @@ The rows above are **illustrative**, not a substitute for approved endpoint matr
 
 Use a simple purchase to understand the **whole** transaction and operational lifecycle: **one BNP, one SNP, one seller, one physical product**. This is a teaching scenario, not a promise that all optional or post-order extensions are implemented by every production participant.
 
-The complete happy path is **publish → discover → select → initiate → confirm → pay → fulfil → status/track → reconcile → settle → rate**. The developer must also understand **cancel/refund**, **order support** and **participant dispute** branches, even though those are not triggered in every purchase.
+The complete happy path is **publish → discover → select → init → pay → confirm → fulfil → status/track → reconcile → settle → rate**. The developer must also understand **cancel/refund**, **order support** and **participant dispute** branches, even though those are not triggered in every purchase.
 
 ### 5.1 The lifecycle map
 
@@ -304,15 +304,15 @@ The complete happy path is **publish → discover → select → initiate → co
 | **2. Discover** | Locate, ingest and display eligible offers, subject to coverage and curation | Keep registered catalogue accessible and accurate | Registry/catalogue discovery reference implementation |
 | **3. Select** | Initiate selection; wait for callback; reflect pricing/serviceability result | Check availability, pricing and fulfilment options; return callback | `/select`, `/on_select` and applicable Trade flow |
 | **4. Initiate** | Supply applicable buyer, fulfilment and payment-choice details; wait for callback | Return applicable order terms | `/init`, `/on_init` |
-| **5. Confirm** | Ask for order commitment; process callback | Create/commit order and return confirmation | `/confirm`, `/on_confirm` |
-| **6. Payment** | Coordinate permitted payment collection and status under current arrangements | Receive relevant commercial/payment status; fulfil only per agreed terms | Applicable payment attributes/policies; payment integration is not merely an ION protocol call |
+| **5. Payment** | Coordinate permitted payment collection and status under current arrangements | Ready to receive relevant payment status | Applicable payment attributes/policies; payment integration is not merely an ION protocol call |
+| **6. Confirm** | Ask for order commitment; pass on payment proof; process callback | Validate payment, Create/commit order and return confirmation | `/confirm`, `/on_confirm` |
 | **7. Fulfil/track** | Display status, alerts, tracking and completion | Arrange fulfilment and send appropriate status/tracking events | `/status`, `/track`, `/update` and their relevant callbacks |
 | **8. Cancel/refund branch** | Handle customer request and show outcome | Apply applicable cancellation/return/fulfilment policies and provide result | `/cancel` and other applicable update/support patterns; payment-provider refund steps |
 | **9. Support branch** | Receive buyer issue and exchange case information | Respond to relevant issue and resolution workflow | `/support`, `/on_support` and applicable policy |
 | **10. Reconcile** | Calculate and exchange settlement positions; agree with counterparty | Calculate and exchange its corresponding settlement positions; agree | `/reconcile`, `/on_reconcile` and reconciliation spec |
 | **11. Settlement** | Under the described current model, arrange applicable seller-side remittance; maintain evidence | Receive/record agreed settlement and handle accounting with sellers | Relevant participant/PJP arrangements; SEAM if applicable |
 | **12. Ratings** | Record/communicate applicable feedback | Process relevant rating information | `/rate`, `/on_rate`, applicable profile |
-| **13. Participant dispute branch** | Raise/handle qualifying participant-level matter | Raise/handle qualifying participant-level matter | ION SATU through ION Central (not the same as customer order support) |
+| **13. Network Participant dispute branch** | Raise/handle qualifying network participant-level matter | Raise/handle qualifying network participant-level matter | ION SATU through ION Central (not the same as customer order support) |
 
 ### 5.2 Important details across the lifecycle
 
@@ -576,7 +576,7 @@ Seller ION adaptor <----> Seller-side ONIX <----> Buyer-side ONIX / BNP
       |
 Catalogue generator / publisher and index updates
       |
-Seller-hosted files / registered catalogue location
+Seller App -hosted files / registered catalogue location
 ```
 
 **SNP workstreams:**
@@ -713,7 +713,7 @@ Keep an **approved test plan and results**, message traces with sensitive data m
 
 Monitor callback timeliness, message failures, order-state divergence, catalogue freshness, support case aging, financial reconciliation outcomes and successful/failed payouts under applicable arrangements. Plan regression tests for release changes and key rotation. Production readiness is a continuing responsibility, not a one-time checkbox.
 
-### 13.2 Troubleshooting with ION Observability and policy evidence
+### 13.2 Troubleshooting with Local logs, ION Observability and policy evidence
 
 When something fails, **do not assume the network is down**. Follow a repeatable evidence path:
 
@@ -847,9 +847,10 @@ Never say that opening or merging a PR alone deploys functionality.
 |---|---|
 | ACK / NACK | Immediate protocol acknowledgement or rejection; not the business result |
 | Adaptor | Participant-owned integration layer connecting ION messages to application systems |
-| BAP / BPP | Beckn buyer-side / provider-side platform roles |
+| BAP / BPP | Beckn Application Platform/Beckn Provider Platform. Beckn buyer-side / provider-side platform roles |
 | BNP / SNP | ION Buyer Network Participant / Seller Network Participant |
 | Callback (`on_*`) | A separate message carrying the result of a previously initiated protocol action |
+| CN / PN | Consumer Node/Provider Node. Beckn 2.0 names for BAP/BPP| 
 | CRC | Catalogue Resource Category |
 | ION Central | Participant/organization onboarding and network services portal |
 | ION Devlabs | Developer test and validation environment/services |
