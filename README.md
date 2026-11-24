@@ -5,6 +5,9 @@
 The ION Network Specification defines the technical contracts for participating
 in the network and is based on Beckn Protocol 2.0.0.
 
+## Notice
+The vendored beckn.yaml has now been replaced by a ion-beckn.yaml. This requires a config change and ONIX will fail without it. Please refer to this [note for details](./docs/notes/ion-beckn-yaml-vs-beckn-yaml.md).
+
 ## Releases
 
 | Lifecycle position | Release | Current state |
