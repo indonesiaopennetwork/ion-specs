@@ -1,18 +1,20 @@
 # ION Buyer App (BAP/BNP): Reference Architecture and Build Inventory
 
-Draft · Nov 25, 2026
+Draft · Nov 25, 2026 (revised)
 
 ## Scope and baseline
 
 This document defines what a buyer app on ION must contain: the customer app, an admin panel, a curation layer, a discovery crawler and the app's own discover service, plus the order, payment, support and reconciliation functions that sit behind them. It mirrors the seller app reference architecture and uses the same layers, so the two can be read side by side.
 
-**Role.** The buyer app is a Consumer Node (CN), formerly BAP or BNP. The wire fields `bapId` and `bapUri` stay as they are and read as the CN's identity and address. The buyer app owns the consumer relationship: it onboards consumers, creates or verifies their identity on the fabric, and starts every transaction on their behalf.
+**Role.** The buyer app is a Consumer Node (CN), formerly BAP or BNP. ONIX is the protocol runtime that signs, verifies and routes messages. The buyer's own adaptor is the buyer's own code. It builds the Beckn message payloads, talks to the local ONIX instance and handles the callbacks. It is not part of ONIX. The wire fields `bapId` and `bapUri` stay as they are and read as the CN's identity and address. The buyer app owns the consumer relationship: it onboards consumers, creates or verifies their identity on the fabric, and starts every transaction on their behalf.
 
 **Discovery is a separate actor.** The spec defines a Discovery Service (DS) with its own fabric identity and public key. A DS can be an independent SaaS that CNs consume, or the CN can implement it itself. Even when bundled in one platform, the CN and the DS use separate identities and keys. This document treats the buyer app's own discover service as a DS bundled with the CN.
 
 **How a DS stays current.** It must keep its catalogue index fresh in one of two ways: by subscribing to the Cataloging Service (deprecated, superseded by NFH-014), or by crawling and independently verifying catalogue files that provider nodes host. The crawler in this document implements the second way, which is the path for new integrations.
 
 **What the CN sends.** The CN sends `/discover` to a DS with an Intent. The Intent carries `textSearch`, a JSONPath filter per RFC 9535, optional spatial constraints and optional media search. The DS answers with `/on_discover` carrying matching catalogues, and the CN correlates the callback by `messageId`. The CN does not talk to the fabric for discovery.
+
+**Minimum buyer app.** A buyer app that only has to transact needs: identity and keys, an ONIX instance, the order flow from `/select` to `/on_confirm`, status and cancel, a consumed discovery service, a message log and payment collection for prepaid offers. The crawler, own index, ranking and curation console are for a buyer app that needs its own discovery. The build order in the last section follows this sequence. Rows in the component tables marked Spec are protocol requirements. Rows marked Design can be reused from existing systems or left out.
 
 **Baseline used here.**
 
@@ -85,7 +87,7 @@ These are the components a buyer app team builds or buys. Rows marked Spec are r
 | Order service | State per transaction; matches each `on_*` to its request by `transactionId` and `messageId` | Spec |
 | Payment service | Collects, refunds, records `collections` and `refund` objects | Spec |
 | Grievance service | Opens, escalates and closes cases as `IONGrievance` events | Spec |
-| Reconciliation service | Builds `/reconcile` batches per `settlementDate`, handles `/on_reconcile` | Spec |
+| Reconciliation service | Builds `/reconcile` batches per `settlementDate`, handles `/on_reconcile` and the `accord` on each settlement | Spec |
 | Notification service | Push, email and in-app messages from order events | Design |
 | Message log | Stores every outbound request and inbound callback with status and latency | Design (reference app does this) |
 
@@ -111,14 +113,14 @@ The buyer app sends requests and receives callbacks. Any `on_*` message can also
 | Send to PN | `/status`, `/track` | Asks for order state and live position |
 | Send to PN | `/update`, `/cancel` | Amends or cancels; cancel carries `reason`, `commitmentIds`, `forced` |
 | Send to PN | `/support`, `/rate` | Opens a support request; submits ratings |
-| Both | `/reconcile`, `/on_reconcile` | Batched per `settlementDate`; the response is AGREED, DISPUTED or PENDING |
+| Both | `/reconcile`, `/on_reconcile` | Either party sends `/reconcile` for a `settlementDate`; the other answers `/on_reconcile` with `accord` on each settlement |
 | Receive from PN | `/on_select`, `/on_init`, `/on_confirm`, `/on_status`, `/on_track`, `/on_update`, `/on_cancel`, `/on_support`, `/on_rate` | Updates the order record and the shopper |
 
 **Discovery is the one buyer-specific exchange.** The seller side never receives `/discover`. The buyer app owns the whole exchange: it builds the Intent, chooses a DS, and decides what to show.
 
 **Catalogue intake has two paths.**
 
-1. *Decentralised publishing (NFH-014, the current model).* Providers' nodes host signed catalogue files and an index. The crawler fetches, verifies and indexes them. The reference app's seller side publishes to a public bucket and serves `.well-known/dedi.index.json`, which points to a registry entry and then to the catalogue files.
+1. *Decentralised publishing (NFH-014, the current model).* Providers' nodes host signed catalogue files and an index, registered in the Registry. A seller app can produce these through the ONIX publish utility, by sending `/catalog/publish` through the ONIX plugin, or generate them itself. The crawler fetches, verifies and indexes them. The Handbook, section 2.4.1, gives the single publication journey. The reference app's seller side publishes to a public bucket and serves `.well-known/dedi.index.json`, which points to a registry entry and then to the catalogue files.
 2. *Cataloging Service subscription (deprecated).* The DS subscribes to the Cataloging Service and receives catalogues pushed to it. The endpoints stay defined for existing integrations. New buyer apps should not start here.
 
 **Signing.** Every outbound message carries an Ed25519 HTTP signature from the role's registered key. The CN and the DS each have their own namespace, address and key. Staff and shopper logins are a separate layer and do not authenticate network messages.
@@ -189,7 +191,7 @@ Hold one order record per `transactionId`. Store each request and callback in a 
 
 **Finder fee.** The offer carries `buyerFinderFee` with a `feeType` of PERCENT or AMOUNT, applied to ITEM\_TOTAL or ORDER\_TOTAL. The seller pays it to the buyer app out of the seller's payout. At reconciliation it appears as `commission.value`. The buyer app earns it after the settlement agrees, not at order time. On a cash-on-delivery order the seller app still funds it, even though the buyer app never holds the cash.
 
-**Reconciliation.** Either party sends `/reconcile` for a `settlementDate` with the contracts in that batch. The other answers `/on_reconcile` with AGREED, DISPUTED or PENDING. The sender then sends only the disputed and pending contracts again. Agreed settlements go on to SEAM.
+**Reconciliation.** Either party sends `/reconcile` for a `settlementDate`, with the contracts whose settlements fall due that day and its own figures. The other answers `/on_reconcile` and sets `accord` on each settlement. `accord: true` means both agree on the buyer app's `commission` and the seller's `netPayable`. `accord: false` carries the counterparty's figures, the difference per component and a dispute code. Agreement is per settlement. An agreed settlement stays agreed whatever happens to the others in the batch. `reconciliationStatus` only summarises the answer: AGREED when every settlement is agreed, DISPUTED when any is disputed, otherwise PENDING. The sender then sends only the disputed and pending settlements again, in a new `/reconcile` with the same `transactionId` and a new `messageId`. `accord: true` is not a payout instruction. Money movement follows the participant arrangements in force: the current arrangements, or the SEAM-enabled arrangements where they apply. A prepaid buyer payment is held at the PJP.
 
 The buyer app agrees totals, not the seller's internal split. Build these checks:
 
@@ -203,7 +205,7 @@ The buyer app agrees totals, not the seller's internal split. Build these checks
 
 **Gaps the team needs to settle.**
 
-- Cash-on-delivery finder fee: decided. The fee stays with the buyer app and the seller app funds it, including on a COD cash order. The spec does not say how the seller app pays it when the courier remits the cash, so the buyer app should invoice or settle it through \`/reconcile\`.
+- Cash-on-delivery finder fee: decided. The fee stays with the buyer app and the seller app funds it, including on a COD cash order. The spec does not say how the seller app pays it when the courier remits the cash, so the buyer app should invoice or settle it through `/reconcile`.
 - Whether a buyer app may show a result in the same transaction when a DS answers `/discover` synchronously, as the reference app does, or must wait for `/on_discover`.
 
 ## Data, screens and variants
@@ -220,7 +222,7 @@ The buyer app agrees totals, not the seller's internal split. Build these checks
 | `curation_rules` | Rule type, scope, effect, author, start and end dates, change history |
 | `payments` | Collections, refunds, method, rail, status |
 | `grievance_cases` | Case, event trail, deadlines, decider |
-| `settlements` | Batches per `settlementDate`, totals, status, dispute codes |
+| `settlements` | Batches per `settlementDate`, each settlement's `accord`, totals, status, dispute codes |
 | `staff_audit` | Who did what in the admin panel |
 
 Keep the original catalogue file for each indexed document. A dispute about what a shopper saw is settled from the file and the index timestamp.
@@ -285,12 +287,13 @@ The managed variant raises a question this document cannot answer from the spec:
 
 | Topic | What is unclear | Effect on the buyer app |
 | --- | --- | --- |
-| Decentralised publishing (NFH-014) | The `ion-beckn.yaml` description refers to it, but its full text was not read for this document | Crawler source resolution, file format and change signals are described only at the level the spec description gives |
+| Decentralised publishing (NFH-014) | Hosted signed files and an index are primary, and the ONIX publish utility can produce them. The full NFH-014 text was not read for this document. Certification is manual at ION for now (see Handbook 2.4.2) | Crawler source resolution, file format and change signals are described only at the level the spec description gives |
 | `/discover` response mode | The spec describes an asynchronous `/on_discover`. The reference app calls a discover endpoint directly and reads the response | Decide which mode your DS supports |
 | COD finder fee | The buyer app never holds COD cash, and the fee comes out of the seller's payout | Rule set by ION: the fee stays with the buyer app and the seller app funds it, even on COD. The payment mechanism for COD is not defined in the spec |
 | Several buyer identities on one platform | Not covered in the files read | Affects the managed partner-branded variant |
 | Ranking and crawl rules | The spec defines none | The sections above are recommendations |
 | Policy IRIs not in the registry | New terms go through the contribution process; `CONTRIBUTING.md` was not read | Buyer app must handle unknown IRIs |
+| Setup to first transaction | No verified path from ONIX and testnet setup to a first completed buyer-side order | A tested quickstart, to be supplied by ION |
 | Marketplace finder fee reconciliation | The marketplace-listed pattern leaves post-delivery finder fee reconciliation out of its transaction-time flow | Rely on the root reconcile pack, not on the pattern |
 
 **Sources read.**
