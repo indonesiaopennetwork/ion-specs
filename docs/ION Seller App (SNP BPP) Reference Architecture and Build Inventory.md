@@ -1,6 +1,6 @@
 # ION Seller App (SNP/BPP): Reference Architecture and Build Inventory
 
-Draft · Nov 24, 2026
+Draft · Nov 25, 2026
 
 ## Scope and baseline
 
@@ -24,76 +24,67 @@ The seller owns everything inside the green boundary. ONIX handles signing, veri
 
 ## Component inventory
 
-The seller app needs 33 components in five groups. Not every component is a protocol requirement. The table below sorts them into what the protocol requires, what depends on the seller's setup, and what is recommended. An existing system can supply, merge or replace any component, and a team that already runs a seller app integrates only what is missing.
-
-| Tier | What it covers | Examples |
-| --- | --- | --- |
-| Required to transact | What a counterparty will test: identity and keys, signing and verification, the order messages, catalogue publication, policy references on offers, order state | ONIX runtime, adaptor, `/select` to `/confirm` handlers, `/status`, catalogue service |
-| Required for the launch scope | Phase 2 functions this programme includes at launch | `/support`, `/rate`, reconcile handling |
-| Depends on the seller | Needed only if the seller offers the feature | Cash on delivery, tracking, marketplace functions, made-to-order states |
-| Recommended | Operations that a seller can run with existing tools | Back-office screens, analytics, notification tools |
-
-This tiering is this document's own classification. The spec does not define a minimum component list, so the final tier of each component is a decision for ION. \[Spec gap\]
+The seller app needs 33 components in five groups. Not every component is a protocol requirement, and the spec does not define a minimum component list. An existing system can supply, merge or replace any component, and a team that already runs a seller app integrates only what is missing. The Gap column shows where the sources leave something open.
 
 ### Network participation
 
 | ID | Component | What it must do | Gap |
 | --- | --- | --- | --- |
-| N1 | Participant identity record | Hold the ION Central profile: role SNP, sector, segment, profile code, business registration (NIB), verification status and expiry dates |  |
-| N2 | Key management | Generate and store the Ed25519 keypair, register the public key, rotate keys, build the keyId (`namespace/registry/record\|ed25519`) |  |
-| N3 | ONIX BPP | Sign outbound messages, verify inbound ones, validate schema, route to the adaptor. Needs its own Redis for routing cache in the reference deployment |  |
-| N4 | ONIX catalogue route | Sign and send `/catalog/publish` to the Cataloging Service through ONIX; accept `/catalog/on_publish` |  |
-| N5 | Policy registry client | Resolve `ion://policy/...` IRIs against the shared policy registry; refuse unknown or deprecated IRIs at publish (ION-A2010, ION-A2011) |  |
+| N1 | Participant identity record | Hold the ION Central profile: role SNP, sector, segment, profile code, business registration (NIB), verification status and expiry dates  |  |
+| N2 | Key management | Generate and store the Ed25519 keypair, register the public key, rotate keys, build the keyId (`namespace/registry/record\|ed25519`)  |  |
+| N3 | ONIX BPP | Sign outbound messages, verify inbound ones, validate schema, route to the adaptor. Needs its own Redis for routing cache in the reference deployment  |  |
+| N4 | ONIX catalogue publish route | Send `/catalog/publish` through the ONIX publish plugin, which produces the signed catalogue files and index in the required format; or host the files yourself  |  |
+| N5 | Policy registry client | Resolve `ion://policy/...` IRIs against the shared policy registry; refuse unknown or deprecated IRIs at publish (ION-A2010, ION-A2011)  |  |
 
 ### Catalogue
 
 | ID | Component | What it must do | Gap |
 | --- | --- | --- | --- |
-| C1 | Catalogue management | Hold providers, catalogues, resources and offers; drive attribute forms from the Catalogue Resource Category (CRC); require at least one image per resource (ION-A2001) |  |
-| C2 | Provider profile publisher | Publish TradeProvider attributes: operating hours, closure dates, provider category, licences, verification status, average preparation time |  |
-| C3 | Catalogue validator | Check every resource and offer against the Release 1 packs and error registry before publish |  |
-| C4 | Catalogue publisher | Build catalogues per provider, send `/catalog/publish`, republish on price, stock or hours change, track freshness |  |
-| C5 | Cataloging Service client | Receive `/catalog/on_publish` results per catalogue (accepted, rejected, partial) and act on rejections; query `/catalog/search` where useful |  |
+| C1 | Catalogue management | Hold providers, catalogues, resources and offers; drive attribute forms from the Catalogue Resource Category (CRC); require at least one image per resource (ION-A2001)  |  |
+| C2 | Provider profile publisher | Publish TradeProvider attributes: operating hours, closure dates, provider category, licences, verification status, average preparation time  |  |
+| C3 | Catalogue validator | Check every resource and offer against the Release 1 packs and error registry before publish  |  |
+| C4 | Catalogue publisher | Build catalogues per provider, send `/catalog/publish`, republish on price, stock or hours change, track freshness  |  |
+| C5 | Publish check | Check the plugin's HTTP response and that the index and files are reachable at the registered URL. The plugin sends no `/catalog/on_publish` | Yes |
 
-Catalogue publication has two paths, and the sources do not agree on which is current. `ion-beckn.yaml` marks `/catalog/publish` and the other `/catalog/*` endpoints deprecated in favour of decentralised publishing, in which the seller hosts signed catalogue files and an index that a Discovery Service crawls. The ION decision recorded for this document is that `/catalog/publish` is the starting point and is not deprecated. A seller app should build the catalogue service so that the same catalogue can leave through either path: a `/catalog/publish` call, and a signed file with an index entry. Buyer apps that run their own crawler read the second. The gap table records the question for ION to close. \[Spec gap\]
+Catalogue publication follows the single journey in the Handbook, section 2.4.1. The primary model is signed catalogue files and an index, hosted at a registered seller-side location. ONIX includes a publish utility, so `/catalog/publish` sent through the ONIX publish plugin is a valid way to produce them. Buyer apps that run their own crawler read the hosted files. The Cataloging Service route that `ion-beckn.yaml` marks deprecated is not the starting point for a new integration. Open items are in the gap table. \[Spec gap\]
 
 ### Protocol runtime (the adaptor)
 
 | ID | Component | What it must do | Gap |
 | --- | --- | --- | --- |
-| A1 | Inbound gateway | Expose the action endpoints, authenticate through ONIX, return a signed ACK or a NACK with an error code |  |
-| A2 | Action handlers | One handler per inbound action (Protocol surface); each maps to business services and decides the callback |  |
-| A3 | Callback dispatcher and outbox | Persist the `on_*` message, send it through ONIX, record the ACK, retry failed deliveries at your discretion |  |
-| A4 | Contract state manager | Hold the order and performance state; reject illegal transitions; push `on_status` on every state change |  |
-| A5 | Message and transaction log | Store every request, callback, ACK/NACK, latency and error against `transaction_id` and `message_id` |  |
-| A6 | Duplicate guard | Detect repeated requests and callbacks so they cause no second order, reservation or refund |  |
-| A7 | Timeout and delay monitor | Detect expired messages, callbacks not sent, ACKs not received and orders stuck between states |  |
-| A8 | Error mapper | Translate transport, schema and trade errors into NACKs or `error` callbacks | Yes |
+| A1 | Inbound gateway | Expose the action endpoints, authenticate through ONIX, return a signed ACK or a NACK with an error code  |  |
+| A2 | Action handlers | One handler per inbound action (Protocol surface); each maps to business services and decides the callback  |  |
+| A3 | Callback dispatcher and outbox | Persist the `on_*` message, send it through ONIX, record the ACK, retry failed deliveries at your discretion  |  |
+| A4 | Contract state manager | Hold the order and performance state; reject illegal transitions; push `on_status` on every state change  |  |
+| A5 | Message and transaction log | Store every request, callback, ACK/NACK, latency and error against `transaction_id` and `message_id`  |  |
+| A6 | Duplicate guard | Detect repeated requests and callbacks so they cause no second order, reservation or refund  |  |
+| A7 | Timeout and delay monitor | Detect expired messages, callbacks not sent, ACKs not received and orders stuck between states  |  |
+| A8 | Error mapper | Translate transport, schema and trade errors into NACKs or `error` callbacks  | Yes |
 
 ### Business services
 
 | ID | Component | What it must do | Gap |
 | --- | --- | --- | --- |
-| B1 | Pricing and quote engine | Price items, delivery and tax; enforce customisation groups (ION-A3001, A3002), variant matrix (A3007), voucher stacking (A3006), stock caps (A3003) and offer validity (A3004) |  |
-| B2 | Inventory and reservation | Check availability on select, reserve on init or confirm, release on cancel or expiry |  |
-| B3 | Order management | Create the order on confirm, accept or reject, prepare, keep internal and ION state aligned |  |
-| B4 | Fulfilment and delivery | Assign rider or logistics partner, send ETA and vehicle details, issue and verify delivery OTP, capture proof of delivery |  |
-| B5 | Payment handling | Record the payment mode and status per offer terms. On a prepaid offer, a `/confirm` means the buyer app has confirmed payment |  |
-| B6 | Cancellation, return and refund | Apply the offer's cancellation and return policy; support preview, full, partial and seller-initiated cancellation; trigger refunds |  |
-| B7 | Support case management | Receive `IONGrievance` events, run SLA timers, record resolution and remedy |  |
-| B8 | Reconciliation and settlement ledger | Compute settlement figures for each contract falling due; answer `/reconcile`; start the exchange with the seller's figures when the seller is the initiating party; record agreement, differences and dispute codes; resend disputed items; track payout after agreement |  |
-| B9 | Rating handler | Receive and store ratings, return `on_rate` |  |
-| B10 | Tax and invoice records | Hold tax breakdown per order; produce tax invoices where the profile requires them |  |
+| B1 | Pricing and quote engine | Price items, delivery and tax; enforce customisation groups (ION-A3001, A3002), variant matrix (A3007), voucher stacking (A3006), stock caps (A3003) and offer validity (A3004)  |  |
+| B2 | Inventory and reservation | Check availability on select, reserve on init or confirm, release on cancel or expiry  |  |
+| B3 | Order management | Create the order on confirm, accept or reject, prepare, keep internal and ION state aligned  |  |
+| B4 | Fulfilment and delivery | Assign rider or logistics partner, send ETA and vehicle details, issue and verify delivery OTP, capture proof of delivery  |  |
+| B5 | Payment handling | Record the payment mode and status per offer terms. On a prepaid offer, a `/confirm` means the buyer app has confirmed payment  |  |
+| B6 | Cancellation, return and refund | Apply the offer's cancellation and return policy; support preview, full, partial and seller-initiated cancellation; trigger refunds  |  |
+| B7 | Support case management | Receive `IONGrievance` events, run SLA timers, record resolution and remedy  |  |
+| B8 | Reconciliation and settlement ledger | Compute settlement figures for each contract falling due; answer `/reconcile`; start the exchange with the seller's figures when the seller is the initiating party; record agreement, differences and dispute codes; resend disputed items; track payout after agreement  |  |
+| B9 | Rating handler | Receive and store ratings, return `on_rate`  |  |
+| B10 | Tax and invoice records | Hold tax breakdown per order; produce tax invoices where the profile requires them  |  |
 
 ### Operations
 
 | ID | Component | What it must do | Gap |
 | --- | --- | --- | --- |
-| O1 | Seller admin application | Web UI with OIDC login, user-to-provider mapping and roles (section 8) |  |
-| O2 | Observability | Structured logs and traces keyed by `transaction_id` and `message_id`; dashboards; alerting |  |
-| O3 | Conformance test harness | Repeatable happy-path and negative-path tests for Devlabs and counterparty testing |  |
-| O4 | Configuration management | Per-environment `bppUri`, ONIX config, Registry, catalogue and discover URLs, key references |  |
-| O5 | Notification service | Alert staff on failed callbacks, SLA breaches, stock issues and expiring licences |  |
+| O1 | Seller admin application | Web UI with OIDC login, user-to-provider mapping and roles (section 8)  |  |
+| O2 | Observability | Structured logs and traces keyed by `transaction_id` and `message_id`; dashboards; alerting  |  |
+| O3 | Conformance test harness | Repeatable happy-path and negative-path tests for Devlabs and counterparty testing  |  |
+| O4 | Configuration management | Per-environment `bppUri`, ONIX config, Registry, catalogue and discover URLs, key references  |  |
+| O5 | Notification service | Alert staff on failed callbacks, SLA breaches, stock issues and expiring licences  |  |
 
 ## Protocol surface
 
@@ -101,8 +92,8 @@ The seller exposes the action endpoints below at its `bppUri` and sends the matc
 
 | Action | Seller receives | Seller sends back | Handler must |
 | --- | --- | --- | --- |
-| `/catalog/publish` | No: the seller sends it first, to the Cataloging Service | Receives `/catalog/on_publish` | Submit catalogues per provider; read the per-catalogue result; fix rejections. Buyer apps can find the seller only after a catalogue is accepted |
-| `/catalog/search` | No: seller sends it (optional) | Receives the result | Query indexed catalogues |
+| `/catalog/publish` | No: the seller sends it first, through the ONIX publish plugin | No `/catalog/on_publish`: the result is the plugin's HTTP response and the files at the index URL | Publish catalogues per provider in the required format; check the response and the index URL; fix errors. Buyer apps can find the seller only after the catalogue and index are published and registered |
+| `/catalog/search` | No: seller sends it (optional, legacy Cataloging Service) | Receives the result | Query indexed catalogues |
 | `/select` | Yes | `on_select` | Check availability, price and serviceability; return the quote (items, delivery, total) |
 | `/init` | Yes | `on_init` | Validate buyer and delivery details; return order terms and accepted payment options |
 | `/confirm` | Yes | `on_confirm` | Create the contract, set performance to accepted, return SLA; issue a delivery OTP where the item requires it |
@@ -204,7 +195,7 @@ The seller moves each order through the stages below and tells the buyer app at 
 
 | Stage | Seller does | Message | Internal change |
 | --- | --- | --- | --- |
-| Publish | Send each provider's catalogue to the Cataloging Service and read the result | `/catalog/publish`, receives `/catalog/on_publish` | Catalogue live or rejected; orders can follow |
+| Publish | Publish each provider's catalogue as hosted signed files and an index, for example through the ONIX publish plugin, and read the result | `/catalog/publish` through the plugin | Catalogue live or rejected; orders can follow |
 | Quote | Check stock and serviceability, price the selection | `on_select` | None; nothing reserved yet |
 | Terms | Validate address and payment choice, fix terms | `on_init` | Reservation per seller policy |
 | Commit | Accept the order, set the SLA, create the OTP if required | `on_confirm` | Contract active, performance accepted |
@@ -221,7 +212,7 @@ Reconciliation, step by step. It runs between the two participants of an order, 
 2. The other participant answers `/on_reconcile` and sets `accord` on each settlement. `accord: true` means both agree on the buyer app's `commission` and the seller's `netPayable`. `accord: false` carries its own figures, the difference per component and a dispute code.
 3. Agreement is per settlement. An agreed settlement stays agreed whatever happens to the others in the batch. `reconciliationStatus` only summarises the answer: AGREED when every settlement is agreed, DISPUTED when any is disputed, otherwise PENDING.
 4. The sender sends only the disputed and pending settlements again, in a new `/reconcile` with the same `transactionId` and a new `messageId`.
-5. `accord: true` is not a payout instruction. SEAM verifies funds, accounts and double payment, then pays `netPayable` to the seller and `commission` to the buyer app. Payout status reaches the participants by the payment provider's webhook, which the spec leaves out of scope.
+5. `accord: true` is not a payout instruction. Money movement follows the participant arrangements in force: the current arrangements, or the SEAM-enabled arrangements where they apply. Where SEAM is used, it verifies the funds, the accounts in `settlementAccounts` and that nothing is paid twice before an agreed settlement is paid: `netPayable` to the seller and `commission` to the buyer app. A prepaid buyer payment is held at the PJP, and payout status reaches the participants through the PJP's webhook, which the spec leaves out of scope.
 
 Source: `ion-additional.yaml`. A seller app can start the exchange or answer it, so build both directions.
 
@@ -331,7 +322,7 @@ If the seller app is a marketplace, it stays one network participant with one se
 | Model | Who is the merchant | Release 1 coverage |
 | --- | --- | --- |
 | Marketplace as merchant (first-party or consignment) | The marketplace holds stock, invoices centrally and fulfils from its own centres | `marketplace-inhouse`, reference-level. The marketplace is one provider |
-| Marketplace hosting independent sellers | Each seller is its own provider under the marketplace's seller app and keeps its own fulfilment | No pattern **\[Spec gap\]**. Storefront with one provider ID per seller is the working assumption |
+| Marketplace hosting independent sellers | Each seller is its own provider under the marketplace's seller app and keeps its own fulfilment | No pattern **\[Spec gap\]**. Storefront with one provider per seller or per brand, as the context requires |
 
 `marketplace-listed` is the opposite case: there the marketplace is the buyer app routing to independent seller apps. It is not covered here.
 
@@ -341,7 +332,7 @@ The in-house pattern fixes some values. The provider carries an invoicing model 
 
 | Area | Single seller | Marketplace |
 | --- | --- | --- |
-| Identity | One organisation, one provider | One participant; one provider per hosted seller, with its own NIB, licences, verification and operational status |
+| Identity | One organisation, one provider | One participant; one provider per hosted seller or per brand, as the context requires, each with its own NIB, licences, verification and operational status |
 | Catalogue | One catalogue | One catalogue per provider, built and published separately, republished when a seller's status or stock changes |
 | Order routing | Only one provider | The provider ID in `select`, `init` and `confirm` decides whose stock, price and rules apply. Release 1 patterns name one provider per contract, so expect a multi-seller cart to arrive as separate transactions |
 | Configuration | One set of settings | A cascade from marketplace down to offer (next section) |
@@ -355,7 +346,7 @@ The in-house pattern fixes some values. The provider carries an invoicing model 
 
 ### Seller and brand configuration
 
-Every setting resolves from the most specific level that defines it: offer, then resource, then brand, then seller, then category (CRC), then marketplace default. Decision for this build: one provider per brand. A brand is a provider entry under the marketplace's BPP, so brand-level values publish as provider attributes. A seller with several brands has several providers; a brand sold by more than one seller can also be modelled as several providers under one brand, which the design allows but the first build does not need. The other levels are the marketplace's own data, resolved before publishing, and only provider, resource and offer attributes travel on the wire. Record which level supplied each value.
+Every setting resolves from the most specific level that defines it: offer, then resource, then brand, then seller, then category (CRC), then marketplace default. Provider granularity depends on the context: one provider per seller, or one provider per brand. Both are valid. A provider entry carries its own NIB, licences, verification, policies, tax and fulfilment, so choose the level at which those belong to one entity, and record the choice. If the provider is per brand, decide whose NIB, policies, tax and fulfilment obligations the provider carries when two independent sellers sell the same brand. If the provider is per seller, brand is an attribute of the resource. A brand is then a provider entry under the marketplace's BPP only when the provider is per brand, and brand-level values publish as provider attributes in that case. The other levels are the marketplace's own data, resolved before publishing, and only provider, resource and offer attributes travel on the wire. Record which level supplied each value.
 
 | Setting | Marketplace | Category | Seller | Brand | Resource or offer |
 | --- | --- | --- | --- | --- | --- |
@@ -377,7 +368,7 @@ A lower level may only choose values the level above allows, such as a policy IR
 Release 1 has no pattern for one seller app hosting independent sellers. Read the Storefront pattern with these changes:
 
 1. Keep every Storefront action, callback and performance state as is.
-2. Give each brand its own provider entry, with a stable provider ID that is never reused. A seller with several brands has several providers. Brand-level details sit in the same provider fields.
+2. Give each provider its own entry, with a stable provider ID that is never reused. A provider is a seller or a brand, as chosen above. Where the provider is per brand, a seller with several brands has several providers, and brand-level details sit in the same provider fields.
 3. Publish one catalogue per provider.
 4. On `/select`, `/init` and `/confirm`, read the provider ID in the participants list. Load that seller's resolved settings, stock and fulfilment location.
 5. Build the quote from that seller's values. Show any marketplace fee as its own line in the breakup.
@@ -531,7 +522,7 @@ Nine items in the published sources need a decision or a correction in the specs
 | --- | --- | --- | --- |
 | 1 | Callback time | `ttl` is defined in the context. No expected time to send a callback per action | Target times per action, if wanted |
 | 2 | Error code systems | Transport guide uses ION-1001 to ION-1005. The contract's error enum uses CTX\_, AUT\_, SCH\_, NET\_ and BIZ\_ names | One list, or a mapping between them |
-| 3 | Catalogue publication model | `ion-beckn.yaml` marks `/catalog/publish` and every `/catalog/*` endpoint deprecated, in favour of decentralised publishing. This document treats `/catalog/publish` as the starting point and not deprecated. The reference app publishes signed files with an index | Remove the deprecation, or state which path is current; align the reference app |
+| 3 | Catalogue publication model | Decided: hosted signed files and an index are primary, and `/catalog/publish` through the ONIX publish plugin is a valid way to produce them. `ion-beckn.yaml` still marks `/catalog/publish` and every `/catalog/*` endpoint deprecated | Update the deprecation note in `ion-beckn.yaml` to match; document index generation and registration; provide a test that a buyer app can discover the catalogue |
 | 4 | Transport guide vs contracts | Guide lists the `/raise` family and `/catalog/publish` as seller-exposed endpoints, and omits `/status` | Remove `/raise`; show `/catalog/publish` as a seller call; add `/status` |
 | 5 | Trade error codes | 10 codes exist (A2xxx, A3xxx, A8xxx); A4xxx, A5xxx, A6xxx are reserved but empty; A3005 is skipped | Codes for fulfilment, cancel, refund and settlement failures |
 | 6 | Callback verification sample | Sample code looks for `request-signature` in the `Authorization` header, where it is not | Corrected sample and test vector |
