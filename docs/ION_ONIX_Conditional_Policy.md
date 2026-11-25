@@ -1,5 +1,12 @@
 # ION Conditional Requirements — ONIX Policy Layer
 
+> **Status: Superseded as an implementation design for Release 2.** This
+> document predates the current ONIX OPA Policy Checker contract. Its candidate
+> rules remain review inputs, but its repository layout, input shape, query,
+> loading, and error-format assumptions must not be implemented directly. See
+> [`internal/rego/README.md`](internal/rego/README.md) and the linked Release 2
+> Rego architecture, authoring, tooling, and implementation-plan records.
+
 ## How conditional requirements work in ION
 
 The Beckn Schema Design Guide (NFH-012, CON-012-18) states:
