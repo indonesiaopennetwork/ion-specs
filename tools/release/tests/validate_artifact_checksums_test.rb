@@ -69,6 +69,36 @@ class ValidateArtifactChecksumsTest < Minitest::Test
     end
   end
 
+  def test_version_1_uses_original_artifact_roots
+    with_release(schema_version: 1) do |_root, manifest|
+      assert_equal %w[schema flows errors], IonArtifactChecksums.artifact_roots(manifest)
+    end
+  end
+
+  def test_version_2_adds_rules_to_published_inventory
+    with_release(status: "published", schema_version: 2) do |root, manifest|
+      relative = "rules/rego/ion/release2/policy.rego"
+      FileUtils.mkdir_p(File.dirname(File.join(root, relative)))
+      File.write(File.join(root, relative), "package ion.release2\n")
+
+      errors = IonArtifactChecksums.validate(root, manifest)
+
+      assert_includes errors, "release artifact is not checksummed: rules/rego/ion/release2/policy.rego"
+    end
+  end
+
+  def test_recorded_version_2_rule_passes_after_publication
+    with_release(status: "published", schema_version: 2) do |root, manifest|
+      relative = "rules/rego/ion/release2/policy.rego"
+      body = "package ion.release2\n"
+      FileUtils.mkdir_p(File.dirname(File.join(root, relative)))
+      File.write(File.join(root, relative), body)
+      manifest["artifactChecksums"][relative] = Digest::SHA256.hexdigest(body)
+
+      assert_empty IonArtifactChecksums.validate(root, manifest)
+    end
+  end
+
   def test_os_metadata_is_not_a_release_artifact
     with_release do |root, manifest|
       File.write(File.join(root, "schema/.DS_Store"), "finder metadata")
@@ -100,13 +130,14 @@ class ValidateArtifactChecksumsTest < Minitest::Test
 
   private
 
-  def with_release(status: "draft")
+  def with_release(status: "draft", schema_version: 1)
     Dir.mktmpdir do |root|
       FileUtils.mkdir_p(File.join(root, "schema/vendored"))
       relative = "schema/vendored/dependency.yaml"
       File.write(File.join(root, relative), "content")
       checksum = Digest::SHA256.hexdigest("content")
       manifest = {
+        "schemaVersion" => schema_version,
         "status" => status,
         "artifactChecksums" => { relative => checksum },
         "maintainedArtifacts" => [],

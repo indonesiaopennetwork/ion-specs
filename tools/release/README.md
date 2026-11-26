@@ -9,6 +9,8 @@ permanent integer releases. It is not copied into individual release bundles.
   contract, including vendored dependencies and ION-maintained artifacts that
   preserve upstream provenance plus explicit transformations, and separates
   validation status from implementation maturity and primary-profile guidance.
+  Manifest schema v1 retains the published Release 1 contract; v2 adds the
+  release-owned `rules` content area used by Release 2 and later releases.
 - `channels.schema.json` and `validate_channels.rb` define and validate the
   repository channel state, require channelled releases to be published, prevent
   a release from occupying multiple channels, and verify the `next`
@@ -81,10 +83,12 @@ permanent integer releases. It is not copied into individual release bundles.
   while a release is a draft, refreshes maintained-artifact released checksums,
   and records the complete normative artifact inventory once it is published.
 - `validate_release_scope.rb` ensures validated content is present and excluded
-  content is absent from a release directory.
+  content is absent from a release directory, including the versioned `rules/`
+  area for manifest schema v2.
 - `validate_artifact_checksums.rb` verifies every vendored draft artifact, and
-  every artifact in a published release, against the manifest. Draft manifests
-  reject checksum entries for ION-authored files.
+  every artifact in a published release, against the manifest. Published v1
+  roots are `schema/`, `flows/`, and `errors/`; v2 also inventories `rules/`.
+  Draft manifests reject checksum entries for ION-authored files.
 - `validate_release_immutability.rb` rejects changes to any release whose
   manifest is already `published`.
 - `validate_release.rb` is the complete local and CI entry point.

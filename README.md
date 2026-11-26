@@ -84,10 +84,12 @@ for evaluation and interoperability testing, not Release 1 production adoption.
 
 Release 1 excludes Hospitality and Finance. Logistics is
 `validated`: its included schemas, flows, state machines, policy connections,
-errors, and examples have passed the Phase 8 closure gate. The repository
-does not maintain separate editable `schema/`, `flows/`, or `errors/` trees at
-its root. Policies are the exception: their canonical sources and generated
-registry live in root `policies/` and evolve independently of integer releases.
+errors, and examples have passed the Phase 8 closure gate. The repository does
+not maintain separate editable `schema/`, `flows/`, `errors/`, or executable
+`rules/` trees at its root. Shared policy terms are the exception: their
+canonical sources and generated registry live in root `policies/` and evolve
+independently of integer releases. Executable rules tied to a wire contract
+belong in that release's `rules/` area.
 
 ## Repository structure
 
@@ -113,6 +115,7 @@ releases/
     schema/                    Release 2 API, packs, and vendored dependencies
     flows/                     Release 2 Trade and Logistics flows
     errors/                    Release 2 error sources and registry
+    rules/                     Release 2 executable business rules (planned)
 
 docs/                          Architecture and contributor documentation
 tools/release/                 Release construction and validation tools

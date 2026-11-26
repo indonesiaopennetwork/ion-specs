@@ -46,44 +46,63 @@ class CreateReleaseTest < Minitest::Test
     end
   end
 
+  def test_version_2_rules_are_preserved_in_next_draft
+    with_published_release(release_number: 2, schema_version: 2, with_rules: true) do |_root, source, target|
+      IonReleaseCreate.create(source, target, write: true)
+
+      manifest = YAML.safe_load(File.read(File.join(target, "release.yaml")))
+      assert_equal 2, manifest["schemaVersion"]
+      assert_equal 3, manifest["release"]
+      assert_equal "release3", manifest["name"]
+      assert_equal "validated", manifest.dig("contentStatus", "rules")
+      assert_includes File.read(File.join(target, "rules", "policy.rego")), "package ion.release3"
+    end
+  end
+
   private
 
-  def with_published_release
+  def with_published_release(release_number: 1, schema_version: 1, with_rules: false)
     Dir.mktmpdir do |root|
-      source = File.join(root, "release1")
-      target = File.join(root, "release2")
+      source = File.join(root, "release#{release_number}")
+      target = File.join(root, "release#{release_number + 1}")
       FileUtils.mkdir_p(File.join(source, "schema"))
+      if with_rules
+        FileUtils.mkdir_p(File.join(source, "rules"))
+        File.write(File.join(source, "rules", "policy.rego"), "package ion.release#{release_number}\n")
+      end
       File.write(
         File.join(source, "release.yaml"),
         {
-          "release" => 1,
-          "name" => "release1",
+          "schemaVersion" => schema_version,
+          "release" => release_number,
+          "name" => "release#{release_number}",
           "status" => "published",
           "publishedAt" => "2026-11-21T00:00:00Z",
-          "publicBaseUrl" => "https://schema.ion.id/release1/",
+          "publicBaseUrl" => "https://schema.ion.id/release#{release_number}/",
           "toolingCommit" => "a" * 40,
           "artifactChecksums" => { "schema/thing.yaml" => "b" * 64 },
+          "contentStatus" => schema_version == 2 ? { "rules" => "validated" } : {},
           "implementationGuidance" => {
             "areas" => {
               "logistics" => {
-                "notes" => ["Implementers should expect refinements in Release 2."]
+                "notes" => ["Implementers should expect refinements in Release #{release_number + 1}."]
               }
             }
           },
           "notes" => [
-            "Release 1 uses https://schema.ion.id/release1/schema/thing.yaml.",
-            "Release URLs became permanent when Release 1 was published."
+            "Release #{release_number} uses https://schema.ion.id/release#{release_number}/schema/thing.yaml.",
+            "Release URLs became permanent when Release #{release_number} was published."
           ]
         }.to_yaml
       )
-      File.write(File.join(source, "schema", "thing.yaml"), "$ref: https://schema.ion.id/release1/schema/thing.yaml\n")
+      File.write(File.join(source, "schema", "thing.yaml"), "$ref: https://schema.ion.id/release#{release_number}/schema/thing.yaml\n")
       File.write(
         File.join(source, "README.md"),
-        "> **Status: PUBLISHED — `current` channel.**\n\nRelease 1 was published on 21 November 2026 as the inaugural `current` release.\nEvery file in this directory is now immutable.\n\nRun the publication gate to verify the immutable release and its channel\nassignment:\n"
+        "> **Status: PUBLISHED — `current` channel.**\n\nRelease #{release_number} was published on 21 November 2026 as the inaugural `current` release.\nEvery file in this directory is now immutable.\n\nRun the publication gate to verify the immutable release and its channel\nassignment:\n"
       )
       File.write(
         File.join(source, "NOTICES.md"),
-        "**Status:** Published Release 1\n\nThis notice records the dependency provenance of the published Release 1 bundle.\n"
+        "**Status:** Published Release #{release_number}\n\nThis notice records the dependency provenance of the published Release #{release_number} bundle.\n"
       )
       yield root, source, target
     end

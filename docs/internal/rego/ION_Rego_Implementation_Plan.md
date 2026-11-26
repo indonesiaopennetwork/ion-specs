@@ -73,7 +73,7 @@ docs(rego): record Release 2 policy architecture and plan
 
 ## Phase 1 — Amend the release architecture and manifest contract
 
-**Status:** Not started
+**Status:** Complete — 2026-11-26
 
 ### Goal
 
@@ -112,6 +112,18 @@ ruby tools/release/validate_release.rb releases/release2
 
 Both pass in their appropriate lifecycle states. The Release 2 publication form
 continues to fail only for expected draft/publication reasons.
+
+### Completion evidence
+
+- Release 1 remains on manifest schema v1 and its manifest is unchanged.
+- Release 2 uses manifest schema v2 with `rules: review-required` and no runtime
+  rules directory yet.
+- Manifest, scope, checksum-root, release-creation, and immutability tests cover
+  both manifest versions.
+- The complete Release 1 and Release 2 gates pass with 122 tool tests and 403
+  assertions.
+- The Release 2 publication form fails only because the draft is unpublished
+  and unassigned to a channel, as expected.
 
 ### Suggested commit
 

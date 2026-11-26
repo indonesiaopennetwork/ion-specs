@@ -4,8 +4,8 @@
 
 Release 2 is the mutable successor to the published Release 1 baseline. It
 defines the ION API additions, common attribute packs, Trade and Logistics
-extensions, reference flows, errors, and pinned Beckn dependencies included in
-this release.
+extensions, reference flows, errors, the planned executable-rules area, and
+pinned Beckn dependencies included in this release.
 
 Release 2 is the active mutable draft. It is not assigned to a release channel,
 and its public URLs are unsupported until publication.
@@ -106,6 +106,19 @@ release. Flow and error documents refer to stable `ion://policy/...` IRIs in the
 shared registry published at
 [`https://schema.ion.id/policies/registry.json`](https://schema.ion.id/policies/registry.json).
 
+### Executable rules
+
+Release 2 manifest schema v2 reserves `rules/` for ION-authored Rego business
+rules that depend on this release's message, schema, and flow contracts. The
+area is currently `review-required`; its runtime sources and generated artifacts
+will be added only after the authoring and validation instrumentation is in
+place.
+
+Executable rules are release-owned artifacts and are distinct from the shared
+policy terms in root `policies/`. Until the rules area is implemented and its
+status becomes `validated`, Release 2 makes no claim that ONIX is enforcing an
+ION Rego bundle.
+
 ### Vendored dependencies
 
 [`schema/vendored/beckn/`](schema/vendored/beckn/) contains the complete pinned
@@ -136,7 +149,8 @@ upstream baseline:
 
 The authoritative scope and validation state are defined by
 [`release.yaml`](release.yaml). Trade, Logistics, their common dependencies,
-flows, and errors are validated. Hospitality and Finance are excluded. The
+flows, and errors are validated. Executable rules are under review. Hospitality
+and Finance are excluded. The
 standalone core API contracts, `ion-beckn.yaml` and `ion-additional.yaml`, have completed review and
 are validated for Release 2.
 
@@ -180,6 +194,7 @@ release2/
     trade/                  Trade reference patterns and variants
     logistics/              Logistics patterns, variants, and state machines
   errors/                   Sector error sources and generated registry
+  rules/                    Executable business rules and bundles (planned)
 ```
 
 ## Validation

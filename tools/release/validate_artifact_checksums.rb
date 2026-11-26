@@ -6,13 +6,20 @@ require "pathname"
 require "yaml"
 
 module IonArtifactChecksums
-  ARTIFACT_ROOTS = %w[schema flows errors].freeze
+  ARTIFACT_ROOTS_BY_SCHEMA_VERSION = {
+    1 => %w[schema flows errors].freeze,
+    2 => %w[schema flows errors rules].freeze
+  }.freeze
   IGNORED_ARTIFACT_BASENAMES = %w[.DS_Store].freeze
 
   module_function
 
-  def artifact_files(root)
-    ARTIFACT_ROOTS.flat_map do |directory|
+  def artifact_roots(manifest)
+    ARTIFACT_ROOTS_BY_SCHEMA_VERSION.fetch(manifest.fetch("schemaVersion", 1), [])
+  end
+
+  def artifact_files(root, manifest)
+    artifact_roots(manifest).flat_map do |directory|
       base = root.join(directory)
       next [] unless base.directory?
 
@@ -25,7 +32,7 @@ module IonArtifactChecksums
   end
 
   def checksummed_artifact_files(root, manifest)
-    files = artifact_files(root)
+    files = artifact_files(root, manifest)
     return files if manifest["status"] == "published"
 
     files.select { |path| path.start_with?("schema/vendored/") }
@@ -48,11 +55,12 @@ module IonArtifactChecksums
       errors << "artifact checksum mismatch: #{relative_path}" unless actual == expected
     end
 
-    release_files = artifact_files(root)
+    release_files = artifact_files(root, manifest)
     expected_checksums = checksummed_artifact_files(root, manifest)
     missing_checksums = expected_checksums - checksums.keys
     missing_checksums.each { |path| errors << "release artifact is not checksummed: #{path}" }
-    recorded_release_files = checksums.keys.select { |path| ARTIFACT_ROOTS.include?(path.split("/", 2).first) }
+    roots = artifact_roots(manifest)
+    recorded_release_files = checksums.keys.select { |path| roots.include?(path.split("/", 2).first) }
     (recorded_release_files - release_files).each do |path|
       errors << "checksum records missing release artifact: #{path}"
     end

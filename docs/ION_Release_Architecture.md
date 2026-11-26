@@ -8,6 +8,8 @@
 
 **Policy registry placement amended:** 2026-10-12
 
+**Executable rules area amended:** 2026-11-26
+
 **Decision owners:** ION Council
 
 **Related policy:** `docs/ION_Release_Channel_Policy.md`
@@ -50,10 +52,12 @@ It may reference the independently governed shared policy registry. Once a
 release is published, its files MUST NOT be modified or removed. A correction or
 clarification to a published release MUST be issued in a new release directory.
 
-Each release keeps its three principal specification areas at the release root:
-`schema/`, `flows/`, and `errors/`. Schema-owned content is not
-flattened beside those areas: `core/`, `common/`, `extension/`, and `vendored/`
-all live below the release's `schema/` directory.
+Manifest schema v1 releases keep three principal specification areas at the
+release root: `schema/`, `flows/`, and `errors/`. Manifest schema v2 adds a
+fourth area, `rules/`, for executable business rules tied to that release's
+wire contract. Schema-owned content is not flattened beside those areas:
+`core/`, `common/`, `extension/`, and `vendored/` all live below the release's
+`schema/` directory.
 
 Integer release numbers identify complete ION bundles. They do not replace the
 versions of components contained within a bundle. For example, `release1` may
@@ -72,6 +76,8 @@ release:
 - schemas and vendored schema dependencies;
 - error definitions and generated error registries;
 - transaction flows and their release-specific examples;
+- executable business rules, runtime data, generated registries, tests,
+  bundles, and publication metadata when the manifest uses schema v2;
 - implementation-facing documentation that describes the release's wire format,
   validation behavior, signing requirements, sectors, or integration process.
 
@@ -104,7 +110,7 @@ tools/
   <release-aware repository tooling>
 
 releases/
-  release1/
+  releaseN/
     release.yaml
     README.md
     NOTICES.md
@@ -139,6 +145,7 @@ releases/
 
     flows/
     errors/
+    rules/                  # Manifest schema v2 and later
     docs/
 ```
 
@@ -162,7 +169,7 @@ Every area MUST be `validated` or `excluded` before publication, and artifacts f
 an excluded area MUST NOT appear in the release directory. Standalone validated
 schema packs remain valid release content independently of the `ionApi` status.
 
-### Normative registries and flows
+### Normative registries, flows, and executable rules
 
 Error codes and transaction-flow requirements affect release behavior and
 compatibility. The `errors/` and `flows/` directories therefore belong inside
@@ -175,9 +182,20 @@ published at `https://schema.ion.id/policies/registry.json`. Releases reference
 stable `ion://policy/...` semantic IRIs and MAY link to root policy documents,
 but MUST NOT copy policy sources or registries into a release directory.
 
-There MUST NOT be a second editable copy of release-owned flows or errors at the
-repository root. Work on the next release happens in its draft release directory.
-Published release copies remain unchanged.
+There MUST NOT be a second editable copy of release-owned flows, errors, or
+executable rules at the repository root. Work on the next release happens in its
+draft release directory. Published release copies remain unchanged.
+
+Executable rules that evaluate a release's messages have the same integer-release
+lifecycle as schemas, flows, and errors. They live under that release's `rules/`
+directory and become immutable with the published release. Production bundles
+and their network-policy manifests are release artifacts, not mutable deployment
+aliases.
+
+Executable rules are distinct from shared policy terms in root `policies/`. A
+Rego rule MAY implement or reference a stable shared policy IRI, but the Rego
+source and bundle MUST NOT be placed in root `policies/` merely because they
+enforce policy behavior.
 
 ### Documentation classification
 
@@ -364,12 +382,12 @@ schema that composes with the vendored dependency.
 Every release contains a machine-readable `release.yaml`. At minimum it declares:
 
 ```yaml
-schemaVersion: 1
-release: 1
-name: release1
+schemaVersion: 2
+release: 2
+name: release2
 status: draft
 publishedAt: null
-publicBaseUrl: https://schema.ion.id/release1/
+publicBaseUrl: https://schema.ion.id/release2/
 sourceBranch: main
 contentStatus:
   ionApi: review-required
@@ -380,6 +398,7 @@ contentStatus:
   finance: review-required
   flows: review-required
   errors: review-required
+  rules: review-required
 dependencyStatus: incomplete
 dependencies: []
 maintainedArtifacts: []
@@ -401,6 +420,11 @@ implementationGuidance:
 artifactChecksums: {}
 ```
 
+Manifest schema v1 is retained for Release 1 and recognizes `schema/`, `flows/`,
+and `errors/`. Manifest schema v2 adds the required `contentStatus.rules` area
+and the `rules/` publication inventory. Validators dispatch by manifest schema
+version; adding v2 support does not alter a published v1 release.
+
 `contentStatus` and `implementationGuidance` answer different questions.
 `validated` means an included area passes the release's structural, reference,
 registry, and connection gates. Implementation maturity records the available
@@ -415,7 +439,9 @@ While a release is a draft, `artifactChecksums` covers only files below
 version control and validation. When a draft is published into a channel,
 `status` is changed to `published`, `publishedAt` is populated,
 the dependency inventory is complete, and checksums are recorded for every
-normative artifact below `schema/`, `flows/`, and `errors/`. The final manifest contract is defined in
+normative artifact below the roots defined by its manifest schema version. For
+v1 these are `schema/`, `flows/`, and `errors/`; v2 also includes `rules/`. The
+final manifest contract is defined in
 `tools/release/release-manifest.schema.json` and enforced by the release tooling.
 
 ## Lifecycle and immutability

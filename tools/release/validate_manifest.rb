@@ -6,7 +6,11 @@ require "time"
 require "yaml"
 
 module IonReleaseManifest
-  CONTENT_AREAS = %w[ionApi common trade logistics hospitality finance flows errors].freeze
+  BASE_CONTENT_AREAS = %w[ionApi common trade logistics hospitality finance flows errors].freeze
+  CONTENT_AREAS_BY_SCHEMA_VERSION = {
+    1 => BASE_CONTENT_AREAS,
+    2 => (BASE_CONTENT_AREAS + %w[rules]).freeze
+  }.freeze
   CONTENT_STATES = %w[review-required validation-pending validated excluded].freeze
   RELEASE_STATUSES = %w[draft published].freeze
   DEPENDENCY_STATUSES = %w[incomplete complete].freeze
@@ -41,7 +45,10 @@ module IonReleaseManifest
 
     release = data["release"]
     expected_name = release.is_a?(Integer) && release.positive? ? "release#{release}" : nil
-    errors << "schemaVersion must be 1" unless data["schemaVersion"] == 1
+    schema_version = data["schemaVersion"]
+    unless CONTENT_AREAS_BY_SCHEMA_VERSION.key?(schema_version)
+      errors << "schemaVersion must be 1 or 2"
+    end
     errors << "release must be a positive integer" unless expected_name
     errors << "name must equal #{expected_name}" if expected_name && data["name"] != expected_name
 
@@ -54,7 +61,8 @@ module IonReleaseManifest
       errors << "publicBaseUrl must equal #{expected_url}" unless data["publicBaseUrl"] == expected_url
     end
 
-    validate_content_status(data["contentStatus"], status, errors)
+    content_areas = CONTENT_AREAS_BY_SCHEMA_VERSION.fetch(schema_version, [])
+    validate_content_status(data["contentStatus"], status, content_areas, errors)
     dependency_status = data["dependencyStatus"]
     unless DEPENDENCY_STATUSES.include?(dependency_status)
       errors << "dependencyStatus must be incomplete or complete"
@@ -78,7 +86,7 @@ module IonReleaseManifest
       errors << "maintainedArtifacts must be an array"
     end
 
-    validate_implementation_guidance(data["implementationGuidance"], errors)
+    validate_implementation_guidance(data["implementationGuidance"], content_areas, errors)
 
     checksums = data["artifactChecksums"]
     if checksums.is_a?(Hash)
@@ -110,14 +118,14 @@ module IonReleaseManifest
     errors
   end
 
-  def validate_content_status(content, release_status, errors)
+  def validate_content_status(content, release_status, content_areas, errors)
     unless content.is_a?(Hash)
       errors << "contentStatus must be an object"
       return
     end
 
-    missing = CONTENT_AREAS.reject { |area| content.key?(area) }
-    extra = content.keys - CONTENT_AREAS
+    missing = content_areas.reject { |area| content.key?(area) }
+    extra = content.keys - content_areas
     errors << "contentStatus missing: #{missing.join(', ')}" unless missing.empty?
     errors << "contentStatus has unknown areas: #{extra.join(', ')}" unless extra.empty?
 
@@ -179,7 +187,7 @@ module IonReleaseManifest
     end
   end
 
-  def validate_implementation_guidance(guidance, errors)
+  def validate_implementation_guidance(guidance, content_areas, errors)
     unless guidance.is_a?(Hash)
       errors << "implementationGuidance must be an object"
       return
@@ -206,7 +214,7 @@ module IonReleaseManifest
       return
     end
     areas.each do |area, value|
-      errors << "implementationGuidance.areas has unknown area: #{area}" unless CONTENT_AREAS.include?(area)
+      errors << "implementationGuidance.areas has unknown area: #{area}" unless content_areas.include?(area)
       unless value.is_a?(Hash)
         errors << "implementationGuidance.areas.#{area} must be an object"
         next

@@ -14,6 +14,37 @@ class ValidateManifestTest < Minitest::Test
     assert_empty IonReleaseManifest.validate(@manifest)
   end
 
+  def test_valid_version_2_draft_requires_rules_status
+    @manifest["schemaVersion"] = 2
+    @manifest["contentStatus"]["rules"] = "review-required"
+
+    assert_empty IonReleaseManifest.validate(@manifest)
+  end
+
+  def test_version_1_rejects_rules_status
+    @manifest["contentStatus"]["rules"] = "review-required"
+
+    errors = IonReleaseManifest.validate(@manifest)
+
+    assert_includes errors, "contentStatus has unknown areas: rules"
+  end
+
+  def test_version_2_requires_rules_status
+    @manifest["schemaVersion"] = 2
+
+    errors = IonReleaseManifest.validate(@manifest)
+
+    assert_includes errors, "contentStatus missing: rules"
+  end
+
+  def test_rejects_unsupported_manifest_schema_version
+    @manifest["schemaVersion"] = 3
+
+    errors = IonReleaseManifest.validate(@manifest)
+
+    assert_includes errors, "schemaVersion must be 1 or 2"
+  end
+
   def test_draft_is_rejected_by_publication_gate
     errors = IonReleaseManifest.validate_for_publication(@manifest)
 
@@ -65,6 +96,31 @@ class ValidateManifestTest < Minitest::Test
     assert_includes errors, "published dependencies must not be empty"
     assert_includes errors, "published artifactChecksums must not be empty"
     assert_includes errors, "published toolingCommit must be a 40-character commit"
+  end
+
+  def test_published_version_2_release_rejects_pending_rules
+    @manifest["schemaVersion"] = 2
+    @manifest["contentStatus"]["rules"] = "review-required"
+    @manifest["status"] = "published"
+    @manifest["publishedAt"] = "2026-08-21T00:00:00Z"
+
+    errors = IonReleaseManifest.validate(@manifest)
+
+    assert_includes errors, "published rules must be validated or excluded"
+  end
+
+  def test_versioned_implementation_guidance_areas
+    @manifest["implementationGuidance"]["areas"]["rules"] = {
+      "maturity" => "preview",
+      "notes" => ["Rules are under implementation review."]
+    }
+
+    assert_includes IonReleaseManifest.validate(@manifest), "implementationGuidance.areas has unknown area: rules"
+
+    @manifest["schemaVersion"] = 2
+    @manifest["contentStatus"]["rules"] = "review-required"
+
+    refute_includes IonReleaseManifest.validate(@manifest), "implementationGuidance.areas has unknown area: rules"
   end
 
   def test_published_release_may_explicitly_exclude_ion_api
