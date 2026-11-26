@@ -14,6 +14,9 @@ Release 2, the current draft. For a later release, substitute its release
 number consistently in source paths, package names, rule identifiers, public
 query, fixtures, registry, and bundle artifacts.
 
+For a shorter file-by-file walkthrough using `ION-R2-COM-0001`, see
+[`ION_Rego_Rule_Creation_Workflow.md`](ION_Rego_Rule_Creation_Workflow.md).
+
 ## Authoring principles
 
 1. A rule enforces one explainable business invariant.

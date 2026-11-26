@@ -1,768 +1,231 @@
-# ION Release 2 Rego Implementation Plan
+# ION Release 2 Rego delivery design and roadmap
 
-**Status:** Approved working plan
+**Status:** Foundation implemented; sector rule authoring and publication
+remain open
 
-**Plan date:** 2026-11-25
-
-**Direct-bundle amendment:** 2026-11-26
+**Decision dates:** 2026-11-25 to 2026-11-26
 
 **Target:** `releases/release2/`
 
-**Objective:** Author, validate, package, sign, publish, and exercise ION Rego
-business rules through ONIX as a first-class Release 2 capability.
-
 ## Purpose
 
-This plan turns the Rego architecture, authoring guide, and tooling design into
-small, reviewable implementation phases. Each phase has an explicit exit gate.
-Work proceeds in order unless a later phase is clearly independent and does not
-weaken an earlier gate.
+This document records the delivery shape, completed foundation, and remaining
+release gates for ION-authored Rego rules. It is a design and status record,
+not the rule-authoring procedure. Future rule authors should use the
+[`ION_Rego_Rule_Creation_Workflow.md`](../../rego/ION_Rego_Rule_Creation_Workflow.md)
+and the candidate ledgers.
 
-The implementation must keep the Release 2 draft valid after every phase. New
-normative rules are not added ahead of the instrumentation intended to protect
-them.
+The durable public decisions are in:
 
-On 2026-11-26, the publication path was amended to use direct signed-bundle
-ONIX configuration. Current ONIX network-manifest resolution maps one
-`networkId` to one active policy artifact and cannot represent intentional
-Release 2/Release 3 coexistence on the same network. Phase 7 and the publication
-phases therefore prove remote `type: bundle` distribution. Network-policy
-manifest work remains deferred until release-selection semantics and matching
-runtime support are approved.
+- [`ION_Rego_Architecture.md`](../../rego/ION_Rego_Architecture.md);
+- [`ION_Rego_Authoring_Guide.md`](../../rego/ION_Rego_Authoring_Guide.md);
+- [`ONIX_Rego_Integration.md`](../../rego/ONIX_Rego_Integration.md); and
+- [`ION_Rego_Tooling_Design.md`](ION_Rego_Tooling_Design.md).
 
-## Governing documents
+## Delivery model
 
-- `docs/rego/ION_Rego_Architecture.md`
-- `docs/rego/ION_Rego_Authoring_Guide.md`
-- `docs/internal/rego/ION_Rego_Tooling_Design.md`
-- `docs/ION_Release_Architecture.md`
-- `docs/ION_Release_Channel_Policy.md`
-- `docs/ION_Schema_Style_Guide.md`
-- `docs/ION_Schema_Design_Guide.md`
-- current ONIX `opapolicychecker` documentation and implementation
+Rego is a release-owned normative artifact. Release 2 owns its sources, test
+fixtures, runtime data, generated registry, signed OPA bundle, and matching
+public key under `releases/release2/rules/`. Published Release 1 remains
+unchanged.
 
-## Delivery rules
-
-- Start each phase by re-reading the current release manifest and affected
-  implementation, not only this plan.
-- Run the narrowest tests during development and the complete Release 2 gate
-  before completing a phase.
-- Add or update tests in the same change as validation behavior.
-- Do not mark `contentStatus.rules` validated until every required gate is live.
-- Never commit or persist the ephemeral private signing key.
-- Do not remove a schema constraint without a separately reviewed compatibility
-  decision and equivalence evidence.
-- Do not copy candidate rules from the older conditional-policy document without
-  checking current Release 2 names and message paths.
-- Record unexpected design changes in these work records before implementing
-  behavior that depends on them.
-
-## Phase 0 — Establish the decision record
-
-**Status:** Complete — 2026-11-25
-
-### Deliverables
-
-- Create `docs/internal/rego/`.
-- Record release placement, ownership, packaging, signing, and publication
-  decisions.
-- Record authoring conventions and validation expectations.
-- Record the tooling architecture and this implementation sequence.
-- Classify the relationship with `docs/ION_ONIX_Conditional_Policy.md`.
-
-### Exit gate
-
-- Documents are internally consistent and link from `docs/internal/README.md`.
-- No normative release artifact has changed.
-
-### Suggested commit
+The release exposes one public query:
 
 ```text
-docs(rego): record Release 2 policy architecture and plan
+data.ion.release2.result
 ```
 
-## Phase 1 — Amend the release architecture and manifest contract
-
-**Status:** Complete — 2026-11-26
-
-### Goal
-
-Make `rules/` a supported release-owned area without changing published Release
-1 or prematurely adding production rules.
-
-### Deliverables
-
-1. Amend `docs/ION_Release_Architecture.md` to define `rules/` as the fourth
-   release-owned normative area.
-2. Amend the Release 2 and root README layouts and terminology.
-3. Introduce release manifest schema version 2.
-4. Add `contentStatus.rules` to manifest v2 with the existing content-state
-   model.
-5. Upgrade only Release 2 to manifest schema v2 and initialize rules as
-   `review-required` or `validation-pending`, according to the implemented gate.
-6. Make manifest validators support both:
-   - v1: existing Release 1 contract;
-   - v2: Release 2 contract with `rules`.
-7. Extend release-scope and artifact-root logic for v2.
-8. Add focused manifest, checksum-root, scope, creation, and immutability tests.
-
-### Compatibility checks
-
-- Release 1 manifest remains byte-for-byte unchanged.
-- Release 1 validation still passes.
-- Creating a future release from v2 preserves the v2 rules area correctly.
-- A v2 published manifest cannot omit or leave `rules` unresolved.
-
-### Exit gate
-
-```bash
-ruby tools/release/validate_release.rb releases/release1
-ruby tools/release/validate_release.rb releases/release2
-```
-
-Both pass in their appropriate lifecycle states. The Release 2 publication form
-continues to fail only for expected draft/publication reasons.
-
-### Completion evidence
-
-- Release 1 remains on manifest schema v1 and its manifest is unchanged.
-- Release 2 uses manifest schema v2 with `rules: review-required` and no runtime
-  rules directory yet.
-- Manifest, scope, checksum-root, release-creation, and immutability tests cover
-  both manifest versions.
-- The complete Release 1 and Release 2 gates pass with 122 tool tests and 403
-  assertions.
-- The Release 2 publication form fails only because the draft is unpublished
-  and unassigned to a channel, as expected.
-
-### Suggested commit
-
-```text
-feat(release): add versioned rules area to release manifests
-```
-
-## Phase 2 — Add the source scaffold and pin the toolchain
-
-**Status:** Complete (2026-11-26)
-
-### Completion evidence
-
-- Added the release-owned source, test, fixture, data, and future-bundle layout
-  under `releases/release2/rules/`.
-- Established `data.ion.release2.result` with the exact empty-valid result and
-  exercised it with representative Trade and Logistics confirm envelopes.
-- Pinned OPA CLI `1.15.2`, matching ONIX, and added actionable missing/version
-  checks, strict compilation, formatting, unit-test, and evaluation tooling.
-- CI installs the exact OPA source version into a job-local directory and runs
-  both the Ruby tool tests and the scaffold validation. No platform binary or
-  key material is committed.
-- Added an unmistakably test-only, dry-run-by-default ES256 key generator that
-  refuses both release-tree output and overwrites.
-- Confirmed the Rego-specific validation, the schema-v1 Release 1 skip boundary,
-  and the complete Release 2 gate. The full Release 1 gate is intentionally
-  deferred until the end of the broader Rego work session.
-
-### Goal
-
-Create the empty Rego feature envelope and a repeatable toolchain without yet
-asserting substantive ION business rules.
-
-### Deliverables
-
-1. Create `releases/release2/rules/README.md`.
-2. Create the agreed production, test, fixture, data, registry, and bundle
-   directories.
-3. Add the minimal top-level router returning a defined valid result with no
-   violations.
-4. Add a smoke test proving the public query is always defined.
-5. Pin the supported OPA CLI version or version range.
-6. Add `tools/rego/README.md` and a read-only environment/toolchain checker.
-7. Decide and document how CI obtains OPA without committing a platform binary.
-8. Add ignore rules for temporary bundles, caches, downloaded tools, and key
-   material while retaining the canonical committed release bundle path.
-9. Add ephemeral signing generation logic that commits only the canonical
-   public verification key.
-
-### Exit gate
-
-- The minimal policy formats, compiles, tests, and evaluates through OPA.
-- The public query returns `{valid: true, violations: []}` for representative
-  structurally valid Trade and Logistics messages.
-- Missing or incompatible OPA produces an actionable failure.
-- No private signing key is retained in the release tree or build artifacts.
-- The complete Release 2 gate passes.
-
-### Suggested commit
-
-```text
-chore(rego): scaffold Release 2 policy sources and toolchain
-```
-
-## Phase 3 — Implement source, metadata, and registry validation
-
-**Status:** Complete (2026-11-26)
-
-### Completion evidence
-
-- Added machine-readable metadata and generated-registry schemas plus a shared
-  inventory model used by validation and generation.
-- Enforced Rego v1 imports, package-to-path conventions, the reserved public
-  result, metadata coverage for violation rules, release-local IDs and sectors,
-  protocol actions and `POL_*` codes, safe source references, shared policy
-  IRIs, declared configuration keys, and semantic-test references.
-- Added deterministic `rules/registry.json` generation with explicit `--write`
-  and missing/stale freshness failures. The scaffold registry correctly
-  contains zero substantive rules.
-- Added focused tests for valid input, malformed metadata, duplicate and invalid
-  IDs, package mismatch, unresolved actions/codes/paths/policy IRIs, unsafe and
-  symlinked paths, undeclared configuration, missing semantic tests,
-  deterministic output, stale output, and the manifest-v1 skip boundary.
-- Integrated Rego tool tests, source validation, registry freshness, and OPA
-  unit/smoke evaluation into `validate_release.rb` only for a v2 rules area.
-- The integrated Release 2 gate passes with 144 tool tests and 461 assertions.
-  The complete Release 1 gate remains deferred until the end of the broader
-  Rego work session.
-
-### Goal
-
-Protect authoring conventions before real rule volume grows.
-
-### Deliverables
-
-1. Implement formatting and strict compilation checks.
-2. Validate package-to-path conventions and reserve the public result package.
-3. Define the rule metadata schema.
-4. Validate rule ID syntax and uniqueness.
-5. Validate sectors, actions, source paths, policy IRIs, and config-key
-   declarations.
-6. Resolve declared `POL_*` codes against the Release 2 protocol taxonomy.
-7. Generate `rules/registry.json` deterministically from metadata.
-8. Add a freshness check and explicit write command.
-9. Detect rule IDs without corresponding semantic tests.
-10. Add tool unit tests for valid cases, malformed metadata, duplicate IDs,
-    unresolved references, stale output, and unsafe paths.
-11. Wire the checks into `validate_release.rb` when a v2 rules area exists.
-
-### Exit gate
-
-- A deliberately malformed module fails with a precise diagnostic.
-- Registry generation is byte-stable across repeated runs.
-- Validation fails when the committed registry is stale.
-- Release 1 validation does not invoke a nonexistent Rego area.
-- Release 2 validation passes with the scaffold registry.
-
-### Suggested commit
-
-```text
-feat(rego): validate rule metadata and generate registry
-```
-
-## Phase 4 — Implement bundle construction and verification
-
-**Status:** Complete (2026-11-26)
-
-### Completion evidence
-
-- Added allowlisted, temporary staging of production Rego modules and normative
-  runtime data; tests, fixtures, Markdown, caches, executables, symlinks,
-  unexpected data, and private-key material cannot enter the archive.
-- Added atomic canonical bundle construction and an optional external-key
-  interface that never copies or prints private key material.
-- Added exact logical source correspondence, safe/unique path checks, manifest
-  validation, signed-inventory checks, the ONIX 10 MiB limit, ES256 plus key ID
-  `default`, OPA cryptographic verification, and public-query evaluation.
-- Added an ephemeral signing mode that commits the canonical public key beside
-  its matching bundle. The private key is destroyed with the temporary staging
-  tree. This mode is now the selected path for both tests and publication.
-- Added tests for clean construction, one-byte source drift, tampering,
-  wrong-key verification, missing and duplicate modules, unsafe paths,
-  unexpected/private files, production test leakage, and oversize bundles.
-- Integrated signed-bundle verification into the manifest-v2 Release 2 gate.
-  The gate passes with 153 tool tests and 495 assertions; the complete Release 1
-  gate remains deferred until the end of the broader Rego work session.
-
-### Goal
-
-Produce a reviewable runtime artifact that corresponds exactly to approved
-sources and is accepted by OPA.
-
-### Deliverables
-
-1. Implement allowlisted staging of production modules and runtime data.
-2. Exclude tests, fixtures, docs, caches, and secrets.
-3. Build `ion-release2-policy.tar.gz`.
-4. Inspect safe archive paths, contents, OPA manifest, query, and size.
-5. Compare logical bundle contents with source hashes.
-6. Support ephemeral signing using ES256 and key ID `default`.
-7. Verify the embedded signature through OPA.
-8. Add tampering, wrong-key, missing-module, duplicate-module, unsafe-path,
-   unexpected-file, and oversize tests.
-9. Add a freshness validator for the committed bundle.
-10. Document ephemeral publication signing and the optional future external-key
-    interface without storing a private key.
-
-### Exit gate
-
-- A clean source tree produces a bundle that passes all inventory and signature
-  checks.
-- A one-byte module or data change makes bundle freshness fail.
-- Test modules and private-key patterns cannot enter the bundle.
-- Tampered bundles fail verification.
-- The Release 2 gate validates the committed bundle and public-key pair.
-
-### Suggested commit
-
-```text
-feat(rego): build and verify the Release 2 OPA bundle
-```
-
-## Phase 5 — Add a minimal rule vertical slice
-
-**Status:** Complete (2026-11-26)
-
-### Goal
-
-Prove authoring, metadata, registry, tests, packaging, and diagnostics using a
-small number of unambiguous rules before broad Trade or Logistics work.
-
-### Candidate selection criteria
-
-Choose two or three rules that:
-
-- are already supported by clear Release 2 schemas or flows;
-- use fields present in complete message fixtures;
-- have no unresolved regulatory interpretation;
-- exercise at least one cross-field or action-dependent condition;
-- have an existing suitable `POL_*` error code; and
-- do not require removing a JSON Schema constraint.
-
-At least one rule should test an inapplicable action and at least one should
-iterate over a collection or compare two values. Candidate rules must be
-selected through repository evidence; this plan does not pre-approve the older
-example rules.
-
-### Deliverables for each rule
-
-1. Record the requirement and enforcement-layer decision.
-2. Allocate the rule ID.
-3. Add metadata with resolved traceability paths.
-4. Implement the smallest clear Rego invariant.
-5. Add all required unit cases from the authoring guide.
-6. Add valid and invalid full-message fixtures.
-7. Confirm schema validation runs before Rego in the test path.
-8. Confirm exact structured violation code and message.
-9. Regenerate the registry and bundle.
-10. Document the rule in the release rules README.
-
-### Exit gate
-
-- Unit and full-message tests pass.
-- Every rule is visible in the generated registry.
-- The built bundle returns defined results for applicable and unrelated inputs.
-- No existing Release 2 example becomes invalid without an explicit correction.
-- The complete Release 2 gate passes.
-
-### Completion evidence
-
-- Implemented `ION-R2-COM-0001` for paid-settlement timestamps,
-  `ION-R2-TRD-0001` for temporary-closure end times, and
-  `ION-R2-TRD-0002` for central-invoicing entities.
-- Added 18 semantic Rego tests and seven full-message smoke fixtures, including
-  exact structured expectations for each invalid fixture, unrelated-action
-  coverage, missing-parent coverage, and collection iteration.
-- Confirmed with the external schema validator that the five targeted valid and
-  rule-invalid attribute objects all pass their Release 2 schema packs before
-  Rego evaluation.
-- Added a gate that evaluates all 44 existing Release 2 flow examples and
-  requires a defined valid policy result.
-- Regenerated the three-entry registry and rebuilt the signed draft bundle.
-- Ran `ruby tools/release/validate_release.rb releases/release2` with OPA
-  1.15.2: 153 tool tests and 495 assertions passed, all 18 Rego tests passed,
-  the bundle signature verified, and the complete Release 2 gate passed.
-
-### Suggested commit
-
-```text
-feat(rego): add initial Release 2 business rules
-```
-
-## Phase 6 — Prove direct ONIX integration
-
-**Status:** Complete (2026-11-26)
-
-### Goal
-
-Demonstrate that the actual ONIX plugin loads and enforces the bundle exactly as
-the repository tooling expects.
-
-### Deliverables
-
-1. Pin the ONIX source revision used by the integration suite.
-2. Add a reproducible ONIX test harness or documented test command.
-3. Configure schema validation before `checkPolicy`.
-4. Load the local bundle using `type: bundle`.
-5. Verify the embedded signature using the committed public-key response.
-6. Send valid and invalid complete message bodies.
-7. Assert HTTP/plugin outcome and structured policy errors.
-8. Test exact `context.networkId` selection and no-match behavior.
-9. Test an incorrect query path and confirm fail-closed behavior.
-10. Test multiple simultaneous violations.
-11. Capture useful diagnostics without logging sensitive fixture content.
-
-### Exit gate
-
-- ONIX accepts valid fixtures and rejects invalid fixtures for the intended
-  rule IDs.
-- Unrelated messages are not rejected.
-- Wrong query, bad signature, and tampered bundle fail closed.
-- The repository documents the exact command and pinned ONIX revision.
-- The integration test is part of the applicable CI or an explicitly enforced
-  pre-publication gate.
-
-### Completion evidence
-
-- Pinned `beckn-onix` revision
-  `bbfb517114e1cefc63b72423d8dfdc4ad13c0191`, whose OPA Go SDK dependency is
-  the same 1.15.2 version used by the repository tools.
-- Added a Docker-free harness that injects ION's external integration test into
-  the pinned ONIX package with a Go overlay and does not modify the ONIX
-  checkout.
-- Exercised the actual ONIX signed-bundle loader and policy checker with valid,
-  invalid, unrelated-action, exact-network, unmatched-network, multiple-rule,
-  incorrect-query, wrong-key, and tampered-bundle cases.
-- Confirmed HTTP 400 plugin outcomes, `POL_ELIGIBILITY_NOT_MET` rule
-  diagnostics, and `POL_GENERIC_ERROR` fail-closed behavior.
-- Documented the required `validateSchema` then `checkPolicy` ordering and a
-  complete direct-bundle test configuration using post-merge `main` URLs.
-- Kept the integration intentionally outside `validate_release.rb` and the
-  normal pull-request/push validation job. Authors run it explicitly, or invoke
-  the manual **Optional Rego ONIX integration** workflow, for Rego, bundle,
-  ONIX-compatibility, and pre-publication changes.
-- Re-ran the complete Release 2 gate: 155 tool tests and 502 assertions passed,
-  all 18 Rego tests passed, and registry, bundle, reference, flow, error, and
-  checksum validation remained current.
-
-### Suggested commit
-
-```text
-test(rego): exercise Release 2 bundle through ONIX
-```
-
-## Phase 7 — Prove remote direct-bundle distribution
-
-**Status:** Not started
-
-### Goal
-
-Extend the local direct-bundle proof to the same remote URL and public-key
-response model that NPs will configure, while preserving explicit per-NP
-release selection.
-
-### Deliverables
-
-1. Serve the bundle and raw PEM public-key response from a controlled local HTTP
-   server using the deployed path shape.
-2. Configure actual ONIX `opapolicychecker` entries with `type: bundle`, remote
-   `location`, public query, and verification settings.
-3. Test unreachable artifacts, wrong content, oversize responses, wrong keys,
-   bundle tampering, and incorrect queries.
-4. Test direct-bundle refresh behavior, including retention of the last valid
-   evaluator after a failed refresh.
-5. Add deployed URL and content-type support for `.rego`, `.pem`, and `.tar.gz`.
-6. Add a checked operator configuration template whose release-qualified URL,
-   query, and key all come from the same release.
-7. Document Release 2/Release 3 coexistence: each NP selects its supported
-   release explicitly, and no message field is repurposed as an ION release
-   selector.
-8. Obtain the canonical ION network IDs, publication-build authorization and
-   audit procedure, and refresh guidance before production publication.
-9. Keep network-policy manifest generation out of scope unless the architecture
-   is amended with defined release-selection semantics and matching ONIX support.
-
-### Exit gate
-
-- Remote direct-bundle ONIX evaluation passes entirely with test infrastructure.
-- Every failure mode produces the expected startup or reload behavior.
-- Operator configuration cannot mix bundle, query, or key data from different
-  releases.
-- Publication tooling refuses placeholders for production identity.
-
-### Suggested commit
-
-```text
-test(rego): exercise remote direct-bundle distribution
-```
-
-## Phase 8 — Inventory and implement Trade rules
-
-**Status:** Not started
-
-### Goal
-
-Systematically convert approved Trade business invariants into tested Rego
-without treating every prose condition as automatically normative.
-
-### Inventory
-
-Inspect, at minimum:
-
-- Trade `attributes.yaml` constraints and annotations;
-- generated schemas and examples;
-- Trade flow patterns and variants;
-- Trade error definitions;
-- shared policy references;
-- the older conditional-policy candidates; and
-- constraints currently expressed through complex JSON Schema composition.
-
-For each candidate, record:
-
-- requirement and source;
-- applicable actions and message shapes;
-- owning schema/flow/policy artifact;
-- current enforcement layer;
-- proposed enforcement layer;
-- compatibility impact;
-- required data/config;
-- `POL_*` code;
-- implementation status; and
-- deferral reason, if not included.
-
-### Implementation waves
-
-Implement in small connected waves rather than one large policy file:
-
-1. catalog and publication invariants;
-2. discovery and selection invariants;
-3. initialization and confirmation invariants;
-4. contract, payment, settlement, and reconciliation invariants;
-5. performance, status, tracking, cancellation, and support invariants; and
-6. cross-flow consistency and temporal rules.
-
-Each wave updates rules, metadata, tests, fixtures, registry, bundle, release
-README, and any connected schema/flow/error documentation.
-
-### Exit gate for each wave
-
-- Candidate ledger dispositions are reviewable.
-- All included rules pass unit, schema-plus-policy, bundle, and ONIX tests.
-- Existing Trade flows remain valid or are corrected in the same reviewed
-  change.
-- Schema overlap has an explicit decision and equivalence tests where needed.
-- Performance remains acceptable on representative catalog/order sizes.
-- The complete Release 2 gate passes.
-
-### Suggested commit form
-
-```text
-feat(rego): enforce Trade <concern> rules
-```
-
-## Phase 9 — Inventory and implement Logistics rules
-
-**Status:** Not started
-
-### Goal
-
-Add approved Logistics invariants using the same evidence and gates proven for
-Trade.
-
-### Inventory
-
-Inspect all nine Logistics packs, patterns, variants, state machines, error
-definitions, shared policy references, and candidate rules. Pay particular
-attention to:
-
-- dangerous-goods conditional data;
-- participant role and credential relationships;
-- offer and service-mode compatibility;
-- commitment, contract, and performance consistency;
-- state transitions and terminal states;
-- tracking availability and event ordering;
-- cross-border requirements; and
-- time, location, capacity, and monetary relationships.
-
-The list is an inspection scope, not advance approval of a rule.
-
-### Implementation waves
-
-1. catalog resource, provider, participant, and offer invariants;
-2. selection, commitment, consideration, and contract invariants;
-3. performance state and transition invariants;
-4. tracking, cancellation, exception, and cross-border invariants; and
-5. Trade-to-Logistics cross-sector invariants where Release 2 defines the
-   necessary relationship.
-
-### Exit gate for each wave
-
-- Same gates as Trade.
-- State rules agree with the validated Logistics state-machine registry.
-- Rule errors agree with Logistics error targets.
-- Cross-sector rules are gated so standalone Trade or Logistics messages are not
-  rejected accidentally.
-- The complete Release 2 gate passes.
-
-### Suggested commit form
-
-```text
-feat(rego): enforce Logistics <concern> rules
-```
-
-## Phase 10 — Harden quality, security, and operations
-
-**Status:** Not started
-
-### Goal
-
-Close non-functional risks before treating the rules area as validated.
-
-### Deliverables
-
-1. Set and enforce an appropriate coverage threshold.
-2. Add large-message performance fixtures and regression limits.
-3. Fuzz or property-test helpers with high input-shape risk.
-4. Audit violation messages and fixtures for sensitive-data leakage.
-5. Audit bundle and public-key response parsers for path traversal, archive
-   abuse, and malicious key material.
-6. Verify remote size and timeout behavior against ONIX limits.
-7. Test hot reload, last-known-good retention, and rollback procedures.
-8. Document monitoring, logging, alerting, and participant support guidance.
-9. Document rule-change governance and emergency response.
-10. Review whether any temporary duplicated schema constraints can or should
-    remain duplicated; do not remove them automatically.
-
-### Exit gate
-
-- Security and operational review findings are closed or explicitly accepted.
-- Performance limits and evidence are recorded.
-- Rollback does not require modifying an immutable published bundle.
-- NP configuration guidance is complete and tested.
-
-### Suggested commit
-
-```text
-chore(rego): harden Release 2 policy operations
-```
-
-## Phase 11 — Validate the rules area and prepare publication
-
-**Status:** Not started
-
-### Goal
-
-Move from a working draft feature to a publication-ready Release 2 artifact set.
-
-### Deliverables
-
-1. Resolve every candidate rule as included, rejected, or deferred with a
-   reason.
-2. Complete source, metadata, registry, fixture, and bundle review.
-3. Obtain approved production network identity and publication authority.
-4. Build the production bundle and public key with the ephemeral signing mode
-   and key ID `default`.
-5. Verify the production bundle using the published raw PEM public-key URL.
-6. Finalize the release-qualified operator configuration values.
-7. Run remote `type: bundle` ONIX tests against a preview deployment.
-8. Change `contentStatus.rules` to `validated` only after all rule gates pass.
-9. Update public architecture, authoring, integration, and release docs.
-10. Record all `rules/` artifacts in the published checksum inventory when the
-    release itself is published.
-11. Validate deployed URLs and exact bytes after deployment.
-
-### Publication gate
+The query receives the complete Beckn message body and returns a boolean plus
+structured `POL_*` violations. ONIX must run schema validation before policy
+evaluation.
+
+Each NP explicitly selects the integer release it enforces by configuring the
+corresponding direct signed bundle. A network-policy manifest is not used:
+current manifest lookup selects one artifact per `networkId` and cannot model
+intentional Release 2/Release 3 coexistence on the same network.
+
+## Fixed design decisions
+
+1. **Release boundary.** Rules live inside the integer release and become
+   immutable when that release is published.
+2. **Validation boundary.** JSON Schema owns ordinary shape, type, enum, format,
+   and direct required-field constraints. Rego owns action-specific,
+   cross-field, cross-object, calculation, lookup, and workflow invariants.
+3. **Source organization.** Modules are grouped by release, area, and concern;
+   rule IDs are release-local and never reused.
+4. **Public contract.** Only `data.ion.release2.result` is an operator
+   configuration contract. Internal packages may change while the release is a
+   draft.
+5. **Registry.** `rules/registry.json` is generated deterministically from OPA
+   metadata and is never edited directly.
+6. **Runtime data.** Normative lookup data belongs in the signed bundle.
+   Operator-supplied `data.config` is allowed only for explicitly documented
+   deployment-specific values.
+7. **Bundle.** The runtime unit is one signed OPA bundle containing common,
+   Trade, and Logistics rules plus normative data.
+8. **Signing.** Release 2 uses ES256 with key ID `default`. Every canonical
+   build generates an ephemeral key pair, destroys the private key, and commits
+   the signed bundle and matching public key together.
+9. **Publication origin.** The bundle and public key are published from the
+   GitHub-backed `schema.ion.id` origin. This detects corruption and mismatched
+   artifacts but is not an independent trust channel; that limitation is
+   accepted for Release 2.
+10. **Testing.** OPA validation is part of the ordinary Release 2 gate. Direct
+    ONIX integration remains an explicit optional test for rule, bundle, and
+    compatibility changes because it requires a separate pinned ONIX checkout
+    and Go toolchain.
+
+## Implemented foundation
+
+The following foundation is complete:
+
+- release manifest schema v2 recognizes `rules/` without changing published
+  Release 1;
+- Release 2 contains the production, test, fixture, data, registry, and bundle
+  layout;
+- OPA CLI `1.15.2` is pinned to the ONIX runtime version;
+- formatting, strict compilation, metadata, ID, action, error-code, source-path,
+  configuration, and semantic-test validation are implemented;
+- deterministic registry generation and freshness checks are implemented;
+- bundle construction allowlists production modules and runtime data and
+  excludes tests, documentation, symlinks, unexpected files, and private-key
+  material;
+- bundle verification checks source correspondence, archive safety, size,
+  signature, key ID, and public-query evaluation;
+- three starter rules prove common and Trade authoring:
+  `ION-R2-COM-0001`, `ION-R2-TRD-0001`, and `ION-R2-TRD-0002`;
+- valid, invalid, unrelated-action, missing-parent, collection, and complete
+  message fixtures exercise the starter rules;
+- the actual ONIX OPA Policy Checker has loaded and enforced the signed bundle,
+  including wrong-key, tamper, incorrect-query, and multiple-violation cases;
+- ONIX integration is separate from normal spec validation and is available
+  locally and through a manual workflow; and
+- author, operator, architecture, tooling, and rule-creation documentation is
+  present under `docs/rego/`.
+
+Session-close validation on 2026-11-26 passed for both releases. The complete
+Release 2 gate passed 155 tool tests with 503 assertions, all 18 Rego tests,
+seven smoke fixtures, 44 reference-flow regressions, signed-bundle validation,
+and all release connection checks. The complete published Release 1 gate also
+passed, confirming the manifest-v1 and immutable-release compatibility boundary.
+
+## Rule inventory status
+
+The initial Trade and Storefront English-rule inventory is in
+[`ION_Rego_Trade_Rule_Candidates.md`](ION_Rego_Trade_Rule_Candidates.md). It
+separates:
+
+- message-local candidates that can be evaluated by the current policy input;
+- constraints already owned by JSON Schema;
+- conditions that need normative approval;
+- rules needing catalog data, prior messages, a clock, or an external registry;
+  and
+- pattern or variant rules that should be deferred to their own scope.
+
+The inventory also records a prerequisite for Storefront rules: several
+`requiredFields` paths do not match the current Beckn 2 message shape and
+examples, and the production message has no authoritative Storefront selector.
+Those sources and applicability semantics must be aligned before Storefront-only
+rules enter the release-wide query.
+
+No comprehensive Logistics candidate ledger has been created yet.
+
+## Remaining roadmap
+
+The remaining work is intentionally listed at design level. Each rule follows
+the separate rule-creation workflow.
+
+1. **Align Storefront sources.** Reconcile the pattern's field paths, examples,
+   current Beckn 2 contract, category scope, and pattern-selection mechanism.
+2. **Approve Trade candidates.** Resolve each candidate as implement, retain in
+   schema, reject, or defer; record the reason and compatibility effect.
+3. **Implement Trade rules in reviewable groups.** Prefer catalog/publication,
+   selection, initialization/confirmation, settlement/reconciliation,
+   fulfilment/support, and finally stateful cross-flow concerns.
+4. **Inventory and approve Logistics rules.** Apply the same schema-versus-Rego,
+   input-availability, compatibility, and statefulness analysis used for Trade.
+5. **Implement approved Logistics rules.** Keep cross-sector rules explicitly
+   gated so standalone Trade or Logistics messages are not rejected by accident.
+6. **Harden quality and operations.** Add representative large-message
+   performance evidence, sensitive-diagnostic review, helper fuzzing where
+   valuable, reload and last-known-good tests, monitoring guidance, and incident
+   and rollback procedures.
+7. **Validate the rules area for publication.** Resolve the candidate ledgers,
+   run the final bundle build and ONIX evidence, complete governance review,
+   and change `contentStatus.rules` from `validation-pending` to `validated`
+   only when all rule gates pass.
+8. **Prove the public origin.** When the `schema.ion.id` paths exist, test remote
+   bundle and PEM retrieval, content types, size limits, caching/refresh,
+   unreachable and malformed responses, key mismatch, tampering, and retention
+   of the last valid evaluator.
+9. **Publish with Release 2.** Record the complete artifact checksum inventory,
+   pass the publication gate, deploy the exact committed bundle and key, and
+   publish the release-qualified operator configuration.
+10. **Verify after publication.** Validate deployed bytes and URLs, run a
+    production-like NP ONIX allow/reject smoke test, record the exact ONIX
+    revision and hashes, and direct any correction to Release 3.
+
+The former standalone remote-test phase was deliberately skipped while the
+public URLs do not exist. Local ONIX and GitHub-backed loading already prove
+the bundle format and signature path; deployed-origin behavior belongs to the
+publication work above.
+
+## Validation contract
+
+Every rule change must retain these gates:
+
+| Concern | Required check |
+|---|---|
+| OPA version | Exact repository pin matches the ONIX runtime |
+| Source | Formatting, strict compilation, package/path convention, metadata, IDs, actions, `POL_*` codes, and references |
+| Semantics | Applicable-invalid, applicable-valid, inactive, unrelated-action, missing-parent, boundary, and collection tests as relevant |
+| Regression | Every checked Release 2 flow example remains accepted or is corrected through an approved specification change |
+| Registry | Generated output matches source metadata |
+| Bundle | Logical source/data correspondence, safe archive, ONIX size limit, ES256 signature, matching public key, and public query |
+| ONIX | Optional but expected for rule, bundle, pinned-version, or interoperability changes |
+| Release | Complete active-draft gate passes |
+
+The ordinary gate is:
 
 ```bash
 ruby tools/release/validate_release.rb releases/release2
-ruby tools/release/validate_release.rb --publication releases/release2
-ruby tools/release/validate_deployed_urls.rb releases/release2
 ```
 
-The publication command is expected to fail while Release 2 remains a draft. It
-must pass only as part of the reviewed release publication and channel
-assignment process.
+The ONIX compatibility test is:
 
-### Exit gate
-
-- Release 2 has no unresolved rule-area validation failures.
-- The production bundle signature verifies through the published key response.
-- ONIX enforces the deployed bytes through direct bundle configuration.
-- Deployed bytes match the Release 2 artifact checksums.
-- Participant configuration and rollback guidance are approved.
-
-### Suggested commit
-
-```text
-release: validate Release 2 Rego policy artifacts
+```bash
+ruby tools/rego/test_onix_integration.rb \
+  --onix-root /path/to/pinned/beckn-onix
 ```
 
-## Phase 12 — Post-publication verification and evidence
+The publication form is expected to fail while Release 2 remains a draft:
 
-**Status:** Not started
+```bash
+ruby tools/release/validate_release.rb \
+  --publication \
+  releases/release2
+```
 
-### Goal
+## Publication acceptance
 
-Confirm that publication, direct loading, and participant enforcement work outside
-the repository test environment without modifying the immutable release.
+The rules area is ready to publish only when:
 
-### Deliverables
-
-1. Verify public bundle, public-key response, registry, and source URLs.
-2. Verify the release-qualified public-key URL returns the intended PEM key.
-3. Run a production-like NP ONIX smoke test using `type: bundle`.
-4. Confirm the reported bundle/release identity in logs and diagnostics.
-5. Record deployment validation evidence and the exact tested ONIX revision.
-6. Track any correction as Release 3 work; do not patch Release 2 in place.
-
-### Exit gate
-
-- At least one representative NP environment demonstrates allow and reject
-  behavior for the published bundle.
-- Evidence identifies exact URLs, hashes, release ID, network ID, and ONIX
-  revision.
-- Operational ownership for monitoring and incident response is active.
-
-## Cross-phase validation matrix
-
-| Concern | First required | Remains required through |
-|---|---|---|
-| Release 1 compatibility | Phase 1 | Publication |
-| Release-manifest v2 validation | Phase 1 | Publication |
-| OPA format and compile | Phase 2 | Every rule change |
-| Metadata and registry | Phase 3 | Every rule change |
-| Bundle correspondence | Phase 4 | Every source/data change |
-| Rule semantic tests | Phase 5 | Every rule change |
-| Direct ONIX integration | Phase 6 | Every bundle change |
-| Remote direct-bundle ONIX | Phase 7 | Every bundle/publication change |
-| Schema/Rego equivalence | First overlap | Until overlap is removed or retained permanently |
-| Performance and security | Phase 10 | Publication and later releases |
-| Exact deployed bytes | Phase 11 | Post-publication audit |
-
-## Required decision log
-
-During implementation, append material decisions to the relevant architecture,
-authoring, or tooling document. At minimum, record:
-
-- final directory and artifact names;
-- OPA version and acquisition method;
-- ONIX pinned revision and CI acquisition method;
-- registry schema;
-- rule ID allocation process;
-- coverage and performance thresholds;
-- production network IDs and bundle publication origin;
-- signing algorithms, key identifiers, and ephemeral-key build owner;
-- refresh/cache recommendations; and
-- accepted schema-to-Rego migrations.
-
-## Definition of done
-
-The objective is complete only when:
-
-- Release 2 contains reviewed common, Trade, and Logistics Rego sources;
-- every active rule is traceable, registered, and tested;
-- generated artifacts are fresh and reproducible at the logical-content level;
-- the signed production bundle is published at an immutable Release 2 URL;
-- the published bundle verifies through the documented release-qualified PEM
-  public-key URL;
-- ONIX enforces the bundle using the documented public query;
-- release, CI, deployment, and immutability gates cover `rules/`;
-- NP setup and operational guidance are complete; and
+- every included rule is traceable, registered, reviewed, and tested;
+- unresolved candidates are explicitly deferred or rejected;
+- schemas, flows, examples, errors, and Rego agree;
+- performance and diagnostic-safety evidence is acceptable;
+- the final bundle and PEM key verify as one artifact generation;
+- direct ONIX evaluation passes at the pinned revision;
+- `contentStatus.rules` is `validated`;
+- the complete release publication inventory includes `rules/`;
+- the immutable public bundle and key URLs serve the exact committed bytes;
+- NP configuration, refresh, rollback, monitoring, and support guidance is
+  approved; and
 - Release 1 remains unchanged and valid.
+
+## Post-publication rule
+
+Release 2 is immutable after publication. A defect, changed requirement, new
+rule, or key rotation after that point belongs in the next integer release.
+Neither a mutable `latest` bundle nor an in-place Release 2 correction is part
+of the design.

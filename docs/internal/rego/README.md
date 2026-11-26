@@ -6,7 +6,8 @@
 
 **Target:** `releases/release2/`
 
-This directory records the implementation sequence and tooling design for
+This directory records the delivery design, tooling design, and candidate-rule
+inventory for
 adding ION-authored Rego business rules to Release 2 and distributing them for
 enforcement by the ONIX OPA Policy Checker plugin.
 
@@ -19,14 +20,18 @@ do not by themselves make a rule normative or publish Release 2.
 - [`ION_Rego_Tooling_Design.md`](ION_Rego_Tooling_Design.md) — build inputs and
   outputs, deterministic checks, release-gate integration, direct-bundle
   configuration, and ONIX end-to-end testing.
-- [`ION_Rego_Implementation_Plan.md`](ION_Rego_Implementation_Plan.md) — phased
-  delivery plan, acceptance gates, validation sequence, and decisions that must
-  be closed before production publication.
+- [`ION_Rego_Implementation_Plan.md`](ION_Rego_Implementation_Plan.md) —
+  delivery design, implemented foundation, numbered remaining roadmap,
+  validation contract, and publication acceptance criteria.
+- [`ION_Rego_Trade_Rule_Candidates.md`](ION_Rego_Trade_Rule_Candidates.md) —
+  English-language candidate ledger for the Storefront flow and the
+  current Common and Trade extension packs.
 
 Public documents:
 
 - [`../../rego/ION_Rego_Architecture.md`](../../rego/ION_Rego_Architecture.md)
 - [`../../rego/ION_Rego_Authoring_Guide.md`](../../rego/ION_Rego_Authoring_Guide.md)
+- [`../../rego/ION_Rego_Rule_Creation_Workflow.md`](../../rego/ION_Rego_Rule_Creation_Workflow.md)
 - [`../../rego/ONIX_Rego_Integration.md`](../../rego/ONIX_Rego_Integration.md)
 
 ## Governing inputs

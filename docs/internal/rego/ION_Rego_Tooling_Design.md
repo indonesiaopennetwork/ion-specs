@@ -95,7 +95,7 @@ from being used to prove a business rule.
 
 ## Generated rule registry
 
-Phase 3 implements this contract with `tools/rego/generate_registry.rb`. The
+This contract is implemented by `tools/rego/generate_registry.rb`. The
 metadata and output shapes are recorded in JSON Schema, while the validator
 also resolves repository-specific relationships that JSON Schema cannot prove.
 
@@ -123,7 +123,7 @@ form. The registry never becomes an independent editable rule source.
 
 ## Bundle construction
 
-Phase 4 implements this boundary with `build_bundle.rb`, `verify_bundle.rb`,
+This boundary is implemented by `build_bundle.rb`, `verify_bundle.rb`,
 and a shared archive model. Construction creates an ephemeral ES256 key,
 commits the canonical public key beside its matching bundle, and destroys the
 private key with its temporary directory. Because ECDSA signatures are intentionally
@@ -264,7 +264,7 @@ from the released artifact.
 ## CI behavior
 
 The supported CLI is pinned in `tools/rego/opa-version` and must exactly match
-the OPA library version used by ONIX. Phase 2 pins `1.15.2`. CI installs that
+the OPA library version used by ONIX. The current pin is `1.15.2`. CI installs that
 source version with Go into a job-local directory; no platform-specific OPA
 binary is committed. The read-only checker rejects a missing executable or any
 version mismatch before evaluation begins.

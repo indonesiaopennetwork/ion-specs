@@ -96,17 +96,22 @@ ruby tools/rego/test_onix_integration.rb --onix-root /path/to/pinned/beckn-onix
 
 See [`../../../docs/rego/ONIX_Rego_Integration.md`](../../../docs/rego/ONIX_Rego_Integration.md)
 for the operator configuration and `tools/rego/README.md` for author
-prerequisites.
+prerequisites. Rule authors can follow the file-by-file
+[`rule creation workflow`](../../../docs/rego/ION_Rego_Rule_Creation_Workflow.md)
+from requirement approval through bundle and publication handoff.
 
 ## Current limitations
 
 - No private signing key belongs in this release tree.
 - The bundle and public key are publishable artifacts only when the enclosing
   Release 2 publication gate passes.
-- This is a deliberately small starter set; comprehensive Trade and Logistics
-  rule inventories are later phases.
+- This is a deliberately small starter set. The initial Trade/Storefront
+  candidate inventory is documented; broader Trade implementation and the
+  Logistics inventory remain future work.
 - Direct bundle loading is proven only against the pinned ONIX revision;
-  remote distribution and NP adoption are later phases.
+  deployed `schema.ion.id` retrieval and NP adoption are publication work
+  because those public rule URLs do not yet exist.
 
 See `docs/rego/` for the durable architecture and authoring guidance, and
-`docs/internal/rego/` for the phased implementation record.
+`docs/internal/rego/` for the delivery design, tooling record, and candidate
+rule inventory.

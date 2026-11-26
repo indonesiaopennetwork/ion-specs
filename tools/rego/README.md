@@ -218,9 +218,11 @@ ION_OPA=/absolute/path/to/opa ruby -Itools/rego/tests -e \
 
 ## Current limitations
 
-- The registry contains only the three Phase 5 starter rules; comprehensive
-  Trade and Logistics coverage is not yet implemented.
+- The registry contains only the three starter rules; comprehensive Trade and
+  Logistics coverage is not yet implemented.
 - The bundle and public key share one GitHub-backed publication origin; this is
   operationally simple but is not an independent trust channel.
 - Direct ONIX plugin integration is optional and proven at the pinned revision;
-  remote direct-bundle and full deployment testing remain later phases.
+  deployed `schema.ion.id` retrieval and full deployment testing belong to the
+  Release 2 publication exercise because those public rule URLs do not yet
+  exist.
