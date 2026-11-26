@@ -122,6 +122,59 @@ class ValidateReleaseScopeTest < Minitest::Test
     end
   end
 
+  def test_version_2_review_required_rules_may_be_absent
+    Dir.mktmpdir do |root|
+      create_validated_baseline(root)
+      manifest = {
+        "schemaVersion" => 2,
+        "contentStatus" => statuses.merge("rules" => "review-required")
+      }
+
+      assert_empty IonReleaseScope.validate(root, manifest)
+    end
+  end
+
+  def test_version_2_excluded_rules_must_be_absent
+    Dir.mktmpdir do |root|
+      create_validated_baseline(root)
+      FileUtils.mkdir_p(File.join(root, "rules"))
+      manifest = {
+        "schemaVersion" => 2,
+        "contentStatus" => statuses.merge("rules" => "excluded")
+      }
+
+      errors = IonReleaseScope.validate(root, manifest)
+
+      assert_includes errors, "excluded content is present for rules: rules"
+    end
+  end
+
+  def test_version_2_validated_rules_must_be_present
+    Dir.mktmpdir do |root|
+      create_validated_baseline(root)
+      manifest = {
+        "schemaVersion" => 2,
+        "contentStatus" => statuses.merge("rules" => "validated")
+      }
+
+      errors = IonReleaseScope.validate(root, manifest)
+
+      assert_includes errors, "validated content is absent for rules"
+    end
+  end
+
+  def test_version_1_rejects_rules_directory
+    Dir.mktmpdir do |root|
+      create_validated_baseline(root)
+      FileUtils.mkdir_p(File.join(root, "rules"))
+      manifest = { "schemaVersion" => 1, "contentStatus" => statuses }
+
+      errors = IonReleaseScope.validate(root, manifest)
+
+      assert_includes errors, "rules content requires manifest schemaVersion 2: rules"
+    end
+  end
+
   private
 
   def create_validated_baseline(root)

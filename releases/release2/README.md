@@ -4,8 +4,8 @@
 
 Release 2 is the mutable successor to the published Release 1 baseline. It
 defines the ION API additions, common attribute packs, Trade and Logistics
-extensions, reference flows, errors, and pinned Beckn dependencies included in
-this release.
+extensions, reference flows, errors, the executable-rules scaffold, and
+pinned Beckn dependencies included in this release.
 
 Release 2 is the active mutable draft. It is not assigned to a release channel,
 and its public URLs are unsupported until publication.
@@ -106,6 +106,24 @@ release. Flow and error documents refer to stable `ion://policy/...` IRIs in the
 shared registry published at
 [`https://schema.ion.id/policies/registry.json`](https://schema.ion.id/policies/registry.json).
 
+### Executable rules
+
+[`rules/`](rules/) contains the Release 2 scaffold for ION-authored Rego
+business rules that depend on this release's message, schema, and flow
+contracts. Its stable public query is `data.ion.release2.result`. The initial
+vertical slice enforces one common payment condition and two Trade provider
+conditions. Its generated registry and canonical signed draft bundle are
+freshness-checked; broader sector coverage and publication readiness are later
+phases. The optional direct ONIX integration has been proven against a pinned
+ONIX revision. Operators can follow the
+[`ONIX Rego integration guide`](../../docs/rego/ONIX_Rego_Integration.md) to
+load and test the draft bundle.
+
+Executable rules are release-owned artifacts and are distinct from the shared
+policy terms in root `policies/`. The area remains `validation-pending`: direct
+plugin compatibility is proven, but remote direct-bundle distribution,
+publication, and NP interoperability are not complete.
+
 ### Vendored dependencies
 
 [`schema/vendored/beckn/`](schema/vendored/beckn/) contains the complete pinned
@@ -136,7 +154,8 @@ upstream baseline:
 
 The authoritative scope and validation state are defined by
 [`release.yaml`](release.yaml). Trade, Logistics, their common dependencies,
-flows, and errors are validated. Hospitality and Finance are excluded. The
+flows, and errors are validated. Executable rules are validation-pending.
+Hospitality and Finance are excluded. The
 standalone core API contracts, `ion-beckn.yaml` and `ion-additional.yaml`, have completed review and
 are validated for Release 2.
 
@@ -180,6 +199,7 @@ release2/
     trade/                  Trade reference patterns and variants
     logistics/              Logistics patterns, variants, and state machines
   errors/                   Sector error sources and generated registry
+  rules/                    Rego sources, tests, data, and future bundles
 ```
 
 ## Validation
@@ -190,9 +210,10 @@ Run the complete Release 2 gate from the repository root:
 ruby tools/release/validate_release.rb releases/release2
 ```
 
-This is also the CI entry point. It runs the release-tool tests and verifies the
-manifest, scope, generated registries, artifact checksums, offline references,
-public-path mapping, and Trade and Logistics connections.
+The gate verifies the pinned OPA toolchain, Rego source metadata, registry and
+signed-bundle freshness, formatting and compilation, rule tests and smoke inputs,
+release-tool tests, manifest, scope, generated registries, artifact checksums,
+offline references, public-path mapping, and Trade and Logistics connections.
 
 The publication form is expected to fail while the manifest remains a draft:
 

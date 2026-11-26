@@ -21,7 +21,7 @@
   ],
   "properties": {
     "schemaVersion": {
-      "const": 1
+      "enum": [1, 2]
     },
     "release": {
       "type": "integer",
@@ -48,7 +48,7 @@
       "const": "main"
     },
     "contentStatus": {
-      "$ref": "#/$defs/contentStatus"
+      "type": "object"
     },
     "dependencyStatus": {
       "enum": ["incomplete", "complete"]
@@ -90,6 +90,50 @@
     }
   },
   "allOf": [
+    {
+      "if": {
+        "properties": {
+          "schemaVersion": { "const": 1 }
+        },
+        "required": ["schemaVersion"]
+      },
+      "then": {
+        "properties": {
+          "contentStatus": { "$ref": "#/$defs/contentStatusV1" },
+          "implementationGuidance": {
+            "properties": {
+              "areas": {
+                "propertyNames": {
+                  "enum": ["ionApi", "common", "trade", "logistics", "hospitality", "finance", "flows", "errors"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "schemaVersion": { "const": 2 }
+        },
+        "required": ["schemaVersion"]
+      },
+      "then": {
+        "properties": {
+          "contentStatus": { "$ref": "#/$defs/contentStatusV2" },
+          "implementationGuidance": {
+            "properties": {
+              "areas": {
+                "propertyNames": {
+                  "enum": ["ionApi", "common", "trade", "logistics", "hospitality", "finance", "flows", "errors", "rules"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     {
       "if": {
         "properties": {
@@ -135,7 +179,7 @@
     "contentState": {
       "enum": ["review-required", "validation-pending", "validated", "excluded"]
     },
-    "contentStatus": {
+    "contentStatusV1": {
       "type": "object",
       "additionalProperties": false,
       "required": ["ionApi", "common", "trade", "logistics", "hospitality", "finance", "flows", "errors"],
@@ -150,20 +194,25 @@
         "errors": { "$ref": "#/$defs/contentState" }
       }
     },
-    "publishedContentStatus": {
+    "contentStatusV2": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["ionApi", "common", "trade", "logistics", "hospitality", "finance", "flows", "errors"],
+      "required": ["ionApi", "common", "trade", "logistics", "hospitality", "finance", "flows", "errors", "rules"],
       "properties": {
-        "ionApi": { "enum": ["validated", "excluded"] },
-        "common": { "enum": ["validated", "excluded"] },
-        "trade": { "enum": ["validated", "excluded"] },
-        "logistics": { "enum": ["validated", "excluded"] },
-        "hospitality": { "enum": ["validated", "excluded"] },
-        "finance": { "enum": ["validated", "excluded"] },
-        "flows": { "enum": ["validated", "excluded"] },
-        "errors": { "enum": ["validated", "excluded"] }
+        "ionApi": { "$ref": "#/$defs/contentState" },
+        "common": { "$ref": "#/$defs/contentState" },
+        "trade": { "$ref": "#/$defs/contentState" },
+        "logistics": { "$ref": "#/$defs/contentState" },
+        "hospitality": { "$ref": "#/$defs/contentState" },
+        "finance": { "$ref": "#/$defs/contentState" },
+        "flows": { "$ref": "#/$defs/contentState" },
+        "errors": { "$ref": "#/$defs/contentState" },
+        "rules": { "$ref": "#/$defs/contentState" }
       }
+    },
+    "publishedContentStatus": {
+      "type": "object",
+      "additionalProperties": { "enum": ["validated", "excluded"] }
     },
     "dependency": {
       "type": "object",
@@ -252,7 +301,7 @@
           "type": "object",
           "minProperties": 1,
           "propertyNames": {
-            "enum": ["ionApi", "common", "trade", "logistics", "hospitality", "finance", "flows", "errors"]
+            "enum": ["ionApi", "common", "trade", "logistics", "hospitality", "finance", "flows", "errors", "rules"]
           },
           "additionalProperties": { "$ref": "#/$defs/implementationAreaGuidance" }
         }

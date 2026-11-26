@@ -1,0 +1,32 @@
+{
+  "_meta": {
+    "description": "Trade catalog with schema-valid provider attributes that violate the temporary-closure network rule",
+    "sector": "trade",
+    "schemaPacks": ["schema/extension/trade/TradeProvider/v1"]
+  },
+  "context": {
+    "action": "catalog/publish",
+    "version": "2.0.0",
+    "networkId": "ion.id",
+    "transactionId": "3043549a-98df-49ee-9314-174eb936de3e",
+    "messageId": "73733155-ec99-4536-bd9b-6e15c920ee0e",
+    "timestamp": "2026-09-19T09:00:00.000+07:00",
+    "ttl": "PT30S"
+  },
+  "message": {
+    "catalogs": [
+      {
+        "id": "CATALOG-001",
+        "provider": {
+          "id": "PROVIDER-001",
+          "providerAttributes": {
+            "@context": "https://schema.ion.id/release2/schema/extension/trade/TradeProvider/v1/context.jsonld",
+            "@type": "ion:IONTradeProvider",
+            "operationalStatus": {"status": "TEMPORARILY_CLOSED"},
+            "invoicing": {"model": "CENTRAL", "entityId": "PROVIDER-001"}
+          }
+        }
+      }
+    ]
+  }
+}

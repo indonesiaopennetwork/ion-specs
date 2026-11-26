@@ -1,0 +1,46 @@
+{
+  "_meta": {
+    "description": "Confirm envelope with schema-valid Payment attributes that violate the paidAt network rule",
+    "sector": "common",
+    "schemaPacks": ["schema/common/Payment/v1"]
+  },
+  "context": {
+    "action": "confirm",
+    "version": "2.0.0",
+    "bapId": "buyerapp.ion.id",
+    "bapUri": "https://buyerapp.ion.id/beckn",
+    "bppId": "sellerapp.ion.id",
+    "bppUri": "https://sellerapp.ion.id/beckn",
+    "networkId": "ion.id",
+    "transactionId": "82e62bea-2fb9-4488-8ec7-30389fd4d864",
+    "messageId": "6c402dbc-b728-497c-95e2-83c8e70dd76a",
+    "timestamp": "2026-09-19T10:32:16.000+07:00",
+    "ttl": "PT30S"
+  },
+  "message": {
+    "contract": {
+      "id": "2c758915-333e-4c05-a896-d93c994275c7",
+      "commitments": [
+        {
+          "id": "TRADE-COMMITMENT-001",
+          "status": {"descriptor": {"code": "DRAFT"}},
+          "resources": [
+            {"id": "TRADE-RESOURCE-001", "quantity": {"unitQuantity": 1, "unitCode": "EA"}}
+          ],
+          "offer": {"id": "TRADE-OFFER-001", "resourceIds": ["TRADE-RESOURCE-001"]}
+        }
+      ],
+      "settlements": [
+        {
+          "id": "SETTLEMENT-001",
+          "settlementAttributes": {
+            "@context": "https://schema.ion.id/release2/schema/common/Payment/v1/context.jsonld",
+            "@type": "ion:IONPayment",
+            "method": "QRIS",
+            "status": "PAID"
+          }
+        }
+      ]
+    }
+  }
+}

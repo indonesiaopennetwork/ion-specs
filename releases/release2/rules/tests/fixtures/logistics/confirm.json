@@ -1,0 +1,56 @@
+{
+  "_meta": {
+    "description": "Minimal complete-envelope Logistics input for the rule scaffold",
+    "sector": "logistics"
+  },
+  "context": {
+    "action": "confirm",
+    "version": "2.0.0",
+    "bapId": "shipper.ion.id",
+    "bapUri": "https://shipper.ion.id/beckn",
+    "bppId": "carrier.ion.id",
+    "bppUri": "https://carrier.ion.id/beckn",
+    "networkId": "ion.id",
+    "transactionId": "0e6ac917-6b5e-4d51-913e-92b0ab1f80f1",
+    "messageId": "fe23ad93-ef11-45af-b7fa-02f565d0bc0e",
+    "timestamp": "2026-10-16T09:00:00.000+07:00",
+    "ttl": "PT30S"
+  },
+  "message": {
+    "contract": {
+      "id": "eef423cd-cb1c-437f-8e9a-3f69e8a56b0a",
+      "status": {
+        "code": "DRAFT"
+      },
+      "commitments": [
+        {
+          "id": "LOGISTICS-COMMITMENT-001",
+          "status": {
+            "descriptor": {
+              "code": "DRAFT"
+            }
+          },
+          "resources": [
+            {
+              "id": "LOGISTICS-RESOURCE-001",
+              "quantity": {
+                "unitQuantity": 1,
+                "unitCode": "EA"
+              }
+            }
+          ],
+          "offer": {
+            "id": "LOGISTICS-OFFER-001",
+            "resourceIds": [
+              "LOGISTICS-RESOURCE-001"
+            ]
+          }
+        }
+      ],
+      "contractAttributes": {
+        "@context": "https://schema.ion.id/release2/schema/extension/logistics/LogisticsContract/v1/context.jsonld",
+        "@type": "ion:IONLogisticsContract"
+      }
+    }
+  }
+}

@@ -13,3 +13,14 @@ conversion.md
 # Python bytecode and caches
 __pycache__/
 *.py[cod]
+
+# Local Rego toolchain artifacts and test-only secrets
+tools/rego/.bin/
+tools/rego/.cache/
+tools/rego/.keys/
+releases/*/rules/.tmp/
+releases/*/rules/bundles/*.tmp
+releases/*/rules/bundles/*.unsigned.tar.gz
+**/*-private.pem
+**/*.key
+**/*.p12

@@ -14,7 +14,8 @@ module IonReleaseScope
     "hospitality" => ["schema/extension/hospitality"],
     "finance" => ["schema/extension/finance"],
     "flows" => ["flows/trade", "flows/logistics", "flows/hospitality", "flows/finance"],
-    "errors" => ["errors"]
+    "errors" => ["errors"],
+    "rules" => ["rules"]
   }.freeze
 
   SECTOR_FLOW_PATHS = {
@@ -30,6 +31,7 @@ module IonReleaseScope
     root = Pathname.new(File.expand_path(release_root))
     manifest ||= YAML.safe_load(File.read(root.join("release.yaml")), aliases: true)
     statuses = manifest.fetch("contentStatus", {})
+    schema_version = manifest.fetch("schemaVersion", 1)
     errors = []
 
     FORBIDDEN_FLAT_SCHEMA_PATHS.each do |directory|
@@ -39,6 +41,10 @@ module IonReleaseScope
 
     if root.join("policies").exist?
       errors << "shared policies must not be copied into a release: policies"
+    end
+
+    if schema_version == 1 && root.join("rules").exist?
+      errors << "rules content requires manifest schemaVersion 2: rules"
     end
 
     CONTENT_PATHS.each do |area, patterns|

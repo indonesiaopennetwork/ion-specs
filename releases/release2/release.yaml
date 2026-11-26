@@ -1,4 +1,4 @@
-schemaVersion: 1
+schemaVersion: 2
 release: 2
 name: release2
 status: draft
@@ -14,6 +14,7 @@ contentStatus:
   finance: excluded
   flows: validated
   errors: validated
+  rules: validation-pending
 dependencyStatus: complete
 dependencies:
 - name: AcceptedPaymentMethod
@@ -507,6 +508,24 @@ artifactChecksums:
 toolingCommit: null
 notes:
 - Draft release envelope created during migration Phase 2.
+- Phase 2 added the release-owned executable-rules scaffold, representative Trade
+  and Logistics smoke inputs, and a pinned OPA toolchain. The area remains validation-pending
+  until the later authoring, packaging, signing, and ONIX gates are implemented.
+- Phase 3 added rule metadata validation, deterministic registry generation, and integrated
+  Release 2 gate coverage. The generated registry is intentionally empty until the
+  first substantive rule is introduced.
+- Phase 4 added allowlisted OPA bundle construction, logical source freshness, safe-archive
+  and size validation, and ES256 signature verification with key ID default. The committed
+  bundle and public key are generated together with an ephemeral private key that is
+  destroyed after the build; the same artifact pair is selected for testing and publication.
+- Phase 5 added three initial active rules covering paid settlements requiring paidAt,
+  temporarily closed Trade providers require until, and centrally invoicing Trade
+  providers require entityId. Their valid and invalid attributes remain schema-valid;
+  Rego enforces the action-dependent network conditions.
+- Phase 6 proved signed-bundle loading and policy decisions through the actual ONIX
+  policy-checker package at a pinned revision. The Docker-free integration remains
+  an explicit optional author and pre-publication command rather than part of the
+  ordinary specification validation gate.
 - Beckn dependencies were vendored and the offline reference graph was closed during
   Phase 4.
 - Standalone Trade and Trade-required common packs, JSON-LD files, and examples were

@@ -1,0 +1,110 @@
+{
+  "_generated": "Do not edit directly. Run tools/rego/generate_registry.rb --write releases/release2.",
+  "schemaVersion": 1,
+  "release": 2,
+  "publicQuery": "data.ion.release2.result",
+  "count": 3,
+  "rules": [
+    {
+      "id": "ION-R2-COM-0001",
+      "title": "Paid settlement declares its payment timestamp",
+      "description": "Requires paidAt on every settlement whose payment status is PAID in confirmation and status messages.",
+      "sector": "common",
+      "actions": [
+        "confirm",
+        "on_confirm",
+        "on_status",
+        "status"
+      ],
+      "package": "ion.release2.common.payment",
+      "ruleName": "violations",
+      "sourceModule": "rules/rego/ion/release2/common/payment.rego",
+      "errorCode": "POL_ELIGIBILITY_NOT_MET",
+      "schemaPaths": [
+        "schema/common/Payment/v1/attributes.yaml"
+      ],
+      "flowPaths": [
+        "flows/trade/patterns/storefront/v1/pattern.yaml"
+      ],
+      "errorPaths": [
+
+      ],
+      "policyIris": [
+
+      ],
+      "configKeys": [
+
+      ],
+      "dataPaths": [
+
+      ],
+      "status": "active"
+    },
+    {
+      "id": "ION-R2-TRD-0001",
+      "title": "Temporary provider closure declares its end",
+      "description": "Requires until when a Trade provider advertises TEMPORARILY_CLOSED in a catalog message.",
+      "sector": "trade",
+      "actions": [
+        "catalog/publish",
+        "on_discover"
+      ],
+      "package": "ion.release2.trade.provider",
+      "ruleName": "violations",
+      "sourceModule": "rules/rego/ion/release2/trade/provider.rego",
+      "errorCode": "POL_ELIGIBILITY_NOT_MET",
+      "schemaPaths": [
+        "schema/extension/trade/TradeProvider/v1/attributes.yaml"
+      ],
+      "flowPaths": [
+        "flows/trade/patterns/storefront/v1/pattern.yaml"
+      ],
+      "errorPaths": [
+
+      ],
+      "policyIris": [
+
+      ],
+      "configKeys": [
+
+      ],
+      "dataPaths": [
+
+      ],
+      "status": "active"
+    },
+    {
+      "id": "ION-R2-TRD-0002",
+      "title": "Central invoicing declares its issuing entity",
+      "description": "Requires entityId when a Trade provider selects the CENTRAL invoicing model in a catalog message.",
+      "sector": "trade",
+      "actions": [
+        "catalog/publish",
+        "on_discover"
+      ],
+      "package": "ion.release2.trade.provider",
+      "ruleName": "violations",
+      "sourceModule": "rules/rego/ion/release2/trade/provider.rego",
+      "errorCode": "POL_ELIGIBILITY_NOT_MET",
+      "schemaPaths": [
+        "schema/extension/trade/TradeProvider/v1/attributes.yaml"
+      ],
+      "flowPaths": [
+        "flows/trade/patterns/storefront/v1/pattern.yaml"
+      ],
+      "errorPaths": [
+
+      ],
+      "policyIris": [
+
+      ],
+      "configKeys": [
+
+      ],
+      "dataPaths": [
+
+      ],
+      "status": "active"
+    }
+  ]
+}

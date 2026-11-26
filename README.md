@@ -84,10 +84,12 @@ for evaluation and interoperability testing, not Release 1 production adoption.
 
 Release 1 excludes Hospitality and Finance. Logistics is
 `validated`: its included schemas, flows, state machines, policy connections,
-errors, and examples have passed the Phase 8 closure gate. The repository
-does not maintain separate editable `schema/`, `flows/`, or `errors/` trees at
-its root. Policies are the exception: their canonical sources and generated
-registry live in root `policies/` and evolve independently of integer releases.
+errors, and examples have passed the Phase 8 closure gate. The repository does
+not maintain separate editable `schema/`, `flows/`, `errors/`, or executable
+`rules/` trees at its root. Shared policy terms are the exception: their
+canonical sources and generated registry live in root `policies/` and evolve
+independently of integer releases. Executable rules tied to a wire contract
+belong in that release's `rules/` area.
 
 ## Repository structure
 
@@ -113,6 +115,7 @@ releases/
     schema/                    Release 2 API, packs, and vendored dependencies
     flows/                     Release 2 Trade and Logistics flows
     errors/                    Release 2 error sources and registry
+    rules/                     Release 2 executable-rules scaffold
 
 docs/                          Architecture and contributor documentation
 tools/release/                 Release construction and validation tools
@@ -144,6 +147,7 @@ Policy documents use their independent root namespace, for example
 | [Entity Hierarchy Model](docs/ION_Entity_Hierarchy_Model.md) | How participants, roles, sectors, and business classifications fit together across ION. |
 | [Resource Categories](docs/ION_Resource_Categories.md) | The draft cross-sector taxonomy and machine-readable codes used to classify products and services. |
 | [Transport and HTTP Signing](docs/ION_Transport_and_Signing.md) | The request/callback model, HTTP signatures, acknowledgements, and transport-level errors. |
+| [Rego Documentation](docs/rego/README.md) | Executable-rule architecture, authoring conventions, and ONIX bundle configuration. |
 | [Bu Sari Joins ION](docs/ION_Bu_Sari_Wizard.md) | A plain-language walkthrough of the network for business owners, product teams, regulators, and other non-protocol readers. |
 | [Bu Sari's Complete ION Journey](docs/ION_Bu_Sari_Complete_Journey.md) | The developer companion, with API calls, JSON payloads, and field-level details for an end-to-end seller journey. |
 

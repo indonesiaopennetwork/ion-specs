@@ -1,0 +1,9 @@
+{
+  "valid": false,
+  "violations": [
+    {
+      "code": "POL_ELIGIBILITY_NOT_MET",
+      "message": "[ION-R2-COM-0001] message.contract.settlements[0].settlementAttributes.paidAt: required when payment status is PAID"
+    }
+  ]
+}

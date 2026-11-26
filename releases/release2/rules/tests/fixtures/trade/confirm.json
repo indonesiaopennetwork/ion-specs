@@ -1,0 +1,56 @@
+{
+  "_meta": {
+    "description": "Minimal complete-envelope Trade input for the rule scaffold",
+    "sector": "trade"
+  },
+  "context": {
+    "action": "confirm",
+    "version": "2.0.0",
+    "bapId": "buyerapp.ion.id",
+    "bapUri": "https://buyerapp.ion.id/beckn",
+    "bppId": "sellerapp.ion.id",
+    "bppUri": "https://sellerapp.ion.id/beckn",
+    "networkId": "ion.id",
+    "transactionId": "9fdb667c-76c6-456a-9742-ba9caa5eb765",
+    "messageId": "d577c44a-e4c8-462b-a54f-3f197304f812",
+    "timestamp": "2026-09-19T10:32:16.000+07:00",
+    "ttl": "PT30S"
+  },
+  "message": {
+    "contract": {
+      "id": "288b3637-8af4-46cc-a384-cb588d680c1b",
+      "status": {
+        "code": "DRAFT"
+      },
+      "commitments": [
+        {
+          "id": "TRADE-COMMITMENT-001",
+          "status": {
+            "descriptor": {
+              "code": "DRAFT"
+            }
+          },
+          "resources": [
+            {
+              "id": "TRADE-RESOURCE-001",
+              "quantity": {
+                "unitQuantity": 1,
+                "unitCode": "EA"
+              }
+            }
+          ],
+          "offer": {
+            "id": "TRADE-OFFER-001",
+            "resourceIds": [
+              "TRADE-RESOURCE-001"
+            ]
+          }
+        }
+      ],
+      "contractAttributes": {
+        "@context": "https://schema.ion.id/release2/schema/extension/trade/TradeContract/v1/context.jsonld",
+        "@type": "ion:IONTradeContract"
+      }
+    }
+  }
+}

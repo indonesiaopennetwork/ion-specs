@@ -23,6 +23,16 @@ class ValidateReleaseImmutabilityTest < Minitest::Test
     assert_includes errors.first, "published release is immutable"
   end
 
+  def test_rule_changes_under_published_version_2_release_are_rejected
+    errors = IonReleaseImmutability.validate(
+      ["releases/release2"],
+      ["releases/release2/rules/rego/ion/release2/policy.rego"]
+    )
+
+    assert_equal 1, errors.length
+    assert_includes errors.first, "published release is immutable"
+  end
+
   def test_existing_draft_may_transition_to_published
     errors = IonReleaseImmutability.validate_transitions(
       { "releases/release1" => "draft" },

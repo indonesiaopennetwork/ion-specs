@@ -7,6 +7,9 @@ on:
       - "policies/**"
       - "tools/release/**"
       - "tools/policies/**"
+      - "tools/rego/**"
+      - "docs/rego/**"
+      - "docs/internal/rego/**"
       - ".github/workflows/release-validation.yml"
   push:
     branches: [main]
@@ -15,6 +18,9 @@ on:
       - "policies/**"
       - "tools/release/**"
       - "tools/policies/**"
+      - "tools/rego/**"
+      - "docs/rego/**"
+      - "docs/internal/rego/**"
       - ".github/workflows/release-validation.yml"
   workflow_dispatch:
     inputs:
@@ -45,6 +51,17 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.3"
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.25.x"
+          cache: false
+      - name: Install pinned OPA CLI
+        env:
+          GOBIN: ${{ runner.temp }}/ion-rego-tools
+        run: |
+          go install github.com/open-policy-agent/opa@v1.15.2
+          echo "$GOBIN" >> "$GITHUB_PATH"
+          echo "ION_OPA=$GOBIN/opa" >> "$GITHUB_ENV"
       - name: Validate release (publication gate is automatic for published manifests)
         run: ruby tools/release/validate_release.rb "releases/${RELEASE_NAME}"
       - name: Run publication gate
