@@ -14,7 +14,7 @@ contentStatus:
   finance: excluded
   flows: validated
   errors: validated
-  rules: review-required
+  rules: validation-pending
 dependencyStatus: complete
 dependencies:
 - name: AcceptedPaymentMethod
@@ -508,9 +508,10 @@ artifactChecksums:
 toolingCommit: null
 notes:
 - Draft release envelope created during migration Phase 2.
-- Manifest schema v2 reserves the release-owned rules area for executable business
-  rules; the area remains review-required until its Phase 2 scaffold and later
-  validation gates are implemented.
+- Phase 2 added the release-owned executable-rules scaffold, representative Trade
+  and Logistics smoke inputs, and a pinned OPA toolchain. The area remains
+  validation-pending until the later authoring, packaging, signing, and ONIX gates
+  are implemented.
 - Beckn dependencies were vendored and the offline reference graph was closed during
   Phase 4.
 - Standalone Trade and Trade-required common packs, JSON-LD files, and examples were

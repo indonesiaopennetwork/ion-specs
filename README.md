@@ -115,7 +115,7 @@ releases/
     schema/                    Release 2 API, packs, and vendored dependencies
     flows/                     Release 2 Trade and Logistics flows
     errors/                    Release 2 error sources and registry
-    rules/                     Release 2 executable business rules (planned)
+    rules/                     Release 2 executable-rules scaffold
 
 docs/                          Architecture and contributor documentation
 tools/release/                 Release construction and validation tools

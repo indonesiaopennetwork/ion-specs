@@ -4,7 +4,7 @@
 
 Release 2 is the mutable successor to the published Release 1 baseline. It
 defines the ION API additions, common attribute packs, Trade and Logistics
-extensions, reference flows, errors, the planned executable-rules area, and
+extensions, reference flows, errors, the executable-rules scaffold, and
 pinned Beckn dependencies included in this release.
 
 Release 2 is the active mutable draft. It is not assigned to a release channel,
@@ -108,16 +108,17 @@ shared registry published at
 
 ### Executable rules
 
-Release 2 manifest schema v2 reserves `rules/` for ION-authored Rego business
-rules that depend on this release's message, schema, and flow contracts. The
-area is currently `review-required`; its runtime sources and generated artifacts
-will be added only after the authoring and validation instrumentation is in
-place.
+[`rules/`](rules/) contains the Release 2 scaffold for ION-authored Rego
+business rules that depend on this release's message, schema, and flow
+contracts. Its stable public query is `data.ion.release2.result`. Phase 2 pins
+the OPA toolchain and exercises that query with representative Trade and
+Logistics inputs; substantive rules, the generated registry, and the canonical
+bundle are later phases.
 
 Executable rules are release-owned artifacts and are distinct from the shared
-policy terms in root `policies/`. Until the rules area is implemented and its
-status becomes `validated`, Release 2 makes no claim that ONIX is enforcing an
-ION Rego bundle.
+policy terms in root `policies/`. The area remains `validation-pending`. Until
+its status becomes `validated`, Release 2 makes no claim that ONIX is enforcing
+an ION Rego bundle.
 
 ### Vendored dependencies
 
@@ -149,8 +150,8 @@ upstream baseline:
 
 The authoritative scope and validation state are defined by
 [`release.yaml`](release.yaml). Trade, Logistics, their common dependencies,
-flows, and errors are validated. Executable rules are under review. Hospitality
-and Finance are excluded. The
+flows, and errors are validated. Executable rules are validation-pending.
+Hospitality and Finance are excluded. The
 standalone core API contracts, `ion-beckn.yaml` and `ion-additional.yaml`, have completed review and
 are validated for Release 2.
 
@@ -194,18 +195,21 @@ release2/
     trade/                  Trade reference patterns and variants
     logistics/              Logistics patterns, variants, and state machines
   errors/                   Sector error sources and generated registry
-  rules/                    Executable business rules and bundles (planned)
+  rules/                    Rego sources, tests, data, and future bundles
 ```
 
 ## Validation
 
-Run the complete Release 2 gate from the repository root:
+Until Phase 3 integrates Rego into the release validator, run the Rego scaffold
+gate and then the complete existing Release 2 gate from the repository root:
 
 ```bash
+ruby tools/rego/validate_scaffold.rb releases/release2
 ruby tools/release/validate_release.rb releases/release2
 ```
 
-This is also the CI entry point. It runs the release-tool tests and verifies the
+CI runs both commands. Together they verify the pinned OPA toolchain, Rego
+formatting and compilation, rule tests and smoke inputs, release-tool tests,
 manifest, scope, generated registries, artifact checksums, offline references,
 public-path mapping, and Trade and Logistics connections.
 

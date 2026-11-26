@@ -226,8 +226,7 @@ published release.
 
 ## Manifest evolution
 
-The current manifest schema knows only the original artifact roots. Release 2
-will move to release manifest `schemaVersion: 2`, adding:
+Release 2 uses release manifest `schemaVersion: 2` and adds:
 
 ```yaml
 contentStatus:
@@ -237,6 +236,10 @@ contentStatus:
 The v2 publication inventory covers `schema/`, `flows/`, `errors/`, and
 `rules/`. Validators must dispatch by manifest schema version so the published
 Release 1 v1 manifest remains valid without alteration.
+
+Phase 2 moves `contentStatus.rules` to `validation-pending` when the source and
+toolchain scaffold exists. It does not imply that substantive rules, a signed
+bundle, or ONIX integration are complete.
 
 `rules` follows the same content states as other areas:
 

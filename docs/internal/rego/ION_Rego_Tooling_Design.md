@@ -247,6 +247,12 @@ from the released artifact.
 
 ## CI behavior
 
+The supported CLI is pinned in `tools/rego/opa-version` and must exactly match
+the OPA library version used by ONIX. Phase 2 pins `1.15.2`. CI installs that
+source version with Go into a job-local directory; no platform-specific OPA
+binary is committed. The read-only checker rejects a missing executable or any
+version mismatch before evaluation begins.
+
 Changes under any of these paths trigger the complete applicable gate:
 
 ```text

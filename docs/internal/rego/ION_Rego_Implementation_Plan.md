@@ -133,7 +133,24 @@ feat(release): add versioned rules area to release manifests
 
 ## Phase 2 — Add the source scaffold and pin the toolchain
 
-**Status:** Not started
+**Status:** Complete (2026-11-26)
+
+### Completion evidence
+
+- Added the release-owned source, test, fixture, data, and future-bundle layout
+  under `releases/release2/rules/`.
+- Established `data.ion.release2.result` with the exact empty-valid result and
+  exercised it with representative Trade and Logistics confirm envelopes.
+- Pinned OPA CLI `1.15.2`, matching ONIX, and added actionable missing/version
+  checks, strict compilation, formatting, unit-test, and evaluation tooling.
+- CI installs the exact OPA source version into a job-local directory and runs
+  both the Ruby tool tests and the scaffold validation. No platform binary or
+  key material is committed.
+- Added an unmistakably test-only, dry-run-by-default ES256 key generator that
+  refuses both release-tree output and overwrites.
+- Confirmed the Rego-specific validation, the schema-v1 Release 1 skip boundary,
+  and the complete Release 2 gate. The full Release 1 gate is intentionally
+  deferred until the end of the broader Rego work session.
 
 ### Goal
 
