@@ -1,0 +1,3 @@
+# Event Ticketing API examples v0.3
+
+515 scenario messages plus five catalogue-publish inputs. Each `flows/SCxx/sequence.json` describes ordering. All 43 in-scope scenario IDs present; SC24 deferred. Request and callback bodies pass supplied Release 2 API schemas offline. Examples are not pre-signed or suitable for live replay. `schemas/` and `policies/` are local fixture copies; the release packs and registry remain the canonical proposed sources. See root README and conformance results for scope, test limitations and runtime instructions. Historical v0.2 documentation is retained only for traceability.

@@ -1,0 +1,18 @@
+iri: ion://policy/cancel.event.until-48h
+category: CANCELLATION
+version: 1.0.0
+status: draft
+sector: hospitality
+applicableCategories:
+- HSC-events
+rule: 'Unused ticket: buyer cancellation at least 48 hours before session start; full
+  eligible paid amount refunded.'
+regulatoryBasis: []
+reviewRequired: true
+displayText:
+  id: Pengembalian penuh hingga 48 jam sebelum sesi
+  en: Full refund until 48 hours before session
+versionEffectiveFrom: null
+applicableResourceTypes: []
+supersededBy: null
+deprecatedAt: null

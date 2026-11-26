@@ -1,0 +1,154 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@protected": true,
+    "ion": "https://schema.ion.id/hospitality/consideration/v1#",
+    "beckn": "https://schema.beckn.io/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "schema": "https://schema.org/",
+    "IONHospitalityConsideration": "ion:IONHospitalityConsideration",
+    "currency": "ion:currency",
+    "components": "ion:components",
+    "componentId": "ion:componentId",
+    "lineRef": "ion:lineRef",
+    "kind": "ion:kind",
+    "amountMinor": "ion:amountMinor",
+    "included": "ion:included",
+    "funderRef": "ion:funderRef",
+    "payableMinor": "ion:payableMinor",
+    "paymentState": "ion:paymentState",
+    "paymentRef": "ion:paymentRef",
+    "refunds": "ion:refunds",
+    "refundId": "ion:refundId",
+    "ticketIds": "ion:ticketIds",
+    "state": "ion:state",
+    "scope": "ion:scope",
+    "attemptRef": "ion:attemptRef",
+    "buyerFinderFee": "ion:buyerFinderFee",
+    "feeAmount": "ion:feeAmount"
+  },
+  "@graph": [
+    {
+      "@id": "ion:IONHospitalityConsideration",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONHospitalityConsideration",
+      "rdfs:comment": "Draft hospitality consideration extension for event admission ticketing."
+    },
+    {
+      "@id": "ion:currency",
+      "@type": "rdf:Property",
+      "rdfs:label": "currency",
+      "rdfs:comment": "ISO 4217 currency code."
+    },
+    {
+      "@id": "ion:components",
+      "@type": "rdf:Property",
+      "rdfs:label": "components",
+      "rdfs:comment": "Price components expressed in minor units for the declared currency; inclusive components are informational."
+    },
+    {
+      "@id": "ion:componentId",
+      "@type": "rdf:Property",
+      "rdfs:label": "componentId",
+      "rdfs:comment": "Component identity."
+    },
+    {
+      "@id": "ion:lineRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "lineRef",
+      "rdfs:comment": "Affected commitment or entitlement."
+    },
+    {
+      "@id": "ion:kind",
+      "@type": "rdf:Property",
+      "rdfs:label": "kind",
+      "rdfs:comment": "Component role."
+    },
+    {
+      "@id": "ion:amountMinor",
+      "@type": "rdf:Property",
+      "rdfs:label": "amountMinor",
+      "rdfs:comment": "Nonnegative magnitude in currency minor units."
+    },
+    {
+      "@id": "ion:included",
+      "@type": "rdf:Property",
+      "rdfs:label": "included",
+      "rdfs:comment": "Already included in base price."
+    },
+    {
+      "@id": "ion:funderRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "funderRef",
+      "rdfs:comment": "Party funding discount."
+    },
+    {
+      "@id": "ion:payableMinor",
+      "@type": "rdf:Property",
+      "rdfs:label": "payableMinor",
+      "rdfs:comment": "Agreed amount payable in minor units."
+    },
+    {
+      "@id": "ion:paymentState",
+      "@type": "rdf:Property",
+      "rdfs:label": "paymentState",
+      "rdfs:comment": "Authoritative payment outcome."
+    },
+    {
+      "@id": "ion:paymentRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "paymentRef",
+      "rdfs:comment": "Opaque common payment evidence reference."
+    },
+    {
+      "@id": "ion:refunds",
+      "@type": "rdf:Property",
+      "rdfs:label": "refunds",
+      "rdfs:comment": "Refund obligations independent of ticket state."
+    },
+    {
+      "@id": "ion:refundId",
+      "@type": "rdf:Property",
+      "rdfs:label": "refundId",
+      "rdfs:comment": "Stable refund operation ID."
+    },
+    {
+      "@id": "ion:ticketIds",
+      "@type": "rdf:Property",
+      "rdfs:label": "ticketIds",
+      "rdfs:comment": "Affected ticket identities."
+    },
+    {
+      "@id": "ion:state",
+      "@type": "rdf:Property",
+      "rdfs:label": "state",
+      "rdfs:comment": "Refund lifecycle."
+    },
+    {
+      "@id": "ion:scope",
+      "@type": "rdf:Property",
+      "rdfs:label": "scope",
+      "rdfs:comment": "scope"
+    },
+    {
+      "@id": "ion:attemptRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "attemptRef",
+      "rdfs:comment": "Stable failed booking attempt."
+    },
+    {
+      "@id": "ion:buyerFinderFee",
+      "@type": "rdf:Property",
+      "rdfs:label": "buyerFinderFee",
+      "rdfs:comment": "Agreed BAP fee; separate from buyer consideration."
+    },
+    {
+      "@id": "ion:feeAmount",
+      "@type": "rdf:Property",
+      "rdfs:label": "feeAmount",
+      "rdfs:comment": "Fee in major units."
+    }
+  ]
+}

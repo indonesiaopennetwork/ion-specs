@@ -1,0 +1,326 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@protected": true,
+    "ion": "https://schema.ion.id/hospitality/contract/v1#",
+    "beckn": "https://schema.beckn.io/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "schema": "https://schema.org/",
+    "IONHospitalityContract": "ion:IONHospitalityContract",
+    "bookingRef": "ion:bookingRef",
+    "revision": "ion:revision",
+    "eventRevision": "ion:eventRevision",
+    "bookingState": "ion:bookingState",
+    "acceptedPolicies": "ion:acceptedPolicies",
+    "policyRef": "ion:policyRef",
+    "version": "ion:version",
+    "digest": "ion:digest",
+    "operationRef": "ion:operationRef",
+    "change": "ion:change",
+    "changeId": "ion:changeId",
+    "kind": "ion:kind",
+    "ticketIds": "ion:ticketIds",
+    "expectedRevision": "ion:expectedRevision",
+    "previewExpiresAt": "ion:previewExpiresAt",
+    "decision": "ion:decision",
+    "refundMinor": "ion:refundMinor",
+    "additionalPayableMinor": "ion:additionalPayableMinor",
+    "offeredPolicies": "ion:offeredPolicies",
+    "lookupRef": "ion:lookupRef",
+    "initiator": "ion:initiator",
+    "applicationState": "ion:applicationState",
+    "noticeRef": "ion:noticeRef",
+    "proposedEventRevision": "ion:proposedEventRevision",
+    "proposedSessions": "ion:proposedSessions",
+    "replacementAllocations": "ion:replacementAllocations",
+    "sessionId": "ion:sessionId",
+    "startsAt": "ion:startsAt",
+    "endsAt": "ion:endsAt",
+    "entryOpensAt": "ion:entryOpensAt",
+    "entryClosesAt": "ion:entryClosesAt",
+    "venueRef": "ion:venueRef",
+    "layoutRevision": "ion:layoutRevision",
+    "poolId": "ion:poolId",
+    "mode": "ion:mode",
+    "admissions": "ion:admissions",
+    "sectionId": "ion:sectionId",
+    "seatIds": "ion:seatIds",
+    "tableId": "ion:tableId",
+    "adjacentRequested": "ion:adjacentRequested",
+    "accessibleRequested": "ion:accessibleRequested",
+    "allocationState": "ion:allocationState",
+    "accessibleSeatId": "ion:accessibleSeatId",
+    "companionSeatId": "ion:companionSeatId"
+  },
+  "@graph": [
+    {
+      "@id": "ion:IONHospitalityContract",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONHospitalityContract",
+      "rdfs:comment": "Draft hospitality contract extension for event admission ticketing."
+    },
+    {
+      "@id": "ion:bookingRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "bookingRef",
+      "rdfs:comment": "Stable booking identity."
+    },
+    {
+      "@id": "ion:revision",
+      "@type": "rdf:Property",
+      "rdfs:label": "revision",
+      "rdfs:comment": "Monotonic booking revision."
+    },
+    {
+      "@id": "ion:eventRevision",
+      "@type": "rdf:Property",
+      "rdfs:label": "eventRevision",
+      "rdfs:comment": "Accepted event revision."
+    },
+    {
+      "@id": "ion:bookingState",
+      "@type": "rdf:Property",
+      "rdfs:label": "bookingState",
+      "rdfs:comment": "Booking lifecycle."
+    },
+    {
+      "@id": "ion:acceptedPolicies",
+      "@type": "rdf:Property",
+      "rdfs:label": "acceptedPolicies",
+      "rdfs:comment": "Immutable policy snapshots accepted at checkout."
+    },
+    {
+      "@id": "ion:policyRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "policyRef",
+      "rdfs:comment": "Registered policy IRI."
+    },
+    {
+      "@id": "ion:version",
+      "@type": "rdf:Property",
+      "rdfs:label": "version",
+      "rdfs:comment": "Immutable accepted policy version."
+    },
+    {
+      "@id": "ion:digest",
+      "@type": "rdf:Property",
+      "rdfs:label": "digest",
+      "rdfs:comment": "SHA-256 digest of accepted policy content."
+    },
+    {
+      "@id": "ion:operationRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "operationRef",
+      "rdfs:comment": "Idempotent business operation reference."
+    },
+    {
+      "@id": "ion:change",
+      "@type": "rdf:Property",
+      "rdfs:label": "change",
+      "rdfs:comment": "Proposed or accepted change to specific entitlements."
+    },
+    {
+      "@id": "ion:changeId",
+      "@type": "rdf:Property",
+      "rdfs:label": "changeId",
+      "rdfs:comment": "Change operation identity."
+    },
+    {
+      "@id": "ion:kind",
+      "@type": "rdf:Property",
+      "rdfs:label": "kind",
+      "rdfs:comment": "Change reason."
+    },
+    {
+      "@id": "ion:ticketIds",
+      "@type": "rdf:Property",
+      "rdfs:label": "ticketIds",
+      "rdfs:comment": "Affected tickets."
+    },
+    {
+      "@id": "ion:expectedRevision",
+      "@type": "rdf:Property",
+      "rdfs:label": "expectedRevision",
+      "rdfs:comment": "Revision used for conditional mutation."
+    },
+    {
+      "@id": "ion:previewExpiresAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "previewExpiresAt",
+      "rdfs:comment": "Expiry of preview."
+    },
+    {
+      "@id": "ion:decision",
+      "@type": "rdf:Property",
+      "rdfs:label": "decision",
+      "rdfs:comment": "Consent status."
+    },
+    {
+      "@id": "ion:refundMinor",
+      "@type": "rdf:Property",
+      "rdfs:label": "refundMinor",
+      "rdfs:comment": "Quoted refund amount."
+    },
+    {
+      "@id": "ion:additionalPayableMinor",
+      "@type": "rdf:Property",
+      "rdfs:label": "additionalPayableMinor",
+      "rdfs:comment": "Additional price payable."
+    },
+    {
+      "@id": "ion:offeredPolicies",
+      "@type": "rdf:Property",
+      "rdfs:label": "offeredPolicies",
+      "rdfs:comment": "Versioned policy snapshots offered before consent."
+    },
+    {
+      "@id": "ion:lookupRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "lookupRef",
+      "rdfs:comment": "Stable BPP draft reference usable for recovery, candidate binding."
+    },
+    {
+      "@id": "ion:initiator",
+      "@type": "rdf:Property",
+      "rdfs:label": "initiator",
+      "rdfs:comment": "initiator"
+    },
+    {
+      "@id": "ion:applicationState",
+      "@type": "rdf:Property",
+      "rdfs:label": "applicationState",
+      "rdfs:comment": "Operational application independent of consent."
+    },
+    {
+      "@id": "ion:noticeRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "noticeRef",
+      "rdfs:comment": "Stable event change notice."
+    },
+    {
+      "@id": "ion:proposedEventRevision",
+      "@type": "rdf:Property",
+      "rdfs:label": "proposedEventRevision",
+      "rdfs:comment": "proposedEventRevision"
+    },
+    {
+      "@id": "ion:proposedSessions",
+      "@type": "rdf:Property",
+      "rdfs:label": "proposedSessions",
+      "rdfs:comment": "Proposed sessions, not contracted rights."
+    },
+    {
+      "@id": "ion:replacementAllocations",
+      "@type": "rdf:Property",
+      "rdfs:label": "replacementAllocations",
+      "rdfs:comment": "Replacement allocation proposed for affected tickets."
+    },
+    {
+      "@id": "ion:sessionId",
+      "@type": "rdf:Property",
+      "rdfs:label": "sessionId",
+      "rdfs:comment": "Session identity."
+    },
+    {
+      "@id": "ion:startsAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "startsAt",
+      "rdfs:comment": "Start instant."
+    },
+    {
+      "@id": "ion:endsAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "endsAt",
+      "rdfs:comment": "End instant."
+    },
+    {
+      "@id": "ion:entryOpensAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "entryOpensAt",
+      "rdfs:comment": "Earliest entry instant."
+    },
+    {
+      "@id": "ion:entryClosesAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "entryClosesAt",
+      "rdfs:comment": "Latest entry instant."
+    },
+    {
+      "@id": "ion:venueRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "venueRef",
+      "rdfs:comment": "Venue or core location reference."
+    },
+    {
+      "@id": "ion:layoutRevision",
+      "@type": "rdf:Property",
+      "rdfs:label": "layoutRevision",
+      "rdfs:comment": "Layout revision for assigned seats."
+    },
+    {
+      "@id": "ion:poolId",
+      "@type": "rdf:Property",
+      "rdfs:label": "poolId",
+      "rdfs:comment": "Authoritative capacity pool."
+    },
+    {
+      "@id": "ion:mode",
+      "@type": "rdf:Property",
+      "rdfs:label": "mode",
+      "rdfs:comment": "mode"
+    },
+    {
+      "@id": "ion:admissions",
+      "@type": "rdf:Property",
+      "rdfs:label": "admissions",
+      "rdfs:comment": "Number of admissions represented by this allocation."
+    },
+    {
+      "@id": "ion:sectionId",
+      "@type": "rdf:Property",
+      "rdfs:label": "sectionId",
+      "rdfs:comment": "Section identifier."
+    },
+    {
+      "@id": "ion:seatIds",
+      "@type": "rdf:Property",
+      "rdfs:label": "seatIds",
+      "rdfs:comment": "Exact assigned seat identifiers."
+    },
+    {
+      "@id": "ion:tableId",
+      "@type": "rdf:Property",
+      "rdfs:label": "tableId",
+      "rdfs:comment": "Table identifier."
+    },
+    {
+      "@id": "ion:adjacentRequested",
+      "@type": "rdf:Property",
+      "rdfs:label": "adjacentRequested",
+      "rdfs:comment": "Buyer requests adjacent seats."
+    },
+    {
+      "@id": "ion:accessibleRequested",
+      "@type": "rdf:Property",
+      "rdfs:label": "accessibleRequested",
+      "rdfs:comment": "Buyer requests accessible allocation."
+    },
+    {
+      "@id": "ion:allocationState",
+      "@type": "rdf:Property",
+      "rdfs:label": "allocationState"
+    },
+    {
+      "@id": "ion:accessibleSeatId",
+      "@type": "rdf:Property",
+      "rdfs:label": "accessibleSeatId"
+    },
+    {
+      "@id": "ion:companionSeatId",
+      "@type": "rdf:Property",
+      "rdfs:label": "companionSeatId"
+    }
+  ]
+}

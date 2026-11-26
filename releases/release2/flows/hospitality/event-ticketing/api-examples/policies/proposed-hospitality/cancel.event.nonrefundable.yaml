@@ -1,0 +1,18 @@
+iri: ion://policy/cancel.event.nonrefundable
+category: CANCELLATION
+version: 1.0.0
+status: draft
+sector: hospitality
+applicableCategories:
+- HSC-events
+rule: Ordinary buyer cancellation after confirmation is not permitted; organiser non-delivery
+  and statutory rights unaffected.
+regulatoryBasis: []
+reviewRequired: true
+displayText:
+  id: Tiket tidak dapat dibatalkan oleh pembeli sesuai ketentuan
+  en: Restricted buyer cancellation
+versionEffectiveFrom: null
+applicableResourceTypes: []
+supersededBy: null
+deprecatedAt: null

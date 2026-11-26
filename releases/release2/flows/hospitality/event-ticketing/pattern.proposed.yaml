@@ -1,0 +1,58 @@
+id: event-ticketing
+parent: experience-booking
+status: draft
+crc:
+- HSC-events
+steps:
+- request: discover
+  callback: on_discover
+  packs:
+  - Resource
+  - Offer
+  - Provider
+- request: select
+  callback: on_select
+  packs:
+  - Commitment
+  - Consideration
+  rule: Indicative allocation and quote; no lock.
+- request: init
+  callback: on_init
+  packs:
+  - Commitment
+  - Contract
+  - Consideration
+  rule: Atomic hold and offered policy snapshots; no buyer acceptance asserted before
+    confirm.
+- request: confirm
+  callback: on_confirm
+  packs:
+  - Commitment
+  - Contract
+  - Consideration
+  - Performance
+  rule: Require explicit acceptance of offered snapshots and verified payment, then
+    commit exactly once.
+- request: status
+  callback: on_status
+  packs:
+  - Contract
+  - Performance
+  - Consideration
+- request: update
+  callback: on_update
+  packs:
+  - Contract
+  - Commitment
+  - Consideration
+  - Performance
+- request: cancel
+  callback: on_cancel
+  packs:
+  - Contract
+  - Consideration
+  - Performance
+sharedFlows:
+- support/on_support
+- reconcile/on_reconcile
+note: Logical pack mapping, not core wire envelope.

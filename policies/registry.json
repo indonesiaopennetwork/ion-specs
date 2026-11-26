@@ -2,9 +2,11 @@
   "_generated": "Do not edit directly. Run tools/policies/generate_registry.rb --write.",
   "_scheme": "ion://policy/{category}.{sector-or-scope}.{variant-name}",
   "version": "2.0.0",
-  "totalPolicies": 89,
+  "totalPolicies": 95,
   "byCategory": {
-    "CANCELLATION": 14,
+    "ADMISSION": 1,
+    "CANCELLATION": 18,
+    "CHANGE": 1,
     "DISPUTE": 5,
     "EVIDENCE": 2,
     "GRIEVANCE_SLA": 4,
@@ -21,11 +23,37 @@
     "WEIGHT_DISPUTE": 1
   },
   "bySector": {
+    "hospitality": 6,
     "cross-sector": 39,
     "logistics": 22,
     "trade": 28
   },
   "policies": [
+    {
+      "iri": "ion://policy/admission.event.standard",
+      "category": "ADMISSION",
+      "subCategory": null,
+      "version": "1.0.0",
+      "status": "draft",
+      "versionEffectiveFrom": null,
+      "displayText": {
+        "id": "Hak masuk acara",
+        "en": "Event admission rights"
+      },
+      "applicableCategories": [
+        "HSC-events"
+      ],
+      "applicableResourceTypes": [
+
+      ],
+      "regulatoryBasis": [
+
+      ],
+      "supersededBy": null,
+      "deprecatedAt": null,
+      "sector": "hospitality",
+      "docPath": "policies/admission/v1/hospitality/admission.event.standard.yaml"
+    },
     {
       "iri": "ion://policy/cancel.b2b.until-dispatched-15pct",
       "category": "CANCELLATION",
@@ -92,6 +120,106 @@
       "deprecatedAt": null,
       "sector": "cross-sector",
       "docPath": "policies/cancellation/v1/digital-before-pending.yaml"
+    },
+    {
+      "iri": "ion://policy/cancel.event.nonrefundable",
+      "category": "CANCELLATION",
+      "subCategory": null,
+      "version": "1.0.0",
+      "status": "draft",
+      "versionEffectiveFrom": null,
+      "displayText": {
+        "id": "Tiket tidak dapat dibatalkan oleh pembeli sesuai ketentuan",
+        "en": "Restricted buyer cancellation"
+      },
+      "applicableCategories": [
+        "HSC-events"
+      ],
+      "applicableResourceTypes": [
+
+      ],
+      "regulatoryBasis": [
+
+      ],
+      "supersededBy": null,
+      "deprecatedAt": null,
+      "sector": "hospitality",
+      "docPath": "policies/cancellation/v1/hospitality/cancel.event.nonrefundable.yaml"
+    },
+    {
+      "iri": "ion://policy/cancel.event.organiser-full",
+      "category": "CANCELLATION",
+      "subCategory": null,
+      "version": "1.0.0",
+      "status": "draft",
+      "versionEffectiveFrom": null,
+      "displayText": {
+        "id": "Pengembalian penuh jika acara dibatalkan penyelenggara",
+        "en": "Full refund on organiser cancellation"
+      },
+      "applicableCategories": [
+        "HSC-events"
+      ],
+      "applicableResourceTypes": [
+
+      ],
+      "regulatoryBasis": [
+
+      ],
+      "supersededBy": null,
+      "deprecatedAt": null,
+      "sector": "hospitality",
+      "docPath": "policies/cancellation/v1/hospitality/cancel.event.organiser-full.yaml"
+    },
+    {
+      "iri": "ion://policy/cancel.event.until-48h",
+      "category": "CANCELLATION",
+      "subCategory": null,
+      "version": "1.0.0",
+      "status": "draft",
+      "versionEffectiveFrom": null,
+      "displayText": {
+        "id": "Pengembalian penuh hingga 48 jam sebelum sesi",
+        "en": "Full refund until 48 hours before session"
+      },
+      "applicableCategories": [
+        "HSC-events"
+      ],
+      "applicableResourceTypes": [
+
+      ],
+      "regulatoryBasis": [
+
+      ],
+      "supersededBy": null,
+      "deprecatedAt": null,
+      "sector": "hospitality",
+      "docPath": "policies/cancellation/v1/hospitality/cancel.event.until-48h.yaml"
+    },
+    {
+      "iri": "ion://policy/cancel.event.until-48h-80pct",
+      "category": "CANCELLATION",
+      "subCategory": null,
+      "version": "0.1.0",
+      "status": "draft",
+      "versionEffectiveFrom": null,
+      "displayText": {
+        "id": "Pengembalian 80 persen hingga 48 jam sebelum sesi",
+        "en": "80% refund until 48 hours before session"
+      },
+      "applicableCategories": [
+        "HSC-events"
+      ],
+      "applicableResourceTypes": [
+
+      ],
+      "regulatoryBasis": [
+
+      ],
+      "supersededBy": null,
+      "deprecatedAt": null,
+      "sector": "hospitality",
+      "docPath": "policies/cancellation/v1/hospitality/cancel.event.until-48h-80pct.yaml"
     },
     {
       "iri": "ion://policy/cancel.flash-sale.none-after-confirm",
@@ -484,6 +612,31 @@
       "deprecatedAt": null,
       "sector": "cross-sector",
       "docPath": "policies/cancellation/v1/subscription-prorated.yaml"
+    },
+    {
+      "iri": "ion://policy/change.event.choice",
+      "category": "CHANGE",
+      "subCategory": null,
+      "version": "1.0.0",
+      "status": "draft",
+      "versionEffectiveFrom": null,
+      "displayText": {
+        "id": "Pilihan pembeli saat perubahan material acara",
+        "en": "Buyer choice after material event change"
+      },
+      "applicableCategories": [
+        "HSC-events"
+      ],
+      "applicableResourceTypes": [
+
+      ],
+      "regulatoryBasis": [
+
+      ],
+      "supersededBy": null,
+      "deprecatedAt": null,
+      "sector": "hospitality",
+      "docPath": "policies/change/v1/hospitality/change.event.choice.yaml"
     },
     {
       "iri": "ion://policy/dispute.b2g.lkpp",

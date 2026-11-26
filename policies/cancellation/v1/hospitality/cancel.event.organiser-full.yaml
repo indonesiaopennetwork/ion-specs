@@ -1,0 +1,18 @@
+iri: ion://policy/cancel.event.organiser-full
+category: CANCELLATION
+version: 1.0.0
+status: draft
+sector: hospitality
+applicableCategories:
+- HSC-events
+rule: Organiser cancellation revokes affected entitlements and creates full paid amount
+  refund obligation.
+regulatoryBasis: []
+reviewRequired: true
+displayText:
+  id: Pengembalian penuh jika acara dibatalkan penyelenggara
+  en: Full refund on organiser cancellation
+versionEffectiveFrom: null
+applicableResourceTypes: []
+supersededBy: null
+deprecatedAt: null

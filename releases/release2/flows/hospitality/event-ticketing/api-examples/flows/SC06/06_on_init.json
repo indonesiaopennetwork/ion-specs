@@ -1,0 +1,242 @@
+{
+  "context": {
+    "version": "2.0.0",
+    "networkId": "ion.example/test",
+    "ttl": "PT30S",
+    "action": "on_init",
+    "bapId": "buyer.example",
+    "bapUri": "https://buyer.example/beckn",
+    "transactionId": "80f3792a-cd90-553d-945d-8154f316ccc0",
+    "messageId": "4a194f3d-5120-5b56-a2b6-6874b6af0cae",
+    "timestamp": "2027-02-01T14:00:30+07:00",
+    "bppId": "seller.example",
+    "bppUri": "https://seller.example/beckn",
+    "requestDigest": {
+      "digest": "BLAKE-512=hv7HSuD0loLy6gqblbE7SBQ52tKiBSdvYbxua9wRb+q7hBokEclDpa4LOLUjUJkOc14oNmGftR3up76uJjkZwQ=="
+    }
+  },
+  "message": {
+    "contract": {
+      "commitments": [
+        {
+          "offer": {
+            "id": "O1",
+            "resourceIds": [
+              "EV-SC06"
+            ],
+            "offerAttributes": {
+              "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityOffer/v1/context.jsonld",
+              "@type": "ion:IONHospitalityOffer",
+              "eventRef": "EV-SC06",
+              "admissionClass": "REGULAR",
+              "allocationMode": "TABLE_SEAT",
+              "rights": {
+                "sessionIds": [
+                  "S1"
+                ],
+                "maxEntriesPerSession": 1,
+                "named": false,
+                "reentryAllowed": false
+              },
+              "poolIds": [
+                "POOL-TABLE_SEAT"
+              ],
+              "salesStart": "2026-12-01T00:00:00+07:00",
+              "salesEnd": "2027-02-10T14:00:00+07:00",
+              "maxAdmissions": 20,
+              "policies": {
+                "cancellation": {
+                  "policyRef": "ion://policy/cancel.event.until-48h"
+                },
+                "organiserCancellation": {
+                  "policyRef": "ion://policy/cancel.event.organiser-full"
+                },
+                "admission": {
+                  "policyRef": "ion://policy/admission.event.standard"
+                }
+              }
+            }
+          },
+          "id": "CM1",
+          "status": {
+            "descriptor": {
+              "code": "DRAFT"
+            }
+          },
+          "resources": [
+            {
+              "resource": {
+                "id": "EV-SC06",
+                "descriptor": {
+                  "name": "Year-end Gala"
+                },
+                "resourceAttributes": {
+                  "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityResource/v1/context.jsonld",
+                  "@type": "ion:IONHospitalityResource",
+                  "crc": "HSC-events",
+                  "event": {
+                    "eventId": "EV-SC06",
+                    "organiserRef": "ORG1",
+                    "timezone": "Asia/Jakarta",
+                    "revision": 1,
+                    "state": "SCHEDULED",
+                    "sessions": [
+                      {
+                        "sessionId": "S1",
+                        "startsAt": "2027-02-10T14:00:00+07:00",
+                        "endsAt": "2027-02-10T17:00:00+07:00",
+                        "venueRef": "VENUE1",
+                        "layoutRevision": "L1"
+                      }
+                    ]
+                  }
+                }
+              },
+              "quantity": {
+                "unitQuantity": 2,
+                "unitText": "admissions"
+              }
+            }
+          ],
+          "commitmentAttributes": {
+            "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityCommitment/v1/context.jsonld",
+            "@type": "ion:IONHospitalityCommitment",
+            "offerRef": "O1",
+            "quantity": 2,
+            "allocations": [
+              {
+                "sessionId": "S1",
+                "poolId": "POOL-TABLE_SEAT",
+                "mode": "TABLE_SEAT",
+                "admissions": 2,
+                "tableId": "T7",
+                "seatIds": [
+                  "T7-1",
+                  "T7-2"
+                ],
+                "layoutRevision": "L1",
+                "allocationState": "HELD"
+              }
+            ],
+            "quoteRef": "Q1",
+            "quoteExpiresAt": "2027-02-01T14:05:00+07:00",
+            "hold": {
+              "holdId": "H1",
+              "expiresAt": "2027-02-01T14:05:00+07:00",
+              "basketDigest": "cf165930da468e0a0e5cb3f85825b7b1b886d1ba3d4d62fd2044dc5e28a5c5ec",
+              "state": "HELD"
+            }
+          }
+        }
+      ],
+      "consideration": [
+        {
+          "id": "C1",
+          "status": {
+            "code": "DRAFT"
+          },
+          "considerationAttributes": {
+            "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityConsideration/v1/context.jsonld",
+            "@type": "ion:IONHospitalityConsideration",
+            "currency": "IDR",
+            "components": [
+              {
+                "componentId": "BASE1",
+                "kind": "BASE",
+                "amountMinor": 100000000,
+                "included": false
+              }
+            ],
+            "payableMinor": 100000000,
+            "paymentState": "PENDING",
+            "buyerFinderFee": {
+              "feeAmount": 0
+            }
+          }
+        }
+      ],
+      "settlements": [
+        {
+          "id": "PAYMENT-1",
+          "considerationId": "C1",
+          "status": "DRAFT",
+          "settlementAttributes": {
+            "@context": "https://schema.ion.id/release2/schema/common/Settlement/v1/context.jsonld",
+            "@type": "ion:IONSettlementReconciliation",
+            "method": "EWALLET",
+            "methodDetail": {
+              "provider": "TEST_WALLET",
+              "amount": 1000000.0
+            },
+            "collectedBy": "BAP",
+            "timing": "ON_ORDER",
+            "status": "PENDING",
+            "currency": "IDR",
+            "orderAmount": {
+              "value": 1000000
+            },
+            "commission": {
+              "value": 0
+            },
+            "withholdingAmount": {
+              "value": 0
+            },
+            "refundAmount": {
+              "value": 0
+            },
+            "netPayable": {
+              "value": 1000000
+            },
+            "settlementAccounts": [
+              {
+                "holderRole": "BAP",
+                "bankCode": "MANDIRI",
+                "accountNumber": "0000000001",
+                "accountName": "Synthetic BAP"
+              },
+              {
+                "holderRole": "BPP",
+                "bankCode": "BCA",
+                "accountNumber": "0000000002",
+                "accountName": "Synthetic BPP"
+              }
+            ],
+            "orderDate": "2027-02-01"
+          }
+        }
+      ],
+      "id": "bc25728c-e168-5629-b416-06834557190b",
+      "contractAttributes": {
+        "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityContract/v1/context.jsonld",
+        "@type": "ion:IONHospitalityContract",
+        "bookingRef": "BOOK-SC06",
+        "revision": 1,
+        "eventRevision": 1,
+        "bookingState": "PREPARED",
+        "acceptedPolicies": [],
+        "operationRef": "OP-SC06",
+        "offeredPolicies": [
+          {
+            "policyRef": "ion://policy/cancel.event.until-48h",
+            "version": "1.0.0",
+            "digest": "a133de924d4355ef813318a18ead644659b9c095a9b6ca047e9a88a2440a1c6d"
+          },
+          {
+            "policyRef": "ion://policy/cancel.event.organiser-full",
+            "version": "1.0.0",
+            "digest": "6f753cae396d1b579f4b8dc484e7cbe73723102a6646f5dcc1918e4b214a55c7"
+          },
+          {
+            "policyRef": "ion://policy/admission.event.standard",
+            "version": "1.0.0",
+            "digest": "2b1493ab9d3a49a2be22fde1d4e67b906a59f4930c812fc2fbae59661fed679e"
+          }
+        ],
+        "lookupRef": "BOOK-SC06"
+      },
+      "status": {
+        "code": "DRAFT"
+      }
+    }
+  }
+}

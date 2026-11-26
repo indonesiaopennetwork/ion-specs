@@ -1,0 +1,9 @@
+{
+  "valid": false,
+  "violations": [
+    {
+      "code": "POL_ELIGIBILITY_NOT_MET",
+      "message": "[ION-R2-HSP-0002] message.catalogs[0].offers[0]: unresolved event reference"
+    }
+  ]
+}

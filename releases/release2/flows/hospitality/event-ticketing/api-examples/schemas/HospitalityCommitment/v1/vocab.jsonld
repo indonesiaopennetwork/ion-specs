@@ -1,0 +1,210 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@protected": true,
+    "ion": "https://schema.ion.id/hospitality/commitment/v1#",
+    "beckn": "https://schema.beckn.io/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "schema": "https://schema.org/",
+    "IONHospitalityCommitment": "ion:IONHospitalityCommitment",
+    "offerRef": "ion:offerRef",
+    "quantity": "ion:quantity",
+    "allocations": "ion:allocations",
+    "sessionId": "ion:sessionId",
+    "poolId": "ion:poolId",
+    "mode": "ion:mode",
+    "admissions": "ion:admissions",
+    "sectionId": "ion:sectionId",
+    "seatIds": "ion:seatIds",
+    "tableId": "ion:tableId",
+    "layoutRevision": "ion:layoutRevision",
+    "adjacentRequested": "ion:adjacentRequested",
+    "accessibleRequested": "ion:accessibleRequested",
+    "quoteRef": "ion:quoteRef",
+    "quoteExpiresAt": "ion:quoteExpiresAt",
+    "hold": "ion:hold",
+    "holdId": "ion:holdId",
+    "expiresAt": "ion:expiresAt",
+    "basketDigest": "ion:basketDigest",
+    "state": "ion:state",
+    "attendeeRefs": "ion:attendeeRefs",
+    "attendeeType": "ion:attendeeType",
+    "eligibilityRef": "ion:eligibilityRef",
+    "selectedAddOnRefs": "ion:selectedAddOnRefs",
+    "allocationState": "ion:allocationState",
+    "accessibleSeatId": "ion:accessibleSeatId",
+    "companionSeatId": "ion:companionSeatId"
+  },
+  "@graph": [
+    {
+      "@id": "ion:IONHospitalityCommitment",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONHospitalityCommitment",
+      "rdfs:comment": "Draft hospitality commitment extension for event admission ticketing."
+    },
+    {
+      "@id": "ion:offerRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "offerRef",
+      "rdfs:comment": "Selected offer identity."
+    },
+    {
+      "@id": "ion:quantity",
+      "@type": "rdf:Property",
+      "rdfs:label": "quantity",
+      "rdfs:comment": "Purchased offer units, not necessarily admission count."
+    },
+    {
+      "@id": "ion:allocations",
+      "@type": "rdf:Property",
+      "rdfs:label": "allocations",
+      "rdfs:comment": "Capacity requested or allocated for each session."
+    },
+    {
+      "@id": "ion:sessionId",
+      "@type": "rdf:Property",
+      "rdfs:label": "sessionId",
+      "rdfs:comment": "Session identity."
+    },
+    {
+      "@id": "ion:poolId",
+      "@type": "rdf:Property",
+      "rdfs:label": "poolId",
+      "rdfs:comment": "Authoritative capacity pool."
+    },
+    {
+      "@id": "ion:mode",
+      "@type": "rdf:Property",
+      "rdfs:label": "mode",
+      "rdfs:comment": "Method by which admission capacity is allocated."
+    },
+    {
+      "@id": "ion:admissions",
+      "@type": "rdf:Property",
+      "rdfs:label": "admissions",
+      "rdfs:comment": "Number of admissions represented by this allocation."
+    },
+    {
+      "@id": "ion:sectionId",
+      "@type": "rdf:Property",
+      "rdfs:label": "sectionId",
+      "rdfs:comment": "Section identifier."
+    },
+    {
+      "@id": "ion:seatIds",
+      "@type": "rdf:Property",
+      "rdfs:label": "seatIds",
+      "rdfs:comment": "Exact assigned seat identifiers."
+    },
+    {
+      "@id": "ion:tableId",
+      "@type": "rdf:Property",
+      "rdfs:label": "tableId",
+      "rdfs:comment": "Table identifier."
+    },
+    {
+      "@id": "ion:layoutRevision",
+      "@type": "rdf:Property",
+      "rdfs:label": "layoutRevision",
+      "rdfs:comment": "Layout revision for assigned seats."
+    },
+    {
+      "@id": "ion:adjacentRequested",
+      "@type": "rdf:Property",
+      "rdfs:label": "adjacentRequested",
+      "rdfs:comment": "Buyer requests adjacent seats."
+    },
+    {
+      "@id": "ion:accessibleRequested",
+      "@type": "rdf:Property",
+      "rdfs:label": "accessibleRequested",
+      "rdfs:comment": "Buyer requests accessible allocation."
+    },
+    {
+      "@id": "ion:quoteRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "quoteRef",
+      "rdfs:comment": "Quote identity."
+    },
+    {
+      "@id": "ion:quoteExpiresAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "quoteExpiresAt",
+      "rdfs:comment": "Latest acceptance time."
+    },
+    {
+      "@id": "ion:hold",
+      "@type": "rdf:Property",
+      "rdfs:label": "hold",
+      "rdfs:comment": "Authoritative temporary capacity reservation."
+    },
+    {
+      "@id": "ion:holdId",
+      "@type": "rdf:Property",
+      "rdfs:label": "holdId",
+      "rdfs:comment": "Opaque hold identifier."
+    },
+    {
+      "@id": "ion:expiresAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "expiresAt",
+      "rdfs:comment": "Exclusive expiry boundary."
+    },
+    {
+      "@id": "ion:basketDigest",
+      "@type": "rdf:Property",
+      "rdfs:label": "basketDigest",
+      "rdfs:comment": "Hash of accepted basket."
+    },
+    {
+      "@id": "ion:state",
+      "@type": "rdf:Property",
+      "rdfs:label": "state",
+      "rdfs:comment": "Hold status."
+    },
+    {
+      "@id": "ion:attendeeRefs",
+      "@type": "rdf:Property",
+      "rdfs:label": "attendeeRefs",
+      "rdfs:comment": "Opaque attendee references; no identity documents."
+    },
+    {
+      "@id": "ion:attendeeType",
+      "@type": "rdf:Property",
+      "rdfs:label": "attendeeType",
+      "rdfs:comment": "Eligibility price class."
+    },
+    {
+      "@id": "ion:eligibilityRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "eligibilityRef",
+      "rdfs:comment": "Opaque eligibility verification reference."
+    },
+    {
+      "@id": "ion:selectedAddOnRefs",
+      "@type": "rdf:Property",
+      "rdfs:label": "selectedAddOnRefs",
+      "rdfs:comment": "Explicitly chosen optional add-ons."
+    },
+    {
+      "@id": "ion:allocationState",
+      "@type": "rdf:Property",
+      "rdfs:label": "allocationState",
+      "rdfs:comment": "allocationState"
+    },
+    {
+      "@id": "ion:accessibleSeatId",
+      "@type": "rdf:Property",
+      "rdfs:label": "accessibleSeatId",
+      "rdfs:comment": "Accessible seat in the allocation."
+    },
+    {
+      "@id": "ion:companionSeatId",
+      "@type": "rdf:Property",
+      "rdfs:label": "companionSeatId",
+      "rdfs:comment": "Companion seat associated with accessible seat."
+    }
+  ]
+}

@@ -10,7 +10,7 @@ contentStatus:
   common: validated
   trade: validated
   logistics: validated
-  hospitality: excluded
+  hospitality: validation-pending
   finance: excluded
   flows: validated
   errors: validated

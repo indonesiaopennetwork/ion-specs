@@ -1,0 +1,42 @@
+{
+  "sector": "ion:hospitality",
+  "businessCategory": "HSP-06",
+  "x-ion-crc-rules": [
+    {
+      "crc": "HSC-events",
+      "profile": "event-ticketing",
+      "required": [
+        "event.eventId",
+        "event.organiserRef",
+        "event.timezone",
+        "event.sessions",
+        "event.revision"
+      ],
+      "note": "Event-ticketing scoped rule; do not apply to all experiences without review."
+    }
+  ],
+  "allocationModeRules": {
+    "EXACT_SEAT": [
+      "seatIds",
+      "layoutRevision"
+    ],
+    "AUTO_ASSIGN_RESULT": [
+      "seatIds",
+      "layoutRevision"
+    ],
+    "SECTION_UNASSIGNED": [
+      "sectionId"
+    ],
+    "WHOLE_TABLE": [
+      "tableId",
+      "seatIds",
+      "layoutRevision"
+    ],
+    "TABLE_SEAT": [
+      "tableId",
+      "seatIds",
+      "layoutRevision"
+    ]
+  },
+  "note": "Candidate profile-scoped mapping, not upstream Rego syntax."
+}

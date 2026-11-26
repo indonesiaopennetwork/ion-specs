@@ -1,0 +1,22 @@
+{
+  "context": {
+    "version": "2.0.0",
+    "networkId": "ion.example/test",
+    "ttl": "PT30S",
+    "action": "on_init",
+    "bapId": "buyer.example",
+    "bapUri": "https://buyer.example/beckn",
+    "transactionId": "18b94a8a-d960-5bd5-9caa-72e6af6f912e",
+    "messageId": "9128f395-f1f6-562e-bbb5-7229d5d1efc0",
+    "timestamp": "2027-02-01T14:06:30+07:00",
+    "bppId": "seller.example",
+    "bppUri": "https://seller.example/beckn",
+    "requestDigest": {
+      "digest": "BLAKE-512=0o3dmjebbsWfDRn8ZszjkFCuhHdBWQSqs5kA/43HYiKEU6EGe4MoeXqmwQ1umPPqePNh/Jag1bBwvd3j8Df3fw=="
+    }
+  },
+  "error": {
+    "code": "BIZ_QUOTE_EXPIRED_OR_CHANGED",
+    "message": "Early-bird quote expired; request current price"
+  }
+}

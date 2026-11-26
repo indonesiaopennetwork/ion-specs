@@ -1,0 +1,18 @@
+iri: ion://policy/admission.event.standard
+category: ADMISSION
+version: 1.0.0
+status: draft
+sector: hospitality
+applicableCategories:
+- HSC-events
+rule: Admission only within declared sessions and usage rights; revoked or exhausted
+  entitlement rejected.
+regulatoryBasis: []
+reviewRequired: true
+displayText:
+  id: Hak masuk acara
+  en: Event admission rights
+versionEffectiveFrom: null
+applicableResourceTypes: []
+supersededBy: null
+deprecatedAt: null

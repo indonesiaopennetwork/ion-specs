@@ -1,0 +1,265 @@
+{
+  "context": {
+    "version": "2.0.0",
+    "networkId": "ion.example/test",
+    "ttl": "PT30S",
+    "action": "confirm",
+    "bapId": "buyer.example",
+    "bapUri": "https://buyer.example/beckn",
+    "transactionId": "df777369-2eb8-556e-8340-06244dc13f44",
+    "messageId": "09af4254-8d32-5b24-befb-006b4817ba97",
+    "timestamp": "2027-02-01T14:00:35+07:00",
+    "bppId": "seller.example",
+    "bppUri": "https://seller.example/beckn"
+  },
+  "message": {
+    "contract": {
+      "commitments": [
+        {
+          "offer": {
+            "id": "O1",
+            "resourceIds": [
+              "EV-SC15"
+            ],
+            "offerAttributes": {
+              "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityOffer/v1/context.jsonld",
+              "@type": "ion:IONHospitalityOffer",
+              "eventRef": "EV-SC15",
+              "admissionClass": "REGULAR",
+              "allocationMode": "EXACT_SEAT",
+              "rights": {
+                "sessionIds": [
+                  "S2"
+                ],
+                "maxEntriesPerSession": 1,
+                "named": false,
+                "reentryAllowed": false
+              },
+              "poolIds": [
+                "POOL-EXACT_SEAT"
+              ],
+              "salesStart": "2026-12-01T00:00:00+07:00",
+              "salesEnd": "2027-02-10T14:00:00+07:00",
+              "maxAdmissions": 20,
+              "policies": {
+                "cancellation": {
+                  "policyRef": "ion://policy/cancel.event.until-48h"
+                },
+                "organiserCancellation": {
+                  "policyRef": "ion://policy/cancel.event.organiser-full"
+                },
+                "admission": {
+                  "policyRef": "ion://policy/admission.event.standard"
+                }
+              }
+            }
+          },
+          "id": "CM1",
+          "status": {
+            "descriptor": {
+              "code": "DRAFT"
+            }
+          },
+          "resources": [
+            {
+              "resource": {
+                "id": "EV-SC15",
+                "descriptor": {
+                  "name": "Nusantara Awards"
+                },
+                "resourceAttributes": {
+                  "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityResource/v1/context.jsonld",
+                  "@type": "ion:IONHospitalityResource",
+                  "crc": "HSC-events",
+                  "event": {
+                    "eventId": "EV-SC15",
+                    "organiserRef": "ORG1",
+                    "timezone": "Asia/Jakarta",
+                    "revision": 1,
+                    "state": "SCHEDULED",
+                    "sessions": [
+                      {
+                        "sessionId": "S1",
+                        "startsAt": "2027-02-10T18:00:00+07:00",
+                        "endsAt": "2027-02-10T20:00:00+07:00",
+                        "venueRef": "VENUE1",
+                        "layoutRevision": "L1"
+                      },
+                      {
+                        "sessionId": "S2",
+                        "startsAt": "2027-02-10T21:00:00+07:00",
+                        "endsAt": "2027-02-10T23:00:00+07:00",
+                        "venueRef": "VENUE1",
+                        "layoutRevision": "L1",
+                        "entryOpensAt": "2027-02-10T20:30:00+07:00",
+                        "entryClosesAt": "2027-02-10T21:15:00+07:00"
+                      }
+                    ]
+                  }
+                }
+              },
+              "quantity": {
+                "unitQuantity": 1,
+                "unitText": "admissions"
+              }
+            }
+          ],
+          "commitmentAttributes": {
+            "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityCommitment/v1/context.jsonld",
+            "@type": "ion:IONHospitalityCommitment",
+            "offerRef": "O1",
+            "quantity": 1,
+            "allocations": [
+              {
+                "sessionId": "S2",
+                "poolId": "POOL-EXACT_SEAT",
+                "mode": "EXACT_SEAT",
+                "admissions": 1,
+                "seatIds": [
+                  "A12"
+                ],
+                "layoutRevision": "L1",
+                "allocationState": "HELD"
+              }
+            ],
+            "quoteRef": "Q1",
+            "quoteExpiresAt": "2027-02-01T14:05:00+07:00",
+            "hold": {
+              "holdId": "H1",
+              "expiresAt": "2027-02-01T14:05:00+07:00",
+              "basketDigest": "6b43f545f388553db4ee1d7a56f8b1bbc1cc424e8205f589f0326ca339f93203",
+              "state": "HELD"
+            }
+          }
+        }
+      ],
+      "consideration": [
+        {
+          "id": "C1",
+          "status": {
+            "code": "DRAFT"
+          },
+          "considerationAttributes": {
+            "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityConsideration/v1/context.jsonld",
+            "@type": "ion:IONHospitalityConsideration",
+            "currency": "IDR",
+            "components": [
+              {
+                "componentId": "BASE1",
+                "lineRef": "CM1",
+                "kind": "BASE",
+                "amountMinor": 30000000,
+                "included": false
+              }
+            ],
+            "payableMinor": 30000000,
+            "paymentState": "PENDING",
+            "paymentRef": "PAY1",
+            "buyerFinderFee": {
+              "feeAmount": 0
+            }
+          }
+        }
+      ],
+      "settlements": [
+        {
+          "id": "PAYMENT-1",
+          "considerationId": "C1",
+          "status": "COMMITTED",
+          "settlementAttributes": {
+            "@context": "https://schema.ion.id/release2/schema/common/Settlement/v1/context.jsonld",
+            "@type": "ion:IONSettlementReconciliation",
+            "method": "EWALLET",
+            "methodDetail": {
+              "provider": "TEST_WALLET",
+              "amount": 300000
+            },
+            "collectedBy": "BAP",
+            "timing": "ON_ORDER",
+            "status": "PAID",
+            "currency": "IDR",
+            "gatewayRef": "PAY1",
+            "paidAt": "2027-02-01T14:00:32+07:00",
+            "orderAmount": {
+              "value": 300000
+            },
+            "commission": {
+              "value": 0
+            },
+            "withholdingAmount": {
+              "value": 0
+            },
+            "refundAmount": {
+              "value": 0
+            },
+            "netPayable": {
+              "value": 300000
+            },
+            "settlementAccounts": [
+              {
+                "holderRole": "BAP",
+                "bankCode": "MANDIRI",
+                "accountNumber": "0000000001",
+                "accountName": "Synthetic BAP"
+              },
+              {
+                "holderRole": "BPP",
+                "bankCode": "BCA",
+                "accountNumber": "0000000002",
+                "accountName": "Synthetic BPP"
+              }
+            ],
+            "orderDate": "2027-02-01"
+          }
+        }
+      ],
+      "id": "07463ab8-b62f-5ac8-9641-f99ca0053e92",
+      "contractAttributes": {
+        "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityContract/v1/context.jsonld",
+        "@type": "ion:IONHospitalityContract",
+        "bookingRef": "BOOK-SC15",
+        "revision": 1,
+        "eventRevision": 1,
+        "bookingState": "PREPARED",
+        "acceptedPolicies": [
+          {
+            "policyRef": "ion://policy/cancel.event.until-48h",
+            "version": "1.0.0",
+            "digest": "a133de924d4355ef813318a18ead644659b9c095a9b6ca047e9a88a2440a1c6d"
+          },
+          {
+            "policyRef": "ion://policy/cancel.event.organiser-full",
+            "version": "1.0.0",
+            "digest": "6f753cae396d1b579f4b8dc484e7cbe73723102a6646f5dcc1918e4b214a55c7"
+          },
+          {
+            "policyRef": "ion://policy/admission.event.standard",
+            "version": "1.0.0",
+            "digest": "2b1493ab9d3a49a2be22fde1d4e67b906a59f4930c812fc2fbae59661fed679e"
+          }
+        ],
+        "operationRef": "OP-SC15",
+        "offeredPolicies": [
+          {
+            "policyRef": "ion://policy/cancel.event.until-48h",
+            "version": "1.0.0",
+            "digest": "a133de924d4355ef813318a18ead644659b9c095a9b6ca047e9a88a2440a1c6d"
+          },
+          {
+            "policyRef": "ion://policy/cancel.event.organiser-full",
+            "version": "1.0.0",
+            "digest": "6f753cae396d1b579f4b8dc484e7cbe73723102a6646f5dcc1918e4b214a55c7"
+          },
+          {
+            "policyRef": "ion://policy/admission.event.standard",
+            "version": "1.0.0",
+            "digest": "2b1493ab9d3a49a2be22fde1d4e67b906a59f4930c812fc2fbae59661fed679e"
+          }
+        ]
+      },
+      "status": {
+        "code": "DRAFT"
+      }
+    }
+  }
+}

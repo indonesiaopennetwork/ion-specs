@@ -1,0 +1,121 @@
+{
+  "context": {
+    "version": "2.0.0",
+    "networkId": "ion.example/test",
+    "ttl": "PT30S",
+    "action": "on_discover",
+    "bapId": "buyer.example",
+    "bapUri": "https://buyer.example/beckn",
+    "transactionId": "2dd38157-107a-528f-ad67-e1094a979f62",
+    "messageId": "34fe7d21-6a39-5e0a-8772-1fb2b38d7879",
+    "timestamp": "2027-02-01T14:00:10+07:00",
+    "requestDigest": {
+      "digest": "BLAKE-512=ObO0idZfKO/pbUNDaSmo95s827FYZSjdyvt92CQm7tD1eYMRm3obYoqn5GMo/g/TY6Uq0FMfVYi8/xYYkeK48w=="
+    }
+  },
+  "message": {
+    "catalogs": [
+      {
+        "id": "CAT-SC16",
+        "bppId": "seller.example",
+        "bppUri": "https://seller.example/beckn",
+        "descriptor": {
+          "name": "Nusantara Music Festival"
+        },
+        "provider": {
+          "id": "ORG1",
+          "descriptor": {
+            "name": "Illustrative event organiser"
+          },
+          "providerAttributes": {
+            "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityProvider/v1/context.jsonld",
+            "@type": "ion:IONHospitalityProvider",
+            "allocationModes": [
+              "GENERAL_ADMISSION"
+            ],
+            "deliveryModes": [
+              "DIGITAL"
+            ]
+          }
+        },
+        "resources": [
+          {
+            "id": "EV-SC01",
+            "descriptor": {
+              "name": "Nusantara Music Festival"
+            },
+            "resourceAttributes": {
+              "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityResource/v1/context.jsonld",
+              "@type": "ion:IONHospitalityResource",
+              "crc": "HSC-events",
+              "event": {
+                "eventId": "EV-SC01",
+                "organiserRef": "ORG1",
+                "timezone": "Asia/Jakarta",
+                "revision": 1,
+                "state": "SCHEDULED",
+                "sessions": [
+                  {
+                    "sessionId": "S1",
+                    "startsAt": "2027-02-10T14:00:00+07:00",
+                    "endsAt": "2027-02-10T17:00:00+07:00",
+                    "venueRef": "VENUE1",
+                    "layoutRevision": "L1"
+                  },
+                  {
+                    "sessionId": "S2",
+                    "startsAt": "2027-02-11T14:00:00+07:00",
+                    "endsAt": "2027-02-11T17:00:00+07:00",
+                    "venueRef": "VENUE1",
+                    "layoutRevision": "L1"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "offers": [
+          {
+            "id": "O1",
+            "resourceIds": [
+              "EV-SC01"
+            ],
+            "offerAttributes": {
+              "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityOffer/v1/context.jsonld",
+              "@type": "ion:IONHospitalityOffer",
+              "eventRef": "EV-SC01",
+              "admissionClass": "REGULAR",
+              "allocationMode": "GENERAL_ADMISSION",
+              "rights": {
+                "sessionIds": [
+                  "S1",
+                  "S2"
+                ],
+                "maxEntriesPerSession": 1,
+                "named": false,
+                "reentryAllowed": false
+              },
+              "poolIds": [
+                "POOL-GENERAL_ADMISSION"
+              ],
+              "salesStart": "2026-12-01T00:00:00+07:00",
+              "salesEnd": "2027-02-10T14:00:00+07:00",
+              "maxAdmissions": 20,
+              "policies": {
+                "cancellation": {
+                  "policyRef": "ion://policy/cancel.event.until-48h"
+                },
+                "organiserCancellation": {
+                  "policyRef": "ion://policy/cancel.event.organiser-full"
+                },
+                "admission": {
+                  "policyRef": "ion://policy/admission.event.standard"
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

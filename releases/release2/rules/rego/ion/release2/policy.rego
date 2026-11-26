@@ -2,6 +2,7 @@ package ion.release2
 
 import data.ion.release2.common.payment
 import data.ion.release2.trade.provider
+import data.ion.release2.hospitality.ticketing
 import rego.v1
 
 violations contains violation if {
@@ -10,6 +11,10 @@ violations contains violation if {
 
 violations contains violation if {
 	some violation in provider.violations
+}
+
+violations contains violation if {
+	some violation in ticketing.violations
 }
 
 result := {

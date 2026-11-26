@@ -1,0 +1,24 @@
+PASS SC01
+PASS SC02
+PASS SC03
+PASS SC04
+PASS SC05
+PASS SC06
+PASS SC11
+PASS SC27
+PASS rejected seat count
+PASS rejected price
+PASS rejected duplicate ticket
+PASS rejected missing payment
+PASS rejected missing section
+7 schemas, 8 positive fixtures, 5 negative fixtures passed. Local checks only.
+Messages: 515; correlated callback digests: 254; extension occurrences: 2329; known schema violations: 0; unexpected schema violations: 0
+Known violations are NOT passes. Core API, signatures, policy resolution, Rego and runtime semantics not validated.
+PASS: 2307 integrity assertions, including six new schema rejection cases. Local fixtures only.
+passed 520 failed 0 errors 0
+
+Counter({'https://schema.ion.id/release2/schema/common/Settlement/v1': 262, 'https://schema.ion.id/release2/schema/common/Grievance/v1': 6}) errors 0
+
+Offline semantic checks: {'HSP-0001': 50, 'HSP-0002': 53, 'POLICY_IRI': 2732, 'HSP-0003': 432, 'SETTLEMENT_ARITHMETIC': 264, 'SETTLEMENT_CURRENCY': 260, 'COMMISSION': 260, 'IDR_FIXTURE_UNITS': 259, 'REFUND_PROJECTION': 260, 'POLICY_SNAPSHOT': 1244, 'PAID_AT': 171, 'HSP-0004': 212, 'ERROR_CODE': 8}
+Messages inspected: 520 positive fixture violations: 0 negative predicate fixtures detected: 4/4
+Offline validation completed; ONIX/OPA/runtime tests remain independent gates.

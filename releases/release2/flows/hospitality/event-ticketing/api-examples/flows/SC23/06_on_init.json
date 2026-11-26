@@ -1,0 +1,22 @@
+{
+  "context": {
+    "version": "2.0.0",
+    "networkId": "ion.example/test",
+    "ttl": "PT30S",
+    "action": "on_init",
+    "bapId": "buyer.example",
+    "bapUri": "https://buyer.example/beckn",
+    "transactionId": "2bd0df87-84b5-5389-8640-ddb4f7411a5a",
+    "messageId": "1a202940-a2aa-5d14-bfe8-cd9ef365837a",
+    "timestamp": "2027-02-01T14:00:30+07:00",
+    "bppId": "seller.example",
+    "bppUri": "https://seller.example/beckn",
+    "requestDigest": {
+      "digest": "BLAKE-512=SwOl06npcvs0GWT6bje5CO1xJ7K2wcNEU3p/6N/SkFN3l07NySsqK+H1X6EwRvTubvLAjPj6xZ9/XWUQ64bHrA=="
+    }
+  },
+  "error": {
+    "code": "BIZ_QUANTITY_UNAVAILABLE",
+    "message": "Requested capacity sold out"
+  }
+}

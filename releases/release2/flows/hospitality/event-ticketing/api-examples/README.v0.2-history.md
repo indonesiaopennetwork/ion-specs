@@ -1,0 +1,5 @@
+# Candidate API sequences v0.2
+
+Start with `coverage.json`, then `flows/SCxx/sequence.json` and its numbered messages. 43 scenario folders; SC24 deferred. See parent `CHANGELOG_AND_REVIEW.md` and `BRANCH_TEST_PLAN.md` for explicit gaps. These are synthetic illustrative envelopes, not an implementation contract. Shared support and reconciliation payloads and unsolicited on_update are provisional. No production signing or transport ACKs.
+
+Run `python validate.py` and `python check_integrity.py` from this folder after installing dependencies from the parent requirements file. The first validates extension schema occurrences and callback digests. The second adds preview digests, local policy snapshots, arithmetic, ticket identity and six focused negative-schema tests. Neither runs upstream Beckn/ION validation or real participant behaviour. Local digests are over exact file bytes; do not reformat before checking them. Schema and policy copies are provided here for standalone local tests; authoritative draft packs and policy sources are in the parent package.

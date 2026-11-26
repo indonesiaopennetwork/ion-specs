@@ -1,0 +1,22 @@
+{
+  "context": {
+    "version": "2.0.0",
+    "networkId": "ion.example/test",
+    "ttl": "PT30S",
+    "action": "on_confirm",
+    "bapId": "buyer.example",
+    "bapUri": "https://buyer.example/beckn",
+    "transactionId": "8b9d96b4-5cc4-578b-a6a5-96489a5a1df3",
+    "messageId": "7ed8bd71-96b0-5b8b-9d9a-9163c9c99cb1",
+    "timestamp": "2027-02-01T14:06:01+07:00",
+    "bppId": "seller.example",
+    "bppUri": "https://seller.example/beckn",
+    "requestDigest": {
+      "digest": "BLAKE-512=Xxu4/ajA5YtKryl4b2zjgailhJeOPrDrOBoxk2M34Ixct+rF9JGB6JiypejvBXes/rkvittDNzMgkYmaGMWtEQ=="
+    }
+  },
+  "error": {
+    "code": "BIZ_QUOTE_EXPIRED_OR_CHANGED",
+    "message": "Hold expired; identical capacity no longer available"
+  }
+}

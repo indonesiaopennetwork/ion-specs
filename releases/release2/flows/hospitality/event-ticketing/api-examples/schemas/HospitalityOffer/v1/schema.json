@@ -1,0 +1,338 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityOffer/v1",
+  "$ref": "#/$defs/IONHospitalityOffer",
+  "$defs": {
+    "IONHospitalityOffer": {
+      "type": "object",
+      "description": "Draft hospitality offer extension for event admission ticketing.",
+      "properties": {
+        "eventRef": {
+          "type": "string",
+          "description": "Event resource identity.",
+          "minLength": 1
+        },
+        "admissionClass": {
+          "type": "string",
+          "description": "Admission category identifier.",
+          "minLength": 1
+        },
+        "allocationMode": {
+          "type": "string",
+          "description": "Method by which admission capacity is allocated.",
+          "enum": [
+            "GENERAL_ADMISSION",
+            "SECTION_UNASSIGNED",
+            "EXACT_SEAT",
+            "AUTO_ASSIGN",
+            "WHOLE_TABLE",
+            "TABLE_SEAT"
+          ]
+        },
+        "rights": {
+          "type": "object",
+          "description": "Admission scope and usage restrictions.",
+          "properties": {
+            "sessionIds": {
+              "type": "array",
+              "description": "Sessions covered by entitlement.",
+              "items": {
+                "type": "string",
+                "description": "Opaque identifier scoped to the authoritative provider.",
+                "minLength": 1
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            "zoneIds": {
+              "type": "array",
+              "description": "Permitted access zones.",
+              "items": {
+                "type": "string",
+                "description": "Opaque identifier scoped to the authoritative provider.",
+                "minLength": 1
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            "maxEntriesPerSession": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Maximum admissions per session."
+            },
+            "named": {
+              "type": "boolean",
+              "description": "Attendee identification is required at admission."
+            },
+            "reentryAllowed": {
+              "type": "boolean",
+              "description": "Re-entry is permitted within the entry limit."
+            }
+          },
+          "required": [
+            "sessionIds",
+            "maxEntriesPerSession",
+            "named",
+            "reentryAllowed"
+          ],
+          "additionalProperties": false
+        },
+        "poolIds": {
+          "type": "array",
+          "description": "Eligible authoritative capacity pools.",
+          "items": {
+            "type": "string",
+            "description": "Opaque identifier scoped to the authoritative provider.",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "salesStart": {
+          "type": "string",
+          "description": "First sale instant.",
+          "format": "date-time"
+        },
+        "salesEnd": {
+          "type": "string",
+          "description": "End of sales window.",
+          "format": "date-time"
+        },
+        "maxAdmissions": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Maximum admissions per order."
+        },
+        "minAdmissions": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Minimum admissions per order."
+        },
+        "holdDurationSeconds": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Maximum hold duration offered."
+        },
+        "availableAdmissions": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Indicative available admissions, never a lock."
+        },
+        "availabilityAsOf": {
+          "type": "string",
+          "description": "Snapshot time.",
+          "format": "date-time"
+        },
+        "layoutRef": {
+          "type": "string",
+          "description": "Optional non-secret layout document reference.",
+          "format": "uri"
+        },
+        "eligibilityCode": {
+          "type": "string",
+          "description": "Eligibility rule reference, not personal evidence."
+        },
+        "includedBenefits": {
+          "type": "array",
+          "description": "Included benefit references.",
+          "items": {
+            "type": "string",
+            "description": "Opaque identifier scoped to the authoritative provider.",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "optionalAddOnRefs": {
+          "type": "array",
+          "description": "Optional add-on offer references.",
+          "items": {
+            "type": "string",
+            "description": "Opaque identifier scoped to the authoritative provider.",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "policies": {
+          "type": "object",
+          "description": "Applicable registered policy references by family.",
+          "properties": {
+            "cancellation": {
+              "type": "object",
+              "description": "Offer policy reference.",
+              "properties": {
+                "policyRef": {
+                  "type": "string",
+                  "description": "Registered policy IRI.",
+                  "pattern": "^ion://policy/"
+                }
+              },
+              "required": [
+                "policyRef"
+              ],
+              "additionalProperties": false
+            },
+            "organiserCancellation": {
+              "type": "object",
+              "description": "Offer policy reference.",
+              "properties": {
+                "policyRef": {
+                  "type": "string",
+                  "description": "Registered policy IRI.",
+                  "pattern": "^ion://policy/"
+                }
+              },
+              "required": [
+                "policyRef"
+              ],
+              "additionalProperties": false
+            },
+            "rescheduling": {
+              "type": "object",
+              "description": "Offer policy reference.",
+              "properties": {
+                "policyRef": {
+                  "type": "string",
+                  "description": "Registered policy IRI.",
+                  "pattern": "^ion://policy/"
+                }
+              },
+              "required": [
+                "policyRef"
+              ],
+              "additionalProperties": false
+            },
+            "admission": {
+              "type": "object",
+              "description": "Offer policy reference.",
+              "properties": {
+                "policyRef": {
+                  "type": "string",
+                  "description": "Registered policy IRI.",
+                  "pattern": "^ion://policy/"
+                }
+              },
+              "required": [
+                "policyRef"
+              ],
+              "additionalProperties": false
+            },
+            "paymentTerms": {
+              "type": "object",
+              "description": "Offer policy reference.",
+              "properties": {
+                "policyRef": {
+                  "type": "string",
+                  "description": "Registered policy IRI.",
+                  "pattern": "^ion://policy/"
+                }
+              },
+              "required": [
+                "policyRef"
+              ],
+              "additionalProperties": false
+            },
+            "settlement": {
+              "type": "object",
+              "description": "Offer policy reference.",
+              "properties": {
+                "policyRef": {
+                  "type": "string",
+                  "description": "Registered policy IRI.",
+                  "pattern": "^ion://policy/"
+                }
+              },
+              "required": [
+                "policyRef"
+              ],
+              "additionalProperties": false
+            },
+            "dispute": {
+              "type": "object",
+              "description": "Offer policy reference.",
+              "properties": {
+                "policyRef": {
+                  "type": "string",
+                  "description": "Registered policy IRI.",
+                  "pattern": "^ion://policy/"
+                }
+              },
+              "required": [
+                "policyRef"
+              ],
+              "additionalProperties": false
+            },
+            "grievanceSla": {
+              "type": "object",
+              "description": "Offer policy reference.",
+              "properties": {
+                "policyRef": {
+                  "type": "string",
+                  "description": "Registered policy IRI.",
+                  "pattern": "^ion://policy/"
+                }
+              },
+              "required": [
+                "policyRef"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "cancellation",
+            "organiserCancellation",
+            "admission"
+          ],
+          "additionalProperties": false
+        },
+        "@context": {
+          "type": "string",
+          "description": "Release-qualified JSON-LD context.",
+          "const": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityOffer/v1/context.jsonld"
+        },
+        "@type": {
+          "type": "string",
+          "description": "Attribute pack discriminator.",
+          "const": "ion:IONHospitalityOffer"
+        },
+        "attendeeType": {
+          "type": "string",
+          "enum": [
+            "ADULT",
+            "CHILD",
+            "STUDENT",
+            "SENIOR"
+          ],
+          "description": "Eligibility price class."
+        },
+        "eligibilityRequired": {
+          "type": "boolean",
+          "description": "Requires eligibility verification."
+        }
+      },
+      "required": [
+        "eventRef",
+        "admissionClass",
+        "allocationMode",
+        "rights",
+        "poolIds",
+        "salesStart",
+        "salesEnd",
+        "maxAdmissions",
+        "policies",
+        "@context",
+        "@type"
+      ],
+      "additionalProperties": true,
+      "x-beckn-attaches-to": "Offer.offerAttributes",
+      "x-ion-layer": "ion",
+      "x-ion-experimental": true,
+      "x-jsonld": {
+        "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityOffer/v1/context.jsonld",
+        "@type": "ion:IONHospitalityOffer"
+      },
+      "x-recommended-parent": "Offer.offerAttributes"
+    }
+  }
+}

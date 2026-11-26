@@ -1,0 +1,21 @@
+{
+  "id": "ion-hospitality-performance-v1",
+  "version": "1.0.0",
+  "domain": "hospitality",
+  "type": "AttributePack",
+  "name": "ION Hospitality Performance Extension (v1)",
+  "packSchema": "./schema.json",
+  "jsonldContext": "./context.jsonld",
+  "extends": "beckn:Performance",
+  "attachmentPoints": {
+    "performanceAttributes": [
+      "IONHospitalityPerformance"
+    ]
+  },
+  "indexing": {
+    "indexable": [],
+    "filterable": [],
+    "sortable": []
+  },
+  "minimalForDiscovery": []
+}

@@ -1,0 +1,30 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@protected": true,
+    "ion": "https://schema.ion.id/hospitality/resource/v1#",
+    "beckn": "https://schema.beckn.io/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "schema": "https://schema.org/",
+    "IONHospitalityResource": "ion:IONHospitalityResource",
+    "crc": "ion:crc",
+    "event": "ion:event",
+    "eventId": "ion:eventId",
+    "organiserRef": "ion:organiserRef",
+    "eventType": "ion:eventType",
+    "timezone": "ion:timezone",
+    "revision": "ion:revision",
+    "state": "ion:state",
+    "sessions": "ion:sessions",
+    "sessionId": "ion:sessionId",
+    "startsAt": "ion:startsAt",
+    "endsAt": "ion:endsAt",
+    "entryOpensAt": "ion:entryOpensAt",
+    "entryClosesAt": "ion:entryClosesAt",
+    "venueRef": "ion:venueRef",
+    "layoutRevision": "ion:layoutRevision",
+    "layoutRef": "ion:layoutRef"
+  }
+}

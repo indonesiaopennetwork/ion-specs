@@ -1,0 +1,70 @@
+{
+  "scenario": "SC12",
+  "sourceFixture": "SC05",
+  "bindingStatus": "DRAFT_OFFLINE_CONFORMANCE",
+  "steps": [
+    {
+      "file": "01_discover.json",
+      "action": "discover",
+      "direction": "BAP → Discovery service",
+      "note": "Indexed catalogue; availability is indicative. Catalog shape and filter syntax require core binding check."
+    },
+    {
+      "file": "02_on_discover.json",
+      "action": "on_discover",
+      "direction": "Discovery service → BAP",
+      "note": "Asynchronous business result; transport ACK is not confirmation."
+    },
+    {
+      "file": "03_select.json",
+      "action": "select",
+      "direction": "BAP → BPP",
+      "note": "Select offer and allocation; BPP quotes without locking capacity."
+    },
+    {
+      "file": "04_on_select.json",
+      "action": "on_select",
+      "direction": "BPP → BAP",
+      "note": "Asynchronous business result; transport ACK is not confirmation."
+    },
+    {
+      "file": "05_init.json",
+      "action": "init",
+      "direction": "BAP → BPP",
+      "note": "BPP atomically reserves all capacity. Quote and hold expire at 14:05 WIB."
+    },
+    {
+      "file": "06_on_init.json",
+      "action": "on_init",
+      "direction": "BPP → BAP",
+      "note": "Asynchronous business result; transport ACK is not confirmation."
+    },
+    {
+      "file": "07_confirm.json",
+      "action": "confirm",
+      "direction": "BAP → BPP",
+      "note": "BAP submits synthetic payment reference; BPP independently verifies and commits once."
+    },
+    {
+      "file": "08_on_confirm.json",
+      "action": "on_confirm",
+      "direction": "BPP → BAP",
+      "note": "Asynchronous business result; transport ACK is not confirmation."
+    },
+    {
+      "file": "09_status.json",
+      "action": "status",
+      "direction": "BAP → BPP",
+      "note": "Retrieve authoritative booking and ticket states; status uses the full required commitment references from the last authoritative snapshot."
+    },
+    {
+      "file": "10_on_status.json",
+      "action": "on_status",
+      "direction": "BPP → BAP",
+      "note": "Asynchronous business result; transport ACK is not confirmation."
+    }
+  ],
+  "notes": [
+    "Dinner included in table price; parking advertised but not selected. A selected parking offer needs a separate priced commitment; bundle/add-on resource model remains open."
+  ]
+}

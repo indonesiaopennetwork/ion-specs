@@ -1,0 +1,32 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@protected": true,
+    "ion": "https://schema.ion.id/hospitality/consideration/v1#",
+    "beckn": "https://schema.beckn.io/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "schema": "https://schema.org/",
+    "IONHospitalityConsideration": "ion:IONHospitalityConsideration",
+    "currency": "ion:currency",
+    "components": "ion:components",
+    "componentId": "ion:componentId",
+    "lineRef": "ion:lineRef",
+    "kind": "ion:kind",
+    "amountMinor": "ion:amountMinor",
+    "included": "ion:included",
+    "funderRef": "ion:funderRef",
+    "payableMinor": "ion:payableMinor",
+    "paymentState": "ion:paymentState",
+    "paymentRef": "ion:paymentRef",
+    "refunds": "ion:refunds",
+    "refundId": "ion:refundId",
+    "ticketIds": "ion:ticketIds",
+    "state": "ion:state",
+    "scope": "ion:scope",
+    "attemptRef": "ion:attemptRef",
+    "buyerFinderFee": "ion:buyerFinderFee",
+    "feeAmount": "ion:feeAmount"
+  }
+}

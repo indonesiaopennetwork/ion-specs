@@ -1,0 +1,397 @@
+{
+  "context": {
+    "version": "2.0.0",
+    "networkId": "ion.example/test",
+    "ttl": "PT30S",
+    "action": "on_update",
+    "bapId": "buyer.example",
+    "bapUri": "https://buyer.example/beckn",
+    "transactionId": "14602893-3325-508c-ad7f-e297752d4714",
+    "messageId": "6a3025b4-88f3-50e0-805f-8687f39e4e80",
+    "timestamp": "2027-02-01T14:00:55+07:00",
+    "bppId": "seller.example",
+    "bppUri": "https://seller.example/beckn"
+  },
+  "message": {
+    "contract": {
+      "commitments": [
+        {
+          "offer": {
+            "id": "O1",
+            "resourceIds": [
+              "EV-SC01"
+            ],
+            "offerAttributes": {
+              "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityOffer/v1/context.jsonld",
+              "@type": "ion:IONHospitalityOffer",
+              "eventRef": "EV-SC01",
+              "admissionClass": "REGULAR",
+              "allocationMode": "GENERAL_ADMISSION",
+              "rights": {
+                "sessionIds": [
+                  "S1"
+                ],
+                "maxEntriesPerSession": 1,
+                "named": false,
+                "reentryAllowed": false
+              },
+              "poolIds": [
+                "POOL-GENERAL_ADMISSION"
+              ],
+              "salesStart": "2026-12-01T00:00:00+07:00",
+              "salesEnd": "2027-02-10T14:00:00+07:00",
+              "maxAdmissions": 20,
+              "policies": {
+                "cancellation": {
+                  "policyRef": "ion://policy/cancel.event.until-48h"
+                },
+                "organiserCancellation": {
+                  "policyRef": "ion://policy/cancel.event.organiser-full"
+                },
+                "admission": {
+                  "policyRef": "ion://policy/admission.event.standard"
+                },
+                "rescheduling": {
+                  "policyRef": "ion://policy/change.event.choice"
+                }
+              }
+            }
+          },
+          "id": "CM1",
+          "status": {
+            "descriptor": {
+              "code": "ACTIVE"
+            }
+          },
+          "resources": [
+            {
+              "resource": {
+                "id": "EV-SC01",
+                "descriptor": {
+                  "name": "Nusantara Music Festival"
+                },
+                "resourceAttributes": {
+                  "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityResource/v1/context.jsonld",
+                  "@type": "ion:IONHospitalityResource",
+                  "crc": "HSC-events",
+                  "event": {
+                    "eventId": "EV-SC01",
+                    "organiserRef": "ORG1",
+                    "timezone": "Asia/Jakarta",
+                    "revision": 2,
+                    "state": "POSTPONED",
+                    "sessions": [
+                      {
+                        "sessionId": "S1",
+                        "startsAt": "2027-02-20T14:00:00+07:00",
+                        "endsAt": "2027-02-20T17:00:00+07:00",
+                        "venueRef": "VENUE1",
+                        "layoutRevision": "L1"
+                      }
+                    ]
+                  }
+                }
+              },
+              "quantity": {
+                "unitQuantity": 3,
+                "unitText": "admissions"
+              }
+            }
+          ],
+          "commitmentAttributes": {
+            "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityCommitment/v1/context.jsonld",
+            "@type": "ion:IONHospitalityCommitment",
+            "offerRef": "O1",
+            "quantity": 3,
+            "allocations": [
+              {
+                "sessionId": "S1",
+                "poolId": "POOL-GENERAL_ADMISSION",
+                "mode": "GENERAL_ADMISSION",
+                "admissions": 3,
+                "allocationState": "COMMITTED"
+              }
+            ],
+            "quoteRef": "Q1",
+            "quoteExpiresAt": "2027-02-01T14:05:00+07:00",
+            "hold": {
+              "holdId": "H1",
+              "expiresAt": "2027-02-01T14:05:00+07:00",
+              "basketDigest": "f230dc8598d1d2a5ddae056a3acb7db4e54dcbaefcbdb28c78cf516551326936",
+              "state": "COMMITTED"
+            }
+          }
+        }
+      ],
+      "consideration": [
+        {
+          "id": "C1",
+          "status": {
+            "code": "AGREED"
+          },
+          "considerationAttributes": {
+            "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityConsideration/v1/context.jsonld",
+            "@type": "ion:IONHospitalityConsideration",
+            "currency": "IDR",
+            "components": [
+              {
+                "componentId": "BASE1",
+                "kind": "BASE",
+                "amountMinor": 45000000,
+                "included": false
+              }
+            ],
+            "payableMinor": 45000000,
+            "paymentState": "VERIFIED",
+            "paymentRef": "PAY1",
+            "buyerFinderFee": {
+              "feeAmount": 0
+            }
+          }
+        }
+      ],
+      "settlements": [
+        {
+          "id": "PAYMENT-1",
+          "considerationId": "C1",
+          "status": "COMPLETE",
+          "settlementAttributes": {
+            "@context": "https://schema.ion.id/release2/schema/common/Settlement/v1/context.jsonld",
+            "@type": "ion:IONSettlementReconciliation",
+            "method": "EWALLET",
+            "methodDetail": {
+              "provider": "TEST_WALLET",
+              "amount": 450000.0
+            },
+            "collectedBy": "BAP",
+            "timing": "ON_ORDER",
+            "status": "PAID",
+            "currency": "IDR",
+            "gatewayRef": "PAY1",
+            "paidAt": "2027-02-01T14:00:32+07:00",
+            "orderAmount": {
+              "value": 450000
+            },
+            "commission": {
+              "value": 0
+            },
+            "withholdingAmount": {
+              "value": 0
+            },
+            "refundAmount": {
+              "value": 0
+            },
+            "netPayable": {
+              "value": 450000
+            },
+            "settlementAccounts": [
+              {
+                "holderRole": "BAP",
+                "bankCode": "MANDIRI",
+                "accountNumber": "0000000001",
+                "accountName": "Synthetic BAP"
+              },
+              {
+                "holderRole": "BPP",
+                "bankCode": "BCA",
+                "accountNumber": "0000000002",
+                "accountName": "Synthetic BPP"
+              }
+            ],
+            "orderDate": "2027-02-01",
+            "dueDate": "2027-02-01"
+          }
+        }
+      ],
+      "id": "aeec555c-973b-54db-976f-3e091552ee22",
+      "contractAttributes": {
+        "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityContract/v1/context.jsonld",
+        "@type": "ion:IONHospitalityContract",
+        "bookingRef": "BOOK-SC30",
+        "revision": 2,
+        "eventRevision": 2,
+        "bookingState": "CONFIRMED",
+        "acceptedPolicies": [
+          {
+            "policyRef": "ion://policy/cancel.event.until-48h",
+            "version": "1.0.0",
+            "digest": "a133de924d4355ef813318a18ead644659b9c095a9b6ca047e9a88a2440a1c6d"
+          },
+          {
+            "policyRef": "ion://policy/cancel.event.organiser-full",
+            "version": "1.0.0",
+            "digest": "6f753cae396d1b579f4b8dc484e7cbe73723102a6646f5dcc1918e4b214a55c7"
+          },
+          {
+            "policyRef": "ion://policy/admission.event.standard",
+            "version": "1.0.0",
+            "digest": "2b1493ab9d3a49a2be22fde1d4e67b906a59f4930c812fc2fbae59661fed679e"
+          },
+          {
+            "policyRef": "ion://policy/change.event.choice",
+            "version": "1.0.0",
+            "digest": "be1f4af9f5636b00d0ae2bb65ad14d164a9d575c66d84534128a2bbb8c5c339d"
+          }
+        ],
+        "operationRef": "OP-SC30",
+        "change": {
+          "changeId": "CH-SC30",
+          "kind": "POSTPONEMENT",
+          "ticketIds": [
+            "T1",
+            "T2",
+            "T3"
+          ],
+          "expectedRevision": 1,
+          "decision": "PROPOSED",
+          "previewExpiresAt": "2027-02-05T14:00:00+07:00",
+          "initiator": "ORGANISER",
+          "applicationState": "PROPOSED",
+          "proposedEventRevision": 3,
+          "proposedSessions": [
+            {
+              "sessionId": "S1",
+              "startsAt": "2027-02-27T14:00:00+07:00",
+              "endsAt": "2027-02-27T17:00:00+07:00",
+              "venueRef": "VENUE1",
+              "layoutRevision": "L1"
+            }
+          ],
+          "noticeRef": "NOTICE-SC30"
+        },
+        "offeredPolicies": [
+          {
+            "policyRef": "ion://policy/cancel.event.until-48h",
+            "version": "1.0.0",
+            "digest": "a133de924d4355ef813318a18ead644659b9c095a9b6ca047e9a88a2440a1c6d"
+          },
+          {
+            "policyRef": "ion://policy/cancel.event.organiser-full",
+            "version": "1.0.0",
+            "digest": "6f753cae396d1b579f4b8dc484e7cbe73723102a6646f5dcc1918e4b214a55c7"
+          },
+          {
+            "policyRef": "ion://policy/admission.event.standard",
+            "version": "1.0.0",
+            "digest": "2b1493ab9d3a49a2be22fde1d4e67b906a59f4930c812fc2fbae59661fed679e"
+          },
+          {
+            "policyRef": "ion://policy/change.event.choice",
+            "version": "1.0.0",
+            "digest": "be1f4af9f5636b00d0ae2bb65ad14d164a9d575c66d84534128a2bbb8c5c339d"
+          }
+        ]
+      },
+      "status": {
+        "code": "ACTIVE"
+      },
+      "performance": [
+        {
+          "id": "T1",
+          "commitmentIds": [
+            "CM1"
+          ],
+          "performanceAttributes": {
+            "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityPerformance/v1/context.jsonld",
+            "@type": "ion:IONHospitalityPerformance",
+            "ticketId": "T1",
+            "bookingRef": "BOOK-SC30",
+            "offerRef": "O1",
+            "rights": {
+              "sessionIds": [
+                "S1"
+              ],
+              "maxEntriesPerSession": 1,
+              "named": false,
+              "reentryAllowed": false
+            },
+            "allocations": [
+              {
+                "sessionId": "S1",
+                "poolId": "POOL-GENERAL_ADMISSION",
+                "mode": "GENERAL_ADMISSION",
+                "admissions": 1,
+                "allocationState": "COMMITTED"
+              }
+            ],
+            "issuanceState": "ISSUED",
+            "admissionState": "ACTIVE",
+            "deliveryMode": "DIGITAL",
+            "deliveryRef": "DEL1",
+            "revision": 1
+          }
+        },
+        {
+          "id": "T2",
+          "commitmentIds": [
+            "CM1"
+          ],
+          "performanceAttributes": {
+            "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityPerformance/v1/context.jsonld",
+            "@type": "ion:IONHospitalityPerformance",
+            "ticketId": "T2",
+            "bookingRef": "BOOK-SC30",
+            "offerRef": "O1",
+            "rights": {
+              "sessionIds": [
+                "S1"
+              ],
+              "maxEntriesPerSession": 1,
+              "named": false,
+              "reentryAllowed": false
+            },
+            "allocations": [
+              {
+                "sessionId": "S1",
+                "poolId": "POOL-GENERAL_ADMISSION",
+                "mode": "GENERAL_ADMISSION",
+                "admissions": 1,
+                "allocationState": "COMMITTED"
+              }
+            ],
+            "issuanceState": "ISSUED",
+            "admissionState": "ACTIVE",
+            "deliveryMode": "DIGITAL",
+            "deliveryRef": "DEL2",
+            "revision": 1
+          }
+        },
+        {
+          "id": "T3",
+          "commitmentIds": [
+            "CM1"
+          ],
+          "performanceAttributes": {
+            "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityPerformance/v1/context.jsonld",
+            "@type": "ion:IONHospitalityPerformance",
+            "ticketId": "T3",
+            "bookingRef": "BOOK-SC30",
+            "offerRef": "O1",
+            "rights": {
+              "sessionIds": [
+                "S1"
+              ],
+              "maxEntriesPerSession": 1,
+              "named": false,
+              "reentryAllowed": false
+            },
+            "allocations": [
+              {
+                "sessionId": "S1",
+                "poolId": "POOL-GENERAL_ADMISSION",
+                "mode": "GENERAL_ADMISSION",
+                "admissions": 1,
+                "allocationState": "COMMITTED"
+              }
+            ],
+            "issuanceState": "ISSUED",
+            "admissionState": "ACTIVE",
+            "deliveryMode": "DIGITAL",
+            "deliveryRef": "DEL3",
+            "revision": 1
+          }
+        }
+      ]
+    }
+  }
+}

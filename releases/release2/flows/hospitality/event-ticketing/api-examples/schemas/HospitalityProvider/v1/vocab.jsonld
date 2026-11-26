@@ -1,0 +1,49 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@protected": true,
+    "ion": "https://schema.ion.id/hospitality/provider/v1#",
+    "beckn": "https://schema.beckn.io/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "schema": "https://schema.org/",
+    "IONHospitalityProvider": "ion:IONHospitalityProvider",
+    "allocationModes": "ion:allocationModes",
+    "organiserRefs": "ion:organiserRefs",
+    "deliveryModes": "ion:deliveryModes",
+    "sellerModel": "ion:sellerModel"
+  },
+  "@graph": [
+    {
+      "@id": "ion:IONHospitalityProvider",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONHospitalityProvider",
+      "rdfs:comment": "Draft hospitality provider extension for event admission ticketing."
+    },
+    {
+      "@id": "ion:allocationModes",
+      "@type": "rdf:Property",
+      "rdfs:label": "allocationModes",
+      "rdfs:comment": "Allocation modes implemented by this provider."
+    },
+    {
+      "@id": "ion:organiserRefs",
+      "@type": "rdf:Property",
+      "rdfs:label": "organiserRefs",
+      "rdfs:comment": "Organisers represented by this provider."
+    },
+    {
+      "@id": "ion:deliveryModes",
+      "@type": "rdf:Property",
+      "rdfs:label": "deliveryModes",
+      "rdfs:comment": "Supported admission delivery methods."
+    },
+    {
+      "@id": "ion:sellerModel",
+      "@type": "rdf:Property",
+      "rdfs:label": "sellerModel",
+      "rdfs:comment": "Commercial seller relationship."
+    }
+  ]
+}

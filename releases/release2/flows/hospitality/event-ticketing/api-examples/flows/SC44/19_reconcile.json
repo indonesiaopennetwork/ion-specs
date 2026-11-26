@@ -1,0 +1,113 @@
+{
+  "context": {
+    "version": "2.0.0",
+    "networkId": "ion.example/test",
+    "ttl": "PT30S",
+    "action": "reconcile",
+    "bapId": "buyer.example",
+    "bapUri": "https://buyer.example/beckn",
+    "transactionId": "0a884d8e-9805-52cd-ab93-4094c9e7d2a0",
+    "messageId": "ff7f524f-7f86-58ea-bd22-782775ec47ae",
+    "timestamp": "2027-02-01T14:01:35+07:00",
+    "bppId": "seller.example",
+    "bppUri": "https://seller.example/beckn",
+    "senderId": "buyer.example",
+    "receiverId": "seller.example"
+  },
+  "message": {
+    "settlementDate": "2027-02-01",
+    "contracts": [
+      {
+        "id": "cce24143-55ac-5195-a900-bc5008001da0",
+        "settlements": [
+          {
+            "id": "PAYMENT-1",
+            "considerationId": "C1",
+            "settlementAttributes": {
+              "@context": "https://schema.ion.id/release2/schema/common/Settlement/v1/context.jsonld",
+              "@type": "ion:IONSettlementReconciliation",
+              "collectedBy": "BAP",
+              "currency": "IDR",
+              "orderDate": "2027-02-01",
+              "orderAmount": {
+                "value": 1200000
+              },
+              "commission": {
+                "value": 50000
+              },
+              "withholdingAmount": {
+                "value": 0
+              },
+              "refundAmount": {
+                "value": 240000
+              },
+              "netPayable": {
+                "value": 910000
+              },
+              "dueDate": "2027-02-01",
+              "settlementAccounts": [
+                {
+                  "holderRole": "BAP",
+                  "bankCode": "MANDIRI",
+                  "accountNumber": "0000000001",
+                  "accountName": "Synthetic BAP"
+                },
+                {
+                  "holderRole": "BPP",
+                  "bankCode": "BCA",
+                  "accountNumber": "0000000002",
+                  "accountName": "Synthetic BPP"
+                }
+              ],
+              "method": "EWALLET",
+              "timing": "ON_ORDER",
+              "status": "PARTIALLY_REFUNDED",
+              "gatewayRef": "PAY1",
+              "paidAt": "2027-02-01T14:00:32+07:00"
+            }
+          }
+        ],
+        "commitments": [
+          {
+            "offer": {
+              "id": "O1",
+              "resourceIds": [
+                "EV-SC03"
+              ]
+            },
+            "id": "CM1",
+            "status": {
+              "descriptor": {
+                "code": "ACTIVE"
+              }
+            },
+            "resources": [
+              {
+                "resource": {
+                  "id": "EV-SC03"
+                },
+                "quantity": {
+                  "unitQuantity": 4,
+                  "unitText": "admissions"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "settlementSummary": {
+      "bapId": "buyer.example",
+      "bppId": "seller.example",
+      "currency": "IDR",
+      "settlementDate": "2027-02-01",
+      "contractCount": 1,
+      "settlementCount": 1,
+      "totalOrderAmount": 1200000,
+      "totalCommission": 50000,
+      "totalWithholding": 0,
+      "totalRefund": 240000,
+      "totalNetPayable": 910000
+    }
+  }
+}

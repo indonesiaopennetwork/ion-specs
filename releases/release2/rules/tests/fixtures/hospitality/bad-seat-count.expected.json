@@ -1,0 +1,9 @@
+{
+  "valid": false,
+  "violations": [
+    {
+      "code": "POL_ELIGIBILITY_NOT_MET",
+      "message": "[ION-R2-HSP-0004] message.contract.commitments[0].commitmentAttributes.allocations[0]: assigned seat count or uniqueness mismatch"
+    }
+  ]
+}

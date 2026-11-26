@@ -1,0 +1,140 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@protected": true,
+    "ion": "https://schema.ion.id/hospitality/resource/v1#",
+    "beckn": "https://schema.beckn.io/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "schema": "https://schema.org/",
+    "IONHospitalityResource": "ion:IONHospitalityResource",
+    "crc": "ion:crc",
+    "event": "ion:event",
+    "eventId": "ion:eventId",
+    "organiserRef": "ion:organiserRef",
+    "eventType": "ion:eventType",
+    "timezone": "ion:timezone",
+    "revision": "ion:revision",
+    "state": "ion:state",
+    "sessions": "ion:sessions",
+    "sessionId": "ion:sessionId",
+    "startsAt": "ion:startsAt",
+    "endsAt": "ion:endsAt",
+    "entryOpensAt": "ion:entryOpensAt",
+    "entryClosesAt": "ion:entryClosesAt",
+    "venueRef": "ion:venueRef",
+    "layoutRevision": "ion:layoutRevision",
+    "layoutRef": "ion:layoutRef"
+  },
+  "@graph": [
+    {
+      "@id": "ion:IONHospitalityResource",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONHospitalityResource",
+      "rdfs:comment": "Draft hospitality resource extension for event admission ticketing."
+    },
+    {
+      "@id": "ion:crc",
+      "@type": "rdf:Property",
+      "rdfs:label": "crc",
+      "rdfs:comment": "Catalogue resource category. This draft is scoped to events."
+    },
+    {
+      "@id": "ion:event",
+      "@type": "rdf:Property",
+      "rdfs:label": "event",
+      "rdfs:comment": "Event identity and schedule shared by admission offers."
+    },
+    {
+      "@id": "ion:eventId",
+      "@type": "rdf:Property",
+      "rdfs:label": "eventId",
+      "rdfs:comment": "Stable event ID."
+    },
+    {
+      "@id": "ion:organiserRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "organiserRef",
+      "rdfs:comment": "Organiser identity reference."
+    },
+    {
+      "@id": "ion:eventType",
+      "@type": "rdf:Property",
+      "rdfs:label": "eventType",
+      "rdfs:comment": "Machine-filterable event type; descriptive text belongs in core Descriptor."
+    },
+    {
+      "@id": "ion:timezone",
+      "@type": "rdf:Property",
+      "rdfs:label": "timezone",
+      "rdfs:comment": "IANA venue time zone."
+    },
+    {
+      "@id": "ion:revision",
+      "@type": "rdf:Property",
+      "rdfs:label": "revision",
+      "rdfs:comment": "Monotonic event revision."
+    },
+    {
+      "@id": "ion:state",
+      "@type": "rdf:Property",
+      "rdfs:label": "state",
+      "rdfs:comment": "Event lifecycle."
+    },
+    {
+      "@id": "ion:sessions",
+      "@type": "rdf:Property",
+      "rdfs:label": "sessions",
+      "rdfs:comment": "Scheduled occurrences."
+    },
+    {
+      "@id": "ion:sessionId",
+      "@type": "rdf:Property",
+      "rdfs:label": "sessionId",
+      "rdfs:comment": "Session identity."
+    },
+    {
+      "@id": "ion:startsAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "startsAt",
+      "rdfs:comment": "Start instant."
+    },
+    {
+      "@id": "ion:endsAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "endsAt",
+      "rdfs:comment": "End instant."
+    },
+    {
+      "@id": "ion:entryOpensAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "entryOpensAt",
+      "rdfs:comment": "Earliest entry instant."
+    },
+    {
+      "@id": "ion:entryClosesAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "entryClosesAt",
+      "rdfs:comment": "Latest entry instant."
+    },
+    {
+      "@id": "ion:venueRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "venueRef",
+      "rdfs:comment": "Venue or core location reference."
+    },
+    {
+      "@id": "ion:layoutRevision",
+      "@type": "rdf:Property",
+      "rdfs:label": "layoutRevision",
+      "rdfs:comment": "Immutable seating layout revision."
+    },
+    {
+      "@id": "ion:layoutRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "layoutRef",
+      "rdfs:comment": "Authenticated or public layout resource reference; no live inventory guarantee."
+    }
+  ]
+}
