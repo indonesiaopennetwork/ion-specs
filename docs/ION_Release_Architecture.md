@@ -10,6 +10,8 @@
 
 **Executable rules area amended:** 2026-11-26
 
+**Executable rules distribution amended:** 2026-11-26
+
 **Decision owners:** ION Council
 
 **Related policy:** `docs/ION_Release_Channel_Policy.md`
@@ -189,8 +191,16 @@ draft release directory. Published release copies remain unchanged.
 Executable rules that evaluate a release's messages have the same integer-release
 lifecycle as schemas, flows, and errors. They live under that release's `rules/`
 directory and become immutable with the published release. Production bundles
-and their network-policy manifests are release artifacts, not mutable deployment
-aliases.
+and their release-qualified verification material are release artifacts, not
+mutable deployment aliases. NPs select an integer release explicitly through
+direct ONIX bundle configuration. A network-policy manifest is not part of the
+current publication contract because current ONIX manifest resolution cannot
+represent concurrent adoption of different integer releases under one
+`networkId`; `docs/rego/ION_Rego_Architecture.md` records that decision.
+
+For Release 2, the signed bundle and its PEM public key are co-hosted below the
+same `https://schema.ion.id/release2/rules/` origin. This is a documented
+simplicity tradeoff rather than an independent trust-anchor design.
 
 Executable rules are distinct from shared policy terms in root `policies/`. A
 Rego rule MAY implement or reference a stable shared policy IRI, but the Rego

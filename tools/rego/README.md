@@ -15,6 +15,46 @@ behavior, and signature verification together.
 
 OPA `1.15.2` requires Go 1.25 or newer when built from source.
 
+## Run the optional ONIX integration
+
+The direct ONIX integration is deliberately separate from
+`tools/release/validate_release.rb` and the normal release-validation workflow.
+It is intended for Rego changes, bundle/tooling changes, ONIX compatibility
+checks, and pre-publication evidence; schema-only changes do not need to pay its
+dependency or runtime cost.
+
+Prerequisites are Git, Ruby, Go `1.26.1`, and a checkout of `beckn-onix` at the
+revision recorded in [`onix-revision`](onix-revision). Docker, an OPA CLI, open
+ports, and a running ONIX deployment are not required. The first Go run may need
+network access to download ONIX module dependencies.
+
+```bash
+git clone https://github.com/beckn/beckn-onix.git /tmp/beckn-onix
+git -C /tmp/beckn-onix checkout bbfb517114e1cefc63b72423d8dfdc4ad13c0191
+ruby tools/rego/test_onix_integration.rb --onix-root /tmp/beckn-onix
+```
+
+Alternatively, set `ONIX_ROOT` instead of passing `--onix-root`. The command
+fails when the checkout is not at the exact pinned revision. It uses a Go
+overlay, so it does not copy files into or modify the ONIX checkout.
+
+The test exercises the actual ONIX `opapolicychecker` package and verifies:
+
+- signed bundle loading with the committed release public key;
+- valid, invalid, unrelated-action, exact-network, and no-match inputs;
+- exact structured rule codes and messages;
+- multiple simultaneous violations;
+- fail-closed behavior for an incorrect query; and
+- startup rejection for a wrong key or tampered bundle.
+
+It asserts ONIX's HTTP-400 plugin error contract without starting a full adapter.
+Schema-before-policy ordering is deployment configuration and is documented in
+the operator guide at `docs/rego/ONIX_Rego_Integration.md`.
+
+Maintainers can also run the GitHub Actions workflow **Optional Rego ONIX
+integration** manually with `workflow_dispatch`. It has no pull-request or push
+trigger and is not a prerequisite for ordinary specification validation.
+
 ## CI acquisition
 
 CI does not commit or cache a platform-specific OPA binary in the repository.
@@ -102,22 +142,24 @@ The command does not build a bundle or modify source.
 
 ## Build and verify the signed bundle
 
-Preview construction with a generated ephemeral test key:
+Preview construction with a generated ephemeral key pair:
 
 ```bash
-ruby tools/rego/build_bundle.rb --test-sign releases/release2
+ruby tools/rego/build_bundle.rb --ephemeral-sign releases/release2
 ```
 
-Refresh the canonical draft bundle and its public test key, replacing each
-artifact atomically after verification:
+Refresh the canonical bundle and public key, replacing each artifact atomically
+after verification:
 
 ```bash
-ruby tools/rego/build_bundle.rb --write --test-sign releases/release2
+ruby tools/rego/build_bundle.rb --write --ephemeral-sign releases/release2
 ```
 
 The private key exists only in a temporary directory during that command. It is
-never copied into the repository. The committed public key is unmistakably
-named `TEST-ONLY-ion-release2-policy-public.pem` and cannot create signatures.
+never copied into the repository. The committed public key is
+`ion-release2-policy-public.pem`; it cannot create signatures. The signed bundle
+and public key are the canonical pair for local tests, CI, ONIX integration,
+and Release 2 publication. A rebuild rotates both artifacts together.
 
 Verify freshness, archive safety, the 10 MiB ONIX limit, the logical source
 inventory, ES256 signature with key ID `default`, and the public query:
@@ -131,9 +173,11 @@ the committed archive's logical module and data bytes with source and verifies
 its signed inventory; it does not require a rebuilt gzip archive to have the
 same bytes.
 
-### Controlled production-signing interface
+### Optional external-key interface
 
-Publication automation supplies both key paths from controlled storage:
+The selected Release 2 publication model uses `--ephemeral-sign`. The builder
+also retains an external-key interface so a future architecture decision can
+supply both key paths from controlled storage:
 
 ```bash
 ruby tools/rego/build_bundle.rb --write \
@@ -143,11 +187,8 @@ ruby tools/rego/build_bundle.rb --write \
 ```
 
 The tool reads these paths only for OPA signing and immediate verification. It
-does not print or copy either external key. Production custody, DeDi public-key
-publication, authorization, audit evidence, and invocation environment remain
-operations responsibilities and are intentionally not invented in this repo.
-The ordinary draft gate continues to require the committed test public key
-until the later publication phase deliberately switches verification mode.
+does not print or copy either external key. This interface is not the current
+Release 2 publication path and does not imply a DeDi key record.
 
 ## Generate an ephemeral test-only signing key
 
@@ -177,6 +218,9 @@ ION_OPA=/absolute/path/to/opa ruby -Itools/rego/tests -e \
 
 ## Current limitations
 
-- The registry is empty because the scaffold has no substantive business rule.
-- The canonical draft bundle is test-signed, not production-signed.
-- ONIX integration begins in Phase 6.
+- The registry contains only the three Phase 5 starter rules; comprehensive
+  Trade and Logistics coverage is not yet implemented.
+- The bundle and public key share one GitHub-backed publication origin; this is
+  operationally simple but is not an independent trust channel.
+- Direct ONIX plugin integration is optional and proven at the pinned revision;
+  remote direct-bundle and full deployment testing remain later phases.

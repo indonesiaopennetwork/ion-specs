@@ -1,10 +1,16 @@
 package ion.release2
 
+import data.ion.release2.common.payment
+import data.ion.release2.trade.provider
 import rego.v1
 
-# Phase 2 establishes the public result contract without asserting business
-# rules. Later phases aggregate common, Trade, and Logistics violations here.
-violations := set()
+violations contains violation if {
+	some violation in payment.violations
+}
+
+violations contains violation if {
+	some violation in provider.violations
+}
 
 result := {
 	"valid": count(violations) == 0,

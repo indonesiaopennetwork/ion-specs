@@ -1,0 +1,29 @@
+name: Optional Rego ONIX integration
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-onix-integration:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out ION specifications
+        uses: actions/checkout@v4
+      - name: Check out pinned ONIX revision
+        uses: actions/checkout@v4
+        with:
+          repository: beckn/beckn-onix
+          ref: bbfb517114e1cefc63b72423d8dfdc4ad13c0191
+          path: .onix
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.26.1"
+          cache-dependency-path: .onix/go.sum
+      - name: Exercise the signed Release 2 bundle through ONIX
+        run: ruby tools/rego/test_onix_integration.rb --onix-root .onix

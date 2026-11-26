@@ -1,15 +1,14 @@
 # ION Release 2 executable rules
 
-**Status:** Validation pending — packaging instrumentation complete
+**Status:** Draft — initial rules and direct ONIX integration validated
 
 This directory is the release-owned source and publication area for ION Rego
 business rules evaluated by the ONIX OPA Policy Checker. It is distinct from
 the independently governed shared policy terms under the repository root
 `policies/` directory.
 
-The current scaffold contains no business rule. Its public query always returns
-a valid result with an empty violation array so the authoring, testing, and
-toolchain contract can be proven before normative rules are added.
+The initial vertical slice contains three active business rules. Inputs to which
+none applies still return a valid result with an empty violation array.
 
 ## Public contract
 
@@ -33,14 +32,35 @@ rules/
     logistics/             Logistics rules
   tests/                   Rego unit tests and full-envelope smoke inputs
   data/data.json           Normative runtime data; currently empty
-  registry.json            Generated rule inventory; currently empty
-  bundles/                 Canonical test-signed draft bundle and public key
+  registry.json            Generated three-rule inventory
+  bundles/                 Canonical signed bundle and public key
 ```
 
 `registry.json` is generated deterministically from rule metadata and protected
-by a freshness check. The current canonical bundle is test-signed for repository
-and ONIX integration work; it is not the production publication signature. The
-network-policy manifest is introduced by a later implementation phase.
+by a freshness check. The canonical bundle and public key are generated and
+published together. An ephemeral private key signs each build and is destroyed;
+it is never committed. The same artifact pair is used for testing and, once
+Release 2 is published, production. NPs select this release explicitly through
+direct ONIX `type: bundle` configuration.
+
+## Initial active rules
+
+| Rule ID | Requirement | Applicable actions | Schema source |
+|---|---|---|---|
+| `ION-R2-COM-0001` | Every settlement with payment status `PAID` declares `paidAt`. | `confirm`, `on_confirm`, `status`, `on_status` | `schema/common/Payment/v1/attributes.yaml` |
+| `ION-R2-TRD-0001` | A Trade provider marked `TEMPORARILY_CLOSED` declares the closure end in `until`. | `catalog/publish`, `on_discover` | `schema/extension/trade/TradeProvider/v1/attributes.yaml` |
+| `ION-R2-TRD-0002` | A Trade provider using `CENTRAL` invoicing declares its issuing `entityId`. | `catalog/publish`, `on_discover` | `schema/extension/trade/TradeProvider/v1/attributes.yaml` |
+
+These are cross-field, action-gated requirements. Their target fields remain
+optional in JSON Schema by design, so no schema constraint was removed or
+weakened. Both valid and deliberately rule-invalid attribute objects pass their
+Release 2 packs before Rego is evaluated. All three use
+`POL_ELIGIBILITY_NOT_MET`: the message is structurally valid but does not meet
+an activated ION network-policy precondition.
+
+The rules are intentionally limited to the complete-message locations and
+actions listed above. They do not infer applicability from similarly named
+fields elsewhere in a message.
 
 ## Validate the scaffold
 
@@ -58,21 +78,35 @@ Pass `--opa /absolute/path/to/opa` to either command when the pinned CLI is not
 on `PATH`.
 
 The checks are read-only. They enforce source layout and metadata, registry
-freshness, formatting, strict compilation, unit tests, and the exact public
-result for representative Trade and Logistics inputs. Refresh the generated
-registry explicitly with:
+freshness, formatting, strict compilation, unit tests, exact valid and invalid
+fixture results, and continued acceptance of every existing Release 2 reference
+flow example. Refresh the generated registry explicitly with:
 
 ```bash
 ruby tools/rego/generate_registry.rb --write releases/release2
 ```
 
+Run the separate optional ONIX integration when changing rules, bundle tooling,
+or the ONIX compatibility pin. It is intentionally not part of the normal
+release gate:
+
+```bash
+ruby tools/rego/test_onix_integration.rb --onix-root /path/to/pinned/beckn-onix
+```
+
+See [`../../../docs/rego/ONIX_Rego_Integration.md`](../../../docs/rego/ONIX_Rego_Integration.md)
+for the operator configuration and `tools/rego/README.md` for author
+prerequisites.
+
 ## Current limitations
 
-- No ION business rule is implemented yet.
-- The generated registry is empty until the first substantive rule is added.
-- The committed bundle carries only a test signature and is not publishable.
-- No private signing key or network-policy manifest belongs in this release
-  tree.
-- The rules area is not validated and is not ready for NP adoption.
+- No private signing key belongs in this release tree.
+- The bundle and public key are publishable artifacts only when the enclosing
+  Release 2 publication gate passes.
+- This is a deliberately small starter set; comprehensive Trade and Logistics
+  rule inventories are later phases.
+- Direct bundle loading is proven only against the pinned ONIX revision;
+  remote distribution and NP adoption are later phases.
 
-See `docs/internal/rego/` for the governing architecture and phased plan.
+See `docs/rego/` for the durable architecture and authoring guidance, and
+`docs/internal/rego/` for the phased implementation record.

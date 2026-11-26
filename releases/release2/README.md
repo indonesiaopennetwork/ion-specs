@@ -110,16 +110,19 @@ shared registry published at
 
 [`rules/`](rules/) contains the Release 2 scaffold for ION-authored Rego
 business rules that depend on this release's message, schema, and flow
-contracts. Its stable public query is `data.ion.release2.result`. Phase 2 pins
-the OPA toolchain and exercises that query with representative Trade and
-Logistics inputs. The generated registry and canonical test-signed draft bundle
-are now freshness-checked; substantive rules and production signing are later
-phases.
+contracts. Its stable public query is `data.ion.release2.result`. The initial
+vertical slice enforces one common payment condition and two Trade provider
+conditions. Its generated registry and canonical signed draft bundle are
+freshness-checked; broader sector coverage and publication readiness are later
+phases. The optional direct ONIX integration has been proven against a pinned
+ONIX revision. Operators can follow the
+[`ONIX Rego integration guide`](../../docs/rego/ONIX_Rego_Integration.md) to
+load and test the draft bundle.
 
 Executable rules are release-owned artifacts and are distinct from the shared
-policy terms in root `policies/`. The area remains `validation-pending`. Until
-its status becomes `validated`, Release 2 makes no claim that ONIX is enforcing
-an ION Rego bundle.
+policy terms in root `policies/`. The area remains `validation-pending`: direct
+plugin compatibility is proven, but remote direct-bundle distribution,
+publication, and NP interoperability are not complete.
 
 ### Vendored dependencies
 

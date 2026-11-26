@@ -12,11 +12,12 @@ class BundleTest < Minitest::Test
     skip "set ION_OPA to run OPA bundle tests" unless @opa && File.executable?(@opa)
   end
 
-  def test_clean_source_builds_and_verifies_test_signed_bundle
+  def test_clean_source_builds_and_verifies_ephemeral_key_bundle
     with_bundle do |release, bundle, public_key|
       errors = IonRegoBundle.verify(release, bundle, opa: @opa, public_key: public_key)
 
       assert_empty errors
+      assert_equal "ion-release2-policy-public.pem", File.basename(public_key)
       entries, archive_errors = IonRegoBundle.read_archive(bundle)
       assert_empty archive_errors
       assert_equal [".manifest", ".signatures.json", "data.json", "ion/release2/policy.rego"], entries.keys.sort
@@ -49,7 +50,7 @@ class BundleTest < Minitest::Test
 
   def test_wrong_key_fails_opa_verification
     with_bundle do |release, bundle, _public_key, temporary|
-      wrong = IonRegoBundle.prepare_keys(Pathname.new(temporary).join("wrong"), :test, nil, nil).fetch(:public)
+      wrong = IonRegoBundle.prepare_keys(Pathname.new(temporary).join("wrong"), :ephemeral, nil, nil).fetch(:public)
       errors = IonRegoBundle.verify(release, bundle, opa: @opa, public_key: wrong)
 
       assert errors.any? { |error| error.include?("OPA bundle signature verification failed") }
@@ -95,7 +96,7 @@ class BundleTest < Minitest::Test
       release = build_release(temporary)
       write(File.join(release, "rules/data/secret.key"), "not allowed\n")
       error = StringIO.new
-      refute IonRegoBundle.build(release, opa: @opa, signing_mode: :test, err: error)
+      refute IonRegoBundle.build(release, opa: @opa, signing_mode: :ephemeral, err: error)
       assert_includes error.string, "unexpected runtime data file"
     end
   end
@@ -105,7 +106,7 @@ class BundleTest < Minitest::Test
       release = build_release(temporary)
       write(File.join(release, "rules/rego/ion/release2/leaked_test.rego"), "package ion.release2\nimport rego.v1\n")
       error = StringIO.new
-      refute IonRegoBundle.build(release, opa: @opa, signing_mode: :test, err: error)
+      refute IonRegoBundle.build(release, opa: @opa, signing_mode: :ephemeral, err: error)
       assert_includes error.string, "test module is not allowed in production sources"
     end
   end
@@ -115,9 +116,9 @@ class BundleTest < Minitest::Test
   def with_bundle
     Dir.mktmpdir do |temporary|
       release = build_release(temporary)
-      assert IonRegoBundle.build(release, opa: @opa, signing_mode: :test, write: true, out: StringIO.new, err: StringIO.new)
+      assert IonRegoBundle.build(release, opa: @opa, signing_mode: :ephemeral, write: true, out: StringIO.new, err: StringIO.new)
       paths = IonRegoBundle.canonical_paths(release)
-      yield release, paths.fetch(:bundle), paths.fetch(:test_public_key), temporary
+      yield release, paths.fetch(:bundle), paths.fetch(:public_key), temporary
     end
   end
 

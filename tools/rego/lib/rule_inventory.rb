@@ -141,6 +141,8 @@ module IonRegoInventory
   end
 
   def validate_rule_metadata_coverage(text, relative, annotations, errors)
+    return if relative.match?(%r{\Arules/rego/ion/release\d+/policy\.rego\z})
+
     annotated_lines = annotations.map { |annotation| annotation.fetch("declarationLine") }
     text.lines.each_with_index do |line, index|
       next unless line.match?(/^\s*(?:[A-Za-z_][A-Za-z0-9_]*_)?violations\s+contains\b/)

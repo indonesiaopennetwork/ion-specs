@@ -147,6 +147,7 @@ Policy documents use their independent root namespace, for example
 | [Entity Hierarchy Model](docs/ION_Entity_Hierarchy_Model.md) | How participants, roles, sectors, and business classifications fit together across ION. |
 | [Resource Categories](docs/ION_Resource_Categories.md) | The draft cross-sector taxonomy and machine-readable codes used to classify products and services. |
 | [Transport and HTTP Signing](docs/ION_Transport_and_Signing.md) | The request/callback model, HTTP signatures, acknowledgements, and transport-level errors. |
+| [Rego Documentation](docs/rego/README.md) | Executable-rule architecture, authoring conventions, and ONIX bundle configuration. |
 | [Bu Sari Joins ION](docs/ION_Bu_Sari_Wizard.md) | A plain-language walkthrough of the network for business owners, product teams, regulators, and other non-protocol readers. |
 | [Bu Sari's Complete ION Journey](docs/ION_Bu_Sari_Complete_Journey.md) | The developer companion, with API calls, JSON payloads, and field-level details for an end-to-end seller journey. |
 

@@ -6,29 +6,28 @@
 
 **Target:** `releases/release2/`
 
-This directory records the decisions and execution plan for adding ION-authored
-Rego business rules to Release 2 and distributing them for enforcement by the
-ONIX OPA Policy Checker plugin.
+This directory records the implementation sequence and tooling design for
+adding ION-authored Rego business rules to Release 2 and distributing them for
+enforcement by the ONIX OPA Policy Checker plugin.
 
-These documents are internal work records. They govern the implementation work
-until their durable decisions are incorporated into the repository's public
-architecture, contributor, release, and integration documentation. They do not
-by themselves make a rule normative or publish Release 2.
+These documents are internal work records. The durable architecture, authoring,
+and operator guidance has moved to [`../../rego/`](../../rego/). These records
+do not by themselves make a rule normative or publish Release 2.
 
 ## Documents
 
-- [`ION_Rego_Architecture.md`](ION_Rego_Architecture.md) — ownership,
-  release placement, runtime composition, compatibility, packaging, signing,
-  and publication decisions.
-- [`ION_Rego_Authoring_Guide.md`](ION_Rego_Authoring_Guide.md) — source layout,
-  packages, rule structure, identifiers, violation results, metadata, data,
-  tests, and review requirements.
 - [`ION_Rego_Tooling_Design.md`](ION_Rego_Tooling_Design.md) — build inputs and
-  outputs, deterministic checks, release-gate integration, bundle and manifest
-  validation, and ONIX end-to-end testing.
+  outputs, deterministic checks, release-gate integration, direct-bundle
+  configuration, and ONIX end-to-end testing.
 - [`ION_Rego_Implementation_Plan.md`](ION_Rego_Implementation_Plan.md) — phased
   delivery plan, acceptance gates, validation sequence, and decisions that must
   be closed before production publication.
+
+Public documents:
+
+- [`../../rego/ION_Rego_Architecture.md`](../../rego/ION_Rego_Architecture.md)
+- [`../../rego/ION_Rego_Authoring_Guide.md`](../../rego/ION_Rego_Authoring_Guide.md)
+- [`../../rego/ONIX_Rego_Integration.md`](../../rego/ONIX_Rego_Integration.md)
 
 ## Governing inputs
 

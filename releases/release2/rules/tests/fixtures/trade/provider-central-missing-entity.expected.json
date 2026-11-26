@@ -1,0 +1,9 @@
+{
+  "valid": false,
+  "violations": [
+    {
+      "code": "POL_ELIGIBILITY_NOT_MET",
+      "message": "[ION-R2-TRD-0002] message.catalogs[0].provider.providerAttributes.invoicing.entityId: required when invoicing model is CENTRAL"
+    }
+  ]
+}

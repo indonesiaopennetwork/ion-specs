@@ -1,0 +1,38 @@
+{
+  "_meta": {
+    "description": "Trade catalog with schema-valid provider attributes and complete network conditions",
+    "sector": "trade",
+    "schemaPacks": ["schema/extension/trade/TradeProvider/v1"]
+  },
+  "context": {
+    "action": "catalog/publish",
+    "version": "2.0.0",
+    "bapId": "buyerapp.ion.id",
+    "bapUri": "https://buyerapp.ion.id/beckn",
+    "bppId": "sellerapp.ion.id",
+    "bppUri": "https://sellerapp.ion.id/beckn",
+    "networkId": "ion.id",
+    "transactionId": "3043549a-98df-49ee-9314-174eb936de3e",
+    "messageId": "f7e7b44d-4560-4836-a0a9-cf72dce4796b",
+    "timestamp": "2026-09-19T09:00:00.000+07:00",
+    "ttl": "PT30S"
+  },
+  "message": {
+    "catalogs": [
+      {
+        "id": "CATALOG-001",
+        "bppId": "sellerapp.ion.id",
+        "bppUri": "https://sellerapp.ion.id/beckn",
+        "provider": {
+          "id": "PROVIDER-001",
+          "providerAttributes": {
+            "@context": "https://schema.ion.id/release2/schema/extension/trade/TradeProvider/v1/context.jsonld",
+            "@type": "ion:IONTradeProvider",
+            "operationalStatus": {"status": "OPEN"},
+            "invoicing": {"model": "CENTRAL", "entityId": "PROVIDER-001"}
+          }
+        }
+      }
+    ]
+  }
+}

@@ -21,9 +21,9 @@ When using an internal work record:
 
 ## Records
 
-- [`rego/`](rego/) — Release 2 Rego architecture, authoring conventions,
-  tooling design, and phased implementation plan for publishing ION-authored
-  business rules and enforcing them through ONIX.
+- [`rego/`](rego/) — Release 2 Rego tooling design and phased implementation
+  plan. Durable architecture, authoring, and ONIX integration guidance lives in
+  public [`../rego/`](../rego/).
 
 - [`ION_Release1_Migration_Inventory.md`](ION_Release1_Migration_Inventory.md) —
   inventory, execution sequence, and results of reorganizing the original Trade

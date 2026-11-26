@@ -8,6 +8,7 @@ on:
       - "tools/release/**"
       - "tools/policies/**"
       - "tools/rego/**"
+      - "docs/rego/**"
       - "docs/internal/rego/**"
       - ".github/workflows/release-validation.yml"
   push:
@@ -18,6 +19,7 @@ on:
       - "tools/release/**"
       - "tools/policies/**"
       - "tools/rego/**"
+      - "docs/rego/**"
       - "docs/internal/rego/**"
       - ".github/workflows/release-validation.yml"
   workflow_dispatch:

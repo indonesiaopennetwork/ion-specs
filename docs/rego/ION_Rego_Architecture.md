@@ -1,10 +1,10 @@
-# ION Release 2 Rego Architecture
+# ION Rego Architecture
 
-**Status:** Accepted working design
+**Status:** Accepted
 
 **Decision date:** 2026-11-25
 
-**Target:** `releases/release2/`
+**Initial implementation:** `releases/release2/`
 
 **Runtime:** ONIX `opapolicychecker`
 
@@ -12,7 +12,9 @@
 
 This document defines where ION-authored Rego rules belong, how they relate to
 schemas and shared policy terms, how ONIX evaluates them, and how they are
-packaged and published with Release 2.
+packaged and published with an integer ION release. Release 2 is the first
+implementation; later releases follow the same architecture with
+release-qualified paths, packages, queries, and artifacts.
 
 ION needs executable rules for requirements that JSON Schema cannot express
 well: cross-field consistency, message-action conditions, calculations,
@@ -39,8 +41,8 @@ releases/release2/
   rules/
 ```
 
-The durable release architecture must be amended before publication to
-recognize `rules/` as a normative artifact root.
+The durable release architecture recognizes `rules/` as a normative artifact
+root for manifest schema v2 releases.
 
 ### Rego rules do not belong in root `policies/`
 
@@ -94,7 +96,7 @@ HTTP headers, signature state, and router metadata are not available to the
 policy. Transport rules that cannot be derived from the body do not belong in
 this bundle.
 
-## Proposed release layout
+## Release layout
 
 ```text
 releases/release2/rules/
@@ -121,14 +123,11 @@ releases/release2/rules/
 
   bundles/
     ion-release2-policy.tar.gz
-
-  network-policy-manifest.yaml
-  network-policy-manifest.yaml.sig
 ```
 
 `rego/`, `tests/`, and `data/` are reviewed source inputs. `registry.json`, the
-bundle, and the final network manifest artifacts are generated or finalized
-outputs and must have freshness checks.
+bundle, and its public verification material are generated or finalized outputs
+and must have freshness checks.
 
 The production bundle contains only production Rego modules, normative runtime
 data, the OPA bundle manifest, and the embedded OPA signature. Tests, fixtures,
@@ -216,15 +215,15 @@ must fail closed rather than silently select a convenient default.
 - Rego package paths include `release2` and do not change after publication.
 - Rule identifiers are stable within the release.
 - The production bundle URL is immutable and release-qualified.
-- Published bundle bytes, source rules, runtime data, registry, manifest, and
-  signature are protected by the Release 2 immutability contract.
+- Published bundle bytes, source rules, runtime data, registry, and signature
+  are protected by the Release 2 immutability contract.
 - Corrections after Release 2 publication belong in the next integer release.
 
 A mutable `latest` bundle is not published. ONIX hot reload may fetch the
 release-qualified bundle repeatedly, but it must receive identical bytes for a
 published release.
 
-## Manifest evolution
+## Release-manifest evolution
 
 Release 2 uses release manifest `schemaVersion: 2` and adds:
 
@@ -237,9 +236,10 @@ The v2 publication inventory covers `schema/`, `flows/`, `errors/`, and
 `rules/`. Validators must dispatch by manifest schema version so the published
 Release 1 v1 manifest remains valid without alteration.
 
-Phase 2 moves `contentStatus.rules` to `validation-pending` when the source and
-toolchain scaffold exists. It does not imply that substantive rules, a signed
-bundle, or ONIX integration are complete.
+Release 2 currently keeps `contentStatus.rules` at `validation-pending`. That
+state records an implemented but unfinished rules area; it does not imply
+publication readiness, remote direct-bundle validation, or NP interoperability is
+complete.
 
 `rules` follows the same content states as other areas:
 
@@ -253,55 +253,91 @@ Release 2 cannot be published with included rule artifacts unless
 
 ## Packaging and signing
 
-The canonical artifact is an OPA `.tar.gz` bundle. It is signed using an
-ION-controlled production key and an ONIX-supported algorithm. ES256 is the
-default choice. The bundle signature must use key ID `default`, matching the
-current ONIX verifier configuration.
+The canonical artifacts are an OPA `.tar.gz` bundle and its PEM public
+verification key. The bundle uses ES256 and signature key ID `default`, matching
+the current ONIX verifier configuration. Both artifacts are release-owned and
+are published together from the GitHub repository through the same
+`schema.ion.id` path mapping used by schema and JSON-LD context artifacts.
 
-Private signing keys never enter this repository or generated build artifacts.
-Local and CI tests use a clearly separate non-production key. The release
-process signs the candidate bundle in a controlled environment and verifies it
-using the same public-key representation published through DeDi.
+For the current implementation, each bundle build generates an ephemeral key
+pair. The private key exists only in the builder's temporary directory, signs
+that bundle, and is destroyed when the build completes. Only the signed bundle
+and public key are committed. The same mechanism and artifact pair are used for
+development, CI, interoperability testing, and Release 2 publication.
 
-During draft development, the committed bundle is signed once with an
-ephemeral test-only key and accompanied only by its unmistakably named public
-verification key. It is not a production publication artifact. Production
-signing replaces that signature through the external-key interface; the
-production private key is never copied into the repository.
+This is a deliberate simplicity decision made after considering a separately
+managed long-lived production key, an HSM or protected CI secret, and a DeDi
+public-key record. Co-hosting the bundle and public key means verification
+detects corruption, mismatched artifacts, and accidental replacement, but it
+does not provide an independent trust channel: compromise of the GitHub-backed
+publication origin could replace both artifacts. ION accepts that limitation
+for the current phase. A future architecture revision may move the public key
+to DeDi or another independently administered trust anchor without changing
+the Rego bundle format.
 
 The completed bundle must remain below ONIX's 10 MB remote bundle limit.
 
-## Publication and discovery
+## Operator selection and publication
 
-The production URLs are release-qualified:
+The production bundle URL is immutable and release-qualified:
 
 ```text
 https://schema.ion.id/release2/rules/bundles/ion-release2-policy.tar.gz
-https://schema.ion.id/release2/rules/network-policy-manifest.yaml
-https://schema.ion.id/release2/rules/network-policy-manifest.yaml.sig
 ```
 
-The network manifest declares the exact bundle URL and query. The DeDi network
-registry publishes metadata pointing to the manifest, its detached signature,
-and the manifest verification key. NPs configure ONIX using `type: manifest`
-for the exact ION `networkId`.
+ION publishes the exact bundle URL, public query, signing algorithm, and public
+key URL in the selected release's operator documentation. Each NP
+configures ONIX using `type: bundle` and deliberately selects the integer
+release it supports. The configuration key must match the `networkId` carried
+by that NP's ION messages, but the Rego bundle itself does not use `networkId`
+to select a release.
+
+### Why the network-policy manifest is deferred
+
+Current ONIX manifest resolution is keyed only by `networkId`. A network
+manifest declares one policy source, one bundle URL, and one query. It therefore
+represents one active policy release for the whole network and cannot express a
+supported transition in which some NPs use Release 2 while others use Release
+3 under the same `networkId`.
+
+ION does not currently carry an integer ION release selector in each message.
+`context.version` is the Beckn protocol version and must not be repurposed for
+this. Selecting a manifest by participant identity would also make enforcement
+depend on counterparty-specific configuration rather than the declared wire
+contract.
+
+For these reasons, a network-policy manifest is not part of the current ION
+Rego publication contract. Direct signed-bundle configuration keeps release
+choice explicit at each NP and permits controlled coexistence during migration.
+It does not perform per-message release negotiation: an ONIX instance applies
+its selected bundle to every matching `networkId`. ION release-transition
+guidance must therefore state the compatibility window and cutover expectations
+when NPs temporarily enforce different releases.
+The decision may be revisited only after ION defines network-wide release
+cutover semantics or a trustworthy per-message release-negotiation mechanism,
+and ONIX supports that model.
+
+The Release 2 artifact pair is:
+
+```text
+https://schema.ion.id/release2/rules/bundles/ion-release2-policy.tar.gz
+https://schema.ion.id/release2/rules/bundles/ion-release2-policy-public.pem
+```
 
 Draft files may be visible from `main`, but they are unsupported until Release 2
-is published and assigned to a channel. Development and interoperability tests
-use local bundles or an explicitly labelled preview origin; they do not imply
-production publication.
+is published and assigned to a channel. The URLs become immutable when the
+release is published. During draft development a rebuild rotates the bundle and
+public key together; consumers must never mix generations.
 
 ## Operational decisions still required
 
 The following values must be supplied by ION governance or operations before
-the production manifest is finalized:
+the production bundle is published:
 
 - canonical production and non-production `networkId` values;
-- manifest `publisher.domain`;
-- DeDi records and lookup URLs for bundle and manifest verification keys;
-- production key custody and signing procedure;
-- `effectiveFrom` and optional `effectiveUntil` timestamps;
-- manifest cache and OPA refresh guidance for NPs; and
+- the final GitHub-backed publication deployment and content types;
+- authorization and audit procedure for the publication build;
+- direct-bundle refresh guidance for NPs; and
 - emergency response and revocation procedure.
 
 These are unresolved values, not permission to invent placeholders in a

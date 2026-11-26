@@ -16,7 +16,7 @@ module IonRegoBundle
   SIGNING_ALGORITHM = "ES256".freeze
   SIGNING_KEY_ID = "default".freeze
   BUNDLE_NAME = "ion-release%d-policy.tar.gz".freeze
-  TEST_PUBLIC_KEY_NAME = "TEST-ONLY-ion-release%d-policy-public.pem".freeze
+  PUBLIC_KEY_NAME = "ion-release%d-policy-public.pem".freeze
 
   module_function
 
@@ -26,7 +26,7 @@ module IonRegoBundle
     bundles = root.join("rules/bundles")
     {
       bundle: bundles.join(format(BUNDLE_NAME, release)),
-      test_public_key: bundles.join(format(TEST_PUBLIC_KEY_NAME, release))
+      public_key: bundles.join(format(PUBLIC_KEY_NAME, release))
     }
   end
 
@@ -102,8 +102,7 @@ module IonRegoBundle
         root,
         bundle,
         opa: opa,
-        public_key: key_paths.fetch(:public),
-        require_test_key: signing_mode == :test
+        public_key: key_paths.fetch(:public)
       )
       unless verification_errors.empty?
         verification_errors.each { |message| err.puts "ERROR: #{message}" }
@@ -113,10 +112,8 @@ module IonRegoBundle
       if write
         paths = canonical_paths(root)
         atomic_write(paths.fetch(:bundle), bundle.binread, 0o644)
-        if signing_mode == :test
-          atomic_write(paths.fetch(:test_public_key), key_paths.fetch(:public).binread, 0o644)
-        end
-        out.puts "built test-signed bundle: #{paths.fetch(:bundle)}" if signing_mode == :test
+        atomic_write(paths.fetch(:public_key), key_paths.fetch(:public).binread, 0o644)
+        out.puts "built ephemeral-key bundle: #{paths.fetch(:bundle)}" if signing_mode == :ephemeral
         out.puts "built externally signed bundle: #{paths.fetch(:bundle)}" if signing_mode == :external
       else
         out.puts "bundle dry-run passed: #{files.length} logical files, #{bundle.size} bytes"
@@ -129,12 +126,12 @@ module IonRegoBundle
   end
 
   def prepare_keys(temp, signing_mode, signing_key, verification_key)
-    temp.mkpath if signing_mode == :test
+    temp.mkpath if signing_mode == :ephemeral
     case signing_mode
-    when :test
+    when :ephemeral
       key = OpenSSL::PKey::EC.generate("prime256v1")
-      private_path = temp.join("TEST-ONLY-private.pem")
-      public_path = temp.join("TEST-ONLY-public.pem")
+      private_path = temp.join("private.pem")
+      public_path = temp.join("public.pem")
       private_pem = key.respond_to?(:private_to_pem) ? key.private_to_pem : key.to_pem
       public_pem = if key.respond_to?(:public_to_pem)
         key.public_to_pem
@@ -154,11 +151,11 @@ module IonRegoBundle
       raise ArgumentError, "external verification key is not readable: #{public_path}" unless public_path.file? && public_path.readable?
       { private: private_path, public: public_path }
     else
-      raise ArgumentError, "signing mode must be test or external"
+      raise ArgumentError, "signing mode must be ephemeral or external"
     end
   end
 
-  def verify(release_root, bundle_path, opa:, public_key:, require_test_key: true, max_bytes: MAX_BUNDLE_BYTES, verify_with_opa: true)
+  def verify(release_root, bundle_path, opa:, public_key:, max_bytes: MAX_BUNDLE_BYTES, verify_with_opa: true)
     root = Pathname.new(File.expand_path(release_root))
     bundle = Pathname.new(File.expand_path(bundle_path))
     errors = []
@@ -166,9 +163,6 @@ module IonRegoBundle
       return ["bundle is missing: #{bundle}"]
     end
     errors << "bundle exceeds ONIX 10 MiB limit: #{bundle.size} bytes" if bundle.size > max_bytes
-    if require_test_key && !Pathname.new(public_key.to_s).basename.to_s.start_with?("TEST-ONLY-")
-      errors << "draft bundle verification key must have a TEST-ONLY filename"
-    end
     expected, source_errors = expected_files(root)
     errors.concat(source_errors)
     entries, archive_errors = read_archive(bundle)
@@ -182,7 +176,7 @@ module IonRegoBundle
       errors << "bundle content is stale for #{name}" unless entries.fetch(name) == content
     end
     validate_manifest(entries[".manifest"], errors)
-    validate_signatures(entries, require_test_key, errors)
+    validate_signatures(entries, errors)
 
     if verify_with_opa && errors.empty?
       errors.concat(verify_signature_with_opa(bundle, opa, public_key))
@@ -240,7 +234,7 @@ module IonRegoBundle
     errors << "bundle .manifest is invalid JSON: #{e.message}"
   end
 
-  def validate_signatures(entries, require_test_key, errors)
+  def validate_signatures(entries, errors)
     content = entries[".signatures.json"]
     unless content
       errors << "bundle is missing .signatures.json"

@@ -1,16 +1,18 @@
-# ION Release 2 Rego Authoring Guide
+# ION Rego Authoring Guide
 
-**Status:** Accepted working guide
+**Status:** Accepted
 
 **Guide date:** 2026-11-25
 
-**Target:** `releases/release2/rules/`
+**Current target:** `releases/release2/rules/`
 
 ## Purpose
 
 This guide defines how ION Rego rules are selected, written, identified,
-documented, tested, and reviewed. It applies to Release 2 rule work until its
-durable requirements are promoted into public contributor documentation.
+documented, tested, and reviewed for an integer ION release. Examples use
+Release 2, the current draft. For a later release, substitute its release
+number consistently in source paths, package names, rule identifiers, public
+query, fixtures, registry, and bundle artifacts.
 
 ## Authoring principles
 
@@ -211,13 +213,14 @@ turn the absence of an inapplicable parent object into a violation.
 - Use `object.get` when a missing value needs an explicit default.
 - Distinguish missing, `null`, empty string, and empty collection only when the
   release contract distinguishes them.
-- Do not accept multiple field spellings unless Release 2 actually permits each
-  spelling.
+- Do not accept multiple field spellings unless the selected release actually
+  permits each spelling.
 - Do not read transport headers or state unavailable in the JSON body.
 
 ## Runtime data and configuration
 
-Use bundle data for normative lookup tables and thresholds:
+Use bundle data for normative lookup tables and thresholds. For example,
+Release 2 uses:
 
 ```text
 data.ion.release2.<area>.<name>
@@ -228,9 +231,9 @@ small enough to review. Do not embed large opaque datasets without provenance
 and an explicit update lifecycle.
 
 Use `data.config` only for an approved deployment-specific value. Every use must
-declare the key in rule metadata and Release 2 operator documentation. Convert
-string values explicitly because ONIX plugin configuration forwards them as
-strings.
+declare the key in rule metadata and the selected release's operator
+documentation. Convert string values explicitly because ONIX plugin
+configuration forwards them as strings.
 
 Rules must not silently choose different normative behavior because a config
 key is missing or malformed.
@@ -250,9 +253,9 @@ When a rule implements a documented condition:
 - the compatibility record states whether JSON Schema also enforces it.
 
 Candidate examples in `docs/ION_ONIX_Conditional_Policy.md` must be rechecked
-against current field names, nesting, Release 2 scope, and complete-message input
-before reuse. Hospitality examples remain out of scope while Hospitality is
-excluded from Release 2.
+against the selected release's field names, nesting, scope, and complete-message
+input before reuse. Hospitality examples remain out of scope while Hospitality
+is excluded from the current Release 2 draft.
 
 ## Required tests for each rule
 
@@ -269,11 +272,36 @@ At minimum, every rule tests:
 8. interaction with another module when the rule shares helpers or data.
 
 Tests should use the smallest input that proves the invariant. In addition,
-representative end-to-end tests use actual or deliberately derived Release 2
-flow messages so that simplified unit inputs do not conceal path mismatches.
+representative end-to-end tests use actual or deliberately derived flow messages
+from the selected release so that simplified unit inputs do not conceal path
+mismatches.
 
 For a constraint duplicated temporarily in JSON Schema and Rego, add equivalence
 fixtures showing that both layers accept and reject the same boundary cases.
+
+### When to run the optional ONIX integration
+
+The normal active-release gate validates Rego with the pinned OPA CLI and does
+not checkout or compile ONIX. Run the separate ONIX integration when a change:
+
+- adds or changes a rule or its result shape;
+- changes the bundle, signature, query, fixtures, or bundle tooling;
+- changes the pinned OPA or ONIX version;
+- prepares a Rego-focused pull request for interoperability review; or
+- contributes to pre-publication evidence.
+
+It is normally unnecessary for schema, flow, error, policy-term, or prose-only
+changes that do not affect executable rules. The command requires Git, Ruby, Go
+1.26.1, and the exact ONIX revision in `tools/rego/onix-revision`; it does not
+require Docker or a running adapter:
+
+```bash
+ruby tools/rego/test_onix_integration.rb --onix-root /path/to/pinned/beckn-onix
+```
+
+See `tools/rego/README.md` for checkout instructions and the full scenario list.
+The manual **Optional Rego ONIX integration** GitHub Actions workflow provides
+the same test when a suitable local Go environment is unavailable.
 
 ## Performance guidelines
 
@@ -293,7 +321,7 @@ exchange unpredictably expensive.
 
 Before accepting a rule, confirm:
 
-- the requirement is normative and within Release 2 scope;
+- the requirement is normative and within the selected release's scope;
 - Rego is the appropriate enforcement layer;
 - sector, actions, and message shapes are correctly gated;
 - metadata paths and policy IRIs resolve;

@@ -9,8 +9,8 @@
 ## Purpose
 
 This document defines the tooling required to make Rego sources, generated
-registries, bundles, signatures, network manifests, release checksums, and ONIX
-behavior verifiable as one connected release feature.
+registries, bundles, signatures, release checksums, direct ONIX configuration,
+and ONIX behavior verifiable as one connected release feature.
 
 The tooling must make the safe path the easy path: contributors edit source and
 tests; generators create derived artifacts; validators detect drift; and the
@@ -124,9 +124,9 @@ form. The registry never becomes an independent editable rule source.
 ## Bundle construction
 
 Phase 4 implements this boundary with `build_bundle.rb`, `verify_bundle.rb`,
-and a shared archive model. Draft construction creates an ephemeral ES256 key,
-commits only the unmistakably named public test key, and destroys the private
-key with its temporary directory. Because ECDSA signatures are intentionally
+and a shared archive model. Construction creates an ephemeral ES256 key,
+commits the canonical public key beside its matching bundle, and destroys the
+private key with its temporary directory. Because ECDSA signatures are intentionally
 non-deterministic, freshness verifies exact logical module/data bytes and OPA's
 signed inventory rather than comparing a rebuilt archive byte-for-byte.
 
@@ -167,39 +167,42 @@ archive bytes.
 
 ## Signing model
 
-Three modes are distinct:
+Release 2 uses one deliberately simple signing model in all environments:
 
-| Mode | Key | Purpose |
+| Mode | Key handling | Published artifacts |
 |---|---|---|
-| Local development | Ephemeral or checked-in test-only key | Exercise bundle verification locally |
-| CI | Dedicated non-production test key | Prove the signing and ONIX verification path |
-| Publication | ION production key outside the repository | Produce the normative bundle and manifest signatures |
+| Local development | Generate an ephemeral ES256 key pair for the build | Preview only unless `--write` is used |
+| CI and integration | Verify the committed matching pair | Bundle and PEM public key from the release tree |
+| Publication | Generate an ephemeral ES256 key pair in the publication build | Bundle and PEM public key through `schema.ion.id` |
 
-The production signing command receives the key through a controlled path or
-signing service. It must never print private material or copy it into staging.
-The public-key lookup response used for final verification is retained as
-publication evidence where governance permits, but not treated as the canonical
-DeDi service itself.
+The private key exists only in the temporary build directory, is used by OPA to
+sign one bundle, and is destroyed. The builder atomically replaces each of the
+signed bundle and `ion-releaseN-policy-public.pem` files after verification; it
+never writes the private key. The two files must be committed and deployed as
+one reviewed change.
+Both public artifacts are hosted by the same GitHub-backed origin. This loses
+the independent trust channel a DeDi key record would provide, but has been
+accepted for operational simplicity. The optional external-key interface is
+retained for a future signing-model change, not used by the current Release 2
+publication path.
 
-## Network manifest validation
+## Direct bundle configuration validation
 
-The network-manifest validator enforces the ONIX contract:
+The operator-configuration validator enforces the direct ONIX contract:
 
-- `manifestVersion` and `manifestType` are supported;
-- `networkId` matches the configured ION network exactly;
-- `releaseId` identifies the Release 2 policy publication;
-- publisher fields are non-empty and approved;
-- `policies.type` is `rego` and source is `bundle`;
+- the network-policy entry uses `type: bundle`;
+- the configuration key is the explicitly selected ION `networkId`;
 - bundle URL is the release-qualified `schema.ion.id` URL;
-- query is exactly `data.ion.release2.result`;
-- the bundle is declared signed;
-- verification lookup URL is present;
-- governance timestamps are valid; and
-- the detached manifest signature verifies through the manifest-loader path.
+- query is exactly the selected release's public query;
+- signature verification is enabled with the selected release's algorithm;
+- the public-key URL is the release-qualified `schema.ion.id` PEM artifact; and
+- bundle URL, query, and verification key belong to the same integer release.
 
-Draft development uses a fixture manifest and local HTTP test server. The
-production manifest is not generated with invented governance or identity
-values.
+Draft development uses a checked configuration fixture and local HTTP test
+server. Production configuration values are not generated with invented
+network identities. A network-policy manifest is deliberately not
+generated because current ONIX manifest selection cannot represent concurrent
+Release 2 and Release 3 adoption under one `networkId`.
 
 ## ONIX integration testing
 
@@ -212,17 +215,18 @@ suite must exercise the actual ONIX plugin contract in increasing depth:
 4. evaluate valid and invalid full message bodies;
 5. verify structured `POL_*` violations;
 6. verify undefined or incorrect query paths fail closed;
-7. serve bundle and manifest from a local HTTP server;
-8. resolve the bundle through a signed manifest and manifest loader; and
+7. serve the bundle and public-key response from a local HTTP server;
+8. load them through remote `type: bundle` configuration; and
 9. confirm refresh failure retains the previously compiled evaluator.
 
 The test matrix includes common, Trade, Logistics, unrelated actions, missing
 optional shapes, multiple violations, invalid configuration, and an oversized
 or tampered bundle.
 
-The initial implementation may invoke tests in the ONIX sibling checkout. The
-long-term gate must define how CI obtains the pinned ONIX code without depending
-on an unrecorded developer filesystem path.
+The implemented harness accepts an explicit pinned ONIX checkout and the manual
+optional workflow checks out that revision itself. ONIX compilation remains
+outside the ordinary release-validation job; authors and publication reviewers
+run it when rules, bundles, the ONIX pin, or distribution behavior changes.
 
 ## Release-tool integration
 
@@ -241,17 +245,18 @@ The complete release validator adds ordered gates:
 3. OPA unit and integration tests;
 4. bundle source correspondence and archive validation;
 5. signature validation when required by release state;
-6. network manifest validation when present or required;
-7. ONIX bundle smoke test; and
-8. existing checksum, URL, reference, flow, and error checks.
+6. direct operator-configuration validation when present or required;
+7. existing checksum, URL, reference, flow, and error checks.
 
-Draft checksums retain the existing model for mutable ION-authored files unless
-the manifest decision is amended separately. Freshness validators protect draft
-generated outputs. At publication, every file under `rules/` is included in the
-artifact checksum inventory unless an explicit non-normative exclusion is
-defined and documented.
+The ONIX bundle smoke test is a separate optional author and pre-publication
+command. It is not invoked by the ordinary release validator.
 
-The deployed-URL validator checks `.rego`, `.json`, `.yaml`, `.sig`, and
+Draft checksums retain the release-manifest model for mutable ION-authored
+files. Freshness validators protect draft generated outputs. At publication,
+every file under `rules/` is included in the artifact checksum inventory unless
+an explicit non-normative exclusion is defined and documented.
+
+The deployed-URL validator checks `.rego`, `.json`, `.yaml`, `.pem`, and
 `.tar.gz` artifacts, including byte checksums and appropriate content types. It
 must not decompress and silently accept a deployed archive whose bytes differ
 from the released artifact.
@@ -273,6 +278,7 @@ releases/**/flows/**
 releases/**/errors/**
 tools/rego/**
 tools/release/**
+docs/rego/**
 docs/internal/rego/**
 ```
 
@@ -296,7 +302,7 @@ Every tool reports:
 - the command that refreshes a generated artifact, where applicable; and
 - a non-zero exit code on failure.
 
-Tools must not expose private keys, full sensitive message fixtures, or DeDi
+Tools must not expose private keys, full sensitive message fixtures, or registry
 credentials in CI logs.
 
 ## Documentation requirements
