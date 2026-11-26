@@ -123,6 +123,13 @@ form. The registry never becomes an independent editable rule source.
 
 ## Bundle construction
 
+Phase 4 implements this boundary with `build_bundle.rb`, `verify_bundle.rb`,
+and a shared archive model. Draft construction creates an ephemeral ES256 key,
+commits only the unmistakably named public test key, and destroys the private
+key with its temporary directory. Because ECDSA signatures are intentionally
+non-deterministic, freshness verifies exact logical module/data bytes and OPA's
+signed inventory rather than comparing a rebuilt archive byte-for-byte.
+
 The bundle builder creates a temporary staging tree from an allowlist:
 
 - production `.rego` modules;

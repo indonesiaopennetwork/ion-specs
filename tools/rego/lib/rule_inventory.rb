@@ -35,6 +35,7 @@ module IonRegoInventory
     source_files.each do |path|
       relative = path.relative_path_from(root).to_s
       errors << "#{relative}: symlinks are not allowed" if symlink_in_path?(rules_root, path)
+      errors << "#{relative}: test modules are not allowed under rules/rego" if path.basename.to_s.end_with?("_test.rego")
       text = path.read
       package = validate_production_module(root, rules_root.join("rego"), path, text, errors)
       annotations = extract_metadata(text, relative, errors)

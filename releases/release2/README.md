@@ -112,8 +112,9 @@ shared registry published at
 business rules that depend on this release's message, schema, and flow
 contracts. Its stable public query is `data.ion.release2.result`. Phase 2 pins
 the OPA toolchain and exercises that query with representative Trade and
-Logistics inputs; substantive rules, the generated registry, and the canonical
-bundle are later phases.
+Logistics inputs. The generated registry and canonical test-signed draft bundle
+are now freshness-checked; substantive rules and production signing are later
+phases.
 
 Executable rules are release-owned artifacts and are distinct from the shared
 policy terms in root `policies/`. The area remains `validation-pending`. Until
@@ -206,8 +207,8 @@ Run the complete Release 2 gate from the repository root:
 ruby tools/release/validate_release.rb releases/release2
 ```
 
-The gate verifies the pinned OPA toolchain, Rego source metadata and registry
-freshness, formatting and compilation, rule tests and smoke inputs,
+The gate verifies the pinned OPA toolchain, Rego source metadata, registry and
+signed-bundle freshness, formatting and compilation, rule tests and smoke inputs,
 release-tool tests, manifest, scope, generated registries, artifact checksums,
 offline references, public-path mapping, and Trade and Logistics connections.
 

@@ -249,7 +249,26 @@ feat(rego): validate rule metadata and generate registry
 
 ## Phase 4 — Implement bundle construction and verification
 
-**Status:** Not started
+**Status:** Complete (2026-11-26)
+
+### Completion evidence
+
+- Added allowlisted, temporary staging of production Rego modules and normative
+  runtime data; tests, fixtures, Markdown, caches, executables, symlinks,
+  unexpected data, and private-key material cannot enter the archive.
+- Added atomic canonical bundle construction and a controlled external-key
+  interface that never copies or prints production key material.
+- Added exact logical source correspondence, safe/unique path checks, manifest
+  validation, signed-inventory checks, the ONIX 10 MiB limit, ES256 plus key ID
+  `default`, OPA cryptographic verification, and public-query evaluation.
+- Added an ephemeral test-signing mode that commits only an unmistakably named
+  public key. The private key is destroyed with the temporary staging tree.
+- Added tests for clean construction, one-byte source drift, tampering,
+  wrong-key verification, missing and duplicate modules, unsafe paths,
+  unexpected/private files, production test leakage, and oversize bundles.
+- Integrated signed-bundle verification into the manifest-v2 Release 2 gate.
+  The gate passes with 153 tool tests and 495 assertions; the complete Release 1
+  gate remains deferred until the end of the broader Rego work session.
 
 ### Goal
 

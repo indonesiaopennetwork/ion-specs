@@ -1,6 +1,6 @@
 # ION Release 2 executable rules
 
-**Status:** Validation pending — source and registry instrumentation complete
+**Status:** Validation pending — packaging instrumentation complete
 
 This directory is the release-owned source and publication area for ION Rego
 business rules evaluated by the ONIX OPA Policy Checker. It is distinct from
@@ -34,12 +34,13 @@ rules/
   tests/                   Rego unit tests and full-envelope smoke inputs
   data/data.json           Normative runtime data; currently empty
   registry.json            Generated rule inventory; currently empty
-  bundles/                 Generated production bundles from Phase 4 onward
+  bundles/                 Canonical test-signed draft bundle and public key
 ```
 
 `registry.json` is generated deterministically from rule metadata and protected
-by a freshness check. The signed bundle and network-policy manifest are
-introduced by later implementation phases.
+by a freshness check. The current canonical bundle is test-signed for repository
+and ONIX integration work; it is not the production publication signature. The
+network-policy manifest is introduced by a later implementation phase.
 
 ## Validate the scaffold
 
@@ -50,6 +51,7 @@ ruby tools/rego/check_toolchain.rb
 ruby tools/rego/validate_sources.rb releases/release2
 ruby tools/rego/generate_registry.rb releases/release2
 ruby tools/rego/validate_scaffold.rb releases/release2
+ruby tools/rego/verify_bundle.rb releases/release2
 ```
 
 Pass `--opa /absolute/path/to/opa` to either command when the pinned CLI is not
@@ -68,8 +70,9 @@ ruby tools/rego/generate_registry.rb --write releases/release2
 
 - No ION business rule is implemented yet.
 - The generated registry is empty until the first substantive rule is added.
-- No bundle is generated yet.
-- No signing key or network-policy manifest belongs in this release tree yet.
+- The committed bundle carries only a test signature and is not publishable.
+- No private signing key or network-policy manifest belongs in this release
+  tree.
 - The rules area is not validated and is not ready for NP adoption.
 
 See `docs/internal/rego/` for the governing architecture and phased plan.

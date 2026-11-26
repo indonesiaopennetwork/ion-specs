@@ -44,7 +44,8 @@ if release_manifest.fetch("schemaVersion", 1) >= 2 && release_root.join("rules")
     insertion,
     ["Rego source and metadata", ["ruby", "tools/rego/validate_sources.rb", "--opa", opa, release_root.to_s]],
     ["Generated Rego registry", ["ruby", "tools/rego/generate_registry.rb", release_root.to_s]],
-    ["Rego unit and smoke tests", ["ruby", "tools/rego/validate_scaffold.rb", "--opa", opa, release_root.to_s]]
+    ["Rego unit and smoke tests", ["ruby", "tools/rego/validate_scaffold.rb", "--opa", opa, release_root.to_s]],
+    ["Signed Rego bundle", ["ruby", "tools/rego/verify_bundle.rb", "--opa", opa, release_root.to_s]]
   )
 end
 

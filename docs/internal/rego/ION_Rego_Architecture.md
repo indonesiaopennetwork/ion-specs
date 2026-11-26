@@ -263,6 +263,12 @@ Local and CI tests use a clearly separate non-production key. The release
 process signs the candidate bundle in a controlled environment and verifies it
 using the same public-key representation published through DeDi.
 
+During draft development, the committed bundle is signed once with an
+ephemeral test-only key and accompanied only by its unmistakably named public
+verification key. It is not a production publication artifact. Production
+signing replaces that signature through the external-key interface; the
+production private key is never copied into the repository.
+
 The completed bundle must remain below ONIX's 10 MB remote bundle limit.
 
 ## Publication and discovery

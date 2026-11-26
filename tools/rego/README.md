@@ -100,6 +100,55 @@ The scaffold command is read-only and:
 
 The command does not build a bundle or modify source.
 
+## Build and verify the signed bundle
+
+Preview construction with a generated ephemeral test key:
+
+```bash
+ruby tools/rego/build_bundle.rb --test-sign releases/release2
+```
+
+Refresh the canonical draft bundle and its public test key, replacing each
+artifact atomically after verification:
+
+```bash
+ruby tools/rego/build_bundle.rb --write --test-sign releases/release2
+```
+
+The private key exists only in a temporary directory during that command. It is
+never copied into the repository. The committed public key is unmistakably
+named `TEST-ONLY-ion-release2-policy-public.pem` and cannot create signatures.
+
+Verify freshness, archive safety, the 10 MiB ONIX limit, the logical source
+inventory, ES256 signature with key ID `default`, and the public query:
+
+```bash
+ruby tools/rego/verify_bundle.rb releases/release2
+```
+
+OPA's ES256 signature is non-deterministic. Consequently, freshness compares
+the committed archive's logical module and data bytes with source and verifies
+its signed inventory; it does not require a rebuilt gzip archive to have the
+same bytes.
+
+### Controlled production-signing interface
+
+Publication automation supplies both key paths from controlled storage:
+
+```bash
+ruby tools/rego/build_bundle.rb --write \
+  --signing-key /controlled/path/ion-production-private.pem \
+  --verification-key /controlled/path/ion-production-public.pem \
+  releases/release2
+```
+
+The tool reads these paths only for OPA signing and immediate verification. It
+does not print or copy either external key. Production custody, DeDi public-key
+publication, authorization, audit evidence, and invocation environment remain
+operations responsibilities and are intentionally not invented in this repo.
+The ordinary draft gate continues to require the committed test public key
+until the later publication phase deliberately switches verification mode.
+
 ## Generate an ephemeral test-only signing key
 
 Preview:
@@ -122,12 +171,12 @@ Keep generated key material outside the repository.
 ## Tests
 
 ```bash
-ruby -Itools/rego/tests -e \
+ION_OPA=/absolute/path/to/opa ruby -Itools/rego/tests -e \
   'Dir["tools/rego/tests/*_test.rb"].sort.each { |file| require File.expand_path(file) }'
 ```
 
 ## Current limitations
 
 - The registry is empty because the scaffold has no substantive business rule.
-- Bundle construction and signature verification begin in Phase 4.
+- The canonical draft bundle is test-signed, not production-signed.
 - ONIX integration begins in Phase 6.
