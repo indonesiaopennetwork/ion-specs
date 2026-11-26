@@ -95,6 +95,10 @@ from being used to prove a business rule.
 
 ## Generated rule registry
 
+Phase 3 implements this contract with `tools/rego/generate_registry.rb`. The
+metadata and output shapes are recorded in JSON Schema, while the validator
+also resolves repository-specific relationships that JSON Schema cannot prove.
+
 A generator reads OPA metadata and produces:
 
 ```text

@@ -15,14 +15,16 @@ unless release_root.directory?
 end
 
 begin
-  manifest_status = YAML.safe_load(File.read(release_root.join("release.yaml")), aliases: true)["status"]
+  release_manifest = YAML.safe_load(File.read(release_root.join("release.yaml")), aliases: true)
+  manifest_status = release_manifest["status"]
   publication ||= manifest_status == "published"
 rescue Psych::SyntaxError
+  release_manifest = {}
   # The manifest validation command below reports the actionable parse error.
 end
 
 commands = [
-  ["Specification tool tests", ["ruby", "-Itools/release/tests", "-Itools/policies/tests", "-e", 'Dir["tools/{policies,release}/tests/*_test.rb"].sort.each { |file| require File.expand_path(file) }']],
+  ["Specification tool tests", ["ruby", "-Itools/release/tests", "-Itools/policies/tests", "-Itools/rego/tests", "-e", 'Dir["tools/{policies,release,rego}/tests/*_test.rb"].sort.each { |file| require File.expand_path(file) }']],
   ["Published release immutability", ["ruby", "tools/release/validate_release_immutability.rb", "releases"]],
   ["Manifest", ["ruby", "tools/release/validate_manifest.rb", release_root.join("release.yaml").to_s]],
   ["Release scope", ["ruby", "tools/release/validate_release_scope.rb", release_root.to_s]],
@@ -34,6 +36,17 @@ commands = [
   ["Public release URLs", ["ruby", "tools/release/validate_public_urls.rb", release_root.to_s]],
   ["Offline references", ["ruby", "tools/release/validate_offline_refs.rb", release_root.to_s]]
 ]
+
+if release_manifest.fetch("schemaVersion", 1) >= 2 && release_root.join("rules").directory?
+  opa = ENV.fetch("ION_OPA", "opa")
+  insertion = commands.index { |label, _command| label == "Shared policy registry" }
+  commands.insert(
+    insertion,
+    ["Rego source and metadata", ["ruby", "tools/rego/validate_sources.rb", "--opa", opa, release_root.to_s]],
+    ["Generated Rego registry", ["ruby", "tools/rego/generate_registry.rb", release_root.to_s]],
+    ["Rego unit and smoke tests", ["ruby", "tools/rego/validate_scaffold.rb", "--opa", opa, release_root.to_s]]
+  )
+end
 
 channels_path = repository_root.join("releases/channels.yaml")
 if publication || channels_path.file?

@@ -190,7 +190,28 @@ chore(rego): scaffold Release 2 policy sources and toolchain
 
 ## Phase 3 — Implement source, metadata, and registry validation
 
-**Status:** Not started
+**Status:** Complete (2026-11-26)
+
+### Completion evidence
+
+- Added machine-readable metadata and generated-registry schemas plus a shared
+  inventory model used by validation and generation.
+- Enforced Rego v1 imports, package-to-path conventions, the reserved public
+  result, metadata coverage for violation rules, release-local IDs and sectors,
+  protocol actions and `POL_*` codes, safe source references, shared policy
+  IRIs, declared configuration keys, and semantic-test references.
+- Added deterministic `rules/registry.json` generation with explicit `--write`
+  and missing/stale freshness failures. The scaffold registry correctly
+  contains zero substantive rules.
+- Added focused tests for valid input, malformed metadata, duplicate and invalid
+  IDs, package mismatch, unresolved actions/codes/paths/policy IRIs, unsafe and
+  symlinked paths, undeclared configuration, missing semantic tests,
+  deterministic output, stale output, and the manifest-v1 skip boundary.
+- Integrated Rego tool tests, source validation, registry freshness, and OPA
+  unit/smoke evaluation into `validate_release.rb` only for a v2 rules area.
+- The integrated Release 2 gate passes with 144 tool tests and 461 assertions.
+  The complete Release 1 gate remains deferred until the end of the broader
+  Rego work session.
 
 ### Goal
 

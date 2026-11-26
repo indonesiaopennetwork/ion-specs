@@ -142,6 +142,7 @@ metadata is:
 # METADATA
 # title: Order item quantity does not exceed the selected offer limit
 # description: Enforces the quantity agreed during selection when an order is initialized or confirmed.
+# scope: rule
 # custom:
 #   ion_rule_id: ION-R2-TRD-0001
 #   sector: trade
@@ -149,15 +150,21 @@ metadata is:
 #     - init
 #     - confirm
 #   error_code: POL_ELIGIBILITY_NOT_MET
+#   status: active
 #   schema_paths:
 #     - schema/extension/trade/TradeOffer/v1/attributes.yaml
 #   flow_paths:
 #     - flows/trade/patterns/storefront/v1/pattern.yaml
 ```
 
-Additional metadata may record a shared policy IRI, regulatory basis, config
-keys, or replacement relationship. Metadata paths are release-relative and
-must resolve. The generated rule registry derives from these annotations.
+`scope: rule` binds the annotation to the declaration immediately below it.
+`status` is `active` or `withdrawn`; withdrawn IDs remain reserved. Additional
+metadata may use `error_paths`, `policy_iris`, `config_keys`, and `data_paths`.
+Policy IRIs in YAML flow collections must be quoted. Metadata paths are
+release-relative, must stay below the release root, and must resolve. The
+generated rule registry derives from these annotations and is never edited
+directly. The machine-readable contract is
+`tools/rego/rule-metadata.schema.json`.
 
 ## Applicability and evaluation structure
 

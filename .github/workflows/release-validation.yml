@@ -56,13 +56,10 @@ jobs:
       - name: Install pinned OPA CLI
         env:
           GOBIN: ${{ runner.temp }}/ion-rego-tools
-        run: go install github.com/open-policy-agent/opa@v1.15.2
-      - name: Validate Rego scaffold
         run: |
-          ruby -Itools/rego/tests -e 'Dir["tools/rego/tests/*_test.rb"].sort.each { |file| require File.expand_path(file) }'
-          ruby tools/rego/validate_scaffold.rb \
-            --opa "${RUNNER_TEMP}/ion-rego-tools/opa" \
-            "releases/${RELEASE_NAME}"
+          go install github.com/open-policy-agent/opa@v1.15.2
+          echo "$GOBIN" >> "$GITHUB_PATH"
+          echo "ION_OPA=$GOBIN/opa" >> "$GITHUB_ENV"
       - name: Validate release (publication gate is automatic for published manifests)
         run: ruby tools/release/validate_release.rb "releases/${RELEASE_NAME}"
       - name: Run publication gate

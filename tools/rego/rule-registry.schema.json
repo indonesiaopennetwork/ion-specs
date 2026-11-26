@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ION generated Rego rule registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["_generated", "schemaVersion", "release", "publicQuery", "count", "rules"],
+  "properties": {
+    "_generated": {"type": "string"},
+    "schemaVersion": {"const": 1},
+    "release": {"type": "integer", "minimum": 1},
+    "publicQuery": {"type": "string", "pattern": "^data\\.ion\\.release[0-9]+\\.result$"},
+    "count": {"type": "integer", "minimum": 0},
+    "rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "title", "description", "sector", "actions", "package", "ruleName", "sourceModule", "errorCode", "schemaPaths", "flowPaths", "errorPaths", "policyIris", "configKeys", "dataPaths", "status"],
+        "properties": {
+          "id": {"type": "string"},
+          "title": {"type": "string"},
+          "description": {"type": "string"},
+          "sector": {"enum": ["common", "trade", "logistics"]},
+          "actions": {"$ref": "#/$defs/stringArray"},
+          "package": {"type": "string"},
+          "ruleName": {"type": "string"},
+          "sourceModule": {"type": "string"},
+          "errorCode": {"type": "string"},
+          "schemaPaths": {"$ref": "#/$defs/stringArray"},
+          "flowPaths": {"$ref": "#/$defs/stringArray"},
+          "errorPaths": {"$ref": "#/$defs/stringArray"},
+          "policyIris": {"$ref": "#/$defs/stringArray"},
+          "configKeys": {"$ref": "#/$defs/stringArray"},
+          "dataPaths": {"$ref": "#/$defs/stringArray"},
+          "status": {"enum": ["active", "withdrawn"]}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "stringArray": {"type": "array", "items": {"type": "string"}}
+  }
+}

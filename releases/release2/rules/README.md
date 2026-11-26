@@ -1,6 +1,6 @@
 # ION Release 2 executable rules
 
-**Status:** Validation pending — scaffold only
+**Status:** Validation pending — source and registry instrumentation complete
 
 This directory is the release-owned source and publication area for ION Rego
 business rules evaluated by the ONIX OPA Policy Checker. It is distinct from
@@ -33,12 +33,13 @@ rules/
     logistics/             Logistics rules
   tests/                   Rego unit tests and full-envelope smoke inputs
   data/data.json           Normative runtime data; currently empty
+  registry.json            Generated rule inventory; currently empty
   bundles/                 Generated production bundles from Phase 4 onward
 ```
 
-`registry.json`, the signed bundle, and network-policy manifest are introduced
-by later implementation phases after their generators and freshness validators
-exist.
+`registry.json` is generated deterministically from rule metadata and protected
+by a freshness check. The signed bundle and network-policy manifest are
+introduced by later implementation phases.
 
 ## Validate the scaffold
 
@@ -46,20 +47,28 @@ OPA CLI `1.15.2` is required. From the repository root:
 
 ```bash
 ruby tools/rego/check_toolchain.rb
+ruby tools/rego/validate_sources.rb releases/release2
+ruby tools/rego/generate_registry.rb releases/release2
 ruby tools/rego/validate_scaffold.rb releases/release2
 ```
 
 Pass `--opa /absolute/path/to/opa` to either command when the pinned CLI is not
 on `PATH`.
 
-The scaffold validation is read-only. It checks formatting, strict compilation,
-unit tests, and the exact public result for representative Trade and Logistics
-inputs.
+The checks are read-only. They enforce source layout and metadata, registry
+freshness, formatting, strict compilation, unit tests, and the exact public
+result for representative Trade and Logistics inputs. Refresh the generated
+registry explicitly with:
+
+```bash
+ruby tools/rego/generate_registry.rb --write releases/release2
+```
 
 ## Current limitations
 
 - No ION business rule is implemented yet.
-- No rule registry or bundle is generated yet.
+- The generated registry is empty until the first substantive rule is added.
+- No bundle is generated yet.
 - No signing key or network-policy manifest belongs in this release tree yet.
 - The rules area is not validated and is not ready for NP adoption.
 

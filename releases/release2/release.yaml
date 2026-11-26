@@ -512,6 +512,9 @@ notes:
   and Logistics smoke inputs, and a pinned OPA toolchain. The area remains
   validation-pending until the later authoring, packaging, signing, and ONIX gates
   are implemented.
+- Phase 3 added rule metadata validation, deterministic registry generation, and
+  integrated Release 2 gate coverage. The generated registry is intentionally
+  empty until the first substantive rule is introduced.
 - Beckn dependencies were vendored and the offline reference graph was closed during
   Phase 4.
 - Standalone Trade and Trade-required common packs, JSON-LD files, and examples were

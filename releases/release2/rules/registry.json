@@ -1,0 +1,10 @@
+{
+  "_generated": "Do not edit directly. Run tools/rego/generate_registry.rb --write releases/release2.",
+  "schemaVersion": 1,
+  "release": 2,
+  "publicQuery": "data.ion.release2.result",
+  "count": 0,
+  "rules": [
+
+  ]
+}

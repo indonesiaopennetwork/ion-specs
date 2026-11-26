@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ION Rego rule metadata annotation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["title", "description", "scope", "custom"],
+  "properties": {
+    "title": {"type": "string", "minLength": 1},
+    "description": {"type": "string", "minLength": 1},
+    "scope": {"const": "rule"},
+    "custom": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ion_rule_id", "sector", "actions", "error_code", "status"],
+      "properties": {
+        "ion_rule_id": {"type": "string", "pattern": "^ION-R[0-9]+-(COM|TRD|LOG)-[0-9]{4}$"},
+        "sector": {"enum": ["common", "trade", "logistics"]},
+        "actions": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "error_code": {"type": "string", "pattern": "^POL_[A-Z0-9_]+$"},
+        "status": {"enum": ["active", "withdrawn"]},
+        "schema_paths": {"$ref": "#/$defs/stringArray"},
+        "flow_paths": {"$ref": "#/$defs/stringArray"},
+        "error_paths": {"$ref": "#/$defs/stringArray"},
+        "policy_iris": {"$ref": "#/$defs/stringArray"},
+        "config_keys": {"$ref": "#/$defs/stringArray"},
+        "data_paths": {"$ref": "#/$defs/stringArray"}
+      }
+    }
+  },
+  "$defs": {
+    "stringArray": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+  }
+}

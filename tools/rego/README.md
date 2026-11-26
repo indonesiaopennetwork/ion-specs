@@ -44,7 +44,38 @@ ruby tools/rego/check_toolchain.rb --opa /absolute/path/to/opa
 The command is read-only and returns non-zero when OPA is missing, cannot run,
 or does not match the pin.
 
-## Validate the Phase 2 scaffold
+## Validate sources and metadata
+
+```bash
+ruby tools/rego/validate_sources.rb releases/release2
+```
+
+This checks package-to-path conventions, the reserved public result, Rego v1
+imports, rule metadata, IDs, sectors, protocol actions and `POL_*` codes,
+release-local paths, shared policy IRIs, configuration declarations, semantic
+test references, formatting, and strict compilation. The metadata and registry
+contracts are defined by `rule-metadata.schema.json` and
+`rule-registry.schema.json`.
+
+## Generate the rule registry
+
+Check freshness without writing:
+
+```bash
+ruby tools/rego/generate_registry.rb releases/release2
+```
+
+Refresh after adding or changing rule metadata:
+
+```bash
+ruby tools/rego/generate_registry.rb --write releases/release2
+```
+
+The output is `releases/release2/rules/registry.json`. Generation is sorted and
+deterministic; validation fails with the refresh command when the committed
+file is missing or stale.
+
+## Run rule tests and smoke evaluation
 
 ```bash
 ruby tools/rego/validate_scaffold.rb releases/release2
@@ -58,7 +89,7 @@ ruby tools/rego/validate_scaffold.rb \
   releases/release2
 ```
 
-This read-only command:
+The scaffold command is read-only and:
 
 1. checks the OPA version;
 2. checks that all current modules and tests are formatted;
@@ -67,8 +98,7 @@ This read-only command:
 5. evaluates `data.ion.release2.result` against every JSON smoke fixture and
    requires the exact scaffold result.
 
-The command does not build a bundle, generate a registry, or modify source.
-Those behaviors are introduced with freshness tests in later phases.
+The command does not build a bundle or modify source.
 
 ## Generate an ephemeral test-only signing key
 
@@ -92,13 +122,12 @@ Keep generated key material outside the repository.
 ## Tests
 
 ```bash
-ruby tools/rego/tests/check_toolchain_test.rb
-ruby tools/rego/tests/generate_test_key_test.rb
+ruby -Itools/rego/tests -e \
+  'Dir["tools/rego/tests/*_test.rb"].sort.each { |file| require File.expand_path(file) }'
 ```
 
 ## Current limitations
 
-- Only the rule-free Phase 2 scaffold is validated.
-- Metadata and generated registry validation begin in Phase 3.
+- The registry is empty because the scaffold has no substantive business rule.
 - Bundle construction and signature verification begin in Phase 4.
 - ONIX integration begins in Phase 6.

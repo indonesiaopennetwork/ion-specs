@@ -200,18 +200,16 @@ release2/
 
 ## Validation
 
-Until Phase 3 integrates Rego into the release validator, run the Rego scaffold
-gate and then the complete existing Release 2 gate from the repository root:
+Run the complete Release 2 gate from the repository root:
 
 ```bash
-ruby tools/rego/validate_scaffold.rb releases/release2
 ruby tools/release/validate_release.rb releases/release2
 ```
 
-CI runs both commands. Together they verify the pinned OPA toolchain, Rego
-formatting and compilation, rule tests and smoke inputs, release-tool tests,
-manifest, scope, generated registries, artifact checksums, offline references,
-public-path mapping, and Trade and Logistics connections.
+The gate verifies the pinned OPA toolchain, Rego source metadata and registry
+freshness, formatting and compilation, rule tests and smoke inputs,
+release-tool tests, manifest, scope, generated registries, artifact checksums,
+offline references, public-path mapping, and Trade and Logistics connections.
 
 The publication form is expected to fail while the manifest remains a draft:
 
