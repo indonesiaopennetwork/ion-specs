@@ -384,16 +384,6 @@
           "minItems": 0,
           "uniqueItems": false
         },
-        "@context": {
-          "type": "string",
-          "description": "Release-qualified JSON-LD context.",
-          "const": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityPerformance/v1/context.jsonld"
-        },
-        "@type": {
-          "type": "string",
-          "description": "Attribute pack discriminator.",
-          "const": "ion:IONHospitalityPerformance"
-        },
         "admissionCheck": {
           "type": "object",
           "properties": {
@@ -430,9 +420,7 @@
         "issuanceState",
         "admissionState",
         "deliveryMode",
-        "revision",
-        "@context",
-        "@type"
+        "revision"
       ],
       "additionalProperties": true,
       "x-beckn-attaches-to": "Performance.performanceAttributes",

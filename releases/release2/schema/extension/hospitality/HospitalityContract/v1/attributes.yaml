@@ -371,14 +371,6 @@ components:
               - proposedEventRevision
               - proposedSessions
               - noticeRef
-        '@context':
-          type: string
-          description: Release-qualified JSON-LD context.
-          const: https://schema.ion.id/release2/schema/extension/hospitality/HospitalityContract/v1/context.jsonld
-        '@type':
-          type: string
-          description: Attribute pack discriminator.
-          const: ion:IONHospitalityContract
         offeredPolicies:
           type: array
           description: Versioned policy snapshots offered before consent.
@@ -415,8 +407,6 @@ components:
       - bookingState
       - acceptedPolicies
       - operationRef
-      - '@context'
-      - '@type'
       additionalProperties: true
       x-beckn-attaches-to: Contract.contractAttributes
       x-ion-layer: ion

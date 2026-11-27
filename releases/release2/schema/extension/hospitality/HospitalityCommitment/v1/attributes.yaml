@@ -219,14 +219,6 @@ components:
             minLength: 1
           minItems: 1
           uniqueItems: true
-        '@context':
-          type: string
-          description: Release-qualified JSON-LD context.
-          const: https://schema.ion.id/release2/schema/extension/hospitality/HospitalityCommitment/v1/context.jsonld
-        '@type':
-          type: string
-          description: Attribute pack discriminator.
-          const: ion:IONHospitalityCommitment
         attendeeType:
           type: string
           enum:
@@ -251,8 +243,6 @@ components:
       - offerRef
       - quantity
       - allocations
-      - '@context'
-      - '@type'
       additionalProperties: true
       x-beckn-attaches-to: Commitment.commitmentAttributes
       x-ion-layer: ion

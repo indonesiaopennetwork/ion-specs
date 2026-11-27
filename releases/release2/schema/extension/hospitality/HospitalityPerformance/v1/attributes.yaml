@@ -277,14 +277,6 @@ components:
             additionalProperties: false
           minItems: 0
           uniqueItems: false
-        '@context':
-          type: string
-          description: Release-qualified JSON-LD context.
-          const: https://schema.ion.id/release2/schema/extension/hospitality/HospitalityPerformance/v1/context.jsonld
-        '@type':
-          type: string
-          description: Attribute pack discriminator.
-          const: ion:IONHospitalityPerformance
         admissionCheck:
           type: object
           properties:
@@ -315,8 +307,6 @@ components:
       - admissionState
       - deliveryMode
       - revision
-      - '@context'
-      - '@type'
       additionalProperties: true
       x-beckn-attaches-to: Performance.performanceAttributes
       x-ion-layer: ion

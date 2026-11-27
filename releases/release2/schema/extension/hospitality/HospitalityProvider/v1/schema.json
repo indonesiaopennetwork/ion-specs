@@ -51,16 +51,6 @@
           "minItems": 1,
           "uniqueItems": true
         },
-        "@context": {
-          "type": "string",
-          "description": "Release-qualified JSON-LD context.",
-          "const": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityProvider/v1/context.jsonld"
-        },
-        "@type": {
-          "type": "string",
-          "description": "Attribute pack discriminator.",
-          "const": "ion:IONHospitalityProvider"
-        },
         "sellerModel": {
           "type": "string",
           "enum": [
@@ -72,9 +62,7 @@
       },
       "required": [
         "allocationModes",
-        "deliveryModes",
-        "@context",
-        "@type"
+        "deliveryModes"
       ],
       "additionalProperties": true,
       "x-beckn-attaches-to": "Provider.providerAttributes",

@@ -1,8 +1,8 @@
 package ion.release2
 
 import data.ion.release2.common.payment
-import data.ion.release2.trade.provider
 import data.ion.release2.hospitality.ticketing
+import data.ion.release2.trade.provider
 import rego.v1
 
 violations contains violation if {

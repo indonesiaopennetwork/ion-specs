@@ -155,14 +155,6 @@ components:
                   - ticketIds
           minItems: 0
           uniqueItems: false
-        '@context':
-          type: string
-          description: Release-qualified JSON-LD context.
-          const: https://schema.ion.id/release2/schema/extension/hospitality/HospitalityConsideration/v1/context.jsonld
-        '@type':
-          type: string
-          description: Attribute pack discriminator.
-          const: ion:IONHospitalityConsideration
         buyerFinderFee:
           type: object
           description: Agreed BAP finder fee, separate from customer payable; canonical
@@ -181,8 +173,6 @@ components:
       - components
       - payableMinor
       - paymentState
-      - '@context'
-      - '@type'
       additionalProperties: true
       x-beckn-attaches-to: Consideration.considerationAttributes
       x-ion-layer: ion

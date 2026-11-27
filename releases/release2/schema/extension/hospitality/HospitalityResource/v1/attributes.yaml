@@ -101,19 +101,9 @@ components:
           - state
           - sessions
           additionalProperties: false
-        '@context':
-          type: string
-          description: Release-qualified JSON-LD context.
-          const: https://schema.ion.id/release2/schema/extension/hospitality/HospitalityResource/v1/context.jsonld
-        '@type':
-          type: string
-          description: Attribute pack discriminator.
-          const: ion:IONHospitalityResource
       required:
       - crc
       - event
-      - '@context'
-      - '@type'
       additionalProperties: true
       x-beckn-attaches-to: Resource.resourceAttributes
       x-ion-layer: ion

@@ -224,14 +224,6 @@ components:
           - organiserCancellation
           - admission
           additionalProperties: false
-        '@context':
-          type: string
-          description: Release-qualified JSON-LD context.
-          const: https://schema.ion.id/release2/schema/extension/hospitality/HospitalityOffer/v1/context.jsonld
-        '@type':
-          type: string
-          description: Attribute pack discriminator.
-          const: ion:IONHospitalityOffer
         attendeeType:
           type: string
           enum:
@@ -253,8 +245,6 @@ components:
       - salesEnd
       - maxAdmissions
       - policies
-      - '@context'
-      - '@type'
       additionalProperties: true
       x-beckn-attaches-to: Offer.offerAttributes
       x-ion-layer: ion

@@ -286,16 +286,6 @@
           ],
           "additionalProperties": false
         },
-        "@context": {
-          "type": "string",
-          "description": "Release-qualified JSON-LD context.",
-          "const": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityOffer/v1/context.jsonld"
-        },
-        "@type": {
-          "type": "string",
-          "description": "Attribute pack discriminator.",
-          "const": "ion:IONHospitalityOffer"
-        },
         "attendeeType": {
           "type": "string",
           "enum": [
@@ -320,9 +310,7 @@
         "salesStart",
         "salesEnd",
         "maxAdmissions",
-        "policies",
-        "@context",
-        "@type"
+        "policies"
       ],
       "additionalProperties": true,
       "x-beckn-attaches-to": "Offer.offerAttributes",
