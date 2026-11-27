@@ -1,0 +1,41 @@
+{
+  "id": "ion-services-commitment-v1",
+  "version": "1.0.0",
+  "domain": "services",
+  "type": "AttributePack",
+  "name": "ION Services Social Scheme Commitment Extension (v1)",
+  "packSchema": "./schema.json",
+  "jsonldContext": "./context.jsonld",
+  "extends": "beckn:Commitment",
+  "attachmentPoints": {
+    "commitmentAttributes": [
+      "IONSocialSchemeCommitmentAttributes"
+    ]
+  },
+  "indexing": {
+    "indexable": [
+      {
+        "path": "$.lineId"
+      },
+      {
+        "path": "$.resourceId"
+      },
+      {
+        "path": "$.offerId"
+      },
+      {
+        "path": "$.applicantProfile"
+      },
+      {
+        "path": "$.eligibilityPreCheck"
+      }
+    ],
+    "filterable": [],
+    "sortable": []
+  },
+  "minimalForDiscovery": [
+    "lineId",
+    "resourceId",
+    "offerId"
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "@graph": [
+    {
+      "@id": "ion:IONSocialSchemeResource",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONSocialSchemeResource",
+      "rdfs:comment": "Indonesia-specific layer for a social welfare / government scheme\nresource. This is the CATALOGUE item — it describes the scheme, its\neligibility rules, required documents, and disbursement mechanism.\nPer-applicant eligibility outcome lives in Commitment/Performance;\nthe case record lives in Contract.",
+      "rdfs:subClassOf": "beckn:Resource"
+    },
+    {
+      "@id": "ion:crc",
+      "@type": "rdf:Property",
+      "rdfs:label": "crc",
+      "rdfs:comment": "Catalogue Resource Category. Fixed at SVC-social for every resource using this schema. Declared explicitly (rather than only inferred) so ONIX and CNs can filter without parsing the full attribute bag."
+    },
+    {
+      "@id": "ion:schemeIdentity",
+      "@type": "rdf:Property",
+      "rdfs:label": "schemeIdentity",
+      "rdfs:comment": "Identity and classification block for a social welfare or government benefit scheme. Carries the official scheme name, administering agency, administrative scope level (national/provincial/district/village), scheme type (cash transfer, subsidy, pension, etc.), and funding model. Produced by the BPP (facilitation partner or government agency) at catalog/publish time. Consumed by BAPs for discovery filtering and by ONIX for CRC enforcement of SVC-social resources. Equivalent to a scheme's official registration identity — all values should match the scheme's legal establishing instrument."
+    },
+    {
+      "@id": "ion:eligibility",
+      "@type": "rdf:Property",
+      "rdfs:label": "eligibility",
+      "rdfs:comment": "Structured eligibility criteria for a social welfare scheme. Contains machine-evaluable rules across demographic, economic, occupational, and geographic dimensions so a Buyer App can pre-screen an applicant before initiating the application flow. Produced by the BPP at catalog/publish. Consumed by BAP eligibility-check UIs and ONIX at on_discover. The eligibilitySummary prose field complements the structured rules for cases the rules do not fully capture."
+    },
+    {
+      "@id": "ion:benefit",
+      "@type": "rdf:Property",
+      "rdfs:label": "benefit",
+      "rdfs:comment": "What the beneficiary receives under the scheme and how often. Describes the physical or financial form of the benefit (cash, voucher, in-kind goods, service delivery, premium subsidy, etc.), the monetary amount where applicable, the disbursement frequency, and a short prose description of the benefit package. Produced by the BPP at catalog/publish. Consumed by BAP benefit-display UIs and by the applicant to understand what they will receive."
+    },
+    {
+      "@id": "ion:requiredDocuments",
+      "@type": "rdf:Property",
+      "rdfs:label": "requiredDocuments",
+      "rdfs:comment": "Checklist of documents an applicant must produce to apply for this scheme. Each entry names the document category and whether it is mandatory or conditional."
+    },
+    {
+      "@id": "ion:applicationChannel",
+      "@type": "rdf:Property",
+      "rdfs:label": "applicationChannel",
+      "rdfs:comment": "How and where an eligible applicant submits their application for the scheme. Declares whether the mode is facilitated (ION Seller App's caseworker submits on behalf), self-service (applicant uses a government portal the Seller App links to), or hybrid. Also carries the government portal URL, application window type (rolling vs fixed), and estimated processing time from submission to decision. Produced by the BPP at catalog/publish. Consumed by BAPs to render the application pathway to the applicant."
+    },
+    {
+      "@id": "ion:validity",
+      "@type": "rdf:Property",
+      "rdfs:label": "validity",
+      "rdfs:comment": "The calendar period during which this scheme catalogue entry is accurate and applications are accepted. Carries effective-from and effective-until dates (absent for open-ended schemes) and a flag indicating whether approved beneficiaries must reverify eligibility annually to continue receiving the benefit. Produced by the BPP at catalog/publish. BAPs use this to suppress schemes that have lapsed and to warn applicants when annual reverification is approaching."
+    },
+    {
+      "@id": "ion:fundingSource",
+      "@type": "rdf:Property",
+      "rdfs:label": "fundingSource",
+      "rdfs:comment": "Budget provenance and fiscal-year information for the scheme, where publicly disclosed. Carries the government budget line item reference (APBN or APBD), the fiscal year, and any co-funding agencies for centrally-sponsored programmes. Produced by the BPP at catalog/publish. Informational — not used for ONIX enforcement. Helps BAPs surface funding-source context (central vs state scheme) alongside the benefit information."
+    },
+    {
+      "@id": "ion:indonesianCompliance",
+      "@type": "rdf:Property",
+      "rdfs:label": "indonesianCompliance",
+      "rdfs:comment": "Indonesia-specific data-source verification and disbursement fields for a social welfare scheme resource. Carries DTKS cross-check requirements, NIK verification obligations, KKS card requirements, and the disbursement channel through which the government delivers the benefit to the beneficiary (bank Himbara account, Kartu Komboo KKS, Kantor Pos, BRILink agents, or in-kind delivery). Applicable only in the Indonesian regulatory context; has no meaning on non-Indonesian Beckn networks. Data residency is fixed at DOMESTIC_ONLY per UU PDP 2022. Produced by the BPP at catalog/publish. Validated by ONIX for all SVC-social resources on ION."
+    }
+  ]
+}

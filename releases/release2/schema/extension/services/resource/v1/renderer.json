@@ -1,0 +1,105 @@
+{
+  "version": "1.0.0",
+  "fieldGroups": [
+    {
+      "id": "schemeBasics",
+      "label": {
+        "id": "Identitas Program",
+        "en": "Scheme Identity"
+      },
+      "fields": [
+        "schemeIdentity.schemeName",
+        "schemeIdentity.implementingAgency",
+        "schemeIdentity.schemeType",
+        "schemeIdentity.fundingModel"
+      ]
+    },
+    {
+      "id": "eligibility",
+      "label": {
+        "id": "Kelayakan",
+        "en": "Eligibility"
+      },
+      "fields": [
+        "eligibility.targetBeneficiaryTypes",
+        "eligibility.demographicCriteria",
+        "eligibility.economicCriteria",
+        "eligibility.eligibilitySummary"
+      ]
+    },
+    {
+      "id": "benefit",
+      "label": {
+        "id": "Manfaat",
+        "en": "Benefit"
+      },
+      "fields": [
+        "benefit.benefitForm",
+        "benefit.benefitAmount",
+        "benefit.disbursementFrequency"
+      ]
+    },
+    {
+      "id": "documents",
+      "label": {
+        "id": "Dokumen Diperlukan",
+        "en": "Required Documents"
+      },
+      "fields": [
+        "requiredDocuments"
+      ]
+    },
+    {
+      "id": "application",
+      "label": {
+        "id": "Cara Mengajukan",
+        "en": "How to Apply"
+      },
+      "fields": [
+        "applicationChannel.applicationMode",
+        "applicationChannel.processingTimeEstimate"
+      ]
+    }
+  ],
+  "badges": [
+    {
+      "condition": "schemeIdentity.schemeLevel == 'CENTRAL'",
+      "label": {
+        "id": "Program Pusat",
+        "en": "Central Programme"
+      },
+      "color": "#2E7D32"
+    },
+    {
+      "condition": "indonesianCompliance.dtksReference == true",
+      "label": {
+        "id": "Terverifikasi DTKS",
+        "en": "DTKS-Checked"
+      },
+      "color": "#1565C0"
+    },
+    {
+      "condition": "validity.requiresAnnualReverification == true",
+      "label": {
+        "id": "Verifikasi Tahunan",
+        "en": "Annual Reverification"
+      },
+      "color": "#EF6C00"
+    }
+  ],
+  "displayPreferences": {
+    "primaryFields": [
+      "schemeIdentity.schemeName"
+    ],
+    "cardSummaryFields": [
+      "schemeIdentity.schemeType",
+      "benefit.benefitForm"
+    ],
+    "currencyFields": [
+      "benefit.benefitAmount.value"
+    ],
+    "percentageFields": [],
+    "locale": "id-ID",
+    "currency": "IDR"
+  }
+}

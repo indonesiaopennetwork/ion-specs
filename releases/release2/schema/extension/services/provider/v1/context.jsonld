@@ -1,0 +1,20 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@protected": true,
+    "ion": "https://schema.ion.id/services/provider/v1#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "schema": "https://schema.org/",
+    "IONSocialSchemeProviderAttributes": "ion:IONSocialSchemeProviderAttributes",
+    "providerType": "ion:providerType",
+    "empanelment": "ion:empanelment",
+    "operatingRegions": "ion:operatingRegions",
+    "caseworkerNetwork": "ion:caseworkerNetwork",
+    "helpline": "ion:helpline",
+    "nibRegistered": "ion:nibRegistered",
+    "dataHandlingCertification": "ion:dataHandlingCertification"
+  }
+}

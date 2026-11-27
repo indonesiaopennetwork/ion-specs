@@ -1,0 +1,54 @@
+{
+  "_meta": {
+    "description": "SVC-social scheme-facilitation status — the BAP asks for the current application stage.",
+    "pattern": "scheme-facilitation",
+    "step": "status",
+    "sent_by": "BAP",
+    "received_by": "BPP"
+  },
+  "context": {
+    "domain": "ion:services",
+    "action": "status",
+    "version": "2.0.0",
+    "bapId": "buyerapp.bantuanku.ion.id",
+    "bapUri": "https://buyerapp.bantuanku.ion.id",
+    "bppId": "sellerapp.ysn.ion.id",
+    "bppUri": "https://sellerapp.ysn.ion.id",
+    "transactionId": "txn-dewi-pkh-2026-001",
+    "messageId": "msg-status-poll-001",
+    "timestamp": "2026-07-22T09:00:00+07:00",
+    "ttl": "PT30S"
+  },
+  "message": {
+    "contract": {
+      "id": "CASE-2026-PKH-004821",
+      "commitments": [
+        {
+          "id": "CMT-001",
+          "status": {
+            "descriptor": {
+              "code": "ACTIVE"
+            }
+          },
+          "resources": [
+            {
+              "resource": {
+                "id": "RES-PKH-CENTRAL-001"
+              },
+              "quantity": {
+                "unitQuantity": 1,
+                "unitCode": "EA"
+              }
+            }
+          ],
+          "offer": {
+            "id": "OFFER-PKH-FACILITATION-FREE",
+            "resourceIds": [
+              "RES-PKH-CENTRAL-001"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

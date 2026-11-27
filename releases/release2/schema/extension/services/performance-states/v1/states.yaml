@@ -1,0 +1,192 @@
+# ION Services Sector — Social Scheme Application State Machine
+# Version: 1.0.0
+# CRC: SVC-social
+#
+# STATE FIELD MAPPING
+# -------------------
+# All ION state codes below go into Performance.status.descriptor.code
+# — NOT into Commitment.status or Contract.status.
+#
+# Beckn v2.0 status fields in the social-scheme context:
+#
+#   Contract.status.descriptor.code      — enum: DRAFT | ACTIVE | CANCELLED | COMPLETE
+#     DRAFT during select/init. ACTIVE after on_confirm (case opened).
+#     CANCELLED if applicant withdraws or BPP cannot submit.
+#     COMPLETE when applicationStage reaches BENEFIT_DISBURSED or
+#     REJECTED (case is closed regardless of outcome).
+#
+#   Commitment.status.descriptor.code    — enum: DRAFT | ACTIVE | CLOSED
+#     DRAFT during select/init. ACTIVE after on_confirm.
+#     CLOSED when case reaches a terminal state (approved+disbursed, rejected, or withdrawn).
+#
+#   Performance.status.descriptor.code   — ION canonical state codes below.
+#     Maps directly to IONSocialSchemePerformanceAttributes.applicationStage.
+#     The two fields MUST stay in sync — BPPs update both together.
+#
+#   Settlement.status                    — enum: DRAFT | COMMITTED | COMPLETE
+#     DRAFT until facilitation fee is confirmed (or FREE is confirmed).
+#     COMMITTED once payment is collected / FREE is verified.
+#     COMPLETE after reconciliation.
+#
+# WHO DRIVES TRANSITIONS
+# ----------------------
+# BAP-side events (applicant actions):     WITHDRAW
+# BPP-side events (caseworker / system):   all others
+# Government-side events (via BPP poll):   UNDER_GOVERNMENT_REVIEW → APPROVED/REJECTED/ADDITIONAL_INFO_REQUESTED
+#
+# NOTE ON on_status POLLING
+# -------------------------
+# Social scheme applications are long-running (days to weeks). BAPs SHOULD
+# poll /status at a low frequency (e.g. daily) rather than expecting push
+# callbacks at each transition. BPPs MUST support /on_status at every state.
+
+stateMachines:
+
+  scheme_facilitation:
+    description: >
+      End-to-end state machine for a government social scheme application
+      facilitated through an ION empanelled partner. Covers eligibility checking
+      through government decision and benefit disbursement.
+    crc: SVC-social
+    initialState: ELIGIBILITY_CHECKED
+    terminalStates:
+      - BENEFIT_DISBURSED
+      - REJECTED
+      - WITHDRAWN_BY_APPLICANT
+
+    states:
+      - code: ELIGIBILITY_CHECKED
+        description: >
+          Applicant profile has been evaluated against the scheme's eligibility
+          rules at select time. A provisional LIKELY_ELIGIBLE / LIKELY_INELIGIBLE
+          result has been returned. No case has been opened yet — this state
+          exists in the Performance record created at on_confirm.
+        contractStatus: ACTIVE
+        commitmentStatus: ACTIVE
+        settlementStatus: DRAFT
+
+      - code: DOCUMENTS_REQUESTED
+        description: >
+          Caseworker has reviewed the eligibility pre-check and is now requesting
+          the applicant to provide the required documents listed in the scheme's
+          requiredDocuments block. Applicant is notified via BAP.
+        contractStatus: ACTIVE
+        commitmentStatus: ACTIVE
+        settlementStatus: DRAFT
+
+      - code: DOCUMENTS_COLLECTED
+        description: >
+          All mandatory documents have been received and verified by the caseworker.
+          Application is being prepared for submission to the implementing agency.
+        contractStatus: ACTIVE
+        commitmentStatus: ACTIVE
+        settlementStatus: COMMITTED
+
+      - code: APPLICATION_SUBMITTED
+        description: >
+          Completed application has been submitted to the implementing government
+          agency. governmentReferenceNumber is populated by the BPP with the
+          agency's acknowledgement number. submittedAt is set.
+        contractStatus: ACTIVE
+        commitmentStatus: ACTIVE
+        settlementStatus: COMMITTED
+
+      - code: UNDER_GOVERNMENT_REVIEW
+        description: >
+          The implementing agency is reviewing the application. decisionExpectedBy
+          gives the applicant a timeline. No action required from the applicant
+          unless ADDITIONAL_INFO_REQUESTED is triggered.
+        contractStatus: ACTIVE
+        commitmentStatus: ACTIVE
+        settlementStatus: COMMITTED
+
+      - code: ADDITIONAL_INFO_REQUESTED
+        description: >
+          The implementing agency has requested additional information or documents.
+          additionalInfoRequest block is populated with the specific items needed
+          and the response deadline. Applicant is notified via BAP.
+        contractStatus: ACTIVE
+        commitmentStatus: ACTIVE
+        settlementStatus: COMMITTED
+
+      - code: APPROVED
+        description: >
+          The implementing agency has approved the application. decisionReceivedAt
+          is set. Benefit disbursement will follow via the channel declared in
+          indonesianCompliance.disbursementChannel. The case is not yet COMPLETE
+          — it moves to BENEFIT_DISBURSED once the disbursement is confirmed.
+        contractStatus: ACTIVE
+        commitmentStatus: ACTIVE
+        settlementStatus: COMMITTED
+
+      - code: BENEFIT_DISBURSED
+        description: >
+          The government benefit has been disbursed to the beneficiary via the
+          declared disbursement channel. disbursement block is populated with
+          the channel, amount, and government reference. This is a TERMINAL
+          state — Contract moves to COMPLETE, Commitment to CLOSED.
+        contractStatus: COMPLETE
+        commitmentStatus: CLOSED
+        settlementStatus: COMPLETE
+        terminal: true
+
+      - code: REJECTED
+        description: >
+          The implementing agency has rejected the application. rejectionReason
+          is populated. decisionReceivedAt is set. This is a TERMINAL state
+          — Contract moves to COMPLETE, Commitment to CLOSED. reapplicationEligibleFrom
+          on the Contract record indicates when the applicant may reapply.
+        contractStatus: COMPLETE
+        commitmentStatus: CLOSED
+        settlementStatus: COMPLETE
+        terminal: true
+
+      - code: WITHDRAWN_BY_APPLICANT
+        description: >
+          The applicant has withdrawn the application before a government decision
+          was issued. This is a TERMINAL state — Contract moves to CANCELLED,
+          Commitment to CLOSED. If a facilitation fee was collected with
+          refundOnRejection=true, a refund is initiated.
+        contractStatus: CANCELLED
+        commitmentStatus: CLOSED
+        settlementStatus: COMPLETE
+        terminal: true
+
+    transitions:
+      - from: ELIGIBILITY_CHECKED
+        to: [DOCUMENTS_REQUESTED, WITHDRAWN_BY_APPLICANT]
+        trigger: BPP caseworker assignment and document checklist dispatch
+      - from: DOCUMENTS_REQUESTED
+        to: [DOCUMENTS_COLLECTED, WITHDRAWN_BY_APPLICANT]
+        trigger: All mandatory documents received and verified by caseworker
+      - from: DOCUMENTS_COLLECTED
+        to: [APPLICATION_SUBMITTED, WITHDRAWN_BY_APPLICANT]
+        trigger: BPP submits completed application to implementing agency
+      - from: APPLICATION_SUBMITTED
+        to: [UNDER_GOVERNMENT_REVIEW, WITHDRAWN_BY_APPLICANT]
+        trigger: Implementing agency acknowledges receipt and begins review
+      - from: UNDER_GOVERNMENT_REVIEW
+        to: [APPROVED, REJECTED, ADDITIONAL_INFO_REQUESTED, WITHDRAWN_BY_APPLICANT]
+        trigger: Government decision issued or additional info requested
+      - from: ADDITIONAL_INFO_REQUESTED
+        to: [UNDER_GOVERNMENT_REVIEW, REJECTED, WITHDRAWN_BY_APPLICANT]
+        trigger: Applicant supplies requested information / agency re-evaluates
+      - from: APPROVED
+        to: [BENEFIT_DISBURSED]
+        trigger: Implementing agency confirms benefit disbursed to beneficiary
+
+    on_status_obligations:
+      description: >
+        BPPs MUST support /on_status responses at every state. BAPs SHOULD
+        poll at a frequency appropriate to the expected processing time
+        (daily polling is recommended; the scheme's processingTimeEstimate
+        gives the expected decision horizon).
+      minimumPollingIntervalHours: 24
+      maximumPollingIntervalHours: 72
+
+    grievance_states:
+      description: >
+        Grievances are raised via the ION /raise endpoint. The social-scheme
+        grievance types include: CASEWORKER_UNRESPONSIVE, DOCUMENT_LOST,
+        APPLICATION_NOT_SUBMITTED, DISBURSEMENT_NOT_RECEIVED, REJECTION_DISPUTED.
+        These follow the standard ION raise/on_raise flow defined in ion.yaml.

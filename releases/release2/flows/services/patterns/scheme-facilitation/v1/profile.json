@@ -1,0 +1,44 @@
+{
+  "id": "ion-services-pattern-scheme-facilitation-v1",
+  "version": "1.0.0",
+  "sector": "services",
+  "crc": "SVC-social",
+  "status": "draft",
+  "implementationRole": "reference",
+  "implementationMaturity": "draft",
+  "description": "Government social scheme application facilitation: a partner publishes schemes as resources and its facilitation service as offers; the applicant (or an assisted-channel agent) discovers a scheme, gets a provisional eligibility pre-check at select, gives consent at init and confirm, and follows the application through government decision and disbursement with status.",
+  "applicableCategories": [
+    "SVC-social"
+  ],
+  "spineFile": "./pattern.yaml",
+  "schemaPacksRequired": {
+    "services": [
+      "resource/v1",
+      "offer/v1",
+      "commitment/v1",
+      "consideration/v1",
+      "performance/v1",
+      "contract/v1",
+      "provider/v1",
+      "settlement/v1"
+    ]
+  },
+  "performanceStateMachine": "schema/extension/services/performance-states/v1/states.yaml#scheme_facilitation",
+  "requiredPolicyCategories": [
+    "CANCELLATION",
+    "GRIEVANCE_SLA"
+  ],
+  "policyRegistryVersion": "2.0.0",
+  "includedBranches": [],
+  "type": "Pattern",
+  "patternName": "scheme-facilitation",
+  "policyRequirements": {
+    "requiredCategories": [
+      "CANCELLATION",
+      "GRIEVANCE_SLA"
+    ],
+    "enforcedBy": "ONIX",
+    "enforcementPoint": "catalog/publish",
+    "note": "Offers on this flow SHOULD carry a registered policy IRI for each required category (offerAttributes.cancellationPolicy and offerAttributes.grievanceSlaPolicy)."
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "id": "ion-services-performance-states-v1",
+  "version": "1.0.0",
+  "domain": "services",
+  "type": "StateMachinePack",
+  "name": "ION Services Social Scheme Performance States (v1)",
+  "statesDocument": "./states.yaml",
+  "crc": "SVC-social",
+  "stateMachines": ["scheme_facilitation"],
+  "statusField": "Performance.status.descriptor.code"
+}

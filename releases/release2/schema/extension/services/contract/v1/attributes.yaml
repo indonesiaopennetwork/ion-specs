@@ -1,0 +1,97 @@
+openapi: "3.1.1"
+info:
+  title: ION Services Social Scheme Contract Extension (v1)
+  version: 1.0.0
+  description: |
+    Contract-level attributes for a confirmed social-scheme application case
+    on ION (CRC SVC-social) — the record binding an applicant, a facilitation
+    Provider, and a scheme, from confirmation through case closure.
+
+    ION v2.0 placement:
+      Placed in Contract.contractAttributes at /on_confirm and thereafter.
+      Contract.contractAttributes["@context"] — context.jsonld URI
+      Contract.contractAttributes["@type"]    — "ion:IONSocialSchemeContractAttributes"
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    name: ION Network
+    url: https://schema.ion.id
+
+components:
+  schemas:
+
+    SocialSchemeContract:
+      type: object
+      title: SocialSchemeContract
+      description: Network-agnostic generic layer. Inherits from Beckn core Attributes.
+      x-ion-layer: generic
+      x-ion-split-version: "1.0.0"
+      x-recommended-parent: Contract.contractAttributes
+      additionalProperties: true
+      allOf:
+        - $ref: https://schema.ion.id/release2/schema/vendored/beckn/schemas/Attributes/2.0/attributes.yaml#/components/schemas/Attributes
+
+    IONSocialSchemeContractAttributes:
+      type: object
+      x-ion-layer: ion
+      x-ion-split-version: "1.0.0"
+      allOf:
+        - $ref: '#/components/schemas/SocialSchemeContract'
+      description: |
+        The case record for a confirmed social-scheme application: identifiers,
+        consent basis, and case closure detail.
+      x-jsonld:
+        '@context': 'https://schema.ion.id/release2/schema/extension/services/contract/v1/context.jsonld'
+        '@type': ion:IONSocialSchemeContractAttributes
+      x-beckn-attaches-to: Contract.contractAttributes
+      additionalProperties: true
+      properties:
+        caseId:
+          type: string
+          description: ION network-wide unique case identifier for this application, assigned at confirm.
+          example: "CASE-2026-PKH-004821"
+        applicantConsent:
+          $ref: '#/components/schemas/ApplicantConsent'
+        assignedProviderId:
+          type: string
+          description: Provider (facilitation partner or government agency) responsible for this case.
+          example: "sellerapp.bantuan-sosial.ion.id"
+        caseStatus:
+          type: string
+          description: High-level case status, distinct from the finer-grained Performance.applicationStage.
+          enum: [OPEN, CLOSED_APPROVED, CLOSED_REJECTED, CLOSED_WITHDRAWN]
+          example: "OPEN"
+        caseClosedAt:
+          type: string
+          format: date-time
+        reapplicationEligibleFrom:
+          type: string
+          format: date
+          description: Earliest date the applicant may reapply, when caseStatus is CLOSED_REJECTED and the scheme has a cooldown.
+          example: "2027-01-01"
+
+    ApplicantConsent:
+      type: object
+      additionalProperties: false
+      description: >
+        Explicit consent record for processing and sharing the applicant's
+        personal and welfare data with the implementing government agency,
+        per UU PDP 2022.
+      required:
+        - consentGiven
+        - consentTimestamp
+      properties:
+        consentGiven:
+          type: boolean
+          example: true
+        consentTimestamp:
+          type: string
+          format: date-time
+          example: "2026-04-20T09:58:00+07:00"
+        consentScope:
+          type: array
+          items:
+            type: string
+            enum: [DATA_SHARING_WITH_AGENCY, DTKS_CROSS_CHECK, NIK_VERIFICATION, MARKETING_COMMUNICATION]
+          example: ["DATA_SHARING_WITH_AGENCY", "DTKS_CROSS_CHECK", "NIK_VERIFICATION"]

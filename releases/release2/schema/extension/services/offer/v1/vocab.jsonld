@@ -1,0 +1,53 @@
+{
+  "@graph": [
+    {
+      "@id": "ion:IONSocialSchemeOfferAttributes",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONSocialSchemeOfferAttributes",
+      "rdfs:comment": "Indonesia-specific facilitation-service commercial terms for a\nsocial scheme application service.",
+      "rdfs:subClassOf": "beckn:Offer"
+    },
+    {
+      "@id": "ion:serviceType",
+      "@type": "rdf:Property",
+      "rdfs:label": "serviceType",
+      "rdfs:comment": "Which facilitation service this Offer represents for the linked scheme Resource."
+    },
+    {
+      "@id": "ion:pricingModel",
+      "@type": "rdf:Property",
+      "rdfs:label": "pricingModel",
+      "rdfs:comment": "Whether the applicant pays anything for this facilitation service. The underlying government benefit is always free to the beneficiary \u2014 pricingModel governs the facilitation service fee only, never the benefit itself."
+    },
+    {
+      "@id": "ion:facilitationFee",
+      "@type": "rdf:Property",
+      "rdfs:label": "facilitationFee",
+      "rdfs:comment": "Present when pricingModel is FLAT_FACILITATION_FEE or SUCCESS_FEE_ON_APPROVAL."
+    },
+    {
+      "@id": "ion:feeChargeTiming",
+      "@type": "rdf:Property",
+      "rdfs:label": "feeChargeTiming",
+      "rdfs:comment": "When the facilitation fee, if any, is collected."
+    },
+    {
+      "@id": "ion:refundOnRejection",
+      "@type": "rdf:Property",
+      "rdfs:label": "refundOnRejection",
+      "rdfs:comment": "Whether a collected fee is refunded if the government application is ultimately rejected."
+    },
+    {
+      "@id": "ion:cancellationPolicy",
+      "@type": "rdf:Property",
+      "rdfs:label": "cancellationPolicy",
+      "rdfs:comment": "Policy IRI governing cancellation of the facilitation service before submission."
+    },
+    {
+      "@id": "ion:grievanceSlaPolicy",
+      "@type": "rdf:Property",
+      "rdfs:label": "grievanceSlaPolicy",
+      "rdfs:comment": "Policy IRI declaring the response and resolution SLA for applicant grievances on this offer."
+    }
+  ]
+}

@@ -1,0 +1,241 @@
+{
+  "_meta": {
+    "description": "SVC-social scheme-facilitation catalog/publish — taken from the Ibu Dewi worked journey. Illustrative values only.",
+    "pattern": "scheme-facilitation",
+    "step": "catalog/publish",
+    "sent_by": "BPP",
+    "received_by": "ION Catalogue Service"
+  },
+  "context": {
+    "domain": "ion:services",
+    "action": "catalog/publish",
+    "version": "2.0.0",
+    "bppId": "sellerapp.ysn.ion.id",
+    "bppUri": "https://sellerapp.ysn.ion.id",
+    "transactionId": "00000000-0000-0000-0000-000000000000",
+    "messageId": "msg-publish-pkh-001",
+    "timestamp": "2026-07-01T08:00:00+07:00",
+    "schemaContext": [
+      "https://schema.ion.id/release2/schema/extension/services/resource/v1/context.jsonld",
+      "https://schema.ion.id/release2/schema/extension/services/offer/v1/context.jsonld",
+      "https://schema.ion.id/release2/schema/extension/services/provider/v1/context.jsonld"
+    ]
+  },
+  "message": {
+    "catalogs": [
+      {
+        "id": "CAT-YSN-SOCIAL-SCHEMES-001",
+        "bppId": "sellerapp.ysn.ion.id",
+        "bppUri": "https://sellerapp.ysn.ion.id",
+        "descriptor": {
+          "name": "Katalog Skema YSN — Program Bantuan Sosial",
+          "shortDesc": "Yayasan Sejahtera Nusantara: fasilitasi pendaftaran program bantuan sosial pemerintah"
+        },
+        "provider": {
+          "id": "PROV-YSN-001",
+          "descriptor": {
+            "name": "Yayasan Sejahtera Nusantara",
+            "shortDesc": "Mitra fasilitasi program bantuan sosial resmi Kemensos"
+          },
+          "providerAttributes": {
+            "@context": "https://schema.ion.id/release2/schema/extension/services/provider/v1/context.jsonld",
+            "@type": "ion:IONSocialSchemeProviderAttributes",
+            "providerType": "EMPANELLED_FACILITATION_PARTNER",
+            "empanelment": {
+              "empanelmentId": "SLRT-EMP-2026-00417",
+              "empaneledByAgency": "Kementerian Sosial Republik Indonesia",
+              "empanelmentValidUntil": "2027-12-31",
+              "empanelmentStatus": "ACTIVE"
+            },
+            "operatingRegions": [
+              "35"
+            ],
+            "caseworkerNetwork": {
+              "caseworkerCount": 48,
+              "fieldVisitAvailable": true,
+              "languagesSupported": [
+                "id-ID",
+                "jv-ID"
+              ]
+            },
+            "helpline": {
+              "phone": "0800-1-YSN-000",
+              "whatsapp": "+62811234567",
+              "operatingHours": "Senin–Jumat 08.00–17.00 WIB"
+            },
+            "nibRegistered": true,
+            "dataHandlingCertification": "THIRD_PARTY_AUDITED"
+          }
+        },
+        "resources": [
+          {
+            "id": "RES-PKH-CENTRAL-001",
+            "descriptor": {
+              "name": "Program Keluarga Harapan (PKH)",
+              "shortDesc": "Bantuan tunai bersyarat untuk keluarga miskin dengan komponen kesehatan, pendidikan, dan kesejahteraan sosial",
+              "longDesc": "Program Keluarga Harapan (PKH) adalah program bantuan tunai bersyarat yang diberikan kepada keluarga miskin dan rentan. Penerima manfaat mendapatkan bantuan keuangan setiap kuartal selama memenuhi persyaratan seperti membawa anak ke posyandu, mendaftarkan anak ke sekolah, dan menghadiri pertemuan kelompok. Bantuan diberikan melalui rekening bank Himbara (BNI, BRI, BTN, Mandiri) yang dibukakan khusus atau melalui Kartu Keluarga Sejahtera (KKS).",
+              "mediaFile": [
+                {
+                  "mimeType": "image/png",
+                  "uri": "https://cdn.ysn.id/schemes/pkh-logo.png"
+                }
+              ]
+            },
+            "resourceAttributes": {
+              "@context": "https://schema.ion.id/release2/schema/extension/services/resource/v1/context.jsonld",
+              "@type": "ion:IONSocialSchemeResource",
+              "crc": "SVC-social",
+              "schemeIdentity": {
+                "schemeName": "Program Keluarga Harapan (PKH)",
+                "schemeCode": "KEMSOS-PKH-2026",
+                "implementingAgency": "Kementerian Sosial Republik Indonesia",
+                "implementingAgencyLevel": "NATIONAL_MINISTRY",
+                "schemeLevel": "CENTRAL",
+                "schemeType": "CASH_TRANSFER",
+                "fundingModel": "APBN_CENTRAL_BUDGET",
+                "sectorTags": [
+                  "FOOD_SECURITY",
+                  "WOMEN_AND_CHILDREN",
+                  "HEALTH",
+                  "EDUCATION"
+                ],
+                "officialReferenceUrl": "https://kemensos.go.id/program-keluarga-harapan"
+              },
+              "eligibility": {
+                "targetBeneficiaryTypes": [
+                  "HOUSEHOLD"
+                ],
+                "demographicCriteria": [
+                  {
+                    "ruleId": "age-head-of-household",
+                    "label": "Usia kepala keluarga atau pasangan",
+                    "operator": ">=",
+                    "value": 18,
+                    "unit": "YEARS"
+                  }
+                ],
+                "economicCriteria": [
+                  {
+                    "ruleId": "monthly-household-income",
+                    "label": "Pendapatan rumah tangga per bulan",
+                    "operator": "<=",
+                    "value": 2000000,
+                    "unit": "IDR"
+                  },
+                  {
+                    "ruleId": "dtks-registered",
+                    "label": "Terdaftar dalam DTKS",
+                    "operator": "=",
+                    "value": "yes"
+                  }
+                ],
+                "priorityGroups": [
+                  "EXTREME_POVERTY_DTKS_DECILE_1",
+                  "FEMALE_HEAD_OF_HOUSEHOLD",
+                  "PREGNANT_OR_LACTATING"
+                ],
+                "eligibilitySummary": "Rumah tangga miskin dan rentan yang terdaftar dalam DTKS, memiliki komponen kesehatan (balita/ibu hamil), pendidikan (anak usia sekolah), atau kesejahteraan sosial (lansia/disabilitas berat)."
+              },
+              "benefit": {
+                "benefitForm": "CASH",
+                "benefitAmountBasis": "PER_COMPONENT",
+                "disbursementFrequency": "QUARTERLY",
+                "benefitDescription": "Bantuan tunai bersyarat per komponen: Ibu hamil/nifas Rp 3.000.000/tahun; Anak usia dini (0-6 tahun) Rp 3.000.000/tahun; SD Rp 900.000/tahun; SMP Rp 1.500.000/tahun; SMA Rp 2.000.000/tahun; Lansia ≥70 tahun Rp 2.400.000/tahun; Disabilitas berat Rp 2.400.000/tahun."
+              },
+              "requiredDocuments": [
+                {
+                  "documentType": "KTP",
+                  "purpose": "Bukti identitas kepala keluarga atau pasangan",
+                  "mandatory": true
+                },
+                {
+                  "documentType": "KARTU_KELUARGA",
+                  "purpose": "Bukti komposisi anggota rumah tangga",
+                  "mandatory": true
+                },
+                {
+                  "documentType": "SURAT_KETERANGAN_TIDAK_MAMPU",
+                  "purpose": "Bukti status kemiskinan dari kelurahan/desa",
+                  "mandatory": false,
+                  "conditionRuleId": "not-in-dtks"
+                },
+                {
+                  "documentType": "AKTA_KELAHIRAN",
+                  "purpose": "Bukti usia anak untuk komponen pendidikan",
+                  "mandatory": false,
+                  "conditionRuleId": "has-school-age-children"
+                },
+                {
+                  "documentType": "BUKU_TABUNGAN",
+                  "purpose": "Rekening bank Himbara untuk pencairan bantuan",
+                  "mandatory": false,
+                  "conditionRuleId": "disbursement-via-bank"
+                }
+              ],
+              "applicationChannel": {
+                "applicationMode": "FACILITATED",
+                "governmentPortalUrl": "https://cekbansos.kemensos.go.id",
+                "applicationWindow": "ROLLING",
+                "processingTimeEstimate": "P30D"
+              },
+              "validity": {
+                "effectiveFrom": "2026-01-01",
+                "requiresAnnualReverification": true
+              },
+              "fundingSource": {
+                "budgetLineReference": "BA 027.06.GG",
+                "fiscalYear": "2026",
+                "cofundingAgencies": []
+              },
+              "indonesianCompliance": {
+                "dtksReference": true,
+                "dtksDecileRequirement": [
+                  1,
+                  2,
+                  3
+                ],
+                "nikVerificationRequired": true,
+                "kksRequired": false,
+                "disbursementChannel": "BANK_HIMBARA_ACCOUNT",
+                "dataResidency": "DOMESTIC_ONLY",
+                "regulatoryBasis": [
+                  {
+                    "instrumentType": "PERPRES",
+                    "reference": "Perpres 63/2017",
+                    "title": "Penyaluran Bantuan Sosial Secara Non Tunai"
+                  },
+                  {
+                    "instrumentType": "PERMENSOS",
+                    "reference": "Permensos 5/2019",
+                    "title": "Pengelolaan Data Terpadu Kesejahteraan Sosial"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "offers": [
+          {
+            "id": "OFFER-PKH-FACILITATION-FREE",
+            "resourceIds": [
+              "RES-PKH-CENTRAL-001"
+            ],
+            "descriptor": {
+              "name": "Fasilitasi Pendaftaran PKH — Gratis",
+              "shortDesc": "Pendampingan penuh tanpa biaya: cek kelayakan, kumpul dokumen, daftar, pantau status"
+            },
+            "offerAttributes": {
+              "@context": "https://schema.ion.id/release2/schema/extension/services/offer/v1/context.jsonld",
+              "@type": "ion:IONSocialSchemeOfferAttributes",
+              "serviceType": "FULL_APPLICATION_FACILITATION",
+              "pricingModel": "FREE_FACILITATION",
+              "refundOnRejection": true,
+              "cancellationPolicy": "ion://policy/cancel.social-scheme.until-submission",
+              "grievanceSlaPolicy": "ion://policy/grievance-sla.social-scheme.standard"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "id": "ion-services-offer-v1",
+  "version": "1.0.0",
+  "domain": "services",
+  "type": "AttributePack",
+  "name": "ION Services Social Scheme Offer Extension (v1)",
+  "packSchema": "./schema.json",
+  "jsonldContext": "./context.jsonld",
+  "extends": "beckn:Offer",
+  "attachmentPoints": {
+    "offerAttributes": [
+      "IONSocialSchemeOfferAttributes"
+    ]
+  },
+  "indexing": {
+    "indexable": [
+      {
+        "path": "$.serviceType"
+      },
+      {
+        "path": "$.pricingModel"
+      },
+      {
+        "path": "$.facilitationFee"
+      },
+      {
+        "path": "$.feeChargeTiming"
+      },
+      {
+        "path": "$.refundOnRejection"
+      },
+      {
+        "path": "$.cancellationPolicy"
+      },
+      {
+        "path": "$.grievanceSlaPolicy"
+      }
+    ],
+    "filterable": [
+      {
+        "path": "$.serviceType"
+      }
+    ],
+    "sortable": []
+  },
+  "minimalForDiscovery": [
+    "serviceType",
+    "pricingModel",
+    "facilitationFee",
+    "feeChargeTiming"
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "@graph": [
+    {
+      "@id": "ion:IONSocialSchemePerformanceAttributes",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONSocialSchemePerformanceAttributes",
+      "rdfs:comment": "Application-lifecycle state and case detail for a social-scheme\napplication being processed on behalf of an applicant.",
+      "rdfs:subClassOf": "beckn:Performance"
+    },
+    {
+      "@id": "ion:applicationStage",
+      "@type": "rdf:Property",
+      "rdfs:label": "applicationStage",
+      "rdfs:comment": "Current stage of the application lifecycle. This is the ION performance-state machine for SVC-social — distinct from generic Trade/Logistics delivery states because there is no physical fulfilment leg; the \"fulfilment\" is a government decision."
+    },
+    {
+      "@id": "ion:caseworker",
+      "@type": "rdf:Property",
+      "rdfs:label": "caseworker",
+      "rdfs:comment": "The facilitation-partner staff member assigned to this application case, when applicationChannel.applicationMode is FACILITATED. Carries the caseworker's internal ID, display name, and mobile phone number so the applicant can contact them directly about document collection or case progress. Produced by the BPP at /on_confirm when a caseworker is assigned. Updated by the BPP via /on_status if the caseworker changes during the case lifecycle. Absent when applicationMode is SELF_SERVICE."
+    },
+    {
+      "@id": "ion:governmentReferenceNumber",
+      "@type": "rdf:Property",
+      "rdfs:label": "governmentReferenceNumber",
+      "rdfs:comment": "Application/case number issued by the implementing agency once submitted, if any."
+    },
+    {
+      "@id": "ion:submittedAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "submittedAt",
+      "rdfs:comment": "ISO 8601 datetime at which the facilitation partner submitted the completed application to the implementing government agency, in UTC with timezone offset. Set by the BPP when applicationStage transitions to APPLICATION_SUBMITTED. Consumed by the BAP to display case timeline to the applicant and to compute the expected decision date from the scheme's processingTimeEstimate."
+    },
+    {
+      "@id": "ion:decisionExpectedBy",
+      "@type": "rdf:Property",
+      "rdfs:label": "decisionExpectedBy",
+      "rdfs:comment": "Estimated decision date, derived from the scheme's ApplicationChannel.processingTimeEstimate."
+    },
+    {
+      "@id": "ion:decisionReceivedAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "decisionReceivedAt",
+      "rdfs:comment": "ISO 8601 datetime at which the implementing government agency communicated its decision on the application, in UTC with timezone offset. Set by the BPP when applicationStage transitions to APPROVED or REJECTED. Consumed by the BAP to display the decision date in the case history and to trigger any post-decision workflows (disbursement tracking, grievance filing, reapplication)."
+    },
+    {
+      "@id": "ion:rejectionReason",
+      "@type": "rdf:Property",
+      "rdfs:label": "rejectionReason",
+      "rdfs:comment": "Present only when applicationStage is REJECTED."
+    },
+    {
+      "@id": "ion:additionalInfoRequest",
+      "@type": "rdf:Property",
+      "rdfs:label": "additionalInfoRequest",
+      "rdfs:comment": "Details of a request from the government agency for additional documentation or information from the applicant. Present only when applicationStage is ADDITIONAL_INFO_REQUESTED. Carries a list of specific items requested, the timestamp of the request, and the response deadline. Produced by the BPP when the implementing agency signals that more information is required. Consumed by the BAP to alert the applicant and caseworker, and to display what documents or information must be supplied before the deadline to keep the application active."
+    },
+    {
+      "@id": "ion:disbursement",
+      "@type": "rdf:Property",
+      "rdfs:label": "disbursement",
+      "rdfs:comment": "Record of the benefit disbursement to the approved beneficiary. Present only once applicationStage reaches BENEFIT_DISBURSED. Carries the disbursement timestamp, the channel through which the benefit was delivered (bank Himbara account, KKS card, Kantor Pos, BRILink agent, in-kind delivery, or direct service), the disbursed amount and currency, and the government disbursement reference number. Produced by the BPP when the implementing agency confirms that the benefit has been transferred. Consumed by the BAP to confirm case completion to the applicant and to trigger settlement reconciliation."
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+iri: ion://policy/cancel.social-scheme.until-submission
+version: "1.0.0"
+versionEffectiveFrom: null
+category: CANCELLATION
+status: draft
+sector: services
+
+displayText:
+  id: "Batalkan gratis sebelum permohonan diajukan ke instansi pemerintah"
+  en: "Free cancellation until the application is submitted to the government agency"
+
+# The applicant may withdraw at any stage before the facilitation partner
+# submits the application to the implementing agency.
+cancellationWindowCloses: APPLICATION_SUBMITTED
+
+cancellationFee:
+  type: NONE
+  value: 0
+
+cancellationReasonsAllowed:
+  - APPLICANT_WITHDRAWS
+  - NO_LONGER_ELIGIBLE
+  - DUPLICATE_APPLICATION
+  - APPLYING_THROUGH_ANOTHER_CHANNEL
+
+# Facilitation for social schemes is normally free. Where a fee was collected
+# (offerAttributes.feeCollectionTiming), it is refunded in full.
+refundPercentageOnCancel: 1.0
+refundTimelineFromCancel: P7D
+refundDestinationDefault: ORIGINAL_PAYMENT_METHOD
+
+# After APPLICATION_SUBMITTED the case belongs to the government process; the
+# applicant withdraws through the implementing agency's own procedure.
+afterWindowCloses: WITHDRAW_VIA_IMPLEMENTING_AGENCY
+
+# Personal data collected for the application must be deleted or returned
+# after a cancellation, except where retention is legally required.
+personalDataOnCancel: DELETE_UNLESS_RETENTION_REQUIRED
+
+applicableResourceTypes: []
+applicableCategories:
+  - SVC-social
+
+regulatoryBasis:
+  - "UU 27/2022 tentang Pelindungan Data Pribadi"
+  - "UU 8/1999 tentang Perlindungan Konsumen Pasal 4"
+
+supersededBy: null
+deprecatedAt: null

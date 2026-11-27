@@ -1,0 +1,146 @@
+openapi: "3.1.1"
+info:
+  title: ION Services Social Scheme Commitment Extension (v1)
+  version: 1.0.0
+  description: |
+    Commitment-level attributes capturing an applicant's selection of a
+    scheme and a facilitation service at /select and /init, under the
+    Services sector (CRC SVC-social).
+
+    ION v2.0 placement:
+      Placed in Commitment.commitmentAttributes at /select, /init, /confirm.
+      Commitment.commitmentAttributes["@context"] — context.jsonld URI
+      Commitment.commitmentAttributes["@type"]    — "ion:IONSocialSchemeCommitmentAttributes"
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    name: ION Network
+    url: https://schema.ion.id
+
+components:
+  schemas:
+
+    SocialSchemeCommitment:
+      type: object
+      title: SocialSchemeCommitment
+      description: Network-agnostic generic layer. Inherits from Beckn core Attributes.
+      x-ion-layer: generic
+      x-ion-split-version: "1.0.0"
+      x-recommended-parent: Commitment.commitmentAttributes
+      additionalProperties: true
+      allOf:
+        - $ref: https://schema.ion.id/release2/schema/vendored/beckn/schemas/Attributes/2.0/attributes.yaml#/components/schemas/Attributes
+
+    IONSocialSchemeCommitmentAttributes:
+      type: object
+      x-ion-layer: ion
+      x-ion-split-version: "1.0.0"
+      allOf:
+        - $ref: '#/components/schemas/SocialSchemeCommitment'
+      description: |
+        Indonesia-specific commitment attributes linking an applicant to a
+        specific scheme resource, offer (facilitation service type), and the
+        applicant profile data supplied for the eligibility pre-check.
+      x-jsonld:
+        '@context': 'https://schema.ion.id/release2/schema/extension/services/commitment/v1/context.jsonld'
+        '@type': ion:IONSocialSchemeCommitmentAttributes
+      x-beckn-attaches-to: Commitment.commitmentAttributes
+      additionalProperties: true
+      properties:
+        lineId:
+          type: string
+          example: "L01"
+        resourceId:
+          type: string
+          description: ID of the SVC-social scheme Resource being applied for.
+          example: "RES-SCHEME-PKH-001"
+        offerId:
+          type: string
+          description: ID of the facilitation Offer selected.
+          example: "OFFER-PKH-FACILITATION-001"
+        applicantProfile:
+          $ref: '#/components/schemas/ApplicantProfile'
+        eligibilityPreCheck:
+          $ref: '#/components/schemas/EligibilityPreCheckResult'
+
+    ApplicantProfile:
+      type: object
+      additionalProperties: false
+      description: >
+        Self-declared applicant data supplied for eligibility pre-screening
+        and, where the applicant proceeds, for the government application
+        itself. Only the fields relevant to the scheme's declared eligibility
+        rules need be populated at /select — full KTP/KK data is collected at
+        /confirm.
+      required:
+        - nik
+        - fullName
+      properties:
+        nik:
+          type: string
+          pattern: '^[0-9]{16}$'
+          description: 16-digit Nomor Induk Kependudukan.
+          example: "3273010101900001"
+        fullName:
+          type: string
+          example: "Siti Rahayu"
+        dateOfBirth:
+          type: string
+          format: date
+          example: "1990-01-01"
+        provinceCode:
+          type: string
+          description: BPS province code of the applicant's KTP domicile.
+          example: "32"
+        kabupatenKotaCode:
+          type: string
+          example: "3273"
+        declaredHouseholdIncomeMonthly:
+          $ref: '#/components/schemas/MonetaryAmount'
+        declaredOccupation:
+          type: string
+          example: "Petani"
+        householdSize:
+          type: integer
+          minimum: 1
+          example: 4
+        dtksRegistered:
+          type: boolean
+          description: Applicant's self-declared DTKS registration status. Verified server-side, never trusted as final.
+          example: true
+
+    MonetaryAmount:
+      type: object
+      additionalProperties: false
+      required: [value, currency]
+      properties:
+        value:
+          type: number
+          minimum: 0
+        currency:
+          type: string
+          default: IDR
+
+    EligibilityPreCheckResult:
+      type: object
+      additionalProperties: false
+      description: >
+        Result of evaluating the applicant's declared profile against the
+        scheme's Eligibility rules at /select time. This is a provisional,
+        non-binding indication — final determination happens after
+        government-side verification, reflected later in Performance.
+      properties:
+        outcome:
+          type: string
+          enum: [LIKELY_ELIGIBLE, LIKELY_INELIGIBLE, INSUFFICIENT_DATA]
+          example: "LIKELY_ELIGIBLE"
+        failedRuleIds:
+          type: array
+          items:
+            type: string
+          description: ruleId values (from the scheme's Eligibility block) the applicant did not satisfy, if outcome is LIKELY_INELIGIBLE.
+        evaluatedAt:
+          type: string
+          format: date-time
+          example: "2026-04-19T09:15:00+07:00"

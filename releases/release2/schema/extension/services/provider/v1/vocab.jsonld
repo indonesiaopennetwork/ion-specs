@@ -1,0 +1,53 @@
+{
+  "@graph": [
+    {
+      "@id": "ion:IONSocialSchemeProviderAttributes",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONSocialSchemeProviderAttributes",
+      "rdfs:comment": "Indonesia-specific operational and empanelment attributes for a\nProvider offering scheme discovery and application services on ION.",
+      "rdfs:subClassOf": "beckn:Provider"
+    },
+    {
+      "@id": "ion:providerType",
+      "@type": "rdf:Property",
+      "rdfs:label": "providerType",
+      "rdfs:comment": "Nature of this Provider's relationship to the schemes it publishes."
+    },
+    {
+      "@id": "ion:empanelment",
+      "@type": "rdf:Property",
+      "rdfs:label": "empanelment",
+      "rdfs:comment": "Formal authorisation record linking this Provider to the government schemes it is permitted to receive and process applications for, issued by the implementing agency or the SLRT registry under Permensos 3/2021 (Sistem Layanan dan Rujukan Terpadu). Carries the empanelment ID, the issuing agency, the list of scheme resource IDs within scope, the validity period, and the current empanelment status (ACTIVE, SUSPENDED, EXPIRED, PENDING_RENEWAL). Absent for GOVERNMENT_AGENCY_DIRECT providers, who are self-authorising for their own schemes. Produced by the BPP at catalog/publish. Validated by ONIX to prevent unauthorised scheme facilitation."
+    },
+    {
+      "@id": "ion:operatingRegions",
+      "@type": "rdf:Property",
+      "rdfs:label": "operatingRegions",
+      "rdfs:comment": "BPS province codes where this Provider actively offers application assistance."
+    },
+    {
+      "@id": "ion:caseworkerNetwork",
+      "@type": "rdf:Property",
+      "rdfs:label": "caseworkerNetwork",
+      "rdfs:comment": "Summary of the facilitation partner's field caseworker capacity — the team of trained staff who assist applicants with document collection, eligibility verification, and application submission. Carries the total caseworker count, whether field visits and home-visit document collection are available, and the languages the caseworker network supports. Produced by the BPP at catalog/publish. Informational — used by BAPs to set applicant expectations on facilitation availability and language accessibility, not validated by ONIX."
+    },
+    {
+      "@id": "ion:helpline",
+      "@type": "rdf:Property",
+      "rdfs:label": "helpline",
+      "rdfs:comment": "Applicant-facing support contact details for this facilitation Provider. Carries the helpline phone number (required), WhatsApp contact (optional), and operating hours during which applicants can reach the support team. Produced by the BPP at catalog/publish. Displayed by BAPs in the provider profile and in post-application status screens so applicants can follow up on document requests or case progress directly with the Provider."
+    },
+    {
+      "@id": "ion:nibRegistered",
+      "@type": "rdf:Property",
+      "rdfs:label": "nibRegistered",
+      "rdfs:comment": "Whether the Provider organisation holds a valid NIB. Required for EMPANELLED_FACILITATION_PARTNER and NGO_REFERRAL_PARTNER provider types."
+    },
+    {
+      "@id": "ion:dataHandlingCertification",
+      "@type": "rdf:Property",
+      "rdfs:label": "dataHandlingCertification",
+      "rdfs:comment": "Certification or self-declaration status for UU PDP 2022 compliant handling of beneficiary personal data."
+    }
+  ]
+}

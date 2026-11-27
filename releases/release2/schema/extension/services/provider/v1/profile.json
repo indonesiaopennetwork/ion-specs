@@ -1,0 +1,52 @@
+{
+  "id": "ion-services-provider-v1",
+  "version": "1.0.0",
+  "domain": "services",
+  "type": "AttributePack",
+  "name": "ION Services Social Scheme Provider Extension (v1)",
+  "packSchema": "./schema.json",
+  "jsonldContext": "./context.jsonld",
+  "extends": "beckn:Provider",
+  "attachmentPoints": {
+    "providerAttributes": [
+      "IONSocialSchemeProviderAttributes"
+    ]
+  },
+  "indexing": {
+    "indexable": [
+      {
+        "path": "$.providerType"
+      },
+      {
+        "path": "$.empanelment"
+      },
+      {
+        "path": "$.operatingRegions"
+      },
+      {
+        "path": "$.caseworkerNetwork"
+      },
+      {
+        "path": "$.helpline"
+      },
+      {
+        "path": "$.nibRegistered"
+      },
+      {
+        "path": "$.dataHandlingCertification"
+      }
+    ],
+    "filterable": [
+      {
+        "path": "$.providerType"
+      }
+    ],
+    "sortable": []
+  },
+  "minimalForDiscovery": [
+    "providerType",
+    "empanelment",
+    "operatingRegions",
+    "caseworkerNetwork"
+  ]
+}
