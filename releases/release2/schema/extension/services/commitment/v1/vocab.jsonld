@@ -1,0 +1,41 @@
+{
+  "@graph": [
+    {
+      "@id": "ion:IONSocialSchemeCommitmentAttributes",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONSocialSchemeCommitmentAttributes",
+      "rdfs:comment": "Indonesia-specific commitment attributes linking an applicant to a\nspecific scheme resource, offer (facilitation service type), and the\napplicant profile data supplied for the eligibility pre-check.",
+      "rdfs:subClassOf": "beckn:Commitment"
+    },
+    {
+      "@id": "ion:lineId",
+      "@type": "rdf:Property",
+      "rdfs:label": "lineId",
+      "rdfs:comment": "Unique identifier for this commitment line within the transaction, assigned by the BAP at /select time. Persists through the application lifecycle. Used to reference the specific scheme application in subsequent updates, status checks, and the contract record. Analogous to the trade sector lineId but tracks a government scheme application case rather than a product order line."
+    },
+    {
+      "@id": "ion:resourceId",
+      "@type": "rdf:Property",
+      "rdfs:label": "resourceId",
+      "rdfs:comment": "ID of the SVC-social scheme Resource being applied for."
+    },
+    {
+      "@id": "ion:offerId",
+      "@type": "rdf:Property",
+      "rdfs:label": "offerId",
+      "rdfs:comment": "ID of the facilitation Offer selected."
+    },
+    {
+      "@id": "ion:applicantProfile",
+      "@type": "rdf:Property",
+      "rdfs:label": "applicantProfile",
+      "rdfs:comment": "Self-declared applicant profile data supplied for eligibility pre-screening at /select time and for the government application itself. Contains the applicant's NIK (16-digit national identity number), full name, date of birth, domicile province and kabupaten/kota codes, declared household income, occupation, household size, and self-declared DTKS registration status. Collected by the BAP at commitment stage. Verified server-side by the BPP against Dukcapil and DTKS before the application is submitted to the implementing government agency. Contains PII — must be handled under UU PDP 2022 data residency and consent obligations."
+    },
+    {
+      "@id": "ion:eligibilityPreCheck",
+      "@type": "rdf:Property",
+      "rdfs:label": "eligibilityPreCheck",
+      "rdfs:comment": "Provisional, non-binding result of evaluating the applicant's declared profile against the scheme's structured eligibility rules at /select time. Outcome is one of LIKELY_ELIGIBLE, LIKELY_INELIGIBLE, or INSUFFICIENT_DATA. Produced by the BPP based on the applicantProfile fields against the scheme Resource's Eligibility block. Consumed by the BAP to inform the applicant before they proceed to /confirm. Not a final determination — the authoritative eligibility decision is made by the implementing government agency after document collection and DTKS/NIK cross-check, reflected later in Performance.applicationStage."
+    }
+  ]
+}

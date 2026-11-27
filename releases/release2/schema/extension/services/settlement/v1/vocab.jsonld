@@ -1,0 +1,71 @@
+{
+  "@graph": [
+    {
+      "@id": "ion:IONSocialSchemeSettlementAttributes",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONSocialSchemeSettlementAttributes",
+      "rdfs:comment": "Settlement record for a social-scheme facilitation service on ION. Tracks what was collected from the applicant (if anything) for the facilitation service, and any government fee passthroughs collected on behalf of the implementing agency. The government benefit disbursement is never routed through this record — it is delivered directly by the implementing agency and tracked in Performance.disbursement. FREE_FACILITATION offers carry a settlement record with totalAmount=0 so ONIX can confirm no unlawful fee was collected. Produced by the BPP at /on_confirm. Consumed by the BAP for applicant receipts and by ION reconciliation for settlement reporting.",
+      "rdfs:subClassOf": "beckn:Settlement"
+    },
+    {
+      "@id": "ion:settlementType",
+      "@type": "rdf:Property",
+      "rdfs:label": "settlementType",
+      "rdfs:comment": "Whether a fee was collected for the facilitation service (FACILITATION_FEE), the facilitation was provided free of charge (FREE), or a statutory government fee was collected and will be remitted to the implementing agency (GOVERNMENT_FEE_PASSTHROUGH). Required on every social-scheme settlement record. Determines which downstream fields (paymentStatus, remittanceStatus, refundRecord) are applicable."
+    },
+    {
+      "@id": "ion:totalAmount",
+      "@type": "rdf:Property",
+      "rdfs:label": "totalAmount",
+      "rdfs:comment": "Total amount collected from the applicant in IDR for the facilitation service. Zero for FREE settlement type. Must equal the sum of all non-government-fee Consideration lines when settlementType is FACILITATION_FEE. Produced by the BPP at /on_confirm. Validated by ONIX against the locked Consideration breakdown."
+    },
+    {
+      "@id": "ion:currency",
+      "@type": "rdf:Property",
+      "rdfs:label": "currency",
+      "rdfs:comment": "ISO 4217 currency code for the settlement amount. Fixed at IDR for all domestic ION Indonesia transactions. Carried explicitly to maintain compatibility with future cross-border facilitation contexts."
+    },
+    {
+      "@id": "ion:paymentStatus",
+      "@type": "rdf:Property",
+      "rdfs:label": "paymentStatus",
+      "rdfs:comment": "Status of the facilitation fee payment. NOT_APPLICABLE for FREE settlement type. PENDING before the applicant has paid. PAID once payment is confirmed. FAILED if collection was attempted but unsuccessful. REFUNDED when a previously paid fee has been returned to the applicant. Produced and updated by the BPP. Consumed by BAPs for applicant-facing payment status display."
+    },
+    {
+      "@id": "ion:paymentMethod",
+      "@type": "rdf:Property",
+      "rdfs:label": "paymentMethod",
+      "rdfs:comment": "Payment method used to collect the facilitation fee from the applicant. NOT_APPLICABLE for FREE settlement type. References the standard ION payment method vocabulary (QRIS, VIRTUAL_ACCOUNT, EWALLET, CASH, BANK_TRANSFER). Produced by the BPP when the fee is collected. Used for reconciliation and auditing."
+    },
+    {
+      "@id": "ion:paidAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "paidAt",
+      "rdfs:comment": "ISO 8601 datetime at which the facilitation fee was successfully collected from the applicant, with UTC timezone offset. Present only when paymentStatus is PAID. Produced by the BPP or payment gateway callback. Used by BAPs for applicant receipt generation and by ION reconciliation for settlement timing."
+    },
+    {
+      "@id": "ion:gatewayRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "gatewayRef",
+      "rdfs:comment": "Payment gateway transaction reference number assigned by the payment processor when a digital payment method (QRIS, VIRTUAL_ACCOUNT, EWALLET) was used to collect the facilitation fee. Provides an external audit trail linking the ION settlement record to the payment processor's transaction log."
+    },
+    {
+      "@id": "ion:remittanceStatus",
+      "@type": "rdf:Property",
+      "rdfs:label": "remittanceStatus",
+      "rdfs:comment": "Status of forwarding a collected government fee passthrough to the implementing agency. Applicable only when settlementType is GOVERNMENT_FEE_PASSTHROUGH. PENDING_REMITTANCE means the fee has been collected from the applicant but not yet forwarded. REMITTED means the fee has been transferred to the implementing agency and remittanceRef carries the official receipt. NOT_APPLICABLE for FREE and FACILITATION_FEE settlement types."
+    },
+    {
+      "@id": "ion:remittanceRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "remittanceRef",
+      "rdfs:comment": "Official government receipt or remittance reference number confirming that a collected government fee passthrough has been forwarded to the implementing agency. Required when remittanceStatus is REMITTED. Typically a PNBP (Penerimaan Negara Bukan Pajak) receipt number or equivalent government acknowledgement reference."
+    },
+    {
+      "@id": "ion:refundRecord",
+      "@type": "rdf:Property",
+      "rdfs:label": "refundRecord",
+      "rdfs:comment": "Facilitation fee refund record. Present on a Settlement when paymentStatus transitions to REFUNDED — for example, when the facilitation partner's Offer declared refundOnRejection=true and the government application was rejected. Carries refund amount, reason, method, and timing."
+    }
+  ]
+}

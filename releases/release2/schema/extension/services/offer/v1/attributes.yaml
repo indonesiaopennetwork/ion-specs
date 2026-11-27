@@ -1,0 +1,108 @@
+openapi: "3.1.1"
+info:
+  title: ION Services Social Scheme Offer Extension (v1)
+  version: 1.0.0
+  description: |
+    Offer-level attributes for a social-scheme facilitation service on ION
+    (CRC SVC-social). Government benefits themselves are never sold — the
+    offer models the facilitation *service* around a scheme: eligibility
+    checking, document assistance, application submission, and status
+    tracking. The underlying government benefit stays reflected on the
+    Resource; this schema governs what, if anything, the applicant is
+    charged for facilitation.
+
+    ION v2.0 placement:
+      Placed in Offer.offerAttributes returned in on_discover / on_select.
+      Offer.offerAttributes["@context"] — context.jsonld URI
+      Offer.offerAttributes["@type"]    — "ion:IONSocialSchemeOfferAttributes"
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    name: ION Network
+    url: https://schema.ion.id
+
+components:
+  schemas:
+
+    SocialSchemeOffer:
+      type: object
+      title: SocialSchemeOffer
+      description: >
+        Network-agnostic generic layer. Inherits from Beckn core Attributes.
+      x-ion-layer: generic
+      x-ion-split-version: "1.0.0"
+      x-recommended-parent: Offer.offerAttributes
+      additionalProperties: true
+      allOf:
+        - $ref: https://schema.ion.id/release2/schema/vendored/beckn/schemas/Attributes/2.0/attributes.yaml#/components/schemas/Attributes
+
+    IONSocialSchemeOfferAttributes:
+      type: object
+      x-ion-layer: ion
+      x-ion-split-version: "1.0.0"
+      allOf:
+        - $ref: '#/components/schemas/SocialSchemeOffer'
+      description: |
+        Indonesia-specific facilitation-service commercial terms for a
+        social scheme application service.
+      x-jsonld:
+        '@context': 'https://schema.ion.id/release2/schema/extension/services/offer/v1/context.jsonld'
+        '@type': ion:IONSocialSchemeOfferAttributes
+      x-beckn-attaches-to: Offer.offerAttributes
+      additionalProperties: true
+      properties:
+        serviceType:
+          type: string
+          description: Which facilitation service this Offer represents for the linked scheme Resource.
+          enum:
+            - ELIGIBILITY_CHECK
+            - DOCUMENT_ASSISTANCE
+            - FULL_APPLICATION_FACILITATION
+            - STATUS_TRACKING_ONLY
+            - GRIEVANCE_FILING_ASSISTANCE
+          example: "FULL_APPLICATION_FACILITATION"
+        pricingModel:
+          type: string
+          description: >
+            Whether the applicant pays anything for this facilitation
+            service. The underlying government benefit is always free to the
+            beneficiary — pricingModel governs the facilitation service fee
+            only, never the benefit itself.
+          enum: [FREE_FACILITATION, FLAT_FACILITATION_FEE, SUCCESS_FEE_ON_APPROVAL, SUBSIDISED_BY_NGO_PARTNER]
+          example: "FREE_FACILITATION"
+        facilitationFee:
+          $ref: '#/components/schemas/MonetaryAmount'
+          description: Present when pricingModel is FLAT_FACILITATION_FEE or SUCCESS_FEE_ON_APPROVAL.
+        feeChargeTiming:
+          type: string
+          description: When the facilitation fee, if any, is collected.
+          enum: [UPFRONT, ON_SUBMISSION, ON_APPROVAL, ON_DISBURSEMENT]
+          example: "ON_APPROVAL"
+        refundOnRejection:
+          type: boolean
+          description: Whether a collected fee is refunded if the government application is ultimately rejected.
+          default: true
+          example: true
+        cancellationPolicy:
+          type: string
+          description: Policy IRI governing cancellation of the facilitation service before submission.
+          example: "ion://policy/cancel.social-scheme.until-submission"
+        grievanceSlaPolicy:
+          type: string
+          description: Policy IRI declaring the response and resolution SLA for applicant grievances on this offer.
+          example: "ion://policy/grievance-sla.social-scheme.standard"
+
+    MonetaryAmount:
+      type: object
+      additionalProperties: false
+      required: [value, currency]
+      properties:
+        value:
+          type: number
+          minimum: 0
+          example: 25000
+        currency:
+          type: string
+          default: IDR
+          example: "IDR"

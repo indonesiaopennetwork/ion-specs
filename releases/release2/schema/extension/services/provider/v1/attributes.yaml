@@ -1,0 +1,157 @@
+openapi: "3.1.1"
+info:
+  title: ION Services Social Scheme Provider Extension (v1)
+  version: 1.0.0
+  description: |
+    Provider-level attributes for a Network Participant offering social welfare
+    / government scheme discovery and application facilitation on ION under
+    the Services sector (CRC SVC-social). Covers both the case where the
+    Provider is a government agency publishing its own schemes directly, and
+    the more common case where the Provider is an ION-empanelled facilitation
+    partner (a Seller App-operated organisation, analogous to Haqdarshak-style
+    scheme-facilitation businesses) authorised to receive and process
+    applications on behalf of one or more government schemes.
+
+    ION v2.0 placement:
+      Placed in Provider.providerAttributes returned in on_discover.
+      Provider.providerAttributes["@context"] — context.jsonld URI
+      Provider.providerAttributes["@type"]    — "ion:IONSocialSchemeProviderAttributes"
+
+    Regulatory anchors (Indonesia):
+      - UU 11/2009 tentang Kesejahteraan Sosial
+      - Permensos 3/2021 — SLRT empanelment and referral network
+      - OSS / NIB — business registration for private facilitation partners
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    name: ION Network
+    url: https://schema.ion.id
+
+components:
+  schemas:
+
+    SocialSchemeProvider:
+      type: object
+      title: SocialSchemeProvider
+      description: >
+        Network-agnostic generic layer. Inherits from Beckn core Attributes.
+        The ION-specific layer (IONSocialSchemeProviderAttributes) extends
+        this via allOf.
+      x-ion-layer: generic
+      x-ion-split-version: "1.0.0"
+      x-recommended-parent: Provider.providerAttributes
+      additionalProperties: true
+      allOf:
+        - $ref: https://schema.ion.id/release2/schema/vendored/beckn/schemas/Attributes/2.0/attributes.yaml#/components/schemas/Attributes
+
+    IONSocialSchemeProviderAttributes:
+      type: object
+      x-ion-layer: ion
+      x-ion-split-version: "1.0.0"
+      allOf:
+        - $ref: '#/components/schemas/SocialSchemeProvider'
+      description: |
+        Indonesia-specific operational and empanelment attributes for a
+        Provider offering scheme discovery and application services on ION.
+      x-jsonld:
+        '@context': 'https://schema.ion.id/release2/schema/extension/services/provider/v1/context.jsonld'
+        '@type': ion:IONSocialSchemeProviderAttributes
+      x-beckn-attaches-to: Provider.providerAttributes
+      additionalProperties: true
+      properties:
+        providerType:
+          type: string
+          description: Nature of this Provider's relationship to the schemes it publishes.
+          enum: [GOVERNMENT_AGENCY_DIRECT, EMPANELLED_FACILITATION_PARTNER, NGO_REFERRAL_PARTNER]
+          example: "EMPANELLED_FACILITATION_PARTNER"
+        empanelment:
+          $ref: '#/components/schemas/Empanelment'
+        operatingRegions:
+          type: array
+          description: BPS province codes where this Provider actively offers application assistance.
+          items:
+            type: string
+          example: ["31", "32", "33", "35"]
+        caseworkerNetwork:
+          $ref: '#/components/schemas/CaseworkerNetwork'
+        helpline:
+          $ref: '#/components/schemas/Helpline'
+        nibRegistered:
+          type: boolean
+          description: Whether the Provider organisation holds a valid NIB. Required for EMPANELLED_FACILITATION_PARTNER and NGO_REFERRAL_PARTNER provider types.
+          example: true
+        dataHandlingCertification:
+          type: string
+          description: Certification or self-declaration status for UU PDP 2022 compliant handling of beneficiary personal data.
+          enum: [SELF_DECLARED, THIRD_PARTY_AUDITED, NOT_YET_CERTIFIED]
+          example: "THIRD_PARTY_AUDITED"
+
+    Empanelment:
+      type: object
+      additionalProperties: false
+      description: >
+        Formal authorisation status linking this Provider to the government
+        schemes it is permitted to receive applications for. Absent for
+        providerType GOVERNMENT_AGENCY_DIRECT, since a ministry is
+        self-authorising for its own schemes.
+      properties:
+        empanelmentId:
+          type: string
+          description: Identifier issued by the implementing agency or SLRT registry for this Provider's authorisation.
+          example: "SLRT-EMP-2026-00417"
+        empaneledByAgency:
+          type: string
+          example: "Kementerian Sosial Republik Indonesia"
+        empaneledSchemeIds:
+          type: array
+          description: Resource IDs of the schemes this Provider is authorised to process applications for. Empty array means all published schemes are within scope.
+          items:
+            type: string
+        empanelmentValidUntil:
+          type: string
+          format: date
+          example: "2027-12-31"
+        empanelmentStatus:
+          type: string
+          enum: [ACTIVE, SUSPENDED, EXPIRED, PENDING_RENEWAL]
+          example: "ACTIVE"
+
+    CaseworkerNetwork:
+      type: object
+      additionalProperties: false
+      description: >
+        Summary of the Provider's field caseworker capacity — informational,
+        used by Buyer Apps to set expectations on facilitation availability.
+      properties:
+        caseworkerCount:
+          type: integer
+          minimum: 0
+          example: 214
+        fieldVisitAvailable:
+          type: boolean
+          description: Whether caseworkers can conduct in-person document collection / home visits.
+          default: false
+          example: true
+        languagesSupported:
+          type: array
+          items:
+            type: string
+          example: ["id-ID", "jv-ID"]
+
+    Helpline:
+      type: object
+      additionalProperties: false
+      description: Applicant-facing support contact for this Provider.
+      required:
+        - phone
+      properties:
+        phone:
+          type: string
+          example: "0800-1-000-000"
+        whatsapp:
+          type: string
+          example: "+6281200000000"
+        operatingHours:
+          type: string
+          example: "Senin–Jumat 08.00–17.00 WIB"

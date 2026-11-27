@@ -1,0 +1,150 @@
+openapi: "3.1.1"
+info:
+  title: ION Services Social Scheme Performance Extension (v1)
+  version: 1.0.0
+  description: |
+    Performance-level attributes tracking a social-scheme application through
+    its lifecycle on ION (CRC SVC-social) — from submission through government
+    decision to benefit disbursement. Surfaced at /on_confirm and via
+    /on_status updates.
+
+    ION v2.0 placement:
+      Placed in Performance.performanceAttributes.
+      Performance.performanceAttributes["@context"] — context.jsonld URI
+      Performance.performanceAttributes["@type"]    — "ion:IONSocialSchemePerformanceAttributes"
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    name: ION Network
+    url: https://schema.ion.id
+
+components:
+  schemas:
+
+    SocialSchemePerformance:
+      type: object
+      title: SocialSchemePerformance
+      description: Network-agnostic generic layer. Inherits from Beckn core Attributes.
+      x-ion-layer: generic
+      x-ion-split-version: "1.0.0"
+      x-recommended-parent: Performance.performanceAttributes
+      additionalProperties: true
+      allOf:
+        - $ref: https://schema.ion.id/release2/schema/vendored/beckn/schemas/Attributes/2.0/attributes.yaml#/components/schemas/Attributes
+
+    IONSocialSchemePerformanceAttributes:
+      type: object
+      x-ion-layer: ion
+      x-ion-split-version: "1.0.0"
+      allOf:
+        - $ref: '#/components/schemas/SocialSchemePerformance'
+      description: |
+        Application-lifecycle state and case detail for a social-scheme
+        application being processed on behalf of an applicant.
+      x-jsonld:
+        '@context': 'https://schema.ion.id/release2/schema/extension/services/performance/v1/context.jsonld'
+        '@type': ion:IONSocialSchemePerformanceAttributes
+      x-beckn-attaches-to: Performance.performanceAttributes
+      additionalProperties: true
+      properties:
+        applicationStage:
+          type: string
+          description: >
+            Current stage of the application lifecycle. This is the ION
+            performance-state machine for SVC-social — distinct from generic
+            Trade/Logistics delivery states because there is no physical
+            fulfilment leg; the "fulfilment" is a government decision.
+          enum:
+            - ELIGIBILITY_CHECKED
+            - DOCUMENTS_REQUESTED
+            - DOCUMENTS_COLLECTED
+            - APPLICATION_SUBMITTED
+            - UNDER_GOVERNMENT_REVIEW
+            - ADDITIONAL_INFO_REQUESTED
+            - APPROVED
+            - REJECTED
+            - BENEFIT_DISBURSED
+            - WITHDRAWN_BY_APPLICANT
+          example: "UNDER_GOVERNMENT_REVIEW"
+        caseworker:
+          $ref: '#/components/schemas/Caseworker'
+        governmentReferenceNumber:
+          type: string
+          description: Application/case number issued by the implementing agency once submitted, if any.
+          example: "PKH-2026-3273-004821"
+        submittedAt:
+          type: string
+          format: date-time
+          example: "2026-04-20T10:00:00+07:00"
+        decisionExpectedBy:
+          type: string
+          format: date-time
+          description: Estimated decision date, derived from the scheme's ApplicationChannel.processingTimeEstimate.
+          example: "2026-05-20T10:00:00+07:00"
+        decisionReceivedAt:
+          type: string
+          format: date-time
+        rejectionReason:
+          type: string
+          description: Present only when applicationStage is REJECTED.
+          example: "Tidak terdaftar dalam DTKS pada periode verifikasi"
+        additionalInfoRequest:
+          $ref: '#/components/schemas/AdditionalInfoRequest'
+        disbursement:
+          $ref: '#/components/schemas/DisbursementRecord'
+
+    Caseworker:
+      type: object
+      additionalProperties: false
+      description: Facilitation-partner staff member assigned to this application, when applicationChannel.applicationMode is FACILITATED.
+      properties:
+        caseworkerId:
+          type: string
+          example: "CW-0091"
+        name:
+          type: string
+          example: "Budi Santoso"
+        phone:
+          type: string
+          example: "081298765432"
+
+    AdditionalInfoRequest:
+      type: object
+      additionalProperties: false
+      description: Present when applicationStage is ADDITIONAL_INFO_REQUESTED.
+      properties:
+        requestedItems:
+          type: array
+          items:
+            type: string
+          example: ["Surat Keterangan Tidak Mampu terbaru"]
+        requestedAt:
+          type: string
+          format: date-time
+        responseDeadline:
+          type: string
+          format: date-time
+
+    DisbursementRecord:
+      type: object
+      additionalProperties: false
+      description: Present once applicationStage reaches BENEFIT_DISBURSED.
+      properties:
+        disbursedAt:
+          type: string
+          format: date-time
+        disbursementChannel:
+          type: string
+          enum: [BANK_HIMBARA_ACCOUNT, KARTU_KOMBO_KKS, KANTOR_POS, AGEN_BRILINK_SEJENIS, IN_KIND_DELIVERY, DIRECT_SERVICE]
+          example: "BANK_HIMBARA_ACCOUNT"
+        amount:
+          type: number
+          minimum: 0
+          example: 750000
+        currency:
+          type: string
+          default: IDR
+        disbursementReferenceNumber:
+          type: string
+          example: "SP2D-2026-00481923"

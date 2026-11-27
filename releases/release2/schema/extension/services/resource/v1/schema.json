@@ -1,0 +1,666 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schema.ion.id/release2/schema/extension/services/resource/v1",
+  "$ref": "#/$defs/IONSocialSchemeResource",
+  "$defs": {
+    "SocialSchemeResource": {
+      "type": "object",
+      "title": "SocialSchemeResource",
+      "description": "Network-agnostic generic layer. Models a government or social-sector benefit scheme as a catalogue Resource: what the scheme is, who is eligible, what documents are required, and what the benefit consists of. Inherits from Beckn core Resource. The ION-specific layer (IONSocialSchemeResource) extends this via allOf and carries Indonesian regulatory fields.\n",
+      "x-ion-layer": "generic",
+      "x-ion-split-version": "1.0.0",
+      "x-recommended-parent": "Resource.resourceAttributes",
+      "additionalProperties": true,
+      "allOf": [
+        {
+          "$ref": "https://schema.ion.id/release2/schema/vendored/beckn/schemas/Attributes/2.0/attributes.yaml#/components/schemas/Attributes"
+        }
+      ]
+    },
+    "IONSocialSchemeResource": {
+      "type": "object",
+      "x-ion-layer": "ion",
+      "x-ion-split-version": "1.0.0",
+      "allOf": [
+        {
+          "$ref": "#/$defs/SocialSchemeResource"
+        }
+      ],
+      "description": "Indonesia-specific layer for a social welfare / government scheme\nresource. This is the CATALOGUE item — it describes the scheme, its\neligibility rules, required documents, and disbursement mechanism.\nPer-applicant eligibility outcome lives in Commitment/Performance;\nthe case record lives in Contract.\n",
+      "x-jsonld": {
+        "@context": "https://schema.ion.id/release2/schema/extension/services/resource/v1/context.jsonld",
+        "@type": "ion:IONSocialSchemeResource"
+      },
+      "x-beckn-attaches-to": "Resource.resourceAttributes",
+      "additionalProperties": true,
+      "properties": {
+        "crc": {
+          "type": "string",
+          "const": "SVC-social",
+          "description": "Catalogue Resource Category. Fixed at SVC-social for every resource using this schema. Declared explicitly (rather than only inferred) so ONIX and CNs can filter without parsing the full attribute bag.\n"
+        },
+        "schemeIdentity": {
+          "$ref": "#/$defs/SchemeIdentity"
+        },
+        "eligibility": {
+          "$ref": "#/$defs/Eligibility"
+        },
+        "benefit": {
+          "$ref": "#/$defs/Benefit"
+        },
+        "requiredDocuments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RequiredDocument"
+          },
+          "description": "Checklist of documents an applicant must produce to apply for this scheme. Each entry names the document category and whether it is mandatory or conditional.\n"
+        },
+        "applicationChannel": {
+          "$ref": "#/$defs/ApplicationChannel"
+        },
+        "validity": {
+          "$ref": "#/$defs/SchemeValidity"
+        },
+        "fundingSource": {
+          "$ref": "#/$defs/FundingSource"
+        },
+        "indonesianCompliance": {
+          "$ref": "#/$defs/IndonesianComplianceBlock",
+          "description": "Present on every resource published on ION Indonesia. Carries the Indonesia-specific eligibility data-source, verification, and disbursement-channel fields that have no meaning outside this regulatory context.\n"
+        }
+      },
+      "x-ion-closed-extensions": false
+    },
+    "SchemeIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Identity and classification of the scheme — what it is called, who administers it, and what kind of benefit it delivers.\n",
+      "properties": {
+        "schemeName": {
+          "type": "string",
+          "description": "Official scheme name as registered with the implementing ministry or agency. Should match the name used in the scheme's legal establishing instrument (Permensos, Perpres, Perda) exactly.\n",
+          "example": "Program Keluarga Harapan (PKH)"
+        },
+        "schemeCode": {
+          "type": "string",
+          "description": "Government or registry-assigned scheme code, where one exists (e.g. a DTKS programme code or a provincial social-assistance registry code). Optional — many local (Perda-level) schemes have no centrally issued code.\n",
+          "example": "KEMSOS-PKH-2026"
+        },
+        "implementingAgency": {
+          "type": "string",
+          "description": "Full legal name of the government ministry, agency, or local government body that owns and funds the scheme.\n",
+          "example": "Kementerian Sosial Republik Indonesia"
+        },
+        "implementingAgencyLevel": {
+          "type": "string",
+          "description": "Administrative level at which the implementing agency sits.",
+          "enum": [
+            "NATIONAL_MINISTRY",
+            "PROVINCIAL_AGENCY",
+            "DISTRICT_AGENCY",
+            "VILLAGE_BODY",
+            "SOE",
+            "NGO_PARTNER"
+          ],
+          "example": "NATIONAL_MINISTRY"
+        },
+        "schemeLevel": {
+          "type": "string",
+          "description": "Administrative scope at which the scheme is offered.",
+          "enum": [
+            "CENTRAL",
+            "PROVINCIAL",
+            "DISTRICT",
+            "VILLAGE"
+          ],
+          "example": "CENTRAL"
+        },
+        "schemeType": {
+          "type": "string",
+          "description": "The kind of benefit this scheme delivers to a beneficiary.",
+          "enum": [
+            "CASH_TRANSFER",
+            "SUBSIDY",
+            "PENSION",
+            "SCHOLARSHIP",
+            "INSURANCE_PROTECTION",
+            "DOCUMENT_ISSUANCE",
+            "LOAN_INTEREST_SUBSIDY",
+            "IN_KIND_BENEFIT",
+            "SKILL_TRAINING",
+            "LEGAL_AID",
+            "HEALTHCARE_BENEFIT",
+            "HOUSING_BENEFIT",
+            "FOOD_ASSISTANCE",
+            "DISABILITY_SUPPORT",
+            "OTHER"
+          ],
+          "example": "CASH_TRANSFER"
+        },
+        "fundingModel": {
+          "type": "string",
+          "description": "Source of funds backing the scheme.",
+          "enum": [
+            "APBN_CENTRAL_BUDGET",
+            "APBD_REGIONAL_BUDGET",
+            "CENTRALLY_SPONSORED_COFUNDED",
+            "SOE_CSR",
+            "NGO_PHILANTHROPIC",
+            "MULTILATERAL_GRANT"
+          ],
+          "example": "APBN_CENTRAL_BUDGET"
+        },
+        "sectorTags": {
+          "type": "array",
+          "description": "Free-standing thematic tags describing the domain the scheme serves. Used for discovery filtering; not a regulatory classification.\n",
+          "items": {
+            "type": "string",
+            "enum": [
+              "AGRICULTURE",
+              "HEALTH",
+              "EDUCATION",
+              "HOUSING",
+              "EMPLOYMENT",
+              "MSME",
+              "FISHERIES",
+              "DISABILITY",
+              "ELDERLY",
+              "WOMEN_AND_CHILDREN",
+              "DISASTER_RELIEF",
+              "FOOD_SECURITY",
+              "IDENTITY_DOCUMENTS"
+            ]
+          },
+          "example": [
+            "FOOD_SECURITY",
+            "WOMEN_AND_CHILDREN"
+          ]
+        },
+        "officialReferenceUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "Link to the scheme's official government description page, if published.",
+          "example": "https://kemensos.go.id/program-keluarga-harapan"
+        }
+      }
+    },
+    "Eligibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Structured eligibility rules for the scheme. Each criterion is expressed as a discrete, machine-evaluable rule rather than free text, so a Buyer App can pre-screen an applicant before submission.\n",
+      "properties": {
+        "targetBeneficiaryTypes": {
+          "type": "array",
+          "description": "Categories of applicant this scheme is open to.",
+          "items": {
+            "type": "string",
+            "enum": [
+              "INDIVIDUAL",
+              "HOUSEHOLD",
+              "FAMILY",
+              "MICRO_ENTERPRISE",
+              "FARMER_GROUP",
+              "FISHERFOLK_GROUP",
+              "SELF_HELP_GROUP",
+              "COOPERATIVE",
+              "EDUCATIONAL_INSTITUTION",
+              "VILLAGE_INSTITUTION"
+            ]
+          },
+          "example": [
+            "HOUSEHOLD"
+          ]
+        },
+        "demographicCriteria": {
+          "type": "array",
+          "description": "Age, gender, marital, or household-composition rules.",
+          "items": {
+            "$ref": "#/$defs/EligibilityRule"
+          }
+        },
+        "economicCriteria": {
+          "type": "array",
+          "description": "Income, employment, land-ownership, or asset-based rules.",
+          "items": {
+            "$ref": "#/$defs/EligibilityRule"
+          }
+        },
+        "occupationalCriteria": {
+          "type": "array",
+          "description": "Occupation or livelihood-sector rules (e.g. farmer, fisherfolk, informal worker).",
+          "items": {
+            "$ref": "#/$defs/EligibilityRule"
+          }
+        },
+        "geographicEligibility": {
+          "$ref": "#/$defs/GeographicEligibility"
+        },
+        "priorityGroups": {
+          "type": "array",
+          "description": "Population groups the scheme gives selection priority to, when demand exceeds allocation. Informational — does not itself gate eligibility.\n",
+          "items": {
+            "type": "string",
+            "enum": [
+              "PERSON_WITH_DISABILITY",
+              "ELDERLY",
+              "FEMALE_HEAD_OF_HOUSEHOLD",
+              "PREGNANT_OR_LACTATING",
+              "EXTREME_POVERTY_DTKS_DECILE_1",
+              "DISASTER_AFFECTED"
+            ]
+          },
+          "example": [
+            "EXTREME_POVERTY_DTKS_DECILE_1"
+          ]
+        },
+        "eligibilitySummary": {
+          "type": "string",
+          "description": "Human-readable prose summary of eligibility, for display in a Buyer App and for cases the structured rules above do not fully capture. Should restate, not replace, the structured criteria.\n",
+          "example": "Rumah tangga miskin dan rentan yang terdaftar dalam DTKS, memiliki komponen kesehatan (balita/ibu hamil), pendidikan (anak usia sekolah), atau kesejahteraan sosial (lansia/disabilitas berat).\n"
+        }
+      }
+    },
+    "EligibilityRule": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "A single machine-evaluable eligibility rule: a named criterion, a comparison operator, and the qualifying value.\n",
+      "required": [
+        "ruleId",
+        "label",
+        "operator",
+        "value"
+      ],
+      "properties": {
+        "ruleId": {
+          "type": "string",
+          "description": "Stable identifier for this criterion, unique within the scheme.",
+          "example": "monthly-household-income"
+        },
+        "label": {
+          "type": "string",
+          "description": "Human-readable question or criterion name.",
+          "example": "Pendapatan rumah tangga per bulan"
+        },
+        "operator": {
+          "type": "string",
+          "description": "Comparison operator applied between the applicant's declared value and `value`.",
+          "enum": [
+            "=",
+            "!=",
+            ">",
+            ">=",
+            "<",
+            "<=",
+            "IN",
+            "NOT_IN"
+          ],
+          "example": "<="
+        },
+        "value": {
+          "description": "Qualifying value or list of values. Type depends on the criterion.",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ],
+          "example": 2000000
+        },
+        "unit": {
+          "type": "string",
+          "description": "Unit for numeric values, when applicable (e.g. IDR, YEARS, HECTARES).",
+          "example": "IDR"
+        }
+      }
+    },
+    "GeographicEligibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Geographic scope within which applicants must reside to be eligible.",
+      "required": [
+        "residencyRequired"
+      ],
+      "properties": {
+        "residencyRequired": {
+          "type": "boolean",
+          "description": "Whether the applicant's KTP domicile must fall within applicableProvinces/applicableKabupaten.",
+          "example": true
+        },
+        "applicableProvinces": {
+          "type": "array",
+          "description": "BPS province codes where the scheme is available. Empty array means nationwide.",
+          "items": {
+            "type": "string"
+          },
+          "example": [
+            "31",
+            "32",
+            "33"
+          ]
+        },
+        "applicableKabupatenKota": {
+          "type": "array",
+          "description": "BPS kabupaten/kota codes, for schemes scoped narrower than province level.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "domicileMatchBasis": {
+          "type": "string",
+          "description": "Which document determines the applicant's domicile for eligibility purposes.",
+          "enum": [
+            "KTP",
+            "KARTU_KELUARGA",
+            "SURAT_DOMISILI"
+          ],
+          "example": "KTP"
+        }
+      }
+    },
+    "Benefit": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "What the beneficiary receives, and on what schedule.",
+      "properties": {
+        "benefitForm": {
+          "type": "string",
+          "description": "The physical or financial form the benefit takes.",
+          "enum": [
+            "CASH",
+            "VOUCHER",
+            "IN_KIND_GOODS",
+            "SERVICE_DELIVERY",
+            "DOCUMENT",
+            "PREMIUM_SUBSIDY",
+            "INTEREST_SUBSIDY",
+            "FEE_WAIVER"
+          ],
+          "example": "CASH"
+        },
+        "benefitAmount": {
+          "$ref": "#/$defs/MonetaryAmount",
+          "description": "Fixed or maximum benefit amount, when the benefit is monetary."
+        },
+        "benefitAmountBasis": {
+          "type": "string",
+          "description": "How the amount in benefitAmount is determined, when it is not a flat fixed sum.",
+          "enum": [
+            "FIXED",
+            "MEANS_TESTED",
+            "TIERED_BY_HOUSEHOLD_SIZE",
+            "PERCENT_OF_COST",
+            "PER_COMPONENT"
+          ],
+          "example": "PER_COMPONENT"
+        },
+        "disbursementFrequency": {
+          "type": "string",
+          "description": "How often the benefit is disbursed, for recurring schemes.",
+          "enum": [
+            "ONE_TIME",
+            "MONTHLY",
+            "QUARTERLY",
+            "SEMIANNUAL",
+            "ANNUAL",
+            "PER_ACADEMIC_YEAR",
+            "ON_CLAIM"
+          ],
+          "example": "QUARTERLY"
+        },
+        "benefitDescription": {
+          "type": "string",
+          "description": "Prose description of what the beneficiary receives, including any component breakdown (e.g. health/education/social-welfare components of PKH). Long-form detail belongs in the Beckn Descriptor.longDesc; this field holds the short structured summary only.\n",
+          "example": "Bantuan tunai bersyarat per komponen keluarga penerima manfaat"
+        }
+      }
+    },
+    "MonetaryAmount": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Reusable monetary amount object with value and currency.",
+      "required": [
+        "value",
+        "currency"
+      ],
+      "properties": {
+        "value": {
+          "type": "number",
+          "minimum": 0,
+          "example": 750000
+        },
+        "currency": {
+          "type": "string",
+          "default": "IDR",
+          "example": "IDR"
+        }
+      }
+    },
+    "RequiredDocument": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "A single document an applicant must produce.",
+      "required": [
+        "documentType",
+        "mandatory"
+      ],
+      "properties": {
+        "documentType": {
+          "type": "string",
+          "description": "Category of document required.",
+          "enum": [
+            "KTP",
+            "KARTU_KELUARGA",
+            "NIK",
+            "SURAT_DOMISILI",
+            "SURAT_KETERANGAN_TIDAK_MAMPU",
+            "BUKU_TABUNGAN",
+            "AKTA_KELAHIRAN",
+            "SERTIFIKAT_TANAH",
+            "KARTU_PENYANDANG_DISABILITAS",
+            "KARTU_KELUARGA_SEJAHTERA",
+            "NPWP",
+            "IJAZAH",
+            "SURAT_NIKAH",
+            "FOTO_RUMAH",
+            "OTHER"
+          ],
+          "example": "KARTU_KELUARGA"
+        },
+        "purpose": {
+          "type": "string",
+          "description": "What the document proves (proof of identity, proof of residency, proof of income, etc.).",
+          "example": "Bukti anggota rumah tangga"
+        },
+        "mandatory": {
+          "type": "boolean",
+          "description": "False for conditionally required documents (e.g. only if claiming a disability priority).",
+          "example": true
+        },
+        "conditionRuleId": {
+          "type": "string",
+          "description": "If mandatory is false, the ruleId (from Eligibility.*Criteria) that triggers the requirement for this document.\n",
+          "example": "disability-priority-claim"
+        }
+      }
+    },
+    "ApplicationChannel": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "How and where an eligible applicant applies for this scheme.",
+      "properties": {
+        "applicationMode": {
+          "type": "string",
+          "description": "Primary application mode. FACILITATED means the ION Seller App's own agent/caseworker submits on the applicant's behalf — the pattern used by scheme-facilitation partners. SELF_SERVICE means the applicant completes the application themselves through a government portal that the Seller App links out to.\n",
+          "enum": [
+            "FACILITATED",
+            "SELF_SERVICE",
+            "HYBRID"
+          ],
+          "example": "FACILITATED"
+        },
+        "governmentPortalUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "Official application portal URL, when one exists.",
+          "example": "https://cekbansos.kemensos.go.id"
+        },
+        "applicationWindow": {
+          "type": "string",
+          "description": "Whether applications are accepted year-round or only in defined windows.",
+          "enum": [
+            "ROLLING",
+            "FIXED_WINDOW",
+            "ANNUAL_REVERIFICATION"
+          ],
+          "example": "ROLLING"
+        },
+        "processingTimeEstimate": {
+          "type": "string",
+          "description": "ISO 8601 duration estimate from application submission to decision, for applicant expectation-setting.\n",
+          "example": "P30D"
+        }
+      }
+    },
+    "SchemeValidity": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "The period during which this scheme catalogue entry is accurate and applications are accepted.",
+      "properties": {
+        "effectiveFrom": {
+          "type": "string",
+          "format": "date",
+          "example": "2026-01-01"
+        },
+        "effectiveUntil": {
+          "type": "string",
+          "format": "date",
+          "description": "Absent for open-ended schemes.",
+          "example": "2026-12-31"
+        },
+        "requiresAnnualReverification": {
+          "type": "boolean",
+          "description": "Whether an approved beneficiary must reverify eligibility each year to keep receiving the benefit.",
+          "default": false,
+          "example": true
+        }
+      }
+    },
+    "FundingSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Budget line and fiscal-year detail behind the scheme, where publicly disclosed.",
+      "properties": {
+        "budgetLineReference": {
+          "type": "string",
+          "description": "Government budget line item reference (APBN/APBD line), where publicly disclosed.",
+          "example": "BA 027.06.GG"
+        },
+        "fiscalYear": {
+          "type": "string",
+          "example": "2026"
+        },
+        "cofundingAgencies": {
+          "type": "array",
+          "description": "Additional agencies co-funding the scheme, for centrally-sponsored programmes.",
+          "items": {
+            "type": "string"
+          },
+          "example": [
+            "Pemerintah Provinsi Jawa Barat"
+          ]
+        }
+      }
+    },
+    "IndonesianComplianceBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Indonesia-specific data-source, verification, and disbursement fields. These have no meaning outside the Indonesian social-welfare regulatory context and therefore live only in the ION-specific layer, never the generic layer.\n",
+      "properties": {
+        "dtksReference": {
+          "type": "boolean",
+          "description": "Whether eligibility for this scheme is cross-checked against DTKS (Data Terpadu Kesejahteraan Sosial) per Permensos 5/2019.\n",
+          "example": true
+        },
+        "dtksDecileRequirement": {
+          "type": "array",
+          "description": "Qualifying DTKS welfare decile(s), when the scheme gates on DTKS ranking.",
+          "items": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10
+          },
+          "example": [
+            1,
+            2
+          ]
+        },
+        "nikVerificationRequired": {
+          "type": "boolean",
+          "description": "Whether the applicant's NIK must be verified against Dukcapil population data before submission.",
+          "default": true
+        },
+        "kksRequired": {
+          "type": "boolean",
+          "description": "Whether the applicant must hold or be issued a Kartu Keluarga Sejahtera (KKS) to receive disbursement.",
+          "default": false
+        },
+        "disbursementChannel": {
+          "type": "string",
+          "description": "How the benefit is physically disbursed to the beneficiary, per Perpres 63/2017 non-cash disbursement policy.",
+          "enum": [
+            "BANK_HIMBARA_ACCOUNT",
+            "KARTU_KOMBO_KKS",
+            "KANTOR_POS",
+            "AGEN_BRILINK_SEJENIS",
+            "IN_KIND_DELIVERY",
+            "DIRECT_SERVICE"
+          ],
+          "example": "BANK_HIMBARA_ACCOUNT"
+        },
+        "dataResidency": {
+          "type": "string",
+          "description": "Beneficiary personal and welfare data arising from this scheme must remain on Indonesian soil per UU PDP 2022 and sectoral regulation for social-protection data.\n",
+          "const": "DOMESTIC_ONLY"
+        },
+        "regulatoryBasis": {
+          "type": "array",
+          "description": "Legal instruments establishing or governing this scheme.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "instrumentType": {
+                "type": "string",
+                "enum": [
+                  "UU",
+                  "PP",
+                  "PERPRES",
+                  "PERMENSOS",
+                  "PERMEN",
+                  "PERDA",
+                  "KEPMEN"
+                ]
+              },
+              "reference": {
+                "type": "string",
+                "example": "Permensos 5/2019"
+              },
+              "title": {
+                "type": "string",
+                "example": "Pengelolaan Data Terpadu Kesejahteraan Sosial"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

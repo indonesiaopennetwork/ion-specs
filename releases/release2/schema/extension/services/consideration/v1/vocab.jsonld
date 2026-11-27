@@ -1,0 +1,35 @@
+{
+  "@graph": [
+    {
+      "@id": "ion:IONSocialSchemeConsiderationAttributes",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONSocialSchemeConsiderationAttributes",
+      "rdfs:comment": "A single price-breakup line for a social-scheme facilitation service.",
+      "rdfs:subClassOf": "beckn:Consideration"
+    },
+    {
+      "@id": "ion:breakupLineType",
+      "@type": "rdf:Property",
+      "rdfs:label": "breakupLineType",
+      "rdfs:comment": "What this price line represents."
+    },
+    {
+      "@id": "ion:totalAmount",
+      "@type": "rdf:Property",
+      "rdfs:label": "totalAmount",
+      "rdfs:comment": "Total monetary amount for this consideration breakup line in the declared currency. For facilitation fee lines, this is the fee charged to the applicant for the facilitation service. For government fee passthrough lines, this is the statutory fee the scheme itself charges (e.g. document issuance fees). Zero for FREE_FACILITATION offers. Produced by the BPP in /on_select and /on_init responses. Consumed by the BAP to display the itemised price breakdown to the applicant before they confirm."
+    },
+    {
+      "@id": "ion:currency",
+      "@type": "rdf:Property",
+      "rdfs:label": "currency",
+      "rdfs:comment": "ISO 4217 currency code for the monetary amount on this consideration line. Fixed at IDR for all domestic ION Indonesia transactions. Carried explicitly on every consideration line rather than assumed, to remain compatible with future cross-border or multi-currency facilitation contexts."
+    },
+    {
+      "@id": "ion:governmentFeeReceipt",
+      "@type": "rdf:Property",
+      "rdfs:label": "governmentFeeReceipt",
+      "rdfs:comment": "When breakupLineType is GOVERNMENT_FEE_PASSTHROUGH (e.g. a statutory document-issuance fee the scheme itself charges), reference number for the official government receipt this line passes through. Absent for facilitation-only lines."
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@protected": true,
+    "ion": "https://schema.ion.id/services/settlement/v1#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "schema": "https://schema.org/",
+    "IONSocialSchemeSettlementAttributes": "ion:IONSocialSchemeSettlementAttributes",
+    "settlementType": "ion:settlementType",
+    "totalAmount": "ion:totalAmount",
+    "currency": "ion:currency",
+    "paymentStatus": "ion:paymentStatus",
+    "paymentMethod": "ion:paymentMethod",
+    "paidAt": "ion:paidAt",
+    "gatewayRef": "ion:gatewayRef",
+    "remittanceStatus": "ion:remittanceStatus",
+    "remittanceRef": "ion:remittanceRef",
+    "refundRecord": "ion:refundRecord"
+  }
+}

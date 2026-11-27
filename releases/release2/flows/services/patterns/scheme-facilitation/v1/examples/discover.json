@@ -1,0 +1,31 @@
+{
+  "_meta": {
+    "description": "SVC-social scheme-facilitation discover — taken from the Ibu Dewi worked journey. Illustrative values only.",
+    "pattern": "scheme-facilitation",
+    "step": "discover",
+    "sent_by": "BAP",
+    "received_by": "ION Discovery Service"
+  },
+  "context": {
+    "domain": "ion:services",
+    "action": "discover",
+    "version": "2.0.0",
+    "bapId": "buyerapp.bantuanku.ion.id",
+    "bapUri": "https://buyerapp.bantuanku.ion.id",
+    "transactionId": "txn-dewi-pkh-2026-001",
+    "messageId": "msg-discover-001",
+    "timestamp": "2026-07-15T09:30:00+07:00",
+    "schemaContext": [
+      "https://schema.ion.id/release2/schema/extension/services/resource/v1/context.jsonld"
+    ]
+  },
+  "message": {
+    "intent": {
+      "textSearch": "bantuan sosial PKH",
+      "filters": {
+        "type": "jsonpath",
+        "expression": "$[?(@.resources[?(@.resourceAttributes.crc == \"SVC-social\")])]"
+      }
+    }
+  }
+}

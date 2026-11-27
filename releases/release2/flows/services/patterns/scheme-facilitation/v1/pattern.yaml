@@ -1,0 +1,410 @@
+# ION Services — Scheme Facilitation Pattern (v1)
+# CRC: SVC-social
+# Version: 1.0.0
+#
+# This pattern covers the full lifecycle of a government social scheme
+# application facilitated through an ION empanelled partner:
+#   catalog/publish → discover → select → init → confirm → status* → [update] → [cancel]
+#
+# PATTERN SUMMARY
+# ---------------
+# Step 1: BPP publishes scheme catalogue (catalog/publish)
+# Step 2: BAP discovers schemes from the ION Discovery Service (discover/on_discover)
+# Step 3: BAP selects scheme + facilitation service, supplies applicant profile (select/on_select)
+# Step 4: BAP locks application, declares consent (init/on_init)
+# Step 5: BAP confirms, case opened (confirm/on_confirm)
+# Step 6: BAP polls for application status (status/on_status) — repeated
+# Step 7: Optional — applicant withdraws (update → cancel)
+#
+# Worked examples for every step: ./examples/ (validated against the Release 2
+# Beckn core API and the Services packs).
+
+id: ion-services-pattern-scheme-facilitation-v1
+patternId: scheme-facilitation
+patternName: scheme-facilitation
+version: 1.0.0
+sector: ion:services
+crc: SVC-social
+domain: ion:services
+status: draft
+implementationRole: reference
+implementationMaturity: draft
+basePattern: null
+description: >
+  End-to-end social scheme application facilitation flow.
+  Resource is a government benefit scheme; Offer is the facilitation service
+  wrapping it; Performance tracks the application lifecycle through government
+  decision and disbursement.
+
+participants:
+  BAP: Buyer App Platform (applicant-facing app or assisted-channel agent app)
+  BPP: Facilitation partner's seller platform (hosts the scheme catalogue)
+  ION_CATALOG: ION Catalogue Service / Discovery Service
+
+policyRequirements:
+  requiredCategories:
+    - CANCELLATION
+    - GRIEVANCE_SLA
+  offerFields:
+    CANCELLATION: message.catalogs[].offers[].offerAttributes.cancellationPolicy
+    GRIEVANCE_SLA: message.catalogs[].offers[].offerAttributes.grievanceSlaPolicy
+  defaults:
+    CANCELLATION: ion://policy/cancel.social-scheme.until-submission
+    GRIEVANCE_SLA: ion://policy/grievance-sla.social-scheme.standard
+  note: Offers on this flow SHOULD carry a registered policy IRI for each required category.
+
+steps:
+
+  - step: catalog_publish
+    action: catalog/publish
+    direction: BPP → ION_CATALOG
+    description: BPP publishes the scheme catalogue to the ION Catalogue Service
+    requiredFields:
+      context:
+        - domain
+        - action
+        - version
+        - bppId
+        - bppUri
+        - transactionId
+        - messageId
+        - timestamp
+      providerAttributes:
+        - "@context"
+        - "@type"
+        - providerType
+        - nibRegistered
+        - dataHandlingCertification
+      resourceAttributes:
+        - "@context"
+        - "@type"
+        - crc
+        - schemeIdentity.schemeName
+        - schemeIdentity.implementingAgency
+        - schemeIdentity.schemeLevel
+        - schemeIdentity.schemeType
+        - schemeIdentity.fundingModel
+        - eligibility.targetBeneficiaryTypes
+        - benefit.benefitForm
+        - applicationChannel.applicationMode
+        - indonesianCompliance.dataResidency
+      offerAttributes:
+        - "@context"
+        - "@type"
+        - serviceType
+        - pricingModel
+
+  - step: discover
+    action: discover
+    direction: BAP → ION_CATALOG
+    description: >
+      BAP searches the published scheme catalogues with a text search and/or a
+      JSONPath filter (for example on resourceAttributes.crc or on province
+      eligibility). Beckn 2.0 Intent allows only textSearch, filters, spatial
+      and mediaSearch, so no applicant profile is sent here. The Discovery
+      Service answers from crawled catalogues; the BPP does not receive discover.
+    requiredFields:
+      context:
+        - domain
+        - action
+        - bapId
+        - bapUri
+        - transactionId
+        - messageId
+        - timestamp
+
+  - step: on_discover
+    action: on_discover
+    direction: ION_CATALOG → BAP (callback)
+    description: The Discovery Service returns the matching scheme catalogues
+    requiredFields:
+      context:
+        - domain
+        - action
+        - bppId
+        - bppUri
+        - transactionId
+        - messageId
+        - timestamp
+      resourceAttributes:
+        - "@context"
+        - "@type"
+        - crc
+        - schemeIdentity
+        - eligibility
+        - benefit
+        - requiredDocuments
+        - applicationChannel
+
+  - step: select
+    action: select
+    direction: BAP → BPP
+    description: >
+      Applicant selects a scheme and a facilitation service offer.
+      BAP supplies applicantProfile for eligibility pre-check.
+      BPP runs provisional eligibility evaluation and returns result.
+    requiredFields:
+      context:
+        - domain
+        - action
+        - bapId
+        - bapUri
+        - bppId
+        - bppUri
+        - transactionId
+        - messageId
+        - timestamp
+      commitmentAttributes:
+        - "@context"
+        - "@type"
+        - lineId
+        - resourceId
+        - offerId
+        - applicantProfile.nik
+        - applicantProfile.fullName
+        - applicantProfile.provinceCode
+
+  - step: on_select
+    action: on_select
+    direction: BPP → BAP
+    description: >
+      BPP returns provisional eligibility result, facilitation fee (if any),
+      and document checklist. Quote is locked.
+    requiredFields:
+      context:
+        - domain
+        - action
+        - bppId
+        - bppUri
+        - transactionId
+        - messageId
+        - timestamp
+      commitmentAttributes:
+        - "@context"
+        - "@type"
+        - lineId
+        - resourceId
+        - offerId
+        - eligibilityPreCheck.outcome
+      considerationAttributes:
+        - "@context"
+        - "@type"
+        - breakupLineType
+        - totalAmount
+        - currency
+
+  - step: init
+    action: init
+    direction: BAP → BPP
+    description: >
+      Applicant provides full personal details and declares consent for
+      data sharing with the implementing agency per UU PDP 2022.
+    requiredFields:
+      context:
+        - domain
+        - action
+        - bapId
+        - bapUri
+        - bppId
+        - bppUri
+        - transactionId
+        - messageId
+        - timestamp
+      commitmentAttributes:
+        - "@context"
+        - "@type"
+        - lineId
+        - resourceId
+        - offerId
+        - applicantProfile.nik
+        - applicantProfile.fullName
+        - applicantProfile.dateOfBirth
+        - applicantProfile.provinceCode
+        - applicantProfile.kabupatenKotaCode
+        - applicantProfile.householdSize
+
+  - step: on_init
+    action: on_init
+    direction: BPP → BAP
+    description: >
+      BPP confirms application terms, validates applicant data, confirms
+      facilitation fee (or FREE), and presents consent scope for applicant sign-off.
+    requiredFields:
+      context:
+        - domain
+        - action
+        - bppId
+        - bppUri
+        - transactionId
+        - messageId
+        - timestamp
+      considerationAttributes:
+        - "@context"
+        - "@type"
+        - breakupLineType
+        - totalAmount
+        - currency
+      settlementAttributes:
+        - "@context"
+        - "@type"
+        - settlementType
+        - totalAmount
+        - currency
+        - paymentStatus
+
+  - step: confirm
+    action: confirm
+    direction: BAP → BPP
+    description: >
+      Applicant confirms the application. Explicit consent record is submitted.
+      Case is opened. BPP assigns a caseId and a caseworker.
+    requiredFields:
+      context:
+        - domain
+        - action
+        - bapId
+        - bapUri
+        - bppId
+        - bppUri
+        - transactionId
+        - messageId
+        - timestamp
+      commitmentAttributes:
+        - "@context"
+        - "@type"
+        - lineId
+        - resourceId
+        - offerId
+        - applicantProfile.nik
+        - applicantProfile.fullName
+      contractAttributes:
+        - "@context"
+        - "@type"
+        - applicantConsent.consentGiven
+        - applicantConsent.consentTimestamp
+        - applicantConsent.consentScope
+
+  - step: on_confirm
+    action: on_confirm
+    direction: BPP → BAP
+    description: >
+      BPP opens the case. caseId assigned. caseworker assigned.
+      Performance record created with applicationStage=ELIGIBILITY_CHECKED.
+    requiredFields:
+      context:
+        - domain
+        - action
+        - bppId
+        - bppUri
+        - transactionId
+        - messageId
+        - timestamp
+      contractAttributes:
+        - "@context"
+        - "@type"
+        - caseId
+        - assignedProviderId
+        - caseStatus
+        - applicantConsent.consentGiven
+        - applicantConsent.consentTimestamp
+      performanceAttributes:
+        - "@context"
+        - "@type"
+        - applicationStage
+        - caseworker.caseworkerId
+        - caseworker.name
+        - caseworker.phone
+      settlementAttributes:
+        - "@context"
+        - "@type"
+        - settlementType
+        - totalAmount
+        - currency
+        - paymentStatus
+
+  - step: status
+    action: status
+    direction: BAP → BPP
+    description: >
+      BAP polls for application status. Recommended polling interval: 24h.
+      Maximum interval: 72h. BAP sends contract ID in message.
+    requiredFields:
+      context:
+        - domain
+        - action
+        - bapId
+        - bapUri
+        - bppId
+        - bppUri
+        - transactionId
+        - messageId
+        - timestamp
+
+  - step: on_status
+    action: on_status
+    direction: BPP → BAP
+    description: >
+      BPP returns current application stage, any caseworker notes, and
+      disbursement record if BENEFIT_DISBURSED has been reached.
+    requiredFields:
+      context:
+        - domain
+        - action
+        - bppId
+        - bppUri
+        - transactionId
+        - messageId
+        - timestamp
+      performanceAttributes:
+        - "@context"
+        - "@type"
+        - applicationStage
+      contractAttributes:
+        - "@context"
+        - "@type"
+        - caseId
+        - caseStatus
+    conditionalFields:
+      - condition: applicationStage == BENEFIT_DISBURSED
+        requiredFields:
+          - performanceAttributes.disbursement.disbursedAt
+          - performanceAttributes.disbursement.disbursementChannel
+          - performanceAttributes.disbursement.amount
+          - performanceAttributes.disbursement.disbursementReferenceNumber
+      - condition: applicationStage == REJECTED
+        requiredFields:
+          - performanceAttributes.rejectionReason
+          - performanceAttributes.decisionReceivedAt
+      - condition: applicationStage == ADDITIONAL_INFO_REQUESTED
+        requiredFields:
+          - performanceAttributes.additionalInfoRequest.requestedItems
+          - performanceAttributes.additionalInfoRequest.responseDeadline
+      - condition: applicationStage == APPLICATION_SUBMITTED
+        requiredFields:
+          - performanceAttributes.governmentReferenceNumber
+          - performanceAttributes.submittedAt
+
+  - step: update_withdraw
+    action: update
+    direction: BAP → BPP
+    description: >
+      Applicant withdraws the application. Only allowed before applicationStage
+      reaches APPROVED or REJECTED.
+    optional: true
+    requiredFields:
+      context:
+        - domain
+        - action
+        - bapId
+        - bapUri
+        - bppId
+        - bppUri
+        - transactionId
+        - messageId
+        - timestamp
+      contractAttributes:
+        - caseId
+        - caseStatus  # must be OPEN
+
+alwaysActiveVariants:
+  - cross-cutting

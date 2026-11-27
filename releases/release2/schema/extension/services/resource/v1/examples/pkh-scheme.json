@@ -1,0 +1,111 @@
+{
+  "id": "RES-SCHEME-PKH-001",
+  "descriptor": {
+    "name": "Program Keluarga Harapan (PKH)",
+    "shortDesc": "Bantuan tunai bersyarat untuk keluarga miskin dan rentan.",
+    "longDesc": "Program Keluarga Harapan (PKH) adalah program bantuan sosial bersyarat bagi Keluarga Penerima Manfaat (KPM) yang terdaftar dalam Data Terpadu Kesejahteraan Sosial (DTKS), dengan komponen kesehatan (ibu hamil/balita), pendidikan (anak usia sekolah), dan kesejahteraan sosial (lanjut usia/penyandang disabilitas berat).",
+    "images": ["https://cdn.kemensos.go.id/pkh-banner.jpg"]
+  },
+  "resourceAttributes": {
+    "@context": "https://schema.ion.id/release2/schema/extension/services/resource/v1/context.jsonld",
+    "@type": "ion:IONSocialSchemeResource",
+
+    "crc": "SVC-social",
+
+    "schemeIdentity": {
+      "schemeName": "Program Keluarga Harapan (PKH)",
+      "schemeCode": "KEMSOS-PKH-2026",
+      "implementingAgency": "Kementerian Sosial Republik Indonesia",
+      "implementingAgencyLevel": "NATIONAL_MINISTRY",
+      "schemeLevel": "CENTRAL",
+      "schemeType": "CASH_TRANSFER",
+      "fundingModel": "APBN_CENTRAL_BUDGET",
+      "sectorTags": ["FOOD_SECURITY", "WOMEN_AND_CHILDREN", "EDUCATION", "HEALTH"],
+      "officialReferenceUrl": "https://kemensos.go.id/program-keluarga-harapan"
+    },
+
+    "eligibility": {
+      "targetBeneficiaryTypes": ["HOUSEHOLD"],
+      "demographicCriteria": [
+        {
+          "ruleId": "has-qualifying-household-component",
+          "label": "Memiliki komponen ibu hamil, balita, anak sekolah, lansia, atau penyandang disabilitas berat",
+          "operator": "=",
+          "value": "true"
+        }
+      ],
+      "economicCriteria": [
+        {
+          "ruleId": "dtks-decile",
+          "label": "Peringkat kesejahteraan DTKS",
+          "operator": "IN",
+          "value": ["1", "2"],
+          "unit": "DTKS_DECILE"
+        }
+      ],
+      "occupationalCriteria": [],
+      "geographicEligibility": {
+        "residencyRequired": true,
+        "applicableProvinces": [],
+        "domicileMatchBasis": "KTP"
+      },
+      "priorityGroups": ["EXTREME_POVERTY_DTKS_DECILE_1", "PERSON_WITH_DISABILITY"],
+      "eligibilitySummary": "Rumah tangga miskin dan rentan yang terdaftar dalam DTKS desil 1-2, dengan komponen kesehatan, pendidikan, atau kesejahteraan sosial."
+    },
+
+    "benefit": {
+      "benefitForm": "CASH",
+      "benefitAmount": { "value": 3000000, "currency": "IDR" },
+      "benefitAmountBasis": "PER_COMPONENT",
+      "disbursementFrequency": "QUARTERLY",
+      "benefitDescription": "Bantuan tunai bersyarat per komponen keluarga penerima manfaat, disalurkan setiap tiga bulan."
+    },
+
+    "requiredDocuments": [
+      { "documentType": "KTP", "purpose": "Bukti identitas", "mandatory": true },
+      { "documentType": "KARTU_KELUARGA", "purpose": "Bukti anggota rumah tangga", "mandatory": true },
+      { "documentType": "BUKU_TABUNGAN", "purpose": "Rekening penyaluran bantuan", "mandatory": false, "conditionRuleId": "disbursement-channel-bank" },
+      { "documentType": "KARTU_PENYANDANG_DISABILITAS", "purpose": "Bukti komponen disabilitas", "mandatory": false, "conditionRuleId": "disability-priority-claim" }
+    ],
+
+    "applicationChannel": {
+      "applicationMode": "FACILITATED",
+      "governmentPortalUrl": "https://cekbansos.kemensos.go.id",
+      "applicationWindow": "ANNUAL_REVERIFICATION",
+      "processingTimeEstimate": "P30D"
+    },
+
+    "validity": {
+      "effectiveFrom": "2026-01-01",
+      "effectiveUntil": "2026-12-31",
+      "requiresAnnualReverification": true
+    },
+
+    "fundingSource": {
+      "budgetLineReference": "BA 027.06.GG",
+      "fiscalYear": "2026",
+      "cofundingAgencies": []
+    },
+
+    "indonesianCompliance": {
+      "dtksReference": true,
+      "dtksDecileRequirement": [1, 2],
+      "nikVerificationRequired": true,
+      "kksRequired": true,
+      "disbursementChannel": "BANK_HIMBARA_ACCOUNT",
+      "dataResidency": "DOMESTIC_ONLY",
+      "regulatoryBasis": [
+        {
+          "instrumentType": "PERMENSOS",
+          "reference": "Permensos 1/2018",
+          "title": "Program Keluarga Harapan"
+        },
+        {
+          "instrumentType": "PERMENSOS",
+          "reference": "Permensos 5/2019",
+          "title": "Pengelolaan Data Terpadu Kesejahteraan Sosial"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "_meta": {
+    "description": "SVC-social scheme-facilitation on_status — taken from the Ibu Dewi worked journey. Illustrative values only.",
+    "pattern": "scheme-facilitation",
+    "step": "on_status",
+    "sent_by": "BPP",
+    "received_by": "BAP"
+  },
+  "context": {
+    "domain": "ion:services",
+    "action": "on_status",
+    "version": "2.0.0",
+    "bapId": "buyerapp.bantuanku.ion.id",
+    "bapUri": "https://buyerapp.bantuanku.ion.id",
+    "bppId": "sellerapp.ysn.ion.id",
+    "bppUri": "https://sellerapp.ysn.ion.id",
+    "transactionId": "txn-dewi-pkh-2026-001",
+    "messageId": "msg-status-003",
+    "timestamp": "2026-07-20T14:00:00+07:00",
+    "ttl": "PT30S"
+  },
+  "message": {
+    "contract": {
+      "id": "CASE-2026-PKH-004821",
+      "status": {
+        "code": "ACTIVE"
+      },
+      "commitments": [
+        {
+          "id": "CMT-001",
+          "status": {
+            "descriptor": {
+              "code": "ACTIVE"
+            }
+          },
+          "resources": [
+            {
+              "resource": {
+                "id": "RES-PKH-CENTRAL-001"
+              },
+              "quantity": {
+                "unitQuantity": 1,
+                "unitCode": "EA"
+              }
+            }
+          ],
+          "offer": {
+            "id": "OFFER-PKH-FACILITATION-FREE",
+            "resourceIds": [
+              "RES-PKH-CENTRAL-001"
+            ],
+            "provider": {
+              "id": "PROV-YSN-001",
+              "descriptor": {
+                "name": "Yayasan Sejahtera Nusantara",
+                "shortDesc": "Mitra fasilitasi program bantuan sosial resmi Kemensos"
+              }
+            },
+            "offerAttributes": {
+              "@context": "https://schema.ion.id/release2/schema/extension/services/offer/v1/context.jsonld",
+              "@type": "ion:IONSocialSchemeOfferAttributes",
+              "serviceType": "FULL_APPLICATION_FACILITATION",
+              "pricingModel": "FREE_FACILITATION",
+              "refundOnRejection": true,
+              "cancellationPolicy": "ion://policy/cancel.social-scheme.until-submission",
+              "grievanceSlaPolicy": "ion://policy/grievance-sla.social-scheme.standard"
+            }
+          }
+        }
+      ],
+      "performance": [
+        {
+          "id": "PERF-001",
+          "status": {
+            "code": "APPLICATION_SUBMITTED"
+          },
+          "commitmentIds": [
+            "CMT-001"
+          ],
+          "performanceAttributes": {
+            "@context": "https://schema.ion.id/release2/schema/extension/services/performance/v1/context.jsonld",
+            "@type": "ion:IONSocialSchemePerformanceAttributes",
+            "applicationStage": "APPLICATION_SUBMITTED",
+            "caseworker": {
+              "caseworkerId": "CW-0091",
+              "name": "Eko Prasetyo",
+              "phone": "085345678901"
+            },
+            "governmentReferenceNumber": "PKH-2026-3504-004821",
+            "submittedAt": "2026-07-20T13:45:00+07:00",
+            "decisionExpectedBy": "2026-08-19T13:45:00+07:00"
+          }
+        }
+      ],
+      "contractAttributes": {
+        "@context": "https://schema.ion.id/release2/schema/extension/services/contract/v1/context.jsonld",
+        "@type": "ion:IONSocialSchemeContractAttributes",
+        "caseId": "CASE-2026-PKH-004821",
+        "caseStatus": "OPEN"
+      }
+    }
+  }
+}

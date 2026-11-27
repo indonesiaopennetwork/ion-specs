@@ -1,0 +1,58 @@
+{
+  "id": "ion-services-performance-v1",
+  "version": "1.0.0",
+  "domain": "services",
+  "type": "AttributePack",
+  "name": "ION Services Social Scheme Performance Extension (v1)",
+  "packSchema": "./schema.json",
+  "jsonldContext": "./context.jsonld",
+  "extends": "beckn:Performance",
+  "attachmentPoints": {
+    "performanceAttributes": [
+      "IONSocialSchemePerformanceAttributes"
+    ]
+  },
+  "indexing": {
+    "indexable": [
+      {
+        "path": "$.applicationStage"
+      },
+      {
+        "path": "$.caseworker"
+      },
+      {
+        "path": "$.governmentReferenceNumber"
+      },
+      {
+        "path": "$.submittedAt"
+      },
+      {
+        "path": "$.decisionExpectedBy"
+      },
+      {
+        "path": "$.decisionReceivedAt"
+      },
+      {
+        "path": "$.rejectionReason"
+      },
+      {
+        "path": "$.additionalInfoRequest"
+      },
+      {
+        "path": "$.disbursement"
+      }
+    ],
+    "filterable": [
+      {
+        "path": "$.applicationStage"
+      }
+    ],
+    "sortable": []
+  },
+  "minimalForDiscovery": [
+    "applicationStage",
+    "caseworker",
+    "governmentReferenceNumber",
+    "submittedAt"
+  ]
+}

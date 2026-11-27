@@ -1,0 +1,64 @@
+{
+  "id": "ion-services-resource-v1",
+  "version": "1.0.0",
+  "domain": "services",
+  "type": "AttributePack",
+  "name": "ION Services Social Scheme Resource Extension (v1)",
+  "packSchema": "./schema.json",
+  "jsonldContext": "./context.jsonld",
+  "extends": "beckn:Resource",
+  "attachmentPoints": {
+    "resourceAttributes": [
+      "IONSocialSchemeResource"
+    ]
+  },
+  "indexing": {
+    "indexable": [
+      {
+        "path": "$.crc"
+      },
+      {
+        "path": "$.schemeIdentity"
+      },
+      {
+        "path": "$.eligibility"
+      },
+      {
+        "path": "$.benefit"
+      },
+      {
+        "path": "$.requiredDocuments"
+      },
+      {
+        "path": "$.applicationChannel"
+      },
+      {
+        "path": "$.validity"
+      },
+      {
+        "path": "$.fundingSource"
+      },
+      {
+        "path": "$.indonesianCompliance"
+      }
+    ],
+    "filterable": [
+      {
+        "path": "$.crc"
+      },
+      {
+        "path": "$.schemeIdentity"
+      },
+      {
+        "path": "$.eligibility"
+      }
+    ],
+    "sortable": []
+  },
+  "minimalForDiscovery": [
+    "crc",
+    "schemeIdentity",
+    "eligibility",
+    "benefit"
+  ]
+}

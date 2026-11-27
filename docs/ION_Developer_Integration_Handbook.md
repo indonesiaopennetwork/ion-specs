@@ -4,7 +4,7 @@
 
 | Document | Details |
 |---|---|
-| Version | Draft 1.2 — 25 November 2026 (Draft 1.1 was 21 November 2026) |
+| Version | Draft 1.1 — 21 November 2026 |
 | Audience | Application developers, architects, engineering leads, TSPs, and onboarding teams |
 | Prior knowledge | Familiarity with HTTP/REST, JSON, APIs and application development; no Beckn/ION experience assumed |
 | Learning example | Trade: one Buyer App, one Seller App, one seller and one physical-product order |
@@ -36,18 +36,6 @@ By the end, you should be able to explain ION to another developer, identify the
 ---
 
 # Part I — Understand ION
-
-
-### Documents in this package
-
-| Document | Use it to |
-|---|---|
-| This Handbook | Understand ION, find the authoritative sources, plan a build, validate and go live |
-| Seller App Reference Architecture | Decide what a Seller App (SNP, PN) must contain and what an existing system can supply |
-| Buyer App Reference Architecture | Decide what a Buyer App (BNP, CN) must contain, including discovery and curation |
-| Verified quickstart | Run ONIX, the testnet and Postman2Onix to a first completed order. **Not yet written. ION is to supply the tested steps and values.** |
-
-The architecture documents say what to build. This Handbook says how ION works and where to look. The quickstart says how to get a first transaction running.
 
 ## 1. What is ION?
 
@@ -132,35 +120,7 @@ The ION Registry identifies permitted participants, roles, network endpoints and
 
 ### 2.4 Distributed catalogues
 
-In the described Trade model, Seller Apps prepare catalogue files and indexes, host them on their side and register their locations; Buyer Apps discover and ingest these catalogues or use applicable optional discovery tools. **This is not a central ION catalogue into which every seller uploads inventory.** Verify the current publication/index format and mechanisms in the selected Trade specifications. ONIX includes a publish utility, so a Seller App can also publish in the required format by sending `/catalog/publish` through the ONIX publish plugin. Section 2.4.1 gives the single publication journey.
-
-### 2.4.1 Catalogue publication: one journey for all four documents
-
-This is the single account of catalogue publication. The Seller App and Buyer App documents refer to it.
-
-1. **Build.** The Seller App builds a catalogue per provider.
-2. **Publish in the required format.** The primary model is hosted files: signed catalogue files and an index, hosted at a seller-side location that is registered in the Registry. ONIX includes a publish utility that produces this format. A Seller App can therefore send `/catalog/publish` through the ONIX publish plugin and get the files in the required format. `/catalog/publish` through the plugin is a valid way to publish. A Seller App may also generate and host the files itself.
-3. **Host and register.** In the reference app, the publish component writes the signed files and the index to a public bucket, and a static server serves `.well-known/dedi.index.json`, which points to a registry entry and then to the catalogue files.
-4. **Discover.** A Buyer App, or a Discovery Service it uses, resolves the registered location, fetches the index and files, verifies them and indexes the offers. It does not read a central ION catalogue.
-5. **Legacy route.** `ion-beckn.yaml` marks the Cataloging Service endpoints (`/catalog/*` sent to a central service) as deprecated in favour of this model. They remain defined for existing implementations. A new integration does not start there.
-
-Publishing with the ONIX plugin sends no `/catalog/on_publish`. The result is the plugin's HTTP response and the files at the index URL. Not yet answered in the sources read, and to be closed by ION: how a developer generates and registers the index step by step, and how a Seller App proves that a Buyer App can discover its catalogue. The verified quickstart is meant to cover both.
-
-
-### 2.4.2 Build-to-live path
-
-The same path applies to a Buyer App and a Seller App. It follows the ion-onix repository (`bppONIX/BuildingSellerApp.md` and `bapONIX/BuildingBuyerApp.md`), which marks it as work in progress.
-
-1. **Pick your role and use case.** Buyer App (CN) or Seller App (PN).
-2. **Study the examples.** Read the request and response payloads for your use case and its variants, and understand the flow.
-3. **Install the ONIX adapter.** BAP ONIX for a Buyer App, BPP ONIX for a Seller App. Use a tunnel (ngrok, localtunnel) if it runs on a laptop.
-4. **Build your app.** A Seller App receives messages on the webhook set in `config/local-simple-routing-BPPReceiver.yaml` and answers through `/bpp/caller`. A Buyer App sends through `/bap/caller` and receives on the webhook in `config/local-simple-routing-BAPReceiver.yaml`. A Seller App also publishes its catalogues (2.4.1).
-5. **Test on the testnet.** The ION Testnet in ion-onix is a docker compose platform with ONIX adapters, simulated seller apps and a monitoring service. Use it with the Postman collections, a sample counterparty app, or a counterparty on the sandbox network.
-6. **Run the Devlabs unit tests.** Scripts exist for many patterns and variants.
-7. **Run the Devlabs flow tests.** Run these after the unit tests pass.
-8. **Onboard to production** through ION Central.
-
-**Certification.** Certification is manual at ION today. Devlabs has a UI for it, but the feature is not yet built. The Devlabs test results from steps 6 and 7 are what a developer brings to the manual review. Which tests are mandatory is for ION to state.
+In the described Trade model, Seller Apps prepare catalogue files and indexes, host them on their side and register their locations; Buyer Apps discover and ingest these catalogues or use applicable optional discovery tools. **This is not a central ION catalogue into which every seller uploads inventory.** Verify the current publication/index format and mechanisms in the selected Trade specifications.
 
 ### 2.5 Identity, security and message tracking
 
@@ -362,7 +322,7 @@ The complete happy path is **publish → discover → select → init → pay �
 
 **Payment is not just another ACK:** Regulated money movement happens through licensed payment arrangements. In the Technical Overview's current model, the BNP collects the customer payment via a PJP and remits agreed amounts to the seller side. **ION does not hold transaction funds**. The SEAM-assisted payout model is a separate integration track; the Technical Overview describes it as under PJP integration testing, not as a default requirement for every participant.
 
-**Reconciliation is not settlement:** Participants exchange calculated settlement positions and explicitly agree; then the authorized money movement is executed under the applicable arrangement. Reconciliation is between BNP and SNP; an SNP may handle its internal seller/logistics splits separately. Exact financial payloads and agreement rules must come from the selected reconciliation specification. In Release 1 (`ion-additional.yaml`), either participant sends `/reconcile` for a `settlementDate` with the contracts due that day, and the other answers `/on_reconcile`, setting `accord` on each settlement. Agreement is per settlement. Only disputed and pending settlements are sent again. `accord: true` is not a payout instruction. Prepaid buyer payments are held at the PJP. Money movement follows the current participant arrangements, or the SEAM-enabled arrangements where they apply.
+**Reconciliation is not settlement:** Participants exchange calculated settlement positions and explicitly agree; then the authorized money movement is executed under the applicable arrangement. Reconciliation is between BNP and SNP; an SNP may handle its internal seller/logistics splits separately. Exact financial payloads and agreement rules must come from the selected reconciliation specification.
 
 **Support is not the same as a participant dispute:** Order-level customer complaints may be exchanged through the support APIs where implemented. Commercial/operational disputes between participants are handled through **ION SATU** in ION Central under the model described by the Technical Overview.
 
@@ -508,7 +468,7 @@ The purpose is to **observe**, not to complete your production integration.
 ### Prepare
 
 - Confirm the ION-approved learning baseline with the team and identify the matching Postman/ONIX environment.
-- Read the Reference App README and Postman2Onix instructions for prerequisites and exact startup commands. A verified quickstart with configuration values, expected output and fixes for common failures is still to be supplied by ION. Do not invent credentials or assume a public production endpoint can be used as a sandbox.
+- Read the Reference App README and Postman2Onix instructions for prerequisites and exact startup commands. Do not invent credentials or assume a public production endpoint can be used as a sandbox.
 - Identify the sample Buyer App, Seller App, catalogue and test identities.
 
 ### Execute and record
@@ -665,7 +625,7 @@ Run this **in parallel** with T1–T6 where ION allows it:
 1. Register organization in **ION Central** and assign appropriate contacts/roles.
 2. Create relevant BNP/SNP participant profile with sector and activity scope.
 3. Complete applicable business/KYB checks and network participation agreement.
-4. Complete the Devlabs unit and flow tests, then ION's manual certification review (2.4.2).
+4. Complete prescribed Devlabs validations, participant conformance and certification/approval gates, as applicable.
 5. Register approved production identity, public keys, endpoints and SNP catalogue locations.
 6. Agree operational owner, support escalation, payment arrangements and launch counterparties.
 

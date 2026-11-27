@@ -1,0 +1,34 @@
+{
+  "id": "ion-services-settlement-v1",
+  "version": "1.0.0",
+  "domain": "services",
+  "type": "AttributePack",
+  "name": "ION Services Social Scheme Settlement Extension (v1)",
+  "packSchema": "./schema.json",
+  "jsonldContext": "./context.jsonld",
+  "extends": "beckn:Settlement",
+  "attachmentPoints": {
+    "settlementAttributes": [
+      "IONSocialSchemeSettlementAttributes"
+    ]
+  },
+  "indexing": {
+    "indexable": [
+      { "path": "$.settlementType" },
+      { "path": "$.totalAmount" },
+      { "path": "$.paymentStatus" },
+      { "path": "$.remittanceStatus" }
+    ],
+    "filterable": [
+      { "path": "$.settlementType" },
+      { "path": "$.paymentStatus" }
+    ],
+    "sortable": []
+  },
+  "minimalForDiscovery": [
+    "settlementType",
+    "totalAmount",
+    "currency",
+    "paymentStatus"
+  ]
+}

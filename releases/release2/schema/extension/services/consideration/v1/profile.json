@@ -1,0 +1,42 @@
+{
+  "id": "ion-services-consideration-v1",
+  "version": "1.0.0",
+  "domain": "services",
+  "type": "AttributePack",
+  "name": "ION Services Social Scheme Consideration Extension (v1)",
+  "packSchema": "./schema.json",
+  "jsonldContext": "./context.jsonld",
+  "extends": "beckn:Consideration",
+  "attachmentPoints": {
+    "considerationAttributes": [
+      "IONSocialSchemeConsiderationAttributes"
+    ]
+  },
+  "indexing": {
+    "indexable": [
+      {
+        "path": "$.breakupLineType"
+      },
+      {
+        "path": "$.totalAmount"
+      },
+      {
+        "path": "$.currency"
+      },
+      {
+        "path": "$.governmentFeeReceipt"
+      }
+    ],
+    "filterable": [
+      {
+        "path": "$.breakupLineType"
+      }
+    ],
+    "sortable": []
+  },
+  "minimalForDiscovery": [
+    "breakupLineType",
+    "totalAmount",
+    "currency"
+  ]
+}

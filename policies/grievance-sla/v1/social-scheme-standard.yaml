@@ -1,0 +1,52 @@
+iri: ion://policy/grievance-sla.social-scheme.standard
+version: "1.0.0"
+versionEffectiveFrom: null
+category: GRIEVANCE_SLA
+status: draft
+sector: services
+
+displayText:
+  id: "SLA keluhan program bantuan sosial - respon 1 hari kerja, resolusi 5 hari kerja"
+  en: "Social scheme grievance SLA - 1 business day response, 5 business day resolution"
+
+# Applicants of social schemes are often vulnerable and use assisted channels;
+# the facilitation partner answers within one business day.
+firstResponseSla: P1D
+resolutionSla: P5D
+businessDaysOnly: true
+
+escalationLevels:
+  - level: FACILITATION_PARTNER
+    slaHours: 120
+    autoEscalateOnMiss: true
+  - level: ION_NETWORK_SUPPORT
+    slaHours: 240
+    autoEscalateOnMiss: true
+  - level: IMPLEMENTING_AGENCY_COMPLAINT_CHANNEL
+    slaHours: 720
+    autoEscalateOnMiss: false
+
+# Grievances about the government decision itself (eligibility, amount,
+# disbursement) are outside the partner's control; the partner must route the
+# applicant to the implementing agency's complaint channel within firstResponseSla.
+governmentDecisionGrievances: ROUTE_TO_IMPLEMENTING_AGENCY
+
+consequenceOnBreach:
+  firstResponseMissed:
+    action: AUTO_ESCALATE_TO_ION_NETWORK_SUPPORT
+  resolutionMissed:
+    action: AUTO_ESCALATE_TO_ION_NETWORK_SUPPORT
+
+isMarketplaceMinimum: true
+
+applicableResourceTypes: []
+applicableCategories:
+  - SVC-social
+
+regulatoryBasis:
+  - "UU 25/2009 tentang Pelayanan Publik"
+  - "UU 27/2022 tentang Pelindungan Data Pribadi"
+  - "ION Network Policy - Grievance SLA Minimum Standards"
+
+supersededBy: null
+deprecatedAt: null

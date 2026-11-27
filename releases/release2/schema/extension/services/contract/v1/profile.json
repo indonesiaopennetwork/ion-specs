@@ -1,0 +1,49 @@
+{
+  "id": "ion-services-contract-v1",
+  "version": "1.0.0",
+  "domain": "services",
+  "type": "AttributePack",
+  "name": "ION Services Social Scheme Contract Extension (v1)",
+  "packSchema": "./schema.json",
+  "jsonldContext": "./context.jsonld",
+  "extends": "beckn:Contract",
+  "attachmentPoints": {
+    "contractAttributes": [
+      "IONSocialSchemeContractAttributes"
+    ]
+  },
+  "indexing": {
+    "indexable": [
+      {
+        "path": "$.caseId"
+      },
+      {
+        "path": "$.applicantConsent"
+      },
+      {
+        "path": "$.assignedProviderId"
+      },
+      {
+        "path": "$.caseStatus"
+      },
+      {
+        "path": "$.caseClosedAt"
+      },
+      {
+        "path": "$.reapplicationEligibleFrom"
+      }
+    ],
+    "filterable": [
+      {
+        "path": "$.caseStatus"
+      }
+    ],
+    "sortable": []
+  },
+  "minimalForDiscovery": [
+    "caseId",
+    "applicantConsent",
+    "assignedProviderId",
+    "caseStatus"
+  ]
+}

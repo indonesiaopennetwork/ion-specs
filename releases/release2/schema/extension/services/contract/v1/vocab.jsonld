@@ -1,0 +1,47 @@
+{
+  "@graph": [
+    {
+      "@id": "ion:IONSocialSchemeContractAttributes",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONSocialSchemeContractAttributes",
+      "rdfs:comment": "The case record for a confirmed social-scheme application: identifiers,\nconsent basis, and case closure detail.",
+      "rdfs:subClassOf": "beckn:Contract"
+    },
+    {
+      "@id": "ion:caseId",
+      "@type": "rdf:Property",
+      "rdfs:label": "caseId",
+      "rdfs:comment": "ION network-wide unique case identifier for this application, assigned at confirm."
+    },
+    {
+      "@id": "ion:applicantConsent",
+      "@type": "rdf:Property",
+      "rdfs:label": "applicantConsent",
+      "rdfs:comment": "Explicit consent record for processing and sharing the applicant's personal and welfare data with the implementing government agency, per UU PDP 2022 (Indonesian Personal Data Protection Law). Captures whether consent was given, the timestamp of consent, and the scope of consent (data sharing with the agency, DTKS cross-check, NIK verification, and optionally marketing communications). Produced by the BAP at /confirm time after the applicant affirmatively consents. Consumed by the BPP to validate that lawful basis for data processing exists before submitting the application to the government agency. Consent is a hard prerequisite for case confirmation — ONIX rejects /confirm payloads where consentGiven is false."
+    },
+    {
+      "@id": "ion:assignedProviderId",
+      "@type": "rdf:Property",
+      "rdfs:label": "assignedProviderId",
+      "rdfs:comment": "Provider (facilitation partner or government agency) responsible for this case."
+    },
+    {
+      "@id": "ion:caseStatus",
+      "@type": "rdf:Property",
+      "rdfs:label": "caseStatus",
+      "rdfs:comment": "High-level case status, distinct from the finer-grained Performance.applicationStage."
+    },
+    {
+      "@id": "ion:caseClosedAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "caseClosedAt",
+      "rdfs:comment": "ISO 8601 datetime at which the application case was closed, in UTC with timezone offset. Present only when caseStatus transitions to CLOSED_APPROVED, CLOSED_REJECTED, or CLOSED_WITHDRAWN. Produced by the BPP when the government agency issues a final decision or the applicant withdraws. Consumed by the BAP for case history display and to determine when reapplication becomes eligible (combined with reapplicationEligibleFrom for rejected cases)."
+    },
+    {
+      "@id": "ion:reapplicationEligibleFrom",
+      "@type": "rdf:Property",
+      "rdfs:label": "reapplicationEligibleFrom",
+      "rdfs:comment": "Earliest date the applicant may reapply, when caseStatus is CLOSED_REJECTED and the scheme has a cooldown."
+    }
+  ]
+}

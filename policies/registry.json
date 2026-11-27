@@ -2,12 +2,12 @@
   "_generated": "Do not edit directly. Run tools/policies/generate_registry.rb --write.",
   "_scheme": "ion://policy/{category}.{sector-or-scope}.{variant-name}",
   "version": "2.0.0",
-  "totalPolicies": 89,
+  "totalPolicies": 91,
   "byCategory": {
-    "CANCELLATION": 14,
+    "CANCELLATION": 15,
     "DISPUTE": 5,
     "EVIDENCE": 2,
-    "GRIEVANCE_SLA": 4,
+    "GRIEVANCE_SLA": 5,
     "INCIDENT": 2,
     "INSURANCE": 1,
     "LIABILITY": 3,
@@ -23,6 +23,7 @@
   "bySector": {
     "cross-sector": 39,
     "logistics": 22,
+    "services": 2,
     "trade": 28
   },
   "policies": [
@@ -376,6 +377,32 @@
       "deprecatedAt": null,
       "sector": "cross-sector",
       "docPath": "policies/cancellation/v1/prepacked-free.yaml"
+    },
+    {
+      "iri": "ion://policy/cancel.social-scheme.until-submission",
+      "category": "CANCELLATION",
+      "subCategory": null,
+      "version": "1.0.0",
+      "status": "draft",
+      "versionEffectiveFrom": null,
+      "displayText": {
+        "id": "Batalkan gratis sebelum permohonan diajukan ke instansi pemerintah",
+        "en": "Free cancellation until the application is submitted to the government agency"
+      },
+      "applicableCategories": [
+        "SVC-social"
+      ],
+      "applicableResourceTypes": [
+
+      ],
+      "regulatoryBasis": [
+        "UU 27/2022 tentang Pelindungan Data Pribadi",
+        "UU 8/1999 tentang Perlindungan Konsumen Pasal 4"
+      ],
+      "supersededBy": null,
+      "deprecatedAt": null,
+      "sector": "services",
+      "docPath": "policies/cancellation/v1/social-scheme-until-submission.yaml"
     },
     {
       "iri": "ion://policy/cancel.standard.none",
@@ -871,6 +898,33 @@
       "deprecatedAt": null,
       "sector": "cross-sector",
       "docPath": "policies/grievance-sla/v1/standard.yaml"
+    },
+    {
+      "iri": "ion://policy/grievance-sla.social-scheme.standard",
+      "category": "GRIEVANCE_SLA",
+      "subCategory": null,
+      "version": "1.0.0",
+      "status": "draft",
+      "versionEffectiveFrom": null,
+      "displayText": {
+        "id": "SLA keluhan program bantuan sosial - respon 1 hari kerja, resolusi 5 hari kerja",
+        "en": "Social scheme grievance SLA - 1 business day response, 5 business day resolution"
+      },
+      "applicableCategories": [
+        "SVC-social"
+      ],
+      "applicableResourceTypes": [
+
+      ],
+      "regulatoryBasis": [
+        "UU 25/2009 tentang Pelayanan Publik",
+        "UU 27/2022 tentang Pelindungan Data Pribadi",
+        "ION Network Policy - Grievance SLA Minimum Standards"
+      ],
+      "supersededBy": null,
+      "deprecatedAt": null,
+      "sector": "services",
+      "docPath": "policies/grievance-sla/v1/social-scheme-standard.yaml"
     },
     {
       "iri": "ion://policy/incident.high-severity-escalation",

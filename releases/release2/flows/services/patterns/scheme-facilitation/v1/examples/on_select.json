@@ -1,0 +1,93 @@
+{
+  "_meta": {
+    "description": "SVC-social scheme-facilitation on_select — taken from the Ibu Dewi worked journey. Illustrative values only.",
+    "pattern": "scheme-facilitation",
+    "step": "on_select",
+    "sent_by": "BPP",
+    "received_by": "BAP"
+  },
+  "context": {
+    "domain": "ion:services",
+    "action": "on_select",
+    "version": "2.0.0",
+    "bapId": "buyerapp.bantuanku.ion.id",
+    "bapUri": "https://buyerapp.bantuanku.ion.id",
+    "bppId": "sellerapp.ysn.ion.id",
+    "bppUri": "https://sellerapp.ysn.ion.id",
+    "transactionId": "txn-dewi-pkh-2026-001",
+    "messageId": "msg-on-select-001",
+    "timestamp": "2026-07-15T09:35:03+07:00",
+    "ttl": "PT30S"
+  },
+  "message": {
+    "contract": {
+      "status": {
+        "code": "DRAFT"
+      },
+      "commitments": [
+        {
+          "id": "CMT-001",
+          "status": {
+            "descriptor": {
+              "code": "DRAFT"
+            }
+          },
+          "resources": [
+            {
+              "resource": {
+                "id": "RES-PKH-CENTRAL-001"
+              },
+              "quantity": {
+                "unitQuantity": 1,
+                "unitCode": "EA"
+              }
+            }
+          ],
+          "offer": {
+            "id": "OFFER-PKH-FACILITATION-FREE",
+            "resourceIds": [
+              "RES-PKH-CENTRAL-001"
+            ],
+            "provider": {
+              "id": "PROV-YSN-001",
+              "descriptor": {
+                "name": "Yayasan Sejahtera Nusantara",
+                "shortDesc": "Mitra fasilitasi program bantuan sosial resmi Kemensos"
+              }
+            }
+          },
+          "commitmentAttributes": {
+            "@context": "https://schema.ion.id/release2/schema/extension/services/commitment/v1/context.jsonld",
+            "@type": "ion:IONSocialSchemeCommitmentAttributes",
+            "lineId": "L01",
+            "resourceId": "RES-PKH-CENTRAL-001",
+            "offerId": "OFFER-PKH-FACILITATION-FREE",
+            "applicantProfile": {
+              "nik": "3504456507820003",
+              "fullName": "Dewi Anggraini",
+              "provinceCode": "35",
+              "kabupatenKotaCode": "3504"
+            },
+            "eligibilityPreCheck": {
+              "outcome": "LIKELY_ELIGIBLE",
+              "failedRuleIds": [],
+              "evaluatedAt": "2026-07-15T09:35:02+07:00"
+            }
+          }
+        }
+      ],
+      "consideration": [
+        {
+          "id": "CON-001",
+          "considerationAttributes": {
+            "@context": "https://schema.ion.id/release2/schema/extension/services/consideration/v1/context.jsonld",
+            "@type": "ion:IONSocialSchemeConsiderationAttributes",
+            "breakupLineType": "FACILITATION_FEE",
+            "totalAmount": 0,
+            "currency": "IDR"
+          }
+        }
+      ]
+    }
+  }
+}

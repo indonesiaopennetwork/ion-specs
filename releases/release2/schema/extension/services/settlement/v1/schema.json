@@ -1,0 +1,166 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schema.ion.id/release2/schema/extension/services/settlement/v1",
+  "$ref": "#/$defs/IONSocialSchemeSettlementAttributes",
+  "$defs": {
+    "SocialSchemeSettlement": {
+      "type": "object",
+      "title": "SocialSchemeSettlement",
+      "description": "Network-agnostic generic layer. Models the financial settlement record for a social-scheme facilitation service: what was collected from the applicant (if anything), when, and via which payment channel. Inherits from Beckn core Attributes. The ION-specific layer (IONSocialSchemeSettlementAttributes) extends this via allOf and carries Indonesian payment rail and regulatory fields.\n",
+      "x-ion-layer": "generic",
+      "x-ion-split-version": "1.0.0",
+      "x-recommended-parent": "Settlement.settlementAttributes",
+      "additionalProperties": true,
+      "allOf": [
+        {
+          "$ref": "https://schema.ion.id/release2/schema/vendored/beckn/schemas/Attributes/2.0/attributes.yaml#/components/schemas/Attributes"
+        }
+      ]
+    },
+    "IONSocialSchemeSettlementAttributes": {
+      "type": "object",
+      "x-ion-layer": "ion",
+      "x-ion-split-version": "1.0.0",
+      "allOf": [
+        {
+          "$ref": "#/$defs/SocialSchemeSettlement"
+        }
+      ],
+      "description": "Indonesia-specific settlement record for a social-scheme facilitation\nservice. Covers facilitation fee collection (when non-zero) and\ngovernment fee passthroughs. The government benefit disbursement itself\nis never routed through this record — it is tracked in\nPerformance.disbursement and delivered directly by the implementing agency.\n",
+      "x-jsonld": {
+        "@context": "https://schema.ion.id/release2/schema/extension/services/settlement/v1/context.jsonld",
+        "@type": "ion:IONSocialSchemeSettlementAttributes"
+      },
+      "x-beckn-attaches-to": "Settlement.settlementAttributes",
+      "additionalProperties": true,
+      "properties": {
+        "settlementType": {
+          "type": "string",
+          "description": "Whether a fee was collected for facilitation services, or whether the facilitation was provided free of charge. FREE means no money changed hands between the applicant and the facilitation partner. FACILITATION_FEE means a fee was collected as declared in the linked Offer and Consideration. GOVERNMENT_FEE_PASSTHROUGH means a statutory government fee (e.g. a document-issuance charge mandated by the scheme itself) was collected and will be remitted to the government — not retained by the facilitation partner.\n",
+          "enum": [
+            "FREE",
+            "FACILITATION_FEE",
+            "GOVERNMENT_FEE_PASSTHROUGH"
+          ],
+          "example": "FREE"
+        },
+        "totalAmount": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Total amount collected from the applicant in IDR. Zero for FREE settlement type. Must match the sum of Consideration lines for non-zero settlements.\n",
+          "example": 0
+        },
+        "currency": {
+          "type": "string",
+          "default": "IDR",
+          "description": "ISO 4217 currency code. Fixed at IDR for all domestic ION transactions.",
+          "example": "IDR"
+        },
+        "paymentStatus": {
+          "type": "string",
+          "description": "Status of the facilitation fee payment, when settlementType is FACILITATION_FEE or GOVERNMENT_FEE_PASSTHROUGH. NOT_APPLICABLE for FREE settlements.\n",
+          "enum": [
+            "NOT_APPLICABLE",
+            "PENDING",
+            "PAID",
+            "FAILED",
+            "REFUNDED"
+          ],
+          "example": "NOT_APPLICABLE"
+        },
+        "paymentMethod": {
+          "type": "string",
+          "description": "Payment method used to collect the facilitation fee, when settlementType is not FREE. References the same payment method enum as the ION core PaymentDeclaration schema.\n",
+          "enum": [
+            "QRIS",
+            "VIRTUAL_ACCOUNT",
+            "EWALLET",
+            "CASH",
+            "BANK_TRANSFER",
+            "NOT_APPLICABLE"
+          ],
+          "example": "NOT_APPLICABLE"
+        },
+        "paidAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp at which the facilitation fee was successfully collected, in UTC with timezone offset. Present only when paymentStatus is PAID.\n",
+          "example": "2026-04-20T10:05:00+07:00"
+        },
+        "gatewayRef": {
+          "type": "string",
+          "description": "Payment gateway transaction reference, when a digital payment method was used to collect the facilitation fee.\n",
+          "example": "XND-2026-04-20-00048291"
+        },
+        "remittanceStatus": {
+          "type": "string",
+          "description": "Status of the government fee remittance to the implementing agency, applicable only when settlementType is GOVERNMENT_FEE_PASSTHROUGH. Tracks whether the collected government fee has been forwarded.\n",
+          "enum": [
+            "NOT_APPLICABLE",
+            "PENDING_REMITTANCE",
+            "REMITTED"
+          ],
+          "example": "NOT_APPLICABLE"
+        },
+        "remittanceRef": {
+          "type": "string",
+          "description": "Official government receipt or remittance reference number confirming that a collected government fee passthrough has been forwarded to the implementing agency. Required when remittanceStatus is REMITTED.\n",
+          "example": "PNBP-2026-00019284"
+        },
+        "refundRecord": {
+          "$ref": "#/$defs/FacilitationRefund",
+          "description": "Present when paymentStatus is REFUNDED. Documents the refund of a previously collected facilitation fee — for example, when the facilitation partner offers refundOnRejection=true and the government application was rejected.\n"
+        }
+      },
+      "x-ion-closed-extensions": false
+    },
+    "FacilitationRefund": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Record of a facilitation fee refund to the applicant. Present on a Settlement record when paymentStatus transitions to REFUNDED. Captures the refund amount, reason, timing, and method, consistent with the Offer.refundOnRejection promise declared at catalog time.\n",
+      "properties": {
+        "refundAmount": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Amount refunded to the applicant in IDR.",
+          "example": 25000
+        },
+        "currency": {
+          "type": "string",
+          "default": "IDR"
+        },
+        "refundReason": {
+          "type": "string",
+          "description": "Why the facilitation fee was refunded.",
+          "enum": [
+            "APPLICATION_REJECTED_BY_GOVERNMENT",
+            "APPLICANT_WITHDREW",
+            "FACILITATION_PARTNER_UNABLE_TO_SUBMIT",
+            "SCHEME_QUOTA_EXHAUSTED",
+            "ELIGIBILITY_DECLINED_POST_DOCUMENT_CHECK",
+            "OTHER"
+          ],
+          "example": "APPLICATION_REJECTED_BY_GOVERNMENT"
+        },
+        "refundMethod": {
+          "type": "string",
+          "description": "Channel through which the refund was returned to the applicant.",
+          "enum": [
+            "REFUND_TO_ORIGINAL",
+            "CASH_RETURN",
+            "BANK_TRANSFER"
+          ],
+          "example": "REFUND_TO_ORIGINAL"
+        },
+        "refundInitiatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "refundSettledAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}

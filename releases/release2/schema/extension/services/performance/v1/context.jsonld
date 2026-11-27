@@ -1,0 +1,22 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@protected": true,
+    "ion": "https://schema.ion.id/services/performance/v1#",
+    "beckn": "https://spec.beckn.io/vocab/v2.0.0#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "schema": "https://schema.org/",
+    "IONSocialSchemePerformanceAttributes": "ion:IONSocialSchemePerformanceAttributes",
+    "applicationStage": "ion:applicationStage",
+    "caseworker": "ion:caseworker",
+    "governmentReferenceNumber": "ion:governmentReferenceNumber",
+    "submittedAt": "ion:submittedAt",
+    "decisionExpectedBy": "ion:decisionExpectedBy",
+    "decisionReceivedAt": "ion:decisionReceivedAt",
+    "rejectionReason": "ion:rejectionReason",
+    "additionalInfoRequest": "ion:additionalInfoRequest",
+    "disbursement": "ion:disbursement"
+  }
+}
