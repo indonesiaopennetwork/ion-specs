@@ -1,0 +1,252 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@protected": true,
+    "ion": "https://schema.ion.id/hospitality/offer/v1#",
+    "beckn": "https://schema.beckn.io/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "schema": "https://schema.org/",
+    "IONHospitalityOffer": "ion:IONHospitalityOffer",
+    "eventRef": "ion:eventRef",
+    "admissionClass": "ion:admissionClass",
+    "allocationMode": "ion:allocationMode",
+    "rights": "ion:rights",
+    "sessionIds": "ion:sessionIds",
+    "zoneIds": "ion:zoneIds",
+    "maxEntriesPerSession": "ion:maxEntriesPerSession",
+    "named": "ion:named",
+    "reentryAllowed": "ion:reentryAllowed",
+    "poolIds": "ion:poolIds",
+    "salesStart": "ion:salesStart",
+    "salesEnd": "ion:salesEnd",
+    "maxAdmissions": "ion:maxAdmissions",
+    "minAdmissions": "ion:minAdmissions",
+    "holdDurationSeconds": "ion:holdDurationSeconds",
+    "availableAdmissions": "ion:availableAdmissions",
+    "availabilityAsOf": "ion:availabilityAsOf",
+    "layoutRef": "ion:layoutRef",
+    "eligibilityCode": "ion:eligibilityCode",
+    "includedBenefits": "ion:includedBenefits",
+    "optionalAddOnRefs": "ion:optionalAddOnRefs",
+    "policies": "ion:policies",
+    "cancellation": "ion:cancellation",
+    "policyRef": "ion:policyRef",
+    "organiserCancellation": "ion:organiserCancellation",
+    "rescheduling": "ion:rescheduling",
+    "admission": "ion:admission",
+    "paymentTerms": "ion:paymentTerms",
+    "settlement": "ion:settlement",
+    "dispute": "ion:dispute",
+    "grievanceSla": "ion:grievanceSla",
+    "attendeeType": "ion:attendeeType",
+    "eligibilityRequired": "ion:eligibilityRequired"
+  },
+  "@graph": [
+    {
+      "@id": "ion:IONHospitalityOffer",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONHospitalityOffer",
+      "rdfs:comment": "Draft hospitality offer extension for event admission ticketing."
+    },
+    {
+      "@id": "ion:eventRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "eventRef",
+      "rdfs:comment": "Event resource identity."
+    },
+    {
+      "@id": "ion:admissionClass",
+      "@type": "rdf:Property",
+      "rdfs:label": "admissionClass",
+      "rdfs:comment": "Admission category identifier."
+    },
+    {
+      "@id": "ion:allocationMode",
+      "@type": "rdf:Property",
+      "rdfs:label": "allocationMode",
+      "rdfs:comment": "Method by which admission capacity is allocated."
+    },
+    {
+      "@id": "ion:rights",
+      "@type": "rdf:Property",
+      "rdfs:label": "rights",
+      "rdfs:comment": "Admission scope and usage restrictions."
+    },
+    {
+      "@id": "ion:sessionIds",
+      "@type": "rdf:Property",
+      "rdfs:label": "sessionIds",
+      "rdfs:comment": "Sessions covered by entitlement."
+    },
+    {
+      "@id": "ion:zoneIds",
+      "@type": "rdf:Property",
+      "rdfs:label": "zoneIds",
+      "rdfs:comment": "Permitted access zones."
+    },
+    {
+      "@id": "ion:maxEntriesPerSession",
+      "@type": "rdf:Property",
+      "rdfs:label": "maxEntriesPerSession",
+      "rdfs:comment": "Maximum admissions per session."
+    },
+    {
+      "@id": "ion:named",
+      "@type": "rdf:Property",
+      "rdfs:label": "named",
+      "rdfs:comment": "Attendee identification is required at admission."
+    },
+    {
+      "@id": "ion:reentryAllowed",
+      "@type": "rdf:Property",
+      "rdfs:label": "reentryAllowed",
+      "rdfs:comment": "Re-entry is permitted within the entry limit."
+    },
+    {
+      "@id": "ion:poolIds",
+      "@type": "rdf:Property",
+      "rdfs:label": "poolIds",
+      "rdfs:comment": "Eligible authoritative capacity pools."
+    },
+    {
+      "@id": "ion:salesStart",
+      "@type": "rdf:Property",
+      "rdfs:label": "salesStart",
+      "rdfs:comment": "First sale instant."
+    },
+    {
+      "@id": "ion:salesEnd",
+      "@type": "rdf:Property",
+      "rdfs:label": "salesEnd",
+      "rdfs:comment": "End of sales window."
+    },
+    {
+      "@id": "ion:maxAdmissions",
+      "@type": "rdf:Property",
+      "rdfs:label": "maxAdmissions",
+      "rdfs:comment": "Maximum admissions per order."
+    },
+    {
+      "@id": "ion:minAdmissions",
+      "@type": "rdf:Property",
+      "rdfs:label": "minAdmissions",
+      "rdfs:comment": "Minimum admissions per order."
+    },
+    {
+      "@id": "ion:holdDurationSeconds",
+      "@type": "rdf:Property",
+      "rdfs:label": "holdDurationSeconds",
+      "rdfs:comment": "Maximum hold duration offered."
+    },
+    {
+      "@id": "ion:availableAdmissions",
+      "@type": "rdf:Property",
+      "rdfs:label": "availableAdmissions",
+      "rdfs:comment": "Indicative available admissions, never a lock."
+    },
+    {
+      "@id": "ion:availabilityAsOf",
+      "@type": "rdf:Property",
+      "rdfs:label": "availabilityAsOf",
+      "rdfs:comment": "Snapshot time."
+    },
+    {
+      "@id": "ion:layoutRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "layoutRef",
+      "rdfs:comment": "Optional non-secret layout document reference."
+    },
+    {
+      "@id": "ion:eligibilityCode",
+      "@type": "rdf:Property",
+      "rdfs:label": "eligibilityCode",
+      "rdfs:comment": "Eligibility rule reference, not personal evidence."
+    },
+    {
+      "@id": "ion:includedBenefits",
+      "@type": "rdf:Property",
+      "rdfs:label": "includedBenefits",
+      "rdfs:comment": "Included benefit references."
+    },
+    {
+      "@id": "ion:optionalAddOnRefs",
+      "@type": "rdf:Property",
+      "rdfs:label": "optionalAddOnRefs",
+      "rdfs:comment": "Optional add-on offer references."
+    },
+    {
+      "@id": "ion:policies",
+      "@type": "rdf:Property",
+      "rdfs:label": "policies",
+      "rdfs:comment": "Applicable registered policy references by family."
+    },
+    {
+      "@id": "ion:cancellation",
+      "@type": "rdf:Property",
+      "rdfs:label": "cancellation",
+      "rdfs:comment": "Offer policy reference."
+    },
+    {
+      "@id": "ion:policyRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "policyRef",
+      "rdfs:comment": "Registered policy IRI."
+    },
+    {
+      "@id": "ion:organiserCancellation",
+      "@type": "rdf:Property",
+      "rdfs:label": "organiserCancellation",
+      "rdfs:comment": "Offer policy reference."
+    },
+    {
+      "@id": "ion:rescheduling",
+      "@type": "rdf:Property",
+      "rdfs:label": "rescheduling",
+      "rdfs:comment": "Offer policy reference."
+    },
+    {
+      "@id": "ion:admission",
+      "@type": "rdf:Property",
+      "rdfs:label": "admission",
+      "rdfs:comment": "Offer policy reference."
+    },
+    {
+      "@id": "ion:paymentTerms",
+      "@type": "rdf:Property",
+      "rdfs:label": "paymentTerms",
+      "rdfs:comment": "Offer policy reference."
+    },
+    {
+      "@id": "ion:settlement",
+      "@type": "rdf:Property",
+      "rdfs:label": "settlement",
+      "rdfs:comment": "Offer policy reference."
+    },
+    {
+      "@id": "ion:dispute",
+      "@type": "rdf:Property",
+      "rdfs:label": "dispute",
+      "rdfs:comment": "Offer policy reference."
+    },
+    {
+      "@id": "ion:grievanceSla",
+      "@type": "rdf:Property",
+      "rdfs:label": "grievanceSla",
+      "rdfs:comment": "Offer policy reference."
+    },
+    {
+      "@id": "ion:attendeeType",
+      "@type": "rdf:Property",
+      "rdfs:label": "attendeeType",
+      "rdfs:comment": "Eligibility price class."
+    },
+    {
+      "@id": "ion:eligibilityRequired",
+      "@type": "rdf:Property",
+      "rdfs:label": "eligibilityRequired",
+      "rdfs:comment": "Requires eligibility verification."
+    }
+  ]
+}

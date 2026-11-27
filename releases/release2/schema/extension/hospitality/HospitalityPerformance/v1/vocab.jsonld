@@ -1,0 +1,273 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@protected": true,
+    "ion": "https://schema.ion.id/hospitality/performance/v1#",
+    "beckn": "https://schema.beckn.io/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "schema": "https://schema.org/",
+    "IONHospitalityPerformance": "ion:IONHospitalityPerformance",
+    "ticketId": "ion:ticketId",
+    "bookingRef": "ion:bookingRef",
+    "offerRef": "ion:offerRef",
+    "rights": "ion:rights",
+    "sessionIds": "ion:sessionIds",
+    "zoneIds": "ion:zoneIds",
+    "maxEntriesPerSession": "ion:maxEntriesPerSession",
+    "named": "ion:named",
+    "reentryAllowed": "ion:reentryAllowed",
+    "allocations": "ion:allocations",
+    "sessionId": "ion:sessionId",
+    "poolId": "ion:poolId",
+    "mode": "ion:mode",
+    "admissions": "ion:admissions",
+    "sectionId": "ion:sectionId",
+    "seatIds": "ion:seatIds",
+    "tableId": "ion:tableId",
+    "layoutRevision": "ion:layoutRevision",
+    "adjacentRequested": "ion:adjacentRequested",
+    "accessibleRequested": "ion:accessibleRequested",
+    "issuanceState": "ion:issuanceState",
+    "admissionState": "ion:admissionState",
+    "deliveryMode": "ion:deliveryMode",
+    "deliveryRef": "ion:deliveryRef",
+    "attendeeRef": "ion:attendeeRef",
+    "revision": "ion:revision",
+    "usage": "ion:usage",
+    "zoneId": "ion:zoneId",
+    "entries": "ion:entries",
+    "lastEntryAt": "ion:lastEntryAt",
+    "admissionCheck": "ion:admissionCheck",
+    "allocationState": "ion:allocationState",
+    "accessibleSeatId": "ion:accessibleSeatId",
+    "companionSeatId": "ion:companionSeatId",
+    "checkRef": "ion:checkRef",
+    "result": "ion:result"
+  },
+  "@graph": [
+    {
+      "@id": "ion:IONHospitalityPerformance",
+      "@type": "rdfs:Class",
+      "rdfs:label": "IONHospitalityPerformance",
+      "rdfs:comment": "Draft hospitality performance extension for event admission ticketing."
+    },
+    {
+      "@id": "ion:ticketId",
+      "@type": "rdf:Property",
+      "rdfs:label": "ticketId",
+      "rdfs:comment": "Stable identity of individual admission entitlement."
+    },
+    {
+      "@id": "ion:bookingRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "bookingRef",
+      "rdfs:comment": "Parent booking reference."
+    },
+    {
+      "@id": "ion:offerRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "offerRef",
+      "rdfs:comment": "Purchased offer identity."
+    },
+    {
+      "@id": "ion:rights",
+      "@type": "rdf:Property",
+      "rdfs:label": "rights",
+      "rdfs:comment": "Admission scope and usage restrictions."
+    },
+    {
+      "@id": "ion:sessionIds",
+      "@type": "rdf:Property",
+      "rdfs:label": "sessionIds",
+      "rdfs:comment": "Sessions covered by entitlement."
+    },
+    {
+      "@id": "ion:zoneIds",
+      "@type": "rdf:Property",
+      "rdfs:label": "zoneIds",
+      "rdfs:comment": "Permitted access zones."
+    },
+    {
+      "@id": "ion:maxEntriesPerSession",
+      "@type": "rdf:Property",
+      "rdfs:label": "maxEntriesPerSession",
+      "rdfs:comment": "Maximum admissions per session."
+    },
+    {
+      "@id": "ion:named",
+      "@type": "rdf:Property",
+      "rdfs:label": "named",
+      "rdfs:comment": "Attendee identification is required at admission."
+    },
+    {
+      "@id": "ion:reentryAllowed",
+      "@type": "rdf:Property",
+      "rdfs:label": "reentryAllowed",
+      "rdfs:comment": "Re-entry is permitted within the entry limit."
+    },
+    {
+      "@id": "ion:allocations",
+      "@type": "rdf:Property",
+      "rdfs:label": "allocations",
+      "rdfs:comment": "Actual assigned session capacity for this ticket."
+    },
+    {
+      "@id": "ion:sessionId",
+      "@type": "rdf:Property",
+      "rdfs:label": "sessionId",
+      "rdfs:comment": "Session identity."
+    },
+    {
+      "@id": "ion:poolId",
+      "@type": "rdf:Property",
+      "rdfs:label": "poolId",
+      "rdfs:comment": "Authoritative capacity pool."
+    },
+    {
+      "@id": "ion:mode",
+      "@type": "rdf:Property",
+      "rdfs:label": "mode",
+      "rdfs:comment": "Method by which admission capacity is allocated."
+    },
+    {
+      "@id": "ion:admissions",
+      "@type": "rdf:Property",
+      "rdfs:label": "admissions",
+      "rdfs:comment": "Number of admissions represented by this allocation."
+    },
+    {
+      "@id": "ion:sectionId",
+      "@type": "rdf:Property",
+      "rdfs:label": "sectionId",
+      "rdfs:comment": "Section identifier."
+    },
+    {
+      "@id": "ion:seatIds",
+      "@type": "rdf:Property",
+      "rdfs:label": "seatIds",
+      "rdfs:comment": "Exact assigned seat identifiers."
+    },
+    {
+      "@id": "ion:tableId",
+      "@type": "rdf:Property",
+      "rdfs:label": "tableId",
+      "rdfs:comment": "Table identifier."
+    },
+    {
+      "@id": "ion:layoutRevision",
+      "@type": "rdf:Property",
+      "rdfs:label": "layoutRevision",
+      "rdfs:comment": "Layout revision for assigned seats."
+    },
+    {
+      "@id": "ion:adjacentRequested",
+      "@type": "rdf:Property",
+      "rdfs:label": "adjacentRequested",
+      "rdfs:comment": "Buyer requests adjacent seats."
+    },
+    {
+      "@id": "ion:accessibleRequested",
+      "@type": "rdf:Property",
+      "rdfs:label": "accessibleRequested",
+      "rdfs:comment": "Buyer requests accessible allocation."
+    },
+    {
+      "@id": "ion:issuanceState",
+      "@type": "rdf:Property",
+      "rdfs:label": "issuanceState",
+      "rdfs:comment": "Ticket delivery lifecycle."
+    },
+    {
+      "@id": "ion:admissionState",
+      "@type": "rdf:Property",
+      "rdfs:label": "admissionState",
+      "rdfs:comment": "Entitlement lifecycle independent of issuance."
+    },
+    {
+      "@id": "ion:deliveryMode",
+      "@type": "rdf:Property",
+      "rdfs:label": "deliveryMode",
+      "rdfs:comment": "Credential delivery method."
+    },
+    {
+      "@id": "ion:deliveryRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "deliveryRef",
+      "rdfs:comment": "Opaque non-secret authenticated delivery reference."
+    },
+    {
+      "@id": "ion:attendeeRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "attendeeRef",
+      "rdfs:comment": "Opaque attendee reference."
+    },
+    {
+      "@id": "ion:revision",
+      "@type": "rdf:Property",
+      "rdfs:label": "revision",
+      "rdfs:comment": "Monotonic entitlement revision."
+    },
+    {
+      "@id": "ion:usage",
+      "@type": "rdf:Property",
+      "rdfs:label": "usage",
+      "rdfs:comment": "Authoritative admission usage counters by session and zone."
+    },
+    {
+      "@id": "ion:zoneId",
+      "@type": "rdf:Property",
+      "rdfs:label": "zoneId",
+      "rdfs:comment": "Zone identity."
+    },
+    {
+      "@id": "ion:entries",
+      "@type": "rdf:Property",
+      "rdfs:label": "entries",
+      "rdfs:comment": "Number of accepted entries."
+    },
+    {
+      "@id": "ion:lastEntryAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "lastEntryAt",
+      "rdfs:comment": "Most recent accepted entry."
+    },
+    {
+      "@id": "ion:admissionCheck",
+      "@type": "rdf:Property",
+      "rdfs:label": "admissionCheck",
+      "rdfs:comment": "Latest admission attempt summary, no credential."
+    },
+    {
+      "@id": "ion:allocationState",
+      "@type": "rdf:Property",
+      "rdfs:label": "allocationState",
+      "rdfs:comment": "allocationState"
+    },
+    {
+      "@id": "ion:accessibleSeatId",
+      "@type": "rdf:Property",
+      "rdfs:label": "accessibleSeatId",
+      "rdfs:comment": "Accessible seat in the allocation."
+    },
+    {
+      "@id": "ion:companionSeatId",
+      "@type": "rdf:Property",
+      "rdfs:label": "companionSeatId",
+      "rdfs:comment": "Companion seat associated with accessible seat."
+    },
+    {
+      "@id": "ion:checkRef",
+      "@type": "rdf:Property",
+      "rdfs:label": "checkRef",
+      "rdfs:comment": "Opaque admission attempt ID."
+    },
+    {
+      "@id": "ion:result",
+      "@type": "rdf:Property",
+      "rdfs:label": "result",
+      "rdfs:comment": "Admission system outcome."
+    }
+  ]
+}

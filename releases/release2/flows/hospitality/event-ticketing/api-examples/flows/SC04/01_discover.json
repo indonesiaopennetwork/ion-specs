@@ -1,0 +1,21 @@
+{
+  "context": {
+    "version": "2.0.0",
+    "networkId": "ion.example/test",
+    "ttl": "PT30S",
+    "action": "discover",
+    "bapId": "buyer.example",
+    "bapUri": "https://buyer.example/beckn",
+    "transactionId": "e033ec2b-c119-5c44-8a53-721d54fa6a28",
+    "messageId": "dc0516a8-fca0-5c3a-b6ff-61cbd29719a1",
+    "timestamp": "2027-02-01T14:00:05+07:00"
+  },
+  "message": {
+    "intent": {
+      "filters": {
+        "type": "jsonpath",
+        "expression": "$[?(@.resourceAttributes.crc == 'HSC-events')]"
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "context": {
+    "version": "2.0.0",
+    "networkId": "ion.example/test",
+    "ttl": "PT30S",
+    "action": "on_cancel",
+    "bapId": "buyer.example",
+    "bapUri": "https://buyer.example/beckn",
+    "transactionId": "6d067207-fe76-5970-8320-eeb75644a2c1",
+    "messageId": "18a821db-f04b-5718-bcc1-d8c43efb1803",
+    "timestamp": "2027-02-10T14:01:10+07:00",
+    "bppId": "seller.example",
+    "bppUri": "https://seller.example/beckn",
+    "requestDigest": {
+      "digest": "BLAKE-512=MdRRUXBfMN7VyWI1lms3HAsBvj5nFLzxjlT9e9nVGtd7nsTeEfWJ8VuWgpe1SIMZXmTUgXBxaQe24Hp6hGByPA=="
+    }
+  },
+  "error": {
+    "code": "POL_CANCELLATION_NOT_ALLOWED",
+    "message": "Ticket already redeemed"
+  }
+}

@@ -1,0 +1,432 @@
+openapi: 3.1.0
+info:
+  title: IONHospitalityContract
+  version: 1.0.0-draft.3
+paths: {}
+components:
+  schemas:
+    IONHospitalityContract:
+      type: object
+      description: Draft hospitality contract extension for event admission ticketing.
+      properties:
+        bookingRef:
+          type: string
+          description: Stable booking identity.
+          minLength: 1
+        revision:
+          type: integer
+          minimum: 1
+          description: Monotonic booking revision.
+        eventRevision:
+          type: integer
+          minimum: 1
+          description: Accepted event revision.
+        bookingState:
+          type: string
+          description: Booking lifecycle.
+          enum:
+          - PREPARED
+          - CONFIRMATION_PENDING
+          - CONFIRMED
+          - FAILED
+          - PARTIALLY_CANCELLED
+          - CANCELLED
+          - COMPLETED
+        acceptedPolicies:
+          type: array
+          description: Immutable policy snapshots accepted at checkout.
+          items:
+            type: object
+            description: Versioned policy reference accepted by the parties.
+            properties:
+              policyRef:
+                type: string
+                description: Registered policy IRI.
+                pattern: ^ion://policy/
+              version:
+                type: string
+                description: Immutable accepted policy version.
+              digest:
+                type: string
+                description: SHA-256 digest of accepted policy content.
+                pattern: ^[a-f0-9]{64}$
+            required:
+            - policyRef
+            - version
+            - digest
+            additionalProperties: false
+          minItems: 0
+          uniqueItems: false
+        operationRef:
+          type: string
+          description: Idempotent business operation reference.
+          minLength: 1
+        change:
+          type: object
+          description: Proposed or accepted change to specific entitlements.
+          properties:
+            changeId:
+              type: string
+              description: Change operation identity.
+              minLength: 1
+            kind:
+              type: string
+              description: Change reason.
+              enum:
+              - BUYER_CANCEL
+              - ORGANISER_CANCEL
+              - POSTPONEMENT
+              - VENUE_CHANGE
+              - UPGRADE
+              - TECHNICAL_DUPLICATE
+              - NON_DELIVERY
+            ticketIds:
+              type: array
+              description: Affected tickets.
+              items:
+                type: string
+                description: Opaque identifier scoped to the authoritative provider.
+                minLength: 1
+              minItems: 1
+              uniqueItems: true
+            expectedRevision:
+              type: integer
+              minimum: 1
+              description: Revision used for conditional mutation.
+            previewExpiresAt:
+              type: string
+              description: Expiry of preview.
+              format: date-time
+            decision:
+              type: string
+              description: Consent status.
+              enum:
+              - PROPOSED
+              - ACCEPTED
+              - REJECTED
+              - EXPIRED
+              - NOT_REQUIRED
+            refundMinor:
+              type: integer
+              minimum: 0
+              description: Quoted refund amount.
+            additionalPayableMinor:
+              type: integer
+              minimum: 0
+              description: Additional price payable.
+            initiator:
+              type: string
+              enum:
+              - BUYER
+              - ORGANISER
+              - BPP
+              description: Party initiating change.
+            applicationState:
+              type: string
+              enum:
+              - PROPOSED
+              - APPLIED
+              - REJECTED
+              - EXPIRED
+              description: Operational application independent of consent.
+            noticeRef:
+              type: string
+              minLength: 1
+              description: Stable event change notice.
+            proposedEventRevision:
+              type: integer
+              minimum: 1
+            proposedSessions:
+              type: array
+              items:
+                type: object
+                description: Scheduled occurrence of an event.
+                properties:
+                  sessionId:
+                    type: string
+                    description: Session identity.
+                    minLength: 1
+                  startsAt:
+                    type: string
+                    description: Start instant.
+                    format: date-time
+                  endsAt:
+                    type: string
+                    description: End instant.
+                    format: date-time
+                  entryOpensAt:
+                    type: string
+                    description: Earliest entry instant.
+                    format: date-time
+                  entryClosesAt:
+                    type: string
+                    description: Latest entry instant.
+                    format: date-time
+                  venueRef:
+                    type: string
+                    description: Venue or core location reference.
+                    minLength: 1
+                  layoutRevision:
+                    type: string
+                    description: Immutable seating layout revision.
+                    minLength: 1
+                required:
+                - sessionId
+                - startsAt
+                - endsAt
+                - venueRef
+                additionalProperties: false
+              minItems: 1
+              description: Proposed sessions, not contracted rights.
+            replacementAllocations:
+              type: array
+              items:
+                type: object
+                description: Capacity allocated or requested for one session and pool.
+                properties:
+                  sessionId:
+                    type: string
+                    description: Session identity.
+                    minLength: 1
+                  poolId:
+                    type: string
+                    description: Authoritative capacity pool.
+                    minLength: 1
+                  mode:
+                    type: string
+                    description: Method by which admission capacity is allocated.
+                    enum:
+                    - GENERAL_ADMISSION
+                    - SECTION_UNASSIGNED
+                    - EXACT_SEAT
+                    - AUTO_ASSIGN
+                    - WHOLE_TABLE
+                    - TABLE_SEAT
+                  admissions:
+                    type: integer
+                    minimum: 1
+                    description: Number of admissions represented by this allocation.
+                  sectionId:
+                    type: string
+                    description: Section identifier.
+                    minLength: 1
+                  seatIds:
+                    type: array
+                    description: Exact assigned seat identifiers.
+                    items:
+                      type: string
+                      description: Opaque identifier scoped to the authoritative provider.
+                      minLength: 1
+                    minItems: 1
+                    uniqueItems: true
+                  tableId:
+                    type: string
+                    description: Table identifier.
+                    minLength: 1
+                  layoutRevision:
+                    type: string
+                    description: Layout revision for assigned seats.
+                    minLength: 1
+                  adjacentRequested:
+                    type: boolean
+                    description: Buyer requests adjacent seats.
+                  accessibleRequested:
+                    type: boolean
+                    description: Buyer requests accessible allocation.
+                  allocationState:
+                    type: string
+                    enum:
+                    - REQUESTED
+                    - PROPOSED
+                    - HELD
+                    - COMMITTED
+                    - RELEASED
+                    description: Allocation stage.
+                  accessibleSeatId:
+                    type: string
+                    minLength: 1
+                    description: Accessible seat in the allocation.
+                  companionSeatId:
+                    type: string
+                    minLength: 1
+                    description: Companion seat associated with accessible seat.
+                required:
+                - sessionId
+                - poolId
+                - mode
+                - admissions
+                - allocationState
+                additionalProperties: false
+                allOf:
+                - if:
+                    properties:
+                      mode:
+                        const: SECTION_UNASSIGNED
+                    required:
+                    - mode
+                  then:
+                    required:
+                    - sectionId
+                - if:
+                    properties:
+                      mode:
+                        const: EXACT_SEAT
+                    required:
+                    - mode
+                  then:
+                    required:
+                    - seatIds
+                    - layoutRevision
+                - if:
+                    properties:
+                      mode:
+                        const: WHOLE_TABLE
+                    required:
+                    - mode
+                  then:
+                    required:
+                    - tableId
+                    - seatIds
+                    - layoutRevision
+                - if:
+                    properties:
+                      mode:
+                        const: TABLE_SEAT
+                    required:
+                    - mode
+                  then:
+                    required:
+                    - tableId
+                    - seatIds
+                    - layoutRevision
+                - if:
+                    properties:
+                      mode:
+                        enum:
+                        - GENERAL_ADMISSION
+                        - SECTION_UNASSIGNED
+                    required:
+                    - mode
+                  then:
+                    not:
+                      anyOf:
+                      - required:
+                        - seatIds
+                      - required:
+                        - tableId
+                - if:
+                    properties:
+                      mode:
+                        const: AUTO_ASSIGN
+                      allocationState:
+                        enum:
+                        - PROPOSED
+                        - HELD
+                        - COMMITTED
+                    required:
+                    - mode
+                    - allocationState
+                  then:
+                    required:
+                    - seatIds
+                    - layoutRevision
+              minItems: 1
+              description: Replacement allocation proposed for affected tickets.
+          required:
+          - changeId
+          - kind
+          - ticketIds
+          - expectedRevision
+          - decision
+          - initiator
+          - applicationState
+          additionalProperties: false
+          allOf:
+          - if:
+              properties:
+                kind:
+                  enum:
+                  - ORGANISER_CANCEL
+                  - NON_DELIVERY
+              required:
+              - kind
+            then:
+              properties:
+                initiator:
+                  enum:
+                  - ORGANISER
+                  - BPP
+                decision:
+                  const: NOT_REQUIRED
+          - if:
+              properties:
+                kind:
+                  enum:
+                  - POSTPONEMENT
+                  - VENUE_CHANGE
+              required:
+              - kind
+            then:
+              required:
+              - proposedEventRevision
+              - proposedSessions
+              - noticeRef
+        offeredPolicies:
+          type: array
+          description: Versioned policy snapshots offered before consent.
+          items:
+            type: object
+            description: Versioned policy reference accepted by the parties.
+            properties:
+              policyRef:
+                type: string
+                description: Registered policy IRI.
+                pattern: ^ion://policy/
+              version:
+                type: string
+                description: Immutable accepted policy version.
+              digest:
+                type: string
+                description: SHA-256 digest of accepted policy content.
+                pattern: ^[a-f0-9]{64}$
+            required:
+            - policyRef
+            - version
+            - digest
+            additionalProperties: false
+          minItems: 1
+          uniqueItems: false
+        lookupRef:
+          type: string
+          minLength: 1
+          description: Stable BPP draft reference usable for recovery, candidate binding.
+      required:
+      - bookingRef
+      - revision
+      - eventRevision
+      - bookingState
+      - acceptedPolicies
+      - operationRef
+      additionalProperties: true
+      x-beckn-attaches-to: Contract.contractAttributes
+      x-ion-layer: ion
+      x-ion-experimental: true
+      allOf:
+      - if:
+          properties:
+            bookingState:
+              enum:
+              - CONFIRMED
+              - PARTIALLY_CANCELLED
+              - CANCELLED
+              - COMPLETED
+          required:
+          - bookingState
+        then:
+          properties:
+            acceptedPolicies:
+              minItems: 1
+      x-jsonld:
+        '@context': https://schema.ion.id/release2/schema/extension/hospitality/HospitalityContract/v1/context.jsonld
+        '@type': ion:IONHospitalityContract
+      x-recommended-parent: Contract.contractAttributes

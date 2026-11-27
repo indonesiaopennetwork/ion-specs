@@ -114,7 +114,7 @@ class RuleInventoryTest < Minitest::Test
       metadata = valid_metadata(id: "ION-R3-LOG-0001")
       _inventory, errors = IonRegoInventory.build(build_repository(root, metadata: metadata, test_rule_id: "ION-R3-LOG-0001"))
 
-      assert errors.any? { |error| error.include?("expected ION-R2-(COM|TRD|LOG)-NNNN") }
+      assert errors.any? { |error| error.include?("expected ION-R2-(COM|TRD|LOG|HSP)-NNNN") }
       assert errors.any? { |error| error.include?("rule ID area LOG does not match sector trade") }
     end
   end

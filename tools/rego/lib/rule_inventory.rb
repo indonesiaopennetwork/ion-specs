@@ -3,9 +3,9 @@ require "pathname"
 require "yaml"
 
 module IonRegoInventory
-  RULE_ID = /\AION-R(?<release>\d+)-(?<area>COM|TRD|LOG)-\d{4}\z/.freeze
+  RULE_ID = /\AION-R(?<release>\d+)-(?<area>COM|TRD|LOG|HSP)-\d{4}\z/.freeze
   CONFIG_KEY = /\A[a-z][A-Za-z0-9_]*(?:\.[a-z][A-Za-z0-9_]*)*\z/.freeze
-  SECTOR_AREAS = { "common" => "COM", "trade" => "TRD", "logistics" => "LOG" }.freeze
+  SECTOR_AREAS = { "common" => "COM", "trade" => "TRD", "logistics" => "LOG", "hospitality" => "HSP" }.freeze
   STATUSES = %w[active withdrawn].freeze
   METADATA_FIELDS = %w[title description scope custom].freeze
   CUSTOM_FIELDS = %w[
@@ -179,11 +179,11 @@ module IonRegoInventory
     id = custom["ion_rule_id"].to_s
     match = RULE_ID.match(id)
     unless match && match[:release].to_i == release
-      errors << "#{location}: invalid rule ID #{id.inspect}; expected ION-R#{release}-(COM|TRD|LOG)-NNNN"
+      errors << "#{location}: invalid rule ID #{id.inspect}; expected ION-R#{release}-(COM|TRD|LOG|HSP)-NNNN"
     end
     sector = custom["sector"]
     unless SECTOR_AREAS.key?(sector)
-      errors << "#{location}: sector must be common, trade, or logistics"
+      errors << "#{location}: sector must be common, trade, logistics, or hospitality"
     end
     if match && SECTOR_AREAS[sector] && match[:area] != SECTOR_AREAS.fetch(sector)
       errors << "#{location}: rule ID area #{match[:area]} does not match sector #{sector}"

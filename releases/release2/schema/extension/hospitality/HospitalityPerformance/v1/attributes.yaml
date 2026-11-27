@@ -1,0 +1,317 @@
+openapi: 3.1.0
+info:
+  title: IONHospitalityPerformance
+  version: 1.0.0-draft.3
+paths: {}
+components:
+  schemas:
+    IONHospitalityPerformance:
+      type: object
+      description: Draft hospitality performance extension for event admission ticketing.
+      properties:
+        ticketId:
+          type: string
+          description: Stable identity of individual admission entitlement.
+          minLength: 1
+        bookingRef:
+          type: string
+          description: Parent booking reference.
+          minLength: 1
+        offerRef:
+          type: string
+          description: Purchased offer identity.
+          minLength: 1
+        rights:
+          type: object
+          description: Admission scope and usage restrictions.
+          properties:
+            sessionIds:
+              type: array
+              description: Sessions covered by entitlement.
+              items:
+                type: string
+                description: Opaque identifier scoped to the authoritative provider.
+                minLength: 1
+              minItems: 1
+              uniqueItems: true
+            zoneIds:
+              type: array
+              description: Permitted access zones.
+              items:
+                type: string
+                description: Opaque identifier scoped to the authoritative provider.
+                minLength: 1
+              minItems: 1
+              uniqueItems: true
+            maxEntriesPerSession:
+              type: integer
+              minimum: 1
+              description: Maximum admissions per session.
+            named:
+              type: boolean
+              description: Attendee identification is required at admission.
+            reentryAllowed:
+              type: boolean
+              description: Re-entry is permitted within the entry limit.
+          required:
+          - sessionIds
+          - maxEntriesPerSession
+          - named
+          - reentryAllowed
+          additionalProperties: false
+        allocations:
+          type: array
+          description: Actual assigned session capacity for this ticket.
+          items:
+            type: object
+            description: Capacity allocated or requested for one session and pool.
+            properties:
+              sessionId:
+                type: string
+                description: Session identity.
+                minLength: 1
+              poolId:
+                type: string
+                description: Authoritative capacity pool.
+                minLength: 1
+              mode:
+                type: string
+                description: Method by which admission capacity is allocated.
+                enum:
+                - GENERAL_ADMISSION
+                - SECTION_UNASSIGNED
+                - EXACT_SEAT
+                - AUTO_ASSIGN
+                - WHOLE_TABLE
+                - TABLE_SEAT
+              admissions:
+                type: integer
+                minimum: 1
+                description: Number of admissions represented by this allocation.
+              sectionId:
+                type: string
+                description: Section identifier.
+                minLength: 1
+              seatIds:
+                type: array
+                description: Exact assigned seat identifiers.
+                items:
+                  type: string
+                  description: Opaque identifier scoped to the authoritative provider.
+                  minLength: 1
+                minItems: 1
+                uniqueItems: true
+              tableId:
+                type: string
+                description: Table identifier.
+                minLength: 1
+              layoutRevision:
+                type: string
+                description: Layout revision for assigned seats.
+                minLength: 1
+              adjacentRequested:
+                type: boolean
+                description: Buyer requests adjacent seats.
+              accessibleRequested:
+                type: boolean
+                description: Buyer requests accessible allocation.
+              allocationState:
+                type: string
+                enum:
+                - REQUESTED
+                - PROPOSED
+                - HELD
+                - COMMITTED
+                - RELEASED
+                description: Allocation stage.
+              accessibleSeatId:
+                type: string
+                minLength: 1
+                description: Accessible seat in the allocation.
+              companionSeatId:
+                type: string
+                minLength: 1
+                description: Companion seat associated with accessible seat.
+            required:
+            - sessionId
+            - poolId
+            - mode
+            - admissions
+            - allocationState
+            additionalProperties: false
+            allOf:
+            - if:
+                properties:
+                  mode:
+                    const: SECTION_UNASSIGNED
+                required:
+                - mode
+              then:
+                required:
+                - sectionId
+            - if:
+                properties:
+                  mode:
+                    const: EXACT_SEAT
+                required:
+                - mode
+              then:
+                required:
+                - seatIds
+                - layoutRevision
+            - if:
+                properties:
+                  mode:
+                    const: WHOLE_TABLE
+                required:
+                - mode
+              then:
+                required:
+                - tableId
+                - seatIds
+                - layoutRevision
+            - if:
+                properties:
+                  mode:
+                    const: TABLE_SEAT
+                required:
+                - mode
+              then:
+                required:
+                - tableId
+                - seatIds
+                - layoutRevision
+            - if:
+                properties:
+                  mode:
+                    enum:
+                    - GENERAL_ADMISSION
+                    - SECTION_UNASSIGNED
+                required:
+                - mode
+              then:
+                not:
+                  anyOf:
+                  - required:
+                    - seatIds
+                  - required:
+                    - tableId
+            - if:
+                properties:
+                  mode:
+                    const: AUTO_ASSIGN
+                  allocationState:
+                    enum:
+                    - PROPOSED
+                    - HELD
+                    - COMMITTED
+                required:
+                - mode
+                - allocationState
+              then:
+                required:
+                - seatIds
+                - layoutRevision
+          minItems: 1
+          uniqueItems: false
+        issuanceState:
+          type: string
+          description: Ticket delivery lifecycle.
+          enum:
+          - PENDING
+          - ISSUED
+          - ISSUE_FAILED
+        admissionState:
+          type: string
+          description: Entitlement lifecycle independent of issuance.
+          enum:
+          - ACTIVE
+          - REDEEMED
+          - EXPIRED_UNUSED
+          - REVOKED
+        deliveryMode:
+          type: string
+          description: Credential delivery method.
+          enum:
+          - DIGITAL
+          - COLLECTION
+          - DELAYED
+        deliveryRef:
+          type: string
+          description: Opaque non-secret authenticated delivery reference.
+          minLength: 1
+        attendeeRef:
+          type: string
+          description: Opaque attendee reference.
+          minLength: 1
+        revision:
+          type: integer
+          minimum: 1
+          description: Monotonic entitlement revision.
+        usage:
+          type: array
+          description: Authoritative admission usage counters by session and zone.
+          items:
+            type: object
+            description: Admission count.
+            properties:
+              sessionId:
+                type: string
+                description: Session identity.
+                minLength: 1
+              zoneId:
+                type: string
+                description: Zone identity.
+                minLength: 1
+              entries:
+                type: integer
+                minimum: 0
+                description: Number of accepted entries.
+              lastEntryAt:
+                type: string
+                description: Most recent accepted entry.
+                format: date-time
+            required:
+            - sessionId
+            - entries
+            additionalProperties: false
+          minItems: 0
+          uniqueItems: false
+        admissionCheck:
+          type: object
+          properties:
+            checkRef:
+              type: string
+              minLength: 1
+              description: Opaque admission attempt ID.
+            result:
+              type: string
+              enum:
+              - ACCEPTED
+              - DUPLICATE
+              - INVALID
+              - IDENTITY_MISMATCH
+              description: Admission system outcome.
+          required:
+          - checkRef
+          - result
+          additionalProperties: false
+          description: Latest admission attempt summary, no credential.
+      required:
+      - ticketId
+      - bookingRef
+      - offerRef
+      - rights
+      - allocations
+      - issuanceState
+      - admissionState
+      - deliveryMode
+      - revision
+      additionalProperties: true
+      x-beckn-attaches-to: Performance.performanceAttributes
+      x-ion-layer: ion
+      x-ion-experimental: true
+      x-jsonld:
+        '@context': https://schema.ion.id/release2/schema/extension/hospitality/HospitalityPerformance/v1/context.jsonld
+        '@type': ion:IONHospitalityPerformance
+      x-recommended-parent: Performance.performanceAttributes

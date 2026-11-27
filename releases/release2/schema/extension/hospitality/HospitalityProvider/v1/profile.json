@@ -1,0 +1,21 @@
+{
+  "id": "ion-hospitality-provider-v1",
+  "version": "1.0.0",
+  "domain": "hospitality",
+  "type": "AttributePack",
+  "name": "ION Hospitality Provider Extension (v1)",
+  "packSchema": "./schema.json",
+  "jsonldContext": "./context.jsonld",
+  "extends": "beckn:Provider",
+  "attachmentPoints": {
+    "providerAttributes": [
+      "IONHospitalityProvider"
+    ]
+  },
+  "indexing": {
+    "indexable": [],
+    "filterable": [],
+    "sortable": []
+  },
+  "minimalForDiscovery": []
+}

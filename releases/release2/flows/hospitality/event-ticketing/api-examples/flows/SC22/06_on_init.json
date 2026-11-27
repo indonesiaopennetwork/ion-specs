@@ -1,0 +1,28 @@
+{
+  "context": {
+    "version": "2.0.0",
+    "networkId": "ion.example/test",
+    "ttl": "PT30S",
+    "action": "on_init",
+    "bapId": "buyer.example",
+    "bapUri": "https://buyer.example/beckn",
+    "transactionId": "30220a70-5726-5634-9373-52e328d26325",
+    "messageId": "e41e3ddb-83f8-5e65-883b-0bb991db8dcf",
+    "timestamp": "2027-02-01T14:00:30+07:00",
+    "bppId": "seller.example",
+    "bppUri": "https://seller.example/beckn",
+    "requestDigest": {
+      "digest": "BLAKE-512=4AQpV/Eb1HsQuFqYf3944H/RVCzwlLSOOpQX6x2iCOOj45wOvMfgkeknR27IIXeHGx+gJjA5jXn/AbI6YAiJzQ=="
+    }
+  },
+  "error": {
+    "code": "BIZ_QUANTITY_UNAVAILABLE",
+    "message": "Selected seat is no longer available",
+    "details": {
+      "cause": {
+        "code": "DRAFT_INVENTORY_CONFLICT",
+        "message": "Seat A12 unavailable"
+      }
+    }
+  }
+}

@@ -1,0 +1,123 @@
+{
+  "context": {
+    "version": "2.0.0",
+    "networkId": "ion.example/test",
+    "ttl": "PT30S",
+    "action": "status",
+    "bapId": "buyer.example",
+    "bapUri": "https://buyer.example/beckn",
+    "transactionId": "16f9bed2-d6e0-5373-8cd8-60d05e1d8dd2",
+    "messageId": "acfe943c-d5d3-532e-a6b4-cc7e3bd90bfd",
+    "timestamp": "2027-02-01T14:00:45+07:00",
+    "bppId": "seller.example",
+    "bppUri": "https://seller.example/beckn"
+  },
+  "message": {
+    "contract": {
+      "id": "966700e7-e13d-5a77-b7e9-d83d56bf4e69",
+      "commitments": [
+        {
+          "offer": {
+            "id": "O1",
+            "resourceIds": [
+              "EV-SC43"
+            ],
+            "offerAttributes": {
+              "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityOffer/v1/context.jsonld",
+              "@type": "ion:IONHospitalityOffer",
+              "eventRef": "EV-SC43",
+              "admissionClass": "REGULAR",
+              "allocationMode": "EXACT_SEAT",
+              "rights": {
+                "sessionIds": [
+                  "S1"
+                ],
+                "maxEntriesPerSession": 1,
+                "named": false,
+                "reentryAllowed": false
+              },
+              "poolIds": [
+                "POOL-EXACT_SEAT"
+              ],
+              "salesStart": "2026-12-01T00:00:00+07:00",
+              "salesEnd": "2027-02-10T14:00:00+07:00",
+              "maxAdmissions": 20,
+              "policies": {
+                "cancellation": {
+                  "policyRef": "ion://policy/cancel.event.until-48h"
+                },
+                "organiserCancellation": {
+                  "policyRef": "ion://policy/cancel.event.organiser-full"
+                },
+                "admission": {
+                  "policyRef": "ion://policy/admission.event.standard"
+                }
+              }
+            }
+          },
+          "id": "CM1",
+          "status": {
+            "descriptor": {
+              "code": "DRAFT"
+            }
+          },
+          "resources": [
+            {
+              "resource": {
+                "id": "EV-SC43",
+                "descriptor": {
+                  "name": "Nusantara Awards"
+                },
+                "resourceAttributes": {
+                  "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityResource/v1/context.jsonld",
+                  "@type": "ion:IONHospitalityResource",
+                  "crc": "HSC-events",
+                  "event": {
+                    "eventId": "EV-SC43",
+                    "organiserRef": "ORG1",
+                    "timezone": "Asia/Jakarta",
+                    "revision": 1,
+                    "state": "SCHEDULED",
+                    "sessions": [
+                      {
+                        "sessionId": "S1",
+                        "startsAt": "2027-02-10T14:00:00+07:00",
+                        "endsAt": "2027-02-10T17:00:00+07:00",
+                        "venueRef": "VENUE1",
+                        "layoutRevision": "L1"
+                      }
+                    ]
+                  }
+                }
+              },
+              "quantity": {
+                "unitQuantity": 2,
+                "unitText": "admissions"
+              }
+            }
+          ],
+          "commitmentAttributes": {
+            "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityCommitment/v1/context.jsonld",
+            "@type": "ion:IONHospitalityCommitment",
+            "offerRef": "O1",
+            "quantity": 2,
+            "allocations": [
+              {
+                "sessionId": "S1",
+                "poolId": "POOL-EXACT_SEAT",
+                "mode": "EXACT_SEAT",
+                "admissions": 2,
+                "seatIds": [
+                  "A12",
+                  "A13"
+                ],
+                "layoutRevision": "L1",
+                "allocationState": "REQUESTED"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

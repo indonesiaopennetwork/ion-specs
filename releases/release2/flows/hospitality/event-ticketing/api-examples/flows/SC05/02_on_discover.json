@@ -1,0 +1,113 @@
+{
+  "context": {
+    "version": "2.0.0",
+    "networkId": "ion.example/test",
+    "ttl": "PT30S",
+    "action": "on_discover",
+    "bapId": "buyer.example",
+    "bapUri": "https://buyer.example/beckn",
+    "transactionId": "e0a68db7-2c2c-50bc-8fc0-02c2c1c18ed3",
+    "messageId": "9a1832ec-58f0-5c49-b45b-e03da34c5c44",
+    "timestamp": "2027-02-01T14:00:10+07:00",
+    "requestDigest": {
+      "digest": "BLAKE-512=Hngi+JJ78sCabPSmNOZkkpM/VdXUNjBoDLwZIl+yyjLVAkrxJEEMHTdR8AQRqi6LHIYUKjSA2x35g4xKLdhWnw=="
+    }
+  },
+  "message": {
+    "catalogs": [
+      {
+        "id": "CAT-SC05",
+        "bppId": "seller.example",
+        "bppUri": "https://seller.example/beckn",
+        "descriptor": {
+          "name": "Year-end Gala"
+        },
+        "provider": {
+          "id": "ORG1",
+          "descriptor": {
+            "name": "Illustrative event organiser"
+          },
+          "providerAttributes": {
+            "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityProvider/v1/context.jsonld",
+            "@type": "ion:IONHospitalityProvider",
+            "allocationModes": [
+              "WHOLE_TABLE"
+            ],
+            "deliveryModes": [
+              "DIGITAL"
+            ]
+          }
+        },
+        "resources": [
+          {
+            "id": "EV-SC05",
+            "descriptor": {
+              "name": "Year-end Gala"
+            },
+            "resourceAttributes": {
+              "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityResource/v1/context.jsonld",
+              "@type": "ion:IONHospitalityResource",
+              "crc": "HSC-events",
+              "event": {
+                "eventId": "EV-SC05",
+                "organiserRef": "ORG1",
+                "timezone": "Asia/Jakarta",
+                "revision": 1,
+                "state": "SCHEDULED",
+                "sessions": [
+                  {
+                    "sessionId": "S1",
+                    "startsAt": "2027-02-10T14:00:00+07:00",
+                    "endsAt": "2027-02-10T17:00:00+07:00",
+                    "venueRef": "VENUE1",
+                    "layoutRevision": "L1"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "offers": [
+          {
+            "id": "O1",
+            "resourceIds": [
+              "EV-SC05"
+            ],
+            "offerAttributes": {
+              "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityOffer/v1/context.jsonld",
+              "@type": "ion:IONHospitalityOffer",
+              "eventRef": "EV-SC05",
+              "admissionClass": "REGULAR",
+              "allocationMode": "WHOLE_TABLE",
+              "rights": {
+                "sessionIds": [
+                  "S1"
+                ],
+                "maxEntriesPerSession": 1,
+                "named": false,
+                "reentryAllowed": false
+              },
+              "poolIds": [
+                "POOL-WHOLE_TABLE"
+              ],
+              "salesStart": "2026-12-01T00:00:00+07:00",
+              "salesEnd": "2027-02-10T14:00:00+07:00",
+              "maxAdmissions": 20,
+              "policies": {
+                "cancellation": {
+                  "policyRef": "ion://policy/cancel.event.until-48h"
+                },
+                "organiserCancellation": {
+                  "policyRef": "ion://policy/cancel.event.organiser-full"
+                },
+                "admission": {
+                  "policyRef": "ion://policy/admission.event.standard"
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

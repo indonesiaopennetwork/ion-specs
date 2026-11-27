@@ -20,7 +20,7 @@
           "id": {"type": "string"},
           "title": {"type": "string"},
           "description": {"type": "string"},
-          "sector": {"enum": ["common", "trade", "logistics"]},
+          "sector": {"enum": ["common", "trade", "logistics", "hospitality"]},
           "actions": {"$ref": "#/$defs/stringArray"},
           "package": {"type": "string"},
           "ruleName": {"type": "string"},

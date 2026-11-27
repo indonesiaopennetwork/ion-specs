@@ -1,0 +1,32 @@
+{
+  "id": "ion-hospitality-resource-v1",
+  "version": "1.0.0",
+  "domain": "hospitality",
+  "type": "AttributePack",
+  "name": "ION Hospitality Resource Extension (v1)",
+  "packSchema": "./schema.json",
+  "jsonldContext": "./context.jsonld",
+  "extends": "beckn:Resource",
+  "attachmentPoints": {
+    "resourceAttributes": [
+      "IONHospitalityResource"
+    ]
+  },
+  "indexing": {
+    "indexable": [
+      {
+        "path": "$.crc"
+      }
+    ],
+    "filterable": [
+      {
+        "path": "$.crc"
+      }
+    ],
+    "sortable": []
+  },
+  "minimalForDiscovery": [
+    "crc",
+    "event"
+  ]
+}

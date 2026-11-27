@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityResource/v1",
+  "$ref": "#/$defs/IONHospitalityResource",
+  "$defs": {
+    "IONHospitalityResource": {
+      "type": "object",
+      "description": "Draft hospitality resource extension for event admission ticketing.",
+      "properties": {
+        "crc": {
+          "type": "string",
+          "description": "Catalogue resource category. This draft is scoped to events.",
+          "enum": [
+            "HSC-events"
+          ]
+        },
+        "event": {
+          "type": "object",
+          "description": "Event identity and schedule shared by admission offers.",
+          "properties": {
+            "eventId": {
+              "type": "string",
+              "description": "Stable event ID.",
+              "minLength": 1
+            },
+            "organiserRef": {
+              "type": "string",
+              "description": "Organiser identity reference.",
+              "minLength": 1
+            },
+            "eventType": {
+              "type": "string",
+              "description": "Machine-filterable event type; descriptive text belongs in core Descriptor."
+            },
+            "timezone": {
+              "type": "string",
+              "description": "IANA venue time zone."
+            },
+            "revision": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Monotonic event revision."
+            },
+            "state": {
+              "type": "string",
+              "description": "Event lifecycle.",
+              "enum": [
+                "SCHEDULED",
+                "POSTPONED",
+                "CANCELLED",
+                "COMPLETED"
+              ]
+            },
+            "sessions": {
+              "type": "array",
+              "description": "Scheduled occurrences.",
+              "items": {
+                "type": "object",
+                "description": "Scheduled occurrence of an event.",
+                "properties": {
+                  "sessionId": {
+                    "type": "string",
+                    "description": "Session identity.",
+                    "minLength": 1
+                  },
+                  "startsAt": {
+                    "type": "string",
+                    "description": "Start instant.",
+                    "format": "date-time"
+                  },
+                  "endsAt": {
+                    "type": "string",
+                    "description": "End instant.",
+                    "format": "date-time"
+                  },
+                  "entryOpensAt": {
+                    "type": "string",
+                    "description": "Earliest entry instant.",
+                    "format": "date-time"
+                  },
+                  "entryClosesAt": {
+                    "type": "string",
+                    "description": "Latest entry instant.",
+                    "format": "date-time"
+                  },
+                  "venueRef": {
+                    "type": "string",
+                    "description": "Venue or core location reference.",
+                    "minLength": 1
+                  },
+                  "layoutRevision": {
+                    "type": "string",
+                    "description": "Immutable seating layout revision.",
+                    "minLength": 1
+                  },
+                  "layoutRef": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Authenticated or public layout resource reference; no live inventory guarantee."
+                  }
+                },
+                "required": [
+                  "sessionId",
+                  "startsAt",
+                  "endsAt",
+                  "venueRef"
+                ],
+                "additionalProperties": false
+              },
+              "minItems": 1,
+              "uniqueItems": false
+            }
+          },
+          "required": [
+            "eventId",
+            "organiserRef",
+            "timezone",
+            "revision",
+            "state",
+            "sessions"
+          ],
+          "additionalProperties": false
+        },
+        "@context": {
+          "type": "string",
+          "description": "Release-qualified JSON-LD context.",
+          "const": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityResource/v1/context.jsonld"
+        },
+        "@type": {
+          "type": "string",
+          "description": "Attribute pack discriminator.",
+          "const": "ion:IONHospitalityResource"
+        }
+      },
+      "required": [
+        "crc",
+        "event",
+        "@context",
+        "@type"
+      ],
+      "additionalProperties": true,
+      "x-beckn-attaches-to": "Resource.resourceAttributes",
+      "x-ion-layer": "ion",
+      "x-ion-experimental": true,
+      "x-jsonld": {
+        "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityResource/v1/context.jsonld",
+        "@type": "ion:IONHospitalityResource"
+      },
+      "x-recommended-parent": "Resource.resourceAttributes"
+    }
+  }
+}

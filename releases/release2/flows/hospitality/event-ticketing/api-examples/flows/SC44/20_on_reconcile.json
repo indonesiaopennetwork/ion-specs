@@ -1,0 +1,132 @@
+{
+  "context": {
+    "version": "2.0.0",
+    "networkId": "ion.example/test",
+    "ttl": "PT30S",
+    "action": "on_reconcile",
+    "bapId": "buyer.example",
+    "bapUri": "https://buyer.example/beckn",
+    "transactionId": "0a884d8e-9805-52cd-ab93-4094c9e7d2a0",
+    "messageId": "ff7f524f-7f86-58ea-bd22-782775ec47ae",
+    "timestamp": "2027-02-01T14:01:40+07:00",
+    "bppId": "seller.example",
+    "bppUri": "https://seller.example/beckn",
+    "requestDigest": {
+      "digest": "BLAKE-512=bpH3nW6dO0mYrE0HhvLbK2GQs8NEP3x+rr7iOTWfn9akN3PJLiR+JyoVYnKsWe2N02Iwg35Lo0Bq9qcC1vBcdg=="
+    },
+    "senderId": "seller.example",
+    "receiverId": "buyer.example"
+  },
+  "message": {
+    "settlementDate": "2027-02-01",
+    "contracts": [
+      {
+        "id": "cce24143-55ac-5195-a900-bc5008001da0",
+        "settlements": [
+          {
+            "id": "PAYMENT-1",
+            "considerationId": "C1",
+            "settlementAttributes": {
+              "@context": "https://schema.ion.id/release2/schema/common/Settlement/v1/context.jsonld",
+              "@type": "ion:IONSettlementReconciliation",
+              "collectedBy": "BAP",
+              "currency": "IDR",
+              "orderDate": "2027-02-01",
+              "orderAmount": {
+                "value": 1200000
+              },
+              "commission": {
+                "value": 60000,
+                "diffValue": 10000
+              },
+              "withholdingAmount": {
+                "value": 0
+              },
+              "refundAmount": {
+                "value": 240000
+              },
+              "netPayable": {
+                "value": 900000,
+                "diffValue": -10000
+              },
+              "dueDate": "2027-02-01",
+              "settlementAccounts": [
+                {
+                  "holderRole": "BAP",
+                  "bankCode": "MANDIRI",
+                  "accountNumber": "0000000001",
+                  "accountName": "Synthetic BAP"
+                },
+                {
+                  "holderRole": "BPP",
+                  "bankCode": "BCA",
+                  "accountNumber": "0000000002",
+                  "accountName": "Synthetic BPP"
+                }
+              ],
+              "accord": false,
+              "method": "EWALLET",
+              "timing": "ON_ORDER",
+              "status": "PARTIALLY_REFUNDED",
+              "gatewayRef": "PAY1",
+              "paidAt": "2027-02-01T14:00:32+07:00",
+              "dispute": {
+                "code": "COMMISSION_MISMATCH",
+                "field": "commission",
+                "description": "BPP calculates the agreed commission as 60000 IDR, not 50000."
+              }
+            }
+          }
+        ],
+        "commitments": [
+          {
+            "offer": {
+              "id": "O1",
+              "resourceIds": [
+                "EV-SC03"
+              ]
+            },
+            "id": "CM1",
+            "status": {
+              "descriptor": {
+                "code": "ACTIVE"
+              }
+            },
+            "resources": [
+              {
+                "resource": {
+                  "id": "EV-SC03"
+                },
+                "quantity": {
+                  "unitQuantity": 4,
+                  "unitText": "admissions"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "settlementSummary": {
+      "bapId": "buyer.example",
+      "bppId": "seller.example",
+      "currency": "IDR",
+      "settlementDate": "2027-02-01",
+      "contractCount": 1,
+      "settlementCount": 1,
+      "totalOrderAmount": 1200000,
+      "totalCommission": 60000,
+      "totalWithholding": 0,
+      "totalRefund": 240000,
+      "totalNetPayable": 900000,
+      "agreedCount": 0,
+      "disputedCount": 1,
+      "pendingCount": 0,
+      "totalAgreedCommission": 0,
+      "totalUnreconciledCommission": 60000,
+      "totalAgreedNetPayable": 0,
+      "totalUnreconciledNetPayable": 900000
+    },
+    "reconciliationStatus": "DISPUTED"
+  }
+}

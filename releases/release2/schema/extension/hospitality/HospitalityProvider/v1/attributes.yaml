@@ -1,0 +1,64 @@
+openapi: 3.1.0
+info:
+  title: IONHospitalityProvider
+  version: 1.0.0-draft.3
+paths: {}
+components:
+  schemas:
+    IONHospitalityProvider:
+      type: object
+      description: Draft hospitality provider extension for event admission ticketing.
+      properties:
+        allocationModes:
+          type: array
+          description: Allocation modes implemented by this provider.
+          items:
+            type: string
+            description: Method by which admission capacity is allocated.
+            enum:
+            - GENERAL_ADMISSION
+            - SECTION_UNASSIGNED
+            - EXACT_SEAT
+            - AUTO_ASSIGN
+            - WHOLE_TABLE
+            - TABLE_SEAT
+          minItems: 1
+          uniqueItems: true
+        organiserRefs:
+          type: array
+          description: Organisers represented by this provider.
+          items:
+            type: string
+            description: Opaque identifier scoped to the authoritative provider.
+            minLength: 1
+          minItems: 1
+          uniqueItems: true
+        deliveryModes:
+          type: array
+          description: Supported admission delivery methods.
+          items:
+            type: string
+            description: Ticket delivery method.
+            enum:
+            - DIGITAL
+            - COLLECTION
+            - DELAYED
+          minItems: 1
+          uniqueItems: true
+        sellerModel:
+          type: string
+          enum:
+          - DIRECT
+          - MARKETPLACE
+          description: Commercial seller relationship.
+      required:
+      - allocationModes
+      - deliveryModes
+      additionalProperties: true
+      x-beckn-attaches-to: Provider.providerAttributes
+      x-ion-layer: ion
+      x-ion-experimental: true
+      x-jsonld:
+        '@context': https://schema.ion.id/release2/schema/extension/hospitality/HospitalityProvider/v1/context.jsonld
+        '@type': ion:IONHospitalityProvider
+      x-recommended-parent: Provider.providerAttributes

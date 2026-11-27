@@ -1,0 +1,60 @@
+{
+  "id": "ion-hospitality-offer-v1",
+  "version": "1.0.0",
+  "domain": "hospitality",
+  "type": "AttributePack",
+  "name": "ION Hospitality Offer Extension (v1)",
+  "packSchema": "./schema.json",
+  "jsonldContext": "./context.jsonld",
+  "extends": "beckn:Offer",
+  "attachmentPoints": {
+    "offerAttributes": [
+      "IONHospitalityOffer"
+    ]
+  },
+  "indexing": {
+    "indexable": [
+      {
+        "path": "$.eventRef"
+      },
+      {
+        "path": "$.admissionClass"
+      },
+      {
+        "path": "$.allocationMode"
+      },
+      {
+        "path": "$.salesStart"
+      },
+      {
+        "path": "$.salesEnd"
+      }
+    ],
+    "filterable": [
+      {
+        "path": "$.eventRef"
+      },
+      {
+        "path": "$.admissionClass"
+      },
+      {
+        "path": "$.allocationMode"
+      },
+      {
+        "path": "$.salesStart"
+      },
+      {
+        "path": "$.salesEnd"
+      }
+    ],
+    "sortable": []
+  },
+  "minimalForDiscovery": [
+    "eventRef",
+    "admissionClass",
+    "allocationMode",
+    "rights",
+    "salesStart",
+    "salesEnd"
+  ]
+}

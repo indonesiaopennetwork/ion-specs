@@ -3,7 +3,7 @@
   "schemaVersion": 1,
   "release": 2,
   "publicQuery": "data.ion.release2.result",
-  "count": 3,
+  "count": 7,
   "rules": [
     {
       "id": "ION-R2-COM-0001",
@@ -25,6 +25,158 @@
       ],
       "flowPaths": [
         "flows/trade/patterns/storefront/v1/pattern.yaml"
+      ],
+      "errorPaths": [
+
+      ],
+      "policyIris": [
+
+      ],
+      "configKeys": [
+
+      ],
+      "dataPaths": [
+
+      ],
+      "status": "active"
+    },
+    {
+      "id": "ION-R2-HSP-0001",
+      "title": "Event catalogue resource classification and identity",
+      "description": "Requires the Event Ticketing resource CRC and core identity to agree.",
+      "sector": "hospitality",
+      "actions": [
+        "catalog/publish",
+        "on_discover"
+      ],
+      "package": "ion.release2.hospitality.ticketing",
+      "ruleName": "violations",
+      "sourceModule": "rules/rego/ion/release2/hospitality/ticketing.rego",
+      "errorCode": "POL_ELIGIBILITY_NOT_MET",
+      "schemaPaths": [
+        "schema/extension/hospitality/HospitalityResource/v1/attributes.yaml"
+      ],
+      "flowPaths": [
+        "flows/hospitality/event-ticketing/pattern.proposed.yaml"
+      ],
+      "errorPaths": [
+
+      ],
+      "policyIris": [
+
+      ],
+      "configKeys": [
+
+      ],
+      "dataPaths": [
+
+      ],
+      "status": "active"
+    },
+    {
+      "id": "ION-R2-HSP-0002",
+      "title": "Event catalogue offer references",
+      "description": "Requires eventRef to resolve to a resource in the same catalogue and in the core offer resourceIds.",
+      "sector": "hospitality",
+      "actions": [
+        "catalog/publish",
+        "on_discover"
+      ],
+      "package": "ion.release2.hospitality.ticketing",
+      "ruleName": "violations",
+      "sourceModule": "rules/rego/ion/release2/hospitality/ticketing.rego",
+      "errorCode": "POL_ELIGIBILITY_NOT_MET",
+      "schemaPaths": [
+        "schema/extension/hospitality/HospitalityOffer/v1/attributes.yaml"
+      ],
+      "flowPaths": [
+        "flows/hospitality/event-ticketing/pattern.proposed.yaml"
+      ],
+      "errorPaths": [
+
+      ],
+      "policyIris": [
+
+      ],
+      "configKeys": [
+
+      ],
+      "dataPaths": [
+
+      ],
+      "status": "active"
+    },
+    {
+      "id": "ION-R2-HSP-0003",
+      "title": "Commitment offer and event reference integrity",
+      "description": "Requires a hospitality commitment to identify its offer and resolve the event resource in the commitment.",
+      "sector": "hospitality",
+      "actions": [
+        "cancel",
+        "confirm",
+        "init",
+        "on_cancel",
+        "on_confirm",
+        "on_init",
+        "on_select",
+        "on_status",
+        "on_update",
+        "select",
+        "status",
+        "update"
+      ],
+      "package": "ion.release2.hospitality.ticketing",
+      "ruleName": "violations",
+      "sourceModule": "rules/rego/ion/release2/hospitality/ticketing.rego",
+      "errorCode": "POL_ELIGIBILITY_NOT_MET",
+      "schemaPaths": [
+        "schema/extension/hospitality/HospitalityCommitment/v1/attributes.yaml"
+      ],
+      "flowPaths": [
+        "flows/hospitality/event-ticketing/pattern.proposed.yaml"
+      ],
+      "errorPaths": [
+
+      ],
+      "policyIris": [
+
+      ],
+      "configKeys": [
+
+      ],
+      "dataPaths": [
+
+      ],
+      "status": "active"
+    },
+    {
+      "id": "ION-R2-HSP-0004",
+      "title": "Assigned seats match admission quantity",
+      "description": "Rejects allocated seats whose count or unique count differs from admission quantity for an assigned allocation.",
+      "sector": "hospitality",
+      "actions": [
+        "cancel",
+        "confirm",
+        "init",
+        "on_cancel",
+        "on_confirm",
+        "on_init",
+        "on_select",
+        "on_status",
+        "on_update",
+        "select",
+        "status",
+        "update"
+      ],
+      "package": "ion.release2.hospitality.ticketing",
+      "ruleName": "violations",
+      "sourceModule": "rules/rego/ion/release2/hospitality/ticketing.rego",
+      "errorCode": "POL_ELIGIBILITY_NOT_MET",
+      "schemaPaths": [
+        "schema/extension/hospitality/HospitalityCommitment/v1/attributes.yaml"
+      ],
+      "flowPaths": [
+        "flows/hospitality/event-ticketing/pattern.proposed.yaml"
       ],
       "errorPaths": [
 

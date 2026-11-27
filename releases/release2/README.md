@@ -235,3 +235,7 @@ For tooling details, see [`tools/release/README.md`](../../tools/release/README.
   bundle structure, permanent URL scheme, and immutability rules.
 - [Release Channel Policy](../../docs/ION_Release_Channel_Policy.md) defines
   publication into `next`, stabilization, promotion to `current`, and LTS.
+
+### Hospitality — Event Ticketing (candidate scope)
+
+HSP-06 / HSC-events: proposed event-ticketing variant of experience-booking. Seven draft packs and fixture flows are included for offline engineering review. Scope approval, legal review, rule execution and ONIX testing are still required. Do not publish or deploy this candidate.

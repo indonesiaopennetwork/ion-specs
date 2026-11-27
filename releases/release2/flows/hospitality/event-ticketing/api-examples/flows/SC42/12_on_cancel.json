@@ -1,0 +1,22 @@
+{
+  "context": {
+    "version": "2.0.0",
+    "networkId": "ion.example/test",
+    "ttl": "PT30S",
+    "action": "on_cancel",
+    "bapId": "buyer.example",
+    "bapUri": "https://buyer.example/beckn",
+    "transactionId": "c6eb3e72-1dc0-59e9-ad93-5a0a3fed03ac",
+    "messageId": "9b39bc4a-e695-58c6-a8c6-736dd2a73765",
+    "timestamp": "2027-02-01T14:01:00+07:00",
+    "bppId": "seller.example",
+    "bppUri": "https://seller.example/beckn",
+    "requestDigest": {
+      "digest": "BLAKE-512=sZRgR2y/1/YRkAEn34MjAXyEyEtawEDg2NOF6Gv/NaqDU5388iR/Gir6ZU+jwabi4Z5e9wUPHPIFJkQK5QMSHw=="
+    }
+  },
+  "error": {
+    "code": "POL_CANCELLATION_NOT_ALLOWED",
+    "message": "Ordinary buyer cancellation not permitted under accepted terms"
+  }
+}

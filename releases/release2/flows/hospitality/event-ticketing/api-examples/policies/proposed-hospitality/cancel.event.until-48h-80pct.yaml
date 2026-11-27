@@ -1,0 +1,18 @@
+iri: ion://policy/cancel.event.until-48h-80pct
+category: CANCELLATION
+version: 0.1.0
+status: draft
+sector: hospitality
+applicableCategories:
+- HSC-events
+rule: Unused ticket cancelled at least 48 hours before session start receives 80 percent
+  of eligible paid amount.
+reviewRequired: true
+displayText:
+  id: Pengembalian 80 persen hingga 48 jam sebelum sesi
+  en: 80% refund until 48 hours before session
+versionEffectiveFrom: null
+applicableResourceTypes: []
+supersededBy: null
+deprecatedAt: null
+regulatoryBasis: []

@@ -1,0 +1,48 @@
+{
+  "context": {
+    "version": "2.0.0",
+    "networkId": "ion.example/test",
+    "ttl": "PT30S",
+    "action": "support",
+    "bapId": "buyer.example",
+    "bapUri": "https://buyer.example/beckn",
+    "transactionId": "16f9bed2-d6e0-5373-8cd8-60d05e1d8dd2",
+    "messageId": "ec7f4be6-42a5-5d83-b509-af5d72dc8391",
+    "timestamp": "2027-02-01T14:01:05+07:00",
+    "bppId": "seller.example",
+    "bppUri": "https://seller.example/beckn",
+    "senderId": "buyer.example",
+    "receiverId": "seller.example"
+  },
+  "message": {
+    "support": {
+      "orderId": "966700e7-e13d-5a77-b7e9-d83d56bf4e69",
+      "descriptor": {
+        "code": "GRIEVANCE",
+        "name": "Admission credential rejected"
+      },
+      "supportAttributes": {
+        "@context": "https://schema.ion.id/release2/schema/common/Grievance/v1/context.jsonld",
+        "@type": "ion:IONGrievance",
+        "grievanceId": "CASE1",
+        "eventType": "OPENED",
+        "caseStatus": "OPEN",
+        "occurredAt": "2027-02-01T14:01:05+07:00",
+        "originatingNpId": "buyer.example",
+        "openedAt": "2027-02-01T14:01:05+07:00",
+        "raisedBy": {
+          "side": "BUYER",
+          "npId": "buyer.example"
+        },
+        "raisedAgainst": {
+          "role": "SELLER",
+          "partyId": "seller.example"
+        },
+        "category": "ADMISSION_CREDENTIAL_REJECTED",
+        "description": "Valid booking, entry credential rejected",
+        "policyRef": "ion://policy/grievance-sla.consumer.standard",
+        "channelMode": "ASYNC"
+      }
+    }
+  }
+}

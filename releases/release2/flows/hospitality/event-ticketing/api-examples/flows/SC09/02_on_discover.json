@@ -1,0 +1,113 @@
+{
+  "context": {
+    "version": "2.0.0",
+    "networkId": "ion.example/test",
+    "ttl": "PT30S",
+    "action": "on_discover",
+    "bapId": "buyer.example",
+    "bapUri": "https://buyer.example/beckn",
+    "transactionId": "18b94a8a-d960-5bd5-9caa-72e6af6f912e",
+    "messageId": "e783e47d-2474-5693-819c-5062c619b30b",
+    "timestamp": "2027-02-01T14:00:10+07:00",
+    "requestDigest": {
+      "digest": "BLAKE-512=2IPTQ28VuiSLGDBLryyVfvRctLx3UY9oma3FwvpI2CRU/GJeN5+q4b7OJMcMBL41+p9oZn+YwiIK9csmQata0w=="
+    }
+  },
+  "message": {
+    "catalogs": [
+      {
+        "id": "CAT-SC09",
+        "bppId": "seller.example",
+        "bppUri": "https://seller.example/beckn",
+        "descriptor": {
+          "name": "Nusantara Music Festival"
+        },
+        "provider": {
+          "id": "ORG1",
+          "descriptor": {
+            "name": "Illustrative event organiser"
+          },
+          "providerAttributes": {
+            "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityProvider/v1/context.jsonld",
+            "@type": "ion:IONHospitalityProvider",
+            "allocationModes": [
+              "GENERAL_ADMISSION"
+            ],
+            "deliveryModes": [
+              "DIGITAL"
+            ]
+          }
+        },
+        "resources": [
+          {
+            "id": "EV-SC01",
+            "descriptor": {
+              "name": "Nusantara Music Festival"
+            },
+            "resourceAttributes": {
+              "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityResource/v1/context.jsonld",
+              "@type": "ion:IONHospitalityResource",
+              "crc": "HSC-events",
+              "event": {
+                "eventId": "EV-SC01",
+                "organiserRef": "ORG1",
+                "timezone": "Asia/Jakarta",
+                "revision": 1,
+                "state": "SCHEDULED",
+                "sessions": [
+                  {
+                    "sessionId": "S1",
+                    "startsAt": "2027-02-10T14:00:00+07:00",
+                    "endsAt": "2027-02-10T17:00:00+07:00",
+                    "venueRef": "VENUE1",
+                    "layoutRevision": "L1"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "offers": [
+          {
+            "id": "O1",
+            "resourceIds": [
+              "EV-SC01"
+            ],
+            "offerAttributes": {
+              "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityOffer/v1/context.jsonld",
+              "@type": "ion:IONHospitalityOffer",
+              "eventRef": "EV-SC01",
+              "admissionClass": "REGULAR",
+              "allocationMode": "GENERAL_ADMISSION",
+              "rights": {
+                "sessionIds": [
+                  "S1"
+                ],
+                "maxEntriesPerSession": 1,
+                "named": false,
+                "reentryAllowed": false
+              },
+              "poolIds": [
+                "POOL-GENERAL_ADMISSION"
+              ],
+              "salesStart": "2026-12-01T00:00:00+07:00",
+              "salesEnd": "2027-02-10T14:00:00+07:00",
+              "maxAdmissions": 20,
+              "policies": {
+                "cancellation": {
+                  "policyRef": "ion://policy/cancel.event.until-48h"
+                },
+                "organiserCancellation": {
+                  "policyRef": "ion://policy/cancel.event.organiser-full"
+                },
+                "admission": {
+                  "policyRef": "ion://policy/admission.event.standard"
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

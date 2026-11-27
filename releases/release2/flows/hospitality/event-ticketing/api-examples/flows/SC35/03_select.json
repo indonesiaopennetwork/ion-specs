@@ -1,0 +1,122 @@
+{
+  "context": {
+    "version": "2.0.0",
+    "networkId": "ion.example/test",
+    "ttl": "PT30S",
+    "action": "select",
+    "bapId": "buyer.example",
+    "bapUri": "https://buyer.example/beckn",
+    "transactionId": "8b9d96b4-5cc4-578b-a6a5-96489a5a1df3",
+    "messageId": "7532893e-4f3f-5024-be35-ebab15dd2d98",
+    "timestamp": "2027-02-01T14:00:15+07:00",
+    "bppId": "seller.example",
+    "bppUri": "https://seller.example/beckn"
+  },
+  "message": {
+    "contract": {
+      "commitments": [
+        {
+          "offer": {
+            "id": "O1",
+            "resourceIds": [
+              "EV-SC03"
+            ],
+            "offerAttributes": {
+              "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityOffer/v1/context.jsonld",
+              "@type": "ion:IONHospitalityOffer",
+              "eventRef": "EV-SC03",
+              "admissionClass": "REGULAR",
+              "allocationMode": "EXACT_SEAT",
+              "rights": {
+                "sessionIds": [
+                  "S1"
+                ],
+                "maxEntriesPerSession": 1,
+                "named": false,
+                "reentryAllowed": false
+              },
+              "poolIds": [
+                "POOL-EXACT_SEAT"
+              ],
+              "salesStart": "2026-12-01T00:00:00+07:00",
+              "salesEnd": "2027-02-10T14:00:00+07:00",
+              "maxAdmissions": 20,
+              "policies": {
+                "cancellation": {
+                  "policyRef": "ion://policy/cancel.event.until-48h"
+                },
+                "organiserCancellation": {
+                  "policyRef": "ion://policy/cancel.event.organiser-full"
+                },
+                "admission": {
+                  "policyRef": "ion://policy/admission.event.standard"
+                }
+              }
+            }
+          },
+          "id": "CM1",
+          "status": {
+            "descriptor": {
+              "code": "DRAFT"
+            }
+          },
+          "resources": [
+            {
+              "resource": {
+                "id": "EV-SC03",
+                "descriptor": {
+                  "name": "Nusantara Awards"
+                },
+                "resourceAttributes": {
+                  "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityResource/v1/context.jsonld",
+                  "@type": "ion:IONHospitalityResource",
+                  "crc": "HSC-events",
+                  "event": {
+                    "eventId": "EV-SC03",
+                    "organiserRef": "ORG1",
+                    "timezone": "Asia/Jakarta",
+                    "revision": 1,
+                    "state": "SCHEDULED",
+                    "sessions": [
+                      {
+                        "sessionId": "S1",
+                        "startsAt": "2027-02-10T14:00:00+07:00",
+                        "endsAt": "2027-02-10T17:00:00+07:00",
+                        "venueRef": "VENUE1",
+                        "layoutRevision": "L1"
+                      }
+                    ]
+                  }
+                }
+              },
+              "quantity": {
+                "unitQuantity": 2,
+                "unitText": "admissions"
+              }
+            }
+          ],
+          "commitmentAttributes": {
+            "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityCommitment/v1/context.jsonld",
+            "@type": "ion:IONHospitalityCommitment",
+            "offerRef": "O1",
+            "quantity": 2,
+            "allocations": [
+              {
+                "sessionId": "S1",
+                "poolId": "POOL-EXACT_SEAT",
+                "mode": "EXACT_SEAT",
+                "admissions": 2,
+                "seatIds": [
+                  "A12",
+                  "A13"
+                ],
+                "layoutRevision": "L1",
+                "allocationState": "REQUESTED"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

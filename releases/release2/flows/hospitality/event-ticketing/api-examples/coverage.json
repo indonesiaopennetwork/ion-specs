@@ -1,0 +1,442 @@
+[
+  {
+    "id": "SC01",
+    "scenario": "Unreserved festival admission",
+    "brd": "A01, B01, D01",
+    "family": "Book",
+    "testTarget": "Capacity count; issue 3 distinct tickets",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 10
+  },
+  {
+    "id": "SC02",
+    "scenario": "Section without numbered seats",
+    "brd": "A02",
+    "family": "Book",
+    "testTarget": "Section reference; no assigned seat",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 10
+  },
+  {
+    "id": "SC03",
+    "scenario": "Exact numbered seats",
+    "brd": "A03, D02",
+    "family": "Book + hold",
+    "testTarget": "Exact seats; atomic lock",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 10
+  },
+  {
+    "id": "SC04",
+    "scenario": "Automatic adjacent seats",
+    "brd": "A04",
+    "family": "Book + auto",
+    "testTarget": "Adjacency proposal; consent",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 10
+  },
+  {
+    "id": "SC05",
+    "scenario": "Whole table purchase",
+    "brd": "A05",
+    "family": "Book + table",
+    "testTarget": "Lock child seats; 8 entitlements",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 10
+  },
+  {
+    "id": "SC06",
+    "scenario": "Individual seats at a table",
+    "brd": "A06",
+    "family": "Book + table",
+    "testTarget": "Shared whole-table/child inventory",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 10
+  },
+  {
+    "id": "SC07",
+    "scenario": "Mixed allocation and basket",
+    "brd": "A07, B10, C06",
+    "family": "Book + mixed",
+    "testTarget": "Atomic basket across pools",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 10
+  },
+  {
+    "id": "SC08",
+    "scenario": "Accessible seating",
+    "brd": "A08, C10",
+    "family": "Book + eligibility",
+    "testTarget": "Accessibility and companion relation",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 10
+  },
+  {
+    "id": "SC09",
+    "scenario": "Early-bird and dynamic quote",
+    "brd": "B02, B03, D08",
+    "family": "Quote",
+    "testTarget": "Expiry and price snapshot",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 6
+  },
+  {
+    "id": "SC10",
+    "scenario": "Promotion and group price",
+    "brd": "B04, B05",
+    "family": "Quote",
+    "testTarget": "Discount components/funding",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 10
+  },
+  {
+    "id": "SC11",
+    "scenario": "Complimentary ticket",
+    "brd": "B06",
+    "family": "Book + free",
+    "testTarget": "Zero payable; quota check",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 10
+  },
+  {
+    "id": "SC12",
+    "scenario": "Bundle and optional add-on",
+    "brd": "B07",
+    "family": "Book + add-on",
+    "testTarget": "Included vs optional rights",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 10
+  },
+  {
+    "id": "SC13",
+    "scenario": "Attendee-specific prices",
+    "brd": "B08, C10",
+    "family": "Book + eligibility",
+    "testTarget": "Attendee-specific price",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 10
+  },
+  {
+    "id": "SC14",
+    "scenario": "Corporate bulk booking",
+    "brd": "B09, C07, D06",
+    "family": "Book + bulk",
+    "testTarget": "Named passes; limit; per-day pools",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 10
+  },
+  {
+    "id": "SC15",
+    "scenario": "Recurring performance sessions",
+    "brd": "C01, C02, C09",
+    "family": "Book + session",
+    "testTarget": "Session-scoped seat identity",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 10
+  },
+  {
+    "id": "SC16",
+    "scenario": "Multi-day pass versus day ticket",
+    "brd": "C04, C05",
+    "family": "Book + pass",
+    "testTarget": "All sessions reserved atomically",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 10
+  },
+  {
+    "id": "SC17",
+    "scenario": "Named versus bearer and duplicate scan",
+    "brd": "C07, C08",
+    "family": "Status / admission",
+    "testTarget": "Named/bearer; replay prevention",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 14
+  },
+  {
+    "id": "SC18",
+    "scenario": "Re-entry, restricted zones and entry windows",
+    "brd": "C03, C06, C09",
+    "family": "Status / admission",
+    "testTarget": "Zone and re-entry usage ledger",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 14
+  },
+  {
+    "id": "SC19",
+    "scenario": "Delayed ticket delivery",
+    "brd": "D07",
+    "family": "Status",
+    "testTarget": "Confirmed; issuance pending",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 12
+  },
+  {
+    "id": "SC20",
+    "scenario": "Ticket generation failure",
+    "brd": "E09",
+    "family": "Status / recovery",
+    "testTarget": "Idempotent issuance retry",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 12
+  },
+  {
+    "id": "SC21",
+    "scenario": "Expired or abandoned hold",
+    "brd": "D02, D03",
+    "family": "Hold expiry",
+    "testTarget": "Release; no confirmed contract",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 8
+  },
+  {
+    "id": "SC22",
+    "scenario": "Concurrent seat conflict",
+    "brd": "D04, T03",
+    "family": "Hold conflict",
+    "testTarget": "Atomic capacity; one winner",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 6
+  },
+  {
+    "id": "SC23",
+    "scenario": "Sold out, limits and closed sales",
+    "brd": "D05, D06, D08",
+    "family": "Select / init",
+    "testTarget": "Sales window, limit, capacity errors",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 6
+  },
+  {
+    "id": "SC24",
+    "scenario": "Waitlist for sold-out session",
+    "brd": "D09",
+    "family": "Deferred variant",
+    "testTarget": "Waitlist; no charge or capacity promise",
+    "status": "deferred",
+    "exampleStatus": "deferred",
+    "messageCount": 0
+  },
+  {
+    "id": "SC25",
+    "scenario": "Buyer cancellation with refund preview",
+    "brd": "E01",
+    "family": "Cancel",
+    "testTarget": "Preview, consent, partial refund",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 16
+  },
+  {
+    "id": "SC26",
+    "scenario": "Restricted buyer cancellation",
+    "brd": "E02",
+    "family": "Cancel",
+    "testTarget": "Reject restricted request",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 12
+  },
+  {
+    "id": "SC27",
+    "scenario": "Partial cancellation of individual tickets",
+    "brd": "E06",
+    "family": "Cancel partial",
+    "testTarget": "Ticket scope; retained rights",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 18
+  },
+  {
+    "id": "SC28",
+    "scenario": "Upgrade to VIP",
+    "brd": "D10",
+    "family": "Update",
+    "testTarget": "Reserve new; atomic swap; delta",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 16
+  },
+  {
+    "id": "SC29",
+    "scenario": "Event cancellation",
+    "brd": "E03",
+    "family": "Status + refund",
+    "testTarget": "Organiser revocation, full refund",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 13
+  },
+  {
+    "id": "SC30",
+    "scenario": "Postponement and buyer choice",
+    "brd": "E04",
+    "family": "Status + update/cancel",
+    "testTarget": "Revised session; choice deadline",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 17
+  },
+  {
+    "id": "SC31",
+    "scenario": "Venue change with seating impact",
+    "brd": "E05",
+    "family": "Status + update/cancel",
+    "testTarget": "Venue/layout revision; consent",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 17
+  },
+  {
+    "id": "SC32",
+    "scenario": "Non-delivery or organiser insolvency",
+    "brd": "E13",
+    "family": "Status + support",
+    "testTarget": "Non-delivery; outstanding obligation",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 13
+  },
+  {
+    "id": "SC33",
+    "scenario": "Payment failure before confirmation",
+    "brd": "E07",
+    "family": "Payment recovery",
+    "testTarget": "Release after definitive failure",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 8
+  },
+  {
+    "id": "SC34",
+    "scenario": "Payment succeeds but confirmation uncertain",
+    "brd": "E08, T02",
+    "family": "Status / recovery",
+    "testTarget": "Verify before retry/refund",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 9
+  },
+  {
+    "id": "SC35",
+    "scenario": "Payment arrives after hold expiry",
+    "brd": "T01",
+    "family": "Confirm recovery",
+    "testTarget": "Reacquire or reverse late payment",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 12
+  },
+  {
+    "id": "SC36",
+    "scenario": "Duplicate booking versus legitimate repeat",
+    "brd": "E10",
+    "family": "Recovery + cancel",
+    "testTarget": "Intent proof; linked reversal",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 12
+  },
+  {
+    "id": "SC37",
+    "scenario": "No-show and used-ticket cancellation",
+    "brd": "E11, E12",
+    "family": "Status / cancel",
+    "testTarget": "Unused vs redeemed; policy",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 16
+  },
+  {
+    "id": "SC38",
+    "scenario": "Invalid credential at gate",
+    "brd": "T04",
+    "family": "Status + support",
+    "testTarget": "Gate verification/reissue",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 12
+  },
+  {
+    "id": "SC39",
+    "scenario": "Cancellation competes with entry",
+    "brd": "T05",
+    "family": "Cancel / admission",
+    "testTarget": "Serialise entitlement transitions",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 16
+  },
+  {
+    "id": "SC40",
+    "scenario": "Refund processing failure",
+    "brd": "E14",
+    "family": "Status + payment",
+    "testTarget": "Refund retry, no duplicate payout",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 18
+  },
+  {
+    "id": "SC41",
+    "scenario": "Direct seller versus marketplace BPP",
+    "brd": "BRD §4.1–4.3",
+    "family": "Publish / book",
+    "testTarget": "Provider identity and partitioned stock",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 10
+  },
+  {
+    "id": "SC42",
+    "scenario": "Policy and category interpretation",
+    "brd": "BRD §3, §11",
+    "family": "Publish / init",
+    "testTarget": "CRC/terms validation and snapshot",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 12
+  },
+  {
+    "id": "SC43",
+    "scenario": "Order grievance and dispute escalation",
+    "brd": "BRD §10–11",
+    "family": "Support",
+    "testTarget": "Ticket-linked grievance; agreed remedy",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 18
+  },
+  {
+    "id": "SC44",
+    "scenario": "Reconciliation after partial refund",
+    "brd": "BRD §4.3, §9, §11",
+    "family": "Reconcile",
+    "testTarget": "Net adjustment and settlement",
+    "status": "specified; full flow test pending",
+    "exampleStatus": "offline canonical schema audit candidate; runtime branch coverage pending",
+    "messageCount": 22
+  }
+]

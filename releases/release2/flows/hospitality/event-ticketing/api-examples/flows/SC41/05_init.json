@@ -1,0 +1,189 @@
+{
+  "context": {
+    "version": "2.0.0",
+    "networkId": "ion.example/test",
+    "ttl": "PT30S",
+    "action": "init",
+    "bapId": "buyer.example",
+    "bapUri": "https://buyer.example/beckn",
+    "transactionId": "18ed0784-c3ad-5f55-b1da-81ad71a71417",
+    "messageId": "62585a0d-fc58-5bda-b969-7829ccf7091e",
+    "timestamp": "2027-02-01T14:00:25+07:00",
+    "bppId": "seller.example",
+    "bppUri": "https://seller.example/beckn"
+  },
+  "message": {
+    "contract": {
+      "commitments": [
+        {
+          "offer": {
+            "id": "O1",
+            "resourceIds": [
+              "EV-SC41"
+            ],
+            "offerAttributes": {
+              "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityOffer/v1/context.jsonld",
+              "@type": "ion:IONHospitalityOffer",
+              "eventRef": "EV-SC41",
+              "admissionClass": "REGULAR",
+              "allocationMode": "GENERAL_ADMISSION",
+              "rights": {
+                "sessionIds": [
+                  "S1"
+                ],
+                "maxEntriesPerSession": 1,
+                "named": false,
+                "reentryAllowed": false
+              },
+              "poolIds": [
+                "POOL-GENERAL_ADMISSION"
+              ],
+              "salesStart": "2026-12-01T00:00:00+07:00",
+              "salesEnd": "2027-02-10T14:00:00+07:00",
+              "maxAdmissions": 20,
+              "policies": {
+                "cancellation": {
+                  "policyRef": "ion://policy/cancel.event.until-48h"
+                },
+                "organiserCancellation": {
+                  "policyRef": "ion://policy/cancel.event.organiser-full"
+                },
+                "admission": {
+                  "policyRef": "ion://policy/admission.event.standard"
+                }
+              }
+            }
+          },
+          "id": "CM1",
+          "status": {
+            "descriptor": {
+              "code": "DRAFT"
+            }
+          },
+          "resources": [
+            {
+              "resource": {
+                "id": "EV-SC41",
+                "descriptor": {
+                  "name": "Nusantara Music Festival"
+                },
+                "resourceAttributes": {
+                  "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityResource/v1/context.jsonld",
+                  "@type": "ion:IONHospitalityResource",
+                  "crc": "HSC-events",
+                  "event": {
+                    "eventId": "EV-SC41",
+                    "organiserRef": "ORG1",
+                    "timezone": "Asia/Jakarta",
+                    "revision": 1,
+                    "state": "SCHEDULED",
+                    "sessions": [
+                      {
+                        "sessionId": "S1",
+                        "startsAt": "2027-02-10T14:00:00+07:00",
+                        "endsAt": "2027-02-10T17:00:00+07:00",
+                        "venueRef": "VENUE1",
+                        "layoutRevision": "L1"
+                      }
+                    ]
+                  }
+                }
+              },
+              "quantity": {
+                "unitQuantity": 3,
+                "unitText": "admissions"
+              }
+            }
+          ],
+          "commitmentAttributes": {
+            "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityCommitment/v1/context.jsonld",
+            "@type": "ion:IONHospitalityCommitment",
+            "offerRef": "O1",
+            "quantity": 3,
+            "allocations": [
+              {
+                "sessionId": "S1",
+                "poolId": "POOL-GENERAL_ADMISSION",
+                "mode": "GENERAL_ADMISSION",
+                "admissions": 3,
+                "allocationState": "REQUESTED"
+              }
+            ],
+            "quoteRef": "Q1",
+            "quoteExpiresAt": "2027-02-01T14:05:00+07:00"
+          }
+        }
+      ],
+      "consideration": [
+        {
+          "id": "C1",
+          "status": {
+            "code": "DRAFT"
+          },
+          "considerationAttributes": {
+            "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityConsideration/v1/context.jsonld",
+            "@type": "ion:IONHospitalityConsideration",
+            "currency": "IDR",
+            "components": [
+              {
+                "componentId": "BASE1",
+                "kind": "BASE",
+                "amountMinor": 45000000,
+                "included": false
+              }
+            ],
+            "payableMinor": 45000000,
+            "paymentState": "PENDING",
+            "buyerFinderFee": {
+              "feeAmount": 0
+            }
+          }
+        }
+      ],
+      "settlements": [
+        {
+          "id": "PAYMENT-1",
+          "considerationId": "C1",
+          "status": "DRAFT",
+          "settlementAttributes": {
+            "@context": "https://schema.ion.id/release2/schema/common/Settlement/v1/context.jsonld",
+            "@type": "ion:IONSettlementReconciliation",
+            "method": "EWALLET",
+            "methodDetail": {
+              "provider": "TEST_WALLET",
+              "amount": 450000.0
+            },
+            "collectedBy": "BAP",
+            "timing": "ON_ORDER",
+            "status": "PENDING",
+            "currency": "IDR",
+            "orderAmount": {
+              "value": 450000
+            },
+            "commission": {
+              "value": 0
+            },
+            "withholdingAmount": {
+              "value": 0
+            },
+            "refundAmount": {
+              "value": 0
+            },
+            "netPayable": {
+              "value": 450000
+            },
+            "settlementAccounts": [
+              {
+                "holderRole": "BAP",
+                "bankCode": "MANDIRI",
+                "accountNumber": "0000000001",
+                "accountName": "Synthetic BAP"
+              }
+            ],
+            "orderDate": "2027-02-01"
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "context": {
+    "version": "2.0.0",
+    "networkId": "ion.example/test",
+    "ttl": "PT30S",
+    "action": "on_discover",
+    "bapId": "buyer.example",
+    "bapUri": "https://buyer.example/beckn",
+    "transactionId": "5ca6c943-95f8-51b3-b1dd-adf65a2828cf",
+    "messageId": "7c30c51a-1182-5165-885b-f0261939f88d",
+    "timestamp": "2027-02-01T14:00:10+07:00",
+    "requestDigest": {
+      "digest": "BLAKE-512=MFak5ZcFgScNUkNJhgyCUfWjajNjPpoagBHd0bu1lQlOShwKGuzk+UpdA9D8Qs62JBZ42f12Jx8LUxyACh53sg=="
+    }
+  },
+  "message": {
+    "catalogs": [
+      {
+        "id": "CAT-SC18",
+        "bppId": "seller.example",
+        "bppUri": "https://seller.example/beckn",
+        "descriptor": {
+          "name": "Nusantara Awards"
+        },
+        "provider": {
+          "id": "ORG1",
+          "descriptor": {
+            "name": "Illustrative event organiser"
+          },
+          "providerAttributes": {
+            "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityProvider/v1/context.jsonld",
+            "@type": "ion:IONHospitalityProvider",
+            "allocationModes": [
+              "EXACT_SEAT"
+            ],
+            "deliveryModes": [
+              "DIGITAL"
+            ]
+          }
+        },
+        "resources": [
+          {
+            "id": "EV-SC03",
+            "descriptor": {
+              "name": "Nusantara Awards"
+            },
+            "resourceAttributes": {
+              "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityResource/v1/context.jsonld",
+              "@type": "ion:IONHospitalityResource",
+              "crc": "HSC-events",
+              "event": {
+                "eventId": "EV-SC03",
+                "organiserRef": "ORG1",
+                "timezone": "Asia/Jakarta",
+                "revision": 1,
+                "state": "SCHEDULED",
+                "sessions": [
+                  {
+                    "sessionId": "S1",
+                    "startsAt": "2027-02-10T14:00:00+07:00",
+                    "endsAt": "2027-02-10T17:00:00+07:00",
+                    "venueRef": "VENUE1",
+                    "layoutRevision": "L1",
+                    "entryOpensAt": "2027-02-10T13:00:00+07:00",
+                    "entryClosesAt": "2027-02-10T16:00:00+07:00"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "offers": [
+          {
+            "id": "O1",
+            "resourceIds": [
+              "EV-SC03"
+            ],
+            "offerAttributes": {
+              "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityOffer/v1/context.jsonld",
+              "@type": "ion:IONHospitalityOffer",
+              "eventRef": "EV-SC03",
+              "admissionClass": "REGULAR",
+              "allocationMode": "EXACT_SEAT",
+              "rights": {
+                "sessionIds": [
+                  "S1"
+                ],
+                "maxEntriesPerSession": 2,
+                "named": true,
+                "reentryAllowed": true,
+                "zoneIds": [
+                  "MAIN"
+                ]
+              },
+              "poolIds": [
+                "POOL-EXACT_SEAT"
+              ],
+              "salesStart": "2026-12-01T00:00:00+07:00",
+              "salesEnd": "2027-02-10T14:00:00+07:00",
+              "maxAdmissions": 20,
+              "policies": {
+                "cancellation": {
+                  "policyRef": "ion://policy/cancel.event.until-48h"
+                },
+                "organiserCancellation": {
+                  "policyRef": "ion://policy/cancel.event.organiser-full"
+                },
+                "admission": {
+                  "policyRef": "ion://policy/admission.event.standard"
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

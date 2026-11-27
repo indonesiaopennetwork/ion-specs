@@ -1,0 +1,70 @@
+{
+  "context": {
+    "version": "2.0.0",
+    "networkId": "ion.example/test",
+    "ttl": "PT30S",
+    "action": "on_support",
+    "bapId": "buyer.example",
+    "bapUri": "https://buyer.example/beckn",
+    "transactionId": "16f9bed2-d6e0-5373-8cd8-60d05e1d8dd2",
+    "messageId": "5ee4509a-cc32-5071-afd9-0db44fdc9aad",
+    "timestamp": "2027-02-01T14:01:25+07:00",
+    "bppId": "seller.example",
+    "bppUri": "https://seller.example/beckn",
+    "senderId": "seller.example",
+    "receiverId": "buyer.example",
+    "requestDigest": {
+      "digest": "BLAKE-512=InDIWZNymCEgeoEyu8tIKRLmqQpRouqn+3ahW7FuIL4u+mtBy6NMGfd0zllz/6pP/c/ZkjtWDCiOI+Jk1otE3A=="
+    }
+  },
+  "message": {
+    "support": {
+      "orderId": "966700e7-e13d-5a77-b7e9-d83d56bf4e69",
+      "descriptor": {
+        "code": "GRIEVANCE",
+        "name": "Admission credential rejected"
+      },
+      "supportAttributes": {
+        "@context": "https://schema.ion.id/release2/schema/common/Grievance/v1/context.jsonld",
+        "@type": "ion:IONGrievance",
+        "grievanceId": "CASE1",
+        "eventType": "ACTION_COMPLETED",
+        "caseStatus": "IN_PROGRESS",
+        "occurredAt": "2027-02-01T14:01:25+07:00",
+        "originatingNpId": "buyer.example",
+        "resolution": {
+          "proposalId": "RES-CASE1",
+          "version": 1,
+          "proposedByNpId": "seller.example",
+          "authorizationType": "EXPLICIT_AGREEMENT",
+          "actions": [
+            {
+              "actionId": "ACT1",
+              "type": "OTHER",
+              "description": "Reissue admission credential through authenticated channel",
+              "executionMethod": "PERFORMANCE"
+            }
+          ]
+        },
+        "decision": {
+          "proposalId": "RES-CASE1",
+          "version": 1,
+          "decidedByNpId": "buyer.example",
+          "result": "ACCEPTED",
+          "decidedAt": "2027-02-01T14:01:20+07:00"
+        },
+        "execution": {
+          "actionExecutions": [
+            {
+              "actionId": "ACT1",
+              "status": "COMPLETED",
+              "completedAt": "2027-02-01T14:01:25+07:00",
+              "executedByNpId": "seller.example",
+              "executionReference": "CREDENTIAL-REISSUE-CASE1"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,183 @@
+openapi: 3.1.0
+info:
+  title: IONHospitalityConsideration
+  version: 1.0.0-draft.3
+paths: {}
+components:
+  schemas:
+    IONHospitalityConsideration:
+      type: object
+      description: Draft hospitality consideration extension for event admission ticketing.
+      properties:
+        currency:
+          type: string
+          description: ISO 4217 currency code.
+          pattern: ^[A-Z]{3}$
+        components:
+          type: array
+          description: Price components expressed in minor units for the declared
+            currency; inclusive components are informational.
+          items:
+            type: object
+            description: Monetary component.
+            properties:
+              componentId:
+                type: string
+                description: Component identity.
+                minLength: 1
+              lineRef:
+                type: string
+                description: Affected commitment or entitlement.
+                minLength: 1
+              kind:
+                type: string
+                description: Component role.
+                enum:
+                - BASE
+                - FEE
+                - TAX
+                - DISCOUNT
+              amountMinor:
+                type: integer
+                minimum: 0
+                description: Nonnegative magnitude in currency minor units.
+              included:
+                type: boolean
+                description: Already included in base price.
+              funderRef:
+                type: string
+                description: Party funding discount.
+                minLength: 1
+            required:
+            - componentId
+            - kind
+            - amountMinor
+            - included
+            additionalProperties: false
+          minItems: 1
+          uniqueItems: false
+        payableMinor:
+          type: integer
+          minimum: 0
+          description: Agreed amount payable in minor units.
+        paymentState:
+          type: string
+          description: Booking payment projection for ticket workflow; common Settlement
+            is authoritative for payment and financial entitlements.
+          enum:
+          - NOT_REQUIRED
+          - PENDING
+          - VERIFIED
+          - FAILED
+        paymentRef:
+          type: string
+          description: Reference to common Settlement evidence; do not capture or
+            execute payment from this projection.
+          minLength: 1
+        refunds:
+          type: array
+          description: Operational ticket/attempt refund obligations and completion
+            projection; canonical Settlement holds financial amounts. Never execute
+            a refund twice from this projection.
+          items:
+            type: object
+            description: Refund operation.
+            properties:
+              refundId:
+                type: string
+                description: Stable refund operation ID.
+                minLength: 1
+              ticketIds:
+                type: array
+                description: Affected ticket identities.
+                items:
+                  type: string
+                  description: Opaque identifier scoped to the authoritative provider.
+                  minLength: 1
+                minItems: 1
+                uniqueItems: true
+              amountMinor:
+                type: integer
+                minimum: 0
+                description: Amount owed or refunded.
+              state:
+                type: string
+                description: Refund lifecycle.
+                enum:
+                - OWED
+                - PROCESSING
+                - COMPLETED
+                - FAILED
+              paymentRef:
+                type: string
+                description: Original payment reference.
+                minLength: 1
+              scope:
+                type: string
+                enum:
+                - TICKET
+                - PAYMENT_ATTEMPT
+                description: Refund target type.
+              attemptRef:
+                type: string
+                minLength: 1
+                description: Stable failed booking attempt.
+            required:
+            - refundId
+            - amountMinor
+            - state
+            - paymentRef
+            - scope
+            additionalProperties: false
+            allOf:
+            - if:
+                properties:
+                  scope:
+                    enum:
+                    - TICKET
+                required:
+                - scope
+              then:
+                required:
+                - ticketIds
+            - if:
+                properties:
+                  scope:
+                    enum:
+                    - PAYMENT_ATTEMPT
+                required:
+                - scope
+              then:
+                required:
+                - attemptRef
+                not:
+                  required:
+                  - ticketIds
+          minItems: 0
+          uniqueItems: false
+        buyerFinderFee:
+          type: object
+          description: Agreed BAP finder fee, separate from customer payable; canonical
+            settlement commission equals feeAmount. Amount in currency major units.
+          additionalProperties: false
+          required:
+          - feeAmount
+          properties:
+            feeAmount:
+              type: number
+              minimum: 0
+              description: Agreed BAP fee in currency major units, not part of the
+                customer total.
+      required:
+      - currency
+      - components
+      - payableMinor
+      - paymentState
+      additionalProperties: true
+      x-beckn-attaches-to: Consideration.considerationAttributes
+      x-ion-layer: ion
+      x-ion-experimental: true
+      x-jsonld:
+        '@context': https://schema.ion.id/release2/schema/extension/hospitality/HospitalityConsideration/v1/context.jsonld
+        '@type': ion:IONHospitalityConsideration
+      x-recommended-parent: Consideration.considerationAttributes

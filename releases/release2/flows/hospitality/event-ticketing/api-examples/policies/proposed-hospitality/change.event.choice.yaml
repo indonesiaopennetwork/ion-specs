@@ -1,0 +1,18 @@
+iri: ion://policy/change.event.choice
+category: CHANGE
+version: 1.0.0
+status: draft
+sector: hospitality
+applicableCategories:
+- HSC-events
+rule: Material date or venue change requires explicit consent or applicable refund;
+  no silent acceptance.
+regulatoryBasis: []
+reviewRequired: true
+displayText:
+  id: Pilihan pembeli saat perubahan material acara
+  en: Buyer choice after material event change
+versionEffectiveFrom: null
+applicableResourceTypes: []
+supersededBy: null
+deprecatedAt: null

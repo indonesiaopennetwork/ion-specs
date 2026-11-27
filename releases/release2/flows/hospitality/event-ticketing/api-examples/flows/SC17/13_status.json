@@ -1,0 +1,178 @@
+{
+  "context": {
+    "version": "2.0.0",
+    "networkId": "ion.example/test",
+    "ttl": "PT30S",
+    "action": "status",
+    "bapId": "buyer.example",
+    "bapUri": "https://buyer.example/beckn",
+    "transactionId": "5545a6f2-4ee2-5848-b3ed-f3006a497058",
+    "messageId": "0250fadf-33a3-52d8-a46d-df13644ab4cc",
+    "timestamp": "2027-02-01T14:01:05+07:00",
+    "bppId": "seller.example",
+    "bppUri": "https://seller.example/beckn"
+  },
+  "message": {
+    "contract": {
+      "id": "f1feb6f0-e39a-5b63-bbd1-bb52973685b7",
+      "contractAttributes": {
+        "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityContract/v1/context.jsonld",
+        "@type": "ion:IONHospitalityContract",
+        "bookingRef": "BOOK-SC17",
+        "revision": 1,
+        "eventRevision": 1,
+        "bookingState": "CONFIRMED",
+        "acceptedPolicies": [
+          {
+            "policyRef": "ion://policy/cancel.event.until-48h",
+            "version": "1.0.0",
+            "digest": "a133de924d4355ef813318a18ead644659b9c095a9b6ca047e9a88a2440a1c6d"
+          },
+          {
+            "policyRef": "ion://policy/cancel.event.organiser-full",
+            "version": "1.0.0",
+            "digest": "6f753cae396d1b579f4b8dc484e7cbe73723102a6646f5dcc1918e4b214a55c7"
+          },
+          {
+            "policyRef": "ion://policy/admission.event.standard",
+            "version": "1.0.0",
+            "digest": "2b1493ab9d3a49a2be22fde1d4e67b906a59f4930c812fc2fbae59661fed679e"
+          }
+        ],
+        "operationRef": "OP-SC17",
+        "offeredPolicies": [
+          {
+            "policyRef": "ion://policy/cancel.event.until-48h",
+            "version": "1.0.0",
+            "digest": "a133de924d4355ef813318a18ead644659b9c095a9b6ca047e9a88a2440a1c6d"
+          },
+          {
+            "policyRef": "ion://policy/cancel.event.organiser-full",
+            "version": "1.0.0",
+            "digest": "6f753cae396d1b579f4b8dc484e7cbe73723102a6646f5dcc1918e4b214a55c7"
+          },
+          {
+            "policyRef": "ion://policy/admission.event.standard",
+            "version": "1.0.0",
+            "digest": "2b1493ab9d3a49a2be22fde1d4e67b906a59f4930c812fc2fbae59661fed679e"
+          }
+        ]
+      },
+      "commitments": [
+        {
+          "offer": {
+            "id": "O1",
+            "resourceIds": [
+              "EV-SC17"
+            ],
+            "offerAttributes": {
+              "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityOffer/v1/context.jsonld",
+              "@type": "ion:IONHospitalityOffer",
+              "eventRef": "EV-SC17",
+              "admissionClass": "REGULAR",
+              "allocationMode": "EXACT_SEAT",
+              "rights": {
+                "sessionIds": [
+                  "S1"
+                ],
+                "maxEntriesPerSession": 1,
+                "named": true,
+                "reentryAllowed": false
+              },
+              "poolIds": [
+                "POOL-EXACT_SEAT"
+              ],
+              "salesStart": "2026-12-01T00:00:00+07:00",
+              "salesEnd": "2027-02-10T14:00:00+07:00",
+              "maxAdmissions": 20,
+              "policies": {
+                "cancellation": {
+                  "policyRef": "ion://policy/cancel.event.until-48h"
+                },
+                "organiserCancellation": {
+                  "policyRef": "ion://policy/cancel.event.organiser-full"
+                },
+                "admission": {
+                  "policyRef": "ion://policy/admission.event.standard"
+                }
+              }
+            }
+          },
+          "id": "CM1",
+          "status": {
+            "descriptor": {
+              "code": "ACTIVE"
+            }
+          },
+          "resources": [
+            {
+              "resource": {
+                "id": "EV-SC17",
+                "descriptor": {
+                  "name": "Nusantara Awards"
+                },
+                "resourceAttributes": {
+                  "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityResource/v1/context.jsonld",
+                  "@type": "ion:IONHospitalityResource",
+                  "crc": "HSC-events",
+                  "event": {
+                    "eventId": "EV-SC17",
+                    "organiserRef": "ORG1",
+                    "timezone": "Asia/Jakarta",
+                    "revision": 1,
+                    "state": "SCHEDULED",
+                    "sessions": [
+                      {
+                        "sessionId": "S1",
+                        "startsAt": "2027-02-10T14:00:00+07:00",
+                        "endsAt": "2027-02-10T17:00:00+07:00",
+                        "venueRef": "VENUE1",
+                        "layoutRevision": "L1"
+                      }
+                    ]
+                  }
+                }
+              },
+              "quantity": {
+                "unitQuantity": 2,
+                "unitText": "admissions"
+              }
+            }
+          ],
+          "commitmentAttributes": {
+            "@context": "https://schema.ion.id/release2/schema/extension/hospitality/HospitalityCommitment/v1/context.jsonld",
+            "@type": "ion:IONHospitalityCommitment",
+            "offerRef": "O1",
+            "quantity": 2,
+            "allocations": [
+              {
+                "sessionId": "S1",
+                "poolId": "POOL-EXACT_SEAT",
+                "mode": "EXACT_SEAT",
+                "admissions": 2,
+                "seatIds": [
+                  "A12",
+                  "A13"
+                ],
+                "layoutRevision": "L1",
+                "allocationState": "COMMITTED"
+              }
+            ],
+            "quoteRef": "Q1",
+            "quoteExpiresAt": "2027-02-01T14:05:00+07:00",
+            "hold": {
+              "holdId": "H1",
+              "expiresAt": "2027-02-01T14:05:00+07:00",
+              "basketDigest": "6b43f545f388553db4ee1d7a56f8b1bbc1cc424e8205f589f0326ca339f93203",
+              "state": "COMMITTED"
+            },
+            "attendeeRefs": [
+              "ATT-1",
+              "ATT-2"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
