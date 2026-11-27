@@ -37,5 +37,7 @@ vocab.jsonld       RDF vocabulary
 profile.json       Attachment metadata
 renderer.json      UI rendering hints
 README.md          This file
-examples/          Sample payloads
 ```
+
+Worked messages that use this pack are in the
+[`scheme-facilitation/v1` examples](../../../../../flows/services/patterns/scheme-facilitation/v1/examples/).

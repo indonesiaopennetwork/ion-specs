@@ -1,23 +1,10 @@
-## Minimum for your first integration
-
-**Services BPP (publishing a SVC-social scheme):** You must implement at minimum
-`resource/v1`, `offer/v1`, and `consideration/v1` to pass ONIX validation for the
-`scheme-application` reference pattern (see `flows/services/`). `performance/v1`
-and `contract/v1` are required once the transaction moves beyond `/confirm`.
-`provider/v1` is required to publish at all — every Provider on ION must declare
-its `providerAttributes`.
-
-**Services BAP (buyer app / citizen-facing app):** You must be able to read
-`resource/v1`, `offer/v1`, and `consideration/v1` to render scheme discovery and
-eligibility pre-screening. `performance/v1` is required to display application
-status.
-
 # ION Services Extension Packs
 
-Services sector schema extensions. This is the **first attribute pack set built
-for the Services sector** (`ion:services`) on ION — the six other Services CRCs
-(`SVC-tech`, `SVC-professional`, `SVC-healthcare`, `SVC-telecom`, `SVC-creative`,
-`SVC-home`, `SVC-education`) remain `attributePack: null` in the CRC registry and
+Draft. Services sector schema extensions, proposed for Services working group
+review. This is the **first attribute pack set proposed for the Services
+sector** (`ion:services`) on ION. The other Services categories (for example
+`SVC-tech`, `SVC-professional`, `SVC-healthcare`, `SVC-telecom`,
+`SVC-creative`, `SVC-home`, `SVC-education`) have no attribute packs yet and
 are open for future SWG contribution, following the pattern established here.
 
 These packs cover **CRC `SVC-social`** — Social Welfare & Government Schemes:
@@ -36,7 +23,25 @@ programmes, discoverable and applicable through ION Network Participants
 | `consideration/v1` | `beckn:Consideration.considerationAttributes` | breakupLineType (facilitation fee, document processing fee, government fee passthrough, discount, tax) |
 | `performance/v1` | `beckn:Performance.performanceAttributes` | applicationStage state machine, caseworker, governmentReferenceNumber, decision timestamps, additionalInfoRequest, disbursement record |
 | `contract/v1` | `beckn:Contract.contractAttributes` | caseId, applicantConsent (UU PDP 2022), assignedProviderId, caseStatus, case closure, reapplication cooldown |
-| `commitment/v1` | `beckn:Commitment.commitmentAttributes` | lineId, resourceId, offerId, applicantProfile (self-declared, pre-verification), eligibilityPreCheckResult |
+| `commitment/v1` | `beckn:Commitment.commitmentAttributes` | lineId, resourceId, offerId, applicantProfile (self-declared, pre-verification), eligibilityPreCheck |
+| `settlement/v1` | `beckn:Settlement.settlementAttributes` | settlementType (free, facilitation fee, government fee passthrough), paymentStatus, paymentMethod, remittance to the agency, refundRecord |
+| `performance-states/v1` | (state machine, no attachment) | `scheme_facilitation` application stages and allowed transitions for `performanceAttributes.applicationStage`; `on_status` obligations |
+
+## Minimum for a first integration
+
+Draft guidance for the
+[`scheme-facilitation/v1`](../../../flows/services/patterns/scheme-facilitation/v1/)
+flow. Field-level mandatoriness is not set in these packs; it is listed per
+step in that flow's `pattern.yaml`.
+
+**Services BPP (publishing a SVC-social scheme):** `provider/v1`,
+`resource/v1` and `offer/v1` to publish a catalogue; `commitment/v1` and
+`consideration/v1` to answer `select`; `contract/v1`, `performance/v1` and
+`settlement/v1` once the application moves past `init`.
+
+**Services BAP (applicant-facing or agent app):** read `resource/v1`,
+`offer/v1` and `consideration/v1` to show schemes and the eligibility
+pre-check; read `performance/v1` to show application status.
 
 ## Why CRC `SVC-social`, not a new sector or a new domain string
 
@@ -49,8 +54,10 @@ healthcare, education, and advisory services, not in a new sector. ION does not
 mint a new `context.domain` per vertical the way some Beckn deployments do
 (compare the reference `upagrees.in/govt-schemes` domain in the sample payload
 this pack was designed against) — verticals within a sector are expressed
-through the CRC taxonomy instead. `SVC-social` is a new entry in
-`x-ion-crc-registry`, not a new domain.
+through the CRC taxonomy instead. `SVC-social` is proposed as a new category
+code within `ion:services`, not a new domain. Release 2 does not yet publish a
+normative CRC registry, so the code and its final form are for the Services
+working group to confirm.
 
 ## Why this is not `FNC-lending` or `SVC-professional`
 
